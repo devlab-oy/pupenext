@@ -1,0 +1,30 @@
+development:
+  adapter:   mysql2
+  encoding:  latin1
+  pool:      5
+  database:  <%= ENV["PUPESOFT_DEVELOPMENT_DATABASE"] %>
+  username:  <%= ENV["PUPESOFT_DEVELOPMENT_USERNAME"] %>
+  password:  <%= ENV["PUPESOFT_DEVELOPMENT_PASSWORD"] %>
+  host:      <%= ENV["PUPESOFT_DEVELOPMENT_HOSTNAME"] %>
+
+# create database pupesoft_test;
+# grant all privileges on pupesoft_test.* to 'user'@'localhost' identified by 'password';
+# rake db:schema:load RAILS_ENV=test
+
+test:
+  adapter:   mysql2
+  encoding:  latin1
+  pool:      5
+  database:  <%= ENV["PUPESOFT_TEST_DATABASE"] %>
+  username:  <%= ENV["PUPESOFT_TEST_USERNAME"] %>
+  password:  <%= ENV["PUPESOFT_TEST_PASSWORD"] %>
+  host:      <%= ENV["PUPESOFT_TEST_HOSTNAME"] %>
+
+production:
+  adapter:   mysql2
+  encoding:  latin1
+  pool:      5
+  database:  <%= ENV["PUPESOFT_PRODUCTION_DATABASE"] %>
+  username:  <%= ENV["PUPESOFT_PRODUCTION_USERNAME"] %>
+  password:  <%= ENV["PUPESOFT_PRODUCTION_PASSWORD"] %>
+  host:      <%= ENV["PUPESOFT_PRODUCTION_HOSTNAME"] %>
