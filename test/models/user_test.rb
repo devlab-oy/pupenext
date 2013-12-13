@@ -14,4 +14,8 @@ class UserTest < ActiveSupport::TestCase
     assert @joe.valid?
   end
 
+  test "user has a company" do
+    assert_not_nil @joe.company
+  end
+
 end
