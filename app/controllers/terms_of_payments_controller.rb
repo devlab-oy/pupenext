@@ -1,13 +1,15 @@
 class TermsOfPaymentsController < ApplicationController
 
+  before_action :find_terms_of_payment, only: [:show, :edit, :update, :destroy]
+
   # GET /terms_of_payments
   def index
     @terms_of_payments = TermsOfPayment.all
   end
 
-  # # GET /terms_of_payments/1
-  # def show
-  # end
+  # GET /terms_of_payments/1
+  def show
+  end
 
   # # GET /terms_of_payments/new
   # def new
@@ -44,9 +46,13 @@ class TermsOfPaymentsController < ApplicationController
   #   redirect_to terms_of_payments_url, notice: 'Terms of payment was successfully destroyed.'
   # end
 
-  # private
-  #   # Only allow a trusted parameter "white list" through.
-  #   def terms_of_payment_params
-  #     params[:terms_of_payment].permit(:teksti)
-  #   end
+  private
+    # Only allow a trusted parameter "white list" through.
+    def terms_of_payment_params
+      params[:terms_of_payment].permit(:teksti)
+    end
+
+    def find_terms_of_payment
+      @terms_of_payment = TermsOfPayment.find(params[:id])
+    end
 end
