@@ -8,6 +8,7 @@ Pupesoft::Application.routes.draw do
     resources :currencies, except: :destroy
     resources :sum_levels
     resources :accounts
+    resources :terms_of_payments
   end
 
   root to: 'home#index'
