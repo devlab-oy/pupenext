@@ -1,7 +1,7 @@
 
 <table>
   <tr>
-    <th>yhtio</th>
+    <th>action</th>
     <th>teksti</th>
     <th>rel_pvm</th>
     <th>abs_pvm</th>
@@ -26,12 +26,11 @@
     <th>luontiaika</th>
     <th>muutospvm</th>
     <th>muuttaja</th>
-    <th>tunnus</th>
   </tr>
 
   <% @terms_of_payments.each do |top| %>
     <tr>
-      <td><%= top.yhtio %></td>
+      <td><%= link_to 'Edit', edit_terms_of_payment_path(top.id) %></td>
       <td><%= top.teksti %></td>
       <td><%= top.rel_pvm %></td>
       <td><%= top.abs_pvm %></td>
@@ -56,7 +55,6 @@
       <td><%= top.luontiaika %></td>
       <td><%= top.muutospvm %></td>
       <td><%= top.muuttaja %></td>
-      <td><%= top.tunnus %></td>
     </tr>
   <% end %>
 </table>

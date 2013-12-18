@@ -1,0 +1,106 @@
+<%= form_for(@terms_of_payment) do |f| %>
+  <% if @terms_of_payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@terms_of_payment.errors.count, "error") %> prohibited this terms of payment from being saved:</h2>
+
+      <ul>
+      <% @terms_of_payment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :teksti %><br>
+    <%= f.text_field :teksti %>
+  </div>
+  <div class="field">
+    <%= f.label :rel_pvm %><br>
+    <%= f.text_field :rel_pvm %>
+  </div>
+  <div class="field">
+    <%= f.label :abs_pvm %><br>
+    <%= f.text_field :abs_pvm %>
+  </div>
+  <div class="field">
+    <%= f.label :kassa_relpvm %><br>
+    <%= f.text_field :kassa_relpvm %>
+  </div>
+  <div class="field">
+    <%= f.label :kassa_abspvm %><br>
+    <%= f.text_field :kassa_abspvm %>
+  </div>
+  <div class="field">
+    <%= f.label :kassa_alepros %><br>
+    <%= f.text_field :kassa_alepros %>
+  </div>
+  <div class="field">
+    <%= f.label :osamaksuehto1 %><br>
+    <%= f.text_field :osamaksuehto1 %>
+  </div>
+  <div class="field">
+    <%= f.label :osamaksuehto2 %><br>
+    <%= f.text_field :osamaksuehto2 %>
+  </div>
+  <div class="field">
+    <%= f.label :summanjakoprososa2 %><br>
+    <%= f.text_field :summanjakoprososa2 %>
+  </div>
+  <div class="field">
+    <%= f.label :jv %><br>
+    <%= f.text_field :jv %>
+  </div>
+  <div class="field">
+    <%= f.label :kateinen %><br>
+    <%= f.text_field :kateinen %>
+  </div>
+  <div class="field">
+    <%= f.label :suoraveloitus %><br>
+    <%= f.text_field :suoraveloitus %>
+  </div>
+  <div class="field">
+    <%= f.label :factoring %><br>
+    <%= f.text_field :factoring %>
+  </div>
+  <div class="field">
+    <%= f.label :pankkiyhteystiedot %><br>
+    <%= f.text_field :pankkiyhteystiedot %>
+  </div>
+  <div class="field">
+    <%= f.label :itsetulostus %><br>
+    <%= f.text_field :itsetulostus %>
+  </div>
+  <div class="field">
+    <%= f.label :jaksotettu %><br>
+    <%= f.text_field :jaksotettu %>
+  </div>
+  <div class="field">
+    <%= f.label :erapvmkasin %><br>
+    <%= f.text_field :erapvmkasin %>
+  </div>
+  <div class="field">
+    <%= f.label :sallitut_maat %><br>
+    <%= f.text_field :sallitut_maat %>
+  </div>
+  <div class="field">
+    <%= f.label :kaytossa %><br>
+    <%= f.text_field :kaytossa %>
+  </div>
+  <div class="field">
+    <%= f.label :jarjestys %><br>
+    <%= f.text_field :jarjestys %>
+  </div>
+  <div class="field">
+    <%= f.label :sallitut_maat %><br>
+    <%= f.text_field :sallitut_maat %>
+  </div>
+  <div class="field">
+    <%= f.label :sallitut_maat %><br>
+    <%= f.text_field :sallitut_maat %>
+  </div>
+  <div class="actions">
+    <% text = @terms_of_payment.persisted? ? 'Save' : 'Create' %>
+    <%= f.submit text, :disable_with => 'Submiting...' %>
+  </div>
+<% end %>
