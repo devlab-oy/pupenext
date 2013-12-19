@@ -12,40 +12,48 @@ class TermsOfPaymentsController < ApplicationController
     render 'edit'
   end
 
-  # # GET /terms_of_payments/new
-  # def new
-  #   @terms_of_payment = TermsOfPayment.new
-  # end
+  # GET /terms_of_payments/new
+  def new
+    @terms_of_payment = TermsOfPayment.new
+  end
 
   # GET /terms_of_payments/1/edit
   def edit
   end
 
-  # # POST /terms_of_payments
-  # def create
-  #   @terms_of_payment = TermsOfPayment.new(terms_of_payment_params)
+  # POST /terms_of_payments
+  def create
+    @terms_of_payment = TermsOfPayment.new
+    @terms_of_payment.attributes = terms_of_payment_params
+    @terms_of_payment.muuttaja = current_user.kuka
+    @terms_of_payment.laatija = current_user.kuka
+    @terms_of_payment.yhtio = current_user.yhtio
 
-  #   if @terms_of_payment.save
-  #     redirect_to @terms_of_payment, notice: 'Terms of payment was successfully created.'
-  #   else
-  #     render action: 'new'
-  #   end
-  # end
+    if @terms_of_payment.save
+      redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully created.'
+    else
+      render action: 'new'
+    end
+  end
 
   # PATCH/PUT /terms_of_payments/1
   def update
-    if @terms_of_payment.update(terms_of_payment_params)
+
+    @terms_of_payment.attributes = terms_of_payment_params
+    @terms_of_payment.muuttaja = current_user.kuka
+
+    if @terms_of_payment.save
       redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully updated.'
     else
       render action: 'edit'
     end
   end
 
-  # # DELETE /terms_of_payments/1
-  # def destroy
-  #   @terms_of_payment.destroy
-  #   redirect_to terms_of_payments_url, notice: 'Terms of payment was successfully destroyed.'
-  # end
+  # DELETE /terms_of_payments/1
+  def destroy
+    @terms_of_payment.destroy
+    redirect_to terms_of_payments_url, notice: 'Terms of payment was successfully destroyed.'
+  end
 
   private
     # Only allow a trusted parameter "white list" through.
@@ -70,11 +78,7 @@ class TermsOfPaymentsController < ApplicationController
         :erapvmkasin,
         :sallitut_maat,
         :kaytossa,
-        :jarjestys,
-        :laatija,
-        :luontiaika,
-        :muutospvm,
-        :muuttaja
+        :jarjestys
       )
     end
 

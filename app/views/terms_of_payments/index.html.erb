@@ -1,60 +1,30 @@
+<font class="head">Maksuehdot</font>
+<hr />
+
+<%= link_to 'Uusi maksuehto', new_terms_of_payment_path %>
+
+<br /><br />
 
 <table>
   <tr>
-    <th>action</th>
     <th>teksti</th>
     <th>rel_pvm</th>
     <th>abs_pvm</th>
     <th>kassa_relpvm</th>
     <th>kassa_abspvm</th>
     <th>kassa_alepros</th>
-    <th>osamaksuehto1</th>
-    <th>osamaksuehto2</th>
-    <th>summanjakoprososa2</th>
-    <th>jv</th>
-    <th>kateinen</th>
-    <th>suoraveloitus</th>
-    <th>factoring</th>
-    <th>pankkiyhteystiedot</th>
-    <th>itsetulostus</th>
-    <th>jaksotettu</th>
-    <th>erapvmkasin</th>
-    <th>sallitut_maat</th>
-    <th>kaytossa</th>
     <th>jarjestys</th>
-    <th>laatija</th>
-    <th>luontiaika</th>
-    <th>muutospvm</th>
-    <th>muuttaja</th>
   </tr>
 
   <% @terms_of_payments.each do |top| %>
     <tr>
-      <td><%= link_to 'Edit', edit_terms_of_payment_path(top.id) %></td>
-      <td><%= top.teksti %></td>
+      <td><%= link_to top.teksti, edit_terms_of_payment_path(top.id) %></td>
       <td><%= top.rel_pvm %></td>
       <td><%= top.abs_pvm %></td>
       <td><%= top.kassa_relpvm %></td>
       <td><%= top.kassa_abspvm %></td>
       <td><%= top.kassa_alepros %></td>
-      <td><%= top.osamaksuehto1 %></td>
-      <td><%= top.osamaksuehto2 %></td>
-      <td><%= top.summanjakoprososa2 %></td>
-      <td><%= top.jv %></td>
-      <td><%= top.kateinen %></td>
-      <td><%= top.suoraveloitus %></td>
-      <td><%= top.factoring %></td>
-      <td><%= top.pankkiyhteystiedot %></td>
-      <td><%= top.itsetulostus %></td>
-      <td><%= top.jaksotettu %></td>
-      <td><%= top.erapvmkasin %></td>
-      <td><%= top.sallitut_maat %></td>
-      <td><%= top.kaytossa %></td>
       <td><%= top.jarjestys %></td>
-      <td><%= top.laatija %></td>
-      <td><%= top.luontiaika %></td>
-      <td><%= top.muutospvm %></td>
-      <td><%= top.muuttaja %></td>
     </tr>
   <% end %>
 </table>
