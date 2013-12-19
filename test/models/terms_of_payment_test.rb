@@ -10,4 +10,14 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert @top.valid?
   end
 
+  test 'should be valid date' do
+    @top.abs_pvm = '0001-01-01'
+    assert @top.valid?
+  end
+
+  test 'should be invalid date' do
+    @top.abs_pvm = 'neko'
+    refute @top.valid?
+  end
+
 end
