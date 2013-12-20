@@ -85,11 +85,4 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
     assert_template "edit", "Template should be edit"
   end
 
-  test 'should destroy terms of payment' do
-    assert_difference('TermsOfPayment.count', -1) do
-      post :destroy, id: @top.id
-      assert_redirected_to terms_of_payments_url
-    end
-  end
-
 end

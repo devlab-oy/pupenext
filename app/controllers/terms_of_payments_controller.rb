@@ -1,6 +1,6 @@
 class TermsOfPaymentsController < ApplicationController
 
-  before_action :find_terms_of_payment, only: [:show, :edit, :update, :destroy]
+  before_action :find_terms_of_payment, only: [:show, :edit, :update]
 
   # GET /terms_of_payments
   def index
@@ -47,12 +47,6 @@ class TermsOfPaymentsController < ApplicationController
     else
       render action: 'edit'
     end
-  end
-
-  # DELETE /terms_of_payments/1
-  def destroy
-    @terms_of_payment.destroy
-    redirect_to terms_of_payments_url, notice: 'Terms of payment was successfully destroyed.'
   end
 
   private
