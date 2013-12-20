@@ -1,6 +1,6 @@
 class Currency < ActiveRecord::Base
 
-  validates :nimi, length: { is: 3 }
+  validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
   before_validation :ensure_nimi_is_uppercase
 
   self.table_name = "valuu"

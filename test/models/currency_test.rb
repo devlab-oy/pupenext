@@ -23,6 +23,11 @@ class CurrencyTest < ActiveSupport::TestCase
     refute @currency.valid?
   end
 
+  test 'nimi should be unique per company' do
+    @currency.nimi = 'BIT'
+    refute @currency.save
+  end
+
   test 'nimi should be uppercased' do
     @currency.nimi = 'tes'
     assert @currency.save
