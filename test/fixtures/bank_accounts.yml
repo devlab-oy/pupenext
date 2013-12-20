@@ -1,0 +1,37 @@
+acme_account:
+  yhtio: acme
+  kaytossa: ''
+  nimi: ''
+  tilino: ''
+  iban: 'FI 224 224'
+  bic: ''
+  valkoodi: ''
+  factoring: ''
+  asiakastunnus: ''
+  maksulimitti: 0
+  tilinylitys: 0
+  hyvak: ''
+  oletus_kulutili: ''
+  oletus_kustp: ''
+  oletus_kohde: ''
+  oletus_projekti: ''
+  oletus_rahatili: ''
+  oletus_selvittelytili: ''
+  pankkitarkenne: ''
+  asiakastarkenne: ''
+  pankki: 'AcmeBank'
+  asiakas: ''
+  generointiavain: ''
+  salattukerta: ''
+  siemen: ''
+  kertaavain: ''
+  sasukupolvi: ''
+  kasukupolvi: ''
+  siirtoavain: ''
+  kayttoavain: ''
+  nro: ''
+  laatija: ''
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: ''
+

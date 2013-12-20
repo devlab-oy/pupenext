@@ -1,0 +1,25 @@
+<font class="head">Pankkitilit</font>
+<hr />
+
+<%= link_to 'Uusi pankkitili', new_bank_account_path %>
+
+<br /><br />
+
+<table>
+  <tr>
+    <th>Nimi:</th>
+    <th>Tilinumero:</th>
+    <th>IBAN:</th>
+    <th>BIC:</th>
+  </tr>
+
+
+<% @accounts.each do |acc| %>
+  <tr>
+    <td><%= link_to acc.nimi, edit_bank_account_path(acc.id) %></td>
+    <td><%= acc.tilino %></td>
+    <td><%= acc.iban %></td>
+    <td><%= acc.bic %></td>
+  </tr>
+<% end %>
+</table>

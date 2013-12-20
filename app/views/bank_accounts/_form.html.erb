@@ -1,0 +1,146 @@
+<%= form_for(@bank_account) do |f| %>
+<% if @bank_account.errors.any? %>
+  <div id="error_explanation">
+      <h2><%= pluralize(@bank_account.errors.count, "error") %> prohibited this terms ofpayment from being saved:</h2>
+
+      <ul>
+      <% @bank_account.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankki %></th>
+      <td><%= f.text_field :pankki %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kaytossa %></th>
+      <td><%= f.text_field :kaytossa %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tilino %></th>
+      <td><%= f.text_field :tilino %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :iban %></th>
+      <td><%= f.text_field :iban %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :bic %></th>
+      <td><%= f.text_field :bic %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :valkoodi %></th>
+      <td><%= f.text_field :valkoodi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :factoring %></th>
+      <td><%= f.text_field :factoring %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :asiakas %></th>
+      <td><%= f.text_field :asiakas %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :asiakastunnus %></th>
+      <td><%= f.text_field :asiakastunnus %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :maksulimitti %></th>
+      <td><%= f.text_field :maksulimitti %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :hyvak %></th>
+      <td><%= f.text_field :hyvak %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_kulutili %></th>
+      <td><%= f.text_field :oletus_kulutili %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_kustp %></th>
+      <td><%= f.text_field :oletus_kustp %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_kohde %></th>
+      <td><%= f.text_field :oletus_kohde %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_projekti %></th>
+      <td><%= f.text_field :oletus_projekti %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_rahatili %></th>
+      <td><%= f.text_field :oletus_rahatili %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_selvittelytili %></th>
+      <td><%= f.text_field :oletus_selvittelytili %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkitarkenne %></th>
+      <td><%= f.text_field :pankkitarkenne %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :asiakastarkenne %></th>
+      <td><%= f.text_field :asiakastarkenne %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :salattukerta %></th>
+      <td><%= f.text_field :salattukerta %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :siemen %></th>
+      <td><%= f.text_field :siemen %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kertaavain %></th>
+      <td><%= f.text_field :kertaavain %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sasukupolvi %></th>
+      <td><%= f.text_field :sasukupolvi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kasukupolvi %></th>
+      <td><%= f.text_field :kasukupolvi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :siirtoavain %></th>
+      <td><%= f.text_field :siirtoavain %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kayttoavain %></th>
+      <td><%= f.text_field :kayttoavain %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kayttoavain %></th>
+      <td><%= f.text_field :kayttoavain %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :generointiavain %></th>
+      <td><%= f.text_field :generointiavain %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :nro %></th>
+      <td><%= f.text_field :nro %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tilinylitys %></th>
+      <td><%= f.text_field :tilinylitys %></td>
+    </tr>
+  </table>
+
+
+  <div class="actions">
+    <% text = @bank_account.persisted? ? 'Tallenna' : 'Lisää' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+   </div>
+<% end %>
