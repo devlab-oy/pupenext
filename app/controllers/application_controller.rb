@@ -1,12 +1,9 @@
 class ApplicationController < ActionController::Base
+
+  include ApplicationHelper
+
   protect_from_forgery with: :exception
   before_filter :authorize
-
-  private
-
-    def current_user
-      @current_user ||= User.find_by_session(cookies[:pupesoft_session])
-    end
 
   protected
 
