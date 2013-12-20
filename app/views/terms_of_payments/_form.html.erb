@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <th><%= f.label :abs_pvm %></th>
-      <td><%= f.text_field :abs_pvm %></td>
+      <td><%= f.date_field :abs_pvm %></td>
     </tr>
     <tr>
       <th><%= f.label :kassa_relpvm %></th>
@@ -30,19 +30,29 @@
     </tr>
     <tr>
       <th><%= f.label :kassa_abspvm %></th>
-      <td><%= f.text_field :kassa_abspvm %></td>
+      <td><%= f.date_field :kassa_abspvm %></td>
     </tr>
     <tr>
       <th><%= f.label :kassa_alepros %></th>
-      <td><%= f.text_field :kassa_alepros %></td>
+      <td><%= f.text_field :kassa_alepros %> %</td>
     </tr>
     <tr>
       <th><%= f.label :osamaksuehto1 %></th>
-      <td><%= f.text_field :osamaksuehto1 %></td>
+      <td>
+        <% ops = TermsOfPayment.select(:teksti, :tunnus).where(yhtio: current_user.yhtio).order(:jarjestys, :teksti).collect {|k| [k.teksti, k.tunnus]}  %>
+        <% ops.unshift(["Tämä ei ole moniehto-maksuehto", ""]) %>
+        <% options = options_for_select(ops, f.object.osamaksuehto1) %>
+        <%= select_tag 'terms_of_payment[osamaksuehto1]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :osamaksuehto2 %></th>
-      <td><%= f.text_field :osamaksuehto2 %></td>
+      <td>
+        <% ops = TermsOfPayment.select(:teksti, :tunnus).where(yhtio: current_user.yhtio).order(:jarjestys, :teksti).collect {|k| [k.teksti, k.tunnus]}  %>
+        <% ops.unshift(["Tämä ei ole moniehto-maksuehto", ""]) %>
+        <% options = options_for_select(ops, f.object.osamaksuehto2) %>
+        <%= select_tag 'terms_of_payment[osamaksuehto2]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :summanjakoprososa2 %></th>
@@ -50,11 +60,22 @@
     </tr>
     <tr>
       <th><%= f.label :jv %></th>
-      <td><%= f.text_field :jv %></td>
+      <td>
+        <%= f.check_box :jv, { checked: f.object.jv.present? }, "o", "" %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :kateinen %></th>
-      <td><%= f.text_field :kateinen %></td>
+      <td>
+        <% ops = [ %>
+        <% ["Tämä ei ole käteismaksuehto.", ""], %>
+        <% ["Käteismaksuehto, Pankkikortti ei pyöristetä.", "n"], %>
+        <% ["Käteismaksuehto, Luottokortti ei pyöristetä.", "o"], %>
+        <% ["Käteismaksuehto, Käteinen pyöristetään.", "p"], %>
+        <% ] %>
+        <% options = options_for_select(ops, f.object.kateinen) %>
+        <%= select_tag 'terms_of_payment[kateinen]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :suoraveloitus %></th>
@@ -70,15 +91,20 @@
     </tr>
     <tr>
       <th><%= f.label :itsetulostus %></th>
-      <td><%= f.text_field :itsetulostus %></td>
+      <td>
+        <%= f.check_box :itsetulostus, { checked: f.object.itsetulostus.present? }, "o", "" %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :jaksotettu %></th>
-      <td><%= f.text_field :jaksotettu %></td>
+      <td>
+        <%= f.check_box :jaksotettu, { checked: f.object.jaksotettu.present? }, "o", "" %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :erapvmkasin %></th>
-      <td><%= f.text_field :erapvmkasin %></td>
+      <td>
+        <%= f.check_box :erapvmkasin, { checked: f.object.erapvmkasin.present? }, "o", "" %>
     </tr>
     <tr>
       <th><%= f.label :sallitut_maat %></th>
@@ -86,7 +112,10 @@
     </tr>
     <tr>
       <th><%= f.label :kaytossa %></th>
-      <td><%= f.text_field :kaytossa %></td>
+      <td>
+        <% options = options_for_select([["Käytössä", ""], ["Poistettu / Ei käytössä", "E"]], f.object.kaytossa) %>
+        <%= select_tag 'terms_of_payment[kaytossa]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :jarjestys %></th>
@@ -96,6 +125,6 @@
 
   <div class="actions">
     <% text = @terms_of_payment.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+    <%= f.submit text, data: { disable_with: 'Tallentaa...' } %>
   </div>
 <% end %>

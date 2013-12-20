@@ -1,10 +1,7 @@
 module Validators
 
   def valid_date(key, date)
-    if date.nil?
-      errors.add(key, "is invalid date")
-      return false
-    end
+    return true unless date.present?
 
     begin
       DateTime.parse(date.to_s)
