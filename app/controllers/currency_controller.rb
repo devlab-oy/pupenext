@@ -12,10 +12,10 @@ class CurrencyController < ApplicationController
     render 'edit'
   end
 
-  # # GET /terms_of_payments/new
-  # def new
-  #   @terms_of_payment = TermsOfPayment.new
-  # end
+  # GET /currency/new
+  def new
+    @currency = Currency.new
+  end
 
   # GET /terms_of_payments/1/edit
   # def edit

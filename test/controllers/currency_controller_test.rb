@@ -23,4 +23,13 @@ class CurrencyControllerTest < ActionController::TestCase
 
     assert_template "edit", "Template should be edit"
   end
+
+  test 'should show new currency form' do
+    request = {format: :html}
+
+    get :new, request
+    assert_response :success
+
+    assert_template 'new', 'Template should be new'
+  end
 end
