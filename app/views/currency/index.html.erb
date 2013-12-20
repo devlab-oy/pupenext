@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <th>action</th>
+    <th>tunnus</th>
+    <th>nimi</th>
+    <th>kurssi</th>
+  </tr>
+
+  <% @currencies.each do |cur| %>
+    <tr>
+      <td><%= link_to 'Edit', edit_currency_path(cur.id) %></td>
+      <td><%= cur.tunnus %></td>
+      <td><%= cur.nimi %></td>
+      <td><%= cur.kurssi %></td>
+    </tr>
+  <% end %>
+</table>
