@@ -78,5 +78,6 @@ class TermsOfPaymentsController < ApplicationController
 
     def find_terms_of_payment
       @terms_of_payment = TermsOfPayment.find(params[:id])
+      @terms_of_payments = TermsOfPayment.where(yhtio: current_user.yhtio).order(:jarjestys, :teksti)
     end
 end

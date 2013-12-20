@@ -39,10 +39,7 @@
     <tr>
       <th><%= f.label :osamaksuehto1 %></th>
       <td>
-        <% ops = TermsOfPayment.select(:teksti, :tunnus).where(yhtio: current_user.yhtio).order(:jarjestys, :teksti).collect {|k| [k.teksti, k.tunnus]}  %>
-        <% ops.unshift(["Tämä ei ole moniehto-maksuehto", ""]) %>
-        <% options = options_for_select(ops, f.object.osamaksuehto1) %>
-        <%= select_tag 'terms_of_payment[osamaksuehto1]', options, include_blank: false %>
+      <%= f.collection_select :osamaksuehto1, @terms_of_payments, :tunnus, :teksti, { include_blank: "Tämä ei ole moniehto-maksuehto" } %>
       </td>
     </tr>
     <tr>
