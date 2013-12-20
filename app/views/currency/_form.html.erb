@@ -1,0 +1,30 @@
+<%= form_for(@currency) do |f| %>
+  <% if @currency.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@currency.errors.count, "error") %> prohibited this currency from being saved:</h2>
+
+      <ul>
+      <% @currency.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tunnus %><br>
+    <%= f.text_field :tunnus %>
+  </div>
+  <div class="field">
+    <%= f.label :nimi %><br>
+    <%= f.text_field :nimi %>
+  </div>
+  <div class="field">
+    <%= f.label :kurssi %><br>
+    <%= f.text_field :kurssi %>
+  </div>
+  <div class="actions">
+    <% text = @currency.persisted? ? 'Save' : 'Create' %>
+    <%= f.submit text, :disable_with => 'Submiting...' %>
+  </div>
+<% end %>
