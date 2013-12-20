@@ -1,0 +1,32 @@
+currency1:
+  yhtio: artr
+  nimi: EUR
+  jarjestys: 1
+  kurssi: 1.0
+  intrastat_kurssi: 0.0
+  laatija: ''
+  luontiaika:
+  muutospvm:
+  muuttaja: ''
+
+currency2:
+  yhtio: artr
+  nimi: BIT
+  jarjestys: 2
+  kurssi: 1.0
+  intrastat_kurssi: 0.0
+  laatija: ''
+  luontiaika:
+  muutospvm:
+  muuttaja: ''
+
+currency3:
+  yhtio: artr
+  nimi: DOL
+  jarjestys: 3
+  kurssi: 1.0
+  intrastat_kurssi: 0.0
+  laatija: ''
+  luontiaika:
+  muutospvm:
+  muuttaja: ''

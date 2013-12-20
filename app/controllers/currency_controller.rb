@@ -4,7 +4,7 @@ class CurrencyController < ApplicationController
 
   # GET /currency
   def index
-    @currency = Currency.all
+    @currencies = Currency.all
   end
 
   # GET /terms_of_payments/1
