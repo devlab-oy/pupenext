@@ -59,11 +59,4 @@ class CurrenciesControllerTest < ActionController::TestCase
 
     assert_template 'edit', 'Template should be edit'
   end
-
-  test 'should destroy currency' do
-    delete :destroy, id: 1
-
-    assert_redirected_to currencies_path
-    assert_equal 'Currency was successfully destroyed.', flash[:notice]
-  end
 end

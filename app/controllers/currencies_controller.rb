@@ -43,12 +43,6 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # DELETE /currencies/1
-  def destroy
-    @currency.destroy
-    redirect_to currencies_path, notice: 'Currency was successfully destroyed.'
-  end
-
   private
     # Only allow a trusted parameter "white list" through.
     def currency_params
