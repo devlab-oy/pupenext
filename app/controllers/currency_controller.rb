@@ -21,16 +21,17 @@ class CurrencyController < ApplicationController
   # def edit
   # end
 
-  # # POST /terms_of_payments
-  # def create
-  #   @terms_of_payment = TermsOfPayment.new(terms_of_payment_params)
+  # POST /currency
+  def create
+    @currency = Currency.new
+    @currency.attributes = currency_params
 
-  #   if @terms_of_payment.save
-  #     redirect_to @terms_of_payment, notice: 'Terms of payment was successfully created.'
-  #   else
-  #     render action: 'new'
-  #   end
-  # end
+    if @currency.save
+      redirect_to @currency, notice: 'Currency was successfully created.'
+    else
+      render action: 'new'
+    end
+  end
 
   # PATCH/PUT /terms_of_payments/1
   # def update
@@ -47,36 +48,15 @@ class CurrencyController < ApplicationController
   # #   redirect_to terms_of_payments_url, notice: 'Terms of payment was successfully destroyed.'
   # # end
 
-  # private
-  #   # Only allow a trusted parameter "white list" through.
-  #   def terms_of_payment_params
-  #     params[:terms_of_payment].permit(
-  #       :teksti,
-  #       :rel_pvm,
-  #       :abs_pvm,
-  #       :kassa_relpvm,
-  #       :kassa_abspvm,
-  #       :kassa_alepros,
-  #       :osamaksuehto1,
-  #       :osamaksuehto2,
-  #       :summanjakoprososa2,
-  #       :jv,
-  #       :kateinen,
-  #       :suoraveloitus,
-  #       :factoring,
-  #       :pankkiyhteystiedot,
-  #       :itsetulostus,
-  #       :jaksotettu,
-  #       :erapvmkasin,
-  #       :sallitut_maat,
-  #       :kaytossa,
-  #       :jarjestys,
-  #       :laatija,
-  #       :luontiaika,
-  #       :muutospvm,
-  #       :muuttaja
-  #     )
-  #   end
+  private
+    # Only allow a trusted parameter "white list" through.
+    def currency_params
+      params[:currency].permit(
+        :tunnus,
+        :nimi,
+        :kurssi,
+      )
+    end
 
     def find_currency
       @currency = Currency.find(params[:id])

@@ -32,4 +32,20 @@ class CurrencyControllerTest < ActionController::TestCase
 
     assert_template 'new', 'Template should be new'
   end
+
+  test 'should create new currency' do
+    assert_difference('Currency.count') do
+      post :create, currency: {nimi: 'TES', kurssi: 0.8}
+    end
+
+    assert_redirected_to currency_path(assigns(:currency))
+    assert_equal 'Currency was successfully created.', flash[:notice]
+  end
+
+  test 'should not create new currency' do
+    assert_no_difference('Currency.count') do
+      post :create, currency: {}
+      assert_template 'new', 'Template should be new'
+    end
+  end
 end
