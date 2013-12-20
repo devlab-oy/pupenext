@@ -1,4 +1,4 @@
 Pupesoft::Application.routes.draw do
-  resources :currencies
+  resources :currencies, except: :destroy
   root to: 'home#index'
 end
