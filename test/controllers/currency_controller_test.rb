@@ -14,4 +14,13 @@ class CurrencyControllerTest < ActionController::TestCase
 
     assert_template "index", "Template should be index"
   end
+
+  test 'should show currency' do
+    request = {format: :html, id: 1}
+
+    get :show, request
+    assert_response :success
+
+    assert_template "edit", "Template should be edit"
+  end
 end

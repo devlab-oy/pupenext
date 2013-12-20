@@ -8,6 +8,7 @@ currency1:
   luontiaika:
   muutospvm:
   muuttaja: ''
+  tunnus: 1
 
 currency2:
   yhtio: artr
@@ -19,6 +20,7 @@ currency2:
   luontiaika:
   muutospvm:
   muuttaja: ''
+  tunnus: 2
 
 currency3:
   yhtio: artr
@@ -30,3 +32,4 @@ currency3:
   luontiaika:
   muutospvm:
   muuttaja: ''
+  tunnus: 3

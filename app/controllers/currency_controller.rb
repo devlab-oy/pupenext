@@ -7,10 +7,10 @@ class CurrencyController < ApplicationController
     @currencies = Currency.all
   end
 
-  # GET /terms_of_payments/1
-  # def show
-  #   render 'edit'
-  # end
+  # GET /currency/1
+  def show
+    render 'edit'
+  end
 
   # # GET /terms_of_payments/new
   # def new
@@ -78,7 +78,7 @@ class CurrencyController < ApplicationController
   #     )
   #   end
 
-  #   def find_terms_of_payment
-  #     @terms_of_payment = TermsOfPayment.find(params[:id])
-  #   end
+    def find_currency
+      @currency = Currency.find(params[:id])
+    end
 end
