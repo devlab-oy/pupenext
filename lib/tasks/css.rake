@@ -4,8 +4,8 @@ namespace :css do
 
   task write: :environment do
     Parameter.all.each do |p|
-      filename = Rails.root.join('app', 'assets', "#{p.company.yhtio}.css")
-      File.open(filename, 'w') { |f| f.write(p.css) }
+      name = Rails.root.join('app', 'assets', 'stylesheets', 'company', "#{p.company.yhtio}.css")
+      File.open(name, 'w') { |f| f.write(p.css) }
     end
   end
 
