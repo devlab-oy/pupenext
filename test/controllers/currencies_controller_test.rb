@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CurrencyControllerTest < ActionController::TestCase
+class CurrenciesControllerTest < ActionController::TestCase
 
   def setup
     cookies[:pupesoft_session] = users(:joe).session
@@ -25,9 +25,7 @@ class CurrencyControllerTest < ActionController::TestCase
   end
 
   test 'should show new currency form' do
-    request = {format: :html}
-
-    get :new, request
+    get :new
     assert_response :success
 
     assert_template 'new', 'Template should be new'

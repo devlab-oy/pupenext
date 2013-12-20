@@ -1,4 +1,4 @@
-class CurrencyController < ApplicationController
+class CurrenciesController < ApplicationController
 
   before_action :find_currency, only: [:show, :edit, :update, :destroy]
 

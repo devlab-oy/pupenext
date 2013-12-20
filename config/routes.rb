@@ -1,4 +1,4 @@
 Pupesoft::Application.routes.draw do
-  resources :currency
+  resources :currencies
   root to: 'home#index'
 end
