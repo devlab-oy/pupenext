@@ -2,26 +2,22 @@ class CurrenciesController < ApplicationController
 
   before_action :find_currency, only: [:show, :edit, :update, :destroy]
 
-  # GET /currency
+  # GET /currencies
   def index
     @currencies = Currency.all
   end
 
-  # GET /currency/1
+  # GET /currencies/1
   def show
     render 'edit'
   end
 
-  # GET /currency/new
+  # GET /currencies/new
   def new
     @currency = Currency.new
   end
 
-  # GET /terms_of_payments/1/edit
-  # def edit
-  # end
-
-  # POST /currency
+  # POST /currencies
   def create
     @currency = Currency.new
     @currency.attributes = currency_params
@@ -33,14 +29,19 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /terms_of_payments/1
-  # def update
-  #   if @terms_of_payment.update(terms_of_payment_params)
-  #     redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully updated.'
-  #   else
-  #     render action: 'edit'
-  #   end
-  # end
+  # GET /currencies/1/edit
+  def edit
+
+  end
+
+  # PATCH/PUT /currencies/1
+  def update
+    if @currency.update(currency_params)
+      redirect_to currencies_path, notice: 'Currency was successfully updated.'
+    else
+      render action: 'edit'
+    end
+  end
 
   # # # DELETE /terms_of_payments/1
   # # def destroy

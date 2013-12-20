@@ -36,7 +36,7 @@ class CurrenciesControllerTest < ActionController::TestCase
       post :create, currency: {nimi: 'TES', kurssi: 0.8}
     end
 
-    assert_redirected_to currency_path(assigns(:currency))
+    assert_redirected_to currencies_path
     assert_equal 'Currency was successfully created.', flash[:notice]
   end
 
@@ -45,5 +45,12 @@ class CurrenciesControllerTest < ActionController::TestCase
       post :create, currency: {}
       assert_template 'new', 'Template should be new'
     end
+  end
+
+  test 'should update currency' do
+    patch :update, id: 1, currency: {nimi: 'TES'}
+
+    assert_redirected_to currencies_path
+    assert_equal 'Currency was successfully updated.', flash[:notice]
   end
 end
