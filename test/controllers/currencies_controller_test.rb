@@ -53,4 +53,10 @@ class CurrenciesControllerTest < ActionController::TestCase
     assert_redirected_to currencies_path
     assert_equal 'Currency was successfully updated.', flash[:notice]
   end
+
+  test 'should not update currency' do
+    patch :update, id: 1, currency: {nimi: ''}
+
+    assert_template 'edit', 'Template should be edit'
+  end
 end
