@@ -1,5 +1,7 @@
 class Currency < ActiveRecord::Base
 
+  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
+
   validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
   before_validation :ensure_nimi_is_uppercase
 

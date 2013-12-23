@@ -1,5 +1,5 @@
 currency1:
-  yhtio: artr
+  yhtio: acme
   nimi: EUR
   jarjestys: 1
   kurssi: 1.0
@@ -11,7 +11,7 @@ currency1:
   tunnus: 1
 
 currency2:
-  yhtio: artr
+  yhtio: acme
   nimi: BIT
   jarjestys: 2
   kurssi: 1.0
@@ -23,7 +23,7 @@ currency2:
   tunnus: 2
 
 currency3:
-  yhtio: artr
+  yhtio: acme
   nimi: DOL
   jarjestys: 3
   kurssi: 1.0
