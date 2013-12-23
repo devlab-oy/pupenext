@@ -1,5 +1,4 @@
-<font class="head">Valuutat</font>
-<hr />
+<%= render 'header' %>
 
 <%= link_to 'Uusi valuutta', new_currency_path %>
 
@@ -7,18 +6,18 @@
 
 <table>
   <tr>
-    <th>action</th>
-    <th>tunnus</th>
-    <th>nimi</th>
-    <th>kurssi</th>
+    <th>Nimi</th>
+    <th>Kurssi</th>
   </tr>
 
   <% @currencies.each do |cur| %>
     <tr>
-      <td><%= link_to 'Edit', edit_currency_path(cur.id) %></td>
-      <td><%= cur.tunnus %></td>
-      <td><%= cur.nimi %></td>
+      <td><%= link_to cur.nimi, edit_currency_path(cur.id) %></td>
       <td><%= cur.kurssi %></td>
     </tr>
   <% end %>
 </table>
+
+<br />
+
+<%= link_to 'Uusi valuutta', new_currency_path %>

@@ -11,20 +11,39 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :tunnus %><br>
-    <%= f.text_field :tunnus %>
-  </div>
-  <div class="field">
-    <%= f.label :nimi %><br>
-    <%= f.text_field :nimi %>
-  </div>
-  <div class="field">
-    <%= f.label :kurssi %><br>
-    <%= f.text_field :kurssi %>
-  </div>
+  <table>
+    <tr>
+      <th><%= f.label :nimi, 'Valuutta' %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jarjestys, 'Järjestys' %></th>
+      <td><%= f.text_field :jarjestys %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kurssi, 'Valuuttakurssi' %></th>
+      <td><%= f.text_field :kurssi %></td>
+    </tr>
+    <tr>
+      <th>Laatija</th>
+      <td><%= @currency.laatija %></td>
+    </tr>
+    <tr>
+      <th>Luontiaika</th>
+      <td><%= @currency.luontiaika %></td>
+    </tr>
+    <tr>
+      <th>Muutospvm</th>
+      <td><%= @currency.muutospvm %></td>
+    </tr>
+    <tr>
+      <th>Muuttaja</th>
+      <td><%= @currency.muuttaja %></td>
+    </tr>
+  </table>
+
   <div class="actions">
-    <% text = @currency.persisted? ? 'Save' : 'Create' %>
-    <%= f.submit text, :disable_with => 'Submiting...' %>
+    <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
   </div>
 <% end %>
