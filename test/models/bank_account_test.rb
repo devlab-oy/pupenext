@@ -6,7 +6,14 @@ class BankAccountTest < ActiveSupport::TestCase
   end
 
   test "fixtures should be valid" do
-    assert @ba.valid?
+    assert @ba.valid?, "#{@ba.errors.full_messages}"
+  end
+
+  test "should validate iban" do
+    @ba.iban = 'hassu hassu hassu hassu hassu joo'
+    @ba.save
+    assert_equal 28, @ba.iban.length
+    assert @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
 end

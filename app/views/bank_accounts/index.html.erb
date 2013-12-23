@@ -1,7 +1,7 @@
-<font class="head">Pankkitilit</font>
+<font class="head">Yrityksen Pankkitilit</font>
 <hr />
 
-<%= link_to 'Uusi pankkitili', new_bank_account_path %>
+<%= link_to "<button>Uusi yrityksen pankkitili</button>".html_safe, new_bank_account_path %>
 
 <br /><br />
 
@@ -9,17 +9,25 @@
   <tr>
     <th>Nimi:</th>
     <th>Tilinumero:</th>
-    <th>IBAN:</th>
-    <th>BIC:</th>
+    <th>Maksulimitti:</th>
+    <th>Oletus_kulutili:</th>
+    <th>Oletus_rahatili:</th>
+    <th>Oletus_selvittelytili:</th>
   </tr>
 
 
 <% @accounts.each do |acc| %>
   <tr>
     <td><%= link_to acc.nimi, edit_bank_account_path(acc.id) %></td>
-    <td><%= acc.tilino %></td>
-    <td><%= acc.iban %></td>
-    <td><%= acc.bic %></td>
+    <td><%= if acc.iban.empty?
+              acc.tilino
+            else
+              acc.iban
+            end %></td>
+    <td><%= acc.maksulimitti %></td>
+    <td><%= acc.oletus_kulutili %></td>
+    <td><%= acc.oletus_rahatili %></td>
+    <td><%= acc.oletus_selvittelytili %></td>
   </tr>
 <% end %>
 </table>

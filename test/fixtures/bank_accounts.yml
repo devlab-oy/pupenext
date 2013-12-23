@@ -2,14 +2,14 @@ acme_account:
   yhtio: acme
   kaytossa: ''
   nimi: ''
-  tilino: ''
-  iban: 'FI 224 224'
+  tilino: 224-243
+  iban: FI 123 123
   bic: ''
   valkoodi: ''
   factoring: ''
   asiakastunnus: ''
   maksulimitti: 0
-  tilinylitys: 0
+  tilinylitys: ''
   hyvak: ''
   oletus_kulutili: ''
   oletus_kustp: ''
@@ -19,7 +19,7 @@ acme_account:
   oletus_selvittelytili: ''
   pankkitarkenne: ''
   asiakastarkenne: ''
-  pankki: 'AcmeBank'
+  pankki: ''
   asiakas: ''
   generointiavain: ''
   salattukerta: ''

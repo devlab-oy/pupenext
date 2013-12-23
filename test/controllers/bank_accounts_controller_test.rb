@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class BankAccountsControllerTest < ActionController::TestCase
+
   def setup
     cookies[:pupesoft_session] = users(:joe).session
     @ba = bank_accounts(:acme_account)

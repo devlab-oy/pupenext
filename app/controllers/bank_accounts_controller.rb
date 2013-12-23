@@ -10,11 +10,10 @@ class BankAccountsController < ApplicationController
   end
 
   def create
-    @bank_account = BankAccount.new
+    @bank_account = current_user.company.bank_accounts.build
     @bank_account.attributes = bank_account_params
     @bank_account.muuttaja = current_user.kuka
     @bank_account.laatija = current_user.kuka
-    @bank_account.yhtio = current_user.yhtio
 
     if @bank_account.save
       redirect_to bank_accounts_path, notice: 'Bank account was successfully created.'
@@ -35,7 +34,7 @@ class BankAccountsController < ApplicationController
   end
 
   def new
-    @bank_account = BankAccount.new
+    @bank_account = current_user.company.bank_accounts.build
   end
 
   private
