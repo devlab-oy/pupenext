@@ -10,9 +10,9 @@ class BankAccountTest < ActiveSupport::TestCase
   end
 
   test "should validate iban" do
-    @ba.iban = 'hassu hassu hassu hassu hassu joo'
+    @ba.iban = 'hassu hassu hassu joo'
     @ba.save
-    assert_equal 28, @ba.iban.length
+    assert_equal 18, @ba.iban.length
     assert @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
