@@ -16,7 +16,10 @@ end
 
 SimpleCov.start 'rails'
 
-Turn.config.format = :outline
+Turn.config do |t|
+  t.format = :outline
+  t.natural = true
+end
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
