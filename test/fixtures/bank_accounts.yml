@@ -2,9 +2,9 @@ acme_account:
   yhtio: acme
   kaytossa: ''
   nimi: ''
-  tilino: 224-243
-  iban: FI 123 123
-  bic: ''
+  tilino: 423456-781
+  iban: FI5542345670000081
+  bic: DABAFIHH
   valkoodi: ''
   factoring: ''
   asiakastunnus: ''
@@ -34,4 +34,3 @@ acme_account:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-
