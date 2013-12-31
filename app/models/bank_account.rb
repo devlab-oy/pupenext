@@ -2,7 +2,6 @@ class BankAccount < ActiveRecord::Base
 
   include BankHelper
 
-
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   before_validation :check_presence
