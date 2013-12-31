@@ -9,19 +9,30 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
-  test "should validate iban" do
-    @ba.iban = 'keijo'
-    @ba.save
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '', @ba.iban
+  test "save should fail" do
+    two = BankAccount.new
+    params = {
+              yhtio: @ba.yhtio,
+              tilino: @ba.tilino,
+              iban: @ba.iban,
+              bic: @ba.bic
+    }
+    two.attributes = params
+    refute two.valid?, "#{two.errors.full_messages}"
+  end
 
+  test "should validate iban" do
     @ba.iban = 'GB82 WEST 1234 5698 7654 32'
     @ba.save
     assert_equal 22, @ba.iban.length
     assert @ba.valid?, "#{@ba.errors.full_messages}"
 
+    @ba.iban = 'keijo'
+    refute @ba.valid?, "#{@ba.errors.full_messages}"
+    assert_equal '', @ba.iban
+
+
     @ba.iban = 'GB82 TEST 1234 5698 7654 32'
-    @ba.save
     refute @ba.valid?, "#{@ba.errors.full_messages}"
     assert_equal '', @ba.iban
   end
@@ -39,7 +50,7 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.valid?, "#{@ba.errors.full_messages}"
     assert_equal '923456785', @ba.tilino
 
-    @ba.tilino = 'Asdasdasd12313'
+    @ba.tilino = 'Asasdsad12313'
     refute @ba.valid?, "#{@ba.errors.full_messages}"
     assert_equal '', @ba.tilino
 
@@ -49,19 +60,20 @@ class BankAccountTest < ActiveSupport::TestCase
   end
 
   test "should generate iban from account number" do
-    @ba.tilino = '423456-781'
+    @ba.tilino = '12345600000785'
     @ba.iban = ''
     @ba.save
 
     assert @ba.valid?
-    assert_equal "FI5542345670000081", @ba.iban
+    assert_equal "FI2112345600000785", @ba.iban
   end
 
   test "should validate bic" do
     @ba.bic = 'DABAFIHH'
-    @ba.save
-
     assert @ba.valid?, "#{@ba.errors.full_messages}"
+
+    @ba.bic = 'KEIJONBANK'
+    refute @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
 end
