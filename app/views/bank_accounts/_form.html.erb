@@ -124,6 +124,16 @@
     </tr>
   </table>
 
+  <%= f.hidden_field :pankkitarkenne, value: '' %>
+  <%= f.hidden_field :asiakastarkenne, value: '' %>
+  <%= f.hidden_field :pankki, value: '' %>
+  <%= f.hidden_field :asiakas, value: '' %>
+  <%= f.hidden_field :generointiavain, value: '' %>
+  <%= f.hidden_field :salattukerta, value: '' %>
+  <%= f.hidden_field :siemen, value: '' %>
+  <%= f.hidden_field :kertaavain, value: '' %>
+  <%= f.hidden_field :kayttoavain, value: '' %>
+
   <br />
   <div class="actions">
     <% text = @bank_account.persisted? ? 'Tallenna' : 'Lisää' %>

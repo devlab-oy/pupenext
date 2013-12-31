@@ -32,10 +32,9 @@ class BankAccountsControllerTest < ActionController::TestCase
     params = {
       nimi: 'Keijo',
       pankki: 'Rolfs Bank',
-      iban: 'FI 123123123',
-      tilino: '333',
+      tilino: '123456-785',
       kaytossa: '',
-      bic: '',
+      bic: 'DABAFIHH',
       valkoodi: '',
       factoring: '',
       asiakastunnus: '',
@@ -70,7 +69,7 @@ class BankAccountsControllerTest < ActionController::TestCase
   end
 
   test "should not create" do
-    params = {}
+    params = { iban: @ba.iban }
 
     assert_no_difference('BankAccount.count') do
       patch :create, bank_account: params
