@@ -30,7 +30,7 @@ class BankAccount < ActiveRecord::Base
       if tilino !~ /\d/
         self.tilino = tilino
       else
-        self.tilino = validate_account_number(tilino) unless tilino !~ /\d/
+        self.tilino = validate_account_number(tilino)
       end
     end
 
@@ -40,7 +40,7 @@ class BankAccount < ActiveRecord::Base
     end
 
     def check_bic
-      return true if self.company.maa != "FI" || tilino !~ /\d/
+      return true if self.company.maa != "FI" || self.bic.empty?
       check = validate_bic(self.bic)
       errors.add(:bic, "not valid") if check != 0
     end
