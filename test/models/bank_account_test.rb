@@ -54,9 +54,9 @@ class BankAccountTest < ActiveSupport::TestCase
     refute @ba.valid?, "#{@ba.errors.full_messages}"
     assert_equal '', @ba.tilino
 
-    @ba.tilino = ''
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '', @ba.tilino
+    @ba.tilino = 'Kassatili'
+    assert @ba.valid?, "#{@ba.errors.full_messages}"
+    assert_equal 'Kassatili', @ba.tilino
   end
 
   test "should generate iban from account number" do

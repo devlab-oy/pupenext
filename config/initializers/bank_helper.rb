@@ -34,7 +34,7 @@ module BankHelper
 
     iban.upcase!
 
-    errors.add(:iban, "#{iban[0..1]} is not a valid SEPA country code") unless check_sepa(iban[0..1])
+    errors.add(:iban, "does not have a valid SEPA country code") unless check_sepa(iban[0..1])
 
     if check_sepa(iban[0..1]) != iban.length
       errors.add(:iban, "in #{iban[0..1]} should have length of #{check_sepa(iban[0..1])}")
@@ -58,7 +58,7 @@ module BankHelper
     end
 
     if account_number.empty?
-      errors.add(:tilino, 'is saDasnot valid')
+      errors.add(:tilino, 'is not valid')
       return ''
     end
 
@@ -104,7 +104,7 @@ module BankHelper
 
   def create_iban(account_number)
     account_number = validate_account_number(account_number)
-    errors.add(:tilino, "asd") if account_number.empty?
+    errors.add(:tilino, 'not valid') if account_number.empty?
     forcalc = account_number + "FI00".gsub(/[A-Z]/) { |p| (p.respond_to?(:ord) ? p.ord : p[0]) - 55 }
     check = 98 - (forcalc.to_i % 97)
     check = "0"<<check.to_s if check < 10
