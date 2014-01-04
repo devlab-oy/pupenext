@@ -33,7 +33,7 @@ module BankHelper
     return false if iban_length.nil? || value.length != iban_length
 
     # Move four first characters to the end of the string
-    iban = (value[4..-1].to_s + value[0..3].to_s)
+    iban = value[4..-1].to_s + value[0..3].to_s
 
     # Convert IBAN to numbers (A=10, B=11, ..., Z=35)
     iban = iban.gsub(/[A-Z]/) { |p| p.ord - 55 }
