@@ -26,6 +26,22 @@ module BankHelper
     sepa_countries.fetch(country) if sepa_countries.has_key?(country)
   end
 
+  def valid_iban?(value)
+    iban_length = check_sepa(value[0..1])
+
+    # IBAN is invalid if length is not correct
+    return false if iban_length.nil? || value.length != iban_length
+
+    # Convert IBAN to numbers (A=10, B=11, ..., Z=35)
+    iban = value.gsub(/[A-Z]/) { |p| p.ord - 55 }
+
+    # Move four first characters to the end of the string
+    iban = (iban[6..iban.length-1].to_s + iban[0..5].to_s).to_i
+
+    # IBAN is valid if remainder is 1
+    iban % 97 == 1
+  end
+
   def validate_iban(iban)
     # Returns valid IBAN or empty string
     return '' if iban.kind_of? Numeric or iban.nil?
