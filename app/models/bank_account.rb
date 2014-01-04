@@ -4,11 +4,18 @@ class BankAccount < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  before_validation :check_presence
   validates :nimi, presence: true
-  validates :tilino, :iban, presence: true, allow_blank: true, uniqueness: { scope: :company }
-  validates :oletus_kohde, :oletus_kustp, :oletus_projekti, presence: true
-  validate :check_iban, :check_account_number, :check_bic
+  validates :tilino, presence: true, uniqueness: { scope: :company }
+  validates :iban, presence: true, uniqueness: { scope: :company }
+  validates :oletus_rahatili, presence: true
+  validates :oletus_kulutili, presence: true
+  validates :oletus_selvittelytili, presence: true
+
+  validate :check_iban
+  validate :check_account_number
+  validate :check_bic
+
+  before_validation :fix_account_numbers
 
   self.table_name = 'yriti'
   self.primary_key = 'tunnus'
@@ -17,30 +24,31 @@ class BankAccount < ActiveRecord::Base
 
   private
 
-    def check_presence
-      return false if iban.nil?
-      if iban.empty? && tilino.present? && tilino =~ /\d/
-        self.iban = create_iban(self.tilino)
+    def fix_account_numbers
+      if iban.present?
+        iban.upcase!
+        iban.gsub!(/[^A-Z0-9]/, '')
+      end
+
+      if tilino.present?
+        tilino.gsub!(/\D/, '')
+        self.tilino = pad_account_number(tilino)
+
+        # If we have account number present but no IBAN, create IBAN
+        self.iban = create_iban(tilino) unless iban.present?
       end
     end
 
     def check_account_number
-      if tilino !~ /\d/
-        self.tilino = tilino
-      else
-        self.tilino = validate_account_number(tilino)
-      end
+      errors.add(:tilino, "invalid account number") unless valid_account_number?(tilino)
     end
 
     def check_iban
-      return true if tilino !~ /\d/
-      self.iban = validate_iban(self.iban)
+      errors.add(:iban, "invalid iban") unless valid_iban?(iban)
     end
 
     def check_bic
-      return true if self.company.maa != "FI" || self.bic.empty?
-      check = validate_bic(self.bic)
-      errors.add(:bic, "not valid") if check != 0
+      errors.add(:bic, "invalid bic") unless valid_bic?(bic)
     end
 
 end

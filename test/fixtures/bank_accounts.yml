@@ -5,18 +5,18 @@ acme_account:
   tilino: 423456-781
   iban: FI5542345670000081
   bic: DABAFIHH
-  valkoodi: ''
+  valkoodi: 'EUR'
   factoring: ''
   asiakastunnus: ''
   maksulimitti: 0
   tilinylitys: ''
   hyvak: ''
-  oletus_kulutili: ''
+  oletus_kulutili: '1000'
   oletus_kustp: ''
   oletus_kohde: ''
   oletus_projekti: ''
-  oletus_rahatili: ''
-  oletus_selvittelytili: ''
+  oletus_rahatili: '2000'
+  oletus_selvittelytili: '3000'
   pankkitarkenne: ''
   asiakastarkenne: ''
   pankki: ''

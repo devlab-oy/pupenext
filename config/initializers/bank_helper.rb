@@ -27,6 +27,8 @@ module BankHelper
   end
 
   def valid_iban?(value)
+    return false unless value.present?
+
     iban_length = check_sepa(value[0..1])
 
     # IBAN is invalid if length is not correct
@@ -43,12 +45,14 @@ module BankHelper
   end
 
   def valid_bic?(value)
+    return false unless value.present?
     value =~ /^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}$/
   end
 
   def valid_account_number?(value)
+    return false unless value.present?
     account_number = pad_account_number(value)
-    valid_luhn?(account_number)
+    valid_luhn?(account_number) && account_number.length == 14
   end
 
   def valid_luhn?(value)
@@ -78,6 +82,9 @@ module BankHelper
   def pad_account_number(value)
     # Convert to string
     account_number = value.to_s
+
+    # Return value back if we cannot pad
+    return value unless value.length.between?(6, 14)
 
     # Remove all non-digits
     account_number.gsub!(/\D/, '')

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class BankAccountTest < ActiveSupport::TestCase
+
   def setup
     @ba = bank_accounts(:acme_account)
   end
@@ -9,63 +10,40 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
-  test "save should fail" do
-    two = BankAccount.new
-    params = {
-              yhtio: @ba.yhtio,
-              tilino: @ba.tilino,
-              iban: @ba.iban,
-              bic: @ba.bic
-    }
-    two.attributes = params
+  test "duplicate accounts should fail" do
+    two = @ba.dup
     refute two.valid?, "#{two.errors.full_messages}"
   end
 
   test "should validate iban" do
-    @ba.iban = 'GB82 WEST 1234 5698 7654 32'
-    @ba.save
-    assert_equal 22, @ba.iban.length
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
+    @ba.iban = 'FI37-1590-3000-0007-76'
+    assert @ba.valid?, @ba.errors.full_messages
 
-    @ba.iban = 'keijo'
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '', @ba.iban
-
-
-    @ba.iban = 'GB82 TEST 1234 5698 7654 32'
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '', @ba.iban
+    @ba.iban = 'NONO NOT A VALID IBAN'
+    refute @ba.valid?
   end
 
   test "should validate account number" do
-    @ba.tilino = '12345600000785'
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '12345600000785', @ba.tilino
+    @ba.tilino = '574044-25478'
+    assert @ba.valid?, "574044-25478 #{@ba.errors.full_messages}"
 
-    @ba.tilino = '423456-781'
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '42345670000081', @ba.tilino
+    @ba.tilino = '5740 4420 0054 78'
+    assert @ba.valid?, "57404420005478 #{@ba.errors.full_messages}"
 
-    @ba.tilino = '923456-785'
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '923456785', @ba.tilino
-
-    @ba.tilino = 'Asasdsad12313'
+    @ba.tilino = '57404420005478000'
     refute @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal '', @ba.tilino
 
-    @ba.tilino = 'Kassatili'
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
-    assert_equal 'Kassatili', @ba.tilino
+    @ba.tilino = 'short'
+    refute @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
   test "should generate iban from account number" do
-    @ba.tilino = '12345600000785'
+    @ba.tilino = '574044-25478'
     @ba.iban = ''
-    @ba.save
+    assert @ba.save, @ba.errors.full_messages
 
     assert @ba.valid?
-    assert_equal "FI2112345600000785", @ba.iban
+    assert_equal "FI0457404420005478", @ba.iban, @ba.iban
   end
 
   test "should validate bic" do

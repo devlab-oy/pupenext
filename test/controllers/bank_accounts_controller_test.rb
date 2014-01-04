@@ -10,21 +10,18 @@ class BankAccountsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-
     assert_template 'index', 'Template should be index'
   end
 
   test "should get new" do
     get :new
     assert_response :success
-
     assert_template 'new', 'Template should be new'
   end
 
   test "should get edit" do
     get :edit, id: @ba.tunnus
     assert_response :success
-
     assert_template 'edit', 'Template should be edit'
   end
 
@@ -33,39 +30,16 @@ class BankAccountsControllerTest < ActionController::TestCase
       nimi: 'Keijo',
       pankki: 'Rolfs Bank',
       tilino: '123456-785',
-      kaytossa: '',
       bic: 'DABAFIHH',
-      valkoodi: '',
-      factoring: '',
-      asiakastunnus: '',
-      maksulimitti: '',
-      hyvak: '',
-      oletus_kulutili: '',
-      oletus_kustp: 0,
-      oletus_kohde: 0,
-      oletus_projekti: 0,
-      oletus_rahatili: '',
-      oletus_selvittelytili: '',
-      pankkitarkenne: '',
-      asiakastarkenne: '',
-      salattukerta: '',
-      siemen: '',
-      kertaavain: '',
-      sasukupolvi: '',
-      kasukupolvi: '',
-      siirtoavain: '',
-      kayttoavain: '',
-      generointiavain: '',
-      nro:'',
-      tilinylitys: 0,
-      asiakas: ''
+      oletus_kulutili: '1000',
+      oletus_rahatili: '2000',
+      oletus_selvittelytili: '3000'
     }
 
     assert_difference('BankAccount.count', 1) do
       patch :create, bank_account: params
     end
     assert_redirected_to bank_accounts_path
-
   end
 
   test "should not create" do
@@ -73,8 +47,8 @@ class BankAccountsControllerTest < ActionController::TestCase
 
     assert_no_difference('BankAccount.count') do
       patch :create, bank_account: params
+      assert_template 'new', 'Template should be new'
     end
-    assert_template 'new', 'Template should be new'
   end
 
   test "should update" do
@@ -88,9 +62,9 @@ class BankAccountsControllerTest < ActionController::TestCase
   test "should not update" do
     params = { tilino: nil, bic: nil, iban: nil }
 
-     patch :update, id: @ba.tunnus, bank_account: params
-     assert_template 'edit', 'Template should be edit'
-     assert_equal nil, flash.notice
+    patch :update, id: @ba.tunnus, bank_account: params
+    assert_template 'edit', 'Template should be edit'
+    assert_equal nil, flash.notice
   end
 
 end
