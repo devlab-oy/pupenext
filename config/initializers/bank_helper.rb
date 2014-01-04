@@ -52,7 +52,27 @@ module BankHelper
   end
 
   def valid_luhn?(value)
-    checksum(value, :odd) % 10 == 0
+    # Not valid if contains non-digits
+    return false if value =~ /\D/
+
+    # Create array of reversed digits
+    digits = value.reverse.scan(/./).map(&:to_i)
+    sum = 0
+
+    # Loop digits
+    digits.each_with_index do |n, i|
+       # Every other digit must be multiplied by 2
+       n *= 2 if i.odd?
+
+       # If we get more than 10 add numbers together
+       n = 1 + (n - 10) if n >= 10
+
+       # Add digit to sum
+       sum += n
+    end
+
+    # Valid if remainder is zero
+    (sum % 10).zero?
   end
 
   def pad_account_number(value)
@@ -76,17 +96,6 @@ module BankHelper
     end
 
     account_number.insert(position, "0" * zeroes)
-  end
-
-  def checksum(value, operation)
-    i = 0
-    compare_method = (operation == :even) ? :== : :>
-    value.reverse.split('').inject(0) do |sum, c|
-      n = c.to_i
-      weight = (i % 2).send(compare_method, 0) ? n * 2 : n
-      i += 1
-      sum += weight < 10 ? weight : weight - 9
-    end
   end
 
   def create_iban(value)
