@@ -42,69 +42,40 @@ module BankHelper
     iban % 97 == 1
   end
 
-  def validate_iban(iban)
-    # Returns valid IBAN or empty string
-    return '' if iban.kind_of? Numeric or iban.nil?
-    iban.gsub!(/\s+/, "")
-    errors.add(:iban, 'is not valid') if iban.to_s.nil? || iban.to_s.empty?
-
-    iban.upcase!
-
-    errors.add(:iban, "does not have a valid SEPA country code") unless check_sepa(iban[0..1])
-
-    if check_sepa(iban[0..1]) != iban.length
-      errors.add(:iban, "in #{iban[0..1]} should have length of #{check_sepa(iban[0..1])}")
-    end
-
-    check = iban.gsub(/[A-Z]/) { |p| (p.respond_to?(:ord) ? p.ord : p[0]) - 55 }
-    errors.add(:iban, "is not a valid IBAN") unless (check[6..check.length-1].to_s+check[0..5].to_s).to_i % 97 == 1
-    return '' if errors.present?
-
-    iban
+  def valid_bic?(value)
+    value =~ /^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}$/
   end
 
-  def validate_account_number(account_number)
-    # Returns valid account number or empty string
-
-    account_number.gsub!(/[^0-9]/, '')
-    return account_number if account_number[0] == '9' #Internal bank bypass
-
-    if account_number.length != 14
-      account_number = pad_account_number(account_number)
-    end
-
-    if account_number.empty?
-      errors.add(:tilino, 'is not valid')
-      return ''
-    end
-
-    if !valid_luhn?(account_number)
-      errors.add(:tilino, 'is not a valid Luhn value')
-      return ''
-    end
-
-    account_number
-  end
-
-  def pad_account_number(account_number)
-    bank = account_number[0]
-    case bank
-      when '4', '5'
-        beginning = account_number[0..6]
-        zeroes = "000000000"[0..13-account_number.length]
-        ending = account_number[7..-1]
-      else
-        beginning = account_number[0..5]
-        zeroes = "000000000"[0..13-account_number.length]
-        ending = account_number[6..-1]
-      end
-    return '' if [beginning, zeroes, ending].include? nil
-
-    beginning + zeroes + ending
+  def valid_account_number?(value)
+    account_number = pad_account_number(value)
+    valid_luhn?(account_number)
   end
 
   def valid_luhn?(value)
     checksum(value, :odd) % 10 == 0
+  end
+
+  def pad_account_number(value)
+    # Convert to string
+    account_number = value.to_s
+
+    # Remove all non-digits
+    account_number.gsub!(/\D/, '')
+
+    # How much do we have to pad
+    zeroes = 14 - account_number.length
+
+    # Bank identifier
+    bank = account_number[0]
+
+    case bank
+    when '4', '5'
+      position = 7
+    else
+      position = 6
+    end
+
+    account_number.insert(position, "0" * zeroes)
   end
 
   def checksum(value, operation)
@@ -118,19 +89,25 @@ module BankHelper
     end
   end
 
-  def create_iban(account_number)
-    account_number = validate_account_number(account_number)
-    errors.add(:tilino, 'not valid') if account_number.empty?
-    forcalc = account_number + "FI00".gsub(/[A-Z]/) { |p| (p.respond_to?(:ord) ? p.ord : p[0]) - 55 }
-    check = 98 - (forcalc.to_i % 97)
-    check = "0"<<check.to_s if check < 10
+  def create_iban(value)
+    # Creates IBAN number from Finnish account number
+    return false unless valid_account_number?(value)
 
-    generated_iban = "FI#{check}"<<account_number.to_s
-    validate_iban(generated_iban)
-  end
+    account_number = pad_account_number(value)
+    iban = account_number + "151800"
+    check = ""
 
-  def validate_bic(bic)
-    bic =~ /^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}$/
+    # Loop iban in 7 character chunks (or less) and calculate check digit
+    iban.scan(/.{1,7}/).each do |i|
+      check = "#{check}#{i}".to_i
+      check = check % 97
+    end
+
+    # check digit with leading zero
+    check = "%02d" % (98 - check)
+
+    # Return IBAN
+    "FI#{check}#{account_number}"
   end
 
 end
