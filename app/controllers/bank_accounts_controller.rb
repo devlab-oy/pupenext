@@ -18,7 +18,7 @@ class BankAccountsController < ApplicationController
     if @bank_account.save
       redirect_to bank_accounts_path, notice: 'Bank account was successfully created.'
     else
-     render action: 'new'
+      render action: 'new'
     end
   end
 
@@ -27,9 +27,9 @@ class BankAccountsController < ApplicationController
     @bank_account.muuttaja = current_user.kuka
 
     if @bank_account.save
-     redirect_to bank_accounts_path, notice: 'Bank account was successfully updated.'
+      redirect_to bank_accounts_path, notice: 'Bank account was successfully updated.'
     else
-     render action: 'edit'
+      render action: 'edit'
     end
   end
 
@@ -40,42 +40,42 @@ class BankAccountsController < ApplicationController
   private
 
     def find_account
-      @bank_account = current_user.company.bank_accounts.find (params[:id])
+      @bank_account = current_user.company.bank_accounts.find(params[:id])
     end
 
     def bank_account_params
-      params[:bank_account].permit(
-          :nimi,
-          :pankki,
-          :kaytossa,
-          :tilino,
-          :iban,
-          :bic,
-          :valkoodi,
-          :factoring,
-          :asiakastunnus,
-          :maksulimitti,
-          :hyvak,
-          :oletus_kulutili,
-          :oletus_kustp,
-          :oletus_kohde,
-          :oletus_projekti,
-          :oletus_rahatili,
-          :oletus_selvittelytili,
-          :pankkitarkenne,
-          :asiakastarkenne,
-          :salattukerta,
-          :siemen,
-          :kertaavain,
-          :sasukupolvi,
-          :kasukupolvi,
-          :siirtoavain,
-          :kayttoavain,
-          :generointiavain,
-          :nro,
-          :tilinylitys,
-          :asiakas
-        )
+      params.require(:bank_account).permit(
+        :nimi,
+        :pankki,
+        :kaytossa,
+        :tilino,
+        :iban,
+        :bic,
+        :valkoodi,
+        :factoring,
+        :asiakastunnus,
+        :maksulimitti,
+        :hyvak,
+        :oletus_kulutili,
+        :oletus_kustp,
+        :oletus_kohde,
+        :oletus_projekti,
+        :oletus_rahatili,
+        :oletus_selvittelytili,
+        :pankkitarkenne,
+        :asiakastarkenne,
+        :salattukerta,
+        :siemen,
+        :kertaavain,
+        :sasukupolvi,
+        :kasukupolvi,
+        :siirtoavain,
+        :kayttoavain,
+        :generointiavain,
+        :nro,
+        :tilinylitys,
+        :asiakas
+      )
     end
 
 end
