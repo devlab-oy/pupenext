@@ -32,14 +32,14 @@ module BankHelper
     # IBAN is invalid if length is not correct
     return false if iban_length.nil? || value.length != iban_length
 
-    # Convert IBAN to numbers (A=10, B=11, ..., Z=35)
-    iban = value.gsub(/[A-Z]/) { |p| p.ord - 55 }
-
     # Move four first characters to the end of the string
-    iban = (iban[6..iban.length-1].to_s + iban[0..5].to_s).to_i
+    iban = (value[4..-1].to_s + value[0..3].to_s)
+
+    # Convert IBAN to numbers (A=10, B=11, ..., Z=35)
+    iban = iban.gsub(/[A-Z]/) { |p| p.ord - 55 }
 
     # IBAN is valid if remainder is 1
-    iban % 97 == 1
+    iban.to_i % 97 == 1
   end
 
   def valid_bic?(value)
@@ -94,7 +94,7 @@ module BankHelper
     return false unless valid_account_number?(value)
 
     account_number = pad_account_number(value)
-    iban = account_number + "151800"
+    iban = account_number + "151800" # 15=F, 18=I
     check = ""
 
     # Loop iban in 7 character chunks (or less) and calculate check digit
