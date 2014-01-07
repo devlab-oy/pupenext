@@ -4,7 +4,7 @@ class TermsOfPaymentsController < ApplicationController
 
   # GET /terms_of_payments
   def index
-    @terms_of_payments = TermsOfPayment.all
+    @terms_of_payments = current_user.company.terms_of_payments.all
   end
 
   # GET /terms_of_payments/1
@@ -14,7 +14,7 @@ class TermsOfPaymentsController < ApplicationController
 
   # GET /terms_of_payments/new
   def new
-    @terms_of_payment = TermsOfPayment.new
+    @terms_of_payment = current_user.company.terms_of_payments.build
   end
 
   # GET /terms_of_payments/1/edit
@@ -23,11 +23,10 @@ class TermsOfPaymentsController < ApplicationController
 
   # POST /terms_of_payments
   def create
-    @terms_of_payment = TermsOfPayment.new
+    @terms_of_payment = current_user.company.terms_of_payments.build
     @terms_of_payment.attributes = terms_of_payment_params
     @terms_of_payment.muuttaja = current_user.kuka
     @terms_of_payment.laatija = current_user.kuka
-    @terms_of_payment.yhtio = current_user.yhtio
 
     if @terms_of_payment.save
       redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully created.'
@@ -77,7 +76,7 @@ class TermsOfPaymentsController < ApplicationController
     end
 
     def find_terms_of_payment
-      @terms_of_payment = TermsOfPayment.find(params[:id])
-      @terms_of_payments = TermsOfPayment.where(yhtio: current_user.yhtio).order(:jarjestys, :teksti)
+      @terms_of_payment = current_user.company.terms_of_payments.find(params[:id])
+      @terms_of_payments = current_user.company.terms_of_payments.where(yhtio: current_user.yhtio).order(:jarjestys, :teksti)
     end
 end

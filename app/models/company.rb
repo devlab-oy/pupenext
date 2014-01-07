@@ -1,11 +1,11 @@
 class Company < ActiveRecord::Base
   with_options foreign_key: :yhtio, primary_key: :yhtio do |options|
     options.has_many :keywords
-
     options.has_many :users
     options.has_one :parameter
     options.has_many :accounts
     options.has_many :currency
+    options.has_many :terms_of_payments
 
     options.has_many :sum_levels
     options.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
