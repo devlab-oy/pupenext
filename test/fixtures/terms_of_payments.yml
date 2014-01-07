@@ -1,5 +1,5 @@
 sixty_days_net:
-  yhtio: artr
+  yhtio: acme
   teksti: 60 pv netto
   rel_pvm: 60
   abs_pvm: <%= Date.today %>
