@@ -56,8 +56,11 @@ module BankHelper
   end
 
   def valid_luhn?(value)
+    # Convert to string
+    value = value.to_s
+
     # Not valid if contains non-digits
-    return false if value =~ /\D/
+    return false unless value =~ /\A[0-9]+\z/
 
     # Create array of reversed digits
     digits = value.reverse.scan(/./).map(&:to_i)
