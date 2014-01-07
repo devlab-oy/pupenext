@@ -23,8 +23,8 @@ class TermsOfPayment < ActiveRecord::Base
   validates :yhtio, presence: true
 
   validate do |top|
-    valid_date :abs_pvm, top.abs_pvm
-    valid_date :kassa_abspvm, top.kassa_abspvm
+    valid_date :abs_pvm, top
+    valid_date :kassa_abspvm, top
   end
 
   before_create :update_created
