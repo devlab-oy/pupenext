@@ -26,6 +26,7 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
 
   test 'show should be edit' do
     get :show, id: @top.tunnus
+    assert_response :success
   end
 
   test 'should create terms of payment' do
