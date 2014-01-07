@@ -1,6 +1,7 @@
 class TermsOfPaymentsController < ApplicationController
 
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
+  before_action :find_all_terms_of_payments
 
   # GET /terms_of_payments
   def index
@@ -77,6 +78,9 @@ class TermsOfPaymentsController < ApplicationController
 
     def find_terms_of_payment
       @terms_of_payment = current_user.company.terms_of_payments.find(params[:id])
-      @terms_of_payments = current_user.company.terms_of_payments.where(yhtio: current_user.yhtio).order(:jarjestys, :teksti)
+    end
+
+    def find_all_terms_of_payments
+      @terms_of_payments = current_user.company.terms_of_payments.order(:jarjestys, :teksti)
     end
 end
