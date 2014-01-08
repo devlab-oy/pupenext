@@ -37,24 +37,6 @@
       <td><%= f.text_field :kassa_alepros %> %</td>
     </tr>
     <tr>
-      <th><%= f.label :osamaksuehto1 %></th>
-      <td>
-      <% options = { include_blank: "Tämä ei ole moniehto-maksuehto" } %>
-      <%= f.collection_select :osamaksuehto1, @terms_of_payments, :tunnus, :teksti, options %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :osamaksuehto2 %></th>
-      <td>
-      <% options = { include_blank: "Tämä ei ole moniehto-maksuehto" } %>
-      <%= f.collection_select :osamaksuehto2, @terms_of_payments, :tunnus, :teksti, options %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :summanjakoprososa2 %></th>
-      <td><%= f.text_field :summanjakoprososa2 %></td>
-    </tr>
-    <tr>
       <th><%= f.label :jv %></th>
       <td>
         <%= f.check_box :jv, { checked: f.object.jv.present? }, "o", "" %>
@@ -72,10 +54,6 @@
         <% options = options_for_select(ops, f.object.kateinen) %>
         <%= select_tag 'terms_of_payment[kateinen]', options, include_blank: false %>
       </td>
-    </tr>
-    <tr>
-      <th><%= f.label :suoraveloitus %></th>
-      <td><%= f.text_field :suoraveloitus %></td>
     </tr>
     <tr>
       <th><%= f.label :factoring %></th>

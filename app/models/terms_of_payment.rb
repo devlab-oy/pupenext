@@ -3,23 +3,20 @@ class TermsOfPayment < ActiveRecord::Base
   include Validators
 
   validates :rel_pvm,
-    :kassa_relpvm,
-    :osamaksuehto1,
-    :osamaksuehto2,
-    :pankkiyhteystiedot,
-    :jarjestys, numericality: { only_integer: true }
+            :kassa_relpvm,
+            :pankkiyhteystiedot,
+            :jarjestys, numericality: { only_integer: true }
 
   validates :jv,
-    :kateinen,
-    :suoraveloitus,
-    :itsetulostus,
-    :jaksotettu,
-    :erapvmkasin,
-    :kaytossa, presence: true, allow_blank: true, length: { is: 1 }
+            :kateinen,
+            :itsetulostus,
+            :jaksotettu,
+            :erapvmkasin,
+            :kaytossa, presence: true, allow_blank: true, length: { is: 1 }
 
-  validates :teksti, presence: true, length: { within: 1..40 }, allow_blank: false
-  validates :factoring, :sallitut_maat, length: { within: 1..50 }, allow_blank: true
-  validates :kassa_alepros, :summanjakoprososa2, numericality: true
+  validates :teksti, presence: true, allow_blank: false, length: { within: 1..40 }
+  validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
+  validates :kassa_alepros, numericality: true
   validates :yhtio, presence: true
 
   validate do |top|
