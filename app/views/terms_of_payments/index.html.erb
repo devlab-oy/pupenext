@@ -3,6 +3,12 @@
 
 <%= link_to 'Uusi maksuehto', new_terms_of_payment_path %>
 
+<% if @not_used %>
+  <%= link_to 'Näytä aktiivit', terms_of_payments_path %>
+<% else %>
+  <%= link_to 'Näytä poistetut', not_used_terms_of_payments_path, action: :not_used %>
+<% end %>
+
 <br /><br />
 
 <table>

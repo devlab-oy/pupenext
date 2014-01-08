@@ -5,7 +5,14 @@ class TermsOfPaymentsController < ApplicationController
 
   # GET /terms_of_payments
   def index
-    @terms_of_payments = current_user.company.terms_of_payments.all
+    @terms_of_payments = current_user.company.terms_of_payments.where(kaytossa: '')
+    @not_used = false
+  end
+
+  def not_used
+    @terms_of_payments = current_user.company.terms_of_payments.where(kaytossa: 'E')
+    @not_used = true
+    render 'index'
   end
 
   # GET /terms_of_payments/1
