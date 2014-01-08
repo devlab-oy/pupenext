@@ -11,26 +11,31 @@
 
 <br /><br />
 
-<table>
-  <tr>
-    <th>teksti</th>
-    <th>rel_pvm</th>
-    <th>abs_pvm</th>
-    <th>kassa_relpvm</th>
-    <th>kassa_abspvm</th>
-    <th>kassa_alepros</th>
-    <th>jarjestys</th>
-  </tr>
-
-  <% @terms_of_payments.each do |top| %>
+<%= form_tag terms_of_payments_path, method: :get do %>
+  <table>
     <tr>
-      <td><%= link_to top.teksti, edit_terms_of_payment_path(top.id) %></td>
-      <td><%= top.rel_pvm %></td>
-      <td><%= top.abs_pvm %></td>
-      <td><%= top.kassa_relpvm %></td>
-      <td><%= top.kassa_abspvm %></td>
-      <td><%= top.kassa_alepros %></td>
-      <td><%= top.jarjestys %></td>
+      <% @visible_fields.each do |v| %>
+        <th>
+          <%= label_tag v.to_sym, v %>
+          <br />
+          <%= text_field_tag v.to_sym, params[v.to_sym] %>
+        </th>
+      <% end %>
+
+      <th class="back"><%= submit_tag "Etsi" %></th>
     </tr>
-  <% end %>
-</table>
+
+    <% @terms_of_payments.each do |top| %>
+      <tr>
+        <% @visible_fields.each do |v| %>
+          <% if @visible_fields.index(v) > 0 %>
+            <td><%= top.send v.to_sym %></td>
+          <% else %>
+            <td><%= link_to (top.send v.to_sym), edit_terms_of_payment_path(top.id) %></td>
+          <% end %>
+        <% end %>
+        <td class="back"></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
