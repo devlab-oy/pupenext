@@ -3,16 +3,10 @@ class TermsOfPaymentsController < ApplicationController
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
   before_action :find_all_terms_of_payments
 
-  before_action :visible_fields
-
   # GET /terms_of_payments
   def index
     @terms_of_payments = current_user.company.terms_of_payments.where(kaytossa: '')
-
-    @visible_fields.each do |v|
-      arg = params[v.to_sym]
-      @terms_of_payments = @terms_of_payments.where("#{v} like ?", "%#{arg}%") unless params[v.to_sym].blank?
-    end
+    @terms_of_payments = resource_search(@terms_of_payments)
 
     @not_used = false
   end
@@ -94,11 +88,5 @@ class TermsOfPaymentsController < ApplicationController
 
     def find_all_terms_of_payments
       @terms_of_payments = current_user.company.terms_of_payments.order(:jarjestys, :teksti)
-    end
-
-    def visible_fields
-      @visible_fields = [
-        'teksti', 'rel_pvm', 'abs_pvm', 'kassa_relpvm', 'kassa_abspvm', 'kassa_alepros', 'jarjestys'
-      ]
     end
 end
