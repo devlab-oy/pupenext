@@ -28,11 +28,13 @@
     <% @terms_of_payments.each do |top| %>
       <tr>
         <% @visible_fields.each do |v| %>
+          <td>
           <% if @visible_fields.index(v) > 0 %>
-            <td><%= top.send v.to_sym %></td>
+            <%= top.send v.to_sym %>
           <% else %>
-            <td><%= link_to (top.send v.to_sym), edit_terms_of_payment_path(top.id) %></td>
+            <%= link_to (top.send v.to_sym), edit_terms_of_payment_path(top.id) %>
           <% end %>
+          </td>
         <% end %>
         <td class="back"></td>
       </tr>
