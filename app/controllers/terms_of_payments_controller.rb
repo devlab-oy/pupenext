@@ -2,20 +2,17 @@ class TermsOfPaymentsController < ApplicationController
 
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
   before_action :find_all_terms_of_payments
+  helper_method :showing_not_used
 
   # GET /terms_of_payments
   def index
-    @terms_of_payments = current_user.company.terms_of_payments.where(kaytossa: '')
+    if showing_not_used
+      @terms_of_payments = current_user.company.terms_of_payments.not_in_use
+    else
+      @terms_of_payments = current_user.company.terms_of_payments
+    end
+
     @terms_of_payments = resource_search(@terms_of_payments)
-
-    @not_used = false
-  end
-
-  def not_used
-    @terms_of_payments = current_user.company.terms_of_payments.where(kaytossa: 'E')
-    @not_used = true
-
-    render 'index'
   end
 
   # GET /terms_of_payments/1
@@ -88,5 +85,9 @@ class TermsOfPaymentsController < ApplicationController
 
     def find_all_terms_of_payments
       @terms_of_payments = current_user.company.terms_of_payments.order(:jarjestys, :teksti)
+    end
+
+    def showing_not_used
+      params[:not_used] ? true : false
     end
 end

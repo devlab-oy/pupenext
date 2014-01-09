@@ -3,10 +3,10 @@
 
 <%= link_to t('Uusi maksuehto'), new_terms_of_payment_path %>
 
-<% if @not_used %>
-  <%= link_to t('Näytä aktiivit'), terms_of_payments_path %>
+<% if showing_not_used %>
+  <%= link_to t('Näytä aktiivit') %>
 <% else %>
-  <%= link_to t('Näytä poistetut'), not_used_terms_of_payments_path, action: :not_used %>
+  <%= link_to t('Näytä poistetut'), { not_used: :yes } %>
 <% end %>
 
 <br /><br />

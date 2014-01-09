@@ -33,6 +33,9 @@ class TermsOfPayment < ActiveRecord::Base
   before_update :update_modified
   before_validation :check_if_in_use
 
+  default_scope { where(kaytossa: '') }
+  scope :not_in_use, -> { where(kaytossa: 'E') }
+
   self.table_name = "maksuehto"
   self.primary_key = "tunnus"
   self.record_timestamps = false
