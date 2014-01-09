@@ -54,7 +54,7 @@
 
     <% @terms_of_payments.each do |top| %>
       <tr>
-        <td><%= top.teksti %></td>
+        <td><%= link_to top.teksti, edit_terms_of_payment_path(top.id) %></td>
         <td><%= top.rel_pvm %></td>
         <td><%= top.abs_pvm %></td>
         <td><%= top.kassa_relpvm %></td>
