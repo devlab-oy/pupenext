@@ -86,4 +86,27 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
     assert_template "edit", "Template should be edit"
   end
 
+  test 'should show terms of payments not in use' do
+
+    params = { not_used: :yes }
+
+    get :index, params
+    assert_response :success
+    assert_not_nil assigns(:terms_of_payments)
+    assert_select 'a' do |elements|
+      assert_select elements[1], 'a', "Näytä aktiivit"
+    end
+  end
+
+  test 'should get correct amount of rows when using search' do
+
+    params = { teksti: '60 pv netto' }
+
+    get :index
+    assert_equal 2, assigns(:terms_of_payments).count, "vituiks meni"
+
+    get :index, params
+    assert_equal 1, assigns(:terms_of_payments).count, "vituiks meni taas"
+  end
+
 end
