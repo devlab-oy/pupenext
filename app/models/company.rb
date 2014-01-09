@@ -6,6 +6,8 @@ class Company < ActiveRecord::Base
     options.has_many :accounts
     options.has_many :currency
     options.has_many :terms_of_payments
+    options.has_many :factorings
+    options.has_many :bank_details
 
     options.has_many :sum_levels
     options.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
