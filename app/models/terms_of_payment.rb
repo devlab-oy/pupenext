@@ -5,7 +5,7 @@ class TermsOfPayment < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   has_many :customers, foreign_key: :maksuehto
-  has_many :invoices, foreign_key: :maksuehto
+  has_many :sales_orders, foreign_key: :maksuehto
 
   validates :rel_pvm,
             :kassa_relpvm,
@@ -59,14 +59,14 @@ class TermsOfPayment < ActiveRecord::Base
           errors.add(:base, "#{msg_pre} #{customers.count} #{msg_post}")
         end
 
-        if invoices.not_delivered.present?
+        if sales_orders.not_delivered.present?
           msg_post = "toimittamattomalla myyntitilauksella"
-          errors.add(:base, "#{msg_pre} #{invoices.not_delivered.count} #{msg_post}")
+          errors.add(:base, "#{msg_pre} #{sales_orders.not_delivered.count} #{msg_post}")
         end
 
-        if invoices.not_finished.present?
+        if sales_orders.not_finished.present?
           msg_post = "kesken olevalla myyntitilauksella"
-          errors.add(:base, "#{msg_pre} #{invoices.not_finished.count} #{msg_post}")
+          errors.add(:base, "#{msg_pre} #{sales_orders.not_finished.count} #{msg_post}")
         end
       end
     end
