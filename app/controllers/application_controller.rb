@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :authorize
   helper_method :current_user
+  helper_method :t
 
   private
 
@@ -10,10 +11,15 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find_by_session(cookies[:pupesoft_session])
     end
 
+    def t(string)
+      language = current_user ? current_user.kieli : nil
+      Dictionary.translate(string, language)
+    end
+
   protected
 
     def authorize
-      render text: "Forbidden!", status: :unauthorized unless current_user
+      render text: t("Kielletty!"), status: :unauthorized unless current_user
     end
 
 end
