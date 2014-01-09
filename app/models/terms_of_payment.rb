@@ -4,6 +4,9 @@ class TermsOfPayment < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
+  has_many :customers, foreign_key: :maksuehto
+  has_many :invoices, foreign_key: :maksuehto
+
   validates :rel_pvm,
             :kassa_relpvm,
             :pankkiyhteystiedot,
@@ -28,6 +31,7 @@ class TermsOfPayment < ActiveRecord::Base
 
   before_create :update_created
   before_update :update_modified
+  before_validation :check_if_in_use
 
   self.table_name = "maksuehto"
   self.primary_key = "tunnus"
@@ -44,4 +48,19 @@ class TermsOfPayment < ActiveRecord::Base
       self.muutospvm = Date.today
     end
 
+    def check_if_in_use
+
+      if kaytossa?
+
+        cust = customers
+        inv_d = invoices.not_delivered
+        inv_f = invoices.not_finished
+
+        msg = "HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä"
+
+        errors.add(:base, "#{msg} #{cust.count} asiakkaalla") if cust.present?
+        errors.add(:base, "#{msg} #{inv_d.count} toimittamattomalla myyntitilauksella") if inv_d.present?
+        errors.add(:base, "#{msg} #{inv_f.count} kesken olevalla myyntitilauksella") if inv_f.present?
+      end
+    end
 end
