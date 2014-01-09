@@ -52,20 +52,20 @@ class TermsOfPayment < ActiveRecord::Base
 
       if kaytossa?
 
-        msg_pre = "HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä"
+        msg_pre = t('HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä')
 
         if customers.present?
-          msg_post = "asiakkaalla"
+          msg_post = t('asiakkaalla')
           errors.add(:base, "#{msg_pre} #{customers.count} #{msg_post}")
         end
 
         if sales_orders.not_delivered.present?
-          msg_post = "toimittamattomalla myyntitilauksella"
+          msg_post = t('toimittamattomalla myyntitilauksella')
           errors.add(:base, "#{msg_pre} #{sales_orders.not_delivered.count} #{msg_post}")
         end
 
         if sales_orders.not_finished.present?
-          msg_post = "kesken olevalla myyntitilauksella"
+          msg_post = t('kesken olevalla myyntitilauksella')
           errors.add(:base, "#{msg_pre} #{sales_orders.not_finished.count} #{msg_post}")
         end
       end

@@ -1,12 +1,12 @@
-<font class="head">Maksuehdot</font>
+<font class="head"><%= t('Maksuehdot') %></font>
 <hr />
 
-<%= link_to 'Uusi maksuehto', new_terms_of_payment_path %>
+<%= link_to t('Uusi maksuehto'), new_terms_of_payment_path %>
 
 <% if @not_used %>
-  <%= link_to 'Näytä aktiivit', terms_of_payments_path %>
+  <%= link_to t('Näytä aktiivit'), terms_of_payments_path %>
 <% else %>
-  <%= link_to 'Näytä poistetut', not_used_terms_of_payments_path, action: :not_used %>
+  <%= link_to t('Näytä poistetut'), not_used_terms_of_payments_path, action: :not_used %>
 <% end %>
 
 <br /><br />
@@ -49,7 +49,7 @@
         <br />
         <%= text_field_tag :jarjestys, params[:jarjestys] %>
       </th>
-      <th class="back"><%= submit_tag "Etsi" %></th>
+      <th class="back"><%= submit_tag t('Etsi') %></th>
     </tr>
 
     <% @terms_of_payments.each do |top| %>

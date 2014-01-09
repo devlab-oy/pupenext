@@ -40,7 +40,7 @@ class TermsOfPaymentsController < ApplicationController
     @terms_of_payment.laatija = current_user.kuka
 
     if @terms_of_payment.save
-      redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully created.'
+      redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
     else
       render action: 'new'
     end
@@ -53,7 +53,7 @@ class TermsOfPaymentsController < ApplicationController
     @terms_of_payment.muuttaja = current_user.kuka
 
     if @terms_of_payment.save
-      redirect_to terms_of_payments_path, notice: 'Terms of payment was successfully updated.'
+      redirect_to terms_of_payments_path, notice: t('Maksuehto päivitettiin onnistuneesti')
     else
       render action: 'edit'
     end
