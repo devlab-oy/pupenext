@@ -57,11 +57,21 @@
     </tr>
     <tr>
       <th><%= f.label :factoring %></th>
-      <td><%= f.text_field :factoring %></td>
+      <td>
+        <% ops = [["Ei factoroida", ""]] %>
+        <% current_user.company.factorings.each { |i| ops << [ i.factoringyhtio, i.id ] } %>
+        <% options = options_for_select(ops, f.object.factoring) %>
+        <%= select_tag 'terms_of_payment[factoring]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :pankkiyhteystiedot %></th>
-      <td><%= f.text_field :pankkiyhteystiedot %></td>
+      <td>
+        <% ops = [["Käytä yrityksen oletuksia", 0]] %>
+        <% current_user.company.bank_details.each { |i| ops << [ i.nimitys, i.id ] } %>
+        <% options = options_for_select(ops, f.object.pankkiyhteystiedot) %>
+        <%= select_tag 'terms_of_payment[pankkiyhteystiedot]', options, include_blank: false %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :itsetulostus %></th>
