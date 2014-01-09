@@ -22,4 +22,9 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     refute @top.valid?
   end
 
+  test 'should be in use' do
+    @top.kaytossa = 'E'
+    refute @top.valid?
+  end
+
 end
