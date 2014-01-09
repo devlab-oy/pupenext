@@ -2,19 +2,36 @@
 <hr />
 
 <%= link_to "<button>Uusi yrityksen pankkitili</button>".html_safe, new_bank_account_path %>
-
+<% if showing_unused %>
+  <%= link_to "<button>Näytä aktiivit</button>".html_safe %>
+<% else %>
+  <%= link_to "<button>Näytä poistetut</button>".html_safe, not_used: :yes %>
+<% end %>
 <br /><br />
 
+<%= form_tag bank_accounts_path, method: :get do %>
+<%= hidden_field_tag :not_used, :yes if showing_unused %>
 <table>
   <tr>
-    <th>Nimi:</th>
-    <th>Tilinumero:</th>
-    <th>Maksulimitti:</th>
-    <th>Oletus_kulutili:</th>
-    <th>Oletus_rahatili:</th>
-    <th>Oletus_selvittelytili:</th>
+    <th>Nimi:
+    <br />
+    <%= text_field_tag :nimi, params[:nimi] %></th>
+    <th>Tilinumero:
+    <br />
+    <%= text_field_tag :tilino, params[:tilino] %></th>
+    <th>Maksulimitti:
+    <br />
+    <%= text_field_tag :maksulimitti, params[:maksulimitti] %></th>
+    <th>Oletus_kulutili:
+    <br />
+    <%= text_field_tag :oletus_kulutili, params[:oletus_kulutili] %></th>
+    <th>Oletus_rahatili:
+    <br />
+    <%= text_field_tag :oletus_rahatili, params[:oletus_rahatili] %></th>
+    <th>Oletus_selvittelytili:
+    <br />
+    <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %></th>
   </tr>
-
 
 <% @accounts.each do |acc| %>
   <tr>
@@ -29,5 +46,7 @@
     <td><%= acc.oletus_rahatili %></td>
     <td><%= acc.oletus_selvittelytili %></td>
   </tr>
+  <% end %>
+  </table>
+
 <% end %>
-</table>

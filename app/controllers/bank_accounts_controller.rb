@@ -1,9 +1,11 @@
 class BankAccountsController < ApplicationController
 
   before_action :find_account, only: [:show, :edit, :update]
+  helper_method :showing_unused
 
   def index
     @accounts = current_user.company.bank_accounts
+    @accounts = current_user.company.bank_accounts.unused if showing_unused
   end
 
   def edit
@@ -38,6 +40,10 @@ class BankAccountsController < ApplicationController
   end
 
   private
+
+    def showing_unused
+      params[:not_used] ? true : false
+    end
 
     def find_account
       @bank_account = current_user.company.bank_accounts.find(params[:id])

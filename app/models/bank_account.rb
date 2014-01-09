@@ -22,6 +22,9 @@ class BankAccount < ActiveRecord::Base
 
   self.record_timestamps = false
 
+  default_scope { where kaytossa: '' }
+  scope :unused, -> { where(kaytossa: 'E') }
+
   private
 
     def fix_account_numbers
@@ -31,7 +34,6 @@ class BankAccount < ActiveRecord::Base
       end
 
       if tilino.present?
-        tilino.gsub!(/\D/, '')
         self.tilino = pad_account_number(tilino)
 
         # If we have account number present but no IBAN, create IBAN

@@ -29,6 +29,9 @@ module BankHelper
   def valid_iban?(value)
     return false unless value.present?
 
+    # Validation bypass if value contains only letters
+    return true if value =~ /\A[a-zA-Z]+\z/
+
     iban_length = check_sepa(value[0..1])
 
     # IBAN is invalid if length is not correct
@@ -51,6 +54,9 @@ module BankHelper
 
   def valid_account_number?(value)
     return false unless value.present?
+    # Validation bypass if value contains only letters
+    return true if value =~ /\A[a-zA-Z]+\z/
+
     account_number = pad_account_number(value)
     valid_luhn?(account_number) && account_number.length == 14
   end
@@ -83,14 +89,16 @@ module BankHelper
   end
 
   def pad_account_number(value)
+
     # Convert to string
     account_number = value.to_s
+    # Return value back if only letters
+    return value if value =~ /\A[a-zA-Z]+\z/
+    # Remove non-digits
+    value.gsub!(/\D/, '')
 
     # Return value back if we cannot pad
     return value unless value.length.between?(6, 14)
-
-    # Remove all non-digits
-    account_number.gsub!(/\D/, '')
 
     # How much do we have to pad
     zeroes = 14 - account_number.length
@@ -111,6 +119,9 @@ module BankHelper
   def create_iban(value)
     # Creates IBAN number from Finnish account number
     return false unless valid_account_number?(value)
+
+    # Return value back if only letters
+    return value if value =~ /\A[a-zA-Z]+\z/
 
     account_number = pad_account_number(value)
     iban = account_number + "151800" # 15=F, 18=I

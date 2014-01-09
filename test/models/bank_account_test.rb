@@ -19,7 +19,7 @@ class BankAccountTest < ActiveSupport::TestCase
     @ba.iban = 'FI37-1590-3000-0007-76'
     assert @ba.valid?, @ba.errors.full_messages
 
-    @ba.iban = 'NONO NOT A VALID IBAN'
+    @ba.iban = 'NONO NOT A VALID IBAN3'
     refute @ba.valid?
   end
 
@@ -31,10 +31,13 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.valid?, "57404420005478 #{@ba.errors.full_messages}"
 
     @ba.tilino = '57404420005478000'
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
+    refute @ba.valid?, "57404420005478000 #{@ba.errors.full_messages}"
 
     @ba.tilino = 'short'
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
+    assert @ba.valid?, "Only text should pass validation #{@ba.errors.full_messages}"
+
+    @ba.tilino = 'short1'
+    refute @ba.valid?, "Should fail#{@ba.errors.full_messages}"
   end
 
   test "should generate iban from account number" do
@@ -43,7 +46,7 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.save, @ba.errors.full_messages
 
     assert @ba.valid?
-    assert_equal "FI0457404420005478", @ba.iban, @ba.iban
+    assert_equal "FI0457404420005478", @ba.iban
   end
 
   test "should validate bic" do
