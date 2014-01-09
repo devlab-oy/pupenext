@@ -2,6 +2,8 @@ class TermsOfPayment < ActiveRecord::Base
 
   include Validators
 
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+
   validates :rel_pvm,
             :kassa_relpvm,
             :pankkiyhteystiedot,
