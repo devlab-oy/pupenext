@@ -11,6 +11,7 @@ gem 'dotenv-rails'
 
 group :production do
   gem 'therubyracer'
+  gem 'dalli'
 end
 
 group :assets do
