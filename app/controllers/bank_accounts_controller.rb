@@ -6,6 +6,9 @@ class BankAccountsController < ApplicationController
   def index
     @accounts = current_user.company.bank_accounts
     @accounts = current_user.company.bank_accounts.unused if showing_unused
+
+
+    @accounts = resource_search(@accounts)
   end
 
   def edit
@@ -54,7 +57,6 @@ class BankAccountsController < ApplicationController
         :nimi,
         :pankki,
         :kaytossa,
-        :tilino,
         :iban,
         :bic,
         :valkoodi,

@@ -16,9 +16,9 @@
     <th>Nimi:
     <br />
     <%= text_field_tag :nimi, params[:nimi] %></th>
-    <th>Tilinumero:
+    <th>IBAN:
     <br />
-    <%= text_field_tag :tilino, params[:tilino] %></th>
+    <%= text_field_tag :iban, params[:iban] %></th>
     <th>Maksulimitti:
     <br />
     <%= text_field_tag :maksulimitti, params[:maksulimitti] %></th>
@@ -31,16 +31,13 @@
     <th>Oletus_selvittelytili:
     <br />
     <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %></th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
   </tr>
 
 <% @accounts.each do |acc| %>
   <tr>
     <td><%= link_to acc.nimi, edit_bank_account_path(acc.id) %></td>
-    <td><%= if acc.iban.empty?
-              acc.tilino
-            else
-              acc.iban
-            end %></td>
+    <td><%= acc.iban.empty? ? '< empty iban >' : acc.iban %></td>
     <td><%= acc.maksulimitti %></td>
     <td><%= acc.oletus_kulutili %></td>
     <td><%= acc.oletus_rahatili %></td>

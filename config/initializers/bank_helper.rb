@@ -32,6 +32,9 @@ module BankHelper
     # Validation bypass if value contains only letters
     return true if value =~ /\A[a-zA-Z]+\z/
 
+    # Clean value
+    value.gsub!(/[^A-Z0-9]/, '')
+
     iban_length = check_sepa(value[0..1])
 
     # IBAN is invalid if length is not correct

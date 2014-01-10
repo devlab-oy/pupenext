@@ -2,7 +2,6 @@ acme_account:
   yhtio: acme
   kaytossa: ''
   nimi: 'AcmeAccount'
-  tilino: 423456-781
   iban: FI5542345670000081
   bic: DABAFIHH
   valkoodi: 'EUR'
