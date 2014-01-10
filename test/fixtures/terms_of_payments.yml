@@ -52,7 +52,7 @@ ninty_days_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 5
+  tunnus: 4
 
 seventy_days_net:
   yhtio: acme
@@ -74,7 +74,7 @@ seventy_days_net:
   jaksotettu: ''
   erapvmkasin: ''
   sallitut_maat: ''
-  kaytossa: 'E'
+  kaytossa: ''
   jarjestys: 1
   laatija: ''
   luontiaika: <%= Date.today %>
@@ -102,10 +102,66 @@ eighty_days_net:
   jaksotettu: ''
   erapvmkasin: ''
   sallitut_maat: ''
-  kaytossa: 'E'
+  kaytossa: ''
   jarjestys: 1
   laatija: ''
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
   tunnus: 3
+
+hundred_days_net:
+  yhtio: acme
+  teksti: 100 pv netto
+  rel_pvm: 100
+  abs_pvm: <%= Date.today %>
+  kassa_relpvm: 14
+  kassa_abspvm: <%= Date.today %>
+  kassa_alepros: 0.00
+  osamaksuehto1: 0
+  osamaksuehto2: 0
+  summanjakoprososa2: 0.0000
+  jv: ''
+  kateinen: ''
+  suoraveloitus: ''
+  factoring: ''
+  pankkiyhteystiedot: 0
+  itsetulostus: ''
+  jaksotettu: ''
+  erapvmkasin: ''
+  sallitut_maat: ''
+  kaytossa: ''
+  jarjestys: 1
+  laatija: ''
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: ''
+  tunnus: 5
+
+not_in_use_net:
+  yhtio: acme
+  teksti: 100 pv netto
+  rel_pvm: 100
+  abs_pvm: <%= Date.today %>
+  kassa_relpvm: 14
+  kassa_abspvm: <%= Date.today %>
+  kassa_alepros: 0.00
+  osamaksuehto1: 0
+  osamaksuehto2: 0
+  summanjakoprososa2: 0.0000
+  jv: ''
+  kateinen: ''
+  suoraveloitus: ''
+  factoring: ''
+  pankkiyhteystiedot: 0
+  itsetulostus: ''
+  jaksotettu: ''
+  erapvmkasin: ''
+  sallitut_maat: ''
+  kaytossa: 'E'
+  jarjestys: 1
+  laatija: ''
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: ''
+  tunnus: 6

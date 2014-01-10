@@ -2,19 +2,19 @@ not_finished_order:
   yhtio: acme
   tila: N
   alatila: ''
-  maksuehto: 1
+  maksuehto: 5
   tunnus: 1
 
 not_delivered_order_1:
   yhtio: acme
   tila: L
   alatila: A
-  maksuehto: 1
+  maksuehto: 3
   tunnus: 2
 
 not_delivered_order_2:
   yhtio: acme
   tila: L
   alatila: C
-  maksuehto: 1
+  maksuehto: 4
   tunnus: 3
