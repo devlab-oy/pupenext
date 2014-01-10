@@ -32,6 +32,11 @@ class ApplicationController < ActionController::Base
     @update_access ||= current_user.can_update?(request_path)
   end
 
+    def t(string)
+      language = current_user ? current_user.kieli : nil
+      Dictionary.translate(string, language)
+    end
+
   protected
 
     def authorize
