@@ -4,8 +4,10 @@ class TermsOfPayment < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  has_many :customers, foreign_key: :maksuehto
-  has_many :sales_orders, foreign_key: :maksuehto
+  has_many :customers, foreign_key: :maksuehto,
+           :conditions => proc { ['yhtio = ?', self.company.yhtio] }
+  has_many :sales_orders, foreign_key: :maksuehto,
+           :conditions => proc { ['yhtio = ?', self.company.yhtio] }
 
   validates :rel_pvm,
             :kassa_relpvm,
