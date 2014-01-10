@@ -3,6 +3,7 @@ class TermsOfPaymentsController < ApplicationController
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
   before_action :find_all_terms_of_payments
   helper_method :showing_not_used
+  helper_method :sort_column
 
   # GET /terms_of_payments
   def index
@@ -13,6 +14,7 @@ class TermsOfPaymentsController < ApplicationController
     end
 
     @terms_of_payments = resource_search(@terms_of_payments)
+    @terms_of_payments = @terms_of_payments.order("#{sort_column} #{sort_direction}")
   end
 
   # GET /terms_of_payments/1
@@ -89,5 +91,9 @@ class TermsOfPaymentsController < ApplicationController
 
     def showing_not_used
       params[:not_used] ? true : false
+    end
+
+    def sort_column
+      TermsOfPayment.column_names.include?(params[:sort]) ? params[:sort] : "teksti"
     end
 end
