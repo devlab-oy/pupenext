@@ -1,0 +1,17 @@
+fi:
+  activerecord:
+    attributes:
+      kustannuspaikka:
+        isa_tarkenne: Isätarkenne
+
+en:
+  activerecord:
+    attributes:
+      kustannuspaikka:
+        isa_tarkenne: Parent qualifier
+
+se:
+  activerecord:
+    attributes:
+      kustannuspaikka:
+        isa_tarkenne: Pappatarkenne
