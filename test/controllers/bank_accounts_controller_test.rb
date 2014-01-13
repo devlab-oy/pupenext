@@ -5,6 +5,9 @@ class BankAccountsControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
     @ba = bank_accounts(:acme_account)
+    @acc1 = accounts(:acc1)
+    @acc2 = accounts(:acc2)
+    @acc3 = accounts(:acc3)
   end
 
   test "should get index" do
@@ -31,9 +34,9 @@ class BankAccountsControllerTest < ActionController::TestCase
       pankki: 'Rolfs Bank',
       iban: 'FI37-1590-3000-0007-76',
       bic: 'DABAFIHH',
-      oletus_kulutili: '1000',
-      oletus_rahatili: '2000',
-      oletus_selvittelytili: '3000'
+      oletus_kulutili: @acc1.tilino,
+      oletus_rahatili: @acc2.tilino,
+      oletus_selvittelytili: @acc3.tilino
     }
 
     assert_difference('BankAccount.count', 1) do

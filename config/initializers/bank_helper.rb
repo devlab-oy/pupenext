@@ -32,6 +32,7 @@ module BankHelper
     # Validation bypass if value contains only letters
     return true if value =~ /\A[a-zA-Z]+\z/
 
+    value.upcase!
     # Clean value
     value.gsub!(/[^A-Z0-9]/, '')
 

@@ -1,7 +1,7 @@
 class Company < ActiveRecord::Base
   with_options foreign_key: :yhtio, primary_key: :yhtio do |o|
     o.has_one  :parameter
-
+    
     o.has_many :accounts
     o.has_many :currencies
     o.has_many :fiscal_years
