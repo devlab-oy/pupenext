@@ -1,0 +1,26 @@
+<font class="head">Tarkenteet</font>
+<hr />
+<%= link_to "<button>Uusi tarkenne</button>".html_safe, new_qualifier_path %>
+<br /><br />
+
+<table>
+  <tr>
+    <th>Nimi</th>
+    <th>Koodi</th>
+    <th>Tyyppi</th>
+    <th>Tunnus</th>
+  </tr>
+
+  <% @qualifiers.each do |q| %>
+    <tr>
+      <td><%= link_to q.nimi, edit_qualifier_path(q.id) %></td>
+      <td><%= q.koodi %></td>
+      <td><%= q.tyyppi %></td>
+      <td><%= q.tunnus %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to "<button>Uusi tarkenne</button>".html_safe, new_qualifier_path %>

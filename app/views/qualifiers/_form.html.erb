@@ -1,0 +1,82 @@
+<%= form_for(@qualifier) do |f| %>
+
+  <% if @qualifier.errors.any? %>
+
+    <div id="error_explanation">
+      <h2><%= pluralize(@qualifier.errors.count, "error") %> prohibited this qualifier from being saved:</h2>
+
+      <ul>
+      <% @qualifier.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :tyyppi %></th>
+      <td>
+        <% options = options_for_select(@qualifier.types, f.object.kaytossa) %>
+        <%= select_tag 'qualifier[tyyppi]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :isa_tarkenne %></th>
+      <td>
+        <%= collection_select(:qualifier, :isa_tarkenne, @isa_options, :tunnus, :nimitys, include_blank: true, selected: @qualifier.isa_tarkenne ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :koodi %></th>
+      <td><%= f.text_field :koodi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kaytossa %></th>
+      <td>
+        <% options = options_for_select(@qualifier.in_use, f.object.kaytossa) %>
+        <%= select_tag 'qualifier[kaytossa]', options, include_blank: false %>
+      </td>
+    </tr>
+
+  <% if @qualifier.persisted? %>
+
+    <tr>
+      <th>Laatija</th>
+      <td><%= @qualifier.laatija %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :luotiaika %></th>
+      <td><%= @qualifier.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th>Muutospvm</th>
+      <td><%= @qualifier.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th>Muuttaja</th>
+      <td><%= @qualifier.muuttaja %></td>
+    </tr>
+
+  <% end %>
+
+  </table>
+  <br />
+  <div class="actions">
+    <% text = @qualifier.persisted? ? 'Päivitä tarkenne' : 'Perusta tarkenne' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+  </div>
+
+<% end %>
