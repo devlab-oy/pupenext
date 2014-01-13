@@ -43,8 +43,4 @@ class BankAccountTest < ActiveSupport::TestCase
     refute @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
-  test "asdhas" do
-    assert_equal '1236', @ba.company.accounts.first.tilino
-  end
-
 end

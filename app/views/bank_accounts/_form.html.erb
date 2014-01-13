@@ -71,7 +71,7 @@
     </tr>
     <tr>
       <th><%= f.label :oletus_kulutili %></th>
-      <td><%= f.text_field :oletus_kulutili %></td>
+      <td><%= f.text_field :oletus_kulutili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_kulutili).nimi unless f.object.errors.present? %></td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kustp %></th>
@@ -96,11 +96,11 @@
     </tr>
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
-      <td><%= f.text_field :oletus_rahatili %></td>
+      <td><%= f.text_field :oletus_rahatili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_rahatili).nimi unless f.object.errors.present? %></td>
     </tr>
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
-      <td><%= f.text_field :oletus_selvittelytili %></td>
+      <td><%= f.text_field :oletus_selvittelytili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_selvittelytili).nimi unless f.object.errors.present? %></td>
     </tr>
     <tr>
       <th><%= f.label :laatija %></th>
