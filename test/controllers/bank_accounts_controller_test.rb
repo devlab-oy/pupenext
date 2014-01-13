@@ -29,7 +29,7 @@ class BankAccountsControllerTest < ActionController::TestCase
     params = {
       nimi: 'Keijo',
       pankki: 'Rolfs Bank',
-      tilino: '123456-785',
+      iban: 'FI37-1590-3000-0007-76',
       bic: 'DABAFIHH',
       oletus_kulutili: '1000',
       oletus_rahatili: '2000',

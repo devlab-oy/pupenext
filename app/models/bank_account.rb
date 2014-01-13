@@ -13,7 +13,7 @@ class BankAccount < ActiveRecord::Base
   validate :check_iban
   validate :check_bic
 
-  before_validation :fix_iban
+  before_validation :fix_numbers
 
   self.table_name = 'yriti'
   self.primary_key = 'tunnus'
@@ -25,11 +25,13 @@ class BankAccount < ActiveRecord::Base
 
   private
 
-    def fix_iban
+    def fix_numbers
       if iban.present? && !valid_iban?(iban)
         iban.upcase!
         iban.gsub!(/[^A-Z0-9]/, '')
       end
+      # NOTE Remove this after column no longer present in the database
+      self.tilino = iban
     end
 
     def check_iban
