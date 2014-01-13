@@ -27,9 +27,12 @@ class BankAccount < ActiveRecord::Base
 
     def fix_numbers
       if iban.present? && !valid_iban?(iban)
-        iban.upcase!
+        iban.upcase
         iban.gsub!(/[^A-Z0-9]/, '')
+        # Try to create iban in case user has entered old account number
+        self.iban = create_iban(iban)
       end
+
       # NOTE Remove this after column no longer present in the database
       self.tilino = iban
     end
