@@ -13,7 +13,7 @@ module ParamsHelper
 
     v = Base64.urlsafe_decode64 value
     z = Zlib::Inflate.inflate v
-    Rack::Utils.parse_nested_query z
+    Rack::Utils.parse_nested_query(z).symbolize_keys
   end
 
 end
