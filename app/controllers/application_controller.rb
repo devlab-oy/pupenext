@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
-  before_filter :authorize
+
+  before_action :authorize
+  before_action :set_locale
+
   helper_method :current_user
   helper_method :t
 
@@ -20,6 +23,10 @@ class ApplicationController < ActionController::Base
 
     def authorize
       render text: t("Kielletty!"), status: :unauthorized unless current_user
+    end
+
+    def set_locale
+      I18n.locale = current_user.kieli || I18n.default_locale
     end
 
 end
