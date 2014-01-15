@@ -1,0 +1,28 @@
+<font class="head">Pakkaamo</font>
+<hr />
+<%= link_to "<button>Uusi pakkaamo</button>".html_safe, new_packing_area_path %>
+<br /><br />
+
+<table>
+  <tr>
+    <th>Nimi</th>
+    <th>Lokero</th>
+    <th>Varasto</th>
+    <th>Prio</th>
+    <th>Pakkaamon prio</th>
+  </tr>
+
+  <% @packing_areas.each do |p| %>
+    <tr>
+      <td><%= link_to p.nimi, edit_packing_area_path(p.id) %></td>
+      <td><%= p.lokero %></td>
+      <td><%= p.varasto %></td>
+      <td><%= p.prio %></td>
+      <td><%= p.pakkaamon_prio %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to "<button>Uusi pakkaamo</button>".html_safe, new_packing_area_path %>
