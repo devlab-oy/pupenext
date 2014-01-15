@@ -4,6 +4,17 @@
 # and selite like 'yhtio.%'
 # order by yaml;
 
+# select distinct concat(substring(selite from 7), ': \'', (select
+# sanakirja.se
+# from sanakirja
+# where sanakirja.fi = BINARY avainsana.selitetark
+# order by muutospvm desc
+# limit 1), '\'') yaml
+# from avainsana
+# where laji = 'mysqlalias'
+# and selite like 'yhtio.%'
+# order by yaml;
+
 fi:
   activerecord:
     attributes:
@@ -105,3 +116,158 @@ fi:
         viivastyskorko: 'Viivästyskorkoprosentti'
         www: 'WWW'
         ytunnus: 'Y-tunnus'
+
+se:
+  activerecord:
+    attributes:
+      yhtio:
+        alv: 'Moms'
+        fax: 'Fax'
+        jarjestys: 'Ordning'
+        kieli: 'Språk'
+        konserni: 'Koncern'
+        kotipaikka: 'Hemplats'
+        kuluprosentti: 'Kostprocent'
+        maa: 'Land'
+        myynti: 'Försäljning'
+        myyntisaamiset: 'Försäljningsfordringar'
+        nimi: 'Namn'
+        osoite: 'Adress'
+        postino: 'Postnummer'
+        puhelin: 'Tel.'
+        valkoodi: 'valuta'
+        ytunnus: 'Org.Nr'
+
+en:
+  activerecord:
+    attributes:
+      yhtio:
+        alv: 'VAT'
+        kotipaikka: 'Domicile'
+        maa: 'Country'
+        myynti: 'Sales'
+        myyntisaamiset: 'Accounts receivable'
+        nimi: 'Name'
+        osoite: 'Address'
+        puhelin: 'Telephone'
+        valkoodi: 'Currency'
+        ytunnus: 'VAT number'
+
+de:
+  activerecord:
+    attributes:
+      yhtio:
+        alv: 'Umsatzsteuer'
+        email: 'E-Mailadresse'
+        factoringsaamiset: 'Factoringforderungen aus Lieferungen und Leistungen'
+        fax: 'Fax'
+        jarjestys: 'Sortierung'
+        kassa: 'Barverkauf'
+        kassaale: 'Rabatte der Einkäufe'
+        kassaerotus: 'Übereinstimmungsdifferenzen der Barverkaufskasse'
+        kateistilitys: 'Kasse Barabrechnungen'
+        kieli: 'Sprache'
+        konserni: 'Konzern'
+        konsernimyyntisaamiset: 'Konzernforderungen aus Lieferungen und Leistungen'
+        konserniostovelat: 'Konzernverbindlichkeiten aus Lieferungen und Leistungen'
+        konsernisaamiset: 'Standardkonto Konzernforderungen'
+        konsernivelat: 'Standardkonto Konzernverbindlichkeiten'
+        kotipaikka: 'Sitz'
+        kuluprosentti: 'Kostenprozent'
+        laskutus_maa: 'Land der Rechnungsadresse'
+        laskutus_nimi: 'Name der Rechnungsadresse'
+        laskutus_osoite: 'Straße und Hausnummer der Rechnungsadresse'
+        laskutus_postino: 'Postleitzahl der Rechnungsadresse'
+        laskutus_postitp: 'Poststelle der Rechnungsadresse'
+        luottokortti: 'Barverkauf Kreditkartenzahlungen'
+        luottotappiot: 'Verkaufskreditverluste'
+        maa: 'Land'
+        matkalla_olevat: 'Umlaufvermögensrechnungen, die unterwegs sind'
+        myynninkassaale: 'Rabatte des Verkaufs'
+        myynninvaluuttaero: 'Währungskursdifferenzen des Verkaufs'
+        myynti: 'Verkauf'
+        myyntisaamiset: 'Forderungen aus Lieferungen und Leistungen'
+        myynti_ei_eu: 'Verkauf außerhalb der Gemeinschaft'
+        myynti_eu: 'Gemeinschaftsverkauf'
+        myynti_kohde: 'Standardziel des Verkaufs'
+        myynti_kustp: 'Standardkostenstelle des Verkaufs'
+        myynti_marginaali: 'Verkauf, Gebrauchtwaren'
+        myynti_projekti: 'Standardprojekt des Verkaufs'
+        nimi: 'Name'
+        osoite: 'Adresse'
+        ostovelat: 'Verbindlichkeiten aus Lieferungen und Leistungen'
+        osto_marginaali: 'Einkauf, Gebrauchtwaren (in Verbindung mit Verkauf)'
+        ovttunnus: 'EDI-Kennzeichen'
+        pankkikortti: 'Barverkauf Bankkartenzahlungen'
+        postino: 'Postleitzahl'
+        postitp: 'Poststelle'
+        puhelin: 'Telefon'
+        pyoristys: 'Rundungsdifferenzen der Einkaufsrechnungen und Verkaufsrechnungen'
+        raaka_ainevarasto: 'Rohstofflager'
+        raaka_ainevarastonmuutos: 'Rohstofflageränderung'
+        selvittelytili: 'Clearingkonto der Geldkonten für unklare Zahlungen'
+        siirtosaamiset: 'ARAP-Konto für die Periodisierung der Einkaufsrechnung'
+        siirtovelka: 'PRAP-Konto für die Periodisierung der Verkaufsrechnung'
+        valkoodi: 'Währung'
+        valuuttaero: 'Währungskursdifferenzen der Einkäufe'
+        varasto: 'Waren/Lager'
+        varastonmuutos: 'Lageränderung'
+        varastonmuutos_valmistuksesta: 'Lageränderung der Fertigung'
+        ytunnus: 'Steuernummer'
+
+ee:
+  activerecord:
+    attributes:
+      yhtio:
+        alv: 'Km'
+        email: 'E-posti aadress'
+        factoringsaamiset: 'Faktrooringu müügi laekumised'
+        fax: 'Faks'
+        jarjestys: 'Järjekord'
+        kassa: 'Sularaha müük'
+        kassaale: 'Ostude allahindlused'
+        kieli: 'Keel'
+        konserni: 'Kontsern'
+        konsernimyyntisaamiset: 'Kontserni müügi laekumised'
+        konserniostovelat: 'Kontserni ostuvõlad'
+        konsernisaamiset: 'Vaikimisi konto kontserni laekumised'
+        konsernivelat: 'Vaikimisi konto kontserni võlad'
+        kotipaikka: 'Asukoht'
+        kuluprosentti: 'Kuluprotsent'
+        laskutus_maa: 'Arveldusaadressi maa'
+        laskutus_nimi: 'Maksja nimi'
+        laskutus_osoite: 'Maksja aadress'
+        laskutus_postino: 'Maksja postiindeks'
+        laskutus_postitp: 'Maksja linn'
+        luottokortti: 'Sularahamüügi krediitkaardimakset'
+        luottotappiot: 'Müügi krediidikahjumid'
+        maa: 'Riik'
+        muutkulut: 'Ostude vaikimisi kulukonto'
+        myynninkassaale: 'Müügi allahindlused'
+        myynninvaluuttaero: 'Müügi valuutakursi vahed'
+        myynti: 'Müük'
+        myyntisaamiset: 'Laekumised müügist'
+        myynti_eu: 'Ühendatud müük'
+        myynti_kohde: 'Müügi vaikimisi objekt'
+        myynti_kustp: 'Müügi vaikimisi kulukoht'
+        myynti_marginaali: 'Müük, kasutatud kaubad'
+        myynti_projekti: 'Müügi vaikimisi projekt'
+        nimi: 'Nimi'
+        osoite: 'Aadress'
+        ostovelat: 'Ostuvõlad'
+        osto_marginaali: 'Ost, kasutatud kaubad (koos müügiga)'
+        ovttunnus: 'OVT-tunnus'
+        pankkikortti: 'Sularahamüügi pangakaardimaksed'
+        postino: 'Postiindeks'
+        postitp: 'Linn'
+        puhelin: 'Telefon'
+        pyoristys: 'Ostu- ja müügiarvete ümardamise vahed'
+        raaka_ainevarasto: 'Tooraineladu'
+        raaka_ainevarastonmuutos: 'Toorainelao muutus'
+        selvittelytili: 'Rahakonto kliiringkonto ebamäärastele tehingutele'
+        valkoodi: 'Valuuta'
+        valuuttaero: 'Ostude valuutakursside vahed'
+        varasto: 'Kaubad/ladu'
+        varastonmuutos: 'Lao muutus'
+        varastonmuutos_valmistuksesta: 'Tootmise varude muutus'
+        ytunnus: 'KMKR Nr.'
