@@ -18,7 +18,7 @@
 fi:
   activerecord:
     attributes:
-      yhtio:
+      company:
         alv: 'Arvonlisävero'
         email: 'Sähköpostiosoite'
         factoringsaamiset: 'Factoringmyyntisaamiset'
@@ -120,7 +120,7 @@ fi:
 se:
   activerecord:
     attributes:
-      yhtio:
+      company:
         alv: 'Moms'
         fax: 'Fax'
         jarjestys: 'Ordning'
@@ -141,7 +141,7 @@ se:
 en:
   activerecord:
     attributes:
-      yhtio:
+      company:
         alv: 'VAT'
         kotipaikka: 'Domicile'
         maa: 'Country'
@@ -156,7 +156,7 @@ en:
 de:
   activerecord:
     attributes:
-      yhtio:
+      company:
         alv: 'Umsatzsteuer'
         email: 'E-Mailadresse'
         factoringsaamiset: 'Factoringforderungen aus Lieferungen und Leistungen'
@@ -218,7 +218,7 @@ de:
 ee:
   activerecord:
     attributes:
-      yhtio:
+      company:
         alv: 'Km'
         email: 'E-posti aadress'
         factoringsaamiset: 'Faktrooringu müügi laekumised'
