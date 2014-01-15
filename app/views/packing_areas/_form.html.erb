@@ -1,0 +1,129 @@
+<%= form_for(@packing_area) do |f| %>
+
+  <% if @packing_area.errors.any? %>
+
+    <div id="error_explanation">
+      <h2><%= pluralize(@packing_area.errors.count, "error") %> prohibited this Packing area from being saved:</h2>
+
+      <ul>
+      <% @packing_area.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :lokero %></th>
+      <td><%= f.text_field :lokero %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :prio %></th>
+      <td><%= f.text_field :prio %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :pakkaamon_prio %></th>
+      <td><%= f.text_field :pakkaamon_prio %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :varasto %></th>
+      <td>
+        <%= collection_select(:packing_area, :varasto, @storages, :tunnus, :nimitys, include_blank: false, selected: @packing_area.varasto, prompt: true  ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri0 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri0, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri0, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri1 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri1, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri1, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri2 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri2, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri2, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri3 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri3, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri3, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri4 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri4, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri4, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri6 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri6, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri6, prompt: true ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri7 %></th>
+      <td>
+        <%= collection_select(:packing_area, :printteri7, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri7, prompt: true ) %>
+      </td>
+    </tr>
+
+
+  <% if @packing_area.persisted? %>
+
+    <tr>
+      <th>Laatija</th>
+      <td><%= @packing_area.laatija %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :luotiaika %></th>
+      <td><%= @packing_area.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th>Muutospvm</th>
+      <td><%= @packing_area.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th>Muuttaja</th>
+      <td><%= @packing_area.muuttaja %></td>
+    </tr>
+
+
+
+  <% end %>
+
+  </table>
+  <br />
+  <div class="actions">
+    <% text = @packing_area.persisted? ? 'Päivitä pakkaamo' : 'Perusta pakkaamo' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+  </div>
+
+<% end %>
