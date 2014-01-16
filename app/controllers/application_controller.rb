@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     end
 
     def t(string)
-      language = current_user ? current_user.kieli : nil
+      language = current_user ? current_user.locale : nil
       Dictionary.translate(string, language)
     end
 
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_locale
-      I18n.locale = current_user.kieli || I18n.default_locale
+      I18n.locale = current_user.locale || I18n.default_locale
     end
 
 end
