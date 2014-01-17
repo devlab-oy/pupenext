@@ -35,6 +35,10 @@ class Account < ActiveRecord::Base
     where.not(evl_taso: '')
   end
 
+  def tilino_nimi
+    "#{tilino} #{nimi}"
+  end
+
   def toimijaliitos_options
     [
       ["Ei liitospakkoa", ""],
