@@ -1,0 +1,34 @@
+<font class="head">Kassalippaat</font>
+<hr />
+<%= link_to "<button>Uusi kassalipas</button>".html_safe, new_cash_box_path %>
+<br /><br />
+
+<table>
+  <tr>
+    <th><%= :nimi %></th>
+    <th><%= :kustp %></th>
+    <th><%= :kassa %></th>
+    <th><%= :pankkikortti %></th>
+    <th><%= :luottokortti %></th>
+    <th><%= :kateistilitys %></th>
+    <th><%= :kassaerotus %></th>
+    <th><%= :kateisotto %></th>
+  </tr>
+
+  <% @cash_boxes.each do |p| %>
+    <tr>
+      <td><%= link_to p.nimi, edit_cash_box_path(p.id) %></td>
+      <td><%= p.kustp %></td>
+      <td><%= p.kassa %></td>
+      <td><%= p.pankkikortti %></td>
+      <td><%= p.luottokortti %></td>
+      <td><%= p.kateistilitys %></td>
+      <td><%= p.kassaerotus %></td>
+      <td><%= p.kateisotto %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to "<button>Uusi kassalipas</button>".html_safe, new_cash_box_path %>

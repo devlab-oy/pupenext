@@ -1,0 +1,156 @@
+<%= form_for(@cash_box) do |f| %>
+
+  <% if @cash_box.errors.any? %>
+
+    <div id="error_explanation">
+      <h2><%= pluralize(@cash_box.errors.count, "error") %> prohibited this Packing area from being saved:</h2>
+
+      <ul>
+      <% @cash_box.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kustp %></th>
+      <td>
+        <%= collection_select(:cash_box, :kustp, @qualifiers, :tunnus, :nimi, include_blank: false, selected: @cash_box.kustp, prompt: true  ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :toimipaikka %></th>
+      <td>
+        <%= collection_select(:cash_box, :toimipaikka, @locations, :tunnus, :nimi, include_blank: false, selected: @cash_box.toimipaikka, prompt: true  ) %>
+      </td>
+    </tr>
+
+
+  <% if @kassa_accounts %>
+    <tr>
+      <th><%= f.label :kassa %></th>
+      <td>
+        <%= collection_select(:cash_box, :kassa, @kassa_accounts, :tilino, :tilino_nimi, include_blank: false,  prompt: true  ) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :kassa %></th>
+      <td><%= f.text_field :kassa, maxlength: 6, size: 8 %> <%= @kassa %></td>
+    </tr>
+  <% end %>
+
+  <% if @pankkikortti_accounts %>
+    <tr>
+      <th><%= f.label :pankkikortti %></th>
+      <td>
+        <%= collection_select(:cash_box, :pankkikortti, @pankkikortti_accounts, :tilino, :tilino_nimi, include_blank: false, selected: @cash_box.pankkikortti, :prompt => 'Valitse tili'  ) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :pankkikortti %></th>
+      <td><%= f.text_field :pankkikortti, maxlength: 6, size: 8 %>  <%= @pankkikortti %></td>
+    </tr>
+  <% end %>
+
+  <% if @luottokortti_accounts %>
+    <tr>
+      <th><%= f.label :luottokortti %></th>
+      <td>
+        <%= collection_select(:cash_box, :luottokortti, @luottokortti_accounts, :tilino, :tilino_nimi, include_blank: false, selected: @cash_box.luottokortti, :prompt => 'Valitse tili'  ) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :luottokortti %></th>
+      <td><%= f.text_field :luottokortti, maxlength: 6, size: 8 %>  <%= @luottokortti %></td>
+    </tr>
+  <% end %>
+
+
+  <% if @kateistilitys_accounts %>
+    <tr>
+      <th><%= f.label :kateistilitys %></th>
+      <td>
+        <%= collection_select(:cash_box, :kateistilitys, @kateistilitys_accounts, :tilino, :tilino_nimi, include_blank: false, selected: @cash_box.kateistilitys, :prompt => 'Valitse tili'  ) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :kateistilitys %></th>
+      <td><%= f.text_field :kateistilitys, maxlength: 6, size: 8 %>  <%= @kateistilitys %></td>
+    </tr>
+  <% end %>
+
+  <% if @kassaerotus_accounts %>
+    <tr>
+      <th><%= f.label :kassaerotus %></th>
+      <td>
+        <%= collection_select(:cash_box, :kassaerotus, @kassaerotus_accounts, :tilino, :tilino_nimi, include_blank: false, selected: @cash_box.kassaerotus, :prompt => 'Valitse tili'  ) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :kassaerotus %></th>
+      <td><%= f.text_field :kassaerotus, maxlength: 6, size: 8 %>  <%= @kassaerotus %></td>
+    </tr>
+  <% end %>
+
+
+
+    <tr>
+      <th><%= f.label :kateisotto %></th>
+      <td><%= f.text_field :kateisotto, maxlength: 6, size: 8 %></td>
+    </tr>
+
+
+
+
+  <% if @cash_box.persisted? %>
+
+    <tr>
+      <th><%= f.label :created_by %></th>
+      <td><%= @cash_box.created_by %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :created_at %></th>
+      <td><%= @cash_box.created_at.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :updated_at %></th>
+      <td><%= @cash_box.updated_at.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :updated_by %></th>
+      <td><%= @cash_box.updated_by %></td>
+    </tr>
+
+
+
+  <% end %>
+
+  </table>
+  <br />
+  <div class="actions">
+    <% text = @cash_box.persisted? ? 'Päivitä kassalipas' : 'Perusta kassalipas' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+  </div>
+
+<% end %>
+
+
+
