@@ -11,7 +11,7 @@ class DictionaryTest < ActiveSupport::TestCase
   end
 
   test "fixture is valid" do
-    assert @hello.valid?
+    assert @hello.valid?, @hello.errors.messages
   end
 
   test "translation works" do

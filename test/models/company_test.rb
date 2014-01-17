@@ -7,7 +7,7 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test "fixture is valid" do
-    assert @acme.valid?
+    assert @acme.valid?, @acme.errors.messages
   end
 
   test "company has users" do

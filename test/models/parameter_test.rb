@@ -7,7 +7,7 @@ class ParametersTest < ActiveSupport::TestCase
   end
 
   test "fixture is valid" do
-    assert @acme_params.valid?
+    assert @acme_params.valid?, @acme_params.errors.messages
   end
 
   test "params has a company" do

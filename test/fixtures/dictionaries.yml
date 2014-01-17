@@ -3,3 +3,9 @@ hello:
   en: Hello world!
   se:
   ru: ''
+  aikaleima: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+  yhtio: acme
