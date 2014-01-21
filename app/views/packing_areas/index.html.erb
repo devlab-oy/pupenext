@@ -5,11 +5,11 @@
 
 <table>
   <tr>
-    <th>Nimi</th>
-    <th>Lokero</th>
-    <th>Varasto</th>
-    <th>Prio</th>
-    <th>Pakkaamon prio</th>
+    <th><%= PackingArea.human_attribute_name(:nimi) %></th>
+    <th><%= PackingArea.human_attribute_name(:lokero) %></th>
+    <th><%= PackingArea.human_attribute_name(:varasto) %></th>
+    <th><%= PackingArea.human_attribute_name(:prio) %></th>
+    <th><%= PackingArea.human_attribute_name(:pakkaamon_prio) %></th>
   </tr>
 
   <% @packing_areas.each do |p| %>
