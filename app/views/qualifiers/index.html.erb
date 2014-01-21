@@ -5,10 +5,10 @@
 
 <table>
   <tr>
-    <th>Nimi</th>
-    <th>Koodi</th>
-    <th>Tyyppi</th>
-    <th>Tunnus</th>
+    <th><%= Qualifier.human_attribute_name(:nimi) %></th>
+    <th><%= Qualifier.human_attribute_name(:koodi) %></th>
+    <th><%= Qualifier.human_attribute_name(:tyyppi) %></th>
+    <th><%= Qualifier.human_attribute_name(:tunnus) %></th>
   </tr>
 
   <% @qualifiers.each do |q| %>

@@ -1,17 +1,21 @@
 fi:
   activerecord:
     attributes:
-      kustannuspaikka:
+      qualifier:
         isa_tarkenne: Isätarkenne
+        nimi: Nimi
+        koodi: Koodi
+        tyyppi: Tyyppi
+        tunnus: Tunnus
 
 en:
   activerecord:
     attributes:
-      kustannuspaikka:
+      qualifier:
         isa_tarkenne: Parent qualifier
 
 se:
   activerecord:
     attributes:
-      kustannuspaikka:
+      qualifier:
         isa_tarkenne: Pappatarkenne
