@@ -5,14 +5,14 @@
 
 <table>
   <tr>
-    <th><%= :nimi %></th>
-    <th><%= :kustp %></th>
-    <th><%= :kassa %></th>
-    <th><%= :pankkikortti %></th>
-    <th><%= :luottokortti %></th>
-    <th><%= :kateistilitys %></th>
-    <th><%= :kassaerotus %></th>
-    <th><%= :kateisotto %></th>
+    <th><%= CashBox.human_attribute_name(:nimi) %></th>
+    <th><%= CashBox.human_attribute_name(:kustp) %></th>
+    <th><%= CashBox.human_attribute_name(:kassa) %></th>
+    <th><%= CashBox.human_attribute_name(:pankkikortti) %></th>
+    <th><%= CashBox.human_attribute_name(:luottokortti) %></th>
+    <th><%= CashBox.human_attribute_name(:kateistilitys) %></th>
+    <th><%= CashBox.human_attribute_name(:kassaerotus) %></th>
+    <th><%= CashBox.human_attribute_name(:kateisotto) %></th>
   </tr>
 
   <% @cash_boxes.each do |p| %>
