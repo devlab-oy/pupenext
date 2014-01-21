@@ -35,6 +35,10 @@ class Account < ActiveRecord::Base
     where.not(evl_taso: '')
   end
 
+  def self.by_name(name)
+    where("nimi LIKE ?", "%#{name}%")
+  end
+
   def tilino_nimi
     "#{tilino} #{nimi}"
   end
