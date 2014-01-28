@@ -2,6 +2,7 @@ class BankAccountsController < ApplicationController
 
   before_action :find_account, only: [:show, :edit, :update]
   helper_method :showing_unused
+  helper_method :show_account_name
 
   def index
     @accounts = current_user.company.bank_accounts
@@ -44,6 +45,11 @@ class BankAccountsController < ApplicationController
 
   private
 
+    def show_account_name(value)
+      record = current_user.company.accounts.find_by_tilino(value)
+      record.nimi unless record.nil?
+    end
+
     def showing_unused
       params[:not_used] ? true : false
     end
@@ -55,7 +61,6 @@ class BankAccountsController < ApplicationController
     def bank_account_params
       params.require(:bank_account).permit(
         :nimi,
-        :pankki,
         :kaytossa,
         :iban,
         :bic,
@@ -70,19 +75,7 @@ class BankAccountsController < ApplicationController
         :oletus_projekti,
         :oletus_rahatili,
         :oletus_selvittelytili,
-        :pankkitarkenne,
-        :asiakastarkenne,
-        :salattukerta,
-        :siemen,
-        :kertaavain,
-        :sasukupolvi,
-        :kasukupolvi,
-        :siirtoavain,
-        :kayttoavain,
-        :generointiavain,
-        :nro,
-        :tilinylitys,
-        :asiakas
+        :tilinylitys
       )
     end
 

@@ -71,7 +71,7 @@
     </tr>
     <tr>
       <th><%= f.label :oletus_kulutili %></th>
-      <td><%= f.text_field :oletus_kulutili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_kulutili).nimi unless f.object.errors.present? %></td>
+      <td><%= f.text_field :oletus_kulutili %><%= show_account_name(f.object.oletus_kulutili) %></td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kustp %></th>
@@ -96,11 +96,11 @@
     </tr>
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
-      <td><%= f.text_field :oletus_rahatili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_rahatili).nimi unless f.object.errors.present? %></td>
+      <td><%= f.text_field :oletus_rahatili %><%= show_account_name(f.object.oletus_rahatili) %></td>
     </tr>
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
-      <td><%= f.text_field :oletus_selvittelytili %><%= current_user.company.accounts.find_by_tilino(f.object.oletus_selvittelytili).nimi unless f.object.errors.present? %></td>
+      <td><%= f.text_field :oletus_selvittelytili %><%= show_account_name(f.object.oletus_selvittelytili) %></td>
     </tr>
     <tr>
       <th><%= f.label :laatija %></th>
@@ -119,17 +119,6 @@
       <td><%= f.object.muuttaja %></td>
     </tr>
   </table>
-
-  <%= f.hidden_field :pankkitarkenne %>
-  <%= f.hidden_field :asiakastarkenne %>
-  <%= f.hidden_field :pankki %>
-  <%= f.hidden_field :asiakas %>
-  <%= f.hidden_field :generointiavain %>
-  <%= f.hidden_field :salattukerta %>
-  <%= f.hidden_field :siemen %>
-  <%= f.hidden_field :kertaavain %>
-  <%= f.hidden_field :kayttoavain %>
-  <%= f.hidden_field :siirtoavain %>
 
   <br />
   <div class="actions">
