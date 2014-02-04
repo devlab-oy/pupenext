@@ -1,0 +1,9 @@
+first:
+  yhtio: acme
+  nimi: Dynimite
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: xx
+  laatija: xxx
+  taso: 1111
+  nimi: xxxx
