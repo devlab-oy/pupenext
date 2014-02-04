@@ -1,0 +1,38 @@
+<font class="head">Tilikartta</font>
+<hr />
+<div id="notice"><%= notice %></div>
+<%= link_to "<button>Uusi tili</button>".html_safe, new_account_path %>
+<br /><br />
+
+<table>
+  <tr>
+    <th><%= Account.human_attribute_name(:tilino) %></th>
+    <th><%= Account.human_attribute_name(:nimi) %></th>
+    <th><%= Account.human_attribute_name(:sisainen_taso) %></th>
+    <th><%= Account.human_attribute_name(:sisainen_nimi) %></th>
+    <th><%= Account.human_attribute_name(:ulkoinen_taso) %></th>
+    <th><%= Account.human_attribute_name(:ulkoinen_nimi) %></th>
+    <th><%= Account.human_attribute_name(:alv_taso) %></th>
+    <th><%= Account.human_attribute_name(:alv_nimi) %></th>
+  </tr>
+
+  <% @accounts.each do |a| %>
+    <tr>
+      <td><%= link_to a.tilino, edit_account_path(a.id) %></td>
+      <td><%= a.nimi %></td>
+      <td><%= a.sisainen_taso %></td>
+      <td><%= a.sisainen_nimi %></td>
+      <td><%= a.ulkoinen_taso %></td>
+      <td><%= a.ulkoinen_nimi %></td>
+      <td><%= a.alv_taso %></td>
+      <td><%= a.alv_nimi %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to "<button>Uusi tili</button>".html_safe, new_account_path %>
+
+
+<%= debug(@level) %>
