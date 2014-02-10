@@ -1,0 +1,194 @@
+<%= form_for(@package) do |f| %>
+
+  <% if @package.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@package.errors.count, "error") %> prohibited this package from being saved:</h2>
+
+      <ul>
+      <% @package.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <table>
+    <tr><td class='back'>
+
+  <table>
+    <tr>
+      <th><%= f.label :pakkaus %></th>
+      <td><%= f.text_field :pakkaus %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :pakkauskuvaus %></th>
+      <td><%= f.text_field :pakkauskuvaus %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :pakkausveloitus_tuotenumero %></th>
+      <td><%= f.text_field :pakkausveloitus_tuotenumero %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :erikoispakkaus %></th>
+      <td>
+        <% options = options_for_select(@package.ei_kylla_options, f.object.erikoispakkaus) %>
+        <%= select_tag 'package[erikoispakkaus]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :korkeus %></th>
+      <td><%= f.text_field :korkeus %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :leveys %></th>
+      <td><%= f.text_field :leveys %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :syvyys %></th>
+      <td><%= f.text_field :syvyys %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :paino %></th>
+      <td><%= f.text_field :paino %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oma_paino %></th>
+      <td><%= f.text_field :oma_paino %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :minimi_paino %></th>
+      <td><%= f.text_field :minimi_paino %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kayttoprosentti %></th>
+      <td><%= f.text_field :kayttoprosentti %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :yksin_eraan %></th>
+      <td>
+        <% options = options_for_select(@package.ei_kylla_options, f.object.yksin_eraan) %>
+        <%= select_tag 'package[yksin_eraan]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :puukotuskerroin %></th>
+      <td><%= f.text_field :puukotuskerroin %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :jarjestys %></th>
+      <td><%= f.text_field :jarjestys %></td>
+    </tr>
+
+  <% if @package.persisted? %>
+
+    <tr>
+      <th><%= f.label :laatija %></th>
+      <td><%= @package.laatija %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :luontiaika %></th>
+      <td><%= @package.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :muutospvm %></th>
+      <td><%= @package.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :muuttaja %></th>
+      <td><%= @package.muuttaja %></td>
+    </tr>
+
+  <% end %>
+
+  </table>
+
+  <br />
+  <div class="actions">
+    <% text = @package.persisted? ? 'Päivitä pakkaus' : 'Perusta pakkaus' %>
+    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+  </div>
+
+  </td><td class='back'>
+
+  <% if @package.keywords.present? or @package.id != nil %>
+      <font class="head">AVAINSANAN KIELIVERSIOT</font>
+      <hr />
+    <%= link_to "<button>Uusi avainsanan kieliversio</button>".html_safe, {controller: :packages, action: :new_keyword, id: @package.id} %>
+    <br />
+    <br />
+  <% end %>
+
+  <% if @package.keywords.present? %>
+
+      <table>
+        <tr>
+          <th><%= Keyword.human_attribute_name(:kieli) %></th>
+          <th><%= Keyword.human_attribute_name(:laji) %></th>
+          <th><%= Keyword.human_attribute_name(:selite) %></th>
+          <th><%= Keyword.human_attribute_name(:selitetark) %></th>
+          <th><%= Keyword.human_attribute_name(:selitetark_2) %></th>
+          <th><%= Keyword.human_attribute_name(:selitetark_3) %></th>
+          <th><%= Keyword.human_attribute_name(:jarjestys) %></th>
+        </tr>
+
+        <% @package.keywords.each do |k| %>
+        <tr>
+         <td><%= link_to k.kieli, {controller: :packages, action: :edit_keyword, id: @package.id, keyword_id: k.id } %></td>
+          <td><%= k.laji %></td>
+          <td><%= k.selite %></td>
+          <td><%= k.selitetark %></td>
+          <td><%= k.selitetark_2 %></td>
+          <td><%= k.selitetark_3 %></td>
+          <td><%= k.jarjestys %></td>
+        </tr>
+        <% end %>
+
+      </table>
+      <br />
+  <% end %>
+
+  <% if @package.package_codes.present? or @package.id != nil %>
+      <font class="head">Pakkauskoodit</font>
+      <hr />
+    <%= link_to "<button>Uusi pakkauskoodi</button>".html_safe, {controller: :packages, action: :new_package_code, id: @package.id} %>
+    <br />
+    <br />
+  <% end %>
+
+  <% if @package.package_codes.present? %>
+      <table>
+        <tr>
+          <th><%= PackageCode.human_attribute_name(:koodi) %></th>
+          <th><%= PackageCode.human_attribute_name(:rahdinkuljettaja) %></th>
+        </tr>
+
+        <% @package.package_codes.each do |p| %>
+        <tr>
+          <td><%= link_to p.koodi, {controller: :packages, action: :edit_package_code, id: @package.id, package_code_id: p.id } %></td>
+          <td><%= p.rahdinkuljettaja %></td>
+        </tr>
+        <% end %>
+      </table>
+  <% end %>
+
+  </td></tr>
+  </table>
+
+<% end %>
