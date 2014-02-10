@@ -1,0 +1,9 @@
+first:
+  yhtio: acme
+  pakkaus: pakkaus
+  pakkauskuvaus: kuvaus
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: xx
+  muuttaja: dgd
+  tunnus: 6
