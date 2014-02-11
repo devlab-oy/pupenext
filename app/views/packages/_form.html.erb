@@ -164,6 +164,10 @@
       <br />
   <% end %>
 
+
+
+<% if @carrier_options.present? %>
+
   <% if @package.package_codes.present? or @package.id != nil %>
       <font class="head">Pakkauskoodit</font>
       <hr />
@@ -187,6 +191,8 @@
         <% end %>
       </table>
   <% end %>
+
+<% end %>
 
   </td></tr>
   </table>

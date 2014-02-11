@@ -5,39 +5,46 @@
 <hr />
 
 <%= form_for(@kw, url: {action: "update_keyword"}, html: {method: "post"}) do |f| %>
-
   <table>
-    <tr><td class='back'>
-
-  <table>
-
     <tr>
-      <th><%= f.label :kieli %></th>
-      <td>
-        <% options = options_for_select(@keyword_languages, f.object.kieli) %>
-        <%= select_tag 'package_keyword[kieli]', options, include_blank: false %>
+      <td class='back'>
+        <table>
+          <tr>
+            <th><%= f.label :kieli %></th>
+            <td>
+              <% options = options_for_select(@keyword_languages, f.object.kieli) %>
+              <%= select_tag 'package_keyword[kieli]', options, include_blank: false %>
+            </td>
+          </tr>
+          <tr>
+            <th><%= f.label :selitetark %></th>
+            <td><%= f.text_field :selitetark %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :jarjestys %></th>
+            <td><%= f.text_field :jarjestys %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :laatija %></th>
+            <td><%= @kw.laatija %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :luontiaika %></th>
+            <td><%= @kw.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :muutospvm %></th>
+            <td><%= @kw.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :muuttaja %></th>
+            <td><%= @kw.muuttaja %></td>
+          </tr>
+        </table>
       </td>
     </tr>
-
-    <tr>
-      <th><%= f.label :selitetark %></th>
-      <td><%= f.text_field :selitetark %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :jarjestys %></th>
-      <td><%= f.text_field :jarjestys %></td>
-    </tr>
-
   </table>
-
-</td>
-</tr>
-</table>
-
-
   <div class="actions">
     <%= f.submit 'Tallenna avainsana', :disable_with => 'Tallentaa...' %>
   </div>
-
 <% end %>
