@@ -114,11 +114,68 @@ class PackagesControllerTest < ActionController::TestCase
 
   test "should not update package code" do
     request = {
-      selitetark: nil
+      koodi: nil
     }
 
     post :update_package_code, id: @package.id, package_code_id:  @package_code.id, package_code: request
     assert_template :edit_package_code, "Template should be edit_package_code"
+  end
+
+
+  test "should get new keyword" do
+    get :new_keyword, id: @package.id
+    assert_response :success
+  end
+
+  test "should get new package code" do
+    get :new_package_code, id: @package.id
+    assert_response :success
+  end
+
+  test "should create keyword" do
+    request = {
+      selitetark: 'Kissa'
+    }
+
+    assert_difference('Keyword.count', 1) do
+      post :create_keyword,  id: @package.id, package_keyword: request
+    end
+  end
+
+
+  test "should create package code" do
+    request = {
+      koodi: 'Kissa'
+    }
+
+    assert_difference('PackageCode.count', 1) do
+      post :create_package_code, id: @package.id, package_code: request
+    end
+  end
+
+
+  test "should not create keyword" do
+    request = {
+      selitetark: nil
+    }
+
+    assert_no_difference('Keyword.count') do
+      post :create_keyword, id: @package.id, package_keyword: request
+    end
+
+    assert_template :new_keyword, "Template should be new keyword"
+  end
+
+  test "should not create package code" do
+    request = {
+      koodi: nil
+    }
+
+    assert_no_difference('PackageCode.count') do
+      post :create_package_code, id: @package.id, package_code: request
+    end
+
+    assert_template :new_package_code, "Template should be new package code"
   end
 
 end
