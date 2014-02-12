@@ -55,7 +55,7 @@ class BankAccountsController < ApplicationController
     end
 
     def find_account
-      @bank_account = current_user.company.bank_accounts.find(params[:id])
+      @bank_account = current_user.company.bank_accounts.unscoped.find(params[:id])
     end
 
     def bank_account_params

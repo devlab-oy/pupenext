@@ -19,8 +19,6 @@ class BankAccount < ActiveRecord::Base
   self.table_name = 'yriti'
   self.primary_key = 'tunnus'
 
-  self.record_timestamps = false
-
   default_scope { where kaytossa: '' }
   scope :unused, -> { where(kaytossa: 'E') }
 

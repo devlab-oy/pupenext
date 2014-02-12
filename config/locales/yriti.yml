@@ -1,0 +1,81 @@
+# SELECT DISTINCT concat(substring(selite FROM 7), ': \'', trim(selitetark), '\'') yaml
+# FROM avainsana
+# WHERE laji = 'mysqlalias'
+# AND selite LIKE 'yriti.%'
+# ORDER BY yaml;
+
+# SELECT DISTINCT concat(substring(selite FROM 7), ': \'', (SELECT
+# sanakirja.se
+# FROM sanakirja
+# WHERE sanakirja.fi = BINARY avainsana.selitetark
+# ORDER BY muutospvm DESC
+# LIMIT 1), '\'') yaml
+# FROM avainsana
+# WHERE laji = 'mysqlalias'
+# AND selite LIKE 'yriti.%'
+# ORDER BY yaml;
+
+fi:
+  activerecord:
+    attributes:
+      bank_account:
+        asiakastunnus: 'Asiakastunnus'
+        bic: 'SWIFT / BIC'
+        factoring: 'Factoring (Myyntisaatavarahoitus)'
+        hyvak: 'Oletus hyväksyjä'
+        iban: 'IBAN'
+        kaytossa: 'Tila'
+        maksulimitti: 'Maksulimitti'
+        nimi: 'Nimi'
+        oletus_kohde: 'Oletuskulutilikirjauksen kohde'
+        oletus_kulutili: 'Oletuskulutili'
+        oletus_kustp: 'Oletuskulutilikirjauksen kustannuspaikka'
+        oletus_projekti: 'Oletuskulutilikirjauksen projekti'
+        oletus_rahatili: 'Oletusrahatili'
+        oletus_selvittelytili: 'Oletusselvittelytili'
+        tilino: 'Tilinumero'
+        tilinylitys: 'Tilinylitys'
+        valkoodi: 'Valuutta'
+se:
+  activerecord:
+    attributes:
+      bank_account:
+        asiakastunnus: 'Org.nummer'
+        kaytossa: 'Status'
+        nimi: 'Namn'
+        tilino: 'Kontonummer'
+        valkoodi: 'Valuta'
+
+en:
+  activerecord:
+    attributes:
+      bank_account:
+        asiakastunnus: 'Customer nr'
+        bic: 'SWIFT/BIC'
+        iban: 'IBAN'
+        kaytossa: 'Status'
+        maksulimitti: 'Limit'
+        nimi: 'Name'
+        tilino: 'Account #'
+        valkoodi: 'Currency'
+de:
+  activerecord:
+    attributes:
+      bank_account:
+        bic: 'SWIFT / BIC'
+        kaytossa: 'Status'
+        maksulimitti: 'Zahlungslimit'
+        nimi: 'Name'
+        tilino: 'Kontonummer'
+        valkoodi: 'Währung'
+ee:
+  activerecord:
+    attributes:
+      bank_account:
+        asiakastunnus: 'Klienditunnus'
+        bic: 'SWIFT / BIC'
+        kaytossa: 'Ruum'
+        maksulimitti: 'Makselimiit'
+        nimi: 'Nimi'
+        tilino: 'Kontonumber'
+        valkoodi: 'Valuuta'
