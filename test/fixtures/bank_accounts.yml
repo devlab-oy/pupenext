@@ -29,7 +29,7 @@ acme_account:
   siirtoavain: ''
   kayttoavain: ''
   nro: ''
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
