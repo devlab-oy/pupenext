@@ -45,7 +45,6 @@ se:
         nimi: 'Namn'
         tilino: 'Kontonummer'
         valkoodi: 'Valuta'
-
 en:
   activerecord:
     attributes:
