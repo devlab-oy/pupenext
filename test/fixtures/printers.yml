@@ -1,0 +1,13 @@
+printer1:
+  kirjoitin: Printer 1
+  komento: email
+  merkisto: 3
+  mediatyyppi: A4
+  yhtio: artr
+
+printer2:
+  kirjoitin: Printer 2
+  komento: lpr
+  merkisto: 4
+  mediatyyppi: A5
+  yhtio: artr
