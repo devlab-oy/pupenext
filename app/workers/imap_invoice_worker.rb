@@ -32,46 +32,8 @@ class ImapInvoiceWorker
 
     # Loop all messages in inbox
     Mail.all do |message, connector, item_uid|
-
-      # Allow messages only from allowed domain
-      if message.from.first.end_with?("@#{ALLOWED_DOMAIN}")
-
-        # Loop all attachments
-        message.attachments.each do |file|
-
-          # Get all images/pdfs from messages attachments
-          if file.content_type.start_with?('image/', 'application/pdf')
-            boob = save_image(file.filename, file.body.decoded)
-          else
-            boob = false
-          end
-
-          msg = boob ? "onnistui" : "epäonnistui"
-
-          mail_options = {
-            to: message.from.first,
-            from: USERNAME,
-            subject: "Liitetiedoston vastaanotto #{msg}!",
-            body: "Otsikko: #{message.subject}\nTiedosto: #{file.filename}",
-            filename: file.filename,
-            content: file.body.decoded
-          }
-
-          send_email mail_options
-        end
-
-        if message.attachments.empty?
-          mail_options = {
-            to: message.from.first,
-            from: USERNAME,
-            subject: "Liitetiedoston vastaanotto epäonnistui!",
-            body: "Otsikko: #{message.subject}\nViestissä ei ollut liitetiedostoja!",
-          }
-
-          send_email mail_options
-        end
-
-      end
+      # Process message
+      process_message(message)
 
       # Move message to Archive
       connector.uid_copy(item_uid, ARCHIVE_DIRECTORY)
@@ -80,6 +42,48 @@ class ImapInvoiceWorker
       connector.select("INBOX")
       connector.uid_store(item_uid, "+FLAGS", [:Deleted])
     end
+  end
+
+  def self.process_message(msg)
+    # Allow msgs only from allowed domain
+    if msg.from.first.end_with?("@#{ALLOWED_DOMAIN}")
+
+      # Loop all attachments
+      msg.attachments.each { |file| handle_file(msg, file) }
+
+      if msg.attachments.empty?
+        mail_options = {
+          to: msg.from.first,
+          from: USERNAME,
+          subject: "Liitetiedoston vastaanotto epäonnistui!",
+          body: "Otsikko: #{msg.subject}\nViestissä ei ollut liitetiedostoja!",
+        }
+
+        send_email mail_options
+      end
+    end
+  end
+
+  def self.handle_file(message, file)
+    # Get all images/pdfs from messages attachments
+    if file.content_type.start_with?('image/', 'application/pdf')
+      boob = save_image(file.filename, file.body.decoded)
+    else
+      boob = false
+    end
+
+    msg = boob ? "onnistui" : "epäonnistui"
+
+    mail_options = {
+      to: message.from.first,
+      from: USERNAME,
+      subject: "Liitetiedoston vastaanotto #{msg}!",
+      body: "Otsikko: #{message.subject}\nTiedosto: #{file.filename}",
+      filename: file.filename,
+      content: file.body.decoded
+    }
+
+    send_email mail_options
   end
 
   def self.save_image(name, data)
