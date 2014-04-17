@@ -46,7 +46,7 @@ class ImapInvoiceWorker
 
   def self.process_message(msg)
     # Allow msgs only from allowed domain
-    if msg.from.first.end_with?("@#{ALLOWED_DOMAIN}")
+    if msg.from.first.end_with?("#{ALLOWED_DOMAIN}")
 
       # Loop all attachments
       msg.attachments.each { |file| handle_file(msg, file) }
