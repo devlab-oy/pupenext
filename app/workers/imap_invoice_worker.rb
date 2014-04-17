@@ -94,7 +94,7 @@ class ImapInvoiceWorker
     dir = SAVE_DIRECTORY.dup
     dir.sub!(/\/+$/, '')
 
-    fname = "#{dir}/#{prefix}-#{name.downcase.gsub(/[^a-z.]/, '').squeeze('.')}"
+    fname = "#{dir}/#{prefix}-#{name.downcase.gsub(/[^a-z0-9\.\-]/, '').squeeze('.')}"
 
     # Save file
     begin
