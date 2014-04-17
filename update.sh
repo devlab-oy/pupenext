@@ -35,7 +35,7 @@ git remote prune origin
 RAILS_ENV="production" bundle
 RAILS_ENV="production" bundle exec rake css:write
 RAILS_ENV="production" bundle exec rake assets:precompile
-RAILS_ENV="production" bundle exec rake db:migrate
+#RAILS_ENV="production" bundle exec rake db:migrate
 
 # Check tmp dir
 if [ ! -d "${app_dir}/tmp" ]; then
