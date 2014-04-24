@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
 
 gem 'rails', '4.0.3'
 
@@ -21,7 +20,6 @@ end
 group :test do
   gem 'rake'
   gem 'minitest'
-  gem 'turn'
   gem "codeclimate-test-reporter"
 end
 
