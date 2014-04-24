@@ -11,15 +11,15 @@ env:
 notifications:
   email: false
   flowdock:
-    secure: "Xtp8on1HNE2CYdRp9WBUq4BN/0pefkAwtP4CuGZ7qy8i0qeOc/C+Lrx5OWiUYsWZtZyF2oEda1A2MWrctR86ONsU111aD+WBq7DQrX6mBJIFxSgbmMmv3l9OHb/2cvPKD9FdmoClKSZ42tCXXXXYzeCP7xxONvl7++w6HQiyHc0="
-addons:
+    secure: "Twrq8ErfHJvn0t8gGRkBSgoNnycJE+KVduVKUITIPazSSNMRzgjRpbJYReZdyiSjclCBo1rHol/3K9Eq59NmQxovpd2JqNpNO9PIbZ6D4SoS6TEYymMjBYeSjqJpn7xh97S1nD3tRpRVIux4HVPCoGHd0zPqnnWtDFszYGGMpRU="addons:
   code_climate:
     repo_token:
-      secure: "Aci/3uXpJ8CIQAerBigne8u5aE/uqy4AYl3KkVvi2boQt3jgK55iN77qoiyVBRqSuypNpGeye/jMClrWNT0I6mKT6BIo3dUBTRhIbLqIA49wD2Nf6RHIQOceOkISvZAl76zu1Rfxk//1phsbqCHlvWA2hnpSTfybdmpkEtoycAo="before_install:
+      secure: "Pcqd4D943MPPCfnikGleJikdmBDsoesydI7Jb+X9RxwBUjizbLXkBJOE1+KvULsBdOXQo/5Ld22MbT9/eE3ZSoprJ5q8cmg38zAO5fQQXd75kMb3ol30sJeYA/gsYIuhLE+YthJdLkl8H2Z2zVzuSoCmKXPburJB6dV2rsU2nLU="
+before_install:
 install:
   - gem install bundler -v 1.6.2
 before_script:
-  - mysql -e 'create database pupesoft_test'
+  - mysql -e 'create database pupesoft_test;'
 script:
   - bundle install
   - bundle exec rake
