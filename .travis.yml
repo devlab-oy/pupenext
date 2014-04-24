@@ -1,0 +1,28 @@
+language: ruby
+rvm:
+  - 2.1.1
+env:
+  global:
+    - PUPESOFT_TEST_DATABASE="pupesoft_test"
+    - PUPESOFT_TEST_USERNAME="travis"
+    - PUPESOFT_TEST_PASSWORD=""
+    - PUPESOFT_TEST_HOSTNAME="127.0.0.1"
+    - SECRET_KEY_BASE=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+notifications:
+  email: false
+  flowdock:
+    secure: "Xtp8on1HNE2CYdRp9WBUq4BN/0pefkAwtP4CuGZ7qy8i0qeOc/C+Lrx5OWiUYsWZtZyF2oEda1A2MWrctR86ONsU111aD+WBq7DQrX6mBJIFxSgbmMmv3l9OHb/2cvPKD9FdmoClKSZ42tCXXXXYzeCP7xxONvl7++w6HQiyHc0="
+addons:
+  code_climate:
+    repo_token:
+      secure: "Aci/3uXpJ8CIQAerBigne8u5aE/uqy4AYl3KkVvi2boQt3jgK55iN77qoiyVBRqSuypNpGeye/jMClrWNT0I6mKT6BIo3dUBTRhIbLqIA49wD2Nf6RHIQOceOkISvZAl76zu1Rfxk//1phsbqCHlvWA2hnpSTfybdmpkEtoycAo="before_install:
+install:
+  - gem install bundler -v 1.6.2
+before_script:
+  - mysql -e 'create database pupesoft_test'
+script:
+  - bundle install
+  - bundle exec rake
+after_success:
+after_failure:
+after_script:
