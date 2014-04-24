@@ -21,6 +21,7 @@ install:
   - gem install bundler -v 1.6.2
 before_script:
   - mysql -e 'create database pupesoft_test;'
+  - mysql -e 'SET storage_engine=myisam;'
 script:
   - bundle install
   - bundle exec rake
