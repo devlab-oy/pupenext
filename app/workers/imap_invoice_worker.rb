@@ -10,19 +10,19 @@ ALLOWED_DOMAIN    = ARGV[4]
 ARCHIVE_DIRECTORY = ARGV[5]
 SAVE_DIRECTORY    = ARGV[6]
 
-EMAIL_REPLY_TEXT  = { 'FI' => {
-                        'ok' => "Liitetiedoston vastaanotto onnistui",
-                        'fail' => "Liitetiedoston vastaanotto epäonnistui",
-                        'noattach' => "Viestissä ei ollut liitetiedostoja",
-                        'head' => "Otsikko",
-                        'file' => "Tiedosto"
+EMAIL_REPLY_TEXT  = { fi: {
+                        ok: "Liitetiedoston vastaanotto onnistui",
+                        fail: "Liitetiedoston vastaanotto epäonnistui",
+                        noattach: "Viestissä ei ollut liitetiedostoja",
+                        head: "Otsikko",
+                        file: "Tiedosto"
                       },
-                      'EN' => {
-                        'ok' => "Attached file received successfully",
-                        'fail' => "Failed to receive attached file",
-                        'noattach' => "Message did not contain attached files",
-                        'head' => "Title",
-                        'file' => "File"
+                      en: {
+                        ok: "Attached file received successfully",
+                        fail: "Failed to receive attached file",
+                        noattach: "Message did not contain attached files",
+                        head: "Title",
+                        file: "File"
                       }
                     }
 
@@ -62,13 +62,12 @@ class ImapInvoiceWorker
 
   def self.process_message(msg)
     # Allow msgs only from allowed domain
-    if msg.from.first.end_with?("#{ALLOWED_DOMAIN}")
+    address = msg.from.first.downcase
+
+    if address.end_with?("#{ALLOWED_DOMAIN.dup.downcase}")
       # Check the language for email reply
-      if msg.from.first.downcase.end_with?(".fi")
-        lang = "FI"
-      else
-        lang = "EN"
-      end
+      lang = language(address)
+
       # Loop all attachments
       msg.attachments.each { |file| handle_file(msg, file, lang) }
 
@@ -76,8 +75,9 @@ class ImapInvoiceWorker
         mail_options = {
           to: msg.from.first,
           from: USERNAME,
-          subject: "#{EMAIL_REPLY_TEXT[lang]['fail']}",
-          body: "#{EMAIL_REPLY_TEXT[lang]['head']}: #{msg.subject}\n#{EMAIL_REPLY_TEXT[lang]['noattach']}",
+          subject: "#{EMAIL_REPLY_TEXT[lang][:fail]}",
+          body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{msg.subject}\n" +
+                "#{EMAIL_REPLY_TEXT[lang][:noattach]}",
         }
 
         send_email mail_options
@@ -93,13 +93,14 @@ class ImapInvoiceWorker
       boob = false
     end
 
-    msg_status = boob ? "ok" : "fail"
+    msg_status = boob ? :ok : :fail
 
     mail_options = {
       to: message.from.first,
       from: USERNAME,
       subject: "#{EMAIL_REPLY_TEXT[lang][msg_status]}",
-      body: "#{EMAIL_REPLY_TEXT[lang]['head']}: #{message.subject}\n#{EMAIL_REPLY_TEXT[lang]['file']}: #{file.filename}",
+      body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{message.subject}\n" +
+            "#{EMAIL_REPLY_TEXT[lang][:file]}: #{file.filename}",
       filename: file.filename,
       content: file.body.decoded
     }
@@ -143,6 +144,11 @@ class ImapInvoiceWorker
 
     mail.charset = 'utf-8'
     mail.deliver
+  end
+
+  def self.language(email)
+    return :fi if email.downcase.end_with?(".fi")
+    :en
   end
 
   def self.valid_parameters?
