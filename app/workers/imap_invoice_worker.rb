@@ -10,6 +10,22 @@ ALLOWED_DOMAIN    = ARGV[4]
 ARCHIVE_DIRECTORY = ARGV[5]
 SAVE_DIRECTORY    = ARGV[6]
 
+EMAIL_REPLY_TEXT  = { fi: {
+                        ok: "Liitetiedoston vastaanotto onnistui",
+                        fail: "Liitetiedoston vastaanotto epäonnistui",
+                        noattach: "Viestissä ei ollut liitetiedostoja",
+                        head: "Otsikko",
+                        file: "Tiedosto"
+                      },
+                      en: {
+                        ok: "Attached file received successfully",
+                        fail: "Failed to receive attached file",
+                        noattach: "Message did not contain attached files",
+                        head: "Title",
+                        file: "File"
+                      }
+                    }
+
 class ImapInvoiceWorker
 
   def self.fetch_messages
@@ -46,17 +62,22 @@ class ImapInvoiceWorker
 
   def self.process_message(msg)
     # Allow msgs only from allowed domain
-    if msg.from.first.end_with?("#{ALLOWED_DOMAIN}")
+    address = msg.from.first.downcase
+
+    if address.end_with?("#{ALLOWED_DOMAIN.dup.downcase}")
+      # Check the language for email reply
+      lang = language(address)
 
       # Loop all attachments
-      msg.attachments.each { |file| handle_file(msg, file) }
+      msg.attachments.each { |file| handle_file(msg, file, lang) }
 
       if msg.attachments.empty?
         mail_options = {
           to: msg.from.first,
           from: USERNAME,
-          subject: "Liitetiedoston vastaanotto epäonnistui!",
-          body: "Otsikko: #{msg.subject}\nViestissä ei ollut liitetiedostoja!",
+          subject: "#{EMAIL_REPLY_TEXT[lang][:fail]}",
+          body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{msg.subject}\n" +
+                "#{EMAIL_REPLY_TEXT[lang][:noattach]}",
         }
 
         send_email mail_options
@@ -64,7 +85,7 @@ class ImapInvoiceWorker
     end
   end
 
-  def self.handle_file(message, file)
+  def self.handle_file(message, file, lang)
     # Get all images/pdfs from messages attachments
     if file.content_type.start_with?('image/', 'application/pdf')
       boob = save_image(file.filename, file.body.decoded)
@@ -72,13 +93,14 @@ class ImapInvoiceWorker
       boob = false
     end
 
-    msg = boob ? "onnistui" : "epäonnistui"
+    msg_status = boob ? :ok : :fail
 
     mail_options = {
       to: message.from.first,
       from: USERNAME,
-      subject: "Liitetiedoston vastaanotto #{msg}!",
-      body: "Otsikko: #{message.subject}\nTiedosto: #{file.filename}",
+      subject: "#{EMAIL_REPLY_TEXT[lang][msg_status]}",
+      body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{message.subject}\n" +
+            "#{EMAIL_REPLY_TEXT[lang][:file]}: #{file.filename}",
       filename: file.filename,
       content: file.body.decoded
     }
@@ -122,6 +144,11 @@ class ImapInvoiceWorker
 
     mail.charset = 'utf-8'
     mail.deliver
+  end
+
+  def self.language(email)
+    return :fi if email.downcase.end_with?(".fi")
+    :en
   end
 
   def self.valid_parameters?
