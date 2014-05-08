@@ -16,6 +16,12 @@ if [[ $? != 0 ]]; then
   exit
 fi
 
+if [ $(whoami) = "root" ]; then
+  echo "Ei ole suositeltavaa, että ajat tämän root -käyttäjällä!"
+  echo
+  exit
+fi
+
 # Get required directories
 current_dir=`pwd`
 dirname=`dirname $0`
@@ -35,7 +41,6 @@ git remote prune origin
 RAILS_ENV="production" bundle
 RAILS_ENV="production" bundle exec rake css:write
 RAILS_ENV="production" bundle exec rake assets:precompile
-#RAILS_ENV="production" bundle exec rake db:migrate
 
 # Check tmp dir
 if [ ! -d "${app_dir}/tmp" ]; then
