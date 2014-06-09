@@ -8,10 +8,6 @@ red=$(tput -Txterm-color setaf 1)
 white=$(tput -Txterm-color setaf 7)
 normal=$(tput -Txterm-color sgr0)
 
-echo
-echo "${green}${underline}Tervetuloa ${hosti} Pupenext-narupalveluun!${nounderline}${normal}"
-echo
-
 # Check we have Git
 command -v git > /dev/null
 
@@ -48,7 +44,6 @@ if [[ ! -z "${jatketaan}" && ("${jatketaan}" = "auto" || "${jatketaan}" = "autop
   jatketaanko="k"
   echo
 else
-  echo
   echo -n "${white}Päivitetäänkö Pupenext (k/e)? ${normal}"
   read jatketaanko
 fi
