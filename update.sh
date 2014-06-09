@@ -42,7 +42,6 @@ fi
 
 if [[ ! -z "${jatketaan}" && ("${jatketaan}" = "auto" || "${jatketaan}" = "autopupe") ]]; then
   jatketaanko="k"
-  echo
 else
   echo -n "${white}Päivitetäänkö Pupenext (k/e)? ${normal}"
   read jatketaanko
