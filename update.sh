@@ -38,7 +38,7 @@ git pull origin master
 git remote prune origin
 
 # Run bundle + rake
-RAILS_ENV="production" bundle
+RAILS_ENV="production" bundle --quiet
 RAILS_ENV="production" bundle exec rake css:write
 RAILS_ENV="production" bundle exec rake assets:precompile
 
