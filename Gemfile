@@ -9,7 +9,7 @@ gem 'turbolinks'
 gem 'dotenv-rails'
 
 group :production do
-  gem 'therubyracer'
+  gem 'therubyracer', '~> 0.11.4'
   gem 'dalli'
 end
 
