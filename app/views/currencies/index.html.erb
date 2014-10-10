@@ -1,13 +1,13 @@
 <%= render 'header' %>
 
-<%= link_to 'Uusi valuutta', new_currency_path %>
+<%= link_to t('Uusi valuutta'), new_currency_path %>
 
 <br /><br />
 
 <table>
   <tr>
-    <th>Nimi</th>
-    <th>Kurssi</th>
+    <th><%= t('Nimi') %></th>
+    <th><%= t('Kurssi') %></th>
   </tr>
 
   <% @currencies.each do |cur| %>
@@ -20,7 +20,7 @@
 
 <br />
 
-<%= link_to 'Uusi valuutta', new_currency_path %>
+<%= link_to t('Uusi valuutta'), new_currency_path %>
 
 <br /><br />
 <a style="cursor:pointer" onclick="sanakirjaform.submit()"><font class="info">Sanakirja</font></a>
