@@ -5,7 +5,7 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies
   def index
-    @currencies = current_company.currency
+    @currencies = current_company.currency.order(:jarjestys)
   end
 
   # GET /currencies/1
