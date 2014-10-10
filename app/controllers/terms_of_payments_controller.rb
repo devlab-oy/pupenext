@@ -2,8 +2,10 @@ class TermsOfPaymentsController < ApplicationController
 
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
   before_action :find_all_terms_of_payments
+
   helper_method :showing_not_used
   helper_method :sort_column
+  helper_method :params_search
 
   # GET /terms_of_payments
   def index
@@ -59,6 +61,7 @@ class TermsOfPaymentsController < ApplicationController
   end
 
   private
+
     # Only allow a trusted parameter "white list" through.
     def terms_of_payment_params
       params[:terms_of_payment].permit(
@@ -93,7 +96,21 @@ class TermsOfPaymentsController < ApplicationController
       params[:not_used] ? true : false
     end
 
+    def params_search
+      params.permit(
+        :teksti,
+        :rel_pvm,
+        :abs_pvm,
+        :kassa_relpvm,
+        :kassa_abspvm,
+        :kassa_alepros,
+        :jarjestys,
+        :sort,
+        :direction
+      )
+    end
+
     def sort_column
-      TermsOfPayment.column_names.include?(params[:sort]) ? params[:sort] : "teksti"
+      params_search.has_value?(params[:sort]) ? params[:sort] : "teksti"
     end
 end
