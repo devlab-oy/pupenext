@@ -1,10 +1,8 @@
-<%= link_to '« Palaa ohjelmaan: Valuutat', currencies_path %>
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Valuutat') %>
+<%= link_to return_text, currencies_path %>
 
 <br /><br />
 
 <%= render 'header' %>
 
 <%= render 'form' %>
-
-<br /><br />
-<a style="cursor:pointer" onclick="sanakirjaform.submit()"><font class="info">Sanakirja</font></a>
