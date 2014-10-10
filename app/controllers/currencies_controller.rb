@@ -3,6 +3,9 @@ class CurrenciesController < ApplicationController
 
   before_action :find_currency, only: [:show, :edit, :update, :destroy]
 
+  helper_method :sort_column
+  helper_method :params_search
+
   # GET /currencies
   def index
     @currencies = current_company.currency.order(:jarjestys)
