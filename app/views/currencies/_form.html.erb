@@ -13,37 +13,37 @@
 
   <table>
     <tr>
-      <th><%= f.label :nimi, 'Valuutta' %></th>
+      <th><%= f.label :nimi, t('Valuutta') %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
     <tr>
-      <th><%= f.label :jarjestys, 'Järjestys' %></th>
+      <th><%= f.label :jarjestys, t('Järjestys') %></th>
       <td><%= f.text_field :jarjestys %></td>
     </tr>
     <tr>
-      <th><%= f.label :kurssi, 'Valuuttakurssi' %></th>
+      <th><%= f.label :kurssi, t('Valuuttakurssi') %></th>
       <td><%= f.text_field :kurssi %></td>
     </tr>
     <tr>
-      <th>Laatija</th>
+      <th><%= t('Laatija') %></th>
       <td><%= @currency.laatija %></td>
     </tr>
     <tr>
-      <th>Luontiaika</th>
+      <th><%= t('Luontiaika') %></th>
       <td><%= @currency.luontiaika %></td>
     </tr>
     <tr>
-      <th>Muutospvm</th>
+      <th><%= t('Muutospvm') %></th>
       <td><%= @currency.muutospvm %></td>
     </tr>
     <tr>
-      <th>Muuttaja</th>
+      <th><%= t('Muuttaja') %></th>
       <td><%= @currency.muuttaja %></td>
     </tr>
   </table>
 
   <div class="actions">
     <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
+    <%= f.submit text, disable_with: 'Tallentaa' %>
   </div>
 <% end %>
