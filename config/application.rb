@@ -18,6 +18,10 @@ module Pupesoft
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.default_locale = :fi
+    I18n.enforce_available_locales = false
+
+    config.cache_store = :memory_store
+
   end
 end

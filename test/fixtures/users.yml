@@ -3,3 +3,8 @@ joe:
   kuka: joe
   nimi: Joe Danger
   session: IAOZQQAXYYDWMDBSWOEFSVBBI
+  muuttaja: joe
+  laatija: joe
+  lastlogin: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

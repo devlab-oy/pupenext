@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
 
-gem 'rails', '4.0.1'
+gem 'rails', '~> 4.1.5'
 
 gem 'bcrypt-ruby'
 gem 'jquery-rails'
@@ -10,7 +9,8 @@ gem 'turbolinks'
 gem 'dotenv-rails'
 
 group :production do
-  gem 'therubyracer'
+  gem 'therubyracer', '~> 0.11.4'
+  gem 'dalli'
 end
 
 group :assets do
@@ -20,7 +20,6 @@ end
 group :test do
   gem 'rake'
   gem 'minitest'
-  gem 'turn'
   gem "codeclimate-test-reporter"
 end
 

@@ -26,3 +26,6 @@
 
 # Company specific stylesheets
 /app/assets/stylesheets/company/*.css
+
+# Ignore public assets
+/public/assets
