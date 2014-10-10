@@ -8,7 +8,7 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies
   def index
-    @currencies = current_company.currency.order(:jarjestys)
+    @currencies = current_company.currency.order("#{sort_column} #{sort_direction}")
     @currencies = resource_search(@currencies)
   end
 
@@ -74,6 +74,6 @@ class CurrenciesController < ApplicationController
     end
 
     def sort_column
-      params_search.has_value?(params[:sort]) ? params[:sort] : "nimi"
+      params_search.has_value?(params[:sort]) ? params[:sort] : "jarjestys"
     end
 end
