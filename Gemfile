@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.5'
+gem 'rails', '~> 4.1.6'
 
 gem 'bcrypt-ruby'
 gem 'jquery-rails'
 gem 'mysql2'
 gem 'turbolinks'
 gem 'dotenv-rails'
+
+gem 'resque'
+gem 'resque-web', require: 'resque_web'
 
 group :production do
   gem 'therubyracer', '~> 0.11.4'
