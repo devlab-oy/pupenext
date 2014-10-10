@@ -4,10 +4,8 @@ class TermsOfPayment < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  has_many :customers, foreign_key: :maksuehto,
-           :conditions => proc { ['yhtio = ?', self.company.yhtio] }
-  has_many :sales_orders, foreign_key: :maksuehto,
-           :conditions => proc { ['yhtio = ?', self.company.yhtio] }
+  has_many :customers, foreign_key: :maksuehto
+  has_many :sales_orders, foreign_key: :maksuehto
 
   validates :rel_pvm,
             :kassa_relpvm,
@@ -59,19 +57,22 @@ class TermsOfPayment < ActiveRecord::Base
 
         msg_pre = 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä'
 
-        if customers.present?
+        if customers.where(yhtio: yhtio).present?
           msg_post = 'asiakkaalla'
-          errors.add(:base, "#{msg_pre} #{customers.count} #{msg_post}")
+          _count = customers.where(yhtio: yhtio).count
+          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
         end
 
-        if sales_orders.not_delivered.present?
+        if sales_orders.not_delivered.where(yhtio: yhtio).present?
           msg_post = 'toimittamattomalla myyntitilauksella'
-          errors.add(:base, "#{msg_pre} #{sales_orders.not_delivered.count} #{msg_post}")
+          _count = sales_orders.not_delivered.where(yhtio: yhtio).count
+          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
         end
 
-        if sales_orders.not_finished.present?
+        if sales_orders.not_finished.where(yhtio: yhtio).present?
           msg_post = 'kesken olevalla myyntitilauksella'
-          errors.add(:base, "#{msg_pre} #{sales_orders.not_finished.count} #{msg_post}")
+          _count = sales_orders.not_finished.where(yhtio: yhtio).count
+          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
         end
       end
     end
