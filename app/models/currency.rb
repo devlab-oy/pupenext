@@ -2,15 +2,29 @@ class Currency < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
-  before_validation :ensure_nimi_is_uppercase
-
   self.table_name = "valuu"
   self.primary_key = "tunnus"
   self.record_timestamps = false
 
+  validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
+
+  before_validation :name_to_uppercase
+  before_create :update_created
+  before_update :update_modified
+
   protected
-    def ensure_nimi_is_uppercase
+    def name_to_uppercase
         self.nimi = self.nimi.upcase if self.nimi.is_a? String
+    end
+
+  private
+
+    def update_created
+      self.luontiaika = Date.today
+      self.muutospvm = Date.today
+    end
+
+    def update_modified
+      self.muutospvm = Date.today
     end
 end
