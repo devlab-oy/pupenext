@@ -4,6 +4,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
 
   def setup
     @top = terms_of_payments(:sixty_days_net)
+    @cust = customers(:stubborn_customer)
   end
 
   test 'all fixtures should be valid' do
@@ -37,10 +38,9 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top_fourth = terms_of_payments(:ninty_days_net)
     @top_fourth.kaytossa = 'E'
     refute @top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
-
   end
 
-  test 'should get two terms of payments per used/not_used scopes' do
+  test 'should get five used, and 1 not in use, terms of payments' do
     assert_equal 1, TermsOfPayment.not_in_use.count
     assert_equal 5, TermsOfPayment.count
   end
