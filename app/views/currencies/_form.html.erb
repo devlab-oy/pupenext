@@ -44,6 +44,6 @@
 
   <div class="actions">
     <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit text, disable_with: 'Tallentaa' %>
+    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
   </div>
 <% end %>
