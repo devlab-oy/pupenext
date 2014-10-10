@@ -6,6 +6,7 @@ class CurrenciesController < ApplicationController
   # GET /currencies
   def index
     @currencies = current_company.currency.order(:jarjestys)
+    @currencies = resource_search(@currencies)
   end
 
   # GET /currencies/1
@@ -58,7 +59,18 @@ class CurrenciesController < ApplicationController
       )
     end
 
+    def params_search
+      params.permit(
+        :nimi,
+        :kurssi
+      )
+    end
+
     def find_currency
       @currency = current_company.currency.find(params[:id])
+    end
+
+    def sort_column
+      params_search.has_value?(params[:sort]) ? params[:sort] : "nimi"
     end
 end
