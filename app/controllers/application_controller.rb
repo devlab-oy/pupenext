@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :t
+  helper_method :sort_direction
 
   private
 
