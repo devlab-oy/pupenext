@@ -18,4 +18,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @joe.company
   end
 
+  test "user has permissions" do
+    assert_not_nil @joe.permissions
+  end
+
 end
