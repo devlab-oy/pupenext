@@ -22,14 +22,14 @@ module ActiveRecordExtension
     raise ArgumentError, "Should pass User -class" unless user.kind_of? User
 
     self.muuttaja = user.kuka
-    self.laatija = user.kuka unless self.persisted?
+    self.laatija = user.kuka unless self.persisted? && self.laatija.present?
     self.update params
   end
 
   private
 
     def set_legacy_timestamps
-      self.luontiaika = Time.now unless self.persisted?
+      self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
       self.muutospvm = Time.now
     end
 
