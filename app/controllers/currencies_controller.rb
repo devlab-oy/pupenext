@@ -9,7 +9,6 @@ class CurrenciesController < ApplicationController
   # GET /currencies
   def index
     @currencies = current_company.currency.order("#{sort_column} #{sort_direction}")
-    @currencies = resource_search(@currencies)
   end
 
   # GET /currencies/1
@@ -65,7 +64,9 @@ class CurrenciesController < ApplicationController
     def params_search
       params.permit(
         :nimi,
-        :kurssi
+        :kurssi,
+        :sort,
+        :direction
       )
     end
 
