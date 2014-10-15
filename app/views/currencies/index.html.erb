@@ -1,6 +1,6 @@
 <%= render 'header' %>
 
-<%= link_to t('Uusi valuutta'), new_currency_path %>
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get %>
 
 <br /><br />
 
@@ -32,4 +32,4 @@
 
 <br />
 
-<%= link_to t('Uusi valuutta'), new_currency_path %>
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get %>
