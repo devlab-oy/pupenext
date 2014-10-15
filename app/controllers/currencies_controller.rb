@@ -8,7 +8,16 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies
   def index
-    @currencies = current_company.currency.order("#{sort_column} #{sort_direction}")
+
+    @currencies = current_company.currency
+
+    params_search_valid = params_search.reject { |k,v| v.empty? }
+
+    if params_search_valid.present?
+      @currencies = @currencies.where(params_search_valid)
+    end
+
+    @currencies = @currencies.order("#{sort_column} #{sort_direction}")
   end
 
   # GET /currencies/1
@@ -64,9 +73,7 @@ class CurrenciesController < ApplicationController
     def params_search
       params.permit(
         :nimi,
-        :kurssi,
-        :sort,
-        :direction
+        :kurssi
       )
     end
 
@@ -75,6 +82,6 @@ class CurrenciesController < ApplicationController
     end
 
     def sort_column
-      params_search.has_value?(params[:sort]) ? params[:sort] : "jarjestys"
+      params.values.include?(params[:sort]) ? params[:sort] : "jarjestys"
     end
 end
