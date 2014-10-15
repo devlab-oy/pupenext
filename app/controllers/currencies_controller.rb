@@ -34,10 +34,8 @@ class CurrenciesController < ApplicationController
   def create
     @currency = current_company.currency.build
     @currency.attributes = currency_params
-    @currency.muuttaja = current_user.kuka
-    @currency.laatija = current_user.kuka
 
-    if @currency.save
+    if @currency.save_by current_user
       redirect_to @currency, notice: 'Currency was successfully created.'
     else
       render action: 'new'
@@ -51,9 +49,8 @@ class CurrenciesController < ApplicationController
 
   # PATCH/PUT /currencies/1
   def update
-    @currency.muuttaja = current_user.kuka
 
-    if @currency.update(currency_params)
+    if @currency.update_by(currency_params, current_user)
       redirect_to currencies_path, notice: 'Currency was successfully updated.'
     else
       render action: 'edit'
