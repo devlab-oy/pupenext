@@ -2,6 +2,7 @@ class CurrenciesController < ApplicationController
   include ApplicationHelper
 
   before_action :find_currency, only: [:show, :edit, :update]
+  before_action :update_access, only: [:create, :edit, :update]
 
   helper_method :sort_column
   helper_method :params_search
@@ -80,5 +81,11 @@ class CurrenciesController < ApplicationController
 
     def sort_column
       params.values.include?(params[:sort]) ? params[:sort] : "jarjestys"
+    end
+
+    def update_access
+      unless update_access?
+        redirect_to currencies_path, notice: "You don't have permission to update."
+      end
     end
 end
