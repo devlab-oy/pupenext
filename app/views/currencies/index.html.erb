@@ -1,6 +1,11 @@
 <%= render 'header' %>
 
-<%= button_to t('Uusi valuutta'), new_currency_path, method: :get %>
+<% if notice %>
+  <%= notice %>
+  <br /><br />
+<% end %>
+
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>
 
 <br />
 
@@ -22,7 +27,13 @@
 
   <% @currencies.each do |cur| %>
     <tr>
-      <td><%= link_to cur.nimi, edit_currency_path(cur.id) %></td>
+      <td>
+        <% if update_access? %>
+          <%= link_to cur.nimi, edit_currency_path(cur.id) %>
+        <% else %>
+          <%= cur.nimi %>
+        <% end %>
+      </td>
       <td><%= cur.kurssi %></td>
       <td class="back"></td>
     </tr>
@@ -32,4 +43,4 @@
 
 <br />
 
-<%= button_to t('Uusi valuutta'), new_currency_path, method: :get %>
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>
