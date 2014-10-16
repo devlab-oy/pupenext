@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def read_access?
-    # Root path does noe require access
+    # Root path does not require access
     return true if request_path == root_path
 
     current_user.can_read? request_path
