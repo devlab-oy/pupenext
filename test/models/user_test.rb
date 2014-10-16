@@ -22,4 +22,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @joe.permissions
   end
 
+  test "user has read permissions" do
+    assert_equal 2, @joe.permissions.read_access.count
+  end
+
+  test "user has update permissions" do
+    assert_equal 1, @joe.permissions.update_access.count
+  end
+
 end

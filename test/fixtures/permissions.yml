@@ -1,7 +1,28 @@
-one:
+read_one:
   yhtio: acme
   user: joe
-  nimi: customers
+  nimi: /pupenext/customers
+  paivitys: 0
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+read_two:
+  yhtio: acme
+  user: joe
+  nimi: /pupenext/currensies
+  paivitys: 0
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+update_one:
+  yhtio: acme
+  user: joe
+  nimi: /pupenext/companies
+  paivitys: 1
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
