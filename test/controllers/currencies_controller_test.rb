@@ -42,7 +42,7 @@ class CurrenciesControllerTest < ActionController::TestCase
 
   test 'should not create new currency' do
     assert_no_difference('Currency.count') do
-      post :create, currency: {}
+      post :create, currency: {nimi: 'FOO_BAR'}
       assert_template 'new', 'Template should be new'
     end
   end
@@ -58,5 +58,14 @@ class CurrenciesControllerTest < ActionController::TestCase
     patch :update, id: 1, currency: {nimi: ''}
 
     assert_template 'edit', 'Template should be edit'
+  end
+
+  test 'should search for specific currency' do
+    request = {format: :html, nimi: 'EUR'}
+
+    get :index, request
+    assert_response :success
+
+    assert_template "index", "Template should be index"
   end
 end
