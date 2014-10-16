@@ -1,7 +1,7 @@
 class CurrenciesController < ApplicationController
   include ApplicationHelper
 
-  before_action :find_currency, only: [:show, :edit, :update, :destroy]
+  before_action :find_currency, only: [:show, :edit, :update]
 
   helper_method :sort_column
   helper_method :params_search
