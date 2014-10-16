@@ -16,7 +16,7 @@ module ApplicationHelper
     options['not_used'] = params[:not_used]
 
     # If controller implements params_search, add search params to sort url
-    params_search.merge! options if respond_to? :params_search
+    options.merge! params_search if respond_to? :params_search
 
     link_to column, options
   end
