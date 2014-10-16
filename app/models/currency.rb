@@ -10,6 +10,10 @@ class Currency < ActiveRecord::Base
 
   before_validation :name_to_uppercase
 
+  def self.search_currency(args)
+    where(args)
+  end
+
   protected
 
     def name_to_uppercase

@@ -14,7 +14,7 @@ class CurrenciesController < ApplicationController
     params_search_valid = params_search.reject { |k,v| v.empty? }
 
     if params_search_valid.present?
-      @currencies = @currencies.where(params_search_valid)
+      @currencies = @currencies.search_currency params_search_valid
     end
 
     @currencies = @currencies.order("#{sort_column} #{sort_direction}")
@@ -36,7 +36,7 @@ class CurrenciesController < ApplicationController
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
-      redirect_to @currency, notice: 'Currency was successfully created.'
+      redirect_to currencies_path, notice: 'Currency was successfully created.'
     else
       render action: 'new'
     end
