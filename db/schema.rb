@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141016000000) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "osoite",                           limit: 55,                           default: "",  null: false
     t.string   "postino",                          limit: 15,                           default: "",  null: false
     t.string   "postitp",                          limit: 35,                           default: "",  null: false
+    t.integer  "toimipaikka",                                                           default: 0,   null: false
     t.string   "kunta",                            limit: 150,                          default: "",  null: false
     t.string   "laani",                            limit: 150,                          default: "",  null: false
     t.string   "maa",                              limit: 2,                            default: "",  null: false
@@ -101,6 +102,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "ammatti",                          limit: 100,                          default: "",  null: false
     t.string   "email",                                                                 default: "",  null: false
     t.string   "lasku_email",                                                           default: "",  null: false
+    t.string   "talhal_email",                                                          default: "",  null: false
     t.string   "puhelin",                          limit: 100,                          default: "",  null: false
     t.string   "gsm",                              limit: 100,                          default: "",  null: false
     t.string   "tyopuhelin",                       limit: 100,                          default: "",  null: false
@@ -138,6 +140,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.text     "fakta"
     t.text     "sisviesti1"
     t.text     "myynti_kommentti1"
+    t.string   "tilaus_viesti",                    limit: 70,                           default: "",  null: false
     t.text     "kuljetusohje"
     t.string   "selaus",                           limit: 55,                           default: "",  null: false
     t.decimal  "alv",                                          precision: 5,  scale: 2, default: 0.0, null: false
@@ -167,6 +170,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                            default: "",  null: false
     t.string   "vienti",                           limit: 1,                            default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                            default: "",  null: false
+    t.string   "koontilaskut_yhdistetaan",         limit: 1,                                          null: false
     t.string   "luokka",                           limit: 50,                           default: "",  null: false
     t.string   "jtkielto",                         limit: 1,                            default: "",  null: false
     t.integer  "jtrivit",                                                               default: 0,   null: false
@@ -383,6 +387,7 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "avainsana", ["yhtio", "laji", "perhe", "kieli"], name: "yhtio_laji_perhe_kieli", using: :btree
   add_index "avainsana", ["yhtio", "laji", "selite"], name: "yhtio_laji_selite", using: :btree
   add_index "avainsana", ["yhtio", "laji", "selitetark"], name: "yhtio_laji_selitetark", length: {"yhtio"=>nil, "laji"=>nil, "selitetark"=>100}, using: :btree
+  add_index "avainsana", ["yhtio", "laji", "selitetark_3"], name: "yhtio_laji_selitetark3", length: {"yhtio"=>nil, "laji"=>nil, "selitetark_3"=>100}, using: :btree
 
   create_table "budjetti", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",      limit: 5,                           default: "",  null: false
@@ -490,6 +495,22 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "dynaaminen_puu", ["yhtio", "laji", "lft"], name: "yhtio_laji_lft", using: :btree
   add_index "dynaaminen_puu", ["yhtio", "laji", "rgt"], name: "yhtio_laji_rgt", using: :btree
 
+  create_table "dynaaminen_puu_avainsanat", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",        limit: 5,   default: "", null: false
+    t.integer  "liitostunnus",             default: 0,  null: false
+    t.string   "kieli",        limit: 2,   default: "", null: false
+    t.string   "laji",         limit: 150, default: "", null: false
+    t.text     "avainsana"
+    t.text     "tarkenne"
+    t.string   "muuttaja",     limit: 50,  default: "", null: false
+    t.string   "laatija",      limit: 50,  default: "", null: false
+    t.datetime "luontiaika",                            null: false
+    t.datetime "muutospvm",                             null: false
+  end
+
+  add_index "dynaaminen_puu_avainsanat", ["yhtio", "laji"], name: "yhtio_laji", using: :btree
+  add_index "dynaaminen_puu_avainsanat", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
+
   create_table "etaisyydet", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",           limit: 5,  default: "", null: false
     t.string   "varasto_postino", limit: 15, default: "", null: false
@@ -514,6 +535,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "muutospvm",                            null: false
   end
 
+  add_index "extranet_kayttajan_lisatiedot", ["yhtio", "laji", "selite"], name: "yhtio_laji_selite", using: :btree
   add_index "extranet_kayttajan_lisatiedot", ["yhtio", "liitostunnus", "laji", "selite"], name: "yhtio_liitostunnus_laji_selite", unique: true, using: :btree
 
   create_table "factoring", primary_key: "tunnus", force: true do |t|
@@ -563,14 +585,6 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   add_index "hinnasto", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
-
-  create_table "huollot", primary_key: "tunnus", force: true do |t|
-    t.string  "yhtio",   limit: 5,                           default: "",  null: false
-    t.string  "malli",   limit: 100,                         default: "",  null: false
-    t.decimal "maara",               precision: 8, scale: 2, default: 0.0, null: false
-    t.string  "huolto",  limit: 100,                         default: "",  null: false
-    t.string  "tuoteno", limit: 60,                          default: "",  null: false
-  end
 
   create_table "hyvityssaannot", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
@@ -746,6 +760,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "kerailyrivin_tyoaikavakio_min_per_rivi",             precision: 12, scale: 2, default: 0.0, null: false
     t.string   "ulkoinen_jarjestelma",                   limit: 1,                            default: "",  null: false
     t.string   "yhdistelysaanto",                        limit: 5,                            default: "",  null: false
+    t.string   "keraysnippujen_priorisointi",            limit: 1,                            default: "",  null: false
+    t.decimal  "aikaraja",                                           precision: 5,  scale: 2, default: 0.0, null: false
+    t.decimal  "mittaraja",                                          precision: 10, scale: 2, default: 0.0, null: false
+    t.decimal  "painoraja",                                          precision: 10, scale: 2, default: 0.0, null: false
+    t.decimal  "kappaleraja",                                        precision: 12, scale: 2, default: 0.0, null: false
     t.string   "laatija",                                limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                                                null: false
     t.datetime "muutospvm",                                                                                 null: false
@@ -777,26 +796,28 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "kohde", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",       limit: 5,   default: "", null: false
-    t.integer  "asiakas",                 default: 0,  null: false
-    t.string   "nimi",        limit: 60,  default: "", null: false
-    t.string   "nimitark",    limit: 60,  default: "", null: false
-    t.string   "tyyppi",      limit: 150, default: "", null: false
-    t.string   "osoite",      limit: 60,  default: "", null: false
-    t.string   "osoitetark",  limit: 60,  default: "", null: false
-    t.string   "postitp",     limit: 60,  default: "", null: false
-    t.string   "postino",     limit: 60,  default: "", null: false
-    t.string   "paikkakunta", limit: 60,  default: "", null: false
-    t.string   "email",       limit: 60,  default: "", null: false
-    t.string   "puhelin",     limit: 20,  default: "", null: false
-    t.string   "fax",         limit: 20,  default: "", null: false
-    t.string   "yhteyshlo",   limit: 60,  default: "", null: false
-    t.string   "kayntiohje",  limit: 150, default: "", null: false
+    t.string   "yhtio",         limit: 5,   default: "",    null: false
+    t.integer  "asiakas",                   default: 0,     null: false
+    t.string   "nimi",          limit: 60,  default: "",    null: false
+    t.string   "nimitark",      limit: 60,  default: "",    null: false
+    t.string   "tyyppi",        limit: 150, default: "",    null: false
+    t.string   "osoite",        limit: 60,  default: "",    null: false
+    t.string   "osoitetark",    limit: 60,  default: "",    null: false
+    t.string   "postitp",       limit: 60,  default: "",    null: false
+    t.string   "postino",       limit: 60,  default: "",    null: false
+    t.string   "paikkakunta",   limit: 60,  default: "",    null: false
+    t.string   "email",         limit: 60,  default: "",    null: false
+    t.string   "puhelin",       limit: 20,  default: "",    null: false
+    t.string   "fax",           limit: 20,  default: "",    null: false
+    t.string   "yhteyshlo",     limit: 60,  default: "",    null: false
+    t.string   "vastuuhenkilo", limit: 50,                  null: false
+    t.string   "kayntiohje",    limit: 150, default: "",    null: false
     t.text     "kommentti"
-    t.string   "laatija",     limit: 50,  default: "", null: false
-    t.datetime "luontiaika",                           null: false
-    t.datetime "muutospvm",                            null: false
-    t.string   "muuttaja",    limit: 50,  default: "", null: false
+    t.boolean  "poistettu",                 default: false, null: false
+    t.string   "laatija",       limit: 50,  default: "",    null: false
+    t.datetime "luontiaika",                                null: false
+    t.datetime "muutospvm",                                 null: false
+    t.string   "muuttaja",      limit: 50,  default: "",    null: false
   end
 
   create_table "korvaavat", primary_key: "tunnus", force: true do |t|
@@ -859,6 +880,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "max_keraysera_alustat",                                              default: 0,   null: false
     t.integer  "saatavat",                                                           default: 0,   null: false
     t.integer  "hinnat",                                                             default: 0,   null: false
+    t.string   "kulujen_laskeminen_hintoihin",  limit: 1,                            default: "",  null: false
     t.integer  "taso",                                                               default: 0,   null: false
     t.integer  "kesken",                                                             default: 0,   null: false
     t.datetime "lastlogin",                                                                        null: false
@@ -893,25 +915,6 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "kuka", ["yhtio", "kuka"], name: "kuka_index", unique: true, using: :btree
   add_index "kuka", ["yhtio", "myyja"], name: "yhtio_myyja", using: :btree
 
-  create_table "kulunvalvonta", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",         limit: 5,  default: "", null: false
-    t.string   "kuka",          limit: 50, default: "", null: false
-    t.datetime "aika",                                  null: false
-    t.string   "suunta",        limit: 1,  default: "", null: false
-    t.string   "tyyppi",        limit: 3,  default: "", null: false
-    t.integer  "otunnus",                  default: 0,  null: false
-    t.integer  "minuuttimaara",            default: 0,  null: false
-    t.string   "muokkaaja",     limit: 50, default: "", null: false
-    t.datetime "muokattu",                              null: false
-    t.string   "laatija",       limit: 50, default: "", null: false
-    t.datetime "luontiaika",                            null: false
-    t.string   "vieja",         limit: 10, default: "", null: false
-    t.datetime "viety",                                 null: false
-    t.string   "hyvaksyja",     limit: 50, default: "", null: false
-    t.datetime "hyvaksytty",                            null: false
-    t.string   "ylityo",        limit: 1,  default: "", null: false
-  end
-
   create_table "kustannuspaikka", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.string   "tyyppi",       limit: 1,  default: "", null: false
@@ -936,6 +939,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "asiakasluokka",        limit: 50,  default: "",                    null: false
     t.string   "vakisin_kerays",       limit: 1,   default: "",                    null: false
     t.string   "aktiivi",              limit: 1,   default: "",                    null: false
+    t.string   "ohjausmerkki",         limit: 70,  default: "",                    null: false
     t.integer  "liitostunnus",                     default: 0,                     null: false
     t.integer  "varasto",                          default: 0,                     null: false
     t.string   "laatija",              limit: 50,  default: "",                    null: false
@@ -946,6 +950,41 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "lahdot", ["yhtio", "aktiivi", "liitostunnus"], name: "yhtio_aktiivi_liitostunnus", using: :btree
   add_index "lahdot", ["yhtio", "aktiivi", "pvm"], name: "yhtio_aktiivi_pvm", using: :btree
+
+  create_table "laite", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",                              limit: 5,              null: false
+    t.string   "tuoteno",                            limit: 60,             null: false
+    t.string   "sarjanro",                           limit: 60,             null: false
+    t.date     "valm_pvm",                                                  null: false
+    t.string   "oma_numero",                         limit: 20,             null: false
+    t.string   "omistaja",                           limit: 60,             null: false
+    t.integer  "paikka",                                        default: 0, null: false
+    t.string   "sijainti",                           limit: 60,             null: false
+    t.string   "ip_osoite",                          limit: 60,             null: false
+    t.string   "mac_osoite",                         limit: 60,             null: false
+    t.string   "lcm_info",                           limit: 60,             null: false
+    t.text     "kommentti"
+    t.string   "tila",                               limit: 1,              null: false
+    t.integer  "koodi",                                         default: 0, null: false
+    t.integer  "sla",                                           default: 0, null: false
+    t.string   "sd_sla",                             limit: 60,             null: false
+    t.string   "valmistajan_sopimusnumero",          limit: 60,             null: false
+    t.string   "laatija",                            limit: 10,             null: false
+    t.datetime "luontiaika",                                                null: false
+    t.datetime "muutospvm",                                                 null: false
+    t.datetime "valmistajan_sopimus_paattymispaiva",                        null: false
+    t.string   "muuttaja",                           limit: 10,             null: false
+  end
+
+  create_table "laitteen_sopimukset", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",               limit: 5,              null: false
+    t.integer  "laitteen_tunnus",                default: 0, null: false
+    t.integer  "sopimusrivin_tunnus",            default: 0, null: false
+    t.string   "laatija",             limit: 10,             null: false
+    t.datetime "luontiaika",                                 null: false
+    t.datetime "muutospvm",                                  null: false
+    t.string   "muuttaja",            limit: 10,             null: false
+  end
 
   create_table "lasku", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string    "yhtio",                            limit: 5,                            default: "",         null: false
@@ -964,12 +1003,16 @@ ActiveRecord::Schema.define(version: 0) do
     t.string    "postino",                          limit: 15,                           default: "",         null: false
     t.string    "postitp",                          limit: 45,                           default: "",         null: false
     t.string    "maa",                              limit: 2,                            default: "",         null: false
+    t.string    "puh",                              limit: 50,                           default: "",         null: false
+    t.string    "email",                            limit: 100,                          default: "",         null: false
     t.string    "toim_nimi",                        limit: 60,                           default: "",         null: false
     t.string    "toim_nimitark",                    limit: 60,                           default: "",         null: false
     t.string    "toim_osoite",                      limit: 55,                           default: "",         null: false
     t.string    "toim_postino",                     limit: 35,                           default: "",         null: false
     t.string    "toim_postitp",                     limit: 35,                           default: "",         null: false
     t.string    "toim_maa",                         limit: 2,                            default: "",         null: false
+    t.string    "toim_puh",                         limit: 50,                           default: "",         null: false
+    t.string    "toim_email",                       limit: 100,                          default: "",         null: false
     t.string    "pankki_haltija",                   limit: 60,                           default: "",         null: false
     t.string    "tilinumero",                       limit: 14,                           default: "",         null: false
     t.string    "swift",                            limit: 11,                           default: "",         null: false
@@ -1008,6 +1051,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal   "pyoristys_valuutassa",                         precision: 12, scale: 2, default: 0.0,        null: false
     t.decimal   "pyoristys_erot",                               precision: 16, scale: 6, default: 0.0,        null: false
     t.decimal   "pyoristys_erot_alv",                           precision: 5,  scale: 2, default: 0.0,        null: false
+    t.decimal   "luottoraja",                                   precision: 12, scale: 2, default: 0.0,        null: false
+    t.decimal   "erapaivan_ylityksen_summa",                    precision: 12, scale: 2, default: 0.0,        null: false
     t.string    "laatija",                          limit: 50,                           default: "",         null: false
     t.datetime  "luontiaika",                                                                                 null: false
     t.string    "maksaja",                          limit: 50,                           default: "",         null: false
@@ -1063,7 +1108,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string    "maksu_tili",                       limit: 10,                           default: "",         null: false
     t.string    "alv_tili",                         limit: 6,                            default: "",         null: false
     t.string    "tila",                             limit: 1,                            default: "",         null: false
-    t.string    "alatila",                          limit: 1,                            default: "",         null: false
+    t.string    "alatila",                          limit: 2,                            default: "",         null: false
     t.string    "huolitsija",                       limit: 30,                           default: "",         null: false
     t.string    "jakelu",                           limit: 30,                           default: "",         null: false
     t.string    "kuljetus",                         limit: 150,                          default: "",         null: false
@@ -1127,6 +1172,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string    "tullausnumero",                    limit: 25,                           default: "",         null: false
     t.string    "vientipaperit_palautettu",         limit: 1,                            default: "",         null: false
     t.string    "piiri",                            limit: 150,                          default: "",         null: false
+    t.integer   "siirtolistan_vastaanotto",                                              default: 0,          null: false
     t.integer   "pakkaamo",                                                              default: 0,          null: false
     t.integer   "jaksotettu",                                                            default: 0,          null: false
     t.integer   "factoringsiirtonumero",                                                 default: 0,          null: false
@@ -1240,6 +1286,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.date     "sopimus_alkupvm",                                                                            null: false
     t.date     "sopimus_loppupvm",                                                                           null: false
     t.text     "sopimus_lisatietoja"
+    t.text     "sopimus_lisatietoja2"
     t.string   "projektipaallikko",                        limit: 50,                          default: "",  null: false
     t.string   "seuranta",                                 limit: 5,                           default: "",  null: false
     t.integer  "tunnusnippu_tarjous",                                                          default: 0,   null: false
@@ -1375,12 +1422,13 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "oikeu", primary_key: "tunnus", force: true do |t|
     t.string   "kuka",       limit: 50,  default: "", null: false
+    t.integer  "user_id"
     t.string   "sovellus",   limit: 50,  default: "", null: false
     t.string   "nimi",       limit: 100, default: "", null: false
     t.string   "alanimi",    limit: 100, default: "", null: false
     t.string   "paivitys",   limit: 1,   default: "", null: false
     t.string   "lukittu",    limit: 1,   default: "", null: false
-    t.string   "nimitys",    limit: 30,  default: "", null: false
+    t.string   "nimitys",    limit: 60,  default: "", null: false
     t.integer  "jarjestys",              default: 0,  null: false
     t.integer  "jarjestys2",             default: 0,  null: false
     t.string   "profiili",   limit: 100, default: "", null: false
@@ -1392,6 +1440,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "muuttaja",   limit: 10,  default: "", null: false
   end
 
+  add_index "oikeu", ["user_id"], name: "user_id", using: :btree
   add_index "oikeu", ["yhtio", "kuka", "sovellus", "nimi", "alanimi"], name: "oikeudet_index", unique: true, using: :btree
   add_index "oikeu", ["yhtio", "kuka", "sovellus"], name: "sovellus_index", using: :btree
   add_index "oikeu", ["yhtio", "sovellus", "nimi", "alanimi"], name: "menut_index", using: :btree
@@ -1450,6 +1499,24 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "luontiaika",                               null: false
     t.datetime "muutospvm",                                null: false
     t.string   "muuttaja",         limit: 50, default: "", null: false
+  end
+
+  create_table "pankkiyhteys", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",                                limit: 5
+    t.string   "pankki",                               limit: 60
+    t.string   "customer_id",                          limit: 60
+    t.text     "signing_certificate"
+    t.datetime "signing_certificate_valid_to"
+    t.text     "signing_private_key"
+    t.text     "encryption_certificate"
+    t.datetime "encryption_certificate_valid_to"
+    t.text     "encryption_private_key"
+    t.text     "bank_encryption_certificate"
+    t.datetime "bank_encryption_certificate_valid_to"
+    t.text     "bank_root_certificate"
+    t.datetime "bank_root_certificate_valid_to"
+    t.text     "ca_certificate"
+    t.datetime "ca_certificate_valid_to"
   end
 
   create_table "pankkiyhteystiedot", primary_key: "tunnus", force: true do |t|
@@ -1514,6 +1581,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "liitos",      limit: 60,  default: "", null: false
     t.string   "kieli",       limit: 2,   default: "", null: false
     t.string   "laji",        limit: 150, default: "", null: false
+    t.string   "kutsuja",     limit: 150, default: "", null: false
     t.integer  "puun_tunnus",             default: 0,  null: false
     t.integer  "jarjestys",               default: 0,  null: false
     t.string   "laatija",     limit: 50,  default: "", null: false
@@ -1625,8 +1693,27 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "sahkoisen_lahetteen_rivit", ["yhtio", "otunnus", "tilausrivin_tunnus"], name: "yhtio_otunnus_tilausrivin_tunnus", using: :btree
 
+  create_table "saldovahvistukset", primary_key: "tunnus", force: true do |t|
+    t.date   "lahetys_pvm"
+    t.string "saldovahvistus_viesti", limit: 150, default: "", null: false
+    t.date   "avoin_saldo_pvm"
+    t.string "ryhmittely_tyyppi",     limit: 100, default: ""
+    t.string "yhtio",                 limit: 5,   default: "", null: false
+  end
+
+  create_table "saldovahvistusrivit", primary_key: "tunnus", force: true do |t|
+    t.integer "saldovahvistus_tunnus",                                    default: 0,   null: false
+    t.string  "tyyppi",                limit: 1,                          default: "",  null: false
+    t.integer "lasku_tunnus",                                             default: 0,   null: false
+    t.integer "laskunro",                                                 default: 0,   null: false
+    t.date    "tapahtuma_pvm"
+    t.date    "era_pvm"
+    t.decimal "summa",                           precision: 12, scale: 2, default: 0.0, null: false
+    t.string  "yhtio",                 limit: 5,                          default: "",  null: false
+  end
+
   create_table "sanakirja", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",              limit: 5,                            default: "",  null: false
+    t.string   "yhtio",      limit: 5,  default: "", null: false
     t.text     "fi"
     t.text     "se"
     t.text     "no"
@@ -1658,6 +1745,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "hyllynro",          limit: 5,                           default: "",  null: false
     t.string   "hyllyvali",         limit: 5,                           default: "",  null: false
     t.string   "hyllytaso",         limit: 5,                           default: "",  null: false
+    t.integer  "varasto"
     t.date     "takuu_alku",                                                          null: false
     t.date     "takuu_loppu",                                                         null: false
     t.date     "parasta_ennen",                                                       null: false
@@ -1688,6 +1776,18 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "laatija",           limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                          null: false
   end
+
+  create_table "suorituksen_kohdistus", primary_key: "tunnus", force: true do |t|
+    t.string  "yhtio",          limit: 5,                          default: "", null: false
+    t.integer "suoritustunnus"
+    t.integer "laskutunnus"
+    t.decimal "kaatosumma",               precision: 12, scale: 2
+    t.date    "kohdistuspvm"
+    t.date    "kirjauspvm"
+  end
+
+  add_index "suorituksen_kohdistus", ["yhtio", "laskutunnus"], name: "laskutunnus_index", using: :btree
+  add_index "suorituksen_kohdistus", ["yhtio", "suoritustunnus"], name: "suoritustunnus_index", using: :btree
 
   create_table "suoritus", primary_key: "tunnus", force: true do |t|
     t.string  "yhtio",          limit: 5,                           default: "",  null: false
@@ -1805,6 +1905,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "hyllynro",   limit: 5,                           default: "",  null: false
     t.string   "hyllytaso",  limit: 5,                           default: "",  null: false
     t.string   "hyllyvali",  limit: 5,                           default: "",  null: false
+    t.integer  "varasto"
   end
 
   add_index "tapahtuma", ["yhtio", "laadittu", "hyllyalue", "hyllynro"], name: "yhtio_laadittu_hyllyalue_hyllynro", using: :btree
@@ -1884,7 +1985,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "ale3",                              precision: 5,  scale: 2, default: 0.0,  null: false
     t.decimal  "kate",                              precision: 16, scale: 6, default: 0.0,  null: false
     t.decimal  "kate_korjattu",                     precision: 16, scale: 6
+    t.decimal  "valmistus_painoarvo",               precision: 9,  scale: 8
     t.text     "kommentti"
+    t.text     "ale_peruste"
     t.string   "laatija",               limit: 50,                           default: "",   null: false
     t.datetime "laadittu",                                                                  null: false
     t.string   "keratty",               limit: 50,                           default: "",   null: false
@@ -1908,6 +2011,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.text     "vahvistettu_kommentti"
     t.integer  "tilaajanrivinro",                                            default: 0,    null: false
     t.integer  "jaksotettu",                                                 default: 0,    null: false
+    t.integer  "varasto"
     t.integer  "uusiotunnus",                                                default: 0,    null: false
   end
 
@@ -1937,6 +2041,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.text     "hankintakulut"
     t.integer  "asiakkaan_positio",                                             default: 0,     null: false
     t.string   "positio",                   limit: 20,                          default: "",    null: false
+    t.integer  "palautus_varasto",                                              default: 0,     null: false
     t.string   "pituus",                    limit: 100,                         default: "",    null: false
     t.string   "leveys",                    limit: 100,                         default: "",    null: false
     t.string   "pidin",                     limit: 100,                         default: "",    null: false
@@ -1954,7 +2059,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "omalle_tilaukselle",        limit: 1,                           default: "",    null: false
     t.string   "ohita_kerays",              limit: 1,                           default: "",    null: false
     t.string   "jt_manual",                 limit: 1,                           default: "",    null: false
-    t.decimal  "poikkeava_tulliprosentti",              precision: 5, scale: 2, default: 0.0,   null: false
+    t.decimal  "poikkeava_tulliprosentti",              precision: 5, scale: 2
     t.integer  "jarjestys",                                                     default: 0,     null: false
     t.date     "sopimus_alkaa",                                                                 null: false
     t.date     "sopimus_loppuu",                                                                null: false
@@ -1972,6 +2077,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "muuttaja",                  limit: 50,                          default: "",    null: false
   end
 
+  add_index "tilausrivin_lisatiedot", ["yhtio", "asiakkaan_positio"], name: "yhtio_asiakkaan_positio", using: :btree
   add_index "tilausrivin_lisatiedot", ["yhtio", "tilausrivilinkki"], name: "tilausrivilinkki", using: :btree
   add_index "tilausrivin_lisatiedot", ["yhtio", "tilausrivitunnus"], name: "tilausrivitunnus", unique: true, using: :btree
   add_index "tilausrivin_lisatiedot", ["yhtio", "vanha_otunnus"], name: "yhtio_vanhaotunnus", using: :btree
@@ -2102,27 +2208,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "kustp2",                  default: 0,  null: false
   end
 
-  create_table "todo", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",            limit: 5,                          default: "",  null: false
-    t.datetime "aika",                                                              null: false
-    t.text     "kuvaus"
-    t.text     "kuittaus"
-    t.integer  "prioriteetti",                                        default: 0,   null: false
-    t.string   "projekti",         limit: 30,                         default: "",  null: false
-    t.string   "pyytaja",          limit: 30,                         default: "",  null: false
-    t.integer  "tekija",                                              default: 0,   null: false
-    t.integer  "asiakas",                                             default: 0,   null: false
-    t.date     "deadline",                                                          null: false
-    t.decimal  "kesto_arvio",                 precision: 4, scale: 1, default: 0.0, null: false
-    t.decimal  "kesto_toteutunut",            precision: 4, scale: 1, default: 0.0, null: false
-    t.string   "laatija",          limit: 50,                         default: "",  null: false
-    t.datetime "luontiaika",                                                        null: false
-    t.datetime "muutospvm",                                                         null: false
-    t.string   "muuttaja",         limit: 50,                         default: "",  null: false
-  end
-
-  add_index "todo", ["yhtio", "kuittaus", "tekija"], name: "yhtio_kuittaus_tekija", length: {"yhtio"=>nil, "kuittaus"=>4, "tekija"=>nil}, using: :btree
-
   create_table "toimi", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",                        limit: 5,                           default: "",  null: false
     t.string   "nimi",                         limit: 60,                          default: "",  null: false
@@ -2173,6 +2258,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "kauppatapahtuman_luonne",                                          default: 0,   null: false
     t.integer  "kuljetusmuoto",                                                    default: 0,   null: false
     t.decimal  "oletus_kulupros",                          precision: 5, scale: 2, default: 0.0, null: false
+    t.string   "kulujen_laskeminen_hintoihin", limit: 1,                           default: "",  null: false
     t.string   "edi_palvelin",                 limit: 50,                          default: "",  null: false
     t.string   "edi_kayttaja",                 limit: 50,                          default: "",  null: false
     t.string   "edi_salasana",                 limit: 50,                          default: "",  null: false
@@ -2278,6 +2364,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "nouto",                            limit: 1,                           default: "",  null: false
     t.string   "lauantai",                         limit: 1,                           default: "",  null: false
     t.string   "kuljyksikko",                      limit: 1,                           default: "",  null: false
+    t.decimal  "erilliskasiteltavakulu",                       precision: 5, scale: 2, default: 0.0, null: false
     t.string   "merahti",                          limit: 1,                           default: "",  null: false
     t.string   "kuljetusvakuutus_tuotenumero",     limit: 60,                          default: "",  null: false
     t.decimal  "kuljetusvakuutus",                             precision: 5, scale: 2, default: 0.0, null: false
@@ -2308,6 +2395,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "ulkomaanlisa",                                 precision: 6, scale: 2, default: 0.0, null: false
     t.string   "sallitut_maat",                    limit: 50,                          default: "",  null: false
     t.string   "sallitut_alustat",                 limit: 150,                         default: "",  null: false
+    t.decimal  "lisakulu",                                     precision: 5, scale: 2, default: 0.0, null: false
+    t.decimal  "lisakulu_summa",                               precision: 5, scale: 2, default: 0.0, null: false
     t.integer  "jarjestys",                                                            default: 0,   null: false
     t.string   "laatija",                          limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                                         null: false
@@ -2328,6 +2417,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "asiakasluokka",        limit: 50,  default: "",                    null: false
     t.integer  "varasto",                          default: 0,                     null: false
     t.string   "aktiivi",              limit: 1,   default: "",                    null: false
+    t.string   "ohjausmerkki",         limit: 70,  default: "",                    null: false
     t.integer  "liitostunnus",                     default: 0,                     null: false
     t.date     "alkupvm",                                                          null: false
     t.string   "laatija",              limit: 50,  default: "",                    null: false
@@ -2335,6 +2425,18 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "muutospvm",                                                        null: false
     t.string   "muuttaja",             limit: 50,  default: "",                    null: false
   end
+
+  create_table "toimitustavat_toimipaikat", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",               limit: 5,  default: "", null: false
+    t.integer  "toimitustapa_tunnus",                         null: false
+    t.integer  "toimipaikka_tunnus",                          null: false
+    t.string   "laatija",             limit: 50, default: "", null: false
+    t.datetime "luontiaika",                                  null: false
+    t.datetime "muutospvm",                                   null: false
+    t.string   "muuttaja",            limit: 50, default: "", null: false
+  end
+
+  add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
 
   create_table "tullinimike", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",         limit: 5,  default: "", null: false
@@ -2467,31 +2569,35 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "tuotepaikat", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",                 limit: 5,                           default: "",  null: false
-    t.string   "tuoteno",               limit: 60,                          default: "",  null: false
-    t.string   "hyllyalue",             limit: 5,                           default: "",  null: false
-    t.string   "hyllynro",              limit: 5,                           default: "",  null: false
-    t.string   "hyllytaso",             limit: 5,                           default: "",  null: false
-    t.string   "hyllyvali",             limit: 5,                           default: "",  null: false
-    t.decimal  "saldo",                            precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "saldo_varattu",                    precision: 12, scale: 2, default: 0.0, null: false
-    t.datetime "saldoaika",                                                               null: false
-    t.datetime "inventointiaika",                                                         null: false
-    t.decimal  "inventointipoikkeama",             precision: 5,  scale: 2, default: 0.0, null: false
-    t.decimal  "halytysraja",                      precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "tilausmaara",                      precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "oletus",                limit: 1,                           default: "",  null: false
-    t.integer  "inventointilista",                                          default: 0,   null: false
-    t.datetime "inventointilista_aika",                                                   null: false
-    t.string   "tyyppi",                limit: 1,                           default: "",  null: false
-    t.integer  "prio",                                                      default: 0,   null: false
-    t.string   "poistettava",           limit: 1,                           default: "",  null: false
-    t.string   "laatija",               limit: 50,                          default: "",  null: false
-    t.datetime "luontiaika",                                                              null: false
-    t.datetime "muutospvm",                                                               null: false
-    t.string   "muuttaja",              limit: 50,                          default: "",  null: false
+    t.string   "yhtio",                       limit: 5,                           default: "",  null: false
+    t.string   "tuoteno",                     limit: 60,                          default: "",  null: false
+    t.string   "hyllyalue",                   limit: 5,                           default: "",  null: false
+    t.string   "hyllynro",                    limit: 5,                           default: "",  null: false
+    t.string   "hyllytaso",                   limit: 5,                           default: "",  null: false
+    t.string   "hyllyvali",                   limit: 5,                           default: "",  null: false
+    t.string   "hyllypaikka",                 limit: 20,                          default: "",  null: false
+    t.decimal  "saldo",                                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "saldo_varattu",                          precision: 12, scale: 2, default: 0.0, null: false
+    t.datetime "saldoaika",                                                                     null: false
+    t.datetime "inventointiaika",                                                               null: false
+    t.decimal  "inventointipoikkeama",                   precision: 5,  scale: 2, default: 0.0, null: false
+    t.decimal  "halytysraja",                            precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "tilausmaara",                            precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "oletus",                      limit: 1,                           default: "",  null: false
+    t.integer  "inventointilista",                                                default: 0,   null: false
+    t.datetime "inventointilista_aika",                                                         null: false
+    t.string   "inventointilista_naytamaara", limit: 1,                           default: "",  null: false
+    t.string   "tyyppi",                      limit: 1,                           default: "",  null: false
+    t.integer  "prio",                                                            default: 0,   null: false
+    t.string   "poistettava",                 limit: 1,                           default: "",  null: false
+    t.integer  "varasto"
+    t.string   "laatija",                     limit: 50,                          default: "",  null: false
+    t.datetime "luontiaika",                                                                    null: false
+    t.datetime "muutospvm",                                                                     null: false
+    t.string   "muuttaja",                    limit: 50,                          default: "",  null: false
   end
 
+  add_index "tuotepaikat", ["yhtio", "hyllypaikka"], name: "yhtio_hyllypaikka", using: :btree
   add_index "tuotepaikat", ["yhtio", "inventointilista"], name: "yhtio_inventointilista", using: :btree
   add_index "tuotepaikat", ["yhtio", "inventointilista_aika"], name: "yhtio_inventointilista_aika", using: :btree
   add_index "tuotepaikat", ["yhtio", "saldoaika", "saldo"], name: "saldo_index", using: :btree
@@ -2566,7 +2672,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "tuotteen_toimittajat", primary_key: "tunnus", force: true do |t|
     t.string    "yhtio",                   limit: 5,                            default: "",   null: false
     t.string    "tuoteno",                 limit: 60,                           default: "",   null: false
-    t.string    "toimittaja",              limit: 15,                           default: "",   null: false
+    t.integer   "liitostunnus",                                                 default: 0,    null: false
     t.decimal   "osto_era",                            precision: 12, scale: 2, default: 0.0,  null: false
     t.decimal   "pakkauskoko",                         precision: 12, scale: 2, default: 0.0,  null: false
     t.integer   "toimitusaika",                                                 default: 0,    null: false
@@ -2585,7 +2691,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string    "viivakoodi",              limit: 150,                          default: "",   null: false
     t.string    "alkuperamaa",             limit: 2,                            default: "",   null: false
     t.integer   "jarjestys",                                                    default: 0,    null: false
-    t.integer   "liitostunnus",                                                 default: 0,    null: false
     t.string    "laatija",                 limit: 50,                           default: "",   null: false
     t.datetime  "luontiaika",                                                                  null: false
     t.datetime  "muutospvm",                                                                   null: false
@@ -2593,7 +2698,6 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   add_index "tuotteen_toimittajat", ["yhtio", "toim_tuoteno"], name: "yhtio_toimtuoteno", using: :btree
-  add_index "tuotteen_toimittajat", ["yhtio", "toimittaja"], name: "yhtio_toimittaja", using: :btree
   add_index "tuotteen_toimittajat", ["yhtio", "tuoteno", "liitostunnus"], name: "yhtio_tuoteno_liitostunnus", unique: true, using: :btree
   add_index "tuotteen_toimittajat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
   add_index "tuotteen_toimittajat", ["yhtio", "viivakoodi"], name: "yhtio_viivakoodi", using: :btree
@@ -2613,54 +2717,49 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "tuotteen_toimittajat_tuotenumerot", ["yhtio", "tuoteno"], name: "tuotteen_toimittajat_tuoteno", using: :btree
   add_index "tuotteen_toimittajat_tuotenumerot", ["yhtio", "viivakoodi"], name: "tuotteen_toimittajat_viivakoodi", using: :btree
 
-  create_table "tyomaarays", primary_key: "otunnus", force: true do |t|
-    t.string   "yhtio",         limit: 5,   default: "", null: false
-    t.string   "kotipuh",       limit: 55,  default: "", null: false
-    t.string   "tyopuh",        limit: 55,  default: "", null: false
-    t.string   "myyjaliike",    limit: 55,  default: "", null: false
-    t.date     "ostopvm",                                null: false
-    t.string   "rekno",         limit: 55,  default: "", null: false
-    t.string   "mittarilukema", limit: 55,  default: "", null: false
-    t.string   "merkki",        limit: 55,  default: "", null: false
-    t.string   "mallivari",     limit: 55,  default: "", null: false
-    t.text     "valmnro"
-    t.date     "tuotu",                                  null: false
-    t.date     "luvattu",                                null: false
-    t.string   "viite",         limit: 30,  default: "", null: false
-    t.text     "komm1"
-    t.text     "komm2"
-    t.string   "viite2",        limit: 15,  default: "", null: false
-    t.integer  "tilno",                     default: 0,  null: false
-    t.string   "suorittaja",    limit: 50,  default: "", null: false
-    t.string   "laatija",       limit: 50,  default: "", null: false
-    t.datetime "luontiaika",                             null: false
-    t.string   "vikakoodi",     limit: 50,  default: "", null: false
-    t.string   "tyoaika",       limit: 50,  default: "", null: false
-    t.string   "tyokoodi",      limit: 50,  default: "", null: false
-    t.string   "tehdas",        limit: 80,  default: "", null: false
-    t.integer  "takuunumero",               default: 0,  null: false
-    t.string   "jalleenmyyja",  limit: 80,  default: "", null: false
-    t.string   "tyojono",       limit: 100, default: "", null: false
-    t.string   "tyostatus",     limit: 100, default: "", null: false
-    t.string   "prioriteetti",  limit: 150, default: "", null: false
-    t.string   "hyvaksy",       limit: 55,  default: "", null: false
+  create_table "tyomaarayksen_tapahtumat", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",             limit: 5,              null: false
+    t.integer  "tyomaarays_tunnus",            default: 0, null: false
+    t.string   "tyojono_selite",    limit: 60,             null: false
+    t.string   "tyostatus_selite",  limit: 60,             null: false
+    t.datetime "luontiaika",                               null: false
+    t.string   "laatija",           limit: 10,             null: false
+    t.string   "kommentti",         limit: 60,             null: false
   end
 
-  create_table "vahinkotiedot", primary_key: "tunnus", force: true do |t|
-    t.string  "yhtio",          limit: 5,   default: "", null: false
-    t.string  "vakuutus",       limit: 150, default: "", null: false
-    t.string  "tapahtuma",      limit: 150, default: "", null: false
-    t.string  "paivamaara",     limit: 150, default: "", null: false
-    t.string  "vastapuoli",     limit: 150, default: "", null: false
-    t.string  "tarkastaja",     limit: 150, default: "", null: false
-    t.string  "omavastuu_lupa", limit: 150, default: "", null: false
-    t.string  "korjausaika",    limit: 150, default: "", null: false
-    t.string  "kuva1",          limit: 150, default: "", null: false
-    t.string  "kuva2",          limit: 150, default: "", null: false
-    t.string  "kuva3",          limit: 150, default: "", null: false
-    t.string  "kuva4",          limit: 150, default: "", null: false
-    t.string  "kuva5",          limit: 150, default: "", null: false
-    t.integer "otunnus",                    default: 0,  null: false
+  create_table "tyomaarays", primary_key: "otunnus", force: true do |t|
+    t.string   "yhtio",                     limit: 5,   default: "", null: false
+    t.string   "kotipuh",                   limit: 55,  default: "", null: false
+    t.string   "tyopuh",                    limit: 55,  default: "", null: false
+    t.string   "myyjaliike",                limit: 55,  default: "", null: false
+    t.date     "ostopvm",                                            null: false
+    t.string   "rekno",                     limit: 55,  default: "", null: false
+    t.string   "mittarilukema",             limit: 55,  default: "", null: false
+    t.string   "merkki",                    limit: 55,  default: "", null: false
+    t.string   "mallivari",                 limit: 55,  default: "", null: false
+    t.text     "valmnro"
+    t.integer  "sla",                                   default: 0,  null: false
+    t.string   "valmistajan_sopimusnumero", limit: 60,               null: false
+    t.date     "tuotu",                                              null: false
+    t.date     "luvattu",                                            null: false
+    t.string   "viite",                     limit: 30,  default: "", null: false
+    t.text     "komm1"
+    t.text     "komm2"
+    t.string   "viite2",                    limit: 15,  default: "", null: false
+    t.integer  "tilno",                                 default: 0,  null: false
+    t.string   "suorittaja",                limit: 50,  default: "", null: false
+    t.string   "laatija",                   limit: 50,  default: "", null: false
+    t.datetime "luontiaika",                                         null: false
+    t.string   "vikakoodi",                 limit: 50,  default: "", null: false
+    t.string   "tyoaika",                   limit: 50,  default: "", null: false
+    t.string   "tyokoodi",                  limit: 50,  default: "", null: false
+    t.string   "tehdas",                    limit: 80,  default: "", null: false
+    t.integer  "takuunumero",                           default: 0,  null: false
+    t.string   "jalleenmyyja",              limit: 80,  default: "", null: false
+    t.string   "tyojono",                   limit: 100, default: "", null: false
+    t.string   "tyostatus",                 limit: 100, default: "", null: false
+    t.string   "prioriteetti",              limit: 150, default: "", null: false
+    t.string   "hyvaksy",                   limit: 55,  default: "", null: false
   end
 
   create_table "vaihtoehtoiset_verkkolaskutunnukset", primary_key: "tunnus", force: true do |t|
@@ -2739,15 +2838,16 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "valuu", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",            limit: 5,                           default: "",  null: false
-    t.string   "nimi",             limit: 3,                           default: "",  null: false
-    t.decimal  "jarjestys",                   precision: 2,  scale: 0, default: 0,   null: false
-    t.decimal  "kurssi",                      precision: 15, scale: 9, default: 0.0, null: false
-    t.decimal  "intrastat_kurssi",            precision: 15, scale: 9, default: 0.0, null: false
-    t.string   "laatija",          limit: 50,                          default: "",  null: false
-    t.datetime "luontiaika",                                                         null: false
-    t.datetime "muutospvm",                                                          null: false
-    t.string   "muuttaja",         limit: 50,                          default: "",  null: false
+    t.string   "yhtio",              limit: 5,                           default: "",  null: false
+    t.string   "nimi",               limit: 3,                           default: "",  null: false
+    t.decimal  "jarjestys",                     precision: 2,  scale: 0, default: 0,   null: false
+    t.decimal  "kurssi",                        precision: 15, scale: 9, default: 0.0, null: false
+    t.decimal  "intrastat_kurssi",              precision: 15, scale: 9, default: 0.0, null: false
+    t.string   "automaattipaivitys", limit: 1,                           default: "",  null: false
+    t.string   "laatija",            limit: 50,                          default: "",  null: false
+    t.datetime "luontiaika",                                                           null: false
+    t.datetime "muutospvm",                                                            null: false
+    t.string   "muuttaja",           limit: 50,                          default: "",  null: false
   end
 
   add_index "valuu", ["yhtio", "nimi"], name: "yhtio_nimi", unique: true, using: :btree
@@ -2827,6 +2927,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "printteri6",                       limit: 20,                           default: "",  null: false
     t.string   "printteri7",                       limit: 20,                           default: "",  null: false
     t.string   "printteri9",                       limit: 20,                           default: "",  null: false
+    t.string   "printteri10",                      limit: 20,                           default: "",  null: false
     t.string   "nimitys",                          limit: 100,                          default: "",  null: false
     t.string   "tyyppi",                           limit: 1,                            default: "",  null: false
     t.integer  "nouto",                                                                 default: 0,   null: false
@@ -2851,6 +2952,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "poistumistoimipaikka_koodi",       limit: 3,                            default: "",  null: false
     t.string   "ulkoinen_jarjestelma",             limit: 1,                            default: "",  null: false
     t.string   "sallitut_maat",                    limit: 50,                           default: "",  null: false
+    t.integer  "isa_varasto",                                                           default: 0,   null: false
     t.integer  "prioriteetti",                                                          default: 0,   null: false
     t.string   "laatija",                          limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                                          null: false
@@ -2858,6 +2960,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "muuttaja",                         limit: 50,                           default: "",  null: false
   end
 
+  add_index "varastopaikat", ["yhtio", "alkuhyllyalue", "alkuhyllynro"], name: "yhtio_alku", using: :btree
+  add_index "varastopaikat", ["yhtio", "loppuhyllyalue", "loppuhyllynro"], name: "yhtio_loppu", using: :btree
   add_index "varastopaikat", ["yhtio", "maa"], name: "yhtio_maa", using: :btree
 
   create_table "vastaavat", primary_key: "tunnus", force: true do |t|
@@ -2875,6 +2979,21 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "vastaavat", ["yhtio", "id"], name: "yhtio_id", using: :btree
   add_index "vastaavat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
+  create_table "yhteensopivuus_tuote_sensori", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",          limit: 5,  default: "", null: false
+    t.string   "tyyppi",         limit: 2,  default: "", null: false
+    t.integer  "atunnus",                   default: 0,  null: false
+    t.string   "tuoteno",        limit: 60, default: "", null: false
+    t.string   "sensorituoteno", limit: 60, default: "", null: false
+    t.string   "muuttaja",       limit: 50, default: "", null: false
+    t.string   "laatija",        limit: 50, default: "", null: false
+    t.datetime "luontiaika",                             null: false
+    t.datetime "muutospvm",                              null: false
+  end
+
+  add_index "yhteensopivuus_tuote_sensori", ["yhtio", "sensorituoteno"], name: "yhtio_sensorituoteno", using: :btree
+  add_index "yhteensopivuus_tuote_sensori", ["yhtio", "tyyppi", "atunnus", "tuoteno"], name: "yhtio_tyyppi_atun_tuoteno", using: :btree
+
   create_table "yhteyshenkilo", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",               limit: 5,   default: "", null: false
     t.string   "tyyppi",              limit: 1,   default: "", null: false
@@ -2888,6 +3007,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "gsm",                 limit: 50,  default: "", null: false
     t.string   "fax",                 limit: 50,  default: "", null: false
     t.string   "www",                 limit: 50,  default: "", null: false
+    t.string   "nimitarkenne",        limit: 100
+    t.string   "osoite",              limit: 100
+    t.string   "postino",             limit: 5
+    t.string   "postitp",             limit: 50
+    t.string   "maa",                 limit: 50
     t.text     "fakta"
     t.string   "tilausyhteyshenkilo", limit: 1,   default: "", null: false
     t.string   "oletusyhteyshenkilo", limit: 1,   default: "", null: false
@@ -3019,295 +3143,326 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "yhtio", ["yhtio"], name: "yhtio_index", using: :btree
 
   create_table "yhtion_parametrit", primary_key: "tunnus", force: true do |t|
-    t.string   "yhtio",                                    limit: 5,                            default: "",  null: false
-    t.string   "admin_email",                              limit: 100,                          default: "",  null: false
-    t.string   "alert_email",                              limit: 100,                          default: "",  null: false
-    t.string   "talhal_email",                             limit: 100,                          default: "",  null: false
+    t.string   "yhtio",                                            limit: 5,                            default: "",    null: false
+    t.string   "admin_email",                                      limit: 100,                          default: "",    null: false
+    t.string   "alert_email",                                      limit: 100,                          default: "",    null: false
+    t.string   "talhal_email",                                     limit: 100,                          default: "",    null: false
+    t.string   "sahkopostilasku_cc_email",                         limit: 100,                          default: "",    null: false
     t.text     "varauskalenteri_email"
-    t.string   "tuotekopio_email",                         limit: 100,                          default: "",  null: false
-    t.string   "jt_email",                                 limit: 100,                          default: "",  null: false
-    t.string   "edi_email",                                limit: 100,                          default: "",  null: false
-    t.string   "alert_varasto_kayttajat",                  limit: 100,                          default: "",  null: false
-    t.string   "verkkolasku_lah",                          limit: 10,                           default: "",  null: false
-    t.string   "verkkolasku_vienti",                       limit: 1,                            default: "",  null: false
-    t.string   "finvoice_senderpartyid",                   limit: 100,                          default: "",  null: false
-    t.string   "finvoice_senderintermediator",             limit: 100,                          default: "",  null: false
-    t.string   "verkkotunnus_vas",                         limit: 100,                          default: "",  null: false
-    t.string   "verkkotunnus_lah",                         limit: 100,                          default: "",  null: false
-    t.string   "verkkosala_vas",                           limit: 100,                          default: "",  null: false
-    t.string   "verkkosala_lah",                           limit: 100,                          default: "",  null: false
-    t.string   "apix_tunnus",                              limit: 100,                          default: "",  null: false
-    t.string   "apix_avain",                               limit: 100,                          default: "",  null: false
-    t.string   "maventa_api_avain",                        limit: 100,                          default: "",  null: false
-    t.string   "maventa_yrityksen_uuid",                   limit: 100,                          default: "",  null: false
-    t.string   "maventa_ohjelmisto_api_avain",             limit: 100,                          default: "",  null: false
-    t.datetime "maventa_aikaleima",                                                                           null: false
-    t.integer  "lasku_tulostin",                           limit: 8,                            default: 0,   null: false
-    t.string   "pankkitiedostot",                          limit: 1,                            default: "",  null: false
-    t.string   "tiliotteen_selvittelyt",                   limit: 1,                            default: "",  null: false
-    t.string   "kuvapankki_polku",                                                              default: "",  null: false
-    t.string   "skannatut_laskut_polku",                                                        default: "",  null: false
-    t.string   "postittaja_email",                         limit: 200,                          default: "",  null: false
+    t.string   "tuotekopio_email",                                 limit: 100,                          default: "",    null: false
+    t.string   "jt_email",                                         limit: 100,                          default: "",    null: false
+    t.string   "edi_email",                                        limit: 100,                          default: "",    null: false
+    t.string   "extranet_kerayspoikkeama_email",                   limit: 100,                          default: "",    null: false
+    t.string   "alert_varasto_kayttajat",                          limit: 100,                          default: "",    null: false
+    t.string   "verkkolasku_lah",                                  limit: 10,                           default: "",    null: false
+    t.string   "verkkolasku_vienti",                               limit: 1,                            default: "",    null: false
+    t.string   "finvoice_senderpartyid",                           limit: 100,                          default: "",    null: false
+    t.string   "finvoice_senderintermediator",                     limit: 100,                          default: "",    null: false
+    t.string   "verkkotunnus_vas",                                 limit: 100,                          default: "",    null: false
+    t.string   "verkkotunnus_lah",                                 limit: 100,                          default: "",    null: false
+    t.string   "verkkosala_vas",                                   limit: 100,                          default: "",    null: false
+    t.string   "verkkosala_lah",                                   limit: 100,                          default: "",    null: false
+    t.string   "apix_tunnus",                                      limit: 100,                          default: "",    null: false
+    t.string   "apix_avain",                                       limit: 100,                          default: "",    null: false
+    t.string   "maventa_api_avain",                                limit: 100,                          default: "",    null: false
+    t.string   "maventa_yrityksen_uuid",                           limit: 100,                          default: "",    null: false
+    t.string   "maventa_ohjelmisto_api_avain",                     limit: 100,                          default: "",    null: false
+    t.datetime "maventa_aikaleima",                                                                                     null: false
+    t.integer  "lasku_tulostin",                                   limit: 8,                            default: 0,     null: false
+    t.string   "pankkitiedostot",                                  limit: 1,                            default: "",    null: false
+    t.string   "tiliotteen_selvittelyt",                           limit: 1,                            default: "",    null: false
+    t.string   "kuvapankki_polku",                                                                      default: "",    null: false
+    t.string   "skannatut_laskut_polku",                                                                default: "",    null: false
+    t.string   "postittaja_email",                                 limit: 200,                          default: "",    null: false
     t.text     "css"
     t.text     "css_extranet"
     t.text     "css_verkkokauppa"
     t.text     "css_pieni"
     t.text     "web_seuranta"
-    t.string   "lahetteen_tulostustapa",                   limit: 1,                            default: "",  null: false
-    t.string   "myyntitilin_tulostustapa",                 limit: 1,                            default: "",  null: false
-    t.string   "valmistuksen_tulostustapa",                limit: 1,                            default: "",  null: false
-    t.string   "siirtolistan_tulostustapa",                limit: 1,                            default: "",  null: false
-    t.string   "lahetteen_jarjestys",                      limit: 1,                            default: "",  null: false
-    t.string   "lahetteen_jarjestys_suunta",               limit: 4,                            default: "",  null: false
-    t.string   "lahetteen_palvelutjatuottet",              limit: 1,                            default: "",  null: false
-    t.string   "laskun_jarjestys",                         limit: 1,                            default: "",  null: false
-    t.string   "laskun_jarjestys_suunta",                  limit: 4,                            default: "",  null: false
-    t.string   "laskun_palvelutjatuottet",                 limit: 1,                            default: "",  null: false
-    t.string   "tilauksen_jarjestys",                      limit: 1,                            default: "",  null: false
-    t.string   "tilauksen_jarjestys_suunta",               limit: 4,                            default: "",  null: false
-    t.string   "kerayslistan_jarjestys",                   limit: 1,                            default: "",  null: false
-    t.string   "kerayslistan_jarjestys_suunta",            limit: 4,                            default: "",  null: false
-    t.string   "kerayslistan_palvelutjatuottet",           limit: 1,                            default: "",  null: false
-    t.string   "valmistus_kerayslistan_jarjestys",         limit: 1,                            default: "",  null: false
-    t.string   "valmistus_kerayslistan_jarjestys_suunta",  limit: 4,                            default: "",  null: false
-    t.string   "valmistus_kerayslistan_palvelutjatuottet", limit: 1,                            default: "",  null: false
-    t.string   "valmistuksessa_kaytetaan_tilakoodeja",     limit: 1,                            default: "",  null: false
-    t.string   "ostotilauksen_jarjestys",                  limit: 1,                            default: "",  null: false
-    t.string   "ostotilauksen_jarjestys_suunta",           limit: 4,                            default: "",  null: false
-    t.string   "tarjouksen_jarjestys",                     limit: 1,                            default: "",  null: false
-    t.string   "tarjouksen_jarjestys_suunta",              limit: 4,                            default: "",  null: false
-    t.string   "tarjouksen_palvelutjatuottet",             limit: 1,                            default: "",  null: false
-    t.string   "tyomaarayksen_jarjestys",                  limit: 1,                            default: "",  null: false
-    t.string   "tyomaarayksen_jarjestys_suunta",           limit: 4,                            default: "",  null: false
-    t.string   "tyomaarayksen_palvelutjatuottet",          limit: 1,                            default: "",  null: false
-    t.string   "tuotteiden_jarjestys_raportoinnissa",      limit: 1,                            default: "",  null: false
-    t.string   "pakkaamolokerot",                          limit: 1,                            default: "",  null: false
-    t.string   "konsernivarasto",                          limit: 1,                            default: "",  null: false
-    t.string   "lahete_allekirjoitus",                     limit: 1,                            default: "",  null: false
-    t.string   "lomakkeiden_allekirjoitus",                limit: 1,                            default: "",  null: false
-    t.string   "lahete_tyyppi_tulostus",                   limit: 1,                            default: "",  null: false
-    t.integer  "laskutyyppi",                                                                   default: 0,   null: false
-    t.string   "viivakoodi_laskulle",                      limit: 1,                            default: "",  null: false
-    t.string   "koontilaskut_yhdistetaan",                 limit: 1,                            default: "",  null: false
-    t.string   "tilausvahvistustyyppi",                    limit: 150,                          default: "",  null: false
-    t.string   "tilausvahvistus_tyyppi_tulostus",          limit: 1,                            default: "",  null: false
-    t.integer  "tilausvahvistus_lahetys",                                                       default: 0,   null: false
-    t.string   "tilausvahvistus_tallenna",                 limit: 1,                            default: "",  null: false
-    t.string   "tilausvahvistus_sisaisista",               limit: 1,                            default: "",  null: false
-    t.string   "naytayhteensamaarat",                      limit: 1,                            default: "",  null: false
-    t.integer  "tarjoustyyppi",                                                                 default: 0,   null: false
-    t.string   "siirtolistatyyppi",                        limit: 1,                            default: "",  null: false
-    t.string   "varastosiirto_tilausvahvistus",            limit: 1,                            default: "",  null: false
-    t.string   "ostotilaustyyppi",                         limit: 1,                            default: "",  null: false
-    t.string   "ostotilaukseen_toimittajan_toimaika",      limit: 1,                            default: "",  null: false
-    t.string   "ostotilauksen_tuloste",                    limit: 1,                            default: "",  null: false
-    t.string   "ostolaskujen_paivays",                     limit: 1,                            default: "",  null: false
-    t.integer  "ostolaskujen_kurssipaiva",                                                      default: 0,   null: false
-    t.string   "ostolaskun_kulutilit",                     limit: 1,                            default: "",  null: false
-    t.string   "ostolaskun_kulutilit_kayttaytyminen",      limit: 1,                            default: "",  null: false
-    t.string   "tyomaaraystyyppi",                         limit: 1,                            default: "",  null: false
-    t.string   "tyomaarays_tulostus_lisarivit",            limit: 1,                            default: "",  null: false
-    t.string   "tyomaarays_asennuskalenteri_muistutus",    limit: 1,                            default: "",  null: false
-    t.string   "viivakoodi_purkulistaan",                  limit: 1,                            default: "",  null: false
-    t.integer  "laskutuskielto",                                                                default: 0,   null: false
-    t.string   "saldovirhe_esto_laskutus",                 limit: 1,                            default: "",  null: false
-    t.string   "kehahinvirhe_esto_laskutus",               limit: 1,                            default: "",  null: false
-    t.string   "rahti_hinnoittelu",                        limit: 1,                            default: "",  null: false
-    t.string   "rahti_tuotenumero",                        limit: 60,                           default: "",  null: false
-    t.string   "jalkivaatimus_tuotenumero",                limit: 60,                           default: "",  null: false
-    t.string   "kasittelykulu_tuotenumero",                limit: 60,                           default: "",  null: false
-    t.string   "maksuehto_tuotenumero",                    limit: 60,                           default: "",  null: false
-    t.string   "ennakkomaksu_tuotenumero",                 limit: 60,                           default: "",  null: false
-    t.string   "alennus_tuotenumero",                      limit: 60,                           default: "",  null: false
-    t.string   "laskutuslisa_tuotenumero",                 limit: 60,                           default: "",  null: false
-    t.decimal  "laskutuslisa",                                         precision: 5,  scale: 2, default: 0.0, null: false
-    t.string   "laskutuslisa_tyyppi",                      limit: 1,                            default: "",  null: false
-    t.string   "kuljetusvakuutus_tuotenumero",             limit: 60,                           default: "",  null: false
-    t.decimal  "kuljetusvakuutus",                                     precision: 5,  scale: 2, default: 0.0, null: false
-    t.string   "kuljetusvakuutus_tyyppi",                  limit: 1,                            default: "",  null: false
-    t.string   "kuljetusvakuutus_koonti",                  limit: 1,                            default: "",  null: false
-    t.string   "tuotteen_oletuspaikka",                    limit: 250,                          default: "",  null: false
-    t.string   "alv_kasittely",                            limit: 1,                            default: "",  null: false
-    t.string   "alv_kasittely_hintamuunnos",               limit: 1,                            default: "",  null: false
-    t.string   "asiakashinta_netto",                       limit: 2,                            default: "",  null: false
-    t.string   "puute_jt_oletus",                          limit: 1,                            default: "",  null: false
-    t.string   "puute_jt_kerataanko",                      limit: 1,                            default: "",  null: false
-    t.string   "kerataanko_jos_vain_puute_jt",             limit: 1,                            default: "",  null: false
-    t.string   "jt_automatiikka",                          limit: 1,                            default: "",  null: false
-    t.string   "jt_automatiikka_mitatoi_tilaus",           limit: 1,                            default: "",  null: false
-    t.string   "saapumisen_jt_kasittely",                  limit: 1,                            default: "",  null: false
-    t.string   "jt_toimitus_varastorajaus",                limit: 1,                            default: "",  null: false
-    t.string   "jt_rahti",                                 limit: 1,                            default: "",  null: false
-    t.string   "jt_rivien_kasittely",                      limit: 1,                            default: "",  null: false
-    t.string   "jt_toimitusaika_email_vahvistus",          limit: 1,                            default: "",  null: false
-    t.string   "jt_manual",                                limit: 1,                            default: "",  null: false
-    t.string   "kerayslistojen_yhdistaminen",              limit: 1,                            default: "",  null: false
-    t.string   "karayksesta_rahtikirjasyottoon",           limit: 1,                            default: "",  null: false
-    t.string   "rahtikirjojen_esisyotto",                  limit: 1,                            default: "",  null: false
-    t.string   "rahtikirjan_kollit_ja_lajit",              limit: 1,                            default: "",  null: false
-    t.string   "laskunsummapyoristys",                     limit: 1,                            default: "",  null: false
-    t.integer  "hintapyoristys",                                                                default: 2,   null: false
-    t.string   "hintapyoristys_loppunollat",               limit: 1,                            default: "",  null: false
-    t.string   "viitteen_kasinsyotto",                     limit: 1,                            default: "",  null: false
-    t.decimal  "suoratoim_ulkomaan_alarajasumma",                      precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "erikoisvarastomyynti_alarajasumma",                    precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "erikoisvarastomyynti_alarajasumma_rivi",               precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "rahtivapaa_alarajasumma",                              precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "tehdas_saldo_alaraja",                                 precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "logo",                                     limit: 100,                          default: "",  null: false
-    t.string   "lasku_logo",                               limit: 100,                          default: "",  null: false
-    t.string   "lasku_logo_positio",                       limit: 7,                            default: "",  null: false
-    t.integer  "lasku_logo_koko",                                                               default: 0,   null: false
-    t.string   "naytetaan_katteet_tilauksella",            limit: 1,                            default: "",  null: false
-    t.string   "tilauksen_yhteyshenkilot",                 limit: 1,                            default: "",  null: false
-    t.string   "tarjouksen_voi_versioida",                 limit: 1,                            default: "",  null: false
-    t.string   "nimityksen_muutos_tilauksella",            limit: 1,                            default: "",  null: false
-    t.string   "poistuvat_tuotteet",                       limit: 1,                            default: "",  null: false
-    t.string   "automaattinen_tuotehaku",                  limit: 1,                            default: "",  null: false
-    t.string   "jyvita_alennus",                           limit: 1,                            default: "",  null: false
-    t.string   "salli_jyvitys_myynnissa",                  limit: 1,                            default: "",  null: false
-    t.string   "salli_jyvitys_tarjouksella",               limit: 1,                            default: "",  null: false
-    t.string   "rivinumero_syotto",                        limit: 1,                            default: "",  null: false
-    t.string   "tee_osto_myyntitilaukselta",               limit: 1,                            default: "",  null: false
-    t.string   "tee_automaattinen_osto_myyntitilaukselta", limit: 1,                            default: "",  null: false
-    t.string   "tee_valmistus_myyntitilaukselta",          limit: 1,                            default: "",  null: false
-    t.string   "automaattinen_jt_toimitus",                limit: 1,                            default: "",  null: false
-    t.string   "automaattinen_jt_toimitus_valmistus",      limit: 1,                            default: "",  null: false
-    t.string   "dynaaminen_kassamyynti",                   limit: 1,                            default: "",  null: false
-    t.string   "kerayspoikkeama_kasittely",                limit: 1,                            default: "",  null: false
-    t.integer  "kerayspoikkeamaviestin_lahetys",                                                default: 0,   null: false
-    t.string   "keraysvahvistus_lahetys",                  limit: 1,                            default: "",  null: false
-    t.string   "oletus_toimitusehto",                      limit: 30,                           default: "",  null: false
-    t.string   "oletus_toimitusehto2",                     limit: 30,                           default: "",  null: false
-    t.string   "sad_lomake_tyyppi",                        limit: 1,                            default: "",  null: false
-    t.integer  "tarjouksen_voimaika",                                                           default: 14,  null: false
-    t.string   "tarjouksen_tuotepaikat",                   limit: 1,                            default: "",  null: false
-    t.string   "tarjouksen_alv_kasittely",                 limit: 1,                            default: "",  null: false
-    t.string   "splittauskielto",                          limit: 1,                            default: "",  null: false
-    t.string   "rekursiiviset_reseptit",                   limit: 1,                            default: "",  null: false
-    t.string   "rekursiiviset_tuoteperheet",               limit: 1,                            default: "",  null: false
-    t.string   "valmistusten_yhdistaminen",                limit: 1,                            default: "",  null: false
-    t.string   "valmistuksen_etusivu",                     limit: 1,                            default: "",  null: false
-    t.integer  "rahtikirjan_kopiomaara",                                                        default: 0,   null: false
-    t.string   "saldotarkistus_tulostusjonossa",           limit: 2,                            default: "",  null: false
-    t.string   "kerataanko_saldottomat",                   limit: 1,                            default: "",  null: false
-    t.string   "kerataanko_valmistukset",                  limit: 1,                            default: "",  null: false
-    t.string   "saldo_kasittely",                          limit: 1,                            default: "",  null: false
-    t.string   "ytunnus_tarkistukset",                     limit: 1,                            default: "",  null: false
-    t.string   "vienti_erittelyn_tulostus",                limit: 1,                            default: "",  null: false
-    t.string   "vientikiellon_ohitus",                     limit: 1,                            default: "",  null: false
-    t.integer  "oletus_lahetekpl",                                                              default: 0,   null: false
-    t.integer  "oletus_laskukpl_toimitatilaus",                                                 default: 1,   null: false
-    t.integer  "oletus_oslappkpl",                                                              default: 0,   null: false
-    t.integer  "oletus_rahtikirja_lahetekpl",                                                   default: 0,   null: false
-    t.integer  "oletus_rahtikirja_oslappkpl",                                                   default: 0,   null: false
-    t.string   "oslapp_rakir_logo",                        limit: 1,                            default: "",  null: false
-    t.string   "rahti_ja_kasittelykulut_kasin",            limit: 1,                            default: "",  null: false
+    t.string   "lahetteen_tulostustapa",                           limit: 1,                            default: "",    null: false
+    t.string   "kulujen_laskeminen_hintoihin",                     limit: 1,                            default: "",    null: false
+    t.string   "myyntitilin_tulostustapa",                         limit: 1,                            default: "",    null: false
+    t.string   "valmistuksen_tulostustapa",                        limit: 1,                            default: "",    null: false
+    t.string   "siirtolistan_tulostustapa",                        limit: 1,                            default: "",    null: false
+    t.string   "lahetteen_jarjestys",                              limit: 1,                            default: "",    null: false
+    t.string   "lahetteen_jarjestys_suunta",                       limit: 4,                            default: "",    null: false
+    t.string   "lahetteen_palvelutjatuottet",                      limit: 1,                            default: "",    null: false
+    t.string   "laskun_jarjestys",                                 limit: 1,                            default: "",    null: false
+    t.string   "laskun_jarjestys_suunta",                          limit: 4,                            default: "",    null: false
+    t.string   "laskun_palvelutjatuottet",                         limit: 1,                            default: "",    null: false
+    t.string   "tilauksen_jarjestys",                              limit: 1,                            default: "",    null: false
+    t.string   "tilauksen_jarjestys_suunta",                       limit: 4,                            default: "",    null: false
+    t.string   "kerayslistan_jarjestys",                           limit: 1,                            default: "",    null: false
+    t.string   "kerayslistan_jarjestys_suunta",                    limit: 4,                            default: "",    null: false
+    t.string   "kerayslistan_palvelutjatuottet",                   limit: 1,                            default: "",    null: false
+    t.string   "valmistus_kerayslistan_jarjestys",                 limit: 1,                            default: "",    null: false
+    t.string   "valmistus_kerayslistan_jarjestys_suunta",          limit: 4,                            default: "",    null: false
+    t.string   "valmistus_kerayslistan_palvelutjatuottet",         limit: 1,                            default: "",    null: false
+    t.string   "valmistuksessa_kaytetaan_tilakoodeja",             limit: 1,                            default: "",    null: false
+    t.string   "ostotilauksen_jarjestys",                          limit: 1,                            default: "",    null: false
+    t.string   "ostotilauksen_jarjestys_suunta",                   limit: 4,                            default: "",    null: false
+    t.string   "tarjouksen_jarjestys",                             limit: 1,                            default: "",    null: false
+    t.string   "tarjouksen_jarjestys_suunta",                      limit: 4,                            default: "",    null: false
+    t.string   "tarjouksen_palvelutjatuottet",                     limit: 1,                            default: "",    null: false
+    t.string   "tyomaarayksen_jarjestys",                          limit: 1,                            default: "",    null: false
+    t.string   "tyomaarayksen_jarjestys_suunta",                   limit: 4,                            default: "",    null: false
+    t.string   "tyomaarayksen_palvelutjatuottet",                  limit: 1,                            default: "",    null: false
+    t.string   "tuotteiden_jarjestys_raportoinnissa",              limit: 1,                            default: "",    null: false
+    t.string   "pakkaamolokerot",                                  limit: 1,                            default: "",    null: false
+    t.string   "konsernivarasto",                                  limit: 1,                            default: "",    null: false
+    t.string   "lahete_allekirjoitus",                             limit: 1,                            default: "",    null: false
+    t.string   "lomakkeiden_allekirjoitus",                        limit: 1,                            default: "",    null: false
+    t.string   "lahete_tyyppi_tulostus",                           limit: 1,                            default: "",    null: false
+    t.integer  "laskutyyppi",                                                                           default: 0,     null: false
+    t.string   "viivakoodi_laskulle",                              limit: 1,                            default: "",    null: false
+    t.string   "koontilaskut_yhdistetaan",                         limit: 1,                            default: "",    null: false
+    t.string   "koontilahete_kollitiedot",                         limit: 1,                            default: "",    null: false
+    t.string   "tilausvahvistustyyppi",                            limit: 150,                          default: "",    null: false
+    t.string   "tilausvahvistus_tyyppi_tulostus",                  limit: 1,                            default: "",    null: false
+    t.integer  "tilausvahvistus_lahetys",                                                               default: 0,     null: false
+    t.string   "tilausvahvistus_tallenna",                         limit: 1,                            default: "",    null: false
+    t.string   "tilausvahvistus_sisaisista",                       limit: 1,                            default: "",    null: false
+    t.string   "naytayhteensamaarat",                              limit: 1,                            default: "",    null: false
+    t.integer  "tarjoustyyppi",                                                                         default: 0,     null: false
+    t.string   "siirtolistatyyppi",                                limit: 1,                            default: "",    null: false
+    t.string   "varastosiirto_tilausvahvistus",                    limit: 1,                            default: "",    null: false
+    t.string   "ostotilaustyyppi",                                 limit: 1,                            default: "",    null: false
+    t.string   "ostotilaukseen_toimittajan_toimaika",              limit: 1,                            default: "",    null: false
+    t.string   "ostotilauksen_tuloste",                            limit: 1,                            default: "",    null: false
+    t.string   "ostolaskujen_paivays",                             limit: 1,                            default: "",    null: false
+    t.integer  "ostolaskujen_kurssipaiva",                                                              default: 0,     null: false
+    t.string   "ostolaskun_kulutilit",                             limit: 1,                            default: "",    null: false
+    t.string   "ostolaskun_kulutilit_kayttaytyminen",              limit: 1,                            default: "",    null: false
+    t.string   "tyomaaraystyyppi",                                 limit: 1,                            default: "",    null: false
+    t.string   "tyomaarays_tulostus_lisarivit",                    limit: 1,                            default: "",    null: false
+    t.string   "tyomaarays_asennuskalenteri_muistutus",            limit: 1,                            default: "",    null: false
+    t.string   "viivakoodi_purkulistaan",                          limit: 1,                            default: "",    null: false
+    t.string   "purkulistan_asettelu",                             limit: 1,                            default: "",    null: false
+    t.integer  "laskutuskielto",                                                                        default: 0,     null: false
+    t.string   "saldovirhe_esto_laskutus",                         limit: 1,                            default: "",    null: false
+    t.string   "kehahinvirhe_esto_laskutus",                       limit: 1,                            default: "",    null: false
+    t.string   "rahti_hinnoittelu",                                limit: 1,                            default: "",    null: false
+    t.string   "rahti_tuotenumero",                                limit: 60,                           default: "",    null: false
+    t.string   "jalkivaatimus_tuotenumero",                        limit: 60,                           default: "",    null: false
+    t.string   "kasittelykulu_tuotenumero",                        limit: 60,                           default: "",    null: false
+    t.string   "maksuehto_tuotenumero",                            limit: 60,                           default: "",    null: false
+    t.string   "ennakkomaksu_tuotenumero",                         limit: 60,                           default: "",    null: false
+    t.string   "alennus_tuotenumero",                              limit: 60,                           default: "",    null: false
+    t.string   "laskutuslisa_tuotenumero",                         limit: 60,                           default: "",    null: false
+    t.string   "erilliskasiteltava_tuotenumero",                   limit: 60,                           default: "",    null: false
+    t.string   "lisakulu_tuotenumero",                             limit: 60,                           default: "",    null: false
+    t.decimal  "laskutuslisa",                                                 precision: 5,  scale: 2, default: 0.0,   null: false
+    t.string   "laskutuslisa_tyyppi",                              limit: 1,                            default: "",    null: false
+    t.string   "kuljetusvakuutus_tuotenumero",                     limit: 60,                           default: "",    null: false
+    t.decimal  "kuljetusvakuutus",                                             precision: 5,  scale: 2, default: 0.0,   null: false
+    t.string   "kuljetusvakuutus_tyyppi",                          limit: 1,                            default: "",    null: false
+    t.string   "kuljetusvakuutus_koonti",                          limit: 1,                            default: "",    null: false
+    t.string   "tuotteen_oletuspaikka",                            limit: 250,                          default: "",    null: false
+    t.string   "alv_kasittely",                                    limit: 1,                            default: "",    null: false
+    t.string   "alv_kasittely_hintamuunnos",                       limit: 1,                            default: "",    null: false
+    t.string   "asiakashinta_netto",                               limit: 2,                            default: "",    null: false
+    t.string   "puute_jt_oletus",                                  limit: 1,                            default: "",    null: false
+    t.string   "puute_jt_kerataanko",                              limit: 1,                            default: "",    null: false
+    t.string   "kerataanko_jos_vain_puute_jt",                     limit: 1,                            default: "",    null: false
+    t.string   "jt_automatiikka",                                  limit: 1,                            default: "",    null: false
+    t.string   "jt_automatiikka_mitatoi_tilaus",                   limit: 1,                            default: "",    null: false
+    t.string   "saapumisen_jt_kasittely",                          limit: 1,                            default: "",    null: false
+    t.string   "jt_toimitus_varastorajaus",                        limit: 1,                            default: "",    null: false
+    t.string   "jt_rahti",                                         limit: 1,                            default: "",    null: false
+    t.string   "jt_rivien_kasittely",                              limit: 1,                            default: "",    null: false
+    t.string   "jt_toimitusaika_email_vahvistus",                  limit: 1,                            default: "",    null: false
+    t.string   "jt_manual",                                        limit: 1,                            default: "",    null: false
+    t.string   "jt_asiakkaan_tilausnumero",                        limit: 1,                            default: "",    null: false
+    t.string   "kerayslistojen_yhdistaminen",                      limit: 1,                            default: "",    null: false
+    t.string   "karayksesta_rahtikirjasyottoon",                   limit: 1,                            default: "",    null: false
+    t.string   "rahtikirjojen_esisyotto",                          limit: 1,                            default: "",    null: false
+    t.string   "rahtikirjan_kollit_ja_lajit",                      limit: 1,                            default: "",    null: false
+    t.string   "laskunsummapyoristys",                             limit: 1,                            default: "",    null: false
+    t.integer  "hintapyoristys",                                                                        default: 2,     null: false
+    t.string   "hintapyoristys_loppunollat",                       limit: 1,                            default: "",    null: false
+    t.string   "viitteen_kasinsyotto",                             limit: 1,                            default: "",    null: false
+    t.decimal  "suoratoim_ulkomaan_alarajasumma",                              precision: 12, scale: 2, default: 0.0,   null: false
+    t.decimal  "erikoisvarastomyynti_alarajasumma",                            precision: 12, scale: 2, default: 0.0,   null: false
+    t.decimal  "erikoisvarastomyynti_alarajasumma_rivi",                       precision: 12, scale: 2, default: 0.0,   null: false
+    t.decimal  "rahtivapaa_alarajasumma",                                      precision: 12, scale: 2, default: 0.0,   null: false
+    t.decimal  "tehdas_saldo_alaraja",                                         precision: 12, scale: 2, default: 0.0,   null: false
+    t.string   "logo",                                             limit: 100,                          default: "",    null: false
+    t.string   "lasku_logo",                                       limit: 100,                          default: "",    null: false
+    t.string   "lasku_logo_positio",                               limit: 7,                            default: "",    null: false
+    t.integer  "lasku_logo_koko",                                                                       default: 0,     null: false
+    t.string   "naytetaan_katteet_tilauksella",                    limit: 1,                            default: "",    null: false
+    t.string   "tilauksen_yhteyshenkilot",                         limit: 1,                            default: "",    null: false
+    t.string   "tarjouksen_voi_versioida",                         limit: 1,                            default: "",    null: false
+    t.string   "nimityksen_muutos_tilauksella",                    limit: 1,                            default: "",    null: false
+    t.string   "poistuvat_tuotteet",                               limit: 1,                            default: "",    null: false
+    t.string   "automaattinen_tuotehaku",                          limit: 1,                            default: "",    null: false
+    t.string   "jyvita_alennus",                                   limit: 1,                            default: "",    null: false
+    t.string   "salli_jyvitys_myynnissa",                          limit: 1,                            default: "",    null: false
+    t.string   "salli_jyvitys_tarjouksella",                       limit: 1,                            default: "",    null: false
+    t.string   "rivinumero_syotto",                                limit: 1,                            default: "",    null: false
+    t.string   "tee_osto_myyntitilaukselta",                       limit: 1,                            default: "",    null: false
+    t.string   "tee_automaattinen_osto_myyntitilaukselta",         limit: 1,                            default: "",    null: false
+    t.string   "tee_automaattinen_siirto_myyntitilaukselta",       limit: 1,                            default: "",    null: false
+    t.string   "tee_valmistus_myyntitilaukselta",                  limit: 1,                            default: "",    null: false
+    t.string   "tee_siirtolista_myyntitilaukselta",                limit: 1,                            default: "",    null: false
+    t.string   "kirjanpidollinen_varastosiirto_myyntitilaukselta", limit: 1,                            default: "",    null: false
+    t.string   "automaattinen_jt_toimitus",                        limit: 1,                            default: "",    null: false
+    t.string   "automaattinen_jt_toimitus_valmistus",              limit: 1,                            default: "",    null: false
+    t.string   "automaattinen_jt_toimitus_siirtolista",            limit: 1,                            default: "",    null: false
+    t.string   "siirtolistat_vastaanotetaan_per_lahto",            limit: 1,                            default: "",    null: false
+    t.string   "dynaaminen_kassamyynti",                           limit: 1,                            default: "",    null: false
+    t.string   "kerayspoikkeama_kasittely",                        limit: 1,                            default: "",    null: false
+    t.integer  "kerayspoikkeamaviestin_lahetys",                                                        default: 0,     null: false
+    t.string   "keraysvahvistus_lahetys",                          limit: 1,                            default: "",    null: false
+    t.string   "oletus_toimitusehto",                              limit: 30,                           default: "",    null: false
+    t.string   "oletus_toimitusehto2",                             limit: 30,                           default: "",    null: false
+    t.string   "sad_lomake_tyyppi",                                limit: 1,                            default: "",    null: false
+    t.integer  "tarjouksen_voimaika",                                                                   default: 14,    null: false
+    t.string   "tarjouksen_tuotepaikat",                           limit: 1,                            default: "",    null: false
+    t.string   "tarjouksen_alv_kasittely",                         limit: 1,                            default: "",    null: false
+    t.string   "splittauskielto",                                  limit: 1,                            default: "",    null: false
+    t.string   "rekursiiviset_reseptit",                           limit: 1,                            default: "",    null: false
+    t.string   "rekursiiviset_tuoteperheet",                       limit: 1,                            default: "",    null: false
+    t.string   "valmistusten_yhdistaminen",                        limit: 1,                            default: "",    null: false
+    t.integer  "rahtikirjan_kopiomaara",                                                                default: 0,     null: false
+    t.string   "saldotarkistus_tulostusjonossa",                   limit: 2,                            default: "",    null: false
+    t.string   "kerataanko_saldottomat",                           limit: 1,                            default: "",    null: false
+    t.string   "kerataanko_valmistukset",                          limit: 1,                            default: "",    null: false
+    t.string   "saldo_kasittely",                                  limit: 1,                            default: "",    null: false
+    t.string   "ytunnus_tarkistukset",                             limit: 1,                            default: "",    null: false
+    t.string   "vienti_erittelyn_tulostus",                        limit: 1,                            default: "",    null: false
+    t.string   "vientikiellon_ohitus",                             limit: 1,                            default: "",    null: false
+    t.integer  "oletus_lahetekpl",                                                                      default: 0,     null: false
+    t.integer  "oletus_lahetekpl_siirtolista",                                                          default: 1,     null: false
+    t.integer  "oletus_laskukpl_toimitatilaus",                                                         default: 1,     null: false
+    t.integer  "oletus_oslappkpl",                                                                      default: 0,     null: false
+    t.integer  "oletus_rahtikirja_lahetekpl",                                                           default: 0,     null: false
+    t.integer  "oletus_rahtikirja_oslappkpl",                                                           default: 0,     null: false
+    t.string   "oslapp_rakir_logo",                                limit: 1,                            default: "",    null: false
+    t.string   "osoitelappu_lisatiedot",                           limit: 1,                            default: "",    null: false
+    t.string   "rahti_ja_kasittelykulut_kasin",                    limit: 1,                            default: "",    null: false
     t.text     "synkronoi"
-    t.string   "myyntitilaus_osatoimitus",                 limit: 1,                            default: "",  null: false
-    t.string   "myyntitilaus_asiakasmemo",                 limit: 1,                            default: "",  null: false
-    t.string   "myyntitilaus_saatavat",                    limit: 1,                            default: "",  null: false
-    t.string   "myyntitilaus_tarjoukseksi",                limit: 1,                            default: "",  null: false
-    t.string   "myyntitilauksen_liitteet",                 limit: 1,                            default: "",  null: false
-    t.string   "varastopaikan_lippu",                      limit: 1,                            default: "",  null: false
-    t.string   "varastopaikkojen_maarittely",              limit: 1,                            default: "",  null: false
-    t.string   "varastontunniste",                         limit: 1,                            default: "",  null: false
-    t.string   "pakollinen_varasto",                       limit: 1,                            default: "",  null: false
-    t.string   "suuntalavat",                              limit: 1,                            default: "",  null: false
-    t.string   "kerayserat",                               limit: 1,                            default: "",  null: false
-    t.string   "varaako_jt_saldoa",                        limit: 1,                            default: "",  null: false
-    t.string   "korvaavan_hinta_ylaraja",                  limit: 3,                            default: "",  null: false
-    t.string   "korvaavat_hyvaksynta",                     limit: 1,                            default: "",  null: false
-    t.string   "korvaavuusketjun_jarjestys",               limit: 1,                            default: "",  null: false
-    t.string   "korvaavuusketjun_puutekasittely",          limit: 1,                            default: "",  null: false
-    t.string   "vastaavuusketjun_jarjestys",               limit: 1,                            default: "",  null: false
-    t.string   "monikayttajakalenteri",                    limit: 1,                            default: "",  null: false
-    t.string   "automaattinen_asiakasnumerointi",          limit: 1,                            default: "",  null: false
-    t.integer  "asiakasnumeroinnin_aloituskohta",                                               default: 0,   null: false
-    t.string   "asiakkaan_tarkenne",                       limit: 1,                            default: "",  null: false
-    t.string   "haejaselaa_konsernisaldot",                limit: 1,                            default: "",  null: false
-    t.string   "viikkosuunnitelma",                        limit: 1,                            default: "",  null: false
-    t.string   "kalenterimerkinnat",                       limit: 1,                            default: "",  null: false
-    t.string   "tuntikirjausten_erittely",                 limit: 1,                            default: "",  null: false
-    t.string   "variaatiomyynti",                          limit: 1,                            default: "",  null: false
-    t.string   "myyntiera_pyoristys",                      limit: 1,                            default: "",  null: false
-    t.string   "ostoera_pyoristys",                        limit: 1,                            default: "",  null: false
-    t.string   "reklamaation_kasittely",                   limit: 1,                            default: "",  null: false
-    t.string   "reklamaation_kasittely_tuoteperhe",        limit: 1,                            default: "",  null: false
-    t.string   "reklamaation_hinnoittelu",                 limit: 1,                            default: "",  null: false
-    t.integer  "reklamaation_vastaanottovarasto",                                               default: 0,   null: false
-    t.string   "myytitilauksen_kululaskut",                limit: 1,                            default: "",  null: false
-    t.string   "huomautetaanko_poistuvasta",               limit: 1,                            default: "",  null: false
-    t.string   "palvelutuotteiden_kehahinnat",             limit: 1,                            default: "",  null: false
-    t.string   "kehahinarvio_ennen_ensituloa",             limit: 1,                            default: "",  null: false
-    t.string   "tyomaaraystiedot_tarjouksella",            limit: 1,                            default: "",  null: false
-    t.string   "vahinkotiedot_tyomaarayksella",            limit: 1,                            default: "",  null: false
-    t.string   "rinnakkaisostaja_myynnissa",               limit: 1,                            default: "",  null: false
-    t.string   "tilausrivien_toimitettuaika",              limit: 1,                            default: "",  null: false
-    t.string   "tilausvahvistus_jttoimituksista",          limit: 1,                            default: "",  null: false
-    t.string   "naytetaanko_osaston_ja_tryn_selite",       limit: 1,                            default: "",  null: false
-    t.string   "livetuotehaku_tilauksella",                limit: 1,                            default: "",  null: false
-    t.string   "livetuotehaku_hakutapa",                   limit: 1,                            default: "",  null: false
-    t.string   "livetuotehaku_poistetut",                  limit: 1,                            default: "",  null: false
-    t.string   "iltasiivo_mitatoi_ext_tilauksia",          limit: 3,                            default: "",  null: false
-    t.string   "extranet_tilaus_varaa_saldoa",             limit: 3,                            default: "",  null: false
-    t.string   "tuoteperhe_suoratoimitus",                 limit: 1,                            default: "",  null: false
-    t.string   "tuoteperheinfo_lahetteella",               limit: 1,                            default: "",  null: false
-    t.string   "kirjanpidon_tarkenteet",                   limit: 1,                            default: "",  null: false
-    t.string   "tuoteperhe_kasittely",                     limit: 1,                            default: "",  null: false
-    t.string   "hyvaksy_tarjous_tilaustyyppi",             limit: 1,                            default: "",  null: false
-    t.string   "vaihda_asiakas_hintapaiv",                 limit: 1,                            default: "",  null: false
-    t.string   "keraysaikarajaus",                         limit: 2,                            default: "",  null: false
-    t.string   "liitetiedostojen_nimeaminen",              limit: 1,                            default: "",  null: false
-    t.string   "varastoonvientipaiva",                     limit: 1,                            default: "",  null: false
-    t.string   "varaston_splittaus",                       limit: 1,                            default: "",  null: false
-    t.string   "oletusvarasto_tilaukselle",                limit: 1,                            default: "",  null: false
-    t.integer  "ostoreskontra_kassaalekasittely",                                               default: 0,   null: false
-    t.string   "myyntilaskun_erapvmlaskenta",              limit: 1,                            default: "",  null: false
-    t.string   "vak_kasittely",                            limit: 1,                            default: "",  null: false
-    t.string   "vak_erittely",                             limit: 1,                            default: "",  null: false
-    t.string   "intrastat_kaytossa",                       limit: 1,                            default: "",  null: false
-    t.string   "myynti_asiakhin_tallenna",                 limit: 1,                            default: "",  null: false
-    t.integer  "myynnin_alekentat",                                                             default: 1,   null: false
-    t.string   "myynnin_alekentat_muokkaus",               limit: 50,                           default: "1", null: false
-    t.string   "oston_alekentat",                          limit: 1,                            default: "1", null: false
-    t.string   "tilausrivi_omalle_tilaukselle",            limit: 1,                            default: "",  null: false
-    t.string   "haejaselaa_saapumispvm",                   limit: 1,                            default: "",  null: false
-    t.string   "ennakkotilausten_toimitus",                limit: 1,                            default: "",  null: false
-    t.string   "jalkilaskenta_kuluperuste",                limit: 2,                            default: "",  null: false
-    t.string   "teeostotilaus_valmistuksen_tulosjonosta",  limit: 1,                            default: "",  null: false
-    t.string   "tarkista_eankoodi",                        limit: 1,                            default: "",  null: false
-    t.string   "raaka_aineet_valmistusmyynti",             limit: 1,                            default: "",  null: false
-    t.string   "tulosta_valmistus_tulosteet",              limit: 1,                            default: "",  null: false
-    t.string   "valmistuksien_kasittely",                  limit: 1,                            default: "",  null: false
-    t.string   "maksukehotus_kentat",                      limit: 1,                            default: "",  null: false
-    t.string   "maksukehotuksen_osoitetiedot",             limit: 1,                            default: "",  null: false
-    t.float    "viitemaksujen_kohdistus_sallittu_heitto",  limit: 3,                            default: 0.0, null: false
-    t.string   "luottorajan_ylitys",                       limit: 1,                            default: "",  null: false
-    t.integer  "erapaivan_ylityksen_raja",                                                      default: 15,  null: false
-    t.string   "erapaivan_ylityksen_toimenpide",           limit: 1,                            default: "",  null: false
-    t.string   "vastaanottoraportti",                      limit: 1,                            default: "",  null: false
-    t.string   "tositteen_tilioinnit",                     limit: 1,                            default: "",  null: false
-    t.string   "ei_alennuksia_lapsituotteille",            limit: 1,                            default: "",  null: false
-    t.string   "epakurantoinnin_myyntihintaleikkuri",      limit: 1,                            default: "",  null: false
-    t.string   "ennakkolaskun_tyyppi",                     limit: 1,                            default: "",  null: false
-    t.string   "maksusopimus_toimitus",                    limit: 1,                            default: "",  null: false
-    t.string   "matkalaskun_tarkastus",                    limit: 1,                            default: "",  null: false
-    t.string   "seuraava_tuotenumero",                     limit: 1,                            default: "",  null: false
-    t.string   "myyntitilausrivi_rekisterinumero",         limit: 1,                            default: "",  null: false
-    t.string   "ostotilauksen_kasittely",                  limit: 150,                          default: "",  null: false
-    t.string   "vastaavat_tuotteet_esitysmuoto",           limit: 1,                            default: "",  null: false
-    t.string   "paivita_oletuspaikka",                     limit: 1,                            default: "",  null: false
-    t.string   "myyntihinta_paivitys_saapuminen",          limit: 1,                            default: "",  null: false
-    t.string   "toimipaikkakasittely",                     limit: 1,                            default: "",  null: false
-    t.string   "tarkenteiden_prioriteetti",                limit: 1,                            default: "",  null: false
-    t.integer  "suoratoimitusvarasto",                                                          default: 0,   null: false
-    t.string   "nouto_suoraan_laskutukseen",               limit: 1,                            default: "",  null: false
-    t.string   "reklamaatiot_lasku",                       limit: 1,                            default: "",  null: false
-    t.string   "laatija",                                  limit: 50,                           default: "",  null: false
-    t.datetime "luontiaika",                                                                                  null: false
-    t.datetime "muutospvm",                                                                                   null: false
-    t.string   "muuttaja",                                 limit: 50,                           default: "",  null: false
+    t.string   "myyntitilaus_osatoimitus",                         limit: 1,                            default: "",    null: false
+    t.string   "myyntitilaus_asiakasmemo",                         limit: 1,                            default: "",    null: false
+    t.string   "myyntitilaus_saatavat",                            limit: 1,                            default: "",    null: false
+    t.string   "myyntitilaus_tarjoukseksi",                        limit: 1,                            default: "",    null: false
+    t.string   "myyntitilauksen_liitteet",                         limit: 1,                            default: "",    null: false
+    t.string   "myyntitilauksen_toimipaikka",                      limit: 1,                            default: "",    null: false
+    t.string   "varastopaikan_lippu",                              limit: 1,                            default: "",    null: false
+    t.string   "varastopaikkojen_maarittely",                      limit: 1,                            default: "",    null: false
+    t.string   "varastontunniste",                                 limit: 1,                            default: "",    null: false
+    t.string   "pakollinen_varasto",                               limit: 1,                            default: "",    null: false
+    t.string   "suuntalavat",                                      limit: 1,                            default: "",    null: false
+    t.string   "kerayserat",                                       limit: 1,                            default: "",    null: false
+    t.string   "varaako_jt_saldoa",                                limit: 1,                            default: "",    null: false
+    t.string   "korvaavan_hinta_ylaraja",                          limit: 3,                            default: "",    null: false
+    t.string   "korvaavat_hyvaksynta",                             limit: 1,                            default: "",    null: false
+    t.string   "korvaavuusketjun_jarjestys",                       limit: 1,                            default: "",    null: false
+    t.string   "korvaavuusketjun_puutekasittely",                  limit: 1,                            default: "",    null: false
+    t.string   "vastaavuusketjun_jarjestys",                       limit: 1,                            default: "",    null: false
+    t.string   "monikayttajakalenteri",                            limit: 1,                            default: "",    null: false
+    t.string   "automaattinen_asiakasnumerointi",                  limit: 1,                            default: "",    null: false
+    t.integer  "asiakasnumeroinnin_aloituskohta",                                                       default: 0,     null: false
+    t.string   "asiakkaan_tarkenne",                               limit: 1,                            default: "",    null: false
+    t.string   "haejaselaa_konsernisaldot",                        limit: 1,                            default: "",    null: false
+    t.string   "viikkosuunnitelma",                                limit: 1,                            default: "",    null: false
+    t.string   "kalenterimerkinnat",                               limit: 1,                            default: "",    null: false
+    t.string   "tuntikirjausten_erittely",                         limit: 1,                            default: "",    null: false
+    t.string   "variaatiomyynti",                                  limit: 1,                            default: "",    null: false
+    t.string   "nayta_variaatiot",                                 limit: 1,                            default: "",    null: false
+    t.string   "myyntiera_pyoristys",                              limit: 1,                            default: "",    null: false
+    t.string   "ostoera_pyoristys",                                limit: 1,                            default: "",    null: false
+    t.string   "reklamaation_kasittely",                           limit: 1,                            default: "",    null: false
+    t.string   "reklamaation_kasittely_tuoteperhe",                limit: 1,                            default: "",    null: false
+    t.string   "reklamaation_hinnoittelu",                         limit: 1,                            default: "",    null: false
+    t.integer  "reklamaation_vastaanottovarasto",                                                       default: 0,     null: false
+    t.string   "myytitilauksen_kululaskut",                        limit: 1,                            default: "",    null: false
+    t.string   "huomautetaanko_poistuvasta",                       limit: 1,                            default: "",    null: false
+    t.string   "palvelutuotteiden_kehahinnat",                     limit: 1,                            default: "",    null: false
+    t.string   "kehahinarvio_ennen_ensituloa",                     limit: 1,                            default: "",    null: false
+    t.string   "tyomaaraystiedot_tarjouksella",                    limit: 1,                            default: "",    null: false
+    t.string   "rinnakkaisostaja_myynnissa",                       limit: 1,                            default: "",    null: false
+    t.string   "tilausrivien_toimitettuaika",                      limit: 1,                            default: "",    null: false
+    t.string   "tilausvahvistus_jttoimituksista",                  limit: 1,                            default: "",    null: false
+    t.string   "naytetaanko_osaston_ja_tryn_selite",               limit: 1,                            default: "",    null: false
+    t.string   "naytetaanko_ale_peruste_tilausrivilla",            limit: 1,                            default: "",    null: false
+    t.string   "tilauksen_myyntieratiedot",                        limit: 1,                            default: "",    null: false
+    t.string   "livetuotehaku_tilauksella",                        limit: 1,                            default: "",    null: false
+    t.string   "livetuotehaku_hakutapa",                           limit: 1,                            default: "",    null: false
+    t.string   "livetuotehaku_poistetut",                          limit: 1,                            default: "",    null: false
+    t.string   "iltasiivo_mitatoi_ext_tilauksia",                  limit: 3,                            default: "",    null: false
+    t.string   "extranet_tilaus_varaa_saldoa",                     limit: 3,                            default: "",    null: false
+    t.string   "extranet_nayta_saldo",                             limit: 1,                            default: "",    null: false
+    t.string   "ext_tilauksen_hyvaksyja_myyjaksi",                 limit: 1,                            default: "",    null: false
+    t.string   "tuoteperhe_suoratoimitus",                         limit: 1,                            default: "",    null: false
+    t.string   "tuoteperheinfo_lahetteella",                       limit: 1,                            default: "",    null: false
+    t.string   "kirjanpidon_tarkenteet",                           limit: 1,                            default: "",    null: false
+    t.string   "tuoteperhe_kasittely",                             limit: 1,                            default: "",    null: false
+    t.string   "hyvaksy_tarjous_tilaustyyppi",                     limit: 1,                            default: "",    null: false
+    t.string   "vaihda_asiakas_hintapaiv",                         limit: 1,                            default: "",    null: false
+    t.string   "keraysaikarajaus",                                 limit: 2,                            default: "",    null: false
+    t.string   "liitetiedostojen_nimeaminen",                      limit: 1,                            default: "",    null: false
+    t.string   "varastoonvientipaiva",                             limit: 1,                            default: "",    null: false
+    t.string   "varaston_splittaus",                               limit: 1,                            default: "",    null: false
+    t.string   "oletusvarasto_tilaukselle",                        limit: 1,                            default: "",    null: false
+    t.integer  "ostoreskontra_kassaalekasittely",                                                       default: 0,     null: false
+    t.string   "myyntilaskun_erapvmlaskenta",                      limit: 1,                            default: "",    null: false
+    t.string   "vak_kasittely",                                    limit: 1,                            default: "",    null: false
+    t.string   "vak_erittely",                                     limit: 1,                            default: "",    null: false
+    t.string   "intrastat_kaytossa",                               limit: 1,                            default: "",    null: false
+    t.string   "intrastat_pvm",                                    limit: 1,                            default: "",    null: false
+    t.string   "myynti_asiakhin_tallenna",                         limit: 1,                            default: "",    null: false
+    t.integer  "myynnin_alekentat",                                                                     default: 1,     null: false
+    t.string   "myynnin_alekentat_muokkaus",                       limit: 50,                           default: "1",   null: false
+    t.string   "oston_alekentat",                                  limit: 1,                            default: "1",   null: false
+    t.string   "tilausrivi_omalle_tilaukselle",                    limit: 1,                            default: "",    null: false
+    t.string   "haejaselaa_saapumispvm",                           limit: 1,                            default: "",    null: false
+    t.string   "ennakkotilausten_toimitus",                        limit: 1,                            default: "",    null: false
+    t.string   "jalkilaskenta_kuluperuste",                        limit: 2,                            default: "",    null: false
+    t.string   "teeostotilaus_valmistuksen_tulosjonosta",          limit: 1,                            default: "",    null: false
+    t.string   "tarkista_eankoodi",                                limit: 1,                            default: "",    null: false
+    t.string   "raaka_aineet_valmistusmyynti",                     limit: 1,                            default: "",    null: false
+    t.string   "tulosta_valmistus_tulosteet",                      limit: 1,                            default: "",    null: false
+    t.string   "valmistuksien_kasittely",                          limit: 1,                            default: "",    null: false
+    t.string   "kehahinta_valmistuksella",                         limit: 1,                            default: "",    null: false
+    t.string   "saldo_varastossa_valmistuksella",                  limit: 1,                            default: "",    null: false
+    t.string   "varastonarvon_jako_usealle_valmisteelle",          limit: 1,                            default: "",    null: false
+    t.string   "maksukehotus_kentat",                              limit: 1,                            default: "",    null: false
+    t.string   "maksukehotuksen_osoitetiedot",                     limit: 1,                            default: "",    null: false
+    t.float    "viitemaksujen_kohdistus_sallittu_heitto",          limit: 24,                           default: 0.0,   null: false
+    t.string   "luottorajan_ylitys",                               limit: 1,                            default: "",    null: false
+    t.string   "luottorajan_tarkistus",                            limit: 1,                            default: "",    null: false
+    t.integer  "erapaivan_ylityksen_raja",                                                              default: 15,    null: false
+    t.string   "erapaivan_ylityksen_toimenpide",                   limit: 1,                            default: "",    null: false
+    t.string   "vastaanottoraportti",                              limit: 1,                            default: "",    null: false
+    t.string   "tositteen_tilioinnit",                             limit: 1,                            default: "",    null: false
+    t.string   "ei_alennuksia_lapsituotteille",                    limit: 1,                            default: "",    null: false
+    t.string   "epakurantoinnin_myyntihintaleikkuri",              limit: 1,                            default: "",    null: false
+    t.string   "ennakkolaskun_tyyppi",                             limit: 1,                            default: "",    null: false
+    t.string   "maksusopimus_toimitus",                            limit: 1,                            default: "",    null: false
+    t.string   "matkalaskun_tarkastus",                            limit: 1,                            default: "",    null: false
+    t.string   "seuraava_tuotenumero",                             limit: 1,                            default: "",    null: false
+    t.string   "myyntitilausrivi_rekisterinumero",                 limit: 1,                            default: "",    null: false
+    t.string   "ostotilauksen_kasittely",                          limit: 150,                          default: "",    null: false
+    t.string   "vastaavat_tuotteet_esitysmuoto",                   limit: 1,                            default: "",    null: false
+    t.string   "laite_huolto",                                     limit: 1,                            default: "",    null: false
+    t.string   "paivita_oletuspaikka",                             limit: 1,                            default: "",    null: false
+    t.string   "myyntihinta_paivitys_saapuminen",                  limit: 1,                            default: "",    null: false
+    t.string   "toimipaikkakasittely",                             limit: 1,                            default: "",    null: false
+    t.string   "tarkenteiden_prioriteetti",                        limit: 1,                            default: "",    null: false
+    t.integer  "suoratoimitusvarasto",                                                                  default: 0,     null: false
+    t.integer  "takuuvarasto",                                                                          default: 0,     null: false
+    t.string   "nouto_suoraan_laskutukseen",                       limit: 1,                            default: "",    null: false
+    t.string   "reklamaatiot_lasku",                               limit: 1,                            default: "",    null: false
+    t.string   "yhdistetaan_identtiset_laskulla",                  limit: 1,                            default: "",    null: false
+    t.string   "sallitaanko_kateismyynti_laskulle",                limit: 1,                            default: "",    null: false
+    t.boolean  "lapsituotteen_poiston_esto",                                                            default: false, null: false
+    t.string   "pura_osaluettelot",                                limit: 1,                            default: "",    null: false
+    t.string   "laiterekisteri_kaytossa",                          limit: 1,                            default: "",    null: false
+    t.string   "laatija",                                          limit: 50,                           default: "",    null: false
+    t.datetime "luontiaika",                                                                                            null: false
+    t.datetime "muutospvm",                                                                                             null: false
+    t.string   "muuttaja",                                         limit: 50,                           default: "",    null: false
   end
 
   add_index "yhtion_parametrit", ["yhtio"], name: "yhtio_index", using: :btree
@@ -3350,6 +3505,19 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   add_index "yhtion_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
+
+  create_table "yhtion_toimipaikat_parametrit", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",       limit: 5,   default: "", null: false
+    t.integer  "toimipaikka",             default: 0,  null: false
+    t.string   "parametri",   limit: 150, default: "", null: false
+    t.text     "arvo"
+    t.string   "laatija",     limit: 50,  default: "", null: false
+    t.datetime "luontiaika",                           null: false
+    t.datetime "muutospvm",                            null: false
+    t.string   "muuttaja",    limit: 50,  default: "", null: false
+  end
+
+  add_index "yhtion_toimipaikat_parametrit", ["yhtio"], name: "yhtio_index", using: :btree
 
   create_table "yriti", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",                 limit: 5,                           default: "",  null: false
