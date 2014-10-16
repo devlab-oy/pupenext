@@ -19,15 +19,25 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_not_nil @joe.permissions
-  end
-
-  test "user has read permissions" do
-    assert_equal 2, @joe.permissions.read_access.count
+    assert_equal 3, @joe.permissions.count
   end
 
   test "user has update permissions" do
-    assert_equal 1, @joe.permissions.update_access.count
+    assert_equal 1, @joe.permissions.update_permissions.count
+  end
+
+  test 'read acess' do
+    assert @joe.permissions.read_access '/pupenext/customers'
+  end
+
+  test "can read" do
+    assert @joe.can_read? '/pupenext/customers'
+    refute @joe.can_read? '/no/access/to/this'
+  end
+
+  test "can update" do
+    refute @joe.can_update? '/pupenext/currensies'
+    assert @joe.can_update? '/pupenext/companies'
   end
 
 end
