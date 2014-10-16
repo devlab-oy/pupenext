@@ -37,7 +37,7 @@ class CurrenciesController < ApplicationController
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
-      redirect_to currencies_path, notice: 'Currency was successfully created.'
+      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
     else
       render action: 'new'
     end
@@ -52,7 +52,7 @@ class CurrenciesController < ApplicationController
   def update
 
     if @currency.update_by(currency_params, current_user)
-      redirect_to currencies_path, notice: 'Currency was successfully updated.'
+      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
     else
       render action: 'edit'
     end
@@ -85,7 +85,7 @@ class CurrenciesController < ApplicationController
 
     def update_access
       unless update_access?
-        redirect_to currencies_path, notice: "You don't have permission to update."
+        redirect_to currencies_path, notice: "Sinulla ei ole päivitysoikeuksia."
       end
     end
 end
