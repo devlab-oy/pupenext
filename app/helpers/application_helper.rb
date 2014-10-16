@@ -44,8 +44,12 @@ module ApplicationHelper
   private
 
     def request_path
-      # return request path without parameters
-      request.fullpath.split('?').first
+      # return first resource from request, our access control is based on it
+      path = request.path_info.split '/'
+
+      access = '/'
+      access << path.second unless path.empty?
+      access
     end
 
 end
