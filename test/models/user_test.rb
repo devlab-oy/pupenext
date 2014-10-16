@@ -27,21 +27,21 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'read access' do
-    assert @joe.permissions.read_access '/pupenext/customers'
+    assert @joe.permissions.read_access '/customers'
   end
 
   test 'update access' do
-    assert @joe.permissions.update_access '/pupenext/companies'
+    assert @joe.permissions.update_access '/companies'
   end
 
   test "can read" do
-    assert @joe.can_read? '/pupenext/customers'
+    assert @joe.can_read? '/customers'
     refute @joe.can_read? '/test'
   end
 
   test "can update" do
-    refute @joe.can_update? '/pupenext/currensies'
-    assert @joe.can_update? '/pupenext/companies'
+    refute @joe.can_update? '/currencies'
+    assert @joe.can_update? '/companies'
   end
 
 end
