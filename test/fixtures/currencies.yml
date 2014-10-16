@@ -4,10 +4,10 @@ currency1:
   jarjestys: 1
   kurssi: 1.0
   intrastat_kurssi: 0.0
-  laatija: ''
-  luontiaika:
-  muutospvm:
-  muuttaja: ''
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
   tunnus: 1
 
 currency2:
@@ -16,10 +16,10 @@ currency2:
   jarjestys: 2
   kurssi: 1.0
   intrastat_kurssi: 0.0
-  laatija: ''
-  luontiaika:
-  muutospvm:
-  muuttaja: ''
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
   tunnus: 2
 
 currency3:
@@ -28,8 +28,8 @@ currency3:
   jarjestys: 3
   kurssi: 1.0
   intrastat_kurssi: 0.0
-  laatija: ''
-  luontiaika:
-  muutospvm:
-  muuttaja: ''
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
   tunnus: 3
