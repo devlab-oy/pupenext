@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.string   "muuttaja",                    limit: 50,                         default: "",  null: false
   end
 
-  create_table "asiakas", primary_key: "tunnus", force: true do |t|
+  create_table "asiakas", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                            limit: 5,                            default: "",  null: false
     t.string   "laji",                             limit: 1,                            default: "",  null: false
     t.string   "tila",                             limit: 150,                          default: "",  null: false
@@ -986,7 +986,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.string   "muuttaja",            limit: 10,             null: false
   end
 
-  create_table "lasku", primary_key: "tunnus", force: true do |t|
+  create_table "lasku", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string    "yhtio",                            limit: 5,                            default: "",         null: false
     t.string    "yhtio_nimi",                       limit: 60,                           default: "",         null: false
     t.string    "yhtio_osoite",                     limit: 55,                           default: "",         null: false
@@ -1733,7 +1733,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
 
   add_index "sanakirja", ["fi"], name: "fi", length: {"fi"=>50}, using: :btree
 
-  create_table "sarjanumeroseuranta", primary_key: "tunnus", force: true do |t|
+  create_table "sarjanumeroseuranta", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
     t.string   "tuoteno",           limit: 60,                          default: "",  null: false
     t.string   "sarjanumero",       limit: 150,                         default: "",  null: false
@@ -2082,7 +2082,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
   add_index "tilausrivin_lisatiedot", ["yhtio", "tilausrivitunnus"], name: "tilausrivitunnus", unique: true, using: :btree
   add_index "tilausrivin_lisatiedot", ["yhtio", "vanha_otunnus"], name: "yhtio_vanhaotunnus", using: :btree
 
-  create_table "tili", primary_key: "tunnus", force: true do |t|
+  create_table "tili", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",               limit: 5,                           default: "", null: false
     t.string   "tilino",              limit: 6,                           default: "", null: false
     t.string   "sisainen_taso",       limit: 20,                          default: "", null: false
@@ -2455,7 +2455,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
 
   add_index "tullinimike", ["cn"], name: "tullinimike_cn", using: :btree
 
-  create_table "tuote", primary_key: "tunnus", force: true do |t|
+  create_table "tuote", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                        limit: 5,                            default: "",  null: false
     t.string   "tuoteno",                      limit: 60,                           default: "",  null: false
     t.string   "nimitys",                      limit: 100,                          default: "",  null: false
