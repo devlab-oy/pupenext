@@ -26,8 +26,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, @joe.permissions.update_permissions.count
   end
 
-  test 'read acess' do
+  test 'read access' do
     assert @joe.permissions.read_access '/pupenext/customers'
+  end
+
+  test 'update access' do
+    assert @joe.permissions.update_access '/pupenext/companies'
   end
 
   test "can read" do
