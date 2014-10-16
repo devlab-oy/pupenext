@@ -8,3 +8,14 @@ joe:
   lastlogin: <%= Time.now %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+bob:
+  yhtio: acme
+  kuka: bob
+  nimi: Bob Mursu
+  session: VNBMDDNKLLQJZQOFJBRSFIOOV
+  muuttaja: bob
+  laatija: bob
+  lastlogin: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

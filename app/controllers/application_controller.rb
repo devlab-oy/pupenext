@@ -5,11 +5,16 @@ class ApplicationController < ActionController::Base
 
   before_action :authorize
   before_action :set_locale
+  before_action :access_control
 
   protected
 
     def authorize
-      render text: t("Kielletty!"), status: :unauthorized unless current_user
+      render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
+    end
+
+    def access_control
+      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless read_access?
     end
 
     def set_locale

@@ -32,7 +32,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "can read" do
     assert @joe.can_read? '/pupenext/customers'
-    refute @joe.can_read? '/no/access/to/this'
+    refute @joe.can_read? '/test'
   end
 
   test "can update" do
