@@ -44,7 +44,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal "You don't have permission to update.", flash[:notice]
+    assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
   end
 
   test 'should create new currency' do
@@ -55,7 +55,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal 'Currency was successfully created.', flash[:notice]
+    assert_equal "Valuutta luotiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not create new currency' do
@@ -73,7 +73,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     patch :update, id: 1, currency: {nimi: 'TES'}
 
     assert_redirected_to currencies_path
-    assert_equal 'Currency was successfully updated.', flash[:notice]
+    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not update currency' do
