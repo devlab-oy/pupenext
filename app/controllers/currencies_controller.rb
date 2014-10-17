@@ -9,13 +9,12 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies
   def index
-
     @currencies = current_company.currency
 
     params_search_valid = params_search.reject { |k,v| v.empty? }
 
     if params_search_valid.present?
-      @currencies = @currencies.search_currency params_search_valid
+      @currencies = @currencies.where params_search_valid
     end
 
     @currencies = @currencies.order("#{sort_column} #{sort_direction}")
@@ -45,12 +44,10 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies/1/edit
   def edit
-
   end
 
   # PATCH/PUT /currencies/1
   def update
-
     if @currency.update_by(currency_params, current_user)
       redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
     else
@@ -84,8 +81,8 @@ class CurrenciesController < ApplicationController
     end
 
     def update_access
-      unless update_access?
-        redirect_to currencies_path, notice: "Sinulla ei ole päivitysoikeuksia."
-      end
+      msg = "Sinulla ei ole päivitysoikeuksia."
+      redirect_to currencies_path, notice: msg unless update_access?
     end
+
 end
