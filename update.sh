@@ -16,6 +16,15 @@ if [[ $? != 0 ]]; then
   exit
 fi
 
+# Make sure we have rbenv environment
+if [[ -d ~/.rbenv ]]; then
+  # Add rbenv to path
+  export PATH="$HOME/.rbenv/bin:$PATH"
+
+  # Load rbenv
+  eval "$(rbenv init -)"
+fi
+
 # Check we have Bundler
 command -v bundle > /dev/null
 
