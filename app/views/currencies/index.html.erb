@@ -1,0 +1,46 @@
+<%= render 'header' %>
+
+<% if notice %>
+  <%= t(notice) %>
+  <br /><br />
+<% end %>
+
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>
+
+<br />
+
+<%= form_tag currencies_path, method: :get do %>
+<table>
+  <tr>
+    <th>
+      <%= sortable 'nimi' %>
+      <br />
+      <%= text_field_tag :nimi, params[:nimi] %>
+    </th>
+    <th>
+      <%= sortable 'kurssi' %>
+      <br />
+      <%= text_field_tag :kurssi, params[:kurssi] %>
+    </th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
+  </tr>
+
+  <% @currencies.each do |cur| %>
+    <tr>
+      <td>
+        <% if update_access? %>
+          <%= link_to cur.nimi, edit_currency_path(cur.id) %>
+        <% else %>
+          <%= cur.nimi %>
+        <% end %>
+      </td>
+      <td><%= cur.kurssi %></td>
+      <td class="back"></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
+
+<br />
+
+<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>

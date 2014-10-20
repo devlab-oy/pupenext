@@ -1,0 +1,49 @@
+<%= form_for(@currency) do |f| %>
+  <% if @currency.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@currency.errors.count, "error") %> prohibited this currency from being saved:</h2>
+
+      <ul>
+      <% @currency.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <th><%= f.label :nimi, t('Valuutta') %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jarjestys, t('Järjestys') %></th>
+      <td><%= f.text_field :jarjestys %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kurssi, t('Valuuttakurssi') %></th>
+      <td><%= f.text_field :kurssi %></td>
+    </tr>
+    <tr>
+      <th><%= t('Laatija') %></th>
+      <td><%= @currency.laatija %></td>
+    </tr>
+    <tr>
+      <th><%= t('Luontiaika') %></th>
+      <td><%= @currency.luontiaika %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muutospvm') %></th>
+      <td><%= @currency.muutospvm %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muuttaja') %></th>
+      <td><%= @currency.muuttaja %></td>
+    </tr>
+  </table>
+
+  <div class="actions">
+    <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
+    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+  </div>
+<% end %>
