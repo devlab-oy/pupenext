@@ -26,7 +26,7 @@
   </tr>
 
   <% @currencies.each do |cur| %>
-    <tr>
+    <tr class="aktiivi">
       <td>
         <% if update_access? %>
           <%= link_to cur.nimi, edit_currency_path(cur.id) %>
