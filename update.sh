@@ -40,9 +40,9 @@ if [ $(whoami) = "root" ]; then
 fi
 
 # Get required directories
-current_dir=`pwd`
-dirname=`dirname $0`
-app_dir=`readlink -m "${dirname}"`
+current_dir=$(pwd)
+dirname=$(dirname $0)
+app_dir=$(cd "${dirname}" && pwd)
 
 # Katsotaan, onko parami syötetty
 if [[ ! -z ${1} ]]; then
