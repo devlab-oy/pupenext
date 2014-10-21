@@ -26,7 +26,7 @@ currency3:
   yhtio: acme
   nimi: DOL
   jarjestys: 3
-  kurssi: 1.0
+  kurssi: 2.0
   intrastat_kurssi: 0.0
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>

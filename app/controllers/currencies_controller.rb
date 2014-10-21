@@ -10,13 +10,7 @@ class CurrenciesController < ApplicationController
   # GET /currencies
   def index
     @currencies = current_company.currency
-
-    params_search_valid = params_search.reject { |k,v| v.empty? }
-
-    if params_search_valid.present?
-      @currencies = @currencies.where params_search_valid
-    end
-
+    @currencies = @currencies.search_like params_search
     @currencies = @currencies.order("#{sort_column} #{sort_direction}")
   end
 
@@ -66,10 +60,12 @@ class CurrenciesController < ApplicationController
     end
 
     def params_search
-      params.permit(
+      p = params.permit(
         :nimi,
         :kurssi
       )
+
+      p.reject { |_,v| v.empty? }
     end
 
     def find_currency

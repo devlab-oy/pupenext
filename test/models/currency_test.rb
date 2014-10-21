@@ -34,4 +34,35 @@ class CurrencyTest < ActiveSupport::TestCase
     assert_equal @currency.nimi, 'TES'
   end
 
+  test 'should search by like' do
+    params = {
+      kurssi: 1
+    }
+
+    assert_equal 2, Currency.search_like(params).count
+
+    params = {
+      kurssi: 1,
+      nimi: 'E'
+    }
+
+    assert_equal 1, Currency.search_like(params).count
+  end
+
+  test 'should search exact match' do
+    params = {
+      nimi: '@EUR'
+    }
+
+    assert_equal 1, Currency.search_like(params).count
+  end
+
+  test 'should not search by like' do
+    params = {
+      foobar: 1
+    }
+
+    assert_raises(ActiveRecord::StatementInvalid) { Currency.search_like(params).count }
+  end
+
 end
