@@ -65,4 +65,9 @@ class CurrencyTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::StatementInvalid) { Currency.search_like(params).count }
   end
 
+  test 'should sanitize comma' do
+    @currency.kurssi = "3,5"
+
+    assert_equal 3.5, @currency.kurssi
+  end
 end

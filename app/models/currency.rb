@@ -1,9 +1,14 @@
 class Currency < ActiveRecord::Base
+  extend AttributeSanitator
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
 
   before_validation :name_to_uppercase
   validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
+  validates :kurssi, numericality: true
+  validates :jarjestys, numericality: { only_integer: true }
+
+  float_columns :kurssi
 
   def self.search_like(args)
     result = self.all
