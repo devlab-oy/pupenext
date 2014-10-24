@@ -1,9 +1,10 @@
 
 class EmailWorker < ActionMailer::Base
-  @queue = :PupeEmailQueue
+  @queue = :PupeEmail
 
   def perform(params)
-
+    # Params are inserted by php-resque into redis database and are of the following format
+    #
     #[{"user"          => "somebody@example.com",
     #  "from"          => "no-reply@example.com",
     #  "from_name"     => "Somecompany Oy",
