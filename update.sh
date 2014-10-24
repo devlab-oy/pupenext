@@ -57,6 +57,9 @@ else
 fi
 
 if [[ "${jatketaanko}" = "k" ]]; then
+  # Get old head
+  OLD_HEAD=$(cd "${app_dir}" && git rev-parse HEAD)
+
   # Change to app directory
   cd "${app_dir}" &&
 
@@ -65,29 +68,52 @@ if [[ "${jatketaanko}" = "k" ]]; then
   git checkout . &&
   git checkout master &&
   git pull origin master &&
-  git remote prune origin &&
+  git remote prune origin
 
-  # Run bundle + rake
-  RAILS_ENV="production" bundle --quiet &&
-  RAILS_ENV="production" bundle exec rake css:write &&
-  RAILS_ENV="production" bundle exec rake assets:precompile
+  # Save git exit status
+  STATUS=$?
 
-  if [[ $? -eq 0 ]]; then
-    echo
-    echo "${green}Pupenext päivitetty!${normal}"
-  else
-    echo
-    echo "${red}Pupenext päivitys epäonnistui!${normal}"
-  fi
+  # Get new head
+  NEW_HEAD=$(git rev-parse HEAD)
 
   # Check tmp dir
   if [ ! -d "${app_dir}/tmp" ]; then
     mkdir "${app_dir}/tmp"
   fi
 
-  # Restart app
-  touch "${app_dir}/tmp/restart.txt"
-  chmod 777 "${app_dir}/tmp/restart.txt"
+  echo
+
+  # Ei päivitettävää
+  if [[ ${STATUS} -eq 0 && ${OLD_HEAD} = ${NEW_HEAD} ]]; then
+    echo "${green}Pupenext ajantasalla, ei päivitettävää!${normal}"
+  elif [[ ${STATUS} -eq 0 ]]; then
+    # Setataan rails env
+    export RAILS_ENV="production"
+
+    # Run bundle + rake
+    bundle --quiet &&
+    bundle exec rake css:write &&
+    bundle exec rake assets:precompile &&
+
+    # Restart rails App
+    touch "${app_dir}/tmp/restart.txt" &&
+    chmod 777 "${app_dir}/tmp/restart.txt" &&
+
+    # Restart Resque workers
+    bundle exec rake resque:stop_workers &&
+    TERM_CHILD=1 BACKGROUND=yes QUEUES=* bundle exec rake environment resque:work
+
+    if [[ ${STATUS} -eq 0 ]]; then
+      echo "${green}Pupenext päivitetty!${normal}"
+    else
+      echo "${red}Rails päivitys/uudelleenkäynnistys epäonnistui!${normal}"
+    fi
+
+    # Poistetaan rails env
+    unset RAILS_ENV
+  else
+    echo "${red}Pupenext päivitys epäonnistui!${normal}"
+  fi
 else
   echo "${red}Pupenextiä ei päivitetty!${normal}"
 fi
