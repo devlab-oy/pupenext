@@ -6,6 +6,7 @@ class EmailWorker < ActionMailer::Base
     # Params are inserted by php-resque into redis database and are of the following format
     #
     #[{"user"          => "somebody@example.com",
+    #  "error_message" => "Sending failed to: somebody@example.com",
     #  "from"          => "no-reply@example.com",
     #  "from_name"     => "Somecompany Oy",
     #  "to"            => "somebody@example.com",
@@ -30,10 +31,19 @@ class EmailWorker < ActionMailer::Base
 
     from = %Q("#{params['from_name']}" <#{params['from']}>)
 
-    mail(from: from,
-         to: params['to'],
-         subject: params['subject'],
-         body: params['body']).deliver
+    begin
+      mail(from: from,
+           to: params['to'],
+           subject: params['subject'],
+           body: params['body']).deliver
+    rescue => e
+      # Notify user if mail sending failed
+      body = "#{params['error_message']}\n\nERROR: #{e}\n\n#{params['body']}"
 
+      mail(from: from,
+           to: params['user'],
+           subject: params['subject'],
+           body: body).deliver
+    end
   end
 end
