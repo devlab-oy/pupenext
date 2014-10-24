@@ -12,7 +12,7 @@ env:
 notifications:
   email: false
   flowdock:
-    secure: "Twrq8ErfHJvn0t8gGRkBSgoNnycJE+KVduVKUITIPazSSNMRzgjRpbJYReZdyiSjclCBo1rHol/3K9Eq59NmQxovpd2JqNpNO9PIbZ6D4SoS6TEYymMjBYeSjqJpn7xh97S1nD3tRpRVIux4HVPCoGHd0zPqnnWtDFszYGGMpRU="
+    secure: "VpZzmGHK6X/CHj09N0nnNLQhUjqi43S/H0FqXmbODNqyZtEFoMr2xHfdo5CgAhoM1oc9Y65jCm4zL7qPMzSsMdHiYJOgdVJDgCERkn11pDMNIrNZ6SUhQIyTiLAroEk8kDMj9eyv3GGgwntqs4dpEfs+b6n6Ul5f2QjriWcOK98="
 addons:
   code_climate:
     repo_token:
