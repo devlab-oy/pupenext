@@ -19,6 +19,8 @@ class MonitoringController < ApplicationController
     end
 
     def from_localhost?
-      request.remote_ip == "127.0.0.1" || Rails.env.test?
+      addresslist = Socket.ip_address_list.collect { |i| i.ip_address }
+            
+      addresslist.include?(request.remote_ip) || Rails.env.test?
     end
 end
