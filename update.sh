@@ -101,7 +101,11 @@ if [[ "${jatketaanko}" = "k" ]]; then
 
     # Restart Resque workers
     bundle exec rake resque:stop_workers &&
-    TERM_CHILD=1 BACKGROUND=yes QUEUES=* bundle exec rake environment resque:work
+    TERM_CHILD=1 BACKGROUND=yes QUEUES=* bundle exec rake environment resque:work &&
+
+    # Tehdään requesti Rails appiin, jotta latautuu valmiiksi seuraavaa requestiä varten
+    curl --silent --insecure "https://$(hostname -I)/pupenext" > /dev/null &&
+    curl --silent --insecure "https://$(hostname)/pupenext" > /dev/null
 
     if [[ ${STATUS} -eq 0 ]]; then
       echo "${green}Pupenext päivitetty!${normal}"
