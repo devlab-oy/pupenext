@@ -11,6 +11,11 @@ class MonitoringController < ApplicationController
     status = ResqueMonitor.nagios_resque_email
     render text: status
   end
+  
+  def nagios_resque_failed
+    status = ResqueMonitor.nagios_resque_failed
+    render text: status
+  end
 
   private
 
