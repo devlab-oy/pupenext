@@ -6,9 +6,10 @@ class Currency < ActiveRecord::Base
   before_validation :name_to_uppercase
   validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
   validates :kurssi, numericality: true
+  validates :intrastat_kurssi, numericality: true
   validates :jarjestys, numericality: { only_integer: true }
 
-  float_columns :kurssi
+  float_columns :kurssi, :intrastat_kurssi
 
   def self.search_like(args)
     result = self.all

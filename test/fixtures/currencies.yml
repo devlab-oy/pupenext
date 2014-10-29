@@ -1,4 +1,4 @@
-currency1:
+eur:
   yhtio: acme
   nimi: EUR
   jarjestys: 1
@@ -8,9 +8,8 @@ currency1:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
-  tunnus: 1
 
-currency2:
+bit:
   yhtio: acme
   nimi: BIT
   jarjestys: 2
@@ -20,9 +19,8 @@ currency2:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
-  tunnus: 2
 
-currency3:
+dol:
   yhtio: acme
   nimi: DOL
   jarjestys: 3
@@ -32,4 +30,14 @@ currency3:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
-  tunnus: 3
+
+eur_ee:
+  yhtio: esto
+  nimi: EUR
+  jarjestys: 1
+  kurssi: 1.0
+  intrastat_kurssi: 0.0
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: max
+  laatija: max

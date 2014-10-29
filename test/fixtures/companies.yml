@@ -1,6 +1,22 @@
 acme:
   yhtio: acme
   nimi: Acme Corporation
+  maa: FI
+  tilikausi_alku: <%= Date.today %>
+  tilikausi_loppu: <%= Date.today %>
+  ostoreskontrakausi_alku: <%= Date.today %>
+  ostoreskontrakausi_loppu: <%= Date.today %>
+  myyntireskontrakausi_alku: <%= Date.today %>
+  myyntireskontrakausi_loppu: <%= Date.today %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+estonian:
+  yhtio: esto
+  nimi: Estonian Corporation
+  maa: EE
   tilikausi_alku: <%= Date.today %>
   tilikausi_loppu: <%= Date.today %>
   ostoreskontrakausi_alku: <%= Date.today %>

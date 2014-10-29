@@ -14,7 +14,8 @@ class CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should show currency' do
-    request = {id: 1}
+    currency = currencies(:eur)
+    request = {id: currency.id}
 
     get :show, request
     assert_response :success
@@ -69,17 +70,57 @@ class CurrenciesControllerTest < ActionController::TestCase
 
   test 'should update currency' do
     cookies[:pupesoft_session] = users(:bob).session
+    currency = currencies(:eur)
 
-    patch :update, id: 1, currency: {nimi: 'TES'}
+    patch :update, id: currency.id, currency: {nimi: 'TES'}
 
-    assert_redirected_to currencies_path
+    assert_redirected_to currencies_path, response.body
     assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+  end
+
+  test 'should not see intrastat-field' do
+    cookies[:pupesoft_session] = users(:bob).session
+    currency = currencies(:eur)
+
+    request = {id: currency.id}
+
+    get :show, request
+    assert_select "table tr", 7, "User is not from Estonia and should see only 7 table rows"
+  end
+
+  test 'should see intrastat-field' do
+    cookies[:pupesoft_session] = users(:max).session
+    currency = currencies(:eur_ee)
+
+    request = {id: currency.id}
+
+    get :show, request
+    assert_select "table tr", 8, "User is from Estonia and should see 8 table rows"
+  end
+
+  test 'should update estonian currency' do
+    cookies[:pupesoft_session] = users(:max).session
+    currency = currencies(:eur_ee)
+
+    patch :update, id: currency.id, currency: {nimi: 'TES', intrastat_kurssi: 1.5}
+
+    assert_redirected_to currencies_path, response.body
+    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+
+    request = {id: currency.id}
+
+    get :show, request
+
+    assert_select "input#currency_intrastat_kurssi" do
+      assert_select "[value=?]", 1.5
+    end
   end
 
   test 'should not update currency' do
     cookies[:pupesoft_session] = users(:bob).session
+    currency = currencies(:eur)
 
-    patch :update, id: 1, currency: {nimi: ''}
+    patch :update, id: currency.id, currency: {nimi: ''}
 
     assert_template 'edit', 'Template should be edit'
   end

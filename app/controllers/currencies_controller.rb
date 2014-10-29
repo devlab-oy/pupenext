@@ -56,6 +56,7 @@ class CurrenciesController < ApplicationController
         :nimi,
         :jarjestys,
         :kurssi,
+        :intrastat_kurssi,
       )
     end
 
