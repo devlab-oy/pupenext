@@ -3,7 +3,7 @@ require 'test_helper'
 class CurrencyTest < ActiveSupport::TestCase
 
   def setup
-    @currency = currencies(:currency1)
+    @currency = currencies(:eur)
   end
 
   test 'should be valid nimi' do
@@ -39,14 +39,14 @@ class CurrencyTest < ActiveSupport::TestCase
       kurssi: 1
     }
 
-    assert_equal 2, Currency.search_like(params).count
+    assert_equal 3, Currency.search_like(params).count
 
     params = {
       kurssi: 1,
       nimi: 'E'
     }
 
-    assert_equal 1, Currency.search_like(params).count
+    assert_equal 2, Currency.search_like(params).count
   end
 
   test 'should search exact match' do
@@ -54,7 +54,7 @@ class CurrencyTest < ActiveSupport::TestCase
       nimi: '@EUR'
     }
 
-    assert_equal 1, Currency.search_like(params).count
+    assert_equal 2, Currency.search_like(params).count
   end
 
   test 'should not search by like' do

@@ -42,6 +42,17 @@ update_two:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+update_three:
+  yhtio: esto
+  user: max
+  nimi: pupenext/currencies
+  paivitys: 1
+  kuka: max
+  muuttaja: max
+  laatija: max
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 test:
   yhtio: acme
   user: bob

@@ -6,3 +6,12 @@ acme:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+esto:
+  yhtio: esto
+  css: "* { font-family: sans-serif }"
+  maventa_aikaleima: <%= Time.now %>
+  muuttaja: max
+  laatija: max
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
