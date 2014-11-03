@@ -83,6 +83,11 @@ if [[ "${jatketaanko}" = "k" ]]; then
 
   echo
 
+  # Jos toinen parametri on bundle, niin bundlataan aina
+  if [[ -n "${2}" && ${2} = "bundle" ]]; then
+    NEW_HEAD=
+  fi
+
   # Ei päivitettävää
   if [[ ${STATUS} -eq 0 && ${OLD_HEAD} = ${NEW_HEAD} ]]; then
     echo "${green}Pupenext ajantasalla, ei päivitettävää!${normal}"
