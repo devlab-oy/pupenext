@@ -1,0 +1,65 @@
+read_one:
+  yhtio: acme
+  user: joe
+  nimi: pupenext/customers
+  paivitys: 0
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+read_two:
+  yhtio: acme
+  user: joe
+  nimi: pupenext/currencies
+  paivitys: 0
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+update_one:
+  yhtio: acme
+  user: joe
+  nimi: pupenext/companies
+  paivitys: 1
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+update_two:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/currencies
+  paivitys: 1
+  kuka: bob
+  muuttaja: bob
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+update_three:
+  yhtio: esto
+  user: max
+  nimi: pupenext/currencies
+  paivitys: 1
+  kuka: max
+  muuttaja: max
+  laatija: max
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+test:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/test
+  paivitys: 1
+  kuka: bob
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

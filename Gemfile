@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
 
-gem 'rails', '4.0.2'
+gem 'rails', '~> 4.1.6'
 
 gem 'bcrypt-ruby'
 gem 'jquery-rails'
@@ -9,8 +8,11 @@ gem 'mysql2'
 gem 'turbolinks'
 gem 'dotenv-rails'
 
+gem 'resque'
+gem 'resque-web', require: 'resque_web'
+
 group :production do
-  gem 'therubyracer'
+  gem 'therubyracer', '~> 0.11.4'
   gem 'dalli'
 end
 
@@ -21,7 +23,6 @@ end
 group :test do
   gem 'rake'
   gem 'minitest'
-  gem 'turn'
   gem "codeclimate-test-reporter"
 end
 
