@@ -25,7 +25,3 @@ group :test do
   gem 'minitest'
   gem "codeclimate-test-reporter"
 end
-
-group :development, :test do
-  gem 'sqlite3'
-end
