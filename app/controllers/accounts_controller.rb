@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
   end
 
   def show
-     render 'edit'
+    render 'edit'
   end
 
   def edit
@@ -66,23 +66,21 @@ class AccountsController < ApplicationController
       @target_qualifiers = Qualifier.where tyyppi: 'O'
     end
 
-   def account_params
-        params.require(:account).permit(
-          :tilino,
-          :sisainen_taso,
-          :ulkoinen_taso,
-          :alv_taso,
-          :tulosseuranta_taso,
-          :nimi,
-          :kustp,
-          :kohde,
-          :toimijaliitos,
-          :tiliointi_tarkistus,
-          :manuaali_esto,
-          :oletus_alv
-        )
+    def account_params
+      params.require(:account).permit(
+        :tilino,
+        :sisainen_taso,
+        :ulkoinen_taso,
+        :alv_taso,
+        :tulosseuranta_taso,
+        :nimi,
+        :kustp,
+        :kohde,
+        :toimijaliitos,
+        :tiliointi_tarkistus,
+        :manuaali_esto,
+        :oletus_alv
+      )
     end
-
-
 
 end
