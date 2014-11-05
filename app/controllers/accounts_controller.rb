@@ -47,7 +47,6 @@ class AccountsController < ApplicationController
     redirect_to accounts_path, notice: "Tili \"#{params[:account][:nimi]}\" poistettu."
   end
 
-
   private
 
     def find_account
