@@ -9,10 +9,10 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test 'fixtures should be valid' do
-    assert @internal.valid?
-    assert @external.valid?
-    assert @vat.valid?
-    assert @profit.valid?
+    assert @internal.valid?, @internal.errors.full_messages
+    assert @external.valid?, @external.errors.full_messages
+    assert @vat.valid?, @vat.errors.full_messages
+    assert @profit.valid?, @profit.errors.full_messages
   end
 
   test 'should return sum levels' do
@@ -66,9 +66,6 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @external.valid?, @external.errors.full_messages
 
     @external.taso = '3'
-    assert @external.valid?, @external.errors.full_messages
-
-    @external.taso = 3
     assert @external.valid?, @external.errors.full_messages
   end
 

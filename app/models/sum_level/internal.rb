@@ -5,15 +5,14 @@ class SumLevel::Internal < SumLevel
   default_scope { where(tyyppi: self.sti_name) }
 
   def should_begin_with
-    should_begin_with = [
+    valid_characters = [
       '1',
       '2',
       '3',
     ]
 
-    sum_level_first_char = taso[0, 1]
-    begins_with = should_begin_with.include?(sum_level_first_char)
-    errors.add(:taso, 'should begin with 1, 2 or 3') unless begins_with
+    is_valid = taso.to_s.start_with? *valid_characters
+    errors.add(:taso, 'should begin with 1, 2 or 3') unless is_valid
   end
 
   def self.sti_name
