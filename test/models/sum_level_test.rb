@@ -33,66 +33,63 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test 'sum level should not contain O with dots' do
-    msg = 'Should not contain Ö'
-    @internal.taso = 'Ö'
-    refute @internal.valid?, msg
+    @internal.taso = '1Ö'
+    refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = 'ö'
-    assert @internal.valid?, msg
+    @internal.taso = '1ö'
+    assert @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = 'AÖ'
-    refute @internal.valid?, msg
+    @internal.taso = '1Ö'
+    refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = 'Aö'
-    assert @internal.valid?, msg
+    @internal.taso = '1ö'
+    assert @internal.valid?, @internal.errors.full_messages
 
-    @external.taso = 'AÖ'
-    refute @external.valid?, msg
+    @external.taso = '1Ö'
+    refute @external.valid?, @external.errors.full_messages
   end
 
   test 'internal and external sum level needs to begin with 1,2 or 3' do
-    msg = 'Should begin with 1, 2 or 3'
     @internal.taso = '4'
-    refute @internal.valid?, msg
+    refute @internal.valid?, @internal.errors.full_messages
 
     @external.taso = '4'
-    refute @external.valid?, msg
+    refute @external.valid?, @external.errors.full_messages
 
     @internal.taso = '14'
-    assert @internal.valid?, msg
+    assert @internal.valid?, @internal.errors.full_messages
 
     @external.taso = '114'
-    assert @external.valid?, msg
+    assert @external.valid?, @external.errors.full_messages
 
     @external.taso = '213'
-    assert @external.valid?, msg
+    assert @external.valid?, @external.errors.full_messages
 
     @external.taso = '3'
-    assert @external.valid?, msg
+    assert @external.valid?, @external.errors.full_messages
 
     @external.taso = 3
-    assert @external.valid?, msg
+    assert @external.valid?, @external.errors.full_messages
   end
 
   test 'profit sum level needs to be number' do
-    msg = 'Profit sum level needs to be number'
     @profit.taso = 'A'
-    refute @profit.valid?, msg
+    refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = 'A1'
-    refute @profit.valid?, msg
+    refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = 1.0
-    refute @profit.valid?, msg
+    refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = ''
-    refute @profit.valid?, msg
+    refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = nil
-    refute @profit.valid?, msg
+    refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = 1
-    assert @profit.valid?, msg
+    assert @profit.valid?, @profit.errors.full_messages
   end
 
   test 'should have unique sum level' do
@@ -115,15 +112,14 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test 'sum level should be required' do
-    msg = 'sum_level: @internal.taso is required'
     @internal.taso = ''
-    refute @internal.valid?, msg
+    refute @internal.valid?, @internal.errors.full_messages
 
     @internal.taso = nil
-    refute @internal.valid?, msg
+    refute @internal.valid?, @internal.errors.full_messages
 
     @internal.taso = '1'
-    assert @internal.valid?, msg
+    assert @internal.valid?, @internal.errors.full_messages
   end
 
 end

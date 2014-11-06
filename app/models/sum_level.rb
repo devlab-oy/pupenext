@@ -15,12 +15,6 @@ class SumLevel < ActiveRecord::Base
     "#{taso} #{nimi}"
   end
 
-  def does_not_contain_char
-    not_allowed_character = 'Ö'
-
-    errors.add(:taso, 'can not contain Ö') if taso.include? not_allowed_character
-  end
-
   def self.sum_levels
     hash = {
       S: 'SumLevel::Internal',
@@ -47,5 +41,13 @@ class SumLevel < ActiveRecord::Base
   def self.find_sti_class(type_name)
     child_class type_name
   end
+
+  private
+
+    def does_not_contain_char
+      not_allowed_character = 'Ö'
+
+      errors.add(:taso, 'can not contain Ö') if taso.to_s.include? not_allowed_character
+    end
 
 end
