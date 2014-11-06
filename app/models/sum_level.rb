@@ -9,10 +9,7 @@ class SumLevel < ActiveRecord::Base
 
   validates :taso, presence: true
   validate :does_not_contain_char
-
-  def taso=(taso)
-    self[:taso] = taso.to_s
-  end
+  validates_uniqueness_of :taso, scope: :tyyppi
 
   def sum_level_name
     "#{taso} #{nimi}"
@@ -35,10 +32,10 @@ class SumLevel < ActiveRecord::Base
     hash
   end
 
-  def self.child_class(db_column)
+  def self.child_class(db_column_value)
     sum_levels = self.sum_levels
 
-    sum_levels[db_column.to_sym].constantize
+    sum_levels[db_column_value.to_sym].constantize
   end
 
   # This functions purpose is to return the child class name.

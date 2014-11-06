@@ -96,16 +96,22 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test 'should have unique sum level' do
-    msg = 'Sum level needs to be unique'
     existing_sum_level = @internal.taso
 
     new_sum_level = SumLevel::Internal.new
     new_sum_level.taso = existing_sum_level
 
-    refute new_sum_level.valid?, msg
+    assert_no_difference 'SumLevel::Internal.count', new_sum_level.errors.full_messages do
+      new_sum_level.save
+    end
 
     new_sum_level.taso = '1111111'
-    assert new_sum_level.valid?, msg
+    new_sum_level.yhtio = @internal.yhtio
+    new_sum_level.muuttaja = @internal.muuttaja
+    new_sum_level.laatija = @internal.laatija
+    assert_difference 'SumLevel::Internal.count', 1, new_sum_level.errors.full_messages do
+      new_sum_level.save
+    end
   end
 
   test 'sum level should be required' do
