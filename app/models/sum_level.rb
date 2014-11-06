@@ -5,6 +5,20 @@ class SumLevel < ActiveRecord::Base
   self.table_name = 'taso'
   self.primary_key = 'tunnus'
   self.inheritance_column = :tyyppi
+  self.abstract_class = true
+
+  validates :taso, presence: true
+  validate :does_not_contain_char
+
+  def sum_level_name
+    "#{taso} #{nimi}"
+  end
+
+  def does_not_contain_char
+    not_allowed_character = 'Ö'
+
+    errors.add(:taso, 'can not contain Ö') if taso.include? not_allowed_character
+  end
 
   def self.sum_levels
     hash = {
@@ -21,10 +35,6 @@ class SumLevel < ActiveRecord::Base
     sum_levels = self.sum_levels
 
     sum_levels[db_column.to_sym].constantize
-  end
-
-  def sum_level_name
-    "#{taso} #{nimi}"
   end
 
   # This functions purpose is to return the child class name.
