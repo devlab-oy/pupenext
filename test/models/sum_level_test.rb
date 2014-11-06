@@ -8,19 +8,19 @@ class SumLevelTest < ActiveSupport::TestCase
     @profit = sum_levels(:profit)
   end
 
-  test "fixtures should be valid" do
+  test 'fixtures should be valid' do
     assert @internal.valid?
     assert @external.valid?
     assert @vat.valid?
     assert @profit.valid?
   end
 
-  test "should return sum levels" do
+  test 'should return sum levels' do
     assert_equal 4, SumLevel::Internal.sum_levels.count
     assert SumLevel::Internal.sum_levels.is_a?(Hash)
   end
 
-  test "should return constantized child class" do
+  test 'should return constantized child class' do
     assert_equal SumLevel::External, SumLevel::External.child_class('U')
     #child_class can be called from SumLevel or its child
     assert_equal SumLevel::Internal, SumLevel.child_class('S')
@@ -28,11 +28,11 @@ class SumLevelTest < ActiveSupport::TestCase
     assert_equal SumLevel::Profit, SumLevel::Profit.child_class('B')
   end
 
-  test "should return sum level name" do
+  test 'should return sum level name' do
     assert_equal '3 TILIKAUDEN TULOS', @external.sum_level_name
   end
 
-  test "sum level should not contain O with dots" do
+  test 'sum level should not contain O with dots' do
     msg = 'Should not contain Ö'
     @internal.taso = 'Ö'
     refute @internal.valid?, msg
@@ -50,7 +50,7 @@ class SumLevelTest < ActiveSupport::TestCase
     refute @external.valid?, msg
   end
 
-  test "internal and external sum level needs to begin with 1,2 or 3" do
+  test 'internal and external sum level needs to begin with 1,2 or 3' do
     msg = 'Should begin with 1, 2 or 3'
     @internal.taso = '4'
     refute @internal.valid?, msg
@@ -63,9 +63,18 @@ class SumLevelTest < ActiveSupport::TestCase
 
     @external.taso = '114'
     assert @external.valid?, msg
+
+    @external.taso = '213'
+    assert @external.valid?, msg
+
+    @external.taso = '3'
+    assert @external.valid?, msg
+
+    @external.taso = 3
+    assert @external.valid?, msg
   end
 
-  test "profit sum level needs to be number" do
+  test 'profit sum level needs to be number' do
     msg = 'Profit sum level needs to be number'
     @profit.taso = 'A'
     refute @profit.valid?, msg
@@ -86,7 +95,7 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @profit.valid?, msg
   end
 
-  test "should have unique sum level" do
+  test 'should have unique sum level' do
     msg = 'Sum level needs to be unique'
     existing_sum_level = @internal.taso
 
@@ -99,7 +108,7 @@ class SumLevelTest < ActiveSupport::TestCase
     assert new_sum_level.valid?, msg
   end
 
-  test "sum level should be required" do
+  test 'sum level should be required' do
     msg = 'sum_level: @internal.taso is required'
     @internal.taso = ''
     refute @internal.valid?, msg
