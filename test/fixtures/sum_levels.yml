@@ -1,0 +1,47 @@
+external_level:
+  yhtio: acme
+  tyyppi: SumLevel::External
+  summattava_taso: ''
+  taso: '3'
+  nimi: TILIKAUDEN TULOS
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+internal_level:
+  yhtio: acme
+  tyyppi: SumLevel::Internal
+  summattava_taso: ''
+  taso: '3'
+  nimi: TILIKAUDEN TULOS
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+vat_level:
+  yhtio: acme
+  tyyppi: SumLevel::Vat
+  summattava_taso: ''
+  taso: 'fi300'
+  nimi: Vero kotimaan myynnistä verokannoittain
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe

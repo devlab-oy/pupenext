@@ -1,0 +1,2 @@
+class Internal < SumLevel
+end
