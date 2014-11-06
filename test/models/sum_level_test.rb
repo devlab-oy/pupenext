@@ -7,11 +7,12 @@ class SumLevelTest < ActiveSupport::TestCase
     @vat = sum_levels(:vat)
     @profit = sum_levels(:profit)
   end
-
-  test "sum level is required" do
-    @internal.taso = ''
-
-    refute @internal.valid?
+  
+  test "fixtures should be valid" do
+    assert @internal.valid?
+    assert @external.valid?
+    assert @vat.valid?
+    assert @profit.valid?
   end
 
 end
