@@ -13,7 +13,7 @@ class SumLevel::Internal < SumLevel
 
     sum_level_first_char = taso[0, 1]
     begins_with = should_begin_with.include?(sum_level_first_char)
-    errors.add(:taso, 'should begin with 1, 2 or 3') if !begins_with
+    errors.add(:taso, 'should begin with 1, 2 or 3') unless begins_with
   end
 
   def self.sti_name

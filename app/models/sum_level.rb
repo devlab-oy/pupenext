@@ -10,6 +10,10 @@ class SumLevel < ActiveRecord::Base
   validates :taso, presence: true
   validate :does_not_contain_char
 
+  def taso=(taso)
+    self[:taso] = taso.to_s
+  end
+
   def sum_level_name
     "#{taso} #{nimi}"
   end

@@ -100,7 +100,7 @@ class SumLevelTest < ActiveSupport::TestCase
     existing_sum_level = @internal.taso
 
     new_sum_level = SumLevel::Internal.new
-    new.sum_level.taso = existing_sum_level
+    new_sum_level.taso = existing_sum_level
 
     refute new_sum_level.valid?, msg
 
