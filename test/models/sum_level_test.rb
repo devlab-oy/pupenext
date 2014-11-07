@@ -47,6 +47,12 @@ class SumLevelTest < ActiveSupport::TestCase
 
     @external.taso = '1Ö'
     refute @external.valid?, @external.errors.full_messages
+
+    @profit.taso = '1Ö'
+    refute @profit.valid?, @profit.errors.full_messages
+
+    @vat.taso = '1Ö'
+    refute @vat.valid?, @vat.errors.full_messages
   end
 
   test 'internal and external sum level needs to begin with 1,2 or 3' do
