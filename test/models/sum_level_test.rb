@@ -111,6 +111,7 @@ class SumLevelTest < ActiveSupport::TestCase
     new_sum_level.yhtio = @internal.yhtio
     new_sum_level.muuttaja = @internal.muuttaja
     new_sum_level.laatija = @internal.laatija
+    new_sum_level.nimi = 'test'
     assert_difference 'SumLevel::Internal.count', 1, new_sum_level.errors.full_messages do
       new_sum_level.save
     end
