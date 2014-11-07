@@ -67,6 +67,9 @@ class SumLevelTest < ActiveSupport::TestCase
 
     @external.taso = '3'
     assert @external.valid?, @external.errors.full_messages
+
+    @external.taso = 3
+    assert @external.valid?, @external.errors.full_messages
   end
 
   test 'profit sum level needs to be number' do
@@ -86,6 +89,18 @@ class SumLevelTest < ActiveSupport::TestCase
     refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = 1
+    assert @profit.valid?, @profit.errors.full_messages
+
+    @profit.taso = 0
+    assert @profit.valid?, @profit.errors.full_messages
+
+    @profit.taso = '1'
+    assert @profit.valid?, @profit.errors.full_messages
+
+    @profit.taso = '0'
+    assert @profit.valid?, @profit.errors.full_messages
+
+    @profit.taso = '00'
     assert @profit.valid?, @profit.errors.full_messages
   end
 
