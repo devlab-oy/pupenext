@@ -15,19 +15,6 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @profit.valid?, @profit.errors.full_messages
   end
 
-  test 'should return sum levels' do
-    assert_equal 4, SumLevel::Internal.sum_levels.count
-    assert SumLevel::Internal.sum_levels.is_a?(Hash)
-  end
-
-  test 'should return constantized child class' do
-    assert_equal SumLevel::External, SumLevel::External.child_class('U')
-    #child_class can be called from SumLevel or its child
-    assert_equal SumLevel::Internal, SumLevel.child_class('S')
-    assert_equal SumLevel::Vat, SumLevel::Vat.child_class('A')
-    assert_equal SumLevel::Profit, SumLevel::Profit.child_class('B')
-  end
-
   test 'should return sum level name' do
     assert_equal '3 TILIKAUDEN TULOS', @external.sum_level_name
   end
@@ -49,7 +36,7 @@ class SumLevelTest < ActiveSupport::TestCase
     refute @external.valid?, @external.errors.full_messages
   end
 
-  test 'internal and external sum level needs to begin with 1,2 or 3' do
+  test 'internal and external sum level needs to begin with 1 or 2 or 3' do
     @internal.taso = '4'
     refute @internal.valid?, @internal.errors.full_messages
 
