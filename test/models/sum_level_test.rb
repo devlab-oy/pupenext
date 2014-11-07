@@ -129,7 +129,7 @@ class SumLevelTest < ActiveSupport::TestCase
     end
   end
 
-  test 'sum level should be required' do
+  test 'taso should be present' do
     @internal.taso = ''
     refute @internal.valid?, @internal.errors.full_messages
 
@@ -138,6 +138,21 @@ class SumLevelTest < ActiveSupport::TestCase
 
     @internal.taso = '1'
     assert @internal.valid?, @internal.errors.full_messages
+  end
+
+  test 'nimi should be present' do
+    @internal.nimi = ''
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.nimi = nil
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.nimi = 'Liikevaihto'
+    assert @internal.valid?, @internal.errors.full_messages
+  end
+
+  test 'internal external and vat' do
+
   end
 
 end

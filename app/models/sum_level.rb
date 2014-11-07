@@ -8,6 +8,7 @@ class SumLevel < ActiveRecord::Base
   self.abstract_class = true
 
   validates :taso, presence: true
+  validates :nimi, presence: true
   validate :does_not_contain_char
   validates_uniqueness_of :taso, scope: :tyyppi
 
