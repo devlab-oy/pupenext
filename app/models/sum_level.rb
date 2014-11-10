@@ -10,6 +10,7 @@ class SumLevel < ActiveRecord::Base
   validates :nimi, presence: true
   validates :tyyppi, inclusion: { in: %w[S A U B] }
   validate :does_not_contain_char
+  validate :summattava_tasos_in_db_and_correct_type
   validates_uniqueness_of :taso, scope: :tyyppi
 
   def sum_level_name
@@ -38,5 +39,16 @@ class SumLevel < ActiveRecord::Base
 
     def does_not_contain_char
       errors.add(:taso, "can not contain Ö") if taso.to_s.include? "Ö"
+    end
+
+    def summattava_tasos_in_db_and_correct_type
+      summattavat_tasot = summattava_taso.split ','
+      klass = self.class
+
+      existing_tasos = klass.where(taso: summattavat_tasot)
+
+      same_count = (existing_tasos.count == summattavat_tasot.count)
+      err = 'summattava_taso needs to be in db and same type'
+      errors.add(:summattava_taso, err) unless same_count
     end
 end
