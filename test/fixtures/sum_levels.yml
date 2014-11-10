@@ -64,6 +64,22 @@ internal2:
   muutospvm: <%= Time.now %>
   muuttaja: joe
 
+internal3:
+  yhtio: acme
+  tyyppi: 'S'
+  summattava_taso: ''
+  taso: '333'
+  nimi: TILIKAUDEN TULOS3
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
 vat:
   yhtio: acme
   tyyppi: 'A'

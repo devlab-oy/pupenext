@@ -20,6 +20,13 @@ class SumLevel < ActiveRecord::Base
     "#{taso} #{nimi}"
   end
 
+  def summattava_taso=(summattava_taso)
+    summattava_taso = '' if summattava_taso.nil?
+    summattava_taso.delete!(' ')
+
+    write_attribute(:summattava_taso, summattava_taso)
+  end
+
   private
     def self.sum_levels
       {
@@ -51,11 +58,11 @@ class SumLevel < ActiveRecord::Base
       existing_tasos = klass.where(taso: summattavat_tasot)
 
       same_count = (existing_tasos.count == summattavat_tasot.count)
-      err = "summattava_taso needs to be in db and same type"
+      err = "needs to be in db and same type"
       errors.add :summattava_taso, err unless same_count
     end
 
     def kumulatiivinen_not_nil
-      errors.add :base, "Kumulatiivinen can not be nil" if kumulatiivinen.nil?
+      errors.add :base, "can not be nil" if kumulatiivinen.nil?
     end
 end

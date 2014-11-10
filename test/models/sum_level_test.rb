@@ -4,6 +4,7 @@ class SumLevelTest < ActiveSupport::TestCase
   def setup
     @internal = sum_levels(:internal)
     @internal2 = sum_levels(:internal2)
+    @internal3 = sum_levels(:internal3)
     @external = sum_levels(:external)
     @external2 = sum_levels(:external2)
     @vat = sum_levels(:vat)
@@ -152,6 +153,12 @@ class SumLevelTest < ActiveSupport::TestCase
     @internal.summattava_taso = @internal2.taso
     assert @internal.valid?, @internal.errors.full_messages
 
+    @internal.summattava_taso = "#{@internal2.taso},#{@internal3.taso}"
+    assert @internal.valid?, @internal.errors.full_messages
+
+    @internal.summattava_taso = "#{@internal2.taso},   #{@internal3.taso}"
+    assert @internal.valid?, @internal.errors.full_messages
+
     #with wrong sti type
     @internal.summattava_taso = @external2.taso
     refute @internal.valid?, @internal.errors.full_messages
@@ -185,5 +192,4 @@ class SumLevelTest < ActiveSupport::TestCase
     @internal.kumulatiivinen = ""
     assert @internal.valid?, @internal.errors.full_messages
   end
-
 end
