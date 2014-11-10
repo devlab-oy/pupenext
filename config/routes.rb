@@ -5,6 +5,7 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
   resources :currencies, except: :destroy
+  resources :sum_levels
   resources :accounts
   root to: 'home#index'
   get '/test', to: 'home#test'
