@@ -9,9 +9,12 @@ class SumLevel < ActiveRecord::Base
   validates :taso, presence: true
   validates :nimi, presence: true
   validates :tyyppi, inclusion: { in: %w[S A U B] }
+  #allow blank allows empty string and nil, custom validation for nil is implemented
+  validates :kumulatiivinen, inclusion: { in: ['', 'X'] }
+  validates :taso, uniqueness: { scope: :tyyppi, message: "one taso per type" }
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
-  validates_uniqueness_of :taso, scope: :tyyppi
+  validate :kumulatiivinen_not_nil
 
   def sum_level_name
     "#{taso} #{nimi}"
@@ -38,7 +41,7 @@ class SumLevel < ActiveRecord::Base
     end
 
     def does_not_contain_char
-      errors.add(:taso, "can not contain Ö") if taso.to_s.include? "Ö"
+      errors.add :taso, 'can not contain Ö' if taso.to_s.include? "Ö"
     end
 
     def summattava_tasos_in_db_and_correct_type
@@ -49,6 +52,10 @@ class SumLevel < ActiveRecord::Base
 
       same_count = (existing_tasos.count == summattavat_tasot.count)
       err = 'summattava_taso needs to be in db and same type'
-      errors.add(:summattava_taso, err) unless same_count
+      errors.add :summattava_taso, err unless same_count
+    end
+
+    def kumulatiivinen_not_nil
+      errors.add :base, 'Kumulatiivinen can not be nil' if kumulatiivinen.nil?
     end
 end

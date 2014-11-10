@@ -157,4 +157,33 @@ class SumLevelTest < ActiveSupport::TestCase
     refute @internal.valid?, @internal.errors.full_messages
   end
 
+  test 'kumulatiivinen should be empty string or X' do
+    @internal.kumulatiivinen = 'A'
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = '1'
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = true
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = false
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = 1
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = 0
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = nil
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = 'X'
+    assert @internal.valid?, @internal.errors.full_messages
+
+    @internal.kumulatiivinen = ''
+    assert @internal.valid?, @internal.errors.full_messages
+  end
+
 end
