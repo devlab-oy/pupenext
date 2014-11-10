@@ -1,6 +1,6 @@
 class SumLevelsController < ApplicationController
   def index
-    @sum_levels = SumLevel.all
+    @sum_levels = current_company.sum_levels
   end
 
   def new

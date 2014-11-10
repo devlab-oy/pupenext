@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_one :parameter, foreign_key: :yhtio, primary_key: :yhtio
   has_many :accounts, foreign_key: :yhtio, primary_key: :yhtio
   has_many :currency, foreign_key: :yhtio, primary_key: :yhtio
+  has_many :sum_levels, foreign_key: :yhtio, primary_key: :yhtio
 
   # Map old database schema table to Company class
   self.table_name  = "yhtio"
