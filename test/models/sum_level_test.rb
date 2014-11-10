@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class SumLevelTest < ActiveSupport::TestCase
   def setup
@@ -10,74 +10,74 @@ class SumLevelTest < ActiveSupport::TestCase
     @profit = sum_levels(:profit)
   end
 
-  test 'fixtures should be valid' do
+  test "fixtures should be valid" do
     assert @internal.valid?, @internal.errors.full_messages
     assert @external.valid?, @external.errors.full_messages
     assert @vat.valid?, @vat.errors.full_messages
     assert @profit.valid?, @profit.errors.full_messages
   end
 
-  test 'should return sum level name' do
-    assert_equal '3 TILIKAUDEN TULOS', @external.sum_level_name
+  test "should return sum level name" do
+    assert_equal "3 TILIKAUDEN TULOS", @external.sum_level_name
   end
 
-  test 'sum level should not contain O with dots' do
-    @internal.taso = '1Ö'
+  test "sum level should not contain O with dots" do
+    @internal.taso = "1Ö"
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = '1ö'
+    @internal.taso = "1ö"
     assert @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = '1Ö'
+    @internal.taso = "1Ö"
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = '1ö'
+    @internal.taso = "1ö"
     assert @internal.valid?, @internal.errors.full_messages
 
-    @external.taso = '1Ö'
+    @external.taso = "1Ö"
     refute @external.valid?, @external.errors.full_messages
 
-    @profit.taso = '1Ö'
+    @profit.taso = "1Ö"
     refute @profit.valid?, @profit.errors.full_messages
 
-    @vat.taso = '1Ö'
+    @vat.taso = "1Ö"
     refute @vat.valid?, @vat.errors.full_messages
   end
 
-  test 'internal and external sum level needs to begin with 1 or 2 or 3' do
-    @internal.taso = '4'
+  test "internal and external sum level needs to begin with 1 or 2 or 3" do
+    @internal.taso = "4"
     refute @internal.valid?, @internal.errors.full_messages
 
-    @external.taso = '4'
+    @external.taso = "4"
     refute @external.valid?, @external.errors.full_messages
 
-    @internal.taso = '14'
+    @internal.taso = "14"
     assert @internal.valid?, @internal.errors.full_messages
 
-    @external.taso = '114'
+    @external.taso = "114"
     assert @external.valid?, @external.errors.full_messages
 
-    @external.taso = '213'
+    @external.taso = "213"
     assert @external.valid?, @external.errors.full_messages
 
-    @external.taso = '3'
+    @external.taso = "3"
     assert @external.valid?, @external.errors.full_messages
 
     @external.taso = 3
     assert @external.valid?, @external.errors.full_messages
   end
 
-  test 'profit sum level needs to be number' do
-    @profit.taso = 'A'
+  test "profit sum level needs to be number" do
+    @profit.taso = "A"
     refute @profit.valid?, @profit.errors.full_messages
 
-    @profit.taso = 'A1'
+    @profit.taso = "A1"
     refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = 1.0
     refute @profit.valid?, @profit.errors.full_messages
 
-    @profit.taso = ''
+    @profit.taso = ""
     refute @profit.valid?, @profit.errors.full_messages
 
     @profit.taso = nil
@@ -89,63 +89,63 @@ class SumLevelTest < ActiveSupport::TestCase
     @profit.taso = 0
     assert @profit.valid?, @profit.errors.full_messages
 
-    @profit.taso = '1'
+    @profit.taso = "1"
     assert @profit.valid?, @profit.errors.full_messages
 
-    @profit.taso = '0'
+    @profit.taso = "0"
     assert @profit.valid?, @profit.errors.full_messages
 
-    @profit.taso = '00'
+    @profit.taso = "00"
     assert @profit.valid?, @profit.errors.full_messages
   end
 
-  test 'should have unique sum level' do
+  test "should have unique sum level" do
     existing_sum_level = @internal.taso
 
     new_sum_level = SumLevel::Internal.new
     new_sum_level.taso = existing_sum_level
 
-    assert_no_difference 'SumLevel::Internal.count', new_sum_level.errors.full_messages do
+    assert_no_difference "SumLevel::Internal.count", new_sum_level.errors.full_messages do
       new_sum_level.save
     end
 
-    new_sum_level.taso = '1111111'
+    new_sum_level.taso = "1111111"
     new_sum_level.yhtio = @internal.yhtio
     new_sum_level.muuttaja = @internal.muuttaja
     new_sum_level.laatija = @internal.laatija
-    new_sum_level.nimi = 'test'
-    assert_difference 'SumLevel::Internal.count', 1, new_sum_level.errors.full_messages do
+    new_sum_level.nimi = "test"
+    assert_difference "SumLevel::Internal.count", 1, new_sum_level.errors.full_messages do
       new_sum_level.save
     end
   end
 
-  test 'taso should be present' do
-    @internal.taso = ''
+  test "taso should be present" do
+    @internal.taso = ""
     refute @internal.valid?, @internal.errors.full_messages
 
     @internal.taso = nil
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.taso = '1'
+    @internal.taso = "1"
     assert @internal.valid?, @internal.errors.full_messages
   end
 
-  test 'nimi should be present' do
-    @internal.nimi = ''
+  test "nimi should be present" do
+    @internal.nimi = ""
     refute @internal.valid?, @internal.errors.full_messages
 
     @internal.nimi = nil
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.nimi = 'Liikevaihto'
+    @internal.nimi = "Liikevaihto"
     assert @internal.valid?, @internal.errors.full_messages
   end
 
-  test 'internal external and vat should be able to have summattava_taso' do
-    @internal.summattava_taso = 'taso_not_in_db'
+  test "internal external and vat should be able to have summattava_taso" do
+    @internal.summattava_taso = "taso_not_in_db"
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.summattava_taso = 'taso_not_in_db,also_not_in_db'
+    @internal.summattava_taso = "taso_not_in_db,also_not_in_db"
     refute @internal.valid?, @internal.errors.full_messages
 
     #summattava_taso also needs to be same type as the _current_ taso
@@ -157,11 +157,11 @@ class SumLevelTest < ActiveSupport::TestCase
     refute @internal.valid?, @internal.errors.full_messages
   end
 
-  test 'kumulatiivinen should be empty string or X' do
-    @internal.kumulatiivinen = 'A'
+  test "kumulatiivinen should be empty string or X" do
+    @internal.kumulatiivinen = "A"
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.kumulatiivinen = '1'
+    @internal.kumulatiivinen = "1"
     refute @internal.valid?, @internal.errors.full_messages
 
     @internal.kumulatiivinen = true
@@ -179,10 +179,10 @@ class SumLevelTest < ActiveSupport::TestCase
     @internal.kumulatiivinen = nil
     refute @internal.valid?, @internal.errors.full_messages
 
-    @internal.kumulatiivinen = 'X'
+    @internal.kumulatiivinen = "X"
     assert @internal.valid?, @internal.errors.full_messages
 
-    @internal.kumulatiivinen = ''
+    @internal.kumulatiivinen = ""
     assert @internal.valid?, @internal.errors.full_messages
   end
 

@@ -5,6 +5,6 @@ class SumLevel::External < SumLevel
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
-    'U'
+    "U"
   end
 end
