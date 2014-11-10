@@ -192,4 +192,36 @@ class SumLevelTest < ActiveSupport::TestCase
     @internal.kumulatiivinen = ""
     assert @internal.valid?, @internal.errors.full_messages
   end
+
+  test "kayttotarkoitus should be empty string, M or O" do
+    @internal.kayttotarkoitus = "A"
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = "1"
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = true
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = false
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = 1
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = 0
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = nil
+    refute @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = ""
+    assert @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = "M"
+    assert @internal.valid?, @internal.errors.full_messages
+
+    @internal.kayttotarkoitus = "O"
+    assert @internal.valid?, @internal.errors.full_messages
+  end
 end
