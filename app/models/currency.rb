@@ -1,5 +1,7 @@
 class Currency < ActiveRecord::Base
   extend AttributeSanitator
+  #With Searchable you can do LIKE searches on db
+  extend Searchable
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
 
@@ -11,24 +13,9 @@ class Currency < ActiveRecord::Base
 
   float_columns :kurssi, :intrastat_kurssi
 
-  def self.search_like(args)
-    result = self.all
-
-    args.each do |key,value|
-      if exact_search? value
-        value = exact_search value
-        result = where(key => value)
-      else
-        result = where_like key, value
-      end
-    end
-
-    result
-  end
-
-  def self.where_like(column, search_term)
-    where(self.arel_table[column].matches "%#{search_term}%")
-  end
+  # Map old database schema table to Currency class
+  self.table_name = :valuu
+  self.primary_key = :tunnus
 
   def self.exact_search(value)
     value[1..-1]
@@ -43,9 +30,4 @@ class Currency < ActiveRecord::Base
     def name_to_uppercase
       self.nimi = nimi.upcase if nimi.is_a? String
     end
-
-  # Map old database schema table to Currency class
-  self.table_name = :valuu
-  self.primary_key = :tunnus
-
 end

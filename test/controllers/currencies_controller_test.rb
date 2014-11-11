@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CurrenciesControllerTest < ActionController::TestCase
 
+
   def setup
     cookies[:pupesoft_session] = users(:joe).session
   end
