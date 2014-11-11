@@ -1,6 +1,6 @@
 module ApplicationHelper
   PER_PAGE=10
-  
+
   def current_user
     @current_user ||= User.find_by_session(cookies[:pupesoft_session])
   end
@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def sortable(column)
-    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
+    direction = column == sort_column(params) && sort_direction == "asc" ? "desc" : "asc"
     options = {}
     options['sort'] = column
     options['direction'] = direction
@@ -24,6 +24,10 @@ module ApplicationHelper
     options.merge! params_search if respond_to? :params_search
 
     link_to column, options
+  end
+
+  def sort_column(params)
+    params.values.include?(params[:sort]) ? params[:sort] : "jarjestys"
   end
 
   def t(string)
