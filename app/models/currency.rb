@@ -17,14 +17,6 @@ class Currency < ActiveRecord::Base
   self.table_name = :valuu
   self.primary_key = :tunnus
 
-  def self.exact_search(value)
-    value[1..-1]
-  end
-
-  def self.exact_search?(value)
-    value[0].to_s.include? "@"
-  end
-
   protected
 
     def name_to_uppercase

@@ -17,4 +17,12 @@ module Searchable
   def where_like(column, search_term)
     where(self.arel_table[column].matches "%#{search_term}%")
   end
+
+  def exact_search(value)
+    value[1..-1]
+  end
+
+  def exact_search?(value)
+    value[0].to_s.include? "@"
+  end
 end
