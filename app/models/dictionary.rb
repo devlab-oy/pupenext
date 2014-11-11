@@ -22,5 +22,4 @@ class Dictionary < ActiveRecord::Base
     # Return string if we don't have translation
     translation[language].present? ? translation[language] : string
   end
-
 end
