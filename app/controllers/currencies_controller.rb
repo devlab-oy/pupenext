@@ -66,9 +66,7 @@ class CurrenciesController < ApplicationController
     def columns
       [
         :nimi,
-        :jarjestys,
         :kurssi,
-        :intrastat_kurssi,
       ]
     end
 
