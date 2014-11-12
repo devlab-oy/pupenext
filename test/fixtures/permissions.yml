@@ -1,4 +1,7 @@
-read_one:
+#joe permissions BEGIN
+
+#Customers
+joe_customers_read:
   yhtio: acme
   user: joe
   nimi: pupenext/customers
@@ -9,7 +12,8 @@ read_one:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-read_two:
+#Currencies
+joe_curriencies_read:
   yhtio: acme
   user: joe
   nimi: pupenext/currencies
@@ -20,7 +24,8 @@ read_two:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-update_one:
+#Companies
+joe_companies_update:
   yhtio: acme
   user: joe
   nimi: pupenext/companies
@@ -31,18 +36,25 @@ update_one:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-update_two:
+#SumLevels
+joe_sum_levels_update:
   yhtio: acme
-  user: bob
-  nimi: pupenext/currencies
+  user: joe
+  nimi: pupenext/sum_levels
   paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-update_three:
+#joe permissions END
+
+#---------------------
+
+#max permissions BEGIN
+
+max_currencies_update:
   yhtio: esto
   user: max
   nimi: pupenext/currencies
@@ -53,13 +65,21 @@ update_three:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-test:
+#max permissions END
+
+#---------------------
+
+#bob permissions BEGIN
+
+bob_currencies_update:
   yhtio: acme
   user: bob
-  nimi: pupenext/test
+  nimi: pupenext/currencies
   paivitys: 1
   kuka: bob
-  muuttaja: joe
-  laatija: joe
+  muuttaja: bob
+  laatija: bob
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+#bob permissions END
