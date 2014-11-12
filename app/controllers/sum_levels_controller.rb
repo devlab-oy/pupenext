@@ -1,5 +1,4 @@
 class SumLevelsController < ApplicationController
-
   COLUMNS = [
     :taso,
     :tyyppi,
