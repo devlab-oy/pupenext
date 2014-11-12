@@ -7,4 +7,8 @@ class SumLevel::Profit < SumLevel
   def self.sti_name
     "B"
   end
+
+  def self.human_readable_type
+    "Tulos"
+  end
 end

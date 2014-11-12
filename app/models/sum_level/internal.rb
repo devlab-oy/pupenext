@@ -7,4 +7,8 @@ class SumLevel::Internal < SumLevel
   def self.sti_name
     "S"
   end
+
+  def self.human_readable_type
+    "Sisäinen"
+  end
 end

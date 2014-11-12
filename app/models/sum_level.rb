@@ -33,10 +33,10 @@ class SumLevel < ActiveRecord::Base
   private
     def self.sum_levels
       {
-        S: "SumLevel::Internal",
-        U: "SumLevel::External",
-        A: "SumLevel::Vat",
-        B: "SumLevel::Profit",
+        S: SumLevel::Internal,
+        U: SumLevel::External,
+        A: SumLevel::Vat,
+        B: SumLevel::Profit,
       }
     end
 
@@ -47,7 +47,7 @@ class SumLevel < ActiveRecord::Base
     # This is the reason we need to map the db column with correct child class in this model
     # type_name = "S", type_name = "U" ...
     def self.find_sti_class(taso_value)
-      sum_levels[taso_value.to_sym].constantize
+      sum_levels[taso_value.to_sym]
     end
 
     def does_not_contain_char
