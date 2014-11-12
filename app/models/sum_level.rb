@@ -30,25 +30,30 @@ class SumLevel < ActiveRecord::Base
     write_attribute(:summattava_taso, summattava_taso)
   end
 
-  private
-    def self.sum_levels
-      {
-        S: SumLevel::Internal,
-        U: SumLevel::External,
-        A: SumLevel::Vat,
-        B: SumLevel::Profit,
-      }
-    end
+  def self.default_child_instance
+    sum_levels[:S]
+  end
 
-    # This functions purpose is to return the child class name.
-    # Aka. it should allways return .constantize
-    # This function is called from   persistence.rb function: instantiate
-    #                             -> inheritance.rb function: discriminate_class_for_record
-    # This is the reason we need to map the db column with correct child class in this model
-    # type_name = "S", type_name = "U" ...
-    def self.find_sti_class(taso_value)
-      sum_levels[taso_value.to_sym]
-    end
+  def self.sum_levels
+    {
+      S: SumLevel::Internal,
+      U: SumLevel::External,
+      A: SumLevel::Vat,
+      B: SumLevel::Profit,
+    }
+  end
+
+  # This functions purpose is to return the child class name.
+  # Aka. it should allways return .constantize
+  # This function is called from   persistence.rb function: instantiate
+  #                             -> inheritance.rb function: discriminate_class_for_record
+  # This is the reason we need to map the db column with correct child class in this model
+  # type_name = "S", type_name = "U" ...
+  def self.find_sti_class(taso_value)
+    sum_levels[taso_value.to_sym]
+  end
+
+  private
 
     def does_not_contain_char
       errors.add :taso, "can not contain Ö" if taso.to_s.include? "Ö"
