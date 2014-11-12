@@ -21,7 +21,8 @@ module Pupesoft
     config.i18n.default_locale = :fi
     I18n.enforce_available_locales = false
 
-    config.cache_store = :memory_store
+    config.time_zone = 'Helsinki'
 
+    config.cache_store = :memory_store
   end
 end
