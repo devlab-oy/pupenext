@@ -21,8 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def t(string)
-    language = current_user ? current_user.locale : nil
-    Dictionary.translate(string, language)
+    Dictionary.translate(string, I18n.locale.to_s)
   end
 
   def read_access?
