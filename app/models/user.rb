@@ -9,15 +9,18 @@ class User < ActiveRecord::Base
   end
 
   def can_read?(resource)
-    permissions.read_access(resource).present?
+    Rails.cache.fetch("read-#{id}-#{resource}", expires_in: 5.minutes) do
+      permissions.read_access(resource).present?
+    end
   end
 
   def can_update?(resource)
-    permissions.update_access(resource).present?
+    Rails.cache.fetch("update-#{id}-#{resource}", expires_in: 5.minutes) do
+      permissions.update_access(resource).present?
+    end
   end
 
   # Map old database schema table to User class
-  self.table_name  = "kuka"
+  self.table_name = "kuka"
   self.primary_key = "tunnus"
-
 end

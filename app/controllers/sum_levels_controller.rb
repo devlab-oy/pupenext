@@ -1,4 +1,19 @@
 class SumLevelsController < ApplicationController
+
+  COLUMNS = [
+    :taso,
+    :tyyppi,
+    :nimi,
+    :summattava_taso,
+    :kumulatiivinen,
+    :oletusarvo,
+    :kerroin,
+    :jakaja,
+  ]
+
+  sortable_columns *COLUMNS
+  default_sort_column :tunnus
+
   def index
     @sum_levels = current_company.sum_levels
     @sum_levels = @sum_levels.search_like filter_search_params
@@ -23,27 +38,6 @@ class SumLevelsController < ApplicationController
   private
 
     def searchable_columns
-      columns
-    end
-
-    def sortable_columns
-      columns
-    end
-
-    def columns
-      [
-        :taso,
-        :tyyppi,
-        :nimi,
-        :summattava_taso,
-        :kumulatiivinen,
-        :oletusarvo,
-        :kerroin,
-        :jakaja,
-      ]
-    end
-
-    def default_sort_column
-      :tunnus
+      COLUMNS
     end
 end

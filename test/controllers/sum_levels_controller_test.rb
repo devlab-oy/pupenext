@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class SumLevelsControllerTest < ActionController::TestCase
+
+  def setup
+    cookies[:pupesoft_session] = users(:joe).session
+  end
+
   test "should get index" do
     get :index
     assert_response :success

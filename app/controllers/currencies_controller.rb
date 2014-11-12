@@ -1,6 +1,14 @@
 class CurrenciesController < ApplicationController
+  COLUMNS = [
+    :nimi,
+    :kurssi,
+  ]
+
   before_action :find_currency, only: [:show, :edit, :update]
   before_action :update_access, only: [:create, :edit, :update]
+
+  sortable_columns *COLUMNS
+  default_sort_column :jarjestys
 
   # GET /currencies
   def index
@@ -56,22 +64,7 @@ class CurrenciesController < ApplicationController
     end
 
     def searchable_columns
-      columns
-    end
-
-    def sortable_columns
-      columns
-    end
-
-    def columns
-      [
-        :nimi,
-        :kurssi,
-      ]
-    end
-
-    def default_sort_column
-      :jarjestys
+      COLUMNS
     end
 
     def find_currency

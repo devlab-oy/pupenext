@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include ColumnSort
+
   protect_from_forgery with: :exception
 
   before_action :authorize
@@ -16,23 +18,6 @@ class ApplicationController < ActionController::Base
 
   def current_company
     @current_company ||= current_user.company
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-  end
-
-  def sort_options(column)
-    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-    options = {}
-    options['sort'] = column
-    options['direction'] = direction
-    options['not_used'] = params[:not_used]
-
-    # If controller implements params_search, add search params to sort url
-    options.merge! params_search if respond_to? :params_search
-
-    options
   end
 
   def t(string)
@@ -60,12 +45,6 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
-    end
-
-    def sort_column
-      return params[:sort] if sortable_columns.include? params[:sort].try(:to_sym)
-
-      default_sort_column
     end
 
     def filter_search_params
