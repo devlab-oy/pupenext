@@ -11,10 +11,9 @@ class SumLevel < ActiveRecord::Base
 
   validates :taso, presence: true
   validates :nimi, presence: true
-  validates :tyyppi, inclusion: { in: %w[S A U B] }
-  #allow blank allows empty string and nil, custom validation for nil is implemented
-  validates :kumulatiivinen, inclusion: { in: ["", "X"] }
-  validates :kayttotarkoitus, inclusion: { in: ["", "M", "O"] }
+  validates :tyyppi, inclusion: { in: proc { SumLevel.sum_levels.keys.collect(&:to_s) } }
+  validates :kumulatiivinen, inclusion: { in: proc { SumLevel.kumulatiivinen_options.keys } }
+  validates :kayttotarkoitus, inclusion: { in: proc { SumLevel.kayttotarkoitus_options.keys } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi], message: "one taso per type" }
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
@@ -28,6 +27,21 @@ class SumLevel < ActiveRecord::Base
     summattava_taso.delete!(' ')
 
     write_attribute(:summattava_taso, summattava_taso)
+  end
+
+  def self.kumulatiivinen_options
+    {
+      '' => t('Ei'),
+      'X' => t('Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta'),
+    }
+  end
+
+  def self.kayttotarkoitus_options
+    {
+      '' => t('Ei valintaa'),
+      'M' => t('Liikevaihto'),
+      'O' => t('Ostot, Aineet, tarvikkeet ja tavarat'),
+    }
   end
 
   def self.default_child_instance
