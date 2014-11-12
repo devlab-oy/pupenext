@@ -1,2 +1,8 @@
-<h1>SumLevels#edit</h1>
-<p>Find me in app/views/sum_levels/edit.html.erb</p>
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Tasot') %>
+<%= link_to return_text, sum_levels_path %>
+
+<br /><br />
+
+<%= render 'header' %>
+
+<%= render 'form' %>

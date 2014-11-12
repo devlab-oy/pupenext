@@ -20,6 +20,15 @@ class SumLevelsController < ApplicationController
   end
 
   def new
+    #TODO wait for rails to fix their .build
+    #current_company.sum_levels.build doesnt work
+    #https://github.com/rails/rails/issues/17121
+    default_klass = SumLevel.default_child_instance
+    @sum_level = default_klass.new({ company: current_company })
+  end
+
+  def show
+    render 'edit'
   end
 
   def create
