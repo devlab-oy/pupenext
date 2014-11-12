@@ -1,5 +1,4 @@
 module ActiveRecordExtension
-
   extend ActiveSupport::Concern
 
   included do
@@ -11,7 +10,7 @@ module ActiveRecordExtension
   end
 
   def save_by(user)
-    raise ArgumentError, "Should pass User -class"  unless user.kind_of? User
+    raise ArgumentError, "Should pass User -class" unless user.kind_of? User
 
     self.muuttaja = user.kuka
     self.laatija = user.kuka unless self.persisted?
@@ -26,13 +25,18 @@ module ActiveRecordExtension
     self.update params
   end
 
+  module ClassMethods
+    def t(string)
+      Dictionary.translate(string, I18n.locale.to_s)
+    end
+  end
+
   private
 
     def set_legacy_timestamps
       self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
       self.muutospvm = Time.now
     end
-
 end
 
 ActiveRecord::Base.send(:include, ActiveRecordExtension)
