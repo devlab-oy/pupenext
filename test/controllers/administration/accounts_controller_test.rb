@@ -40,7 +40,6 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_redirected_to accounts_path, response.body
   end
 
-
   test "should not create" do
     request = {
       tilino: 1212,
@@ -65,5 +64,4 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     patch :update, id: @account.id, account: request
     assert_redirected_to accounts_path, response.body
   end
-
 end

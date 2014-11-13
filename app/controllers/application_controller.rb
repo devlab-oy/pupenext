@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
       p.reject { |_, v| v.empty? }
     end
 
-    protected
+  protected
 
     def authorize
       render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
