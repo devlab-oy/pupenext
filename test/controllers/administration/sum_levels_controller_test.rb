@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SumLevelsControllerTest < ActionController::TestCase
+class Administration::SumLevelsControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
     @user = users(:joe)

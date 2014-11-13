@@ -1,4 +1,4 @@
-class SumLevelsController < ApplicationController
+class Administration::SumLevelsController < AdministrationController
   COLUMNS = [
     :taso,
     :tyyppi,
@@ -9,9 +9,6 @@ class SumLevelsController < ApplicationController
     :kerroin,
     :jakaja,
   ]
-
-  before_action :find_sum_level, only: [:show, :edit, :update, :destroy]
-  before_action :update_access, only: [:new, :create, :update, :destroy]
 
   sortable_columns *COLUMNS
   default_sort_column :tunnus
@@ -83,12 +80,11 @@ class SumLevelsController < ApplicationController
       COLUMNS
     end
 
-    def find_sum_level
+    def find_resource
       @sum_level = current_company.sum_levels.find(params[:id])
     end
 
-    def update_access
-      msg = "Sinulla ei ole päivitysoikeuksia"
-      redirect_to sum_levels_path, notice: msg unless update_access?
+    def no_update_access_path
+      sum_levels_path
     end
 end
