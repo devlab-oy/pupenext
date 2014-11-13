@@ -9,15 +9,11 @@ class User < ActiveRecord::Base
   end
 
   def can_read?(resource)
-    Rails.cache.fetch("read-#{id}-#{resource}", expires_in: 5.minutes) do
-      permissions.read_access(resource).present?
-    end
+    permissions.read_access(resource).present?
   end
 
   def can_update?(resource)
-    Rails.cache.fetch("update-#{id}-#{resource}", expires_in: 5.minutes) do
-      permissions.update_access(resource).present?
-    end
+    permissions.update_access(resource).present?
   end
 
   #TODO Currently assing and revoke methods are only called from tests
