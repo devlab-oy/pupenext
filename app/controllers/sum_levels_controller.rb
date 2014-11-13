@@ -10,6 +10,9 @@ class SumLevelsController < ApplicationController
     :jakaja,
   ]
 
+  before_action :find_sum_level, only: [:show, :edit, :update, :destroy]
+  before_action :update_access, only: [:new, :create, :update, :destroy]
+
   sortable_columns *COLUMNS
   default_sort_column :tunnus
 
@@ -28,24 +31,64 @@ class SumLevelsController < ApplicationController
   end
 
   def show
-    render 'edit'
+    render :edit
   end
 
   def create
+    default_klass = SumLevel.child_class sum_level_params[:tyyppi]
+    @sum_level = default_klass.new({ company: current_company })
+    @sum_level.attributes = sum_level_params
+
+    if @sum_level.save_by current_user
+      redirect_to sum_levels_path, notice: 'Taso luotiin onnistuneesti'
+    else
+      render :edit
+    end
   end
 
   def edit
   end
 
   def update
+    if @sum_level.update_by sum_level_params, current_user
+      redirect_to sum_levels_path, notice: 'Taso päivitettiin onnistuneesti'
+    else
+      render :edit
+    end
   end
 
   def destroy
+    @sum_level.destroy
+    flash.notice = 'Taso poistettiin onnistuneesti'
+    redirect_to sum_levels_path
   end
 
   private
 
+    def sum_level_params
+      params.require(:sum_level).permit(
+        :tyyppi,
+        :summattava_taso,
+        :taso,
+        :nimi,
+        :oletusarvo,
+        :jakaja,
+        :kumulatiivinen,
+        :kayttotarkoitus,
+        :kerroin,
+      )
+    end
+
     def searchable_columns
       COLUMNS
+    end
+
+    def find_sum_level
+      @sum_level = current_company.sum_levels.find(params[:id])
+    end
+
+    def update_access
+      msg = "Sinulla ei ole päivitysoikeuksia"
+      redirect_to sum_levels_path, notice: msg unless update_access?
     end
 end

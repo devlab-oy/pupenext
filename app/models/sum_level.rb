@@ -44,8 +44,12 @@ class SumLevel < ActiveRecord::Base
     }
   end
 
+  def self.child_class(tyyppi_value)
+    sum_levels[tyyppi_value.to_sym]
+  end
+
   def self.default_child_instance
-    sum_levels[:S]
+    child_class :S
   end
 
   def self.sum_levels

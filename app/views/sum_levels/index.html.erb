@@ -65,11 +65,7 @@
       <% @sum_levels.each do |sum_level| %>
           <tr class="aktiivi">
             <td>
-              <% if update_access? %>
-                  <%= link_to sum_level.taso, edit_sum_level_path(sum_level.tunnus) %>
-              <% else %>
-                  <%= sum_level.taso %>
-              <% end %>
+              <%= link_to sum_level.taso, edit_sum_level_path(sum_level.tunnus) %>
             </td>
 
             <td>
