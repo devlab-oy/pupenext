@@ -1,8 +1,6 @@
 require 'test_helper'
 
-class CurrenciesControllerTest < ActionController::TestCase
-
-
+class Administration::CurrenciesControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
   end
@@ -46,7 +44,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
+    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
   end
 
   test 'should create new currency' do
@@ -57,7 +55,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal "Valuutta luotiin onnistuneesti.", flash[:notice]
+    assert_equal "Valuutta luotiin onnistuneesti", flash[:notice]
   end
 
   test 'should not create new currency' do
@@ -76,7 +74,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     patch :update, id: currency.id, currency: { nimi: 'TES' }
 
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    assert_equal "Valuutta päivitettiin onnistuneesti", flash[:notice]
   end
 
   test 'should not see intrastat-field' do
@@ -106,7 +104,7 @@ class CurrenciesControllerTest < ActionController::TestCase
     patch :update, id: currency.id, currency: { nimi: 'TES', intrastat_kurssi: 1.5 }
 
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    assert_equal "Valuutta päivitettiin onnistuneesti", flash[:notice]
 
     request = { id: currency.id }
 

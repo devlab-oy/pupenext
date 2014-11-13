@@ -1,11 +1,8 @@
-class CurrenciesController < ApplicationController
+class Administration::CurrenciesController < AdministrationController
   COLUMNS = [
     :nimi,
     :kurssi,
   ]
-
-  before_action :find_currency, only: [:show, :edit, :update]
-  before_action :update_access, only: [:create, :edit, :update]
 
   sortable_columns *COLUMNS
   default_sort_column :jarjestys
@@ -33,7 +30,7 @@ class CurrenciesController < ApplicationController
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
-      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
+      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti'
     else
       render action: 'new'
     end
@@ -46,7 +43,7 @@ class CurrenciesController < ApplicationController
   # PATCH/PUT /currencies/1
   def update
     if @currency.update_by(currency_params, current_user)
-      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
+      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti'
     else
       render action: 'edit'
     end
@@ -67,12 +64,11 @@ class CurrenciesController < ApplicationController
       COLUMNS
     end
 
-    def find_currency
+    def find_resource
       @currency = current_company.currency.find(params[:id])
     end
 
-    def update_access
-      msg = "Sinulla ei ole päivitysoikeuksia."
-      redirect_to currencies_path, notice: msg unless update_access?
-    end
+  def no_update_access_path
+    currencies_path
+  end
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class AccountsControllerTest < ActionController::TestCase
-
+class Administration::AccountsControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
     @account = accounts(:first)
@@ -42,7 +41,7 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
 
-test "should not create" do
+  test "should not create" do
     request = {
       tilino: 1212,
       nimi: nil,
@@ -56,7 +55,7 @@ test "should not create" do
     assert_template "new", "Template should be new"
   end
 
-test "should update" do
+  test "should update" do
     request = {
       tilino: 1212,
       nimi: 'xxx',

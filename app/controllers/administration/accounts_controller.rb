@@ -1,4 +1,4 @@
-class AccountsController < ApplicationController
+class Administration::AccountsController < AdministrationController
 
   before_action :find_account, only: [:show, :edit, :update]
   before_action :get_qualifiers, only: [:new, :show, :edit, :update, :create]
