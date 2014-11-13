@@ -3,6 +3,7 @@ require 'test_helper'
 class Administration::CurrenciesControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
+    @user = users(:joe)
   end
 
   test 'should get all currencies' do
@@ -39,6 +40,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should not have permission to create new currency' do
+    @user.revoke_update_access "pupenext/currencies"
     assert_no_difference('Currency.count') do
       post :create, currency: { nimi: 'TES', kurssi: 0.8 }
     end

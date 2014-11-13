@@ -13,11 +13,11 @@ joe_customers_read:
   muutospvm: <%= Time.now %>
 
 #Currencies
-joe_curriencies_read:
+joe_curriencies_update:
   yhtio: acme
   user: joe
   nimi: pupenext/currencies
-  paivitys: 0
+  paivitys: 1
   kuka: joe
   muuttaja: joe
   laatija: joe
