@@ -56,8 +56,7 @@ class Administration::SumLevelsController < AdministrationController
 
   def destroy
     @sum_level.destroy
-    flash.notice = 'Taso poistettiin onnistuneesti'
-    redirect_to sum_levels_path
+    redirect_to sum_levels_path, notice: 'Taso poistettiin onnistuneesti'
   end
 
   private
