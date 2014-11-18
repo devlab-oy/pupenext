@@ -23,11 +23,9 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     assert_template "edit", "Template should be edit"
   end
 
-  test 'should show new currency form' do
+  test 'should not show new currency form' do
     get :new
-    assert_response :success
-
-    assert_template 'new', 'Template should be new'
+    assert_redirected_to currencies_path
   end
 
   test 'should search for specific currency' do
@@ -40,7 +38,6 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should not have permission to create new currency' do
-    @user.revoke_update_access "pupenext/currencies"
     assert_no_difference('Currency.count') do
       post :create, currency: { nimi: 'TES', kurssi: 0.8 }
     end
