@@ -1,4 +1,4 @@
-#joe permissions BEGIN
+#joe permissions BEGIN joe allways has only read access, never update
 
 #Customers
 joe_customers_read:
@@ -13,11 +13,11 @@ joe_customers_read:
   muutospvm: <%= Time.now %>
 
 #Currencies
-joe_curriencies_update:
+joe_curriencies_read:
   yhtio: acme
   user: joe
   nimi: pupenext/currencies
-  paivitys: 1
+  paivitys: 0
   kuka: joe
   muuttaja: joe
   laatija: joe
@@ -25,11 +25,11 @@ joe_curriencies_update:
   muutospvm: <%= Time.now %>
 
 #Companies
-joe_companies_update:
+joe_companies_read:
   yhtio: acme
   user: joe
   nimi: pupenext/companies
-  paivitys: 1
+  paivitys: 0
   kuka: joe
   muuttaja: joe
   laatija: joe
@@ -37,11 +37,11 @@ joe_companies_update:
   muutospvm: <%= Time.now %>
 
 #SumLevels
-joe_sum_levels_update:
+joe_sum_levels_read:
   yhtio: acme
   user: joe
   nimi: pupenext/sum_levels
-  paivitys: 1
+  paivitys: 0
   kuka: joe
   muuttaja: joe
   laatija: joe
@@ -52,8 +52,7 @@ joe_sum_levels_update:
 
 #---------------------
 
-#max permissions BEGIN
-
+#max permissions BEGIN max is estonian user which affects read and update access aswell
 max_currencies_update:
   yhtio: esto
   user: max
@@ -69,7 +68,7 @@ max_currencies_update:
 
 #---------------------
 
-#bob permissions BEGIN
+#bob permissions BEGIN bob has update and read access
 
 bob_currencies_update:
   yhtio: acme
