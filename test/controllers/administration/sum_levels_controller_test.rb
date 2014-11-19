@@ -13,20 +13,20 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
   end
 
   test "should not get index" do
-    @user.revoke_all "pupenext/sum_levels"
+    cookies[:pupesoft_session] = users(:ben).session
     get :index
     assert_response :forbidden
   end
 
   test "should get new" do
+    cookies[:pupesoft_session] = users(:bob).session
     get :new
     assert_response :success
   end
 
   test "should not get new" do
-    @user.revoke_all "pupenext/sum_levels"
     get :new
-    assert_response :forbidden
+    assert_redirected_to sum_levels_path
   end
 
   test "should show sum level" do
@@ -36,20 +36,20 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
   end
 
   test "should show sum level with read access" do
-    @user.revoke_update_access "pupenext/sum_levels"
     request = { id: @sum_level.id }
     get :show, request
     assert_response :success
   end
 
   test "should not show sum level" do
-    @user.revoke_all "pupenext/sum_levels"
+    cookies[:pupesoft_session] = users(:ben).session
     request = { id: @sum_level.id }
     get :show, request
     assert_response :forbidden
   end
 
   test "should create" do
+    cookies[:pupesoft_session] = users(:bob).session
     assert_difference('SumLevel.count', 1) do
       request = {
         tyyppi: 'U',
@@ -85,12 +85,11 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
       post :create, sum_level: request
     end
 
-    assert_template :edit
+    assert_redirected_to sum_levels_path
   end
 
   test "should not create with no access" do
-    #With unsufficient access
-    @user.revoke_update_access "pupenext/sum_levels"
+    cookies[:pupesoft_session] = users(:joe).session
     assert_no_difference('SumLevel.count') do
       #With valid request
       request = {
@@ -111,44 +110,46 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
+    cookies[:pupesoft_session] = users(:bob).session
     request = { id: @sum_level.id }
     get :edit, request
     assert_response :success
   end
 
   test "should not get edit" do
-    @user.revoke_all "pupenext/sum_levels"
+    cookies[:pupesoft_session] = users(:ben).session
     request = { id: @sum_level.id }
     get :edit, request
     assert_response :forbidden
   end
 
   test "should get edit without update access" do
-    @user.revoke_update_access "pupenext/sum_levels"
     request = { id: @sum_level.id }
     get :edit, request
     assert_response :success
   end
 
   test "should update" do
+    cookies[:pupesoft_session] = users(:bob).session
     patch :update, id: @sum_level.id, sum_level: { nimi: 'Uusi nimi' }
     assert_equal "Taso päivitettiin onnistuneesti", flash[:notice]
     assert_redirected_to sum_levels_path
   end
 
   test "should not update" do
-    @user.revoke_update_access "pupenext/sum_levels"
     patch :update, id: @sum_level.id, sum_level: { nimi: 'Uusi nimi' }
     assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
     assert_redirected_to sum_levels_path
   end
 
   test "should not update with invalid data" do
+    cookies[:pupesoft_session] = users(:bob).session
     patch :update, id: @sum_level.id, sum_level: { taso: '' }
     assert_template :edit
   end
 
   test "should destroy" do
+    cookies[:pupesoft_session] = users(:bob).session
     assert_difference('SumLevel.count', -1) do
       delete :destroy, id: @sum_level.id
     end
@@ -158,7 +159,6 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
   end
 
   test "should not destroy" do
-    @user.revoke_update_access "pupenext/sum_levels"
     assert_no_difference('SumLevel.count') do
       delete :destroy, id: @sum_level.id
     end
