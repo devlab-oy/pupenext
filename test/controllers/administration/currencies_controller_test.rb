@@ -3,7 +3,6 @@ require 'test_helper'
 class Administration::CurrenciesControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
-    @user = users(:joe)
   end
 
   test 'should get all currencies' do
