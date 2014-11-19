@@ -81,4 +81,26 @@ bob_currencies_update:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+bob_companies_update:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/companies
+  paivitys: 1
+  kuka: bob
+  muuttaja: bob
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+bob_sum_levels_update:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/sum_levels
+  paivitys: 1
+  kuka: bob
+  muuttaja: bob
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 #bob permissions END

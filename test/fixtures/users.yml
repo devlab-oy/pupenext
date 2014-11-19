@@ -30,3 +30,14 @@ max:
   lastlogin: <%= Time.now %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+ben:
+  yhtio: acme
+  kuka: ben
+  nimi: Ben i Hana
+  session: OZDROQPMPVZKNFTTMOHOMBRBX
+  muuttaja: bob
+  laatija: bob
+  lastlogin: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
