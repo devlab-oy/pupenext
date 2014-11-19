@@ -2140,6 +2140,9 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.integer  "tosite",                                               default: 0,   null: false
     t.integer  "aputunnus",                                            default: 0,   null: false
     t.integer  "tapahtumatunnus",                                      default: 0,   null: false
+    t.datetime "luontiaika",                                                         null: false
+    t.datetime "muutospvm",                                                          null: false
+    t.string   "muuttaja",        limit: 50,                           default: "",  null: false
   end
 
   add_index "tiliointi", ["ltunnus"], name: "tositerivit_index", using: :btree
