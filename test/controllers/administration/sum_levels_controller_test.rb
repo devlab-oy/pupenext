@@ -3,7 +3,6 @@ require 'test_helper'
 class Administration::SumLevelsControllerTest < ActionController::TestCase
   def setup
     cookies[:pupesoft_session] = users(:joe).session
-    @user = users(:joe)
     @sum_level = sum_levels(:external)
   end
 
