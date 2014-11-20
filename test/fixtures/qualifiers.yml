@@ -1,0 +1,35 @@
+projekti:
+  yhtio: acme
+  tyyppi: P
+  isa_tarkenne: 0
+  koodi: ''
+  nimi: Projektin nimi
+  kaytossa: o
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+kohde:
+  yhtio: acme
+  tyyppi: O
+  isa_tarkenne: 0
+  koodi: ''
+  nimi: Kohteen nimi
+  kaytossa: o
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+kustannuspaikka:
+  yhtio: acme
+  tyyppi: K
+  isa_tarkenne: 0
+  koodi: ''
+  nimi: Kustannuspaikan nimi
+  kaytossa: o
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob

@@ -1,9 +1,14 @@
 first:
   yhtio: acme
-  nimi: Dynimite
+  nimi: Perustamismenot
+  ulkoinen_taso: 1111
+  sisainen_taso: 1111
+  alv_taso: fi307
+  tilino: 100
+  project: projekti
+  target: kohde
+  cost_center: kustannuspaikka
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-  muuttaja: xx
-  laatija: xxx
-  ulkoinen_taso: 1111
-  tilino: 2121
+  muuttaja: bob
+  laatija: bob
