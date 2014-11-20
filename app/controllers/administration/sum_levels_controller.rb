@@ -80,7 +80,7 @@ class Administration::SumLevelsController < AdministrationController
     end
 
     def find_resource
-      @sum_level = current_company.sum_levels.find(params[:id])
+      @sum_level = current_company.sum_levels.find params[:id]
     end
 
     def no_update_access_path
