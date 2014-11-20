@@ -21,7 +21,7 @@ class QualifierTest < ActiveSupport::TestCase
     @project_with_account.nimi = 0
     assert @project_with_account.valid?
   end
-  
+
   test "should return nimitys" do
     assert_equal "123 Projektin nimi", @project_with_account.nimitys
   end
@@ -43,7 +43,7 @@ class QualifierTest < ActiveSupport::TestCase
     assert project_without_account.valid?, project_without_account.errors.full_messages
     assert_equal Qualifier.not_in_use_char, project_without_account.kaytossa
   end
-  
+
   test "should activate project" do
     project_not_in_use = Qualifier::Project.not_in_use.where(koodi: '12345').first
     project_not_in_use.activate!
