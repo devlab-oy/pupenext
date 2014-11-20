@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Administration::AccountsControllerTest < ActionController::TestCase
   def setup
-    cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
+    cookies[:pupesoft_session] = users(:joe).session
     @account = accounts(:first)
   end
 

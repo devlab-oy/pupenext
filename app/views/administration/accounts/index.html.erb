@@ -1,38 +1,106 @@
-<font class="head">Tilikartta</font>
-<hr />
-<div id="notice"><%= notice %></div>
-<%= link_to "<button>Uusi tili</button>".html_safe, new_account_path %>
-<br /><br />
+<%= render 'header' %>
 
-<table>
-  <tr>
-    <th><%= Account.human_attribute_name(:tilino) %></th>
-    <th><%= Account.human_attribute_name(:nimi) %></th>
-    <th><%= Account.human_attribute_name(:sisainen_taso) %></th>
-    <th><%= Account.human_attribute_name(:sisainen_nimi) %></th>
-    <th><%= Account.human_attribute_name(:ulkoinen_taso) %></th>
-    <th><%= Account.human_attribute_name(:ulkoinen_nimi) %></th>
-    <th><%= Account.human_attribute_name(:alv_taso) %></th>
-    <th><%= Account.human_attribute_name(:alv_nimi) %></th>
-  </tr>
+<% if notice %>
+    <%= t(notice) %>
+    <br/><br/>
+<% end %>
 
-  <% @accounts.each do |a| %>
-    <tr>
-      <td><%= link_to a.tilino, edit_account_path(a.id) %></td>
-      <td><%= a.nimi %></td>
-      <td><%= a.sisainen_taso %></td>
-      <td><%= a.sisainen_nimi %></td>
-      <td><%= a.ulkoinen_taso %></td>
-      <td><%= a.ulkoinen_nimi %></td>
-      <td><%= a.alv_taso %></td>
-      <td><%= a.alv_nimi %></td>
-    </tr>
-  <% end %>
-</table>
+<%= button_to t('Uusi tili'), new_account_path, method: :get if update_access? %>
 
-<br />
+<br/>
 
-<%= link_to "<button>Uusi tili</button>".html_safe, new_account_path %>
+<%= form_tag accounts_path, method: :get do %>
+    <table>
+      <tr>
+        <th>
+          <%= sortable 'tilino' %>
+          <br/>
+          <%= text_field_tag :tilino, params[:tilino] %>
+        </th>
 
+        <th>
+          <%= sortable 'nimi' %>
+          <br/>
+          <%= text_field_tag :nimi, params[:nimi] %>
+        </th>
 
-<%= debug(@level) %>
+        <th>
+          <%= sortable 'sisainen_taso' %>
+          <br/>
+          <%= text_field_tag :sisainen_taso, params[:sisainen_taso] %>
+        </th>
+
+        <th>
+          <%= sortable 'sisainen_nimi' %>
+          <br/>
+          <%= text_field_tag :sisainen_nimi, params[:sisainen_nimi] %>
+        </th>
+
+        <th>
+          <%= sortable 'ulkoinen_taso' %>
+          <br/>
+          <%= text_field_tag :ulkoinen_taso, params[:ulkoinen_taso] %>
+        </th>
+
+        <th>
+          <%= sortable 'ulkoinen_nimi' %>
+          <br/>
+          <%= text_field_tag :ulkoinen_nimi, params[:ulkoinen_nimi] %>
+        </th>
+
+        <th>
+          <%= sortable 'alv_taso' %>
+          <br/>
+          <%= text_field_tag :alv_taso, params[:alv_taso] %>
+        </th>
+        
+        <th>
+          <%= sortable 'alv_nimi' %>
+          <br/>
+          <%= text_field_tag :alv_nimi, params[:alv_nimi] %>
+        </th>
+        <th class="back"><%= submit_tag t('Etsi') %></th>
+      </tr>
+
+      <% @accounts.each do |account| %>
+          <tr class="aktiivi">
+            <td>
+              <%= link_to account.tilino, edit_account_path(account.tunnus) %>
+            </td>
+
+            <td>
+              <%= account.nimi %>
+            </td>
+
+            <td>
+              <%= account.sisainen_taso %>
+            </td>
+
+            <td>
+              <%= account.internal.try(:nimi) %>
+            </td>
+
+            <td>
+              <%= account.ulkoinen_taso %>
+            </td>
+
+            <td>
+              <%= account.external.try(:nimi) %>
+            </td>
+
+            <td>
+              <%= account.alv_taso %>
+            </td>
+
+            <td>
+              <%= account.vat.try(:nimi) %>
+            </td>
+            <td class="back"></td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
+
+<br/>
+
+<%= button_to t('Uusi tili'), new_account_path, method: :get if update_access? %>

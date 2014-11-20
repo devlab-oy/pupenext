@@ -35,33 +35,6 @@ class Account < ActiveRecord::Base
   self.table_name = :tili
   self.primary_key = :tunnus
 
-  def sisainen_nimi
-    if sisainen_taso == ''
-      return ''
-    else
-      level = Level.where(taso: sisainen_taso)
-      level.first[:nimi]
-    end
-  end
-
-  def ulkoinen_nimi
-    if ulkoinen_taso == ''
-      return ''
-    else
-      level = Level.where(taso: ulkoinen_taso)
-      level.first[:nimi]
-    end
-  end
-
-  def alv_nimi
-    if alv_taso == ''
-      return ''
-    else
-      level = Level.where(taso: alv_taso)
-      level.first[:nimi]
-    end
-  end
-
   def toimijaliitos_options
     [
       ["Ei liitospakkoa", "0"],

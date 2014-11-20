@@ -1,6 +1,5 @@
 #joe permissions BEGIN joe allways has only read access, never update
 
-#Customers
 joe_customers_read:
   yhtio: acme
   user: joe
@@ -12,7 +11,6 @@ joe_customers_read:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-#Currencies
 joe_curriencies_read:
   yhtio: acme
   user: joe
@@ -24,7 +22,6 @@ joe_curriencies_read:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-#Companies
 joe_companies_read:
   yhtio: acme
   user: joe
@@ -36,7 +33,6 @@ joe_companies_read:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-#SumLevels
 joe_sum_levels_read:
   yhtio: acme
   user: joe
@@ -48,6 +44,16 @@ joe_sum_levels_read:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+joe_accounts_read:
+  yhtio: acme
+  user: joe
+  nimi: pupenext/accounts
+  paivitys: 0
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
 #joe permissions END
 
 #---------------------
@@ -96,6 +102,17 @@ bob_sum_levels_update:
   yhtio: acme
   user: bob
   nimi: pupenext/sum_levels
+  paivitys: 1
+  kuka: bob
+  muuttaja: bob
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+bob_accounts_update:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/accounts
   paivitys: 1
   kuka: bob
   muuttaja: bob
