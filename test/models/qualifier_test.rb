@@ -5,6 +5,11 @@ class QualifierTest < ActiveSupport::TestCase
     @project_with_account = qualifiers(:project_in_use)
   end
 
+  test "should return kaytossa char" do
+    assert_equal 'o', Qualifier.in_use_char
+    assert_equal 'E', Qualifier.not_in_use_char
+  end
+
   test "if someone tries to deactivate qualifier check account assosiation" do
     @project_with_account.deactivate!
     refute @project_with_account.valid?

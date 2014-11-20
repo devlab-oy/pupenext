@@ -13,6 +13,7 @@ class Qualifier < ActiveRecord::Base
   self.abstract_class = true
 
   default_scope { where(kaytossa: in_use_char) }
+  scope :not_in_use, -> { unscoped.where(kaytossa: not_in_use_char) }
 
   def self.default_child_instance
     child_class :P
@@ -48,7 +49,7 @@ class Qualifier < ActiveRecord::Base
     'o'
   end
 
-  def kaytossa_options
+  def self.kaytossa_options
     {
       in_use_char => t('Kyllä'),
       not_in_use_char => t('Ei'),

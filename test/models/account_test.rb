@@ -38,7 +38,7 @@ class AccountTest < ActiveSupport::TestCase
   end
   
   test "accounts project needs to be in use" do
-    project_not_in_use = Qualifier.unscoped.first
+    project_not_in_use = Qualifier::Project.not_in_use.first
     @account.project = project_not_in_use
 
     #account needs to be saved. Project_not_in_use goes to db

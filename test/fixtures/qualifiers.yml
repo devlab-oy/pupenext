@@ -46,7 +46,7 @@ project_not_in_use:
   muuttaja: bob
   laatija: bob
 
-project_in_use2:
+project_not_in_use2:
   yhtio: acme
   tyyppi: P
   isa_tarkenne: 0
