@@ -2,8 +2,6 @@ class Qualifier < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, presence: true
-  validates :koodi, presence: true
-  validates :tyyppi, presence: true
   validate :deactivated
 
   # Map old database schema table to Qualifier class
@@ -14,6 +12,10 @@ class Qualifier < ActiveRecord::Base
 
   default_scope { where(kaytossa: in_use_char) }
   scope :not_in_use, -> { unscoped.where(kaytossa: not_in_use_char) }
+
+  def self.child_class(tyyppi_value)
+    qualifiers[tyyppi_value.to_sym]
+  end
 
   def self.default_child_instance
     child_class :P
@@ -34,7 +36,7 @@ class Qualifier < ActiveRecord::Base
   # This is the reason we need to map the db column with correct child class in this model
   # type_name = "S", type_name = "U" ...
   def self.find_sti_class(tyyppi_value)
-    qualifiers[tyyppi_value.to_sym]
+    child_class tyyppi_value
   end
 
   def nimitys
@@ -42,11 +44,11 @@ class Qualifier < ActiveRecord::Base
   end
 
   def self.not_in_use_char
-    'E'
+    "E"
   end
 
   def self.in_use_char
-    'o'
+    "o"
   end
 
   def self.kaytossa_options
@@ -54,10 +56,6 @@ class Qualifier < ActiveRecord::Base
       in_use_char => t('Kyllä'),
       not_in_use_char => t('Ei'),
     }
-  end
-
-  def types
-    [["Kustannuspaikka", "K"], ["Kohde", "O"], ["Projekti", "P"]]
   end
 
   def deactivate!
@@ -71,7 +69,8 @@ class Qualifier < ActiveRecord::Base
   def deactivated
     msg = 'Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä'
     if kaytossa == 'E'
-      errors.add(:kaytossa, msg) if accounts
+      #accounts is defined in child models
+      errors.add(:kaytossa, msg) if accounts.count > 0
     end
   end
 end

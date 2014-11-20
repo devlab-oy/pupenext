@@ -68,7 +68,7 @@ class SumLevel < ActiveRecord::Base
   # This is the reason we need to map the db column with correct child class in this model
   # type_name = "S", type_name = "U" ...
   def self.find_sti_class(taso_value)
-    sum_levels[taso_value.to_sym]
+    child_class taso_value
   end
 
   private
