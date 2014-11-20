@@ -13,6 +13,19 @@ class Account < ActiveRecord::Base
     foreign_key: :kustp,
     primary_key: :tunnus
 
+  belongs_to :internal,
+    class_name: 'SumLevel::Internal',
+    foreign_key: :sisainen_taso,
+    primary_key: :taso
+  belongs_to :external,
+    :class_name => 'SumLevel::External',
+    foreign_key: :ulkoinen_taso,
+    primary_key: :taso
+  belongs_to :vat,
+    :class_name => 'SumLevel::Vat',
+    foreign_key: :alv_taso,
+    primary_key: :taso
+
   validates :tilino, presence: true
   validates :tilino, uniqueness: { scope: [:yhtio, :tilino], message: "yksi tilinumero per yhtiö" }
   validates :nimi, presence: true

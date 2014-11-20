@@ -1,4 +1,6 @@
 class SumLevel::Internal < SumLevel
+  has_many :accounts, foreign_key: :sisainen_taso
+
   validates_with SumLevelValidator
 
   default_scope { where(tyyppi: self.sti_name) }

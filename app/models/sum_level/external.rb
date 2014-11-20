@@ -1,4 +1,6 @@
 class SumLevel::External < SumLevel
+  has_many :accounts, foreign_key: :ulkoinen_taso
+
   validates_with SumLevelValidator
 
   default_scope { where(tyyppi: self.sti_name) }
