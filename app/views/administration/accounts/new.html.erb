@@ -1,5 +1,8 @@
-<%= link_to '« Palaa ohjelmaan: tilikartta', accounts_path %>
-<br />
-<br/>
-<font class="head">Uusi tili</font>
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Tilikartta') %>
+<%= link_to return_text, accounts_path %>
+
+<br /><br />
+
+<%= render 'header' %>
+
 <%= render 'form' %>
