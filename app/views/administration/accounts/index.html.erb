@@ -65,7 +65,7 @@
       <% @accounts.each do |account| %>
           <tr class="aktiivi">
             <td>
-              <%= link_to account.tilino, edit_account_path(account.tunnus) %>
+              <%= link_to account.tilino, edit_account_path(account.id) %>
             </td>
 
             <td>
