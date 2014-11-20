@@ -5,9 +5,9 @@ first:
   sisainen_taso: 1111
   alv_taso: fi307
   tilino: 100
-  project: projekti
-  target: kohde
-  cost_center: kustannuspaikka
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: bob

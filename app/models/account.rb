@@ -1,8 +1,17 @@
 class Account < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-  belongs_to :project, class_name: 'Qualifier::Project', foreign_key: :projekti, primary_key: :tunnus
-  belongs_to :target, class_name: 'Qualifier::Target', foreign_key: :kohde, primary_key: :tunnus
-  belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp, primary_key: :tunnus
+  belongs_to :project,
+    class_name: 'Qualifier::Project',
+    foreign_key: :projekti,
+    primary_key: :tunnus
+  belongs_to :target,
+    class_name: 'Qualifier::Target',
+    foreign_key: :kohde,
+    primary_key: :tunnus
+  belongs_to :cost_center,
+    class_name: 'Qualifier::CostCenter',
+    foreign_key: :kustp,
+    primary_key: :tunnus
 
   validates :tilino, presence: true
   validates :tilino, uniqueness: { scope: [:yhtio, :tilino], message: "yksi tilinumero per yhtiö" }
@@ -10,8 +19,8 @@ class Account < ActiveRecord::Base
   validates :ulkoinen_taso, presence: true
 
   # Map old database schema table to Account class
-  self.table_name = "tili"
-  self.primary_key = "tunnus"
+  self.table_name = :tili
+  self.primary_key = :tunnus
 
   def sisainen_nimi
     if sisainen_taso == ''

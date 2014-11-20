@@ -1,8 +1,8 @@
-projekti:
+project_in_use:
   yhtio: acme
   tyyppi: P
   isa_tarkenne: 0
-  koodi: ''
+  koodi: '123'
   nimi: Projektin nimi
   kaytossa: o
   luontiaika: <%= Time.now %>
@@ -10,11 +10,11 @@ projekti:
   muuttaja: bob
   laatija: bob
 
-kohde:
+target_in_use:
   yhtio: acme
   tyyppi: O
   isa_tarkenne: 0
-  koodi: ''
+  koodi: '123'
   nimi: Kohteen nimi
   kaytossa: o
   luontiaika: <%= Time.now %>
@@ -22,13 +22,37 @@ kohde:
   muuttaja: bob
   laatija: bob
 
-kustannuspaikka:
+cost_center_in_use:
   yhtio: acme
   tyyppi: K
   isa_tarkenne: 0
-  koodi: ''
+  koodi: '123'
   nimi: Kustannuspaikan nimi
   kaytossa: o
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+project_not_in_use:
+  yhtio: acme
+  tyyppi: P
+  isa_tarkenne: 0
+  koodi: '123'
+  nimi: Projektin nimi ei kaytossa
+  kaytossa: E
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+project_in_use2:
+  yhtio: acme
+  tyyppi: P
+  isa_tarkenne: 0
+  koodi: '123'
+  nimi: Projektin nimi2
+  kaytossa: E
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: bob

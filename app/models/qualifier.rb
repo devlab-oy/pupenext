@@ -4,6 +4,7 @@ class Qualifier < ActiveRecord::Base
   validates :nimi, presence: true
   validates :koodi, presence: true
   validates :tyyppi, presence: true
+  validate :deactivated
 
   # Map old database schema table to Qualifier class
   self.table_name = :kustannuspaikka
@@ -11,11 +12,13 @@ class Qualifier < ActiveRecord::Base
   self.inheritance_column = :tyyppi
   self.abstract_class = true
 
+  default_scope { where(kaytossa: in_use_char) }
+
   def self.default_child_instance
     child_class :P
   end
 
-  def self.sum_levels
+  def self.qualifiers
     {
       P: Qualifier::Project,
       O: Qualifier::Target,
@@ -29,20 +32,45 @@ class Qualifier < ActiveRecord::Base
   #                             -> inheritance.rb function: discriminate_class_for_record
   # This is the reason we need to map the db column with correct child class in this model
   # type_name = "S", type_name = "U" ...
-  def self.find_sti_class(taso_value)
-    sum_levels[taso_value.to_sym]
+  def self.find_sti_class(tyyppi_value)
+    qualifiers[tyyppi_value.to_sym]
   end
 
   def nimitys
     "#{koodi} #{nimi}"
   end
 
-  def in_use
-    [["Kyllä", "o"], ["Ei", "E"]]
+  def self.not_in_use_char
+    'E'
+  end
+
+  def self.in_use_char
+    'o'
+  end
+
+  def kaytossa_options
+    {
+      in_use_char => t('Kyllä'),
+      not_in_use_char => t('Ei'),
+    }
   end
 
   def types
     [["Kustannuspaikka", "K"], ["Kohde", "O"], ["Projekti", "P"]]
   end
 
+  def deactivate!
+    self.kaytossa = Qualifier.not_in_use_char
+  end
+
+  def activate!
+    self.kaytossa = Qualifier.in_use_char
+  end
+
+  def deactivated
+    msg = 'Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä'
+    if kaytossa == 'E'
+      errors.add(:kaytossa, msg) if accounts
+    end
+  end
 end
