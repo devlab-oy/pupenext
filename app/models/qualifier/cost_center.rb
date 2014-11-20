@@ -3,6 +3,10 @@ class Qualifier::CostCenter < Qualifier
 
   default_scope { where(tyyppi: self.sti_name) }
 
+  def self.human_readable_type
+    "Kustannuspaikka"
+  end
+
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     "K"
