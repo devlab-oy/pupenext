@@ -14,7 +14,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
   test 'should show currency' do
     currency = currencies(:eur)
-    request = { id: currency.id }
+    request = {id: currency.id}
 
     get :show, request
     assert_response :success
@@ -28,7 +28,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should search for specific currency' do
-    request = { nimi: 'EUR' }
+    request = {nimi: 'EUR'}
 
     get :index, request
     assert_response :success
@@ -38,7 +38,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
   test 'should not have permission to create new currency' do
     assert_no_difference('Currency.count') do
-      post :create, currency: { nimi: 'TES', kurssi: 0.8 }
+      post :create, currency: {nimi: 'TES', kurssi: 0.8}
     end
 
     assert_redirected_to currencies_path
@@ -49,18 +49,18 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:bob).session
 
     assert_difference('Currency.count') do
-      post :create, currency: { nimi: 'TES', kurssi: 0.8 }
+      post :create, currency: {nimi: 'TES', kurssi: 0.8}
     end
 
     assert_redirected_to currencies_path
-    assert_equal "Valuutta luotiin onnistuneesti", flash[:notice]
+    assert_equal "Valuutta luotiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not create new currency' do
     cookies[:pupesoft_session] = users(:bob).session
 
     assert_no_difference('Currency.count') do
-      post :create, currency: { nimi: 'FOO_BAR' }
+      post :create, currency: {nimi: 'FOO_BAR'}
       assert_template 'new', 'Template should be new'
     end
   end
@@ -69,17 +69,17 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
 
-    patch :update, id: currency.id, currency: { nimi: 'TES' }
+    patch :update, id: currency.id, currency: {nimi: 'TES'}
 
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti", flash[:notice]
+    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not see intrastat-field' do
     cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
 
-    request = { id: currency.id }
+    request = {id: currency.id}
 
     get :show, request
     assert_select "table tr", 7, "User is not from Estonia and should see only 7 table rows"
@@ -89,7 +89,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:max).session
     currency = currencies(:eur_ee)
 
-    request = { id: currency.id }
+    request = {id: currency.id}
 
     get :show, request
     assert_select "table tr", 8, "User is from Estonia and should see 8 table rows"
@@ -99,12 +99,12 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:max).session
     currency = currencies(:eur_ee)
 
-    patch :update, id: currency.id, currency: { nimi: 'TES', intrastat_kurssi: 1.5 }
+    patch :update, id: currency.id, currency: {nimi: 'TES', intrastat_kurssi: 1.5}
 
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti", flash[:notice]
+    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
 
-    request = { id: currency.id }
+    request = {id: currency.id}
 
     get :show, request
 
@@ -117,7 +117,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
 
-    patch :update, id: currency.id, currency: { nimi: '' }
+    patch :update, id: currency.id, currency: {nimi: ''}
 
     assert_template 'edit', 'Template should be edit'
   end

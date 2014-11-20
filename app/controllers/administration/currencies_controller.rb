@@ -30,7 +30,7 @@ class Administration::CurrenciesController < AdministrationController
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
-      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti'
+      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
     else
       render action: 'new'
     end
@@ -43,7 +43,7 @@ class Administration::CurrenciesController < AdministrationController
   # PATCH/PUT /currencies/1
   def update
     if @currency.update_by(currency_params, current_user)
-      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti'
+      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
     else
       render action: 'edit'
     end
