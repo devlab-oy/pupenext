@@ -1,69 +1,60 @@
 class Administration::AccountsController < AdministrationController
+  COLUMNS = [
+    :tilino,
+    :nimi,
+    :sisainen_taso,
+    :sisainen_nimi,
+    :ulkoinen_taso,
+    :ulkoinen_nimi,
+    :alv_taso,
+    :alv_nimi,
+  ]
 
-  before_action :find_account, only: [:show, :edit, :update]
-  before_action :get_qualifiers, only: [:new, :show, :edit, :update, :create]
-  before_action :get_levels, only: [:new, :show, :edit, :update, :create]
+  sortable_columns *COLUMNS
+  default_sort_column :tunnus
 
   def index
-    @accounts = current_user.company.accounts
+    @accounts = current_company.accounts
+    @accounts = @accounts.search_like filter_search_params
+    @accounts = @accounts.order("#{sort_column} #{sort_direction}")
+  end
+
+  def new
+    @account = current_company.accounts.build
   end
 
   def show
-    render 'edit'
+    render :edit
+  end
+
+  def create
+    @account = current_company.accounts.build
+    @account.attributes = account_params
+
+    if @account.save_by current_user
+      redirect_to accounts_path, notice: 'Uusi tili perustettu'
+    else
+      render :edit
+    end
   end
 
   def edit
   end
 
-  def new
-    @account = current_user.company.accounts.build
-  end
-
-  def create
-    @account = current_user.company.accounts.build
-    @account.attributes = account_params
-
-    if @account.kustp == nil
-      @account.kustp = 0
-    end
-
-    if @account.save_by current_user
-      redirect_to accounts_path, notice: 'Uusi tili perustettu.'
-    else
-      render action: 'new'
-    end
-  end
-
   def update
     if @account.update_by account_params, current_user
-      redirect_to accounts_path, notice: "Tilin \"#{params[:account][:nimi]}\"  tiedot päivitetty."
+      redirect_to accounts_path, notice: 'Tili päivitettiin onnistuneesti'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
   def destroy
-    Account.destroy params[:id]
-    redirect_to accounts_path, notice: "Tili \"#{params[:account][:nimi]}\" poistettu."
+    @sum_level.destroy
+    redirect_to accounts_path, notice: "Tili poistettiin onnistuneesti"
   end
 
   private
-
-    def find_account
-      @account = current_user.company.accounts.find(params[:id])
-    end
-
-    def get_levels
-      @inner_levels = Level.where tyyppi: 'S'
-      @outer_levels = Level.where tyyppi: 'U'
-      @alv_levels = Level.where tyyppi: 'A'
-      @tulosseuranta_levels = Level.where tyyppi: 'B'
-    end
-
-    def get_qualifiers
-      @default_qualifiers = Qualifier.where tyyppi: 'K'
-      @target_qualifiers = Qualifier.where tyyppi: 'O'
-    end
 
     def account_params
       params.require(:account).permit(
@@ -82,4 +73,15 @@ class Administration::AccountsController < AdministrationController
       )
     end
 
+    def searchable_columns
+      COLUMNS
+    end
+
+    def find_resource
+      @account = current_company.accounts.find params[:id]
+    end
+
+    def no_update_access_path
+      accounts_path
+    end
 end

@@ -11,57 +11,73 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get show" do
-    get :show, id: @account.id
-    assert_response :success
-  end
-
   test "should get new" do
+    cookies[:pupesoft_session] = users(:bob).session
     get :new
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @account.id
+  test "should show account" do
+    request = { id: @account.id }
+    get :show, request
     assert_response :success
   end
 
   test "should create" do
-    request = {
-      tilino: 1212,
-      nimi: 'xxx',
-      ulkoinen_taso: 1111
-    }
-
+    cookies[:pupesoft_session] = users(:bob).session
     assert_difference('Account.count', 1) do
+      request = {
+        tilino: 1212,
+        nimi: 'xxx',
+        ulkoinen_taso: 1111
+      }
       post :create, account: request
     end
 
-    assert_redirected_to accounts_path, response.body
+    assert_redirected_to accounts_path
   end
 
   test "should not create" do
-    request = {
-      tilino: 1212,
-      nimi: nil,
-      ulkoinen_taso: 1111
-    }
-
     assert_no_difference('Account.count') do
+      #With non-valid request
+      request = {
+        tilino: '',
+        nimi: 'xxx',
+        ulkoinen_taso: 1111
+      }
       post :create, account: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_redirected_to accounts_path
+  end
+
+  test "should get edit" do
+    cookies[:pupesoft_session] = users(:bob).session
+    request = { id: @account.id }
+    get :edit, request
+    assert_response :success
   end
 
   test "should update" do
-    request = {
-      tilino: 1212,
-      nimi: 'xxx',
-      ulkoinen_taso: 1111
-    }
+    cookies[:pupesoft_session] = users(:bob).session
+    patch :update, id: @account.id, account: { nimi: 'Uusi nimi' }
+    assert_equal "Tili päivitettiin onnistuneesti", flash[:notice]
+    assert_redirected_to accounts_path
+  end
 
-    patch :update, id: @account.id, account: request
-    assert_redirected_to accounts_path, response.body
+  test "should not update with invalid data" do
+    cookies[:pupesoft_session] = users(:bob).session
+    patch :update, id: @account.id, account: { nimi: '' }
+    assert_template :edit
+  end
+
+  test "should destroy" do
+    cookies[:pupesoft_session] = users(:bob).session
+    assert_difference('Account.count', -1) do
+      delete :destroy, id: @account.id
+    end
+
+    assert_equal "Tili poistettiin onnistuneesti", flash[:notice]
+    assert_redirected_to accounts_path
   end
 end
