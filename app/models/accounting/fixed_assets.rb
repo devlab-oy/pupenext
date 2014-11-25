@@ -1,0 +1,3 @@
+module Accounting::FixedAssets
+
+end

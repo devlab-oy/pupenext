@@ -9,6 +9,10 @@ class Company < ActiveRecord::Base
     foreign_key: :yhtio, primary_key: :yhtio
   has_many :accounting_attachments, class_name: 'Accounting::Attachment',
     foreign_key: :yhtio, primary_key: :yhtio
+  has_many :accounting_fixed_assets_commodities, class_name: 'Accounting::FixedAssets::Commodity',
+    foreign_key: :yhtio, primary_key: :yhtio
+  has_many :accounting_fixed_assets_rows, class_name: 'Accounting::FixedAssets::Row',
+    foreign_key: :yhtio, primary_key: :yhtio
 
   # Map old database schema table to Company class
   self.table_name  = "yhtio"

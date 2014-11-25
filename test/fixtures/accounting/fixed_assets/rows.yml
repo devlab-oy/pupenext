@@ -1,0 +1,8 @@
+one:
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+  tapvm: <%= Time.now %>
+  korjausaika: <%= Time.now %>

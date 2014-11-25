@@ -3561,4 +3561,59 @@ ActiveRecord::Schema.define(version: 20141016000000) do
 
   add_index "yriti", ["yhtio", "tilino"], name: "yhtio_tilino", unique: true, using: :btree
 
+  create_table "kayttomaisuus_hyodyke", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",                 limit: 5,                           default: "",  null: false
+    t.string   "laatija",               limit: 50,                          default: "",  null: false
+    t.integer  "ltunnus",                                                   default: 0,   null: false
+    t.integer  "liitostunnus",                                              default: 0,   null: false
+    t.string   "liitos",                limit: 1,                           default: "",  null: false
+    t.string   "tilino",                limit: 6,                           default: "",  null: false
+    t.integer  "kustp",                                                     default: 0,   null: false
+    t.integer  "kohde",                                                     default: 0,   null: false
+    t.integer  "projekti",                                                  default: 0,   null: false
+    t.datetime "hankintapvm",                                                             null: false
+    t.datetime "kayttoonottopvm",                                                         null: false
+    t.datetime "tapvm",                                                                   null: false
+    t.decimal  "summa",                 precision: 12, scale: 2,            default: 0.0, null: false
+    t.string   "valkoodi",              limit: 3,                           default: "",  null: false
+    t.string   "nimitys",               limit: 50,                          default: "",  null: false
+    t.text     "selite"
+    t.decimal  "vero",                  precision: 4, scale: 2,             default: 0.0, null: false
+    t.string   "lukko",                 limit: 1,                           default: "",  null: false
+    t.string   "tila",                  limit: 1,                           default: "",  null: false
+    t.string   "sumu_poistotyyppi",     limit: 1,                           default: "",  null: false
+    t.decimal  "sumu_poistoera",        precision: 12, scale: 2,            default: 0.0, null: false
+    t.string   "evl_poistotyyppi",      limit: 1,                           default: "",  null: false
+    t.decimal  "evl_poistoera",         precision: 12, scale: 2,            default: 0.0, null: false
+    t.string   "korjattu",              limit: 50,                          default: "",  null: false
+    t.datetime "korjausaika",                                                             null: false
+    t.integer  "tapahtumatunnus",                                           default: 0,   null: false
+    t.datetime "luontiaika",                                                              null: false
+    t.string   "muuttaja",              limit: 50,                          default: "",  null: false
+    t.datetime "muutospvm",                                                               null: false
+  end
+
+  add_index "kayttomaisuus_hyodyke", ["yhtio", "ltunnus"], name: "yhtio_ltunnus", unique: true, using: :btree
+
+  create_table "kayttomaisuus_poistoera", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",                 limit: 5,                           default: "",  null: false
+    t.string   "laatija",               limit: 50,                          default: "",  null: false
+    t.integer  "liitostunnus",                                              default: 0,   null: false
+    t.string   "tilino",                limit: 6,                           default: "",  null: false
+    t.datetime "tapvm",                                                                   null: false
+    t.decimal  "summa",                 precision: 12, scale: 2,            default: 0.0, null: false
+    t.string   "valkoodi",              limit: 3,                           default: "",  null: false
+    t.text     "selite"
+    t.string   "lukko",                 limit: 1,                           default: "",  null: false
+    t.string   "tila",                  limit: 1,                           default: "",  null: false
+    t.string   "tyyppi",                limit: 1,                           default: "",  null: false
+    t.string   "korjattu",              limit: 50,                          default: "",  null: false
+    t.datetime "korjausaika",                                                             null: false
+    t.integer  "tapahtumatunnus",                                           default: 0,   null: false
+    t.datetime "luontiaika",                                                              null: false
+    t.string   "muuttaja",              limit: 50,                          default: "",  null: false
+    t.datetime "muutospvm",                                                               null: false
+  end
+
+  add_index "kayttomaisuus_poistoera", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", unique: false, using: :btree
 end
