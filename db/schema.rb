@@ -3571,9 +3571,9 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.integer  "kustp",                                                     default: 0,   null: false
     t.integer  "kohde",                                                     default: 0,   null: false
     t.integer  "projekti",                                                  default: 0,   null: false
-    t.datetime "hankintapvm",                                                             null: false
-    t.datetime "kayttoonottopvm",                                                         null: false
-    t.datetime "tapvm",                                                                   null: false
+    t.datetime "hankintapvm",                                                             null: true
+    t.datetime "kayttoonottopvm",                                                         null: true
+    t.datetime "tapvm",                                                                   null: true
     t.decimal  "summa",                 precision: 12, scale: 2,            default: 0.0, null: false
     t.string   "valkoodi",              limit: 3,                           default: "",  null: false
     t.string   "nimitys",               limit: 50,                          default: "",  null: false
@@ -3586,14 +3586,14 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.string   "evl_poistotyyppi",      limit: 1,                           default: "",  null: false
     t.decimal  "evl_poistoera",         precision: 12, scale: 2,            default: 0.0, null: false
     t.string   "korjattu",              limit: 50,                          default: "",  null: false
-    t.datetime "korjausaika",                                                             null: false
+    t.datetime "korjausaika",                                                             null: true
     t.integer  "tapahtumatunnus",                                           default: 0,   null: false
     t.datetime "luontiaika",                                                              null: false
     t.string   "muuttaja",              limit: 50,                          default: "",  null: false
     t.datetime "muutospvm",                                                               null: false
   end
 
-  add_index "kayttomaisuus_hyodyke", ["yhtio", "ltunnus"], name: "yhtio_ltunnus", unique: true, using: :btree
+  add_index "kayttomaisuus_hyodyke", ["yhtio", "ltunnus"], name: "yhtio_ltunnus", unique: false, using: :btree
 
   create_table "kayttomaisuus_poistoera", primary_key: "tunnus", force: true do |t|
     t.string   "yhtio",                 limit: 5,                           default: "",  null: false
@@ -3608,7 +3608,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.string   "tila",                  limit: 1,                           default: "",  null: false
     t.string   "tyyppi",                limit: 1,                           default: "",  null: false
     t.string   "korjattu",              limit: 50,                          default: "",  null: false
-    t.datetime "korjausaika",                                                             null: false
+    t.datetime "korjausaika",                                                             null: true
     t.integer  "tapahtumatunnus",                                           default: 0,   null: false
     t.datetime "luontiaika",                                                              null: false
     t.string   "muuttaja",              limit: 50,                          default: "",  null: false

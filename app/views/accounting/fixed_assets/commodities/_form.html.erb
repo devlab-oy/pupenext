@@ -1,0 +1,54 @@
+<%= form_for(@commodity) do |f| %>
+  <% if @commodity.errors.any? %>
+    <div id="error_explanation">
+      <font class="message">
+        <%= pluralize(@commodity.errors.count, t("virhe"), t("virhettä")) %>
+        <%= t('esti tätä hyödykettä tallentumasta.') %>
+      </font>
+
+      <font class="error">
+        <ul>
+        <% @commodity.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </font>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <th><%= f.label :nimitys, t('Nimitys') %></th>
+      <td><%= f.text_field :nimitys %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :selite, t('Selite') %></th>
+      <td><%= f.text_field :selite %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :summa, t('Hankintasumma') %></th>
+      <td><%= f.text_field :summa %></td>
+    </tr>
+    <tr>
+      <th><%= t('Laatija') %></th>
+      <td><%= @commodity.laatija %></td>
+    </tr>
+    <tr>
+      <th><%= t('Luontiaika') %></th>
+      <td><%= @commodity.luontiaika %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muutospvm') %></th>
+      <td><%= @commodity.muutospvm %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muuttaja') %></th>
+      <td><%= @commodity.muuttaja %></td>
+    </tr>
+  </table>
+  <br/>
+  <div class="actions">
+    <% text = @commodity.persisted? ? 'Tallenna' : 'Lisää' %>
+    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+  </div>
+<% end %>

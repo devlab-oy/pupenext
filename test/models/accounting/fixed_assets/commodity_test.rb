@@ -3,7 +3,7 @@ require 'test_helper'
 class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   def setup
-    # Valid Accounting fixed assets commodity row
+    # Valid Accounting fixed assets commodity
     @commodity = accounting_fixed_assets_commodities(:one)
 
     # New object

@@ -20,6 +20,17 @@ read_two:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+read_three:
+  yhtio: acme
+  user: bob
+  nimi: pupenext/accounting
+  paivitys: 0
+  kuka: bob
+  muuttaja: bob
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 update_one:
   yhtio: acme
   user: joe
@@ -50,6 +61,17 @@ update_three:
   kuka: max
   muuttaja: max
   laatija: max
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+update_four:
+  yhtio: acme
+  user: joe
+  nimi: pupenext/accounting
+  paivitys: 1
+  kuka: joe
+  muuttaja: joe
+  laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
