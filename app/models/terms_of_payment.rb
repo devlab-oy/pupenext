@@ -22,7 +22,6 @@ class TermsOfPayment < ActiveRecord::Base
   validates :kateinen,
     presence: true,
     allow_blank: true,
-    length: { is: 1 },
     inclusion: { in: %w[n o p] }
 
   validates :teksti, presence: true, allow_blank: false, length: { within: 1..40 }
