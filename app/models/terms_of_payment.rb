@@ -14,11 +14,16 @@ class TermsOfPayment < ActiveRecord::Base
             :jarjestys, numericality: { only_integer: true }
 
   validates :jv,
-            :kateinen,
             :itsetulostus,
             :jaksotettu,
             :erapvmkasin,
             :kaytossa, presence: true, allow_blank: true, length: { is: 1 }
+
+  validates :kateinen,
+    presence: true,
+    allow_blank: true,
+    length: { is: 1 },
+    inclusion: { in: %w[n o p] }
 
   validates :teksti, presence: true, allow_blank: false, length: { within: 1..40 }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
