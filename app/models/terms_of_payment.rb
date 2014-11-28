@@ -23,7 +23,6 @@ class TermsOfPayment < ActiveRecord::Base
   validates :teksti, presence: true, allow_blank: false, length: { within: 1..40 }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :kassa_alepros, numericality: true
-  validates :yhtio, presence: true
 
   validates :abs_pvm, :kassa_abspvm, presence: true, allow_blank: true
   validate :date_is_valid
