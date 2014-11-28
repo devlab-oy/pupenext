@@ -8,19 +8,20 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   end
 
   test 'all fixtures should be valid' do
-    assert @top.valid?
+    assert @top.valid?, @top.errors.full_messages.inspect
   end
 
   test 'should be valid date' do
     @top.abs_pvm = '0001-01-01'
-    assert @top.valid?
-    @top.abs_pvm = ''
-    assert @top.valid?
+    assert @top.valid?, @top.errors.full_messages
+
+    @top.abs_pvm = nil
+    assert @top.valid?, @top.errors.full_messages
   end
 
-  test 'should be invalid date' do
-    @top.abs_pvm = 'neko'
-    refute @top.valid?
+  test 'should not be valid date' do
+    @top.abs_pvm = '0000-00-00'
+    refute @top.valid?, @top.errors.full_messages
   end
 
   test 'should be in use' do
@@ -40,9 +41,32 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     refute @top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
   end
 
-  test 'should get five used, and 1 not in use, terms of payments' do
+  test 'should get five used and 1 not in use terms of payments' do
     assert_equal 1, TermsOfPayment.not_in_use.count
     assert_equal 5, TermsOfPayment.count
+  end
+
+  test 'should search exact match' do
+    params = {
+      teksti: '@60 pv netto'
+    }
+
+    assert_equal 1, TermsOfPayment.search_like(params).count
+  end
+
+  test 'should search by like' do
+    params = {
+      kassa_relpvm: 15
+    }
+
+    assert_equal 1, TermsOfPayment.search_like(params).count
+
+    params = {
+      kassa_relpvm: 15,
+      teksti: '60'
+    }
+
+    assert_equal 1, TermsOfPayment.search_like(params).count
   end
 
 end

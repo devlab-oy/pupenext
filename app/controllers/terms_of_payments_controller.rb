@@ -1,7 +1,9 @@
 class TermsOfPaymentsController < ApplicationController
+  include ApplicationHelper
 
   before_action :find_terms_of_payment, only: [:show, :edit, :update]
   before_action :find_all_terms_of_payments
+  before_action :update_access, only: [:create, :edit, :update, :new, :show]
 
   helper_method :showing_not_used
   helper_method :sort_column
@@ -10,12 +12,12 @@ class TermsOfPaymentsController < ApplicationController
   # GET /terms_of_payments
   def index
     if showing_not_used
-      @terms_of_payments = current_user.company.terms_of_payments.not_in_use
+      @terms_of_payments = current_company.terms_of_payments.not_in_use
     else
-      @terms_of_payments = current_user.company.terms_of_payments
+      @terms_of_payments = current_company.terms_of_payments
     end
 
-    @terms_of_payments = resource_search(@terms_of_payments)
+    @terms_of_payments.search_like params_search
     @terms_of_payments = @terms_of_payments.order("#{sort_column} #{sort_direction}")
   end
 
@@ -26,7 +28,7 @@ class TermsOfPaymentsController < ApplicationController
 
   # GET /terms_of_payments/new
   def new
-    @terms_of_payment = current_user.company.terms_of_payments.build
+    @terms_of_payment = current_company.terms_of_payments.build
   end
 
   # GET /terms_of_payments/1/edit
@@ -35,12 +37,10 @@ class TermsOfPaymentsController < ApplicationController
 
   # POST /terms_of_payments
   def create
-    @terms_of_payment = current_user.company.terms_of_payments.build
+    @terms_of_payment = current_company.terms_of_payments.build
     @terms_of_payment.attributes = terms_of_payment_params
-    @terms_of_payment.muuttaja = current_user.kuka
-    @terms_of_payment.laatija = current_user.kuka
 
-    if @terms_of_payment.save
+    if @terms_of_payment.save_by current_user
       redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
     else
       render action: 'new'
@@ -49,11 +49,7 @@ class TermsOfPaymentsController < ApplicationController
 
   # PATCH/PUT /terms_of_payments/1
   def update
-
-    @terms_of_payment.attributes = terms_of_payment_params
-    @terms_of_payment.muuttaja = current_user.kuka
-
-    if @terms_of_payment.save
+    if @terms_of_payment.update_by(terms_of_payment_params, current_user)
       redirect_to terms_of_payments_path, notice: t('Maksuehto päivitettiin onnistuneesti')
     else
       render action: 'edit'
@@ -64,7 +60,7 @@ class TermsOfPaymentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def terms_of_payment_params
-      params[:terms_of_payment].permit(
+      params.require(:terms_of_payment).permit(
         :teksti,
         :rel_pvm,
         :abs_pvm,
@@ -97,7 +93,7 @@ class TermsOfPaymentsController < ApplicationController
     end
 
     def params_search
-      params.permit(
+      p = params.permit(
         :teksti,
         :rel_pvm,
         :abs_pvm,
@@ -105,12 +101,18 @@ class TermsOfPaymentsController < ApplicationController
         :kassa_abspvm,
         :kassa_alepros,
         :jarjestys,
-        :sort,
-        :direction
       )
+
+      p.reject { |_,v| v.empty? }
     end
 
     def sort_column
-      params_search.has_value?(params[:sort]) ? params[:sort] : "teksti"
+      params.values.include?(params[:sort]) ? params[:sort] : "teksti"
     end
+
+    def update_access
+      msg = "Sinulla ei ole päivitysoikeuksia."
+      redirect_to terms_of_payments_path, notice: msg unless update_access?
+    end
+
 end

@@ -2,19 +2,16 @@ not_finished_order:
   yhtio: acme
   tila: N
   alatila: ''
-  maksuehto: 5
-  tunnus: 1
+  terms_of_payment: hundred_days_net
 
 not_delivered_order_1:
   yhtio: acme
   tila: L
   alatila: A
-  maksuehto: 3
-  tunnus: 2
+  terms_of_payment: eighty_days_net
 
 not_delivered_order_2:
   yhtio: acme
   tila: L
   alatila: C
-  maksuehto: 4
-  tunnus: 3
+  terms_of_payment: ninty_days_net

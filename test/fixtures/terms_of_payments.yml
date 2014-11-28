@@ -3,7 +3,7 @@ sixty_days_net:
   teksti: 60 pv netto
   rel_pvm: 60
   abs_pvm: <%= Date.today %>
-  kassa_relpvm: 14
+  kassa_relpvm: 150
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
   osamaksuehto1: 0
@@ -20,18 +20,17 @@ sixty_days_net:
   sallitut_maat: ''
   kaytossa: ''
   jarjestys: 1
-  laatija: ''
+  laatija: 'joe'
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
-  tunnus: 1
+  muuttaja: 'joe'
 
 ninty_days_net:
   yhtio: acme
-  teksti: 70 pv netto
-  rel_pvm: 60
+  teksti: 90 pv netto
+  rel_pvm: 90
   abs_pvm: <%= Date.today %>
-  kassa_relpvm: 14
+  kassa_relpvm: 15
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
   osamaksuehto1: 0
@@ -52,12 +51,11 @@ ninty_days_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 4
 
 seventy_days_net:
   yhtio: acme
-  teksti: 60 pv netto
-  rel_pvm: 60
+  teksti: 70 pv netto
+  rel_pvm: 70
   abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
@@ -80,12 +78,11 @@ seventy_days_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 2
 
 eighty_days_net:
   yhtio: acme
-  teksti: 60 pv netto
-  rel_pvm: 60
+  teksti: 80 pv netto
+  rel_pvm: 80
   abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
@@ -108,7 +105,6 @@ eighty_days_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 3
 
 hundred_days_net:
   yhtio: acme
@@ -136,12 +132,11 @@ hundred_days_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 5
 
 not_in_use_net:
   yhtio: acme
-  teksti: 100 pv netto
-  rel_pvm: 100
+  teksti: 110 pv netto
+  rel_pvm: 110
   abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
@@ -164,4 +159,3 @@ not_in_use_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: ''
-  tunnus: 6

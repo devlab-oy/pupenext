@@ -15,22 +15,27 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit' do
+    cookies[:pupesoft_session] = users(:bob).session
     get :edit, id: @top.tunnus
     assert_response :success
   end
 
   test 'should get new' do
+    cookies[:pupesoft_session] = users(:bob).session
     get :new
     assert_response :success
   end
 
   test 'show should be edit' do
+    cookies[:pupesoft_session] = users(:bob).session
     get :show, id: @top.tunnus
     assert_response :success
   end
 
   test 'should create terms of payment' do
-    assert_difference('TermsOfPayment.count') do
+    cookies[:pupesoft_session] = users(:bob).session
+
+    assert_difference('TermsOfPayment.count', 1, response.body) do
 
       params = {
         teksti: "60 pv netto 2",
@@ -39,12 +44,8 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
         kassa_relpvm: 14,
         kassa_abspvm: Date.today,
         kassa_alepros: 0.00,
-        osamaksuehto1: 0,
-        osamaksuehto2: 0,
-        summanjakoprososa2: 0.0000,
         jv: '',
         kateinen: '',
-        suoraveloitus: '',
         factoring: '',
         pankkiyhteystiedot: 0,
         itsetulostus: '',
@@ -61,9 +62,10 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
   end
 
   test 'should not create terms of payment' do
+    cookies[:pupesoft_session] = users(:bob).session
     assert_no_difference('TermsOfPayment.count') do
 
-      params = {}
+      params = { not_existing_column: true }
 
       post :create, terms_of_payment: params
       assert_template "new", "Template should be new"
@@ -71,6 +73,7 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
   end
 
   test 'should update terms of payment' do
+    cookies[:pupesoft_session] = users(:bob).session
 
     params = { teksti: "Kepakko" }
 
@@ -79,8 +82,9 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
   end
 
   test 'should not update terms of payment' do
+    cookies[:pupesoft_session] = users(:bob).session
 
-    params = { teksti: '' }
+    params = { rel_pvm: 'a' }
 
     patch :update, id: @top.id, terms_of_payment: params
     assert_template "edit", "Template should be edit"
@@ -96,17 +100,6 @@ class TermsOfPaymentsControllerTest < ActionController::TestCase
     assert_select 'a' do |elements|
       assert_select elements[1], 'a', "Näytä aktiivit"
     end
-  end
-
-  test 'should get correct amount of rows when using search' do
-
-    params = { teksti: '60 pv netto' }
-
-    get :index
-    assert_equal 2, assigns(:terms_of_payments).count, "vituiks meni"
-
-    get :index, params
-    assert_equal 1, assigns(:terms_of_payments).count, "vituiks meni taas"
   end
 
 end

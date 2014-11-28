@@ -58,7 +58,7 @@ stubborn_customer:
   selaus: ''
   alv: 0
   valkoodi: eur
-  maksuehto: 1
+  terms_of_payment: sixty_days_net
   toimitustapa: ''
   rahtivapaa: ''
   rahtivapaa_alarajasumma: 0
@@ -127,4 +127,3 @@ stubborn_customer:
   kauppatapahtuman_luonne: ''
   kuljetusmuoto: ''
   poistumistoimipaikka_koodi: ''
-  tunnus: 1

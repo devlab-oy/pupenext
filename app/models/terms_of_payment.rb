@@ -1,11 +1,12 @@
 class TermsOfPayment < ActiveRecord::Base
 
+  extend AttributeSanitator
   include Validators
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  has_many :customers, foreign_key: :maksuehto
-  has_many :sales_orders, foreign_key: :maksuehto
+  has_many :customers, foreign_key: :maksuehto, primary_key: :tunnus
+  has_many :sales_orders, foreign_key: :maksuehto, primary_key: :tunnus
 
   validates :rel_pvm,
             :kassa_relpvm,
@@ -24,37 +25,67 @@ class TermsOfPayment < ActiveRecord::Base
   validates :kassa_alepros, numericality: true
   validates :yhtio, presence: true
 
-  validate do |top|
-    valid_date :abs_pvm, top
-    valid_date :kassa_abspvm, top
-  end
+  validates :abs_pvm, :kassa_abspvm, presence: true, allow_blank: true
+  validate :date_is_valid
 
-  before_create :update_created
-  before_update :update_modified
+  float_columns :kassa_alepros
+
   before_validation :check_if_in_use
 
   default_scope { where(kaytossa: '') }
-  scope :not_in_use, -> { where(kaytossa: 'E') }
+  scope :not_in_use, -> { unscoped.where(kaytossa: 'E') }
 
-  self.table_name = "maksuehto"
-  self.primary_key = "tunnus"
-  self.record_timestamps = false
+  def date_is_valid
+    unless valid_date? self.abs_pvm
+      errors.add(:abs_pvm, "is invalid")
+    end
+
+    unless valid_date? self.kassa_abspvm
+      errors.add(:kassa_abspvm, "is invalid")
+    end
+  end
+
+  def self.search_like(args)
+    result = self.all
+
+    args.each do |key,value|
+
+      case column_type(key)
+      when :integer, :decimal
+        result = exact_search key, value
+      else
+        if exact_search? value
+          value = value[1..-1]
+          result = exact_search key, value
+        else
+          result = where_like key, value
+        end
+      end
+    end
+
+    result
+  end
+
+  def self.where_like(column, search_term)
+    where(self.arel_table[column].matches "%#{search_term}%")
+  end
+
+  def self.exact_search(key, value)
+    where(key => value)
+  end
+
+  def self.exact_search?(value)
+    value[0].to_s.include? "@"
+  end
+
+  def self.column_type(column)
+    columns_hash[column.to_s].type
+  end
 
   private
 
-    def update_created
-      self.luontiaika = Date.today
-      self.muutospvm = Date.today
-    end
-
-    def update_modified
-      self.muutospvm = Date.today
-    end
-
     def check_if_in_use
-
       if kaytossa?
-
         msg_pre = 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä'
 
         if customers.where(yhtio: yhtio).present?
@@ -76,4 +107,9 @@ class TermsOfPayment < ActiveRecord::Base
         end
       end
     end
+
+  self.table_name = :maksuehto
+  self.primary_key = :tunnus
+  self.record_timestamps = false
+
 end
