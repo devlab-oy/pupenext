@@ -3,7 +3,7 @@
 
 <%= link_to t('Uusi maksuehto'), new_terms_of_payment_path %>
 
-<% if showing_not_used %>
+<% if showing_not_used? %>
   <%= link_to t('Näytä aktiivit') %>
 <% else %>
   <%= link_to t('Näytä poistetut'), { not_used: :yes } %>
@@ -12,7 +12,7 @@
 <br /><br />
 
 <%= form_tag terms_of_payments_path, method: :get do %>
-<%= hidden_field_tag :not_used, :yes if showing_not_used %>
+<%= hidden_field_tag :not_used, :yes if showing_not_used? %>
   <table>
     <tr>
       <th>

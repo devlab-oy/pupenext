@@ -5,13 +5,13 @@ class TermsOfPaymentsController < ApplicationController
   before_action :find_all_terms_of_payments
   before_action :update_access, only: [:create, :edit, :update, :new, :show]
 
-  helper_method :showing_not_used
+  helper_method :showing_not_used?
   helper_method :sort_column
   helper_method :params_search
 
   # GET /terms_of_payments
   def index
-    if showing_not_used
+    if showing_not_used?
       @terms_of_payments = current_company.terms_of_payments.not_in_use
     else
       @terms_of_payments = current_company.terms_of_payments
@@ -88,7 +88,7 @@ class TermsOfPaymentsController < ApplicationController
       @terms_of_payments = current_user.company.terms_of_payments.order(:jarjestys, :teksti)
     end
 
-    def showing_not_used
+    def showing_not_used?
       params[:not_used] ? true : false
     end
 
