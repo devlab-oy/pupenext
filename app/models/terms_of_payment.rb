@@ -29,7 +29,7 @@ class TermsOfPayment < ActiveRecord::Base
 
   float_columns :kassa_alepros
 
-  before_validation :check_if_in_use
+  before_validation :check_relations
 
   default_scope { where(kaytossa: '') }
   scope :not_in_use, -> { unscoped.where(kaytossa: 'E') }
@@ -83,27 +83,20 @@ class TermsOfPayment < ActiveRecord::Base
 
   private
 
-    def check_if_in_use
+    def check_if_in_use(obj, msg)
+      count = obj.where(yhtio: yhtio).count
+
+      if count > 0
+        msg_pre = I18n.t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
+        errors.add(:base, "#{msg_pre} #{count} #{msg}")
+      end
+    end
+
+    def check_relations
       if kaytossa?
-        msg_pre = 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä'
-
-        if customers.where(yhtio: yhtio).present?
-          msg_post = 'asiakkaalla'
-          _count = customers.where(yhtio: yhtio).count
-          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
-        end
-
-        if sales_orders.not_delivered.where(yhtio: yhtio).present?
-          msg_post = 'toimittamattomalla myyntitilauksella'
-          _count = sales_orders.not_delivered.where(yhtio: yhtio).count
-          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
-        end
-
-        if sales_orders.not_finished.where(yhtio: yhtio).present?
-          msg_post = 'kesken olevalla myyntitilauksella'
-          _count = sales_orders.not_finished.where(yhtio: yhtio).count
-          errors.add(:base, "#{msg_pre} #{_count} #{msg_post}")
-        end
+        check_if_in_use customers, "asiakkaalla"
+        check_if_in_use sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
+        check_if_in_use sales_orders.not_finished, "kesken olevalla myyntitilauksella"
       end
     end
 
