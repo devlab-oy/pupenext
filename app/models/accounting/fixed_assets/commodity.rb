@@ -63,20 +63,48 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def create_row(params)
       a = self.rows.build
       a.attributes = params
-      #a.attributes = {
-      #  laatija: 'kirka',
-      #  muuttaja: 'kirka',
-      #  yhtio: company.yhtio
-      #}
       a.save
     end
 
     def create_installment_rows
-      [{ laatija: 'kika',
-         muuttaja: 'kika',
-         yhtio: company.yhtio,
-         summa: 200,
-         tyyppi: self.sumu_poistotyyppi}]
+      full_amount = self.summa
+      sumu_type = self.sumu_poistotyyppi
+      sumu_amount = self.sumu_poistoera
+
+      if sumu_type == 'T'
+        reductions = full_amount / sumu_amount
+        calculated_sumu_amount = sumu_amount
+      elsif sumu_type == 'P'
+        reductions = full_amount * sumu_amount
+        calculated_sumu_amount = sumu_amount
+      end
+
+      #reductions = reductions+0.5.to_i
+
+      if reductions > 10
+        reductions = 3
+      end
+
+      reductions = reductions.to_i
+      activation_date = self.kayttoonottopvm
+      all_row_params = []
+
+      check = 0
+      reductions.times do
+        time = activation_date.advance(:months => +check)
+        all_row_params<<{
+          laatija: 'CommoditiesController',
+          muuttaja: 'CommoditiesController',
+          tapvm: time,
+          yhtio: company.yhtio,
+          summa: calculated_sumu_amount,
+          tyyppi: self.sumu_poistotyyppi,
+          tilino: self.tilino
+        }
+        check += 1
+      end
+
+      all_row_params
     end
 
 end
