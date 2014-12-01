@@ -58,7 +58,12 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :selite,
         :summa,
         :hankintapvm,
-        :kayttoonottopvm
+        :kayttoonottopvm,
+        :sumu_poistotyyppi,
+        :sumu_poistoera,
+        :evl_poistotyyppi,
+        :evl_poistoera,
+        :tilino
       )
     end
 
@@ -69,7 +74,15 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     def params_search
       p = params.permit(
         :nimitys,
-        :selite
+        :selite,
+        :summa,
+        :hankintapvm,
+        :kayttoonottopvm,
+        :sumu_poistotyyppi,
+        :sumu_poistoera,
+        :evl_poistotyyppi,
+        :evl_poistoera,
+        :tilino
       )
       p.reject { |_,v| v.empty? }
     end
