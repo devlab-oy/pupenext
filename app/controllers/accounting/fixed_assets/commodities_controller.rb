@@ -26,6 +26,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # PATCH/PUT /accounting/1
   def update
+    puts @commodity.errors.full_messages
     if @commodity.update_by(commodity_params, current_user)
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
@@ -35,13 +36,15 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/1/edit
   def edit
+    @rivit = @commodity.rows || []
   end
 
   # POST /accounting
   def create
     @commodity = current_company.accounting_fixed_assets_commodities.build
     @commodity.attributes = commodity_params
-
+    puts @commodity.errors.full_messages
+    #@commodity.generate_rows = true
     if @commodity.save_by current_user
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke luotiin onnistuneesti.'
     else
@@ -63,7 +66,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :sumu_poistoera,
         :evl_poistotyyppi,
         :evl_poistoera,
-        :tilino
+        :tilino,
+        :tila
       )
     end
 
@@ -82,7 +86,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :sumu_poistoera,
         :evl_poistotyyppi,
         :evl_poistoera,
-        :tilino
+        :tilino,
+        :tila
       )
       p.reject { |_,v| v.empty? }
     end

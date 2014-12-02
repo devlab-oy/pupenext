@@ -100,6 +100,25 @@
     </tr>
   </table>
   <br/>
+  <% unless @rivit.nil? %>
+  <font class="head"><%= t('Poistoerät') %></font>
+  <br/>
+  <table>
+  <tr>
+  <th>Tyyppi</th>
+  <th>Summa</th>
+  <th>Tapahtumapäivä</th>
+  </tr>
+  <% @rivit.each do |rivi| %>
+  <tr>
+    <td><%= rivi.tyyppi %></td>
+    <td><%= rivi.summa %></td>
+    <td><%= rivi.tapvm %></td>
+  </tr>
+  <% end %>
+  </table>
+  <br/>
+  <% end %>
   <div class="actions">
     <% text = @commodity.persisted? ? 'Tallenna' : 'Lisää' %>
     <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>

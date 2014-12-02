@@ -6,17 +6,19 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   validates :nimitys, uniqueness: { scope: :yhtio }
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
-  validates_presence_of :summa
-  validates_presence_of :kayttoonottopvm, :sumu_poistotyyppi,
-    :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, { scope: :activated }
 
-  after_commit :create_rows, on: [:update, :create], if: :activated?
+  validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
+    :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
+
+  after_commit :create_rows, on: [:update, :create], if: :should_create_rows?
+
+  attr_accessor :generate_rows
 
   # Map old database schema table to Accounting::FixedAssets::Commodity class
   self.table_name = :kayttomaisuus_hyodyke
   self.primary_key = :tunnus
 
-  scope :activated, -> { where(tila: 'A') }
+  scope :activated_son, -> { where(tila: 'A') }
 
   def self.search_like(args)
     result = self.all
@@ -49,8 +51,11 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   protected
 
     def activated?
-      return true if self.tila == 'A'
-      false
+      tila == 'A'
+    end
+
+    def should_create_rows?
+      generate_rows || activated?
     end
 
     def create_rows
