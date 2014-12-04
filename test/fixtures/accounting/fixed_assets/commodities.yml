@@ -8,3 +8,5 @@ one:
   kayttoonottopvm: <%= Time.now %>
   tapvm: <%= Time.now %>
   korjausaika: <%= Time.now %>
+  selite: Kekkonen
+  nimitys: Mekkonen

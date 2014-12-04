@@ -94,7 +94,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       sumu_amount = self.sumu_poistoera
 
       # poistoerät
-      # T D kuukausien määrä
+      # T D poistokuukausien määrä
       # P B prosentti per vuosi
 
       # lasketaan määrät maksuerien perusteella
@@ -134,8 +134,56 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
       all_row_params
     end
+public
+    def calculate_all_depreciations(params)
 
-    def calculate_single_depreciation(type, amount, time)
+
+      type = params[:type]
+      full_cost = params[:full_cost]
+      yearly_reduction = params[:yearly_reduction]
+
+      # Recursive params
+      cost_remaining = params[:cost_remaining]
+
+      case type
+      when 'T'
+        # Amount of monthly depreciation
+        monthly_depreciation = full_cost / yearly_reduction
+
+        params[:cost_remaining] -= monthly_depreciation
+        params[:results] << {
+          monthly_depreciation: monthly_depreciation,
+          cost_remaining: cost_remaining,
+          tapvm: kayttoonottopvm
+        }
+      when 'D'
+        return ''
+      when 'P'
+        # Amount of monthly depreciation by yearly percentage
+
+        monthly_depreciation = params[:yearly_reduction] / 100.0 * full_cost / 12
+
+        params[:cost_remaining] -= monthly_depreciation
+
+        params[:results] << {
+          monthly_depreciation: monthly_depreciation,
+          remaining: params[:cost_remaining],
+          tapvm: kayttoonottopvm
+        }
+      when 'B'
+        return ''
+      else
+        return ''
+      end
+
+      tarkistusluku1 = BigDecimal.new params[:cost_remaining]
+      tarkistusluku2 = BigDecimal.new 0
+
+      if tarkistusluku1 == tarkistusluku2
+        params[:results]
+      else
+        calculate_all_depreciations(params)
+      end
     end
 
 end
