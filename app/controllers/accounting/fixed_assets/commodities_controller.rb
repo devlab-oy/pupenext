@@ -36,7 +36,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/1/edit
   def edit
-    @rivit = @commodity.rows || []
   end
 
   # POST /accounting

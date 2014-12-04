@@ -4,8 +4,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   has_one :accounting_voucher, foreign_key: :tunnus, primary_key: :ltunnus
   has_many :rows, foreign_key: :liitostunnus, primary_key: :tunnus
 
-  validates :nimitys, uniqueness: { scope: :yhtio }
+  validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
+
+  validates_presence_of :hankintapvm
 
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
@@ -17,8 +19,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   # Map old database schema table to Accounting::FixedAssets::Commodity class
   self.table_name = :kayttomaisuus_hyodyke
   self.primary_key = :tunnus
-
-  scope :activated_son, -> { where(tila: 'A') }
 
   def self.search_like(args)
     result = self.all
@@ -47,6 +47,22 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     value[0].to_s.include? "@"
   end
 
+  def get_options_for_type
+    [
+      ['Tasapoisto kuukausittain','T'],
+      ['Tasapoisto vuosiprosentti','P'],
+      ['Menojäännöspoisto kuukausittain','D'],
+      ['Menojäännöspoisto vuosiprosentti','B']
+    ]
+  end
+
+  def get_options_for_state
+    [
+      ['Ei aktivoitu', ''],
+      ['Aktivoitu', 'A'],
+      ['Poistettu', 'P']
+    ]
+  end
 
   protected
 
@@ -55,7 +71,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def should_create_rows?
-      generate_rows || activated?
+      generate_rows
     end
 
     def create_rows
@@ -66,15 +82,22 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_row(params)
-      a = self.rows.build
+      a = rows.build
       a.attributes = params
       a.save
     end
 
+    # kuukausierät
     def create_installment_rows
       full_amount = self.summa
       sumu_type = self.sumu_poistotyyppi
       sumu_amount = self.sumu_poistoera
+
+      # poistoerät
+      # T D kuukausien määrä
+      # P B prosentti per vuosi
+
+      # lasketaan määrät maksuerien perusteella
 
       if sumu_type == 'T'
         reductions = full_amount / sumu_amount
@@ -110,6 +133,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       end
 
       all_row_params
+    end
+
+    def calculate_single_depreciation(type, amount, time)
     end
 
 end

@@ -55,20 +55,10 @@
     </tr>
     <tr>
       <th><%= f.label :tila, t('Tila') %></th>
-      <% tila_options = [
-        [t('Ei aktivoitu'), ''],
-        [t('Aktivoitu'), 'A'],
-        [t('Poistettu'), 'P']] %>
-      <td><%= f.select :tila, options_for_select(tila_options, @commodity.tila) %></td>
+      <td><%= f.select :tila, options_for_select(@commodity.get_options_for_state, @commodity.tila) %></td>
     </tr>
-    <% select_options = [
-      [t('Tasapoisto summa'),'T'],
-      [t('Tasapoisto prosentti'),'P'],
-      [t('Degressiivinen summa'),'D'],
-      [t('Degressiivinen prosentti'),'B']] %>
-    <tr>
       <th><%= f.label :sumu_poistotyyppi, t('SUMU poistotyyppi') %></th>
-      <td><%= f.select :sumu_poistotyyppi, options_for_select(select_options, @commodity.sumu_poistotyyppi) %></td>
+      <td><%= f.select :sumu_poistotyyppi, options_for_select(@commodity.get_options_for_type, @commodity.sumu_poistotyyppi) %></td>
     </tr>
     <tr>
       <th><%= f.label :sumu_poistoera, t('SUMU poistoerä') %></th>
@@ -76,7 +66,7 @@
     </tr>
     <tr>
       <th><%= f.label :evl_poistotyyppi, t('EVL poistotyyppi') %></th>
-      <td><%= f.select :evl_poistotyyppi, options_for_select(select_options, @commodity.evl_poistotyyppi) %></td>
+      <td><%= f.select :evl_poistotyyppi, options_for_select(@commodity.get_options_for_type, @commodity.evl_poistotyyppi) %></td>
     </tr>
     <tr>
       <th><%= f.label :evl_poistoera, t('EVL poistoerä') %></th>
@@ -100,7 +90,7 @@
     </tr>
   </table>
   <br/>
-  <% unless @rivit.nil? %>
+  <% if @commodity.rows.count > 0 %>
   <font class="head"><%= t('Poistoerät') %></font>
   <br/>
   <table>
@@ -109,7 +99,7 @@
   <th>Summa</th>
   <th>Tapahtumapäivä</th>
   </tr>
-  <% @rivit.each do |rivi| %>
+  <% @commodity.rows.each do |rivi| %>
   <tr>
     <td><%= rivi.tyyppi %></td>
     <td><%= rivi.summa %></td>
