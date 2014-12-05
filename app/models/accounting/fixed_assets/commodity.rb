@@ -64,6 +64,87 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  def calculate_all_depreciations(params)
+
+    type = params[:type]
+    full_cost = params[:full_cost]
+    yearly_reduction = params[:yearly_reduction]
+
+    # Recursive params
+    cost_remaining = params[:cost_remaining]
+
+    original_date = kayttoonottopvm
+
+    if params[:transaction_date].nil?
+      params[:transaction_date] = original_date
+    else
+      params[:transaction_date] = params[:transaction_date].advance(months: +1)
+    end
+
+    case type
+    when 'T'
+      # Amount of monthly depreciation
+      monthly_depreciation = full_cost / yearly_reduction
+
+      params[:cost_remaining] -= monthly_depreciation
+      params[:results] << {
+        monthly_depreciation: monthly_depreciation,
+        cost_remaining: cost_remaining,
+        tapvm: params[:transaction_date]
+      }
+    when 'D'
+      return ''
+    when 'P'
+      # Amount of monthly depreciation by yearly percentage
+
+      monthly_depreciation = params[:yearly_reduction] / 100.0 * full_cost / 12
+
+      params[:cost_remaining] -= monthly_depreciation
+
+      params[:results] << {
+        monthly_depreciation: monthly_depreciation,
+        remaining: params[:cost_remaining],
+        tapvm: kayttoonottopvm
+      }
+    when 'B'
+      return ''
+    else
+      return ''
+    end
+
+    #tarkistusluku1 = BigDecimal.new params[:cost_remaining]
+    #tarkistusluku2 = BigDecimal.new 0
+      #tarkistusluku1 == tarkistusluku2
+    if params[:cost_remaining] == 0 || params[:cost_remaining] < 0
+      params[:results]
+    else
+      calculate_all_depreciations(params)
+    end
+  end
+
+  # Calculates monthly payments
+  def divide_to_payments(full_amount, payments = 12)
+    full_amount = full_amount.to_d
+
+    payment_amount = full_amount / payments
+    payment_amount = payment_amount.round
+
+    remainder = full_amount.divmod(payment_amount)
+    last_payment_amount = remainder[1]
+
+    result = []
+
+    remainder[0].to_i.times do |k|
+      result[k] = payment_amount
+    end
+
+    result.push last_payment_amount unless last_payment_amount == 0
+
+    logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
+    result
+
+  end
+
   protected
 
     def activated?
@@ -92,6 +173,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       full_amount = self.summa
       sumu_type = self.sumu_poistotyyppi
       sumu_amount = self.sumu_poistoera
+
 
       # poistoerät
       # T D poistokuukausien määrä
@@ -133,57 +215,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       end
 
       all_row_params
-    end
-public
-    def calculate_all_depreciations(params)
-
-
-      type = params[:type]
-      full_cost = params[:full_cost]
-      yearly_reduction = params[:yearly_reduction]
-
-      # Recursive params
-      cost_remaining = params[:cost_remaining]
-
-      case type
-      when 'T'
-        # Amount of monthly depreciation
-        monthly_depreciation = full_cost / yearly_reduction
-
-        params[:cost_remaining] -= monthly_depreciation
-        params[:results] << {
-          monthly_depreciation: monthly_depreciation,
-          cost_remaining: cost_remaining,
-          tapvm: kayttoonottopvm
-        }
-      when 'D'
-        return ''
-      when 'P'
-        # Amount of monthly depreciation by yearly percentage
-
-        monthly_depreciation = params[:yearly_reduction] / 100.0 * full_cost / 12
-
-        params[:cost_remaining] -= monthly_depreciation
-
-        params[:results] << {
-          monthly_depreciation: monthly_depreciation,
-          remaining: params[:cost_remaining],
-          tapvm: kayttoonottopvm
-        }
-      when 'B'
-        return ''
-      else
-        return ''
-      end
-
-      tarkistusluku1 = BigDecimal.new params[:cost_remaining]
-      tarkistusluku2 = BigDecimal.new 0
-
-      if tarkistusluku1 == tarkistusluku2
-        params[:results]
-      else
-        calculate_all_depreciations(params)
-      end
     end
 
 end

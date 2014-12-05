@@ -24,7 +24,9 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
       cost_remaining: 12000,
       results: []
     }
-    yearfromnow = Time.now.advance(:years => +1)
+
+    yearfromnow = Time.now
+    11.times { yearfromnow = yearfromnow.advance(months: +1) }
 
     result = @commodity.calculate_all_depreciations(params)
 
@@ -35,15 +37,12 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate depreciations with fixed yearly percentage amount' do
-    @commodity.summa = 10000
-    @commodity.sumu_poistotyyppi = 'P'
-    @commodity.sumu_poistoera = 20
 
     params = {
-      type: nil,
-      full_cost: nil,
-      yearly_reduction: kuk,
-      cost_remaining: kok,
+      type: 'P',
+      full_cost: 10000,
+      yearly_reduction: 20,
+      cost_remaining: 10000,
       results: []
     }
     result = @commodity.calculate_all_depreciations(params)
@@ -51,6 +50,16 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal result, 'kissa'
     assert_equal 12, result.count
     #assert_equal 1000, result.first[:reduction]
+  end
+
+  test 'should calculate monthly payments' do
+
+    randomizer = [Random.rand(1000...100000), Random.rand(2...12*5)]
+    result = @commodity.divide_to_payments(randomizer[0], randomizer[1])
+
+    assert_equal randomizer[0], result.sum
+    assert_equal randomizer[1], result.count
+
   end
 
 end
