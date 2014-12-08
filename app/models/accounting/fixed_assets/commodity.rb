@@ -12,7 +12,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
 
-  after_commit :create_rows, on: [:update, :create], if: :should_create_rows?
+  after_save :create_rows, on: [:update, :create], if: :should_create_rows?
 
   attr_accessor :generate_rows
 
@@ -64,64 +64,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  def calculate_all_depreciations(params)
-
-    type = params[:type]
-    full_cost = params[:full_cost]
-    yearly_reduction = params[:yearly_reduction]
-
-    # Recursive params
-    cost_remaining = params[:cost_remaining]
-
-    original_date = kayttoonottopvm
-
-    if params[:transaction_date].nil?
-      params[:transaction_date] = original_date
-    else
-      params[:transaction_date] = params[:transaction_date].advance(months: +1)
-    end
-
-    case type
-    when 'T'
-      # Amount of monthly depreciation
-      monthly_depreciation = full_cost / yearly_reduction
-
-      params[:cost_remaining] -= monthly_depreciation
-      params[:results] << {
-        monthly_depreciation: monthly_depreciation,
-        cost_remaining: cost_remaining,
-        tapvm: params[:transaction_date]
-      }
-    when 'D'
-      return ''
-    when 'P'
-      # Amount of monthly depreciation by yearly percentage
-
-      monthly_depreciation = params[:yearly_reduction] / 100.0 * full_cost / 12
-
-      params[:cost_remaining] -= monthly_depreciation
-
-      params[:results] << {
-        monthly_depreciation: monthly_depreciation,
-        remaining: params[:cost_remaining],
-        tapvm: kayttoonottopvm
-      }
-    when 'B'
-      return ''
-    else
-      return ''
-    end
-
-    #tarkistusluku1 = BigDecimal.new params[:cost_remaining]
-    #tarkistusluku2 = BigDecimal.new 0
-      #tarkistusluku1 == tarkistusluku2
-    if params[:cost_remaining] == 0 || params[:cost_remaining] < 0
-      params[:results]
-    else
-      calculate_all_depreciations(params)
-    end
-  end
-
   # Calculates monthly payments
   def divide_to_payments(full_amount, payments = 12)
     full_amount = full_amount.to_d
@@ -139,11 +81,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       result[k] = payment_amount
     end
 
-    result.push last_payment_amount unless last_payment_amount == 0
+    result.push last_payment_amount unless last_payment_amount == 0 || payments == 0
 
-    logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
+    #logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
     result
-
   end
 
   protected
@@ -168,51 +109,44 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       a.attributes = params
       a.save
     end
-
-    # kuukausierät
+public
     def create_installment_rows
-      full_amount = self.summa
-      sumu_type = self.sumu_poistotyyppi
-      sumu_amount = self.sumu_poistoera
+      full_amount = summa
+      sumu_type = sumu_poistotyyppi
+      sumu_amount = sumu_poistoera
 
+      # sumu_amount meaning
+      # sumu_types: T, D = months
+      # sumu_types: P, B = percentage
 
-      # poistoerät
-      # T D poistokuukausien määrä
-      # P B prosentti per vuosi
+      reductions = []
 
-      # lasketaan määrät maksuerien perusteella
-
-      if sumu_type == 'T'
-        reductions = full_amount / sumu_amount
-        calculated_sumu_amount = sumu_amount
-      elsif sumu_type == 'P'
-        reductions = full_amount * sumu_amount
-        calculated_sumu_amount = sumu_amount
+      # Calculation rules
+      case sumu_type
+      when 'T'
+        reductions = divide_to_payments(full_amount, sumu_amount)
+      when 'P'
+        yearly_amount = full_amount * sumu_amount / 100
+        payments = full_amount / yearly_amount * 12
+        payments = payments.to_i
+        reductions = divide_to_payments(full_amount, payments)
+      when 'D'
+      when 'B'
       end
 
-      #reductions = reductions+0.5.to_i
-
-      if reductions > 10
-        reductions = 3
-      end
-
-      reductions = reductions.to_i
       activation_date = self.kayttoonottopvm
       all_row_params = []
-
-      check = 0
-      reductions.times do
-        time = activation_date.advance(:months => +check)
+      reductions.count.times do |amt|
+        time = activation_date.advance(:months => +amt)
         all_row_params<<{
           laatija: 'CommoditiesController',
           muuttaja: 'CommoditiesController',
           tapvm: time,
           yhtio: company.yhtio,
-          summa: calculated_sumu_amount,
+          summa: reductions[0],
           tyyppi: self.sumu_poistotyyppi,
           tilino: self.tilino
         }
-        check += 1
       end
 
       all_row_params

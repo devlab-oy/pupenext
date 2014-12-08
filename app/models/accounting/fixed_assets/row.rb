@@ -6,4 +6,6 @@ class Accounting::FixedAssets::Row < ActiveRecord::Base
   # Map old database schema table to Accounting::FixedAssets::Row class
   self.table_name = :kayttomaisuus_poistoera
   self.primary_key = :tunnus
+
+  default_scope { order(tapvm: :asc) }
 end

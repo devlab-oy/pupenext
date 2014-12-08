@@ -29,13 +29,23 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_template 'new', 'Template should be new'
   end
 
-  test 'should create new commodity' do
+  test 'should create new commodity and rows' do
     assert_difference('Accounting::FixedAssets::Commodity.count') do
-      post :create, accounting_fixed_assets_commodity: {
-        nimitys: 'Skoda123',
-        selite: 'Auto Pentille',
-        summa: 3000
-      }
+      assert_difference('Accounting::FixedAssets::Row.count', 5*12) do
+        post :create, accounting_fixed_assets_commodity: {
+          nimitys: 'Skoda123',
+          selite: 'Auto Pentille',
+          summa: 10000,
+          sumu_poistotyyppi: 'P',
+          sumu_poistoera: 20,
+          evl_poistotyyppi: 'P',
+          evl_poistoera: 10,
+          kayttoonottopvm: Time.now,
+          hankintapvm: Time.now,
+          tila: 'A',
+          generate_rows: true
+        }
+      end
     end
 
     assert_redirected_to accounting_fixed_assets_commodities_path
@@ -60,7 +70,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     commodity = accounting_fixed_assets_commodities(:one)
 
     patch :update, id: commodity.id, accounting_fixed_assets_commodity: {
-      nimitys: ''
+      nimitys: 'Kissa'
     }
 
     assert_redirected_to accounting_fixed_assets_commodities_path
@@ -76,5 +86,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_redirected_to accounting_fixed_assets_commodities_path
     assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
   end
+
+  test 'should create '
 
 end

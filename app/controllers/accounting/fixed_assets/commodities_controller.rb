@@ -26,7 +26,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # PATCH/PUT /accounting/1
   def update
-    puts @commodity.errors.full_messages
     if @commodity.update_by(commodity_params, current_user)
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
@@ -42,8 +41,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   def create
     @commodity = current_company.accounting_fixed_assets_commodities.build
     @commodity.attributes = commodity_params
-    puts @commodity.errors.full_messages
-    #@commodity.generate_rows = true
+    @commodity.generate_rows = true
+
     if @commodity.save_by current_user
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke luotiin onnistuneesti.'
     else

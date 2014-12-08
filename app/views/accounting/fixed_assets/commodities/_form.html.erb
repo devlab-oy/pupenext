@@ -93,6 +93,7 @@
   <% if @commodity.rows.count > 0 %>
   <font class="head"><%= t('Poistoerät') %></font>
   <br/>
+  <br/>
   <table>
   <tr>
   <th>Tyyppi</th>
@@ -100,14 +101,18 @@
   <th>Tapahtumapäivä</th>
   </tr>
   <% @commodity.rows.each do |rivi| %>
-  <tr>
-    <td><%= rivi.tyyppi %></td>
-    <td><%= rivi.summa %></td>
-    <td><%= rivi.tapvm %></td>
-  </tr>
+    <tr>
+      <td><%= rivi.tyyppi %></td>
+      <td><%= rivi.summa %></td>
+      <td><%= rivi.tapvm %></td>
+    </tr>
   <% end %>
+  <% kokonaismaara = BigDecimal.new 0 %>
+  <% @commodity.rows.each { |x| kokonaismaara += x.summa } %>
+  <tr><td colspan='2'><%= t('Yhteensä') << ": #{kokonaismaara.to_s}" %></td></tr>
   </table>
   <br/>
+
   <% end %>
   <div class="actions">
     <% text = @commodity.persisted? ? 'Tallenna' : 'Lisää' %>
