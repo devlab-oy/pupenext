@@ -29,7 +29,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_template 'new', 'Template should be new'
   end
 
-  test 'should create new commodity and rows' do
+  test 'should create new commodity and rows by fixed percentage' do
     assert_difference('Accounting::FixedAssets::Commodity.count') do
       assert_difference('Accounting::FixedAssets::Row.count', 5*12) do
         post :create, accounting_fixed_assets_commodity: {
@@ -42,8 +42,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
           evl_poistoera: 10,
           kayttoonottopvm: Time.now,
           hankintapvm: Time.now,
-          tila: 'A',
-          generate_rows: true
+          tila: 'A'
         }
       end
     end
@@ -51,6 +50,30 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_redirected_to accounting_fixed_assets_commodities_path
     assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
   end
+
+  test 'should create new commodity and rows by fixed amount' do
+    assert_difference('Accounting::FixedAssets::Commodity.count') do
+      # Fixed amount (months)
+      assert_difference('Accounting::FixedAssets::Row.count', 12) do
+        post :create, accounting_fixed_assets_commodity: {
+          nimitys: 'Skoda3333',
+          selite: 'Auto Matille',
+          summa: 10000.0,
+          sumu_poistotyyppi: 'T',
+          sumu_poistoera: 12,
+          evl_poistotyyppi: 'T',
+          evl_poistoera: 12,
+          kayttoonottopvm: Time.now,
+          hankintapvm: Time.now,
+          tila: 'A'
+        }
+      end
+    end
+
+    assert_redirected_to accounting_fixed_assets_commodities_path
+    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
+  end
+
 
   test 'should not create new commodity' do
     # User bob does not have permission to create
@@ -86,7 +109,5 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_redirected_to accounting_fixed_assets_commodities_path
     assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
   end
-
-  test 'should create '
 
 end

@@ -74,15 +74,16 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     remainder = full_amount.divmod(payment_amount)
     last_payment_amount = remainder[1]
 
-
     result = []
 
     remainder[0].to_i.times do |k|
       result[k] = payment_amount
     end
 
-    result.push last_payment_amount unless last_payment_amount == 0 || payments == 0
-
+    #result[-1] += last_payment_amount unless last_payment_amount.zero?
+    lasti = full_amount - result.sum
+    result[-1] += lasti unless lasti.zero?
+    #result.push last_payment_amount unless last_payment_amount.zero?
     #logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
     result
   end
@@ -98,6 +99,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_rows
+      deactivate_old_rows unless rows.count.zero?
       installment_rows = create_installment_rows
       installment_rows.each do |params|
         create_row(params)
@@ -109,29 +111,33 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       a.attributes = params
       a.save
     end
-public
+
+    def deactivate_old_rows
+      rows.active.update_all(korjattu: 'X', korjausaika: Time.now)
+    end
+
     def create_installment_rows
       full_amount = summa
       sumu_type = sumu_poistotyyppi
       sumu_amount = sumu_poistoera
-
-      # sumu_amount meaning
-      # sumu_types: T, D = months
-      # sumu_types: P, B = percentage
 
       reductions = []
 
       # Calculation rules
       case sumu_type
       when 'T'
+        # Fixed by months
         reductions = divide_to_payments(full_amount, sumu_amount)
       when 'P'
+        # Fixed by percentage
         yearly_amount = full_amount * sumu_amount / 100
         payments = full_amount / yearly_amount * 12
         payments = payments.to_i
         reductions = divide_to_payments(full_amount, payments)
       when 'D'
+        # Degressive by months
       when 'B'
+        # Degressive by percentage
       end
 
       activation_date = self.kayttoonottopvm

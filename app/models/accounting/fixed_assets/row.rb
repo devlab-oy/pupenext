@@ -8,4 +8,5 @@ class Accounting::FixedAssets::Row < ActiveRecord::Base
   self.primary_key = :tunnus
 
   default_scope { order(tapvm: :asc) }
+  scope :active, -> { where(korjattu: '') }
 end

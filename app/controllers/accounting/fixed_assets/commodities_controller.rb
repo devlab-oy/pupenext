@@ -26,6 +26,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # PATCH/PUT /accounting/1
   def update
+    @commodity.generate_rows = true
     if @commodity.update_by(commodity_params, current_user)
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
