@@ -80,15 +80,16 @@ class ImapInvoiceWorker
     toaddress = msg.to.first.split('@').first
 
     # This is a "Travel expense"-mail
+    # We assume format of something.username@ALLOWED_DOMAIN
     if toaddress.include? "."
 
       # Extract username
       te_user = toaddress.split('.').last
 
       # Check if userdir exists
-      te_userdir = SAVE_DIRECTORY + "/" + TRAVEL_DIRECTORY + "/" + te_user
+      te_userdir = "#{SAVE_DIRECTORY}/#{TRAVEL_DIRECTORY}/#{te_user}"
 
-      if File.directory?(te_userdir)
+      if File.directory? te_userdir
         attach_dir = te_userdir
       else
         # Send error message
