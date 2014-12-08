@@ -67,7 +67,7 @@ class ImapInvoiceWorker
   def self.process_message(msg)
 
     # Default directory for saving attachments
-    attach_dir = SAVE_DIRECTORY
+    attach_dir = SAVE_DIRECTORY.dup
 
     # Allow msgs only from allowed domain
     address = msg.from.first.downcase
