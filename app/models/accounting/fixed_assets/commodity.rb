@@ -127,10 +127,11 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     full_amount = full_amount.to_d
 
     payment_amount = full_amount / payments
-    payment_amount = payment_amount.round
+    payment_amount = payment_amount.round(2)
 
     remainder = full_amount.divmod(payment_amount)
     last_payment_amount = remainder[1]
+
 
     result = []
 

@@ -59,7 +59,6 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal randomizer[0], result.sum
     assert_equal randomizer[1], result.count
-
   end
 
 end
