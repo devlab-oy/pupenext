@@ -69,7 +69,6 @@ class ImapInvoiceWorker
     # Default directory for saving attachments
     attach_dir = SAVE_DIRECTORY
 
-
     # Allow msgs only from allowed domain
     address = msg.from.first.downcase
 
@@ -152,10 +151,9 @@ class ImapInvoiceWorker
     prefix = SecureRandom.hex(15)
 
     # Filepath to SAVE_DIRECTORY
-    dir = attach_dir.dup
-    dir.sub!(/\/+$/, '')
+    attach_dir.sub!(/\/+$/, '')
 
-    fname = "#{dir}/#{prefix}-#{name.downcase.gsub(/[^a-z0-9\.\-]/, '').squeeze('.')}"
+    fname = "#{attach_dir}/#{prefix}-#{name.downcase.gsub(/[^a-z0-9\.\-]/, '').squeeze('.')}"
 
     # Save file
     begin
