@@ -125,6 +125,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       sumu_type = sumu_poistotyyppi
       sumu_amount = sumu_poistoera
 
+      # Switch adds correct numbers to reductions array
       reductions = []
 
       # Calculation rules
@@ -142,16 +143,23 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         # Degressive by months
         total_number_of_payments = sumu_amount
         one_year = 12
+
         # Calculate first year
         first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
         reductions = first_year_reductions.take(one_year)
         remaining_payments = total_number_of_payments-one_year
         remaining_amount = full_amount - reductions.sum
-        logger.debug "REpost: #{reductions.count}"
+
         # Calculate the rest
         until remaining_payments.zero?
 
-          later_year_reductions = divide_to_payments(remaining_amount, remaining_payments)
+          if remaining_payments < one_year+1
+            count_with_this = remaining_payments
+          else
+            count_with_this = total_number_of_payments
+          end
+
+          later_year_reductions = divide_to_payments(remaining_amount, count_with_this)
 
           later_reductions = later_year_reductions.take(one_year)
           remaining_payments -= later_reductions.count
@@ -159,15 +167,15 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
           reductions.concat later_reductions
 
+          remaining_amount = full_amount - reductions.sum
+
           if remaining_payments < 1
             remaining_payments = 0
             if remaining_amount > 0
               reductions.push remaining_amount
             end
           end
-          #logger.debug "lopussa later_reductions:#{later_reductions.sum} remaining: #{remaining_amount} eriajaljella=#{remaining_payments} resultcount=#{reductions.count}"
         end
-
       when 'B'
         # Degressive by percentage
       end
