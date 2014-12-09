@@ -17,7 +17,7 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'should calculate payments' do
     # Create two random parameters
-    randomizer = [Random.rand(1000...100000), Random.rand(1...12*5)]
+    randomizer = [Random.rand(0...100000), Random.rand(0...12*5)]
     result = @commodity.divide_to_payments(randomizer[0], randomizer[1])
 
     assert_equal randomizer[0], result.sum

@@ -67,12 +67,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   # Calculates monthly payments
   def divide_to_payments(full_amount, payments = 12)
     full_amount = full_amount.to_d
+    return [] if full_amount.zero? || payments.zero?
 
     payment_amount = full_amount / payments
-    payment_amount = payment_amount.round(2)
-
     remainder = full_amount.divmod(payment_amount)
-    last_payment_amount = remainder[1]
 
     result = []
 
@@ -80,10 +78,13 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       result[k] = payment_amount
     end
 
-    #result[-1] += last_payment_amount unless last_payment_amount.zero?
-    lasti = full_amount - result.sum
-    result[-1] += lasti unless lasti.zero?
-    #result.push last_payment_amount unless last_payment_amount.zero?
+    unless remainder[1].zero?
+      if remainder[0] < payments
+        result.push remainder[1]
+      else
+        result[-1] += remainder[1]
+      end
+    end
     #logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
     result
   end
