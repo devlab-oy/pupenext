@@ -12,6 +12,8 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
 
+  validates_numericality_of :tilino, greater_than: 999, if: :activated?
+
   after_save :create_rows, on: [:update, :create], if: :should_create_rows?
 
   attr_accessor :generate_rows
@@ -70,6 +72,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     return [] if full_amount.zero? || payments.zero?
 
     payment_amount = full_amount / payments
+    payment_amount = payment_amount.round(2)
     remainder = full_amount.divmod(payment_amount)
 
     result = []
@@ -137,23 +140,55 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         reductions = divide_to_payments(full_amount, payments)
       when 'D'
         # Degressive by months
+        total_number_of_payments = sumu_amount
+        one_year = 12
+        # Calculate first year
+        first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
+        reductions = first_year_reductions.take(one_year)
+        remaining_payments = total_number_of_payments-one_year
+        remaining_amount = full_amount - reductions.sum
+        logger.debug "REpost: #{reductions.count}"
+        # Calculate the rest
+        until remaining_payments.zero?
+
+          later_year_reductions = divide_to_payments(remaining_amount, remaining_payments)
+
+          later_reductions = later_year_reductions.take(one_year)
+          remaining_payments -= later_reductions.count
+          remaining_amount -= later_reductions.sum
+
+          reductions.concat later_reductions
+
+          if remaining_payments < 1
+            remaining_payments = 0
+            if remaining_amount > 0
+              reductions.push remaining_amount
+            end
+          end
+          #logger.debug "lopussa later_reductions:#{later_reductions.sum} remaining: #{remaining_amount} eriajaljella=#{remaining_payments} resultcount=#{reductions.count}"
+        end
+
       when 'B'
         # Degressive by percentage
       end
 
       activation_date = self.kayttoonottopvm
       all_row_params = []
-      reductions.count.times do |amt|
+
+      amt = 0
+      reductions.each do |red|
         time = activation_date.advance(:months => +amt)
         all_row_params<<{
           laatija: 'CommoditiesController',
           muuttaja: 'CommoditiesController',
           tapvm: time,
           yhtio: company.yhtio,
-          summa: reductions[0],
-          tyyppi: self.sumu_poistotyyppi,
-          tilino: self.tilino
+          summa: red,
+          tyyppi: sumu_poistotyyppi,
+          selite: 'SUMU poisto',
+          tilino: tilino
         }
+        amt += 1
       end
 
       all_row_params

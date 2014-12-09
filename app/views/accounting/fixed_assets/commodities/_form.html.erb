@@ -96,14 +96,18 @@
   <br/>
   <table>
   <tr>
+  <th>Selite</th>
   <th>Tyyppi</th>
   <th>Summa</th>
+  <th>Tili</th>
   <th>Tapahtumapäivä</th>
   </tr>
   <% @commodity.rows.active.each do |rivi| %>
     <tr>
+      <td><%= rivi.selite %></td>
       <td><%= rivi.tyyppi %></td>
       <td><%= rivi.summa %></td>
+      <td><%= rivi.tilino %></td>
       <td><%= rivi.tapvm %></td>
     </tr>
   <% end %>
