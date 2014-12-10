@@ -92,6 +92,32 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     result
   end
 
+  def divide_to_degressive_payments_by_percentage(full_amount, yearly_percentage)
+    one_year = 12
+    full_amount = full_amount.to_d
+    yearly_percentage = yearly_percentage.to_d / 100
+    payments = []
+    zoidberg = full_amount * yearly_percentage / one_year
+    payments.push zoidberg.to_i
+
+    keep_running = true
+
+    while keep_running do#payments.sum > full_amount || payments.count > 120
+      logger.debug "fullamount: #{full_amount.to_s} paymentssum: #{payments.sum.to_s}"
+      injecthis = (full_amount-payments.sum) * yearly_percentage / one_year
+      if injecthis < 100
+        injecthis = full_amount-payments.sum
+        injecthis
+        keep_running = false
+      end
+      injecthis = injecthis.to_i
+      logger.debug "INJECTIS IS #{injecthis}"
+      payments.push injecthis
+    end
+
+    payments
+  end
+
   protected
 
     def activated?
@@ -133,12 +159,14 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       when 'T'
         # Fixed by months
         reductions = divide_to_payments(full_amount, sumu_amount)
+
       when 'P'
         # Fixed by percentage
         yearly_amount = full_amount * sumu_amount / 100
         payments = full_amount / yearly_amount * 12
         payments = payments.to_i
         reductions = divide_to_payments(full_amount, payments)
+
       when 'D'
         # Degressive by months
         total_number_of_payments = sumu_amount
@@ -176,8 +204,11 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
             end
           end
         end
+
       when 'B'
         # Degressive by percentage
+        reductions = divide_to_degressive_payments_by_percentage(full_amount, sumu_amount)
+
       end
 
       activation_date = self.kayttoonottopvm
