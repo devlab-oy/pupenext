@@ -88,7 +88,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         result[-1] += remainder[1]
       end
     end
-    #logger.debug "REpost: #{result.inspect} lastamount #{last_payment_amount.to_s} remainder #{remainder[1].to_s}"
+
     result
   end
 
@@ -102,8 +102,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     keep_running = true
 
-    while keep_running do#payments.sum > full_amount || payments.count > 120
-      logger.debug "fullamount: #{full_amount.to_s} paymentssum: #{payments.sum.to_s}"
+    while keep_running do
       injecthis = (full_amount-payments.sum) * yearly_percentage / one_year
       if injecthis < 100
         injecthis = full_amount-payments.sum
@@ -111,11 +110,47 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         keep_running = false
       end
       injecthis = injecthis.to_i
-      logger.debug "INJECTIS IS #{injecthis}"
+
       payments.push injecthis
     end
 
     payments
+  end
+
+  def divide_to_degressive_payments_by_months(full_amount, months)
+    total_number_of_payments = months
+    one_year = 12
+
+    result = []
+    # Calculate first year
+    first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
+    result = first_year_reductions.take(one_year)
+    remaining_payments = total_number_of_payments-one_year
+    remaining_amount = full_amount - result.sum
+
+    # Calculate the rest
+    until remaining_payments.zero?
+      if remaining_payments < one_year+1
+        count_with_this = remaining_payments
+      else
+        count_with_this = total_number_of_payments
+      end
+      later_year_result = divide_to_payments(remaining_amount, count_with_this)
+
+      later_result = later_year_result.take(one_year)
+      remaining_payments -= later_result.count
+      remaining_amount -= later_result.sum
+      result.concat later_result
+      remaining_amount = full_amount - result.sum
+
+      if remaining_payments < 1
+        remaining_payments = 0
+        if remaining_amount > 0
+          result.push remaining_amount
+        end
+      end
+    end
+    result
   end
 
   protected
@@ -169,41 +204,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
       when 'D'
         # Degressive by months
-        total_number_of_payments = sumu_amount
-        one_year = 12
-
-        # Calculate first year
-        first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
-        reductions = first_year_reductions.take(one_year)
-        remaining_payments = total_number_of_payments-one_year
-        remaining_amount = full_amount - reductions.sum
-
-        # Calculate the rest
-        until remaining_payments.zero?
-
-          if remaining_payments < one_year+1
-            count_with_this = remaining_payments
-          else
-            count_with_this = total_number_of_payments
-          end
-
-          later_year_reductions = divide_to_payments(remaining_amount, count_with_this)
-
-          later_reductions = later_year_reductions.take(one_year)
-          remaining_payments -= later_reductions.count
-          remaining_amount -= later_reductions.sum
-
-          reductions.concat later_reductions
-
-          remaining_amount = full_amount - reductions.sum
-
-          if remaining_payments < 1
-            remaining_payments = 0
-            if remaining_amount > 0
-              reductions.push remaining_amount
-            end
-          end
-        end
+        reductions = divide_to_degressive_payments_by_months(full_amount, sumu_amount)
 
       when 'B'
         # Degressive by percentage
