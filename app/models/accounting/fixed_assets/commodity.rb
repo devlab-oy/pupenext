@@ -104,9 +104,8 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     while keep_running do
       injecthis = (full_amount-payments.sum) * yearly_percentage / one_year
-      if injecthis < 100
+      if injecthis < 100 #Maybe accountant could give this minimum from the view?
         injecthis = full_amount-payments.sum
-        injecthis
         keep_running = false
       end
       injecthis = injecthis.to_i
