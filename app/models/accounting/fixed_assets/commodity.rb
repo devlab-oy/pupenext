@@ -2,7 +2,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_one :accounting_voucher, foreign_key: :tunnus, primary_key: :ltunnus
-  has_many :rows, foreign_key: :liitostunnus, primary_key: :tunnus
+  has_many :rows, foreign_key: :liitostunnus, primary_key: :tunnus, autosave: true
 
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
@@ -14,7 +14,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   validates_numericality_of :tilino, greater_than: 999, if: :activated?
 
-  after_save :create_rows, on: [:update, :create], if: :should_create_rows?
+  before_validation :create_rows, on: [:update, :create], if: :should_create_rows?
 
   attr_accessor :generate_rows
 
@@ -171,9 +171,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_row(params)
-      a = rows.build
-      a.attributes = params
-      a.save
+      rows.build params
     end
 
     def deactivate_old_rows
@@ -221,7 +219,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
           laatija: 'CommoditiesController',
           muuttaja: 'CommoditiesController',
           tapvm: time,
-          yhtio: company.yhtio,
+          yhtio: yhtio,
           summa: red,
           tyyppi: sumu_poistotyyppi,
           selite: 'SUMU poisto',
