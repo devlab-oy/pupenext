@@ -78,7 +78,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
   test 'should create new commodity and rows by degressive percentage' do
     assert_difference('Accounting::FixedAssets::Commodity.count') do
-      # Fixed amount (months)
+      # Degressive amount (percentage)
       assert_difference('Accounting::FixedAssets::Row.count', 98) do
         post :create, accounting_fixed_assets_commodity: {
           nimitys: 'Skoda33334',
@@ -88,6 +88,31 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
           sumu_poistotyyppi: 'B',
           sumu_poistoera: 35,
           evl_poistotyyppi: 'B',
+          evl_poistoera: 12,
+          kayttoonottopvm: Time.now,
+          hankintapvm: Time.now,
+          tila: 'A'
+        }
+      end
+    end
+
+    assert_redirected_to accounting_fixed_assets_commodities_path
+    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
+  end
+
+  test 'should create new commodity and rows by degressive months' do
+    assert_difference('Accounting::FixedAssets::Commodity.count') do
+      # Degressive amount by months (months)
+      thismany = Random.rand 6...5*12
+      assert_difference('Accounting::FixedAssets::Row.count', thismany) do
+        post :create, accounting_fixed_assets_commodity: {
+          nimitys: 'Skoda333346',
+          selite: 'Auto Matille',
+          summa: 60000.0,
+          tilino: 1234,
+          sumu_poistotyyppi: 'D',
+          sumu_poistoera: thismany,
+          evl_poistotyyppi: 'D',
           evl_poistoera: 12,
           kayttoonottopvm: Time.now,
           hankintapvm: Time.now,
