@@ -16,6 +16,16 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate payments' do
+
+    amount = 1000
+    months = 11
+    result = @commodity.divide_to_payments(amount, months)
+
+    assert_equal amount, result.sum
+    assert_equal months, result.count
+    assert_equal 90.91, result.first
+    assert_equal 90.9.to_d, result.last
+
     # Create two random parameters
     randomizer = [Random.rand(0...100000), Random.rand(1...12*5)]
     result = @commodity.divide_to_payments(randomizer[0], randomizer[1])
@@ -25,6 +35,15 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate degressive payments by percentage' do
+
+    amount = 10000
+    percentage = 45
+    result = @commodity.divide_to_degressive_payments_by_percentage(amount,percentage)
+    assert_equal amount, result.sum
+    assert_equal 36, result.count
+    assert_equal 375, result.first
+    assert_equal 2634, result.last
+
     # Create two random parameters
     randomizer = [Random.rand(0...100000), Random.rand(10...60)]
     result = @commodity.divide_to_degressive_payments_by_percentage(randomizer[0], randomizer[1])
@@ -33,6 +52,15 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate degressive payments by months' do
+
+    amount = 60000
+    months = 35
+    result = @commodity.divide_to_degressive_payments_by_months(amount, months)
+    assert_equal amount, result.sum
+    assert_equal months, result.count
+    assert_equal '1714.29', result.first.to_s
+    assert_equal '2355.46', result.last.to_s
+
     # Create two random parameters
     randomizer = [Random.rand(0...100000), Random.rand(12...5*12)]
     result = @commodity.divide_to_degressive_payments_by_months(randomizer[0], randomizer[1])
