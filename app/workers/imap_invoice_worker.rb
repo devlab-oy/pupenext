@@ -201,3 +201,5 @@ class ImapInvoiceWorker
   end
 
 end
+
+ImapInvoiceWorker.fetch_messages
