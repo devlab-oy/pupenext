@@ -1,8 +1,13 @@
 class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
-  has_one :accounting_voucher, foreign_key: :tunnus, primary_key: :ltunnus
+  has_one :accounting_voucher, foreign_key: :hyodyke_tunnus, primary_key: :tunnus,
+    class_name: 'Accounting::Voucher'
   has_many :rows, foreign_key: :liitostunnus, primary_key: :tunnus, autosave: true
+
+  has_one :accounting_account, foreign_key: :tilino, primary_key: :tilino,
+    class_name: 'Accounting::Account'
+  has_many :purchase_orders, foreign_key: :hyodyke_tunnus, primary_key: :tunnus
 
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true

@@ -10,4 +10,5 @@ class Accounting::FixedAssets::Row < ActiveRecord::Base
 
   default_scope { order(tapvm: :asc) }
   scope :active, -> { where(korjattu: '') }
+
 end
