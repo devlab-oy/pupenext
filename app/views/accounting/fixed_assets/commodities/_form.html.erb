@@ -47,7 +47,8 @@
     </tr>
     <tr>
       <th><%= f.label :tilino, t('Tili') %></th>
-      <td><%= f.text_field :tilino %></td>
+      <td><%= @commodity.tilino %></td>
+      <td class='back'><%= link_to t('Valitse tili'), accounting_fixed_assets_commodities_account_path(@commodity) if update_access? %></td>
     </tr>
     <tr>
       <th><%= f.label :kayttoonottopvm, t('Käyttöönottopvm') %></th>
@@ -123,3 +124,16 @@
     <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
   </div>
 <% end %>
+<br/>
+<font class="head"><%= t('Liitetyt ostolaskut') %></font>
+<br/><br/>
+<%= form_tag accounting_fixed_assets_commodities_purchase_orders_path, method: :get do %>
+<%= "#{@commodity.purchase_orders.count} " + t('ostolaskua') %>
+<br/><br/>
+<%= button_to t('Liitä ostolasku'), accounting_fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
+<% end %>
+<br/>
+<%= form_tag accounting_fixed_assets_commodities_account_path, method: :get do %>
+<%= button_to t('Valitse tili'), accounting_fixed_assets_commodities_account_path, method: :get if update_access? %>
+<% end %>
+

@@ -1,30 +1,30 @@
 class Accounting::FixedAssets::CommoditiesController < ApplicationController
   include ApplicationHelper
 
-  before_action :find_commodity, only: [:show, :edit, :update]
+  before_action :find_commodity, only: [:show, :edit, :update, :select_account]
   before_action :update_access, only: [:create, :edit, :update]
 
   helper_method :sort_column
   helper_method :params_search
 
-  # GET /accounting
+  # GET /accounting/fixed_assets/commodities
   def index
     @commodities = current_company.accounting_fixed_assets_commodities
     @commodities = @commodities.search_like params_search
     @commodities = @commodities.order("#{sort_column} #{sort_direction}")
   end
 
-   # GET /accounting/1
+   # GET /accounting/fixed_assets/commodities/1
   def show
     render 'edit'
   end
 
-  # GET /accounting/new
+  # GET /accounting/fixed_assets/commodities/new
   def new
     @commodity = current_company.accounting_fixed_assets_commodities.build
   end
 
-  # PATCH/PUT /accounting/1
+  # PATCH/PUT /accounting/fixed_assets/commodities/1
   def update
     @commodity.generate_rows = true
     if @commodity.update_by(commodity_params, current_user)
@@ -34,11 +34,13 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     end
   end
 
-  # GET /accounting/1/edit
+  # GET /accounting/fixed_assets/commodities/1/edit
   def edit
+    puts params
+    @commodity.tilino = params[:selected_account]
   end
 
-  # POST /accounting
+  # POST /accounting/fixed_assets/commodities
   def create
     @commodity = current_company.accounting_fixed_assets_commodities.build
     @commodity.attributes = commodity_params
@@ -49,6 +51,16 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     else
       render action: 'new'
     end
+  end
+
+  # GET /accounting/fixed_assets/commodities/1/select_account
+  def select_account
+    render 'select_account'
+  end
+
+   # GET /accounting/fixed_assets/commodities/1/select_purchase_order
+  def select_purchase_order
+    render 'select_purchase_order'
   end
 
   private
@@ -66,7 +78,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistotyyppi,
         :evl_poistoera,
         :tilino,
-        :tila
+        :tila,
+        :selected_account
       )
     end
 
@@ -86,7 +99,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistotyyppi,
         :evl_poistoera,
         :tilino,
-        :tila
+        :tila,
+        :selected_account
       )
       p.reject { |_,v| v.empty? }
     end

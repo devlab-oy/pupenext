@@ -14,6 +14,8 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   validates_presence_of :hankintapvm
 
+  validates :accounting_account, :length => { :minimum => 1}
+
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
 
@@ -56,6 +58,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   def get_options_for_type
     [
+      ['Valitse',''],
       ['Tasapoisto kuukausittain','T'],
       ['Tasapoisto vuosiprosentti','P'],
       ['Menojäännöspoisto kuukausittain','D'],
