@@ -8,8 +8,6 @@
 
 <%= render 'header' %>
 
-<% accounts = current_user.company.accounting_accounts.limit(50) %>
-
 <table>
   <tr>
   <th>Nimi</th>
@@ -19,9 +17,9 @@
   <th>Alv taso</th>
   </tr>
 
-<% accounts.each do |acc| %>
+<% @accounts.each do |acc| %>
   <tr>
-    <td><%= "  " + acc.nimi %></td>
+    <td><%= acc.nimi %></td>
     <td><%= acc.tilino %></td>
     <td><%= acc.sisainen_taso %></td>
     <td><%= acc.ulkoinen_taso %></td>

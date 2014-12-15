@@ -36,8 +36,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/fixed_assets/commodities/1/edit
   def edit
-    puts params
-    @commodity.tilino = params[:selected_account]
+    @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
   end
 
   # POST /accounting/fixed_assets/commodities
@@ -55,11 +54,13 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/fixed_assets/commodities/1/select_account
   def select_account
+    @accounts = current_company.accounting_accounts.limit(50)
     render 'select_account'
   end
 
    # GET /accounting/fixed_assets/commodities/1/select_purchase_order
   def select_purchase_order
+    @purchase_orders = current_company.purchase_orders
     render 'select_purchase_order'
   end
 

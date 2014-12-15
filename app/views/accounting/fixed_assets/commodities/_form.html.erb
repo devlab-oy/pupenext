@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <th><%= f.label :tilino, t('Tili') %></th>
-      <td><%= @commodity.tilino %></td>
+      <td><%= f.text_field :tilino %></td>
       <td class='back'><%= link_to t('Valitse tili'), accounting_fixed_assets_commodities_account_path(@commodity) if update_access? %></td>
     </tr>
     <tr>
