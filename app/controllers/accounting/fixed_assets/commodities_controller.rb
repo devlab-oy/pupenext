@@ -37,7 +37,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   # GET /accounting/fixed_assets/commodities/1/edit
   def edit
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
-    commodity_id_to_purchase_order(params[:selected_purchase_order]) unless params[:selected_purchase_order].nil?
+    @commodity.commodity_id_to_purchase_order(params[:selected_purchase_order]) unless params[:selected_purchase_order].nil?
   end
 
   # POST /accounting/fixed_assets/commodities
@@ -83,7 +83,10 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistoera,
         :tilino,
         :tila,
-        :selected_account
+        :selected_account,
+        :kustp,
+        :kohde,
+        :projekti
       )
     end
 
@@ -120,9 +123,5 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
       redirect_to accounting_fixed_assets_commodities_path, notice: msg unless update_access?
     end
 
-    def commodity_id_to_purchase_order(purchase_order_id)
-      po = current_company.purchase_orders.find_by_tunnus(purchase_order_id)
-      po.save_commodity_id(params[:id])
-    end
 end
 

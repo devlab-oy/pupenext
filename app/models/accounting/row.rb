@@ -7,4 +7,7 @@ class Accounting::Row < ActiveRecord::Base
   self.table_name  = :tiliointi
   self.primary_key = :tunnus
 
+  default_scope { order(tapvm: :asc) }
+  scope :active, -> { where(korjattu: '') }
+
 end

@@ -2,7 +2,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_one :accounting_voucher, foreign_key: :hyodyke_tunnus, primary_key: :tunnus,
-    class_name: 'Accounting::Voucher'
+    class_name: 'Accounting::Voucher', autosave: true
   has_many :rows, foreign_key: :liitostunnus, primary_key: :tunnus, autosave: true
 
   has_one :accounting_account, foreign_key: :tilino, primary_key: :tilino,
@@ -72,6 +72,11 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       ['Aktivoitu', 'A'],
       ['Poistettu', 'P']
     ]
+  end
+
+  def commodity_id_to_purchase_order(purchase_order_id)
+    po = company.purchase_orders.find_by_tunnus(purchase_order_id)
+    po.save_commodity_id(tunnus)
   end
 
   # Calculates monthly payments
@@ -172,10 +177,30 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     def create_rows
       deactivate_old_rows unless rows.count.zero?
+      create_voucher if accounting_voucher.nil?
       installment_rows = create_installment_rows
       installment_rows.each do |params|
         create_row(params)
+        accounting_voucher.create_voucher_row(params)
       end
+    end
+
+    def create_voucher
+      voucher_params = {
+        laatija: 'CommoditiesController',
+        muuttaja: 'CommoditiesController',
+        hyodyke_tunnus: tunnus,
+        tila: 'X',
+        alatila: '',
+        yhtio: yhtio,
+        puh: '',
+        toim_puh: '',
+        email: '',
+        toim_email: ''
+      }
+      voucher = Accounting::Voucher.new(voucher_params)
+      raise ArgumentError "#{voucher.errors.full_messages}" unless voucher.valid?
+      accounting_voucher=(voucher)
     end
 
     def create_row(params)
