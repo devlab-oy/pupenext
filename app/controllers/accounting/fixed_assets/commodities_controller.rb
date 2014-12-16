@@ -37,6 +37,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   # GET /accounting/fixed_assets/commodities/1/edit
   def edit
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
+    commodity_id_to_purchase_order(params[:selected_purchase_order]) unless params[:selected_purchase_order].nil?
   end
 
   # POST /accounting/fixed_assets/commodities
@@ -60,7 +61,9 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
    # GET /accounting/fixed_assets/commodities/1/select_purchase_order
   def select_purchase_order
-    @purchase_orders = current_company.purchase_orders
+    @purchase_orders = current_company.purchase_orders.limit(50)
+    @purchase_orders = @purchase_orders.search_like params_search
+    @purchase_orders = @purchase_orders.order("#{sort_column} #{sort_direction}")
     render 'select_purchase_order'
   end
 
@@ -101,7 +104,9 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistoera,
         :tilino,
         :tila,
-        :selected_account
+        :selected_account,
+        :viite,
+        :nimi
       )
       p.reject { |_,v| v.empty? }
     end
@@ -113,6 +118,11 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     def update_access
       msg = "Sinulla ei ole päivitysoikeuksia."
       redirect_to accounting_fixed_assets_commodities_path, notice: msg unless update_access?
+    end
+
+    def commodity_id_to_purchase_order(purchase_order_id)
+      po = current_company.purchase_orders.find_by_tunnus(purchase_order_id)
+      po.save_commodity_id(params[:id])
     end
 end
 

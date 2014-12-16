@@ -128,12 +128,13 @@
 <font class="head"><%= t('Liitetyt ostolaskut') %></font>
 <br/><br/>
 <%= form_tag accounting_fixed_assets_commodities_purchase_orders_path, method: :get do %>
-<%= "#{@commodity.purchase_orders.count} " + t('ostolaskua') %>
+<% ostolaskut_yhteensa = BigDecimal.new 0  %>
+<% @commodity.purchase_orders.each { |x| ostolaskut_yhteensa += x.summa } %>
+<%= "#{@commodity.purchase_orders.count} " + t('ostolaskua')%>
+<br/>
+<%=  t('Yhteensä') + ": #{ostolaskut_yhteensa} eur"  %>
 <br/><br/>
 <%= button_to t('Liitä ostolasku'), accounting_fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
 <% end %>
 <br/>
-<%= form_tag accounting_fixed_assets_commodities_account_path, method: :get do %>
-<%= button_to t('Valitse tili'), accounting_fixed_assets_commodities_account_path, method: :get if update_access? %>
-<% end %>
 
