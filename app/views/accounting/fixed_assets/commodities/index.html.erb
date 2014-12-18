@@ -33,9 +33,9 @@
           <%= com.nimitys %>
         <% end %></td>
       <td><%= com.selite %></td>
-      <% keijo = com.accounting_voucher.rows.count rescue 0 %>
+      <% keijo = com.accounting_voucher.rows.active.count rescue 0 %>
       <% kaaleleppi = !com.accounting_voucher.nil? rescue 0  %>
-      <td class="back"><%= "Tila: '#{com.tila}'" + ", EVL Poistoeriä: '#{com.rows.count}' kpl" + ", Poistoerätosite: #{kaaleleppi}" + ", SUMU Poistoeriä: #{keijo}" + ", Ostolaskuja: #{com.purchase_orders.count}" %></td>
+      <td class="back"><%= "Tila: '#{com.tila}'" + ", EVL Poistoeriä: '#{com.rows.active.count}' kpl" + ", Poistoerätosite: #{kaaleleppi}" + ", SUMU Poistoeriä: #{keijo}" + ", Ostolaskuja: #{com.purchase_orders.count}" %></td>
     </tr>
   <% end %>
 </table>

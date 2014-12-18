@@ -25,4 +25,8 @@ class Accounting::Voucher < ActiveRecord::Base
     rows.build tiliointi_params
   end
 
+  def deactivate_old_rows
+    rows.active.update_all(korjattu: 'X', korjausaika: Time.now)
+  end
+
 end

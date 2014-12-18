@@ -21,7 +21,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   validates_numericality_of :tilino, greater_than: 999, if: :activated?
 
-  before_validation :create_rows, on: [:update, :create], if: :should_create_rows?
+  before_validation :create_bookkeepping_rows, on: [:update, :create], if: :should_create_rows?
+
+  validates :summa, with: :check_that_po_amount_matches
 
   attr_accessor :generate_rows
 
@@ -175,12 +177,26 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       generate_rows
     end
 
-    def create_rows
-      deactivate_old_rows unless rows.count.zero?
+    def create_bookkeepping_rows
       create_voucher if accounting_voucher.nil?
-      installment_rows = create_installment_rows
-      installment_rows.each do |params|
+      create_internal_bk_rows
+      create_external_bk_rows
+    end
+
+    def create_external_bk_rows
+      deactivate_old_rows unless rows.count.zero?
+
+      external_rows = create_installment_rows('evl')
+      external_rows.each do |params|
         create_row(params)
+      end
+    end
+
+    def create_internal_bk_rows
+      accounting_voucher.deactivate_old_rows unless accounting_voucher.nil?
+
+      internal_rows = create_installment_rows('sumu')
+      internal_rows.each do |params|
         accounting_voucher.create_voucher_row(params)
       end
     end
@@ -200,7 +216,17 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       }
       voucher = Accounting::Voucher.new(voucher_params)
       raise ArgumentError "#{voucher.errors.full_messages}" unless voucher.valid?
-      accounting_voucher=(voucher)
+      voucher.save
+      reload
+    end
+
+    def check_that_po_amount_matches
+      purchase_orders_sum = BigDecimal.new 0
+      purchase_orders.each { |x| purchase_orders_sum += x.summa }
+
+      unless purchase_orders_sum == summa
+        errors.add(:base, 'Hyödykkeen summa ei täsmää ostolaskujen summaan')
+      end
     end
 
     def create_row(params)
@@ -211,11 +237,17 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       rows.active.update_all(korjattu: 'X', korjausaika: Time.now)
     end
 
-    def create_installment_rows
+    def create_installment_rows(payment_type)
       full_amount = summa
-      sumu_type = sumu_poistotyyppi
-      sumu_amount = sumu_poistoera
 
+      if payment_type == 'sumu'
+        sumu_type = sumu_poistotyyppi
+        sumu_amount = sumu_poistoera
+      else
+        payment_type = 'evl'
+        sumu_type = evl_poistotyyppi
+        sumu_amount = evl_poistoera
+      end
       # Switch adds correct numbers to reductions array
       reductions = []
 
@@ -255,7 +287,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
           yhtio: yhtio,
           summa: red,
           tyyppi: sumu_poistotyyppi,
-          selite: 'SUMU poisto',
+          selite: "#{payment_type} poisto",
           tilino: tilino
         }
         amt += 1

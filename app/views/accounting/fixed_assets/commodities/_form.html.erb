@@ -91,7 +91,7 @@
     </tr>
   </table>
   <br/>
-  <% if @commodity.rows.count > 0 %>
+  <% if @commodity.rows.active.count > 0 %>
   <font class="head"><%= t('Poistoerät') %></font>
   <br/>
   <br/>
@@ -120,25 +120,31 @@
 
   <% end %>
 
-  <table>
-  <tr>
-  <th>Selite</th>
-  <th>Summa</th>
-  <th>Tili</th>
-  <th>Tapahtumapäivä</th>
-  </tr>
-  <% @commodity.accounting_voucher.rows.active.each do |rivi| %>
+  <% unless @commodity.accounting_voucher.nil? %>
+    <% unless @commodity.accounting_voucher.rows.active.count.zero? %>
+    <table>
     <tr>
-      <td><%= rivi.selite %></td>
-      <td><%= rivi.summa %></td>
-      <td><%= rivi.tilino %></td>
-      <td><%= rivi.tapvm %></td>
+    <th>Selite</th>
+    <th>Summa</th>
+    <th>Tili</th>
+    <th>Tapahtumapäivä</th>
     </tr>
+    <% @commodity.accounting_voucher.rows.active.each do |rivi| %>
+      <tr>
+        <td><%= rivi.selite %></td>
+        <td><%= rivi.summa %></td>
+        <td><%= rivi.tilino %></td>
+        <td><%= rivi.tapvm %></td>
+      </tr>
+    <% end %>
+    <% kokonaismaara2 = BigDecimal.new 0 %>
+    <% @commodity.accounting_voucher.rows.active.each { |x| kokonaismaara2 += x.summa } %>
+    <tr><td colspan='2'><%= t('SUMU poistot yhteensä') + ": #{kokonaismaara2.to_s} #{@commodity.accounting_voucher.rows.active.count} erässä" %></td></tr>
+    </table>
+    <br/>
+    <% end %>
   <% end %>
-  <% kokonaismaara2 = BigDecimal.new 0 %>
-  <% @commodity.accounting_voucher.rows.active.each { |x| kokonaismaara2 += x.summa } %>
-  <tr><td colspan='2'><%= t('SUMU poistot yhteensä') + ": #{kokonaismaara2.to_s} #{@commodity.accounting_voucher.rows.active.count} erässä" %></td></tr>
-  </table>
+
   <div class="actions">
     <% text = @commodity.persisted? ? 'Tallenna' : 'Lisää' %>
     <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
