@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
     permissions.update_access(resource).present?
   end
 
+  def classic_ui?
+    kayttoliittyma == 'C' || (kayttoliittyma.blank? && company.classic_ui?)
+  end
+
   # Map old database schema table to User class
   self.table_name  = "kuka"
   self.primary_key = "tunnus"
