@@ -8,4 +8,8 @@ class Company < ActiveRecord::Base
   self.table_name  = "yhtio"
   self.primary_key = "tunnus"
 
+  def classic_ui?
+    parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
+  end
+
 end
