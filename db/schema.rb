@@ -325,7 +325,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
   add_index "asiakkaan_avainsanat", ["yhtio", "laji"], name: "yhtio_laji", using: :btree
   add_index "asiakkaan_avainsanat", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
 
-  create_table "asn_sanomat", primary_key: "tunnus", force: true do |t|
+  create_table "asn_sanomat", primary_key: "tunnus", force: true, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                           default: "",  null: false
     t.string   "laji",               limit: 3,                           default: "",  null: false
     t.string   "toimittajanumero",   limit: 20,                          default: "",  null: false
