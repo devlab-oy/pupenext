@@ -37,7 +37,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   # GET /accounting/fixed_assets/commodities/1/edit
   def edit
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
-    @commodity.commodity_id_to_purchase_order(params[:selected_purchase_order]) unless params[:selected_purchase_order].nil?
   end
 
   # POST /accounting/fixed_assets/commodities

@@ -12,7 +12,6 @@ class Accounting::Voucher < ActiveRecord::Base
   self.primary_key = :tunnus
 
   def create_voucher_row(params)
-    logger.debug params
     tiliointi_params = {
       laatija: params[:laatija],
       muuttaja: params[:muuttaja],
@@ -20,7 +19,9 @@ class Accounting::Voucher < ActiveRecord::Base
       yhtio: params[:yhtio],
       summa: params[:summa],
       selite: params[:selite],
-      tilino: params[:tilino]
+      tilino: params[:tilino],
+      laadittu: Date.today,
+      korjausaika: Date.today
     }
     rows.build tiliointi_params
   end

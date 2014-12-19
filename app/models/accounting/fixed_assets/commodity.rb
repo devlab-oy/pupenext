@@ -11,16 +11,16 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
 
-  validates_presence_of :hankintapvm
+  validates_presence_of :hankintapvm, if: :activated?
 
-  validates :accounting_account, :length => { :minimum => 1}
+  #validates :accounting_account, :length => { :minimum => 1}, if: :activated?
 
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
 
   validates_numericality_of :tilino, greater_than: 999, if: :activated?
 
-  before_validation :create_bookkeepping_rows, on: [:update, :create], if: :should_create_rows?
+  before_validation :create_bookkeepping_rows, on: [:update], if: :should_create_rows?
 
   #validates :summa, with: :check_that_po_amount_matches
 
@@ -75,11 +75,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  def commodity_id_to_purchase_order(purchase_order_id)
-    po = company.purchase_orders.find_by_tunnus(purchase_order_id)
-    po.save_commodity_id(tunnus)
-  end
-
   # Calculates monthly payments
   def divide_to_payments(full_amount, payments = 12)
     full_amount = full_amount.to_d
@@ -118,7 +113,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     while keep_running do
       injecthis = (full_amount-payments.sum) * yearly_percentage / one_year
-      if injecthis < 10 #Maybe accountant could give this minimum from the view?
+      if injecthis < 100 #Maybe accountant could give this minimum from the view?
         injecthis = full_amount-payments.sum
         keep_running = false
       end
@@ -208,15 +203,32 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         tila: 'X',
         alatila: '',
         yhtio: yhtio,
+        lapvm: Date.today,
+        tapvm: Date.today,
+        kapvm: Date.today,
+        erpcm: Date.today,
+        olmapvm: Date.today,
+        kerayspvm: Date.today,
+        muutospvm: Date.today,
+        toimaika: Date.today,
+        maksuaika: Date.today,
+        lahetepvm: Date.today,
+        laskutettu: Date.today,
+        h1time: Date.today,
+        h2time: Date.today,
+        h3time: Date.today,
+        h4time: Date.today,
+        h5time: Date.today,
+        mapvm: Date.today,
+        popvm: Date.today,
         puh: '',
         toim_puh: '',
         email: '',
         toim_email: ''
       }
-      voucher = Accounting::Voucher.new(voucher_params)
+      voucher = build_accounting_voucher voucher_params
       raise ArgumentError "#{voucher.errors.full_messages}" unless voucher.valid?
       voucher.save
-      reload
     end
 
     def check_that_po_amount_matches
@@ -240,36 +252,37 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       full_amount = summa
 
       if payment_type == 'sumu'
-        sumu_type = sumu_poistotyyppi
-        sumu_amount = sumu_poistoera
+        calculation_type = sumu_poistotyyppi
+        calculation_amount = sumu_poistoera
       else
         payment_type = 'evl'
-        sumu_type = evl_poistotyyppi
-        sumu_amount = evl_poistoera
+        calculation_type = evl_poistotyyppi
+        calculation_amount = evl_poistoera
       end
+
       # Switch adds correct numbers to reductions array
       reductions = []
 
       # Calculation rules
-      case sumu_type
+      case calculation_type
       when 'T'
         # Fixed by months
-        reductions = divide_to_payments(full_amount, sumu_amount)
+        reductions = divide_to_payments(full_amount, calculation_amount)
 
       when 'P'
         # Fixed by percentage
-        yearly_amount = full_amount * sumu_amount / 100
+        yearly_amount = full_amount * calculation_amount / 100
         payments = full_amount / yearly_amount * 12
         payments = payments.to_i
         reductions = divide_to_payments(full_amount, payments)
 
       when 'D'
         # Degressive by months
-        reductions = divide_to_degressive_payments_by_months(full_amount, sumu_amount)
+        reductions = divide_to_degressive_payments_by_months(full_amount, calculation_amount)
 
       when 'B'
         # Degressive by percentage
-        reductions = divide_to_degressive_payments_by_percentage(full_amount, sumu_amount)
+        reductions = divide_to_degressive_payments_by_percentage(full_amount, calculation_amount)
 
       end
 
