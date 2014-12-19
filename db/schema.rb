@@ -1178,7 +1178,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.integer   "factoringsiirtonumero",                                                 default: 0,          null: false
     t.string    "ohjelma_moduli",                   limit: 50,                           default: "PUPESOFT", null: false
     t.integer   "label",                                                                 default: 0,          null: false
-    t.string    "hyodyke_tunnus",                   limit: 11,                           default: "",         null: false
+    t.string    "hyodyke_tunnus",                   limit: 11,                           default: "",         null: true
     t.integer   "tunnusnippu",                                                           default: 0,          null: false
     t.integer   "vanhatunnus",                                                           default: 0,          null: false
   end
@@ -3617,4 +3617,15 @@ ActiveRecord::Schema.define(version: 20141016000000) do
   end
 
   add_index "kayttomaisuus_poistoera", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", unique: false, using: :btree
+
+  create_table "accounting_fixed_assets_commodity_cost_rows", primary_key: "tunnus", force: true do |t|
+    t.string   "yhtio",                 limit: 5,                           default: "",  null: false
+    t.string   "laatija",               limit: 50,                          default: "",  null: false
+    t.datetime "luontiaika",                                                              null: false
+    t.string   "muuttaja",              limit: 50,                          default: "",  null: false
+    t.datetime "muutospvm",                                                               null: false
+    t.integer  "hyodyke_tunnus",                                            default: 0,   null: false
+    t.integer  "tiliointirivi_tunnus",                                      default: 0,   null: false
+  end
+
 end
