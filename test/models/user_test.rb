@@ -19,11 +19,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 3, @joe.permissions.count
+    assert_equal 4, @joe.permissions.count
   end
 
   test "user has update permissions" do
-    assert_equal 1, @joe.permissions.update_permissions.count
+    assert_equal 2, @joe.permissions.update_permissions.count
   end
 
   test 'read access' do

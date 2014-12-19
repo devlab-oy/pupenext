@@ -5,7 +5,9 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   def setup
     # Valid Accounting fixed assets commodity
     @commodity = accounting_fixed_assets_commodities(:one)
+    @account = accounting_accounts(:one)
 
+    @commodity.tilino = @account.tilino
     # New object
     @new_commodity = Accounting::FixedAssets::Commodity.new
   end

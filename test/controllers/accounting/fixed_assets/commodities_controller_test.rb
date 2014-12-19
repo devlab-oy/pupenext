@@ -3,6 +3,10 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
   def setup
     cookies[:pupesoft_session] = users(:joe).session
+
+    @commodity = accounting_fixed_assets_commodities(:one)
+
+    @account = accounting_accounts(:one)
   end
 
   test 'should get all commodities' do
@@ -13,8 +17,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should show commodity' do
-    commodity = accounting_fixed_assets_commodities(:one)
-    request = {id: commodity.id}
+    request = {id: @commodity.id}
 
     get :show, request
     assert_response :success
@@ -29,66 +32,20 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_template 'new', 'Template should be new'
   end
 
-  test 'should create new commodity and rows by fixed percentage' do
-    assert_difference('Accounting::FixedAssets::Commodity.count') do
-      assert_difference('Accounting::FixedAssets::Row.count', 5*12) do
-        response = post :create, accounting_fixed_assets_commodity: {
-          nimitys: 'Skoda1231',
-          selite: 'Auto Pentille',
+  test 'should update commodity and create bookkeeping rows with type T and P' do
+    # Creates 60 external bookkeeping reductions
+    assert_difference('Accounting::FixedAssets::Row.count', 60) do
+      # Creates 35 internal bookkeeping reductions
+      assert_difference('Accounting::Row.count', 35) do
+        patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
+          nimitys: 'Skoda 2.0 Turbocharged',
+          selite: 'Car for CEO',
           summa: 10000,
-          tilino: 1234,
-          sumu_poistotyyppi: 'P',
-          sumu_poistoera: 20,
-          evl_poistotyyppi: 'P',
-          evl_poistoera: 10,
-          kayttoonottopvm: Time.now,
-          hankintapvm: Time.now,
-          tila: 'A'
-        }
-      end
-    end
-
-    assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
-  end
-
-  test 'should create new commodity and rows by fixed amount' do
-    assert_difference('Accounting::FixedAssets::Commodity.count') do
-      # Fixed amount (months)
-      assert_difference('Accounting::FixedAssets::Row.count', 12) do
-        post :create, accounting_fixed_assets_commodity: {
-          nimitys: 'Skoda33333',
-          selite: 'Auto Matille',
-          summa: 10000.0,
-          tilino: 1234,
+          tilino: @account.tilino,
           sumu_poistotyyppi: 'T',
-          sumu_poistoera: 12,
-          evl_poistotyyppi: 'T',
-          evl_poistoera: 12,
-          kayttoonottopvm: Time.now,
-          hankintapvm: Time.now,
-          tila: 'A'
-        }
-      end
-    end
-
-    assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
-  end
-
-  test 'should create new commodity and rows by degressive percentage' do
-    assert_difference('Accounting::FixedAssets::Commodity.count') do
-      # Degressive amount (percentage)
-      assert_difference('Accounting::FixedAssets::Row.count', 98) do
-        post :create, accounting_fixed_assets_commodity: {
-          nimitys: 'Skoda33334',
-          selite: 'Auto Matille',
-          summa: 60000.0,
-          tilino: 1234,
-          sumu_poistotyyppi: 'B',
           sumu_poistoera: 35,
-          evl_poistotyyppi: 'B',
-          evl_poistoera: 12,
+          evl_poistotyyppi: 'P',
+          evl_poistoera: 20,
           kayttoonottopvm: Time.now,
           hankintapvm: Time.now,
           tila: 'A'
@@ -97,23 +54,23 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     end
 
     assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
+    assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
   end
 
-  test 'should create new commodity and rows by degressive months' do
-    assert_difference('Accounting::FixedAssets::Commodity.count') do
-      # Degressive amount by months (months)
-      thismany = Random.rand 6...5*12
-      assert_difference('Accounting::FixedAssets::Row.count', thismany) do
-        post :create, accounting_fixed_assets_commodity: {
-          nimitys: 'Skoda333346',
-          selite: 'Auto Matille',
-          summa: 60000.0,
-          tilino: 1234,
+  test 'should update commodity and create bookkeeping rows type D and B' do
+    # Creates 38 external bookkeeping reductions
+    assert_difference('Accounting::FixedAssets::Row.count', 38) do
+      # Creates 12 internal bookkeeping reductions
+      assert_difference('Accounting::Row.count', 12) do
+        patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
+          nimitys: 'Chair50000',
+          selite: 'Chair for CEO',
+          summa: 10000.0,
+          tilino: @account.tilino,
           sumu_poistotyyppi: 'D',
-          sumu_poistoera: thismany,
-          evl_poistotyyppi: 'D',
-          evl_poistoera: 12,
+          sumu_poistoera: 12,
+          evl_poistotyyppi: 'B',
+          evl_poistoera: 35,
           kayttoonottopvm: Time.now,
           hankintapvm: Time.now,
           tila: 'A'
@@ -122,7 +79,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     end
 
     assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Hyödyke luotiin onnistuneesti.", flash[:notice]
+    assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not create new commodity due to permissions' do
