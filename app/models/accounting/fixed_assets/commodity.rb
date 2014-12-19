@@ -7,7 +7,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   has_one :accounting_account, foreign_key: :tilino, primary_key: :tilino,
     class_name: 'Accounting::Account'
-  has_many :purchase_orders, foreign_key: :hyodyke_tunnus, primary_key: :tunnus
 
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
@@ -23,7 +22,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   before_validation :create_bookkeepping_rows, on: [:update, :create], if: :should_create_rows?
 
-  validates :summa, with: :check_that_po_amount_matches
+  #validates :summa, with: :check_that_po_amount_matches
 
   attr_accessor :generate_rows
 
@@ -119,7 +118,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     while keep_running do
       injecthis = (full_amount-payments.sum) * yearly_percentage / one_year
-      if injecthis < 100 #Maybe accountant could give this minimum from the view?
+      if injecthis < 10 #Maybe accountant could give this minimum from the view?
         injecthis = full_amount-payments.sum
         keep_running = false
       end
@@ -174,7 +173,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def should_create_rows?
-      generate_rows
+      generate_rows && activated?
     end
 
     def create_bookkeepping_rows

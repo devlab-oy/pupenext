@@ -1,8 +1,6 @@
 class PurchaseOrder < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
-  has_one :accounting_fixed_assets_commodity, class_name: 'Accounting::FixedAssets::Commodity',
-    foreign_key: :tunnus, primary_key: :hyodyke_tunnus
 
   # Only paid purchase orders for now
   default_scope { where("tila in('H','Y','M','P','Q') and mapvm > 0") }
