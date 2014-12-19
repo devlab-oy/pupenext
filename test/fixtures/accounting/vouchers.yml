@@ -1,4 +1,4 @@
-one:
+voucher:
   yhtio: acme
   tila: x
   luontiaika: <%= Time.now %>
@@ -10,6 +10,31 @@ one:
   kerayspvm: <%= Time.now %>
   muutospvm: <%= Time.now %>
   toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+purchase_order:
+  yhtio: acme
+  nimi: Acme Corporation
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  lapvm: <%= Time.now %>
+  tapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
   maksuaika: <%= Time.now %>
   lahetepvm: <%= Time.now %>
   laskutettu: <%= Time.now %>

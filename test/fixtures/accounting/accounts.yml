@@ -1,4 +1,4 @@
-acme:
+one:
   yhtio: acme
   nimi: Acme Corporation
   tilino: 112233
@@ -10,7 +10,7 @@ acme:
 two:
   yhtio: acme
   nimi: Acme Corporation
-  tilino: 112233
+  tilino: 112244
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
