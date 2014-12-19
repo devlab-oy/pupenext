@@ -1178,6 +1178,7 @@ ActiveRecord::Schema.define(version: 20141016000000) do
     t.integer   "factoringsiirtonumero",                                                 default: 0,          null: false
     t.string    "ohjelma_moduli",                   limit: 50,                           default: "PUPESOFT", null: false
     t.integer   "label",                                                                 default: 0,          null: false
+    t.string    "hyodyke_tunnus",                   limit: 11,                           default: "",         null: false
     t.integer   "tunnusnippu",                                                           default: 0,          null: false
     t.integer   "vanhatunnus",                                                           default: 0,          null: false
   end
