@@ -1,4 +1,5 @@
 language: ruby
+sudo: false
 rvm:
   - 2.1.1
 env:
@@ -23,7 +24,6 @@ before_script:
   - mysql -e 'create database pupesoft_test;'
 script:
   - bundle install
-  - bundle exec rake db:schema:load
   - bundle exec rake
 after_success:
 after_failure:
