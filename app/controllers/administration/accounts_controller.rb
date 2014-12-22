@@ -101,8 +101,8 @@ class Administration::AccountsController < AdministrationController
 
     def fetch_qualifiers
       @qualifiers = {
-        cost_center: Qualifier::CostCenter.all,
-        target: Qualifier::Target.all
+        cost_center: current_company.cost_centers,
+        target: current_company.targets
       }
     end
 end
