@@ -12,7 +12,7 @@ gem 'resque'
 gem 'resque-web', require: 'resque_web'
 
 group :production do
-  # gem 'therubyracer', '~> 0.11.4'
+  gem 'therubyracer', '~> 0.12.1'
   gem 'dalli'
 end
 
