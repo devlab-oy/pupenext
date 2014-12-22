@@ -1,8 +1,13 @@
 <%= link_to '« Palaa ohjelmaan: tilikartta', accounts_path %>
-<br />
+<br/>
 <br/>
 <font class="head">Muokkaa tiliä</font>
-<%= render 'form' %>
-<br />
-<%= button_to('Poista tili', account_path(@account.id), :confirm => 'Haluatko todella poistaa tämän tietueen?', method: "delete") %>
-
+<%= render 'form',
+           account: @account,
+           levels: @levels,
+           qualifiers: @qualifiers %>
+<br/>
+<%= button_to('Poista tili',
+              account_path(@account.id),
+              confirm: 'Haluatko todella poistaa tämän tietueen?',
+              method: "delete") %>

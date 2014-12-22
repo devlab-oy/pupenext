@@ -1,137 +1,137 @@
-<%= form_for(@account) do |f| %>
+<%= form_for(account) do |f| %>
 
-    <% if @account.errors.any? %>
+  <% if account.errors.any? %>
 
-        <div id="error_explanation">
-          <font class="message">
-            <%= pluralize(@account.errors.count, t("virhe"), t("virhettä")) %>
-            <%= t('esti tätä tiliä tallentumasta.') %>
-          </font>
+    <div id="error_explanation">
+      <font class="message">
+        <%= pluralize(account.errors.count, t("virhe"), t("virhettä")) %>
+        <%= t('esti tätä tiliä tallentumasta.') %>
+      </font>
 
-          <font class="error">
-            <ul>
-              <% @account.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </font>
-        </div>
+      <font class="error">
+        <ul>
+          <% account.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </font>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <th><%= f.label :tilino %></th>
+      <td><%= f.text_field :tilino %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tasokoodi_s %></th>
+      <td>
+        <%= f.collection_select(:sisainen_taso, levels[:internal], :taso, :nimi, { include_blank: 'Ei tasoa', selected: account.sisainen_taso }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tasokoodi_u %></th>
+      <td>
+        <%= f.collection_select(:ulkoinen_taso, levels[:external], :taso, :nimi, { include_blank: 'Ei tasoa', selected: account.ulkoinen_taso }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tasokoodi_a %></th>
+      <td>
+        <%= f.collection_select(:alv_taso, levels[:vat], :taso, :nimi, { include_blank: 'Ei tasoa', selected: account.alv_taso }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tasokoodi_b %></th>
+      <td>
+        <%= f.collection_select(:tulosseuranta_taso, levels[:profit], :taso, :nimi, { include_blank: 'Ei tasoa', selected: account.tulosseuranta_taso }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kustp %></th>
+      <td>
+        <%= f.collection_select(:kustp, qualifiers[:cost_center], :tunnus, :nimitys, { include_blank: 'Ei oletusta', selected: account.kustp }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kohde %></th>
+      <td>
+        <%= f.collection_select(:kohde, qualifiers[:target], :tunnus, :nimitys, { include_blank: 'Ei oletusta', selected: account.kustp }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :toimijaliitos %></th>
+      <td>
+        <% options = options_for_select(account.toimijaliitos_options, f.object.toimijaliitos) %>
+        <%= select_tag 'account[toimijaliitos]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tiliointi_tarkistus %></th>
+      <td>
+        <% options = options_for_select(account.tiliointi_tarkistus_options, f.object.tiliointi_tarkistus) %>
+        <%= select_tag 'account[tiliointi_tarkistus]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :manuaali_esto %></th>
+      <td>
+        <% options = options_for_select(account.manuaali_esto_options, f.object.manuaali_esto) %>
+        <%= select_tag 'account[manuaali_esto]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_alv %></th>
+      <td>
+        <%= collection_select(account, :oletus_alv, account.oletus_alv_options, :selite, :option_value, { include_blank: 'Ei oletusta', selected: account.oletus_alv }) %>
+      </td>
+    </tr>
+
+
+    <% if account.persisted? %>
+
+      <tr>
+        <th><%= f.label :laatija %></th>
+        <td><%= account.laatija %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :luontiaika %></th>
+        <td><%= account.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muutospvm %></th>
+        <td><%= account.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muuttaja %></th>
+        <td><%= account.muuttaja %></td>
+      </tr>
+
     <% end %>
+  </table>
 
-    <table>
-      <tr>
-        <th><%= f.label :tilino %></th>
-        <td><%= f.text_field :tilino %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :tasokoodi_s %></th>
-        <td>
-          <%= collection_select(:account, :sisainen_taso, @inner_levels, :taso, :taso_nimi, { include_blank: 'Ei tasoa', selected: @account.sisainen_taso }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :tasokoodi_u %></th>
-        <td>
-          <%= collection_select(:account, :ulkoinen_taso, @outer_levels, :taso, :taso_nimi, { include_blank: 'Ei tasoa', selected: @account.ulkoinen_taso }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :tasokoodi_a %></th>
-        <td>
-          <%= collection_select(:account, :alv_taso, @alv_levels, :taso, :taso_nimi, { include_blank: 'Ei tasoa', selected: @account.alv_taso }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :tasokoodi_b %></th>
-        <td>
-          <%= collection_select(:account, :tulosseuranta_taso, @tulosseuranta_levels, :taso, :taso_nimi, { include_blank: 'Ei tasoa', selected: @account.tulosseuranta_taso }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :nimi %></th>
-        <td><%= f.text_field :nimi %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :kustp %></th>
-        <td>
-          <%= collection_select(:account, :kustp, @default_qualifiers, :tunnus, :nimitys, { include_blank: 'Ei oletusta', selected: @account.kustp }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :kohde %></th>
-        <td>
-          <%= collection_select(:account, :kohde, @target_qualifiers, :tunnus, :nimitys, { include_blank: 'Ei oletusta', selected: @account.kustp }) %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :toimijaliitos %></th>
-        <td>
-          <% options = options_for_select(@account.toimijaliitos_options, f.object.toimijaliitos) %>
-          <%= select_tag 'account[toimijaliitos]', options, include_blank: false %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :tiliointi_tarkistus %></th>
-        <td>
-          <% options = options_for_select(@account.tiliointi_tarkistus_options, f.object.tiliointi_tarkistus) %>
-          <%= select_tag 'account[tiliointi_tarkistus]', options, include_blank: false %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :manuaali_esto %></th>
-        <td>
-          <% options = options_for_select(@account.manuaali_esto_options, f.object.manuaali_esto) %>
-          <%= select_tag 'account[manuaali_esto]', options, include_blank: false %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :oletus_alv %></th>
-        <td>
-          <%= collection_select(:account, :oletus_alv, @account.oletus_alv_options, :selite, :option_value, { include_blank: 'Ei oletusta', selected: @account.oletus_alv }) %>
-        </td>
-      </tr>
-
-
-      <% if @account.persisted? %>
-
-          <tr>
-            <th><%= f.label :laatija %></th>
-            <td><%= @account.laatija %></td>
-          </tr>
-
-          <tr>
-            <th><%= f.label :luontiaika %></th>
-            <td><%= @account.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
-          </tr>
-
-          <tr>
-            <th><%= f.label :muutospvm %></th>
-            <td><%= @account.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
-          </tr>
-
-          <tr>
-            <th><%= f.label :muuttaja %></th>
-            <td><%= @account.muuttaja %></td>
-          </tr>
-
-      <% end %>
-    </table>
-
-    <% if update_access? %>
-        <div class="actions">
-          <% text = @account.persisted? ? 'Tallenna' : 'Lisää' %>
-          <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-        </div>
-    <% end %>
+  <% if update_access? %>
+    <div class="actions">
+      <% text = account.persisted? ? 'Tallenna' : 'Lisää' %>
+      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    </div>
+  <% end %>
 <% end %>

@@ -1,4 +1,9 @@
 class Administration::AccountsController < AdministrationController
+  with_options only: [:new, :edit, :show, :update] do |options|
+    options.before_action :fetch_levels
+    options.before_action :fetch_qualifiers
+  end
+
   COLUMNS = [
     :tilino,
     :nimi,
@@ -50,7 +55,7 @@ class Administration::AccountsController < AdministrationController
   end
 
   def destroy
-    @sum_level.destroy
+    @account.destroy
     redirect_to accounts_path, notice: "Tili poistettiin onnistuneesti"
   end
 
@@ -83,5 +88,21 @@ class Administration::AccountsController < AdministrationController
 
     def no_update_access_path
       accounts_path
+    end
+
+    def fetch_levels
+      @levels = {
+        internal: SumLevel::Internal.all,
+        external: SumLevel::External.all,
+        vat: SumLevel::Vat.all,
+        profit: SumLevel::Profit.all
+      }
+    end
+
+    def fetch_qualifiers
+      @qualifiers = {
+        cost_center: Qualifier::CostCenter.all,
+        target: Qualifier::Target.all
+      }
     end
 end

@@ -1,8 +1,11 @@
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Tilikartta') %>
 <%= link_to return_text, accounts_path %>
 
-<br /><br />
+<br/><br/>
 
 <%= render 'header' %>
 
-<%= render 'form' %>
+<%= render 'form',
+           account: @account,
+           levels: @levels,
+           qualifiers: @qualifiers %>

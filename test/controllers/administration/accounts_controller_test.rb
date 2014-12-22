@@ -53,8 +53,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     cookies[:pupesoft_session] = users(:bob).session
-    request = { id: @account.id }
-    get :edit, request
+    get :edit, id: @account.id
     assert_response :success
   end
 
