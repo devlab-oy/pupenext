@@ -92,10 +92,10 @@ class Administration::AccountsController < AdministrationController
 
     def fetch_levels
       @levels = {
-        internal: SumLevel::Internal.all,
-        external: SumLevel::External.all,
-        vat: SumLevel::Vat.all,
-        profit: SumLevel::Profit.all
+        internal: current_company.sum_level_internals,
+        external: current_company.sum_level_externals,
+        vat: current_company.sum_level_vats,
+        profit: current_company.sum_level_profits
       }
     end
 

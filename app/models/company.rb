@@ -1,13 +1,19 @@
 class Company < ActiveRecord::Base
 
-  has_many :users, foreign_key: :yhtio, primary_key: :yhtio
-  has_one :parameter, foreign_key: :yhtio, primary_key: :yhtio
-  has_many :accounts, foreign_key: :yhtio, primary_key: :yhtio
-  has_many :currency, foreign_key: :yhtio, primary_key: :yhtio
-  has_many :sum_levels, foreign_key: :yhtio, primary_key: :yhtio
+  with_options foreign_key: :yhtio, primary_key: :yhtio do |options|
+    options.has_many :users
+    options.has_one :parameter
+    options.has_many :accounts
+    options.has_many :currency
+    options.has_many :sum_levels
+    options.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
+    options.has_many :sum_level_externals, class_name: 'SumLevel::External'
+    options.has_many :sum_level_vats, class_name: 'SumLevel::Vat'
+    options.has_many :sum_level_profits, class_name: 'SumLevel::Profit'
+  end
 
   # Map old database schema table to Company class
-  self.table_name  = "yhtio"
+  self.table_name = "yhtio"
   self.primary_key = "tunnus"
 
 end

@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
              foreign_key: :ulkoinen_taso,
              primary_key: :taso
   belongs_to :vat,
-             :class_name => 'SumLevel::Vat',
+             class_name: 'SumLevel::Vat',
              foreign_key: :alv_taso,
              primary_key: :taso
 
