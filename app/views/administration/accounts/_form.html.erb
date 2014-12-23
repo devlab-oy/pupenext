@@ -166,7 +166,7 @@
 
   <% if update_access? %>
     <div class="actions">
-      <% text = account.persisted? ? 'Tallenna' : 'Lisää' %>
+      <% text = account.persisted? ? 'Päivitä tili' : 'Lisää' %>
       <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
     </div>
   <% end %>
