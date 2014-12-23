@@ -64,8 +64,4 @@ class Account < ActiveRecord::Base
       ["Tiliöinnin manuaalinen lisäys/muokkaus estetty", "X"]
     ]
   end
-
-  def oletus_alv_options
-    Keyword.where "laji IN ('alvulk', 'alv') AND ((selitetark_2 in ('#{Location.uniq.pluck(:maa).join("','")}') AND laji = 'alvulk') OR laji = 'alv')"
-  end
 end

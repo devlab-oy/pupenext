@@ -1,6 +1,6 @@
 class Administration::AccountsController < AdministrationController
   with_options only: [:new, :edit, :show] do |options|
-    options.before_action :fetch_levels_and_qualifiers
+    options.before_action :fetch_options_for_selects
   end
 
   COLUMNS = [
@@ -37,7 +37,7 @@ class Administration::AccountsController < AdministrationController
     if @account.save_by current_user
       redirect_to accounts_path, notice: 'Uusi tili perustettu'
     else
-      fetch_levels_and_qualifiers
+      fetch_options_for_selects
       render :new
     end
   end
@@ -49,7 +49,7 @@ class Administration::AccountsController < AdministrationController
     if @account.update_by account_params, current_user
       redirect_to accounts_path, notice: 'Tili päivitettiin onnistuneesti'
     else
-      fetch_levels_and_qualifiers
+      fetch_options_for_selects
       render :edit
     end
   end
@@ -90,7 +90,7 @@ class Administration::AccountsController < AdministrationController
       accounts_path
     end
 
-    def fetch_levels_and_qualifiers
+    def fetch_options_for_selects
       @levels = {
         internal: current_company.sum_level_internals,
         external: current_company.sum_level_externals,
@@ -99,8 +99,14 @@ class Administration::AccountsController < AdministrationController
       }
 
       @qualifiers = {
-        cost_center: current_company.cost_centers,
-        target: current_company.targets
+        cost_center: current_company.cost_centers.order("koodi+0, koodi, nimi"),
+        target: current_company.targets.order("koodi+0, koodi, nimi"),
+        project: current_company.projects.order("koodi+0, koodi, nimi")
       }
+
+      @oletus_alv_options = current_company
+                              .keywords
+                              .vat_percents
+                              .order("selite+0, laji, jarjestys, selite")
     end
 end

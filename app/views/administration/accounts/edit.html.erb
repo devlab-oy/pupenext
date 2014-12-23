@@ -5,7 +5,8 @@
 <%= render 'form',
            account: @account,
            levels: @levels,
-           qualifiers: @qualifiers %>
+           qualifiers: @qualifiers,
+           oletus_alv_options: @oletus_alv_options %>
 <br/>
 <%= button_to('Poista tili',
               account_path(@account.id),
