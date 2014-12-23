@@ -1,7 +1,6 @@
 class Administration::AccountsController < AdministrationController
-  with_options only: [:new, :edit, :show, :update] do |options|
-    options.before_action :fetch_levels
-    options.before_action :fetch_qualifiers
+  with_options only: [:new, :edit, :show] do |options|
+    options.before_action :fetch_levels_and_qualifiers
   end
 
   COLUMNS = [
@@ -25,7 +24,7 @@ class Administration::AccountsController < AdministrationController
   end
 
   def new
-    @account = current_company.accounts.build
+    @account ||= current_company.accounts.build
   end
 
   def show
@@ -33,13 +32,13 @@ class Administration::AccountsController < AdministrationController
   end
 
   def create
-    @account = current_company.accounts.build
-    @account.attributes = account_params
+    @account = current_company.accounts.build(account_params)
 
     if @account.save_by current_user
       redirect_to accounts_path, notice: 'Uusi tili perustettu'
     else
-      render :edit
+      fetch_levels_and_qualifiers
+      render :new
     end
   end
 
@@ -50,6 +49,7 @@ class Administration::AccountsController < AdministrationController
     if @account.update_by account_params, current_user
       redirect_to accounts_path, notice: 'Tili päivitettiin onnistuneesti'
     else
+      fetch_levels_and_qualifiers
       render :edit
     end
   end
@@ -90,16 +90,14 @@ class Administration::AccountsController < AdministrationController
       accounts_path
     end
 
-    def fetch_levels
+    def fetch_levels_and_qualifiers
       @levels = {
         internal: current_company.sum_level_internals,
         external: current_company.sum_level_externals,
         vat: current_company.sum_level_vats,
         profit: current_company.sum_level_profits
       }
-    end
 
-    def fetch_qualifiers
       @qualifiers = {
         cost_center: current_company.cost_centers,
         target: current_company.targets
