@@ -18,7 +18,7 @@ class Administration::AccountsController < AdministrationController
   default_sort_column :tunnus
 
   def index
-    @accounts = current_company.accounts
+    @accounts = current_company.accounts.includes(:internal, :external, :vat)
     @accounts = @accounts.search_like filter_search_params
     @accounts = @accounts.order("#{sort_column} #{sort_direction}")
   end
