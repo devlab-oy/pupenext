@@ -1,6 +1,8 @@
 class Company < ActiveRecord::Base
 
   with_options foreign_key: :yhtio, primary_key: :yhtio do |options|
+    options.has_many :keywords
+
     options.has_many :users
     options.has_one :parameter
     options.has_many :accounts
