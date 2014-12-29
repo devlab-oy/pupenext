@@ -30,7 +30,7 @@ class Account < ActiveRecord::Base
              primary_key: :taso
 
   validates :tilino, presence: true
-  validates :tilino, uniqueness: { scope: [:yhtio, :tilino], message: "yksi tilinumero per yhtiö" }
+  validates :tilino, uniqueness: { scope: [:yhtio, :tilino] }
   validates :nimi, presence: true
   validates :ulkoinen_taso, presence: true
 
