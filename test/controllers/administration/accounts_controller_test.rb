@@ -77,6 +77,12 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_redirected_to accounts_path
   end
 
+  test "doesn't destroy with insufficient permissions" do
+    cookies[:pupesoft_session] = users(:joe).session
+
+    assert_no_difference("Account.count") { delete :destroy, id: @account.id }
+  end
+
   test "doesn't update with insufficient permissions" do
     cookies[:pupesoft_session] = users(:joe).session
 
