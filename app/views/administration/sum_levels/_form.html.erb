@@ -1,21 +1,5 @@
 <%= form_for(@sum_level) do |f| %>
-    <% if @sum_level.errors.any? %>
-
-        <div id="error_explanation">
-          <font class="message">
-            <%= pluralize(@sum_level.errors.count, t("virhe"), t("virhettä")) %>
-            <%= t('esti tätä valuuttaa tallentumasta.') %>
-          </font>
-
-          <font class="error">
-            <ul>
-              <% @sum_level.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </font>
-        </div>
-    <% end %>
+    <%= render "administration/form_errors", resource: @sum_level %>
 
     <table>
       <tr>

@@ -1,22 +1,5 @@
 <%= form_for(account) do |f| %>
-
-  <% if account.errors.any? %>
-
-    <div id="error_explanation">
-      <font class="message">
-        <%= pluralize(account.errors.count, t("virhe"), t("virhettä")) %>
-        <%= t('esti tätä tiliä tallentumasta.') %>
-      </font>
-
-      <font class="error">
-        <ul>
-          <% account.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </font>
-    </div>
-  <% end %>
+  <%= render "administration/form_errors", resource: @account %>
 
   <table>
     <tr>
