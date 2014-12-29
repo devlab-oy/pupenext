@@ -103,14 +103,6 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     assert_redirected_to currencies_path, response.body
     assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
-
-    request = {id: currency.id}
-
-    get :show, request
-
-    assert_select "input#currency_intrastat_kurssi" do
-      assert_select "[value=?]", 1.5
-    end
   end
 
   test 'should not update currency' do

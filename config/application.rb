@@ -24,5 +24,6 @@ module Pupesoft
     config.time_zone = 'Helsinki'
 
     config.cache_store = :memory_store
+
   end
 end
