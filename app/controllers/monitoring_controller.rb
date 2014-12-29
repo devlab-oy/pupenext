@@ -11,7 +11,7 @@ class MonitoringController < ApplicationController
     status = ResqueMonitor.nagios_resque_email
     render text: status
   end
-  
+
   def nagios_resque_failed
     status = ResqueMonitor.nagios_resque_failed
     render text: status
@@ -20,12 +20,10 @@ class MonitoringController < ApplicationController
   private
 
     def monitoring_access_control
-      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless from_localhost?
+      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless from_devlab?
     end
 
-    def from_localhost?
-      addresslist = Socket.ip_address_list.collect { |i| i.ip_address }
-            
-      addresslist.include?(request.remote_ip) || Rails.env.test?
+    def from_devlab?
+      request.remote_ip == "82.181.128.118" || Rails.env.test?
     end
 end

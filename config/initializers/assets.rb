@@ -1,1 +1,1 @@
-Rails.application.config.assets.precompile += ['company/*']
+Rails.application.config.assets.precompile += ['company/*', 'static/*']
