@@ -1,6 +1,6 @@
 module ApplicationHelper
   PER_PAGE=10
-  
+
   def current_user
     @current_user ||= User.find_by_session(cookies[:pupesoft_session])
   end
