@@ -4,7 +4,7 @@ class Qualifier::Target < Qualifier
   default_scope { where(tyyppi: self.sti_name) }
 
   def self.human_readable_type
-    "kohde"
+    "Kohde"
   end
 
   # Rails requires sti_name method to return type column (tyyppi) value

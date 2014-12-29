@@ -57,4 +57,16 @@ class QualifierTest < ActiveSupport::TestCase
     @project_with_account.activate!
     assert @project_with_account.valid?, @project_with_account.errors.full_messages
   end
+
+  test "human_readable_type works" do
+    assert_equal "Kustannuspaikka", Qualifier::CostCenter.human_readable_type
+    assert_equal "Projekti", Qualifier::Project.human_readable_type
+    assert_equal "Kohde", Qualifier::Target.human_readable_type
+  end
+
+  test "model_name works" do
+    assert_equal Qualifier.model_name, Qualifier::CostCenter.model_name
+    assert_equal Qualifier.model_name, Qualifier::Project.model_name
+    assert_equal Qualifier.model_name, Qualifier::Target.model_name
+  end
 end

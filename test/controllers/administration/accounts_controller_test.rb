@@ -37,18 +37,15 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_redirected_to accounts_path
   end
 
-  test "should not create" do
+  test "does not create record with invalid parameters" do
+    cookies[:pupesoft_session] = users(:bob).session
+
     assert_no_difference('Account.count') do
-      #With non-valid request
-      request = {
-        tilino: '',
-        nimi: 'xxx',
-        ulkoinen_taso: 1111
-      }
+      request = { tilino: '', nimi: 'xxx', ulkoinen_taso: 1111 }
       post :create, account: request
     end
 
-    assert_redirected_to accounts_path
+    assert_template :new
   end
 
   test "should get edit" do
