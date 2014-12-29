@@ -7,7 +7,6 @@ class SumLevel < ActiveRecord::Base
   self.table_name = :taso
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
-  self.abstract_class = true
 
   validates :taso, presence: true
   validates :nimi, presence: true

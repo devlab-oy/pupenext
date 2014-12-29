@@ -1,8 +1,6 @@
 class SumLevel::Vat < SumLevel
   has_many :accounts, foreign_key: :alv_taso
 
-  default_scope { where(tyyppi: self.sti_name) }
-
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     'A'
