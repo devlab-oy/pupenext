@@ -1,8 +1,15 @@
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Tasot') %>
 <%= link_to return_text, sum_levels_path %>
 
-<br /><br />
+<br/><br/>
 
 <%= render 'header' %>
 
 <%= render 'form' %>
+
+<% if @sum_level.persisted? %>
+  <%= button_to(t('Poista taso'),
+                sum_level_path(@sum_level),
+                data: { confirm: t('Haluatko todella poistaa tämän tietueen?') },
+                method: "delete") %>
+<% end %>
