@@ -76,4 +76,13 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_equal "Tili poistettiin onnistuneesti", flash[:notice]
     assert_redirected_to accounts_path
   end
+
+  test "doesn't update with insufficient permissions" do
+    cookies[:pupesoft_session] = users(:joe).session
+
+    patch :update, id: @account.id, account: { nimi: 'Uusi nimi' }
+
+    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
+    assert_redirected_to accounts_path
+  end
 end

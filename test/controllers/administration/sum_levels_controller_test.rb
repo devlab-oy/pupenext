@@ -43,9 +43,10 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     assert_redirected_to sum_levels_path
   end
 
-  test "should not create" do
-    assert_no_difference('SumLevel.count') do
-      #With non-valid request
+  test "doesn't create with invalid params" do
+    cookies[:pupesoft_session] = users(:bob).session
+
+    assert_no_difference("SumLevel.count") do
       request = {
         tyyppi: 'U',
         summattava_taso: '',
@@ -60,7 +61,7 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
       post :create, sum_level: request
     end
 
-    assert_redirected_to sum_levels_path
+    assert_template :edit
   end
 
   test "should get edit" do
