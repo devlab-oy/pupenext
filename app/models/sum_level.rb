@@ -18,6 +18,8 @@ class SumLevel < ActiveRecord::Base
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
 
+  before_save :defaults
+
   def sum_level_name
     "#{taso} #{nimi}"
   end
@@ -86,5 +88,11 @@ class SumLevel < ActiveRecord::Base
       same_count = (existing_tasos.count == summattavat_tasot.count)
       err = "needs to be in db and same type"
       errors.add :summattava_taso, err unless same_count
+    end
+
+    def defaults
+      self.oletusarvo ||= 0.0
+      self.jakaja ||= 0.0
+      self.kerroin ||= 0.0
     end
 end
