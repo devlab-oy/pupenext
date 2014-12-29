@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
 
-gem 'bcrypt-ruby'
+gem 'bcrypt'
 gem 'jquery-rails'
 gem 'mysql2'
 gem 'turbolinks'
@@ -15,8 +15,11 @@ group :assets do
   gem 'uglifier'
 end
 
-group :production do
+platforms :ruby do
   gem 'therubyracer'
+end
+
+group :production do
   gem 'dalli'
 end
 
