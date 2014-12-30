@@ -1,5 +1,6 @@
 voucher:
   yhtio: acme
+  nimi: Acme Corporation Voucher
   tila: x
   luontiaika: <%= Time.now %>
   tapvm: <%= Time.now %>
@@ -25,7 +26,7 @@ voucher:
 
 purchase_order:
   yhtio: acme
-  nimi: Acme Corporation
+  nimi: Acme Corporation PO
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   lapvm: <%= Time.now %>

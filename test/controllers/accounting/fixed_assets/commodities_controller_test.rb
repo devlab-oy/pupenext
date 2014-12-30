@@ -137,4 +137,31 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     end
   end
 
+  test 'should search for specific commodity' do
+    request = {nimitys: 'Mekkonen'}
+
+    get :index, request
+    assert_response :success
+
+    assert_template "index", "Template should be index"
+  end
+
+  test 'should search for specific voucher' do
+    request = {id: @commodity.id, nimi: 'Acme Corporation Voucher'}
+
+    get 'select_voucher', request
+    assert_response :success
+
+    assert_template 'select_voucher', 'Template should be select_voucher'
+  end
+
+  test 'should search for specific purchase order' do
+    request = {id: @commodity.id, nimi: 'Acme Corporation PO'}
+
+    get 'select_purchase_order', request
+    assert_response :success
+
+    assert_template 'select_purchase_order', 'Template should be select_purchase_order'
+  end
+
 end
