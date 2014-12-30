@@ -28,4 +28,8 @@ class Company < ActiveRecord::Base
     (tilikausi_alku..tilikausi_loppu).cover?(date)
   end
 
+  def classic_ui?
+    parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
+  end
+
 end

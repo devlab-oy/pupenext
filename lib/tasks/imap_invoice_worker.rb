@@ -10,10 +10,13 @@ ALLOWED_DOMAIN    = ARGV[4]
 ARCHIVE_DIRECTORY = ARGV[5]
 SAVE_DIRECTORY    = ARGV[6]
 
+TRAVEL_DIRECTORY  = "matkalaskut"
+
 EMAIL_REPLY_TEXT  = { fi: {
                         ok: "Liitetiedoston vastaanotto onnistui",
                         fail: "Liitetiedoston vastaanotto epäonnistui",
                         noattach: "Viestissä ei ollut liitetiedostoja",
+                        nodir: "Matkalaskukansio puuttuu. Liitettä ei voitu tallentaa",
                         head: "Otsikko",
                         file: "Tiedosto"
                       },
@@ -21,6 +24,7 @@ EMAIL_REPLY_TEXT  = { fi: {
                         ok: "Attached file received successfully",
                         fail: "Failed to receive attached file",
                         noattach: "Message did not contain attached files",
+                        nodir: "Travel expense folder is missing. Attachment not saved",
                         head: "Title",
                         file: "File"
                       }
@@ -61,15 +65,49 @@ class ImapInvoiceWorker
   end
 
   def self.process_message(msg)
+
+    # Default directory for saving attachments
+    attach_dir = SAVE_DIRECTORY.dup
+
     # Allow msgs only from allowed domain
     address = msg.from.first.downcase
 
+    # Check the language for email reply
+    lang = language(address)
+
+    # Check "to"-address of mail
+    toaddress = msg.to.first.split('@').first
+
+    # This is a "Travel expense"-mail
+    # We assume format of something.username@ALLOWED_DOMAIN
+    if toaddress.include? "."
+
+      # Extract username
+      te_user = toaddress.split('.').last
+
+      # Check if userdir exists
+      te_userdir = "#{SAVE_DIRECTORY}/#{TRAVEL_DIRECTORY}/#{te_user}"
+
+      if File.directory? te_userdir
+        attach_dir = te_userdir
+      else
+        # Send error message
+        mail_options = {
+          to: msg.from.first,
+          from: USERNAME,
+          subject: "#{EMAIL_REPLY_TEXT[lang][:fail]}",
+          body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{msg.subject}\n" +
+                "#{EMAIL_REPLY_TEXT[lang][:nodir]}",
+        }
+
+        send_email mail_options
+      end
+    end
+
     if address.end_with?("#{ALLOWED_DOMAIN.dup.downcase}")
-      # Check the language for email reply
-      lang = language(address)
 
       # Loop all attachments
-      msg.attachments.each { |file| handle_file(msg, file, lang) }
+      msg.attachments.each { |file| handle_file(msg, file, lang, attach_dir) }
 
       if msg.attachments.empty?
         mail_options = {
@@ -85,10 +123,10 @@ class ImapInvoiceWorker
     end
   end
 
-  def self.handle_file(message, file, lang)
+  def self.handle_file(message, file, lang, attach_dir)
     # Get all images/pdfs from messages attachments
     if file.content_type.start_with?('image/', 'application/pdf')
-      boob = save_image(file.filename, file.body.decoded)
+      boob = save_image(file.filename, file.body.decoded, attach_dir)
     else
       boob = false
     end
@@ -108,15 +146,14 @@ class ImapInvoiceWorker
     send_email mail_options
   end
 
-  def self.save_image(name, data)
+  def self.save_image(name, data, attach_dir)
     # Prefix with random string
     prefix = SecureRandom.hex(15)
 
     # Filepath to SAVE_DIRECTORY
-    dir = SAVE_DIRECTORY.dup
-    dir.sub!(/\/+$/, '')
+    attach_dir.sub!(/\/+$/, '')
 
-    fname = "#{dir}/#{prefix}-#{name.downcase.gsub(/[^a-z0-9\.\-]/, '').squeeze('.')}"
+    fname = "#{attach_dir}/#{prefix}-#{name.downcase.gsub(/[^a-z0-9\.\-]/, '').squeeze('.')}"
 
     # Save file
     begin
@@ -164,3 +201,5 @@ class ImapInvoiceWorker
   end
 
 end
+
+ImapInvoiceWorker.fetch_messages

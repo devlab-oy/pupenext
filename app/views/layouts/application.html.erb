@@ -5,7 +5,19 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag "company/#{current_user.yhtio}", media: "all" %>
+  <% if current_user.classic_ui? %>
+    <%= stylesheet_link_tag "company/#{current_user.yhtio}_classic", media: "all" %>
+    <%= stylesheet_link_tag "static/pupesoft_legacy", media: "all" %>
+  <% else %>
+    <%= stylesheet_link_tag "company/#{current_user.yhtio}", media: "all" %>
+    <%= stylesheet_link_tag "static/pupesoft", media: "all" %>
+    <%= stylesheet_link_tag "static/pupesoft_left", media: "all" %>
+    <%= stylesheet_link_tag "static/pupesoft_top", media: "all" %>
+    <%= stylesheet_link_tag "static/pupesoft_mozilla", media: "all" if firefox? %>
+    <%= stylesheet_link_tag "static/pupesoft_ms_ie", media: "all" if windows? && trident? %>
+    <%= stylesheet_link_tag "static/pupesoft_ms_mozilla", media: "all" if windows? && firefox? %>
+    <%= stylesheet_link_tag "static/pupesoft_ms_chrome", media: "all" if windows? && chrome? %>
+  <% end %>
 </head>
 <body>
 
