@@ -27,6 +27,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   # PATCH/PUT /accounting/fixed_assets/commodities/1
   def update
     @commodity.generate_rows = true
+
     if @commodity.update_by(commodity_params, current_user)
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
@@ -36,14 +37,15 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/fixed_assets/commodities/1/edit
   def edit
+    @commodity.link_cost_row params[:selected_accounting_row] unless params[:selected_accounting_row].nil?
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
+    cleanup_linking_params
   end
 
   # POST /accounting/fixed_assets/commodities
   def create
     @commodity = current_company.accounting_fixed_assets_commodities.build
     @commodity.attributes = commodity_params
-    @commodity.generate_rows = true
 
     if @commodity.save_by current_user
       redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke luotiin onnistuneesti.'
@@ -83,6 +85,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :tilino,
         :tila,
         :selected_account,
+        :selected_accounting_row,
         :kustp,
         :kohde,
         :projekti
@@ -106,7 +109,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistoera,
         :tilino,
         :tila,
-        :selected_account,
         :viite,
         :nimi
       )
@@ -120,6 +122,11 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     def update_access
       msg = "Sinulla ei ole päivitysoikeuksia."
       redirect_to accounting_fixed_assets_commodities_path, notice: msg unless update_access?
+    end
+
+    def cleanup_linking_params
+      params[:selected_accounting_row] = nil
+      params[:selected_account] = nil
     end
 
 end

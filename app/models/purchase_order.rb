@@ -1,10 +1,11 @@
 class PurchaseOrder < ActiveRecord::Base
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
+  has_many :accounting_rows, class_name: 'Accounting::Row',
+   foreign_key: :ltunnus
 
   # Only paid purchase orders for now
-  default_scope { where("tila in('H','Y','M','P','Q') and mapvm > 0") }
-  #scope :paid, -> { where("tila in('H','Y','M','P','Q') and mapvm > 0") }
+  default_scope { where("tila in('H','Y','M','P','Q')") }
 
   # Map old database schema table to Accounting::Attachment class
   self.table_name  = :lasku
@@ -37,9 +38,4 @@ class PurchaseOrder < ActiveRecord::Base
     value[0].to_s.include? "@"
   end
 
-  def save_commodity_id(commodity_id)
-    self.hyodyke_tunnus = commodity_id || 0
-    self.muuttaja = 'CommoditiesController'
-    save
-  end
 end

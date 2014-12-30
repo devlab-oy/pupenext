@@ -8,6 +8,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   has_one :accounting_account, foreign_key: :tilino, primary_key: :tilino,
     class_name: 'Accounting::Account'
 
+  has_many :cost_rows, class_name: 'Accounting::FixedAssets::CommodityCostRow',
+    foreign_key: :hyodyke_tunnus, autosave: true
+
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
 
@@ -161,6 +164,23 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     result
   end
 
+  def link_cost_row(accounting_row_id)
+
+    cost_row_params = {
+      yhtio: yhtio,
+      muutospvm: Time.now,
+      luontiaika: Time.now,
+      laatija: 'CommoditiesController',
+      muuttaja: 'CommoditiesController',
+      tiliointirivi_tunnus: accounting_row_id,
+      hyodyke_tunnus: id
+    }
+
+    costi = cost_rows.build
+    costi.attributes = cost_row_params
+    costi.save
+  end
+
   protected
 
     def activated?
@@ -227,7 +247,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         toim_email: ''
       }
       voucher = build_accounting_voucher voucher_params
-      raise ArgumentError "#{voucher.errors.full_messages}" unless voucher.valid?
       voucher.save
     end
 
