@@ -1,0 +1,43 @@
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
+<%= link_to return_text, accounting_fixed_assets_commodities_path %>
+<br /><br />
+
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
+<%= link_to return_text, edit_accounting_fixed_assets_commodity_path %>
+<br /><br />
+
+<%= render 'header' %>
+<font class="head"><%= t('Valitse tositteen tiliöinnit') %></font>
+<hr />
+
+<table>
+  <tr>
+  <th>Nimi</th>
+  <th>Tiliöintien määrä</th>
+  </tr>
+
+<% @vouchers.each do |vou| %>
+  <tr>
+    <td><%= vou.nimi %></td>
+    <td><%= vou.rows.count %></td>
+  </tr>
+  <tr>
+    <th>Tunnus</th>
+    <th>Summa</th>
+    <th>Tili</th>
+  </tr>
+   <% vou.rows.each do |vourow| %>
+   <tr>
+    <td><%= vourow.tunnus  %></td>
+    <td><%= vourow.summa  %></td>
+    <td><%= vourow.tilino %></td>
+    <td class='back'><%= form_tag(edit_accounting_fixed_assets_commodity_path, method: "get") do %>
+    <%= hidden_field_tag(:selected_accounting_row, vourow.tunnus) %>
+    <%= submit_tag('Liitä') %></td>
+    <% end %>
+    </tr>
+    <% end %>
+<% end %>
+
+</table>
+<br /><br />

@@ -12,6 +12,8 @@ Pupesoft::Application.routes.draw do
         to: 'commodities#select_account', as: 'commodities_account'
       get '/commodities/:id/select_purchase_order(.:format)',
         to: 'commodities#select_purchase_order', as: 'commodities_purchase_orders'
+      get '/commodities/:id/select_voucher',
+        to: 'commodities#select_voucher',as: 'commodities_vouchers'
       resources :commodities, except: :destroy
     end
   end

@@ -39,7 +39,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   def edit
     @commodity.link_cost_row params[:selected_accounting_row] unless params[:selected_accounting_row].nil?
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
-    cleanup_linking_params
   end
 
   # POST /accounting/fixed_assets/commodities
@@ -60,12 +59,19 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     render 'select_account'
   end
 
-   # GET /accounting/fixed_assets/commodities/1/select_purchase_order
+  # GET /accounting/fixed_assets/commodities/1/select_purchase_order
   def select_purchase_order
     @purchase_orders = current_company.purchase_orders.limit(50)
     @purchase_orders = @purchase_orders.search_like params_search
     @purchase_orders = @purchase_orders.order("#{sort_column} #{sort_direction}")
     render 'select_purchase_order'
+  end
+
+  # GET /accounting/fixed_assets/commodities/1/select_voucher
+  def select_voucher
+    @vouchers = current_company.accounting_vouchers.limit(50)
+    @vouchers = @vouchers.search_like params_search
+    @vouchers = @vouchers.order("#{sort_column} #{sort_direction}")
   end
 
   private
@@ -84,8 +90,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :evl_poistoera,
         :tilino,
         :tila,
-        :selected_account,
-        :selected_accounting_row,
         :kustp,
         :kohde,
         :projekti
@@ -122,11 +126,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     def update_access
       msg = "Sinulla ei ole päivitysoikeuksia."
       redirect_to accounting_fixed_assets_commodities_path, notice: msg unless update_access?
-    end
-
-    def cleanup_linking_params
-      params[:selected_accounting_row] = nil
-      params[:selected_account] = nil
     end
 
 end
