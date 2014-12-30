@@ -1,5 +1,16 @@
-one:
+one_cost_row:
   yhtio: acme
+  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_accounting_row) %>
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_commodity_row) %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+two_cost_row:
+  yhtio: acme
+  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_accounting_row) %>
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_commodity_row) %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
