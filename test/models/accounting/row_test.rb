@@ -4,7 +4,7 @@ class Accounting::RowTest < ActiveSupport::TestCase
 
   def setup
     # Valid accounting row
-    @row = accounting_rows(:one)
+    @row = accounting_rows(:one_accounting_row)
   end
 
   test 'fixture should be valid' do

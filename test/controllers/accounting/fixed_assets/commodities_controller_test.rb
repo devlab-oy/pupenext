@@ -4,7 +4,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   def setup
     cookies[:pupesoft_session] = users(:joe).session
 
-    @commodity = accounting_fixed_assets_commodities(:one)
+    @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
 
     @account = accounting_accounts(:one)
   end
@@ -107,9 +107,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should update commodity' do
-    commodity = accounting_fixed_assets_commodities(:one)
-
-    patch :update, id: commodity.id, accounting_fixed_assets_commodity: {
+    patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
       nimitys: 'Kissa'
     }
 
@@ -119,20 +117,24 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
   test 'should not update commodity due to rights' do
     cookies[:pupesoft_session] = users(:bob).session
-    commodity = accounting_fixed_assets_commodities(:one)
 
-    patch :update, id: commodity.id, accounting_fixed_assets_commodity: {nimi: ''}
+    patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {nimi: ''}
 
     assert_redirected_to accounting_fixed_assets_commodities_path
     assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
   end
 
   test 'should not update commodity due to required params missing' do
-    commodity = accounting_fixed_assets_commodities(:one)
-
-    patch :update, id: commodity.id, accounting_fixed_assets_commodity: {nimitys: ''}
+    patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {nimitys: ''}
 
     assert_template 'edit', 'Template should be edit'
+  end
+
+  test 'should link commodity cost row' do
+    unlinked_row = accounting_rows(:three_accounting_row)
+    assert_difference('Accounting::FixedAssets::CommodityCostRow.count') do
+      patch :edit, id: @commodity.id, selected_accounting_row: unlinked_row.id
+    end
   end
 
 end
