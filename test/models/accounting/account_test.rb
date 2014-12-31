@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class Accounting::AccountTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  def setup
+    @account = accounting_accounts(:one_account_row)
+  end
+
+  test 'fixtures should be valid' do
+    assert @account.valid?
+  end
 end

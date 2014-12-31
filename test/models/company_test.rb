@@ -32,4 +32,10 @@ class CompanyTest < ActiveSupport::TestCase
     refute @acme.is_date_in_this_fiscal_year? Date.yesterday
   end
 
+  test 'get months in current fiscal year' do
+    @acme.tilikausi_alku = '01 Aug 2014'
+    @acme.tilikausi_loppu = '31 Dec 2014'
+    assert_equal 5, @acme.get_months_in_current_fiscal_year
+  end
+
 end

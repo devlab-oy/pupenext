@@ -11,4 +11,10 @@ class Accounting::FixedAssets::CommodityCostRowTest < ActiveSupport::TestCase
     assert @costrow.valid?
     assert_equal 2, @commodity.cost_rows.count
   end
+
+  test 'duplicate accounting row links not allowed for single commodity' do
+    costrow2 = accounting_fixed_assets_commodity_cost_rows(:two_cost_row)
+    costrow2.tiliointirivi_tunnus = @costrow.tiliointirivi_tunnus
+    refute costrow2.valid?
+  end
 end

@@ -5,7 +5,7 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   def setup
     # Valid Accounting fixed assets commodity
     @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
-    @account = accounting_accounts(:one)
+    @account = accounting_accounts(:one_account_row)
 
     @commodity.tilino = @account.tilino
     # New object
@@ -14,7 +14,7 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'fixture should be valid' do
     assert_equal @new_commodity.class, @commodity.class
-    assert @commodity.valid?
+    assert @commodity.valid?, "#{@commodity.errors.full_messages} #{@commodity.cost_rows.inspect}"
   end
 
   test 'should calculate payments' do
