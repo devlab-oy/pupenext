@@ -9,7 +9,7 @@ one_cost_row:
 
 two_cost_row:
   yhtio: acme
-  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_accounting_row) %>
+  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_accounting_row) %>
   hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:one_commodity_row) %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>

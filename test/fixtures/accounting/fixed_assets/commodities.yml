@@ -6,6 +6,7 @@ one_commodity_row:
   laatija: joe
   hankintapvm: <%= Time.now %>
   kayttoonottopvm: <%= Time.now %>
+  tilino: 1122
   tapvm: <%= Time.now %>
   korjausaika: <%= Time.now %>
   selite: Kekkonen
