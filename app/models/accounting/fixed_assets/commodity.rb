@@ -11,21 +11,21 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   has_many :cost_rows, class_name: 'Accounting::FixedAssets::CommodityCostRow',
     foreign_key: :hyodyke_tunnus, autosave: true
 
+  before_validation :create_bookkeepping_rows, on: [:update], if: :should_create_rows?
+  before_validation :set_sum_to_commodity, on: [:update], if: :has_linked_accounting_rows?
+
   validates :nimitys, uniqueness: { scope: :yhtio }, presence: :true
   validates :summa, :sumu_poistoera, :evl_poistoera, numericality: true
 
   validates_presence_of :hankintapvm, if: :activated?
-
-  #validates :accounting_account, :length => { :minimum => 1}, if: :activated?
-
   validates_presence_of :summa, :kayttoonottopvm, :sumu_poistotyyppi,
     :sumu_poistoera, :evl_poistotyyppi, :evl_poistoera, if: :activated?
 
   validates_numericality_of :tilino, greater_than: 999, if: :activated?
 
-  before_validation :create_bookkeepping_rows, on: [:update], if: :should_create_rows?
+  validates :tilino, with: :check_that_account_number_matches
+  validates :accounting_account, :length => { :minimum => 1}, if: :has_linked_accounting_rows?
 
-  #validates :summa, with: :check_that_po_amount_matches
 
   attr_accessor :generate_rows
 
@@ -165,7 +165,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def link_cost_row(accounting_row_id)
-
     cost_row_params = {
       yhtio: yhtio,
       muutospvm: Time.now,
@@ -189,6 +188,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
     def should_create_rows?
       generate_rows && activated?
+    end
+
+    def has_linked_accounting_rows?
+      cost_rows.count > 0
     end
 
     def create_bookkeepping_rows
@@ -259,6 +262,16 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
+    def check_that_account_number_matches
+      cost_rows.each do |cos|
+        if cos.accounting_row.nil?
+          next
+        elsif cos.accounting_row.tilino != tilino
+          errors.add(:cost_row, "account number mismatch - should be #{tilino} but is #{cos.accounting_row.tilino}")
+        end
+      end
+    end
+
     def create_row(params)
       rows.build params
     end
@@ -325,6 +338,13 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       end
 
       all_row_params
+    end
+
+    def set_sum_to_commodity
+      totalsum = BigDecimal.new 0
+      cost_rows.each {|x| totalsum += x.accounting_row.summa rescue 0 }
+      logger.debug "personal jesus #{totalsum.to_s}"
+      summa = totalsum
     end
 
 end
