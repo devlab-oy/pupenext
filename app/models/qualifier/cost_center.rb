@@ -1,8 +1,6 @@
 class Qualifier::CostCenter < Qualifier
   has_many :accounts, foreign_key: :kustp
 
-  default_scope { where(tyyppi: self.sti_name) }
-
   def self.human_readable_type
     "Kustannuspaikka"
   end

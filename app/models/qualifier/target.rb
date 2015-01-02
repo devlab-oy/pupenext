@@ -1,8 +1,6 @@
 class Qualifier::Target < Qualifier
   has_many :accounts, foreign_key: :kohde
 
-  default_scope { where(tyyppi: self.sti_name) }
-
   def self.human_readable_type
     "Kohde"
   end

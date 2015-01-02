@@ -1,8 +1,6 @@
 class Qualifier::Project < Qualifier
   has_many :accounts, foreign_key: :projekti
 
-  default_scope { where(tyyppi: self.sti_name) }
-
   def self.human_readable_type
     "Projekti"
   end

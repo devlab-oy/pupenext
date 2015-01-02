@@ -8,13 +8,12 @@ class Qualifier < ActiveRecord::Base
   self.table_name = :kustannuspaikka
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
-  self.abstract_class = true
 
   default_scope { where(kaytossa: in_use_char) }
   scope :not_in_use, -> { unscoped.where(kaytossa: not_in_use_char) }
 
   def self.child_class(tyyppi_value)
-    qualifiers[tyyppi_value.to_sym]
+    qualifiers[tyyppi_value.try(:to_sym)]
   end
 
   def self.default_child_instance
