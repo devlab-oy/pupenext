@@ -47,7 +47,7 @@ class SumLevel < ActiveRecord::Base
   end
 
   def self.child_class(tyyppi_value)
-    sum_levels[tyyppi_value.to_sym]
+    sum_levels[tyyppi_value.try(:to_sym)]
   end
 
   def self.default_child_instance
@@ -71,6 +71,26 @@ class SumLevel < ActiveRecord::Base
   # type_name = "S", type_name = "U" ...
   def self.find_sti_class(taso_value)
     child_class taso_value
+  end
+
+  # This method is originally defined in inheritance.rb:183 and needs to be overridden, so that
+  # rails knows how to initialize a proper subclass because the subclass name is different than the
+  # value in the inheritance column.
+  def self.subclass_from_attributes(attrs)
+    subclass_name = attrs.with_indifferent_access[inheritance_column]
+
+    subclass_name = child_class(subclass_name).to_s
+
+    if subclass_name.present? && subclass_name != self.name
+      subclass = subclass_name.safe_constantize
+
+      unless descendants.include?(subclass)
+        raise ActiveRecord::SubclassNotFound.new("Invalid single-table inheritance type: " \
+        "#{subclass_name} is not a subclass of #{name}")
+      end
+
+      subclass
+    end
   end
 
   private

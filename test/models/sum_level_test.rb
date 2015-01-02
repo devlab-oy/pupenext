@@ -224,4 +224,17 @@ class SumLevelTest < ActiveSupport::TestCase
     @internal.kayttotarkoitus = "O"
     assert @internal.valid?, @internal.errors.full_messages
   end
+
+  test "initializing new SumLevel with tyyppi sets class correctly" do
+    {
+      S: "SumLevel::Internal",
+      U: "SumLevel::External",
+      A: "SumLevel::Vat",
+      B: "SumLevel::Profit",
+    }.each do |tyyppi, class_name|
+      sum_level = SumLevel.new(tyyppi: tyyppi.to_s)
+
+      assert_equal class_name, sum_level.class.to_s
+    end
+  end
 end
