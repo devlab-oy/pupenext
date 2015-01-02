@@ -71,6 +71,7 @@ class Administration::AccountsController < AdministrationController
         :nimi,
         :kustp,
         :kohde,
+        :projekti,
         :toimijaliitos,
         :tiliointi_tarkistus,
         :manuaali_esto,
