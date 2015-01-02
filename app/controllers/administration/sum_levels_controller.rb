@@ -20,11 +20,7 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def new
-    #TODO wait for rails to fix their .build
-    #current_company.sum_levels.build doesnt work
-    #https://github.com/rails/rails/issues/17121
-    default_klass = SumLevel.default_child_instance
-    @sum_level = default_klass.new({ company: current_company })
+    @sum_level = current_company.sum_level_internals.build
   end
 
   def show
@@ -32,11 +28,9 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def create
-    default_klass = SumLevel.child_class sum_level_params[:tyyppi]
-    @sum_level = default_klass.new({ company: current_company })
-    @sum_level.attributes = sum_level_params
+    @sum_level = current_company.sum_levels.build(sum_level_params)
 
-    if @sum_level.save_by current_user
+    if params[:commit] && @sum_level.save_by(current_user)
       redirect_to sum_levels_path, notice: 'Taso luotiin onnistuneesti'
     else
       render :edit

@@ -27,17 +27,20 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     cookies[:pupesoft_session] = users(:bob).session
     assert_difference('SumLevel.count', 1) do
       request = {
-        tyyppi: 'U',
-        summattava_taso: '',
-        taso: '2221',
-        nimi: 'TILIKAUDEN TULOS2221',
-        oletusarvo: '',
-        jakaja: '',
-        kumulatiivinen: '',
-        kayttotarkoitus: '',
-        kerroin: '',
+        sum_level: {
+          tyyppi: 'U',
+          summattava_taso: '',
+          taso: '2221',
+          nimi: 'TILIKAUDEN TULOS2221',
+          oletusarvo: '',
+          jakaja: '',
+          kumulatiivinen: '',
+          kayttotarkoitus: '',
+          kerroin: ''
+        },
+        commit: "joo"
       }
-      post :create, sum_level: request
+      post :create, request
     end
 
     assert_redirected_to sum_levels_path
