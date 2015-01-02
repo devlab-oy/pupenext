@@ -1,13 +1,11 @@
 module ActiveRecordExtension
-
   extend ActiveSupport::Concern
 
   included do
-    validates :yhtio, presence: true
-    validates :muuttaja, presence: true
-    validates :laatija, presence: true
-
-    before_save :set_legacy_timestamps
+    validates :yhtio, presence: true,    unless: :table_does_not_have_company?
+    validates :muuttaja, presence: true, unless: :table_does_not_have_company?
+    validates :laatija, presence: true,  unless: :table_does_not_have_company?
+    before_save :set_legacy_timestamps,  unless: :table_does_not_have_company?
   end
 
   def save_by(user)
@@ -27,12 +25,22 @@ module ActiveRecordExtension
   end
 
   private
-
     def set_legacy_timestamps
       self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
       self.muutospvm = Time.now
     end
 
+    def table_does_not_have_company?
+      %w{
+        git_paivitykset
+        git_pulkkarit
+        karhu_lasku
+        maat
+        schema_migrations
+        taric_veroperusteet
+        valuu_historia
+      }.include? self.class.table_name
+    end
 end
 
 ActiveRecord::Base.send(:include, ActiveRecordExtension)
