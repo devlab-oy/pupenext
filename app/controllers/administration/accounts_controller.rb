@@ -24,7 +24,7 @@ class Administration::AccountsController < AdministrationController
   end
 
   def new
-    @account ||= current_company.accounts.build
+    @account = current_company.accounts.build
   end
 
   def show
