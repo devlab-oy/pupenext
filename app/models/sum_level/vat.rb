@@ -7,7 +7,7 @@ class SumLevel::Vat < SumLevel
   end
 
   def self.human_readable_type
-    "Alv"
+    "ALV"
   end
 
   #Rails figures out paths from the model name. User model has users_path etc.

@@ -7,7 +7,7 @@ class SumLevel::Profit < SumLevel
   end
 
   def self.human_readable_type
-    "Tulos"
+    "Tulosseuranta"
   end
 
   #Rails figures out paths from the model name. User model has users_path etc.
