@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150102091914) do
 
-  create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
+  create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
     t.string   "tyyppi",             limit: 2,                            default: "",  null: false
     t.string   "luokka",             limit: 4,                            default: "",  null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "abc_aputaulu", ["yhtio", "tyyppi", "tuotemerkki"], name: "yhtio_tyyppi_tuotemerkki", using: :btree
   add_index "abc_aputaulu", ["yhtio", "tyyppi", "tuoteno"], name: "yhtio_tyyppi_tuoteno", using: :btree
 
-  create_table "abc_parametrit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "abc_parametrit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                       limit: 5,                          default: "",  null: false
     t.string   "tyyppi",                      limit: 2,                          default: "",  null: false
     t.string   "luokka",                      limit: 4,                          default: "",  null: false
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",                    limit: 50,                         default: "",  null: false
   end
 
-  create_table "asiakas", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asiakas", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                            limit: 5,                              default: "",  null: false
     t.string   "laji",                             limit: 1,                              default: "",  null: false
     t.string   "tila",                             limit: 150,                            default: "",  null: false
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "asiakas", ["yhtio", "toim_ovttunnus"], name: "toim_ovttunnus_index", using: :btree
   add_index "asiakas", ["yhtio", "ytunnus"], name: "ytunnus_index", using: :btree
 
-  create_table "asiakasalennus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asiakasalennus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
     t.string   "tuoteno",           limit: 60,                          default: "",  null: false
     t.string   "ryhma",             limit: 15,                          default: "",  null: false
@@ -263,7 +263,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "asiakasalennus", ["yhtio", "ytunnus", "ryhma"], name: "yhtio_ytunnus_ryhma", using: :btree
   add_index "asiakasalennus", ["yhtio", "ytunnus", "tuoteno"], name: "yhtio_ytunnus_tuoteno", using: :btree
 
-  create_table "asiakashinta", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asiakashinta", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                            default: "",  null: false
     t.string   "tuoteno",           limit: 60,                           default: "",  null: false
     t.string   "ryhma",             limit: 15,                           default: "",  null: false
@@ -297,7 +297,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "asiakashinta", ["yhtio", "ytunnus", "ryhma"], name: "yhtio_ytunnus_ryhma", using: :btree
   add_index "asiakashinta", ["yhtio", "ytunnus", "tuoteno"], name: "yhtio_ytunnus_tuoteno", using: :btree
 
-  create_table "asiakaskommentti", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asiakaskommentti", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,     default: "", null: false
     t.text     "kommentti",  limit: 65535
     t.string   "tuoteno",    limit: 60,    default: "", null: false
@@ -310,7 +310,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "asiakaskommentti", ["yhtio", "ytunnus", "tuoteno"], name: "yhtio_ytunnus_tuoteno", using: :btree
 
-  create_table "asiakkaan_avainsanat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asiakkaan_avainsanat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
     t.integer  "liitostunnus", limit: 4,     default: 0,  null: false
     t.string   "kieli",        limit: 2,     default: "", null: false
@@ -326,7 +326,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "asiakkaan_avainsanat", ["yhtio", "laji"], name: "yhtio_laji", using: :btree
   add_index "asiakkaan_avainsanat", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
 
-  create_table "asn_sanomat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "asn_sanomat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                              default: "",  null: false
     t.string   "laji",               limit: 3,                              default: "",  null: false
     t.string   "toimittajanumero",   limit: 20,                             default: "",  null: false
@@ -368,7 +368,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "asn_sanomat", ["yhtio", "status", "tuoteno", "toim_tuoteno", "toimittajanumero"], name: "yhtio_status_toimtuoteno_toimnro", using: :btree
   add_index "asn_sanomat", ["yhtio", "status", "tuoteno"], name: "yhtio_status_tuoteno", using: :btree
 
-  create_table "avainsana", primary_key: "tunnus", force: :cascade do |t|
+  create_table "avainsana", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
     t.integer  "perhe",        limit: 4,     default: 0,  null: false
     t.string   "kieli",        limit: 2,     default: "", null: false
@@ -392,7 +392,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "avainsana", ["yhtio", "laji", "selitetark"], name: "yhtio_laji_selitetark", length: {"yhtio"=>nil, "laji"=>nil, "selitetark"=>100}, using: :btree
   add_index "avainsana", ["yhtio", "laji", "selitetark_3"], name: "yhtio_laji_selitetark3", length: {"yhtio"=>nil, "laji"=>nil, "selitetark_3"=>100}, using: :btree
 
-  create_table "budjetti", primary_key: "tunnus", force: :cascade do |t|
+  create_table "budjetti", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                           default: "",  null: false
     t.string   "kausi",      limit: 6,                           default: "",  null: false
     t.string   "taso",       limit: 20,                          default: "",  null: false
@@ -410,7 +410,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "budjetti", ["yhtio", "taso", "kausi"], name: "yhtio_taso_kausi", using: :btree
 
-  create_table "budjetti_asiakas", primary_key: "tunnus", force: :cascade do |t|
+  create_table "budjetti_asiakas", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,                            default: "",  null: false
     t.string   "kausi",            limit: 6,                            default: "",  null: false
     t.integer  "asiakkaan_tunnus", limit: 4,                            default: 0,   null: false
@@ -427,7 +427,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "budjetti_asiakas", ["yhtio", "kausi", "asiakkaan_tunnus", "osasto", "try"], name: "asbu", unique: true, using: :btree
 
-  create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade do |t|
+  create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,                            default: "",  null: false
     t.string   "kausi",         limit: 6,                            default: "",  null: false
     t.integer  "myyjan_tunnus", limit: 4,                            default: 0,   null: false
@@ -444,7 +444,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "budjetti_myyja", ["yhtio", "kausi", "myyjan_tunnus", "osasto", "try"], name: "budjetti_myyja", unique: true, using: :btree
 
-  create_table "budjetti_toimittaja", primary_key: "tunnus", force: :cascade do |t|
+  create_table "budjetti_toimittaja", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
     t.string   "kausi",              limit: 6,                            default: "",  null: false
     t.integer  "toimittajan_tunnus", limit: 4,                            default: 0,   null: false
@@ -461,7 +461,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "budjetti_toimittaja", ["yhtio", "kausi", "toimittajan_tunnus", "osasto", "try"], name: "tobu", unique: true, using: :btree
 
-  create_table "budjetti_tuote", primary_key: "tunnus", force: :cascade do |t|
+  create_table "budjetti_tuote", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                            default: "",  null: false
     t.string   "kausi",      limit: 6,                            default: "",  null: false
     t.string   "tuoteno",    limit: 60,                           default: "",  null: false
@@ -479,7 +479,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, using: :btree
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
-  create_table "dynaaminen_puu", primary_key: "tunnus", force: :cascade do |t|
+  create_table "dynaaminen_puu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,   default: "", null: false
     t.string   "nimi",              limit: 120, default: "", null: false
     t.integer  "koodi",             limit: 4,   default: 0,  null: false
@@ -498,7 +498,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "dynaaminen_puu", ["yhtio", "laji", "lft"], name: "yhtio_laji_lft", using: :btree
   add_index "dynaaminen_puu", ["yhtio", "laji", "rgt"], name: "yhtio_laji_rgt", using: :btree
 
-  create_table "dynaaminen_puu_avainsanat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "dynaaminen_puu_avainsanat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
     t.integer  "liitostunnus", limit: 4,     default: 0,  null: false
     t.string   "kieli",        limit: 2,     default: "", null: false
@@ -514,7 +514,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "dynaaminen_puu_avainsanat", ["yhtio", "laji"], name: "yhtio_laji", using: :btree
   add_index "dynaaminen_puu_avainsanat", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
 
-  create_table "etaisyydet", primary_key: "tunnus", force: :cascade do |t|
+  create_table "etaisyydet", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,  default: "", null: false
     t.string   "varasto_postino", limit: 15, default: "", null: false
     t.string   "postino",         limit: 15, default: "", null: false
@@ -526,7 +526,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",        limit: 50, default: "", null: false
   end
 
-  create_table "extranet_kayttajan_lisatiedot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "extranet_kayttajan_lisatiedot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
     t.string   "laji",         limit: 20,    default: "", null: false
     t.integer  "liitostunnus", limit: 4,     default: 0,  null: false
@@ -541,7 +541,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "extranet_kayttajan_lisatiedot", ["yhtio", "laji", "selite"], name: "yhtio_laji_selite", using: :btree
   add_index "extranet_kayttajan_lisatiedot", ["yhtio", "liitostunnus", "laji", "selite"], name: "yhtio_liitostunnus_laji_selite", unique: true, using: :btree
 
-  create_table "factoring", primary_key: "tunnus", force: :cascade do |t|
+  create_table "factoring", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,     default: "", null: false
     t.string   "factoringyhtio", limit: 10,    default: "", null: false
     t.string   "nimitys",        limit: 55,    default: "", null: false
@@ -568,13 +568,13 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",       limit: 50,    default: "", null: false
   end
 
-  create_table "git_paivitykset", force: :cascade do |t|
+  create_table "git_paivitykset", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "hash", limit: 50, default: "", null: false
     t.string   "ip",   limit: 15,              null: false
     t.datetime "date",                         null: false
   end
 
-  create_table "git_pulkkarit", force: :cascade do |t|
+  create_table "git_pulkkarit", force: :cascade, options: "ENGINE=myisam" do |t|
     t.datetime "updated",                                null: false
     t.datetime "merged",                                 null: false
     t.integer  "feature",      limit: 4,     default: 0, null: false
@@ -582,7 +582,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.text     "files",        limit: 65535
   end
 
-  create_table "hinnasto", primary_key: "tunnus", force: :cascade do |t|
+  create_table "hinnasto", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                            default: "",  null: false
     t.string   "tuoteno",    limit: 60,                           default: "",  null: false
     t.integer  "minkpl",     limit: 4,                            default: 0,   null: false
@@ -603,7 +603,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "hinnasto", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "hyvityssaannot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "hyvityssaannot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
     t.string   "rokotusselite",     limit: 100,                         default: "",  null: false
     t.string   "tuote_kentta",      limit: 30,                          default: "",  null: false
@@ -624,7 +624,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "hyvityssaannot", ["yhtio", "aika_ostosta"], name: "yhtio_aika_ostosta", using: :btree
   add_index "hyvityssaannot", ["yhtio", "tuote_kentta", "tuote_arvo"], name: "yhtio_tuote_kentta_tuote_arvo", using: :btree
 
-  create_table "kalenteri", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kalenteri", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,     default: "",                    null: false
     t.string   "konserni",        limit: 5,     default: "",                    null: false
     t.string   "kuka",            limit: 50,    default: "",                    null: false
@@ -664,7 +664,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "kalenteri", ["yhtio", "tyyppi", "pvmalku"], name: "yhtio_tyyppi_pvmalku", using: :btree
   add_index "kalenteri", ["yhtio", "tyyppi", "tapa", "pvmalku"], name: "tyyppi_tapa", using: :btree
 
-  create_table "kampanja_ehdot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kampanja_ehdot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,  default: "", null: false
     t.integer  "kampanja",   limit: 4,  default: 0,  null: false
     t.integer  "isatunnus",  limit: 4,  default: 0,  null: false
@@ -677,7 +677,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",   limit: 50, default: "", null: false
   end
 
-  create_table "kampanja_palkinnot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kampanja_palkinnot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,  default: "", null: false
     t.integer  "kampanja",   limit: 4,  default: 0,  null: false
     t.string   "tuoteno",    limit: 60, default: "", null: false
@@ -688,7 +688,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",   limit: 50, default: "", null: false
   end
 
-  create_table "kampanjat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kampanjat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,   default: "", null: false
     t.string   "nimi",       limit: 255, default: "", null: false
     t.string   "laatija",    limit: 50,  default: "", null: false
@@ -697,7 +697,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",   limit: 50,  default: "", null: false
   end
 
-  create_table "karhu_lasku", id: false, force: :cascade do |t|
+  create_table "karhu_lasku", id: false, force: :cascade, options: "ENGINE=myisam" do |t|
     t.integer "ktunnus", limit: 4, default: 0, null: false
     t.integer "ltunnus", limit: 4, default: 0, null: false
   end
@@ -705,13 +705,13 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "karhu_lasku", ["ktunnus"], name: "ktunnus", using: :btree
   add_index "karhu_lasku", ["ltunnus"], name: "ltunnus", using: :btree
 
-  create_table "karhukierros", primary_key: "tunnus", force: :cascade do |t|
+  create_table "karhukierros", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string "tyyppi", limit: 1, default: "", null: false
     t.date   "pvm",                           null: false
     t.string "yhtio",  limit: 5, default: "", null: false
   end
 
-  create_table "kassalipas", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kassalipas", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,   default: "", null: false
     t.string   "nimi",          limit: 150, default: "", null: false
     t.integer  "kustp",         limit: 4,   default: 0,  null: false
@@ -728,7 +728,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",      limit: 50,  default: "", null: false
   end
 
-  create_table "kerayserat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kerayserat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,                            default: "",  null: false
     t.integer  "nro",            limit: 4,                            default: 0,   null: false
     t.integer  "keraysvyohyke",  limit: 4,                            default: 0,   null: false
@@ -758,7 +758,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "kerayserat", ["yhtio", "tila", "laatija"], name: "yhtio_tila_laatija", using: :btree
   add_index "kerayserat", ["yhtio", "tilausrivi"], name: "yhtio_tilausrivi", using: :btree
 
-  create_table "keraysvyohyke", primary_key: "tunnus", force: :cascade do |t|
+  create_table "keraysvyohyke", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                  limit: 5,                            default: "",  null: false
     t.string   "nimitys",                                limit: 100,                          default: "",  null: false
     t.string   "sallitut_alustat",                       limit: 150,                          default: "",  null: false
@@ -790,7 +790,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "keraysvyohyke", ["yhtio"], name: "yhtio", using: :btree
 
-  create_table "kirjoittimet", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kirjoittimet", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,   default: "", null: false
     t.string   "fax",           limit: 20,  default: "", null: false
     t.string   "kirjoitin",     limit: 100, default: "", null: false
@@ -812,7 +812,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",      limit: 50,  default: "", null: false
   end
 
-  create_table "kohde", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kohde", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,     default: "",    null: false
     t.integer  "asiakas",       limit: 4,     default: 0,     null: false
     t.string   "nimi",          limit: 60,    default: "",    null: false
@@ -839,7 +839,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "kohde", ["yhtio", "asiakas"], name: "yhtio_asiakas", using: :btree
 
-  create_table "korvaavat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "korvaavat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,  default: "", null: false
     t.integer  "jarjestys",  limit: 8,  default: 0,  null: false
     t.string   "tuoteno",    limit: 60, default: "", null: false
@@ -853,7 +853,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "korvaavat", ["yhtio", "id"], name: "yhtio_id", using: :btree
   add_index "korvaavat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "korvaavat_kiellot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "korvaavat_kiellot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,  default: "", null: false
     t.string   "ytunnus",    limit: 15, default: "", null: false
     t.string   "osasto",     limit: 2,  default: "", null: false
@@ -865,7 +865,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",   limit: 50, default: "", null: false
   end
 
-  create_table "kuka", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kuka", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                         limit: 5,                              default: "",  null: false
     t.string   "kuka",                          limit: 50,                             default: "",  null: false
     t.text     "nimi",                          limit: 65535
@@ -936,7 +936,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "kuka", ["yhtio", "kuka"], name: "kuka_index", unique: true, using: :btree
   add_index "kuka", ["yhtio", "myyja"], name: "yhtio_myyja", using: :btree
 
-  create_table "kustannuspaikka", primary_key: "tunnus", force: :cascade do |t|
+  create_table "kustannuspaikka", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.string   "tyyppi",       limit: 1,  default: "", null: false
     t.integer  "isa_tarkenne", limit: 4,  default: 0,  null: false
@@ -949,7 +949,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",     limit: 50, default: "", null: false
   end
 
-  create_table "lahdot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "lahdot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                limit: 5,   default: "",                    null: false
     t.date     "pvm",                                                              null: false
     t.integer  "lahdon_viikonpvm",     limit: 4,   default: 0,                     null: false
@@ -972,7 +972,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "lahdot", ["yhtio", "aktiivi", "liitostunnus"], name: "yhtio_aktiivi_liitostunnus", using: :btree
   add_index "lahdot", ["yhtio", "aktiivi", "pvm"], name: "yhtio_aktiivi_pvm", using: :btree
 
-  create_table "laite", primary_key: "tunnus", force: :cascade do |t|
+  create_table "laite", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                              limit: 5,     default: "", null: false
     t.string   "tuoteno",                            limit: 60,    default: "", null: false
     t.string   "sarjanro",                           limit: 60,    default: "", null: false
@@ -999,7 +999,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "laite", ["yhtio", "paikka"], name: "yhtio_paikka", using: :btree
 
-  create_table "laitteen_sopimukset", primary_key: "tunnus", force: :cascade do |t|
+  create_table "laitteen_sopimukset", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",               limit: 5,  default: "", null: false
     t.integer  "laitteen_tunnus",     limit: 4,  default: 0,  null: false
     t.integer  "sopimusrivin_tunnus", limit: 4,  default: 0,  null: false
@@ -1009,7 +1009,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",            limit: 10, default: "", null: false
   end
 
-  create_table "lasku", primary_key: "tunnus", force: :cascade do |t|
+  create_table "lasku", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                            limit: 5,                              default: "",         null: false
     t.string   "yhtio_nimi",                       limit: 60,                             default: "",         null: false
     t.string   "yhtio_osoite",                     limit: 55,                             default: "",         null: false
@@ -1233,7 +1233,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "lasku", ["yhtio", "vanhatunnus"], name: "yhtio_vanhatunnus", using: :btree
   add_index "lasku", ["yhtio", "ytunnus"], name: "yhtio_ytunnus", using: :btree
 
-  create_table "laskun_lisatiedot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "laskun_lisatiedot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                    limit: 5,                             default: "",  null: false
     t.integer  "otunnus",                                  limit: 4,                             default: 0,   null: false
     t.integer  "rahlaskelma_rahoitettava_positio",         limit: 4,                             default: 0,   null: false
@@ -1332,7 +1332,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "laskun_lisatiedot", ["yhtio", "otunnus"], name: "yhtio_otunnus", unique: true, using: :btree
 
-  create_table "liitetiedostot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "liitetiedostot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,          default: "", null: false
     t.string   "liitos",          limit: 50,         default: "", null: false
     t.integer  "liitostunnus",    limit: 4,          default: 0,  null: false
@@ -1356,7 +1356,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "liitetiedostot", ["yhtio", "liitos", "liitostunnus"], name: "yhtio_liitos_liitostunnus", using: :btree
 
-  create_table "maat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "maat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string "koodi",        limit: 2,   default: "", null: false
     t.string "iso3",         limit: 3,   default: "", null: false
     t.string "nimi",         limit: 80,  default: "", null: false
@@ -1368,7 +1368,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "maat", ["koodi", "nimi"], name: "koodi_nimi", using: :btree
   add_index "maat", ["koodi", "ryhma_tunnus"], name: "koodi_ryhma", unique: true, using: :btree
 
-  create_table "maksu", primary_key: "tunnus", force: :cascade do |t|
+  create_table "maksu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "yhtio",    limit: 5,                           default: "",  null: false
     t.string  "konserni", limit: 5,                           default: "",  null: false
     t.string  "kuka",     limit: 50,                          default: "",  null: false
@@ -1379,7 +1379,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string  "maksettu", limit: 1,                           default: "",  null: false
   end
 
-  create_table "maksuehto", primary_key: "tunnus", force: :cascade do |t|
+  create_table "maksuehto", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                          default: "",  null: false
     t.string   "teksti",             limit: 40,                         default: "",  null: false
     t.integer  "rel_pvm",            limit: 4,                          default: 0,   null: false
@@ -1407,7 +1407,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",           limit: 50,                         default: "",  null: false
   end
 
-  create_table "maksupaatetapahtumat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "maksupaatetapahtumat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,                              default: "",  null: false
     t.string   "maksutapa",        limit: 50,                             default: "",  null: false
     t.decimal  "summa_valuutassa",               precision: 12, scale: 2, default: 0.0, null: false
@@ -1424,7 +1424,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "maksupaatetapahtumat", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "maksupositio", primary_key: "tunnus", force: :cascade do |t|
+  create_table "maksupositio", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",       limit: 6,                              default: "",  null: false
     t.integer  "otunnus",     limit: 4,                              default: 0,   null: false
     t.integer  "positio",     limit: 4,                              default: 0,   null: false
@@ -1441,7 +1441,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "uusiotunnus", limit: 4,                              default: 0,   null: false
   end
 
-  create_table "messenger", primary_key: "tunnus", force: :cascade do |t|
+  create_table "messenger", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,     default: "", null: false
     t.string   "kuka",          limit: 50,    default: "", null: false
     t.string   "vastaanottaja", limit: 50,    default: "", null: false
@@ -1453,7 +1453,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "messenger", ["yhtio", "kuka", "status"], name: "yhtio_kuka_status", using: :btree
   add_index "messenger", ["yhtio", "vastaanottaja", "status"], name: "yhtio_vastaanottaja_status", using: :btree
 
-  create_table "muisti", primary_key: "tunnus", force: :cascade do |t|
+  create_table "muisti", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,     default: "", null: false
     t.string   "kuka",       limit: 50,    default: "", null: false
     t.string   "haku",       limit: 20,    default: "", null: false
@@ -1469,7 +1469,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "muisti", ["yhtio", "kuka", "haku", "nimi", "var"], name: "haut", unique: true, using: :btree
 
-  create_table "oikeu", primary_key: "tunnus", force: :cascade do |t|
+  create_table "oikeu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "kuka",       limit: 50,  default: "", null: false
     t.integer  "user_id",    limit: 4
     t.string   "sovellus",   limit: 50,  default: "", null: false
@@ -1494,7 +1494,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "oikeu", ["yhtio", "kuka", "sovellus"], name: "sovellus_index", using: :btree
   add_index "oikeu", ["yhtio", "sovellus", "nimi", "alanimi"], name: "menut_index", using: :btree
 
-  create_table "pakkaamo", primary_key: "tunnus", force: :cascade do |t|
+  create_table "pakkaamo", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,   default: "", null: false
     t.string   "nimi",           limit: 150, default: "", null: false
     t.string   "lokero",         limit: 5,   default: "", null: false
@@ -1514,7 +1514,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",       limit: 50,  default: "", null: false
   end
 
-  create_table "pakkaus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "pakkaus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                       limit: 5,                           default: "",  null: false
     t.string   "pakkaus",                     limit: 50,                          default: "",  null: false
     t.string   "pakkauskuvaus",               limit: 50,                          default: "",  null: false
@@ -1539,7 +1539,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "pakkaus", ["yhtio", "pakkaus", "pakkauskuvaus"], name: "yhtio_pakkaus_pakkauskuvaus", using: :btree
 
-  create_table "pakkauskoodit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "pakkauskoodit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,  default: "", null: false
     t.integer  "pakkaus",          limit: 4,  default: 0,  null: false
     t.string   "rahdinkuljettaja", limit: 40, default: "", null: false
@@ -1550,7 +1550,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",         limit: 50, default: "", null: false
   end
 
-  create_table "pankkiyhteys", primary_key: "tunnus", force: :cascade do |t|
+  create_table "pankkiyhteys", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                limit: 5
     t.string   "pankki",                               limit: 60
     t.string   "customer_id",                          limit: 60
@@ -1568,7 +1568,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "ca_certificate_valid_to"
   end
 
-  create_table "pankkiyhteystiedot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "pankkiyhteystiedot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.string   "nimitys",      limit: 80, default: "", null: false
     t.string   "pankkinimi1",  limit: 80, default: "", null: false
@@ -1590,7 +1590,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",     limit: 50, default: "", null: false
   end
 
-  create_table "panttitili", primary_key: "tunnus", force: :cascade do |t|
+  create_table "panttitili", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "yhtio",             limit: 5,                           default: "",  null: false
     t.integer "asiakas",           limit: 4,                           default: 0,   null: false
     t.string  "tuoteno",           limit: 60,                          default: "",  null: false
@@ -1612,7 +1612,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "panttitili", ["yhtio", "tuoteno", "asiakas", "status"], name: "yhtio_tuoteno_asiakas_status", using: :btree
   add_index "panttitili", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "perusalennus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "perusalennus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                          default: "",  null: false
     t.string   "ryhma",      limit: 15,                         default: "",  null: false
     t.string   "selite",     limit: 50,                         default: "",  null: false
@@ -1625,7 +1625,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "perusalennus", ["yhtio", "ryhma"], name: "yhtio_ryhma", unique: true, using: :btree
 
-  create_table "puun_alkio", primary_key: "tunnus", force: :cascade do |t|
+  create_table "puun_alkio", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",       limit: 5,   default: "", null: false
     t.string   "liitos",      limit: 60,  default: "", null: false
     t.string   "kieli",       limit: 2,   default: "", null: false
@@ -1643,7 +1643,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "puun_alkio", ["yhtio", "laji", "puun_tunnus"], name: "yhtio_laji_puun_tunnus", using: :btree
   add_index "puun_alkio", ["yhtio", "liitos", "laji", "puun_tunnus", "kieli"], name: "yhtio_laji_liitos_puuntunnus_kieli", unique: true, using: :btree
 
-  create_table "rahdinkuljettajat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "rahdinkuljettajat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                         limit: 5,                          default: "",  null: false
     t.string   "koodi",                         limit: 50,                         default: "",  null: false
     t.string   "nimi",                          limit: 50,                         default: "",  null: false
@@ -1656,7 +1656,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",                      limit: 50,                         default: "",  null: false
   end
 
-  create_table "rahtikirjanumero", primary_key: "tunnus", force: :cascade do |t|
+  create_table "rahtikirjanumero", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,   default: "", null: false
     t.string   "rahtikirjanro", limit: 150, default: "", null: false
     t.string   "kayttaja",      limit: 50,  default: "", null: false
@@ -1667,7 +1667,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",      limit: 50,  default: "", null: false
   end
 
-  create_table "rahtikirjat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "rahtikirjat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.decimal  "kilot",                                         precision: 12, scale: 4, default: 0.0, null: false
     t.decimal  "kollit",                                        precision: 12, scale: 4, default: 0.0, null: false
     t.decimal  "kuutiot",                                       precision: 7,  scale: 4, default: 0.0, null: false
@@ -1696,7 +1696,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "rahtikirjat", ["yhtio", "otsikkonro"], name: "otsikko_index", using: :btree
   add_index "rahtikirjat", ["yhtio", "rahtikirjanro"], name: "rahtikirjanro", length: {"yhtio"=>nil, "rahtikirjanro"=>150}, using: :btree
 
-  create_table "rahtimaksut", primary_key: "tunnus", force: :cascade do |t|
+  create_table "rahtimaksut", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,                           default: "",  null: false
     t.string   "toimitustapa", limit: 50,                          default: "",  null: false
     t.decimal  "kilotalku",               precision: 12, scale: 2, default: 0.0, null: false
@@ -1710,7 +1710,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",     limit: 50,                          default: "",  null: false
   end
 
-  create_table "rahtisopimukset", primary_key: "tunnus", force: :cascade do |t|
+  create_table "rahtisopimukset", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.string   "toimitustapa", limit: 50, default: "", null: false
     t.integer  "asiakas",      limit: 4,  default: 0,  null: false
@@ -1724,7 +1724,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",     limit: 50, default: "", null: false
   end
 
-  create_table "sahkoisen_lahetteen_rivit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "sahkoisen_lahetteen_rivit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                           default: "",  null: false
     t.integer  "otunnus",            limit: 4,                           default: 0,   null: false
     t.integer  "tilausrivin_tunnus", limit: 4,                           default: 0,   null: false
@@ -1742,7 +1742,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "sahkoisen_lahetteen_rivit", ["yhtio", "otunnus", "tilausrivin_tunnus"], name: "yhtio_otunnus_tilausrivin_tunnus", using: :btree
 
-  create_table "saldovahvistukset", primary_key: "tunnus", force: :cascade do |t|
+  create_table "saldovahvistukset", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.date    "lahetys_pvm"
     t.string  "saldovahvistus_viesti", limit: 150, default: "", null: false
     t.date    "avoin_saldo_pvm"
@@ -1751,7 +1751,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string  "yhtio",                 limit: 5,   default: "", null: false
   end
 
-  create_table "saldovahvistusrivit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "saldovahvistusrivit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.integer "saldovahvistus_tunnus", limit: 4,                          default: 0,   null: false
     t.string  "tyyppi",                limit: 1,                          default: "",  null: false
     t.integer "lasku_tunnus",          limit: 4,                          default: 0,   null: false
@@ -1762,7 +1762,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string  "yhtio",                 limit: 5,                          default: "",  null: false
   end
 
-  create_table "sanakirja", primary_key: "tunnus", force: :cascade do |t|
+  create_table "sanakirja", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,     default: "", null: false
     t.text     "fi",         limit: 65535
     t.text     "se",         limit: 65535
@@ -1783,7 +1783,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "sanakirja", ["fi"], name: "fi", length: {"fi"=>50}, using: :btree
 
-  create_table "sarjanumeroseuranta", primary_key: "tunnus", force: :cascade do |t|
+  create_table "sarjanumeroseuranta", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                              default: "",  null: false
     t.string   "tuoteno",           limit: 60,                             default: "",  null: false
     t.string   "sarjanumero",       limit: 150,                            default: "",  null: false
@@ -1823,7 +1823,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "sarjanumeroseuranta", ["yhtio", "tuoteno", "siirtorivitunnus"], name: "yhtio_siirtorivitunnus", using: :btree
   add_index "sarjanumeroseuranta", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "sarjanumeroseuranta_arvomuutos", primary_key: "tunnus", force: :cascade do |t|
+  create_table "sarjanumeroseuranta_arvomuutos", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,                              default: "",  null: false
     t.integer  "sarjanumerotunnus", limit: 8,                              default: 0,   null: false
     t.decimal  "arvomuutos",                      precision: 16, scale: 6, default: 0.0, null: false
@@ -1832,7 +1832,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "luontiaika",                                                             null: false
   end
 
-  create_table "suorituksen_kohdistus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "suorituksen_kohdistus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "yhtio",          limit: 5,                          default: "", null: false
     t.integer "suoritustunnus", limit: 4
     t.integer "laskutunnus",    limit: 4
@@ -1844,7 +1844,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "suorituksen_kohdistus", ["yhtio", "laskutunnus"], name: "laskutunnus_index", using: :btree
   add_index "suorituksen_kohdistus", ["yhtio", "suoritustunnus"], name: "suoritustunnus_index", using: :btree
 
-  create_table "suoritus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "suoritus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "yhtio",          limit: 5,                              default: "",  null: false
     t.string  "tilino",         limit: 35,                             default: "",  null: false
     t.string  "tilino_maksaja", limit: 35,                             default: "",  null: false
@@ -1866,7 +1866,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "suoritus", ["yhtio", "kohdpvm"], name: "yhtio_kohdpvm", using: :btree
   add_index "suoritus", ["yhtio", "viite"], name: "yhtio_viite", using: :btree
 
-  create_table "suorituskykyloki", primary_key: "tunnus", force: :cascade do |t|
+  create_table "suorituskykyloki", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,                                   default: "",  null: false
     t.string   "skripti",       limit: 100,                                 default: "",  null: false
     t.datetime "suoritusalku",                                                            null: false
@@ -1881,7 +1881,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "suorituskykyloki", ["yhtio", "luontiaika"], name: "yhtio_luontiaika", using: :btree
   add_index "suorituskykyloki", ["yhtio", "skripti", "luontiaika"], name: "yhtio_skripti_luontiaika", using: :btree
 
-  create_table "suuntalavat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "suuntalavat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
     t.string   "tila",               limit: 1,                            default: "",  null: false
     t.string   "sscc",               limit: 150,                          default: "",  null: false
@@ -1912,7 +1912,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "suuntalavat", ["yhtio", "tila", "keraysvyohyke", "keikkatunnus"], name: "yhtio_tila_keraysvyohyke_keikkatunnus", using: :btree
   add_index "suuntalavat", ["yhtio", "tila", "usea_keraysvyohyke", "kaytettavyys"], name: "usea_keraysvyohyke", using: :btree
 
-  create_table "suuntalavat_saapuminen", primary_key: "tunnus", force: :cascade do |t|
+  create_table "suuntalavat_saapuminen", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,  default: "", null: false
     t.integer  "suuntalava", limit: 4,  default: 0,  null: false
     t.integer  "saapuminen", limit: 4,  default: 0,  null: false
@@ -1925,7 +1925,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "suuntalavat_saapuminen", ["yhtio", "saapuminen"], name: "saapuminen", using: :btree
   add_index "suuntalavat_saapuminen", ["yhtio", "suuntalava", "saapuminen"], name: "suuntalavat_saapuminen", using: :btree
 
-  create_table "synclog", primary_key: "tunnus", force: :cascade do |t|
+  create_table "synclog", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
     t.string   "taulu",        limit: 20,    default: "", null: false
     t.integer  "tauluntunnus", limit: 4,     default: 0,  null: false
@@ -1935,7 +1935,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "luontiaika",                              null: false
   end
 
-  create_table "tallennetut_parametrit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tallennetut_parametrit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,          default: "", null: false
     t.string   "kuka",       limit: 50,         default: "", null: false
     t.string   "nimitys",    limit: 100,        default: "", null: false
@@ -1947,7 +1947,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "tallennetut_parametrit", ["yhtio", "kuka", "sovellus", "nimitys"], name: "muisti", unique: true, using: :btree
 
-  create_table "tapahtuma", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tapahtuma", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                              default: "",  null: false
     t.string   "tuoteno",    limit: 60,                             default: "",  null: false
     t.string   "laji",       limit: 15,                             default: "",  null: false
@@ -1971,7 +1971,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tapahtuma", ["yhtio", "laji", "tuoteno"], name: "yhtio_laji_tuoteno", using: :btree
   add_index "tapahtuma", ["yhtio", "tuoteno", "laadittu"], name: "yhtio_tuote_laadittu", using: :btree
 
-  create_table "taric_veroperusteet", primary_key: "tunnus", force: :cascade do |t|
+  create_table "taric_veroperusteet", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "laji",                   limit: 8,                           default: "",  null: false
     t.string  "nimike",                 limit: 10,                          default: "",  null: false
     t.string  "lisakoodin_tyyppi",      limit: 1,                           default: "",  null: false
@@ -1994,7 +1994,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "taric_veroperusteet", ["laji", "nimike", "maa_ryhma"], name: "nimike_index", using: :btree
   add_index "taric_veroperusteet", ["laji", "toimenpide_id"], name: "fyysinen_avain_index", using: :btree
 
-  create_table "taso", primary_key: "tunnus", force: :cascade do |t|
+  create_table "taso", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,                            default: "",  null: false
     t.string   "tyyppi",          limit: 1,                            default: "",  null: false
     t.string   "summattava_taso", limit: 150,                          default: "",  null: false
@@ -2013,7 +2013,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "taso", ["yhtio", "tyyppi", "taso"], name: "yhtio_tyyppi_taso_index", unique: true, using: :btree
 
-  create_table "tilausrivi", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tilausrivi", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                 limit: 5,                              default: "",   null: false
     t.string   "tyyppi",                limit: 1,                              default: "",   null: false
     t.date     "toimaika",                                                                    null: false
@@ -2087,7 +2087,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tilausrivi", ["yhtio", "tyyppi", "var", "keratty", "kerattyaika", "uusiotunnus"], name: "yhtio_tyyppi_var_keratty_kerattyaika_uusiotunnus", using: :btree
   add_index "tilausrivi", ["yhtio", "uusiotunnus"], name: "uusiotunnus_index", using: :btree
 
-  create_table "tilausrivin_lisatiedot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tilausrivin_lisatiedot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                     limit: 5,                             default: "",    null: false
     t.integer  "tilausrivitunnus",          limit: 4,                             default: 0,     null: false
     t.integer  "tiliointirivitunnus",       limit: 4,                             default: 0,     null: false
@@ -2155,7 +2155,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tilausrivin_lisatiedot", ["yhtio", "tilausrivitunnus"], name: "tilausrivitunnus", unique: true, using: :btree
   add_index "tilausrivin_lisatiedot", ["yhtio", "vanha_otunnus"], name: "yhtio_vanhaotunnus", using: :btree
 
-  create_table "tili", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tili", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",               limit: 5,                           default: "", null: false
     t.string   "tilino",              limit: 6,                           default: "", null: false
     t.string   "sisainen_taso",       limit: 20,                          default: "", null: false
@@ -2179,7 +2179,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tili", ["nimi"], name: "nimi", type: :fulltext
   add_index "tili", ["yhtio", "tilino"], name: "tili_index", using: :btree
 
-  create_table "tilikaudet", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tilikaudet", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,  default: "", null: false
     t.date     "tilikausi_alku",                          null: false
     t.date     "tilikausi_loppu",                         null: false
@@ -2190,7 +2190,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",        limit: 50, default: "", null: false
   end
 
-  create_table "tiliointi", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tiliointi", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,                              default: "",  null: false
     t.string   "laatija",          limit: 50,                             default: "",  null: false
     t.datetime "laadittu",                                                              null: false
@@ -2222,7 +2222,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tiliointi", ["yhtio", "tilino", "tapvm"], name: "yhtio_tilino_tapvm", using: :btree
   add_index "tiliointi", ["yhtio", "tosite"], name: "tosite_index", using: :btree
 
-  create_table "tiliointisaanto", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tiliointisaanto", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",       limit: 5,     default: "", null: false
     t.string   "tyyppi",      limit: 1,     default: "", null: false
     t.integer  "ttunnus",     limit: 4,     default: 0,  null: false
@@ -2245,7 +2245,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",    limit: 50,    default: "", null: false
   end
 
-  create_table "tiliotedata", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tiliotedata", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",           limit: 5,     default: "", null: false
     t.integer  "aineisto",        limit: 4,     default: 0,  null: false
     t.string   "tilino",          limit: 35,    default: "", null: false
@@ -2267,7 +2267,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tiliotedata", ["yhtio", "tilino", "tyyppi", "tieto"], name: "yhtio_tilino_tyyppi_tieto", length: {"yhtio"=>nil, "tilino"=>nil, "tyyppi"=>nil, "tieto"=>150}, using: :btree
   add_index "tiliotedata", ["yhtio", "tiliointitunnus"], name: "yhtio_tiliointitunnus", using: :btree
 
-  create_table "tiliotesaanto", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tiliotesaanto", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "yhtio",       limit: 5,   default: "", null: false
     t.string  "pankkitili",  limit: 35,  default: "", null: false
     t.string  "koodi",       limit: 3,   default: "", null: false
@@ -2281,7 +2281,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer "kustp2",      limit: 4,   default: 0,  null: false
   end
 
-  create_table "toimi", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimi", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                        limit: 5,                             default: "",  null: false
     t.string   "nimi",                         limit: 60,                            default: "",  null: false
     t.string   "nimitark",                     limit: 60,                            default: "",  null: false
@@ -2368,7 +2368,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "toimi", ["yhtio", "toimittajanro"], name: "toimittajanro_index", using: :btree
   add_index "toimi", ["yhtio", "ytunnus"], name: "ytunnus_index", using: :btree
 
-  create_table "toimittajaalennus", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimittajaalennus", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",       limit: 5,                          default: "",  null: false
     t.string   "tuoteno",     limit: 60,                         default: "",  null: false
     t.string   "ryhma",       limit: 15,                         default: "",  null: false
@@ -2392,7 +2392,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "toimittajaalennus", ["yhtio", "ytunnus", "ryhma"], name: "yhtio_ytunnus_ryhma", using: :btree
   add_index "toimittajaalennus", ["yhtio", "ytunnus", "tuoteno"], name: "yhtio_ytunnus_tuoteno", using: :btree
 
-  create_table "toimittajahinta", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimittajahinta", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,                           default: "",  null: false
     t.string   "tuoteno",    limit: 60,                          default: "",  null: false
     t.string   "ryhma",      limit: 15,                          default: "",  null: false
@@ -2417,7 +2417,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "toimittajahinta", ["yhtio", "ytunnus", "ryhma"], name: "yhtio_ytunnus_ryhma", using: :btree
   add_index "toimittajahinta", ["yhtio", "ytunnus", "tuoteno"], name: "yhtio_ytunnus_tuoteno", using: :btree
 
-  create_table "toimitustapa", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimitustapa", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                            limit: 5,                           default: "",  null: false
     t.string   "selite",                           limit: 50,                          default: "",  null: false
     t.string   "lahdon_selite",                    limit: 150,                         default: "",  null: false
@@ -2480,7 +2480,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "toimitustapa", ["yhtio", "selite"], name: "selite_index", using: :btree
   add_index "toimitustapa", ["yhtio", "selite"], name: "yhtio_selite", unique: true, using: :btree
 
-  create_table "toimitustavan_lahdot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimitustavan_lahdot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                limit: 5,   default: "",                    null: false
     t.integer  "lahdon_viikonpvm",     limit: 4,   default: 0,                     null: false
     t.time     "lahdon_kellonaika",                default: '2000-01-01 00:00:00', null: false
@@ -2499,7 +2499,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",             limit: 50,  default: "",                    null: false
   end
 
-  create_table "toimitustavat_toimipaikat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "toimitustavat_toimipaikat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",               limit: 5,  default: "", null: false
     t.integer  "toimitustapa_tunnus", limit: 4,               null: false
     t.integer  "toimipaikka_tunnus",  limit: 4,               null: false
@@ -2511,7 +2511,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "tullinimike", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tullinimike", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,     default: "", null: false
     t.string   "cnkey",         limit: 20,    default: "", null: false
     t.string   "cn",            limit: 8,     default: "", null: false
@@ -2528,7 +2528,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "tullinimike", ["cn"], name: "tullinimike_cn", using: :btree
 
-  create_table "tuote", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuote", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                        limit: 5,                              default: "",  null: false
     t.string   "tuoteno",                      limit: 60,                             default: "",  null: false
     t.string   "nimitys",                      limit: 100,                            default: "",  null: false
@@ -2633,7 +2633,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuote", ["yhtio", "tuotetyyppi", "status"], name: "yhtio_tuotetyyppi_status", using: :btree
   add_index "tuote", ["yhtio"], name: "toituono_index", using: :btree
 
-  create_table "tuote_muutokset", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuote_muutokset", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",         limit: 5,  default: "", null: false
     t.string   "tuoteno",       limit: 60, default: "", null: false
     t.string   "alkup_tuoteno", limit: 60, default: "", null: false
@@ -2641,7 +2641,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "kuka",          limit: 50, default: "", null: false
   end
 
-  create_table "tuotepaikat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuotepaikat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                       limit: 5,                           default: "",  null: false
     t.string   "tuoteno",                     limit: 60,                          default: "",  null: false
     t.string   "hyllyalue",                   limit: 5,                           default: "",  null: false
@@ -2677,7 +2677,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuotepaikat", ["yhtio", "tuoteno", "hyllyalue", "hyllynro", "hyllyvali", "hyllytaso"], name: "yhtio_tuoteno_paikka", unique: true, using: :btree
   add_index "tuotepaikat", ["yhtio", "tuoteno"], name: "tuote_index", using: :btree
 
-  create_table "tuoteperhe", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuoteperhe", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "isatuoteno",   limit: 60,                             default: "",  null: false
     t.string   "tuoteno",      limit: 60,                             default: "",  null: false
     t.string   "tyyppi",       limit: 1,                              default: "",  null: false
@@ -2699,7 +2699,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuoteperhe", ["yhtio", "tyyppi", "isatuoteno"], name: "yhtio_tyyppi_isatuoteno", using: :btree
   add_index "tuoteperhe", ["yhtio", "tyyppi", "tuoteno"], name: "yhtio_tyyppi_tuoteno", using: :btree
 
-  create_table "tuotteen_alv", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuotteen_alv", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                  limit: 5,                          default: "",  null: false
     t.string   "tuoteno",                limit: 60,                         default: "",  null: false
     t.string   "maa",                    limit: 2,                          default: "",  null: false
@@ -2722,7 +2722,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "tuotteen_alv", ["yhtio", "maa", "tuoteno"], name: "yhtio_maa_tuoteno", unique: true, using: :btree
 
-  create_table "tuotteen_avainsanat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuotteen_avainsanat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",      limit: 5,     default: "", null: false
     t.string   "tuoteno",    limit: 60,    default: "", null: false
     t.string   "kieli",      limit: 2,     default: "", null: false
@@ -2742,7 +2742,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuotteen_avainsanat", ["yhtio", "kieli", "tuoteno"], name: "yhtio_kieli_tuoteno", using: :btree
   add_index "tuotteen_avainsanat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "tuotteen_toimittajat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuotteen_toimittajat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                   limit: 5,                            default: "",   null: false
     t.string   "tuoteno",                 limit: 60,                           default: "",   null: false
     t.integer  "liitostunnus",            limit: 4,                            default: 0,    null: false
@@ -2775,7 +2775,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuotteen_toimittajat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
   add_index "tuotteen_toimittajat", ["yhtio", "viivakoodi"], name: "yhtio_viivakoodi", using: :btree
 
-  create_table "tuotteen_toimittajat_tuotenumerot", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tuotteen_toimittajat_tuotenumerot", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",               limit: 5,   default: "", null: false
     t.integer  "toim_tuoteno_tunnus", limit: 4,   default: 0,  null: false
     t.string   "tuoteno",             limit: 30,  default: "", null: false
@@ -2790,7 +2790,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "tuotteen_toimittajat_tuotenumerot", ["yhtio", "tuoteno"], name: "tuotteen_toimittajat_tuoteno", using: :btree
   add_index "tuotteen_toimittajat_tuotenumerot", ["yhtio", "viivakoodi"], name: "tuotteen_toimittajat_viivakoodi", using: :btree
 
-  create_table "tyomaarayksen_tapahtumat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "tyomaarayksen_tapahtumat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,  default: "", null: false
     t.integer  "tyomaarays_tunnus", limit: 4,  default: 0,  null: false
     t.string   "tyojono_selite",    limit: 60, default: "", null: false
@@ -2800,7 +2800,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "kommentti",         limit: 60, default: "", null: false
   end
 
-  create_table "tyomaarays", primary_key: "otunnus", force: :cascade do |t|
+  create_table "tyomaarays", primary_key: "otunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                     limit: 5,     default: "", null: false
     t.string   "kotipuh",                   limit: 55,    default: "", null: false
     t.string   "tyopuh",                    limit: 55,    default: "", null: false
@@ -2835,7 +2835,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "hyvaksy",                   limit: 55,    default: "", null: false
   end
 
-  create_table "vaihtoehtoiset_verkkolaskutunnukset", primary_key: "tunnus", force: :cascade do |t|
+  create_table "vaihtoehtoiset_verkkolaskutunnukset", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.integer  "toimi_tunnus", limit: 4,  default: 0,  null: false
     t.string   "kohde_sarake", limit: 50, default: "", null: false
@@ -2846,7 +2846,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",     limit: 50, default: "", null: false
   end
 
-  create_table "vak", primary_key: "tunnus", force: :cascade do |t|
+  create_table "vak", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                                            limit: 5,     default: "", null: false
     t.string   "yk_nro",                                                           limit: 5,     default: "", null: false
     t.text     "nimi_ja_kuvaus",                                                   limit: 65535
@@ -2878,7 +2878,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",                                                         limit: 50,    default: "", null: false
   end
 
-  create_table "vak_imdg", primary_key: "tunnus", force: :cascade do |t|
+  create_table "vak_imdg", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                                            limit: 5,     default: "", null: false
     t.string   "yk_nro",                                                           limit: 5,     default: "", null: false
     t.text     "nimi_ja_kuvaus",                                                   limit: 65535
@@ -2910,7 +2910,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",                                                         limit: 50,    default: "", null: false
   end
 
-  create_table "valuu", primary_key: "tunnus", force: :cascade do |t|
+  create_table "valuu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,                           default: "",  null: false
     t.string   "nimi",             limit: 3,                           default: "",  null: false
     t.decimal  "jarjestys",                   precision: 2,            default: 0,   null: false
@@ -2924,7 +2924,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "valuu", ["yhtio", "nimi"], name: "yhtio_nimi", unique: true, using: :btree
 
-  create_table "valuu_historia", primary_key: "tunnus", force: :cascade do |t|
+  create_table "valuu_historia", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string  "kotivaluutta", limit: 3,                          default: "",  null: false
     t.string  "valuutta",     limit: 3,                          default: "",  null: false
     t.date    "kurssipvm",                                                     null: false
@@ -2933,7 +2933,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "valuu_historia", ["kotivaluutta", "valuutta", "kurssipvm"], name: "kotivaluutta_valkoodi_kurssipvm", unique: true, using: :btree
 
-  create_table "varaston_hyllypaikat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "varaston_hyllypaikat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,                            default: "",  null: false
     t.string   "hyllyalue",      limit: 5,                            default: "",  null: false
     t.string   "hyllynro",       limit: 5,                            default: "",  null: false
@@ -2961,7 +2961,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "varaston_hyllypaikat", ["yhtio", "hyllyalue", "hyllynro", "hyllyvali", "hyllytaso"], name: "yhtio_paikka", unique: true, using: :btree
   add_index "varaston_hyllypaikat", ["yhtio", "varasto", "korkeus", "leveys", "syvyys", "maksimitaakka"], name: "yhtio_varasto_mitat", using: :btree
 
-  create_table "varaston_tulostimet", primary_key: "tunnus", force: :cascade do |t|
+  create_table "varaston_tulostimet", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,   default: "", null: false
     t.integer  "varasto",        limit: 8,   default: 0,  null: false
     t.string   "nimi",           limit: 15,  default: "", null: false
@@ -2984,7 +2984,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",       limit: 50,  default: "", null: false
   end
 
-  create_table "varastopaikat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "varastopaikat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                            limit: 5,                            default: "",  null: false
     t.string   "alkuhyllyalue",                    limit: 5,                            default: "",  null: false
     t.string   "alkuhyllynro",                     limit: 5,                            default: "",  null: false
@@ -3036,7 +3036,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "varastopaikat", ["yhtio", "loppuhyllyalue", "loppuhyllynro"], name: "yhtio_loppu", using: :btree
   add_index "varastopaikat", ["yhtio", "maa"], name: "yhtio_maa", using: :btree
 
-  create_table "vastaavat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "vastaavat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",          limit: 5,  default: "", null: false
     t.integer  "jarjestys",      limit: 8,  default: 0,  null: false
     t.string   "tuoteno",        limit: 60, default: "", null: false
@@ -3051,7 +3051,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   add_index "vastaavat", ["yhtio", "id"], name: "yhtio_id", using: :btree
   add_index "vastaavat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
-  create_table "yhteyshenkilo", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yhteyshenkilo", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                  limit: 5,     default: "", null: false
     t.string   "tyyppi",                 limit: 1,     default: "", null: false
     t.integer  "liitostunnus",           limit: 4,     default: 0,  null: false
@@ -3079,7 +3079,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",               limit: 50,    default: "", null: false
   end
 
-  create_table "yhtio", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yhtio", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                             limit: 5,                           default: "",  null: false
     t.integer  "jarjestys",                         limit: 4,                           default: 0,   null: false
     t.string   "konserni",                          limit: 5,                           default: "",  null: false
@@ -3200,7 +3200,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "yhtio", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "yhtion_parametrit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yhtion_parametrit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                                            limit: 5,                              default: "",    null: false
     t.string   "admin_email",                                      limit: 100,                            default: "",    null: false
     t.string   "alert_email",                                      limit: 100,                            default: "",    null: false
@@ -3539,7 +3539,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "yhtion_parametrit", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "yhtion_toimipaikat", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yhtion_toimipaikat", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                         limit: 5,   default: "", null: false
     t.string   "ovtlisa",                       limit: 16,  default: "", null: false
     t.string   "vat_numero",                    limit: 50,  default: "", null: false
@@ -3578,7 +3578,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "yhtion_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "yhtion_toimipaikat_parametrit", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yhtion_toimipaikat_parametrit", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",       limit: 5,     default: "", null: false
     t.integer  "toimipaikka", limit: 4,     default: 0,  null: false
     t.string   "parametri",   limit: 150,   default: "", null: false
@@ -3591,7 +3591,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   add_index "yhtion_toimipaikat_parametrit", ["yhtio"], name: "yhtio_index", using: :btree
 
-  create_table "yriti", primary_key: "tunnus", force: :cascade do |t|
+  create_table "yriti", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",                 limit: 5,                              default: "",  null: false
     t.string   "kaytossa",              limit: 1,                              default: "",  null: false
     t.string   "nimi",                  limit: 40,                             default: "",  null: false
