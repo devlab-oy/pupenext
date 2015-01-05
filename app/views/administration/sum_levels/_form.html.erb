@@ -1,74 +1,78 @@
 <%= form_for(@sum_level) do |f| %>
-    <%= render "administration/form_errors", resource: @sum_level %>
+  <%= render "administration/form_errors", resource: @sum_level %>
 
-    <table>
-      <tr>
-        <th><%= f.label :tyyppi, t('Tyyppi') %></th>
-        <td>
-          <% sum_level_types = SumLevel.sum_levels.map { |_, sum_level| %>
-              <% [sum_level.human_readable_type, sum_level.sti_name] %>
-          <% } %>
-          <%= f.select :tyyppi, sum_level_types, {}, { onchange: "submit()" } %>
-        </td>
-      </tr>
-      <tr>
-        <th><%= f.label :summattava_taso, t('Summattava taso') %></th>
-        <td><%= f.text_field :summattava_taso %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :taso, t('Tasokoodi') %></th>
-        <td><%= f.text_field :taso %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :nimi, t('Nimi') %></th>
-        <td><%= f.text_field :nimi %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :oletusarvo, t('Oletusarvo') %></th>
-        <td><%= f.text_field :oletusarvo %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :kerroin, t('Kerroin') %></th>
-        <td><%= f.text_field :kerroin %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :jakaja, t('Jakaja') %></th>
-        <td><%= f.text_field :jakaja %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :kumulatiivinen, t('Kumulatiivinen') %></th>
-        <td>
-          <%= f.select :kumulatiivinen, SumLevel.kumulatiivinen_options.invert %>
-        </td>
-      </tr>
+  <table>
+    <tr>
+      <th><%= f.label :tyyppi, t('Tyyppi') %></th>
+      <td>
+        <% sum_level_types = SumLevel.sum_levels.map { |_, sum_level| %>
+          <% [sum_level.human_readable_type, sum_level.sti_name] %>
+        <% } %>
+        <%= f.select :tyyppi, sum_level_types, {}, { onchange: "submit()" } %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :summattava_taso, t('Summattava taso') %></th>
+      <td><%= f.text_field :summattava_taso %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :taso, t('Tasokoodi') %></th>
+      <td><%= f.text_field :taso %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :nimi, t('Nimi') %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletusarvo, t('Oletusarvo') %></th>
+      <td><%= f.text_field :oletusarvo %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kerroin, t('Kerroin') %></th>
+      <td><%= f.text_field :kerroin %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jakaja, t('Jakaja') %></th>
+      <td><%= f.text_field :jakaja %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kumulatiivinen, t('Kumulatiivinen') %></th>
+      <td>
+        <%= f.select :kumulatiivinen, SumLevel.kumulatiivinen_options.invert %>
+      </td>
+    </tr>
+
+    <% if @sum_level.tyyppi == "U" %>
       <tr>
         <th><%= f.label :kayttotarkoitus, t('Käyttötarkoitus') %></th>
         <td>
           <%= f.select :kayttotarkoitus, SumLevel.kayttotarkoitus_options.invert %>
         </td>
       </tr>
-      <tr>
-        <th><%= t('Laatija') %></th>
-        <td><%= @sum_level.laatija %></td>
-      </tr>
-      <tr>
-        <th><%= t('Luontiaika') %></th>
-        <td><%= @sum_level.luontiaika %></td>
-      </tr>
-      <tr>
-        <th><%= t('Muutospvm') %></th>
-        <td><%= @sum_level.muutospvm %></td>
-      </tr>
-      <tr>
-        <th><%= t('Muuttaja') %></th>
-        <td><%= @sum_level.muuttaja %></td>
-      </tr>
-    </table>
-
-    <% if update_access? %>
-        <div class="actions">
-          <% text = @sum_level.persisted? ? 'Tallenna' : 'Lisää' %>
-          <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-        </div>
     <% end %>
+
+    <tr>
+      <th><%= t('Laatija') %></th>
+      <td><%= @sum_level.laatija %></td>
+    </tr>
+    <tr>
+      <th><%= t('Luontiaika') %></th>
+      <td><%= @sum_level.luontiaika %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muutospvm') %></th>
+      <td><%= @sum_level.muutospvm %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muuttaja') %></th>
+      <td><%= @sum_level.muuttaja %></td>
+    </tr>
+  </table>
+
+  <% if update_access? %>
+    <div class="actions">
+      <% text = @sum_level.persisted? ? 'Tallenna' : 'Lisää' %>
+      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    </div>
+  <% end %>
 <% end %>
