@@ -203,7 +203,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def create_external_bk_rows
       deactivate_old_rows unless rows.count.zero?
 
-      external_rows = create_installment_rows('evl')
+      external_rows = create_installment_rows(:evl)
       external_rows.each do |params|
         create_row(params)
       end
@@ -212,7 +212,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def create_internal_bk_rows
       accounting_voucher.deactivate_old_rows unless accounting_voucher.nil?
 
-      internal_rows = create_installment_rows('sumu')
+      internal_rows = create_installment_rows(:sumu)
       internal_rows.each do |params|
         accounting_voucher.create_voucher_row(params)
       end
@@ -283,11 +283,11 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def create_installment_rows(payment_type)
       full_amount = summa
 
-      if payment_type == 'sumu'
+      if payment_type == :sumu
         calculation_type = sumu_poistotyyppi
         calculation_amount = sumu_poistoera
       else
-        payment_type = 'evl'
+        payment_type = :evl
         calculation_type = evl_poistotyyppi
         calculation_amount = evl_poistoera
       end
@@ -327,7 +327,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         all_row_params<<{
           laatija: 'CommoditiesController',
           muuttaja: 'CommoditiesController',
-          tapvm: time,
+          tapvm: time.end_of_month,
           yhtio: yhtio,
           summa: red,
           tyyppi: sumu_poistotyyppi,
