@@ -1202,6 +1202,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "factoringsiirtonumero",            limit: 4,                              default: 0,          null: false
     t.string   "ohjelma_moduli",                   limit: 50,                             default: "PUPESOFT", null: false
     t.integer  "label",                            limit: 4,                              default: 0,          null: false
+    t.integer  "hyodyke_tunnus",                                                          default: 0,          null: false
     t.integer  "tunnusnippu",                      limit: 4,                              default: 0,          null: false
     t.integer  "vanhatunnus",                      limit: 4,                              default: 0,          null: false
   end
@@ -2193,6 +2194,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   create_table "tiliointi", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",            limit: 5,                              default: "",  null: false
     t.string   "laatija",          limit: 50,                             default: "",  null: false
+    t.datetime "luontiaika",                                                              null: false
     t.datetime "laadittu",                                                              null: false
     t.integer  "ltunnus",          limit: 4,                              default: 0,   null: false
     t.string   "liitos",           limit: 1,                              default: "",  null: false
@@ -2213,6 +2215,8 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "tosite",           limit: 4,                              default: 0,   null: false
     t.integer  "aputunnus",        limit: 4,                              default: 0,   null: false
     t.integer  "tapahtumatunnus",  limit: 4,                              default: 0,   null: false
+    t.datetime "muutospvm",                                                            null: false
+    t.string   "muuttaja",            limit: 50,                          default: "", null: false
   end
 
   add_index "tiliointi", ["ltunnus"], name: "tositerivit_index", using: :btree
