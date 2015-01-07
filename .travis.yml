@@ -22,7 +22,7 @@ addons:
 before_install:
 install:
 before_script:
-  - mysql -e 'create database pupesoft_test;'
+  - mysql -e 'create database pupesoft_test default character set latin1;'
 script:
   - bundle install
   - bundle exec rake

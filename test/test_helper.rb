@@ -17,4 +17,5 @@ SimpleCov.start 'rails'
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
   fixtures :all
+  self.use_transactional_fixtures = false
 end
