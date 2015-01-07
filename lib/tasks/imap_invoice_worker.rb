@@ -103,7 +103,7 @@ class ImapInvoiceWorker
         send_email mail_options
       end
     end
-    
+
     if ALLOWED_DOMAIN.split.any? { |a| address.end_with? a }
 
       # Loop all attachments
