@@ -114,7 +114,9 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
         :tilino,
         :tila,
         :viite,
-        :nimi
+        :nimi,
+        :ytunnus,
+        :viesti
       )
       p.reject { |_,v| v.empty? }
     end

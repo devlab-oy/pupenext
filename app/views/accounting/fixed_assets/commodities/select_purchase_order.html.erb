@@ -17,14 +17,24 @@
 <table>
   <tr>
     <th>
+      <%= sortable 'tunnus' %>
+      <br />
+      <%= text_field_tag :tunnus, params[:tunnus] %>
+    </th>
+    <th>
+      <%= sortable 'ytunnus' %>
+      <br />
+      <%= text_field_tag :ytunnus, params[:ytunnus] %>
+    </th>
+    <th>
       <%= sortable 'nimi' %>
       <br />
       <%= text_field_tag :nimi, params[:nimi] %>
     </th>
     <th>
-      <%= sortable 'viite' %>
+      <%= sortable 'viesti' %>
       <br />
-      <%= text_field_tag :viite, params[:viite] %>
+      <%= text_field_tag :viesti, params[:viesti] %>
     </th>
     <th>
       <%= sortable 'summa' %>
@@ -35,11 +45,13 @@
   </tr>
 <% end %>
 
-
   <% @purchase_orders.each do |po| %>
+
   <tr>
+    <td><%= po.tunnus %></td>
+    <td><%= po.ytunnus %></td>
     <td><%= po.nimi %></td>
-    <td><%= po.viite %></td>
+    <td><%= po.viesti %></td>
     <td><%= po.summa %></td>
   </tr>
   <tr>
