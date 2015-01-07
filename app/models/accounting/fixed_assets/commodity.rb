@@ -169,8 +169,8 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       yhtio: yhtio,
       muutospvm: Time.now,
       luontiaika: Time.now,
-      laatija: 'CommoditiesController',
-      muuttaja: 'CommoditiesController',
+      laatija: laatija,
+      muuttaja: muuttaja,
       tiliointirivi_tunnus: accounting_row_id,
       hyodyke_tunnus: id
     }
@@ -325,8 +325,8 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       reductions.each do |red|
         time = activation_date.advance(:months => +amt)
         all_row_params<<{
-          laatija: 'CommoditiesController',
-          muuttaja: 'CommoditiesController',
+          laatija: laatija,
+          muuttaja: muuttaja,
           tapvm: time.end_of_month,
           yhtio: yhtio,
           summa: red,
@@ -343,7 +343,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def set_sum_to_commodity
       totalsum = BigDecimal.new 0
       cost_rows.each {|x| totalsum += x.accounting_row.summa rescue 0 }
-      logger.debug "personal jesus #{totalsum.to_s}"
       summa = totalsum
     end
 
