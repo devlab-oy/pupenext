@@ -37,19 +37,23 @@
     </tr>
     <tr>
       <th><%= f.label :kustp, t('Kustannuspaikka') %></th>
-      <td><%= f.text_field :kustp %></td>
+      <% preselected_cost_center = @commodity.cost_rows.first.accounting_row.kustp rescue 0 %>
+      <td><%= f.text_field :kustp, value: preselected_cost_center %></td>
     </tr>
     <tr>
       <th><%= f.label :kohde, t('Kohde') %></th>
-      <td><%= f.text_field :kohde %></td>
+      <% preselected_target = @commodity.cost_rows.first.accounting_row.kohde rescue 0 %>
+      <td><%= f.text_field :kohde, value: preselected_target %></td>
     </tr>
     <tr>
       <th><%= f.label :projekti, t('Projekti') %></th>
-      <td><%= f.text_field :projekti %></td>
+      <% preselected_project = @commodity.cost_rows.first.accounting_row.projekti rescue 0%>
+      <td><%= f.text_field :projekti, value: preselected_project %></td>
     </tr>
     <tr>
       <th><%= f.label :tilino, t('Tili') %></th>
-      <td><%= f.text_field :tilino %></td>
+      <% preselected_account = @commodity.cost_rows.first.accounting_row.tilino rescue 0 %>
+      <td><%= f.text_field :tilino, value: preselected_account %></td>
       <td class='back'><%= link_to t('Valitse tili'), accounting_fixed_assets_commodities_account_path(@commodity) if update_access? %></td>
     </tr>
     <tr>
@@ -94,7 +98,7 @@
   </table>
   <br/>
   <% if @commodity.rows.active.count > 0 %>
-  <font class="head"><%= t('Poistoerät') %></font>
+  <font class="head"><%= t('Poistoerät avoimelle tilikaudelle') %></font>
   <br/>
   <br/>
   <table>

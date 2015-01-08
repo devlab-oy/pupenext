@@ -1,7 +1,7 @@
 class Accounting::Account < ActiveRecord::Base
 
-  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
-  has_one :commodity, foreign_key: :tilino, primary_key: :tilino
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+  belongs_to :commodity, foreign_key: :tilino, primary_key: :tilino
 
   # Fixed assets accounts
   #scope :fixed, -> { where(kayttomaisuustili: 'x') }

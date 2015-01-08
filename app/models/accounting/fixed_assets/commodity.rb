@@ -275,7 +275,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
         if cos.accounting_row.nil?
           next
         elsif cos.accounting_row.tilino != tilino
-          errors.add(:cost_row, "account number mismatch - should be #{tilino} but is #{cos.accounting_row.tilino}")
+          errors.add(:cost_row, "account number mismatch - should be #{cos.accounting_row.tilino} but is #{tilino}")
         end
       end
     end
