@@ -104,7 +104,7 @@ class ImapInvoiceWorker
       end
     end
 
-    if address.end_with?("#{ALLOWED_DOMAIN.dup.downcase}")
+    if ALLOWED_DOMAIN.split.any? { |a| address.end_with? a }
 
       # Loop all attachments
       msg.attachments.each { |file| handle_file(msg, file, lang, attach_dir) }
