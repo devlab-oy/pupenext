@@ -175,9 +175,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       hyodyke_tunnus: id
     }
 
-    costi = cost_rows.build
-    costi.attributes = cost_row_params
-    costi.save
+    new_cost_row = cost_rows.build
+    new_cost_row.attributes = cost_row_params
+    new_cost_row.save
   end
 
   protected
@@ -205,7 +205,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
       external_rows = create_installment_rows(:evl)
       external_rows.each do |params|
-        create_row(params)
+        # Only create rows for current fiscal year
+        if company.is_date_in_this_fiscal_year?(params[:tapvm])
+          create_row(params)
+        end
       end
     end
 
@@ -214,14 +217,19 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
       internal_rows = create_installment_rows(:sumu)
       internal_rows.each do |params|
-        accounting_voucher.create_voucher_row(params)
+        # Only create rows for current fiscal year
+        if company.is_date_in_this_fiscal_year?(params[:tapvm])
+          accounting_voucher.create_voucher_row(params)
+        end
       end
+      accounting_voucher.save
     end
 
     def create_voucher
       voucher_params = {
-        laatija: 'CommoditiesController',
-        muuttaja: 'CommoditiesController',
+        nimi: "Poistoerätosite",
+        laatija: laatija,
+        muuttaja: muuttaja,
         hyodyke_tunnus: tunnus,
         tila: 'X',
         alatila: '',

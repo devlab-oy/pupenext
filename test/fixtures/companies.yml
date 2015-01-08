@@ -3,7 +3,7 @@ acme:
   nimi: Acme Corporation
   maa: FI
   tilikausi_alku: <%= Date.today %>
-  tilikausi_loppu: <%= Date.today+4 %>
+  tilikausi_loppu: <%= Date.today.advance(months: 11) %>
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
@@ -18,7 +18,7 @@ estonian:
   nimi: Estonian Corporation
   maa: EE
   tilikausi_alku: <%= Date.today %>
-  tilikausi_loppu: <%= Date.today+5 %>
+  tilikausi_loppu: <%= Date.today+365 %>
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>

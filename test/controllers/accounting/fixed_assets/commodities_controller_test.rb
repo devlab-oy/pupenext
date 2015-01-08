@@ -32,36 +32,62 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_template 'new', 'Template should be new'
   end
 
-  test 'should update commodity and create bookkeeping rows with type T and P' do
-    # Creates 60 external bookkeeping reductions
-    assert_difference('Accounting::FixedAssets::Row.count', 60) do
-      # Creates 35 internal bookkeeping reductions
-      assert_difference('Accounting::Row.count', 35) do
-        patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
-          nimitys: 'Skoda 2.0 Turbocharged',
-          selite: 'Car for CEO',
-          summa: 10000,
-          tilino: @account.tilino,
-          sumu_poistotyyppi: 'T',
-          sumu_poistoera: 35,
-          evl_poistotyyppi: 'P',
-          evl_poistoera: 20,
-          kayttoonottopvm: Time.now,
-          hankintapvm: Time.now,
-          tila: 'A'
-        }
-      end
-    end
+  # test 'should update commodity and create bookkeeping rows with type T and P' do
+  #   # Creates 60 external bookkeeping reductions
+  #   assert_difference('Accounting::FixedAssets::Row.count', 60) do
+  #     # Creates 35 internal bookkeeping reductions
+  #     assert_difference('Accounting::Row.count', 35) do
+  #       patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
+  #         nimitys: 'Skoda 2.0 Turbocharged',
+  #         selite: 'Car for CEO',
+  #         summa: 10000,
+  #         tilino: @account.tilino,
+  #         sumu_poistotyyppi: 'T',
+  #         sumu_poistoera: 35,
+  #         evl_poistotyyppi: 'P',
+  #         evl_poistoera: 20,
+  #         kayttoonottopvm: Time.now,
+  #         hankintapvm: Time.now,
+  #         tila: 'A'
+  #       }
+  #     end
+  #   end
 
-    assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
-  end
+  #   assert_redirected_to accounting_fixed_assets_commodities_path
+  #   assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
+  # end
+
+  # test 'should update commodity and create bookkeeping rows type D and B' do
+  #   # Creates 38 external bookkeeping reductions
+  #   assert_difference('Accounting::FixedAssets::Row.count', 38) do
+  #     # Creates 12 internal bookkeeping reductions
+  #     assert_difference('Accounting::Row.count', 12) do
+  #       patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
+  #         nimitys: 'Chair50000',
+  #         selite: 'Chair for CEO',
+  #         summa: 10000.0,
+  #         tilino: @account.tilino,
+  #         sumu_poistotyyppi: 'D',
+  #         sumu_poistoera: 12,
+  #         evl_poistotyyppi: 'B',
+  #         evl_poistoera: 35,
+  #         kayttoonottopvm: Time.now,
+  #         hankintapvm: Time.now,
+  #         tila: 'A'
+  #       }
+  #     end
+  #   end
+
+  #   assert_redirected_to accounting_fixed_assets_commodities_path
+  #   assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
+  # end
+
 
   test 'should update commodity and create bookkeeping rows type D and B' do
-    # Creates 38 external bookkeeping reductions
-    assert_difference('Accounting::FixedAssets::Row.count', 38) do
-      # Creates 12 internal bookkeeping reductions
-      assert_difference('Accounting::Row.count', 12) do
+    # Creates external bookkeeping reductions only for current fiscal year
+    assert_difference('Accounting::FixedAssets::Row.count', 11) do
+      # Creates internal bookkeeping reductions only for current fiscal year
+      assert_difference('Accounting::Row.count', 11) do
         patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
           nimitys: 'Chair50000',
           selite: 'Chair for CEO',
@@ -70,7 +96,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
           sumu_poistotyyppi: 'D',
           sumu_poistoera: 12,
           evl_poistotyyppi: 'B',
-          evl_poistoera: 35,
+          evl_poistoera: 45,
           kayttoonottopvm: Time.now,
           hankintapvm: Time.now,
           tila: 'A'

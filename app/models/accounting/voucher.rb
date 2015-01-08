@@ -5,7 +5,6 @@ class Accounting::Voucher < ActiveRecord::Base
   has_many :rows, foreign_key: :ltunnus, primary_key: :tunnus, autosave: true
   has_many :attachments, foreign_key: :liitostunnus, primary_key: :tunnus
 
-  #default_scope { where(tila: 'X') }
   default_scope { where("tila = 'X' and nimi != ''") }
 
   # Map old database schema table to Accounting::Voucher class
