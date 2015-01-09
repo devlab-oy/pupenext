@@ -7,8 +7,8 @@ class Keyword < ActiveRecord::Base
   end
 
   # Map old database schema table to Qualifier class
-  self.table_name = "avainsana"
-  self.primary_key = "tunnus"
+  self.table_name = :avainsana
+  self.primary_key = :tunnus
 
   def option_value
     "#{selite} %"

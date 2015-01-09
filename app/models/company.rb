@@ -19,8 +19,8 @@ class Company < ActiveRecord::Base
   end
 
   # Map old database schema table to Company class
-  self.table_name = "yhtio"
-  self.primary_key = "tunnus"
+  self.table_name = :yhtio
+  self.primary_key = :tunnus
 
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?

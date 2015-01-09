@@ -1,7 +1,7 @@
 class Dictionary < ActiveRecord::Base
   # Map old database schema table to class
-  self.table_name  = "sanakirja"
-  self.primary_key = "tunnus"
+  self.table_name = :sanakirja
+  self.primary_key = :tunnus
 
   def self.translate(string, language = nil)
     language ||= "fi"
