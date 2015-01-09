@@ -53,12 +53,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     end
   end
 
-  # GET /accounting/fixed_assets/commodities/1/select_account
-  def select_account
-    @accounts = current_company.accounting_accounts.limit(50)
-    render 'select_account'
-  end
-
   # GET /accounting/fixed_assets/commodities/1/select_purchase_order
   def select_purchase_order
     @purchase_orders = current_company.purchase_orders.limit(50)

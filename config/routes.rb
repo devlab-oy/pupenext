@@ -8,8 +8,6 @@ Pupesoft::Application.routes.draw do
 
   namespace :accounting do
     namespace :fixed_assets do
-      get '/commodities/:id/select_account(.:format)',
-        to: 'commodities#select_account', as: 'commodities_account'
       get '/commodities/:id/select_purchase_order(.:format)',
         to: 'commodities#select_purchase_order', as: 'commodities_purchase_orders'
       get '/commodities/:id/select_voucher',
