@@ -5,8 +5,9 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :access_control
 
-  helper_method :update_access?
   helper_method :current_user
+  helper_method :current_company
+  helper_method :update_access?
   helper_method :t
 
   def current_user
