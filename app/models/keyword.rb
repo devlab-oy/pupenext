@@ -1,7 +1,7 @@
 class Keyword < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  scope :vat_percents, -> do
+  def self.vat_percents
     where(laji: %w(alv alvulk))
       .where("selitetark_2 IN (?) OR laji = 'alv'", Location.countries)
   end
