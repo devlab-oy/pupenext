@@ -1,5 +1,4 @@
 class SumLevel < ActiveRecord::Base
-  #With Searchable one can do LIKE search on db
   extend Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -94,7 +93,6 @@ class SumLevel < ActiveRecord::Base
   end
 
   private
-
     def does_not_contain_char
       errors.add :taso, "can not contain Ö" if taso.to_s.include? "Ö"
     end

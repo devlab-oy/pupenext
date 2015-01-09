@@ -68,7 +68,7 @@ class Qualifier < ActiveRecord::Base
   def deactivated
     msg = 'Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä'
     if kaytossa == 'E'
-      #accounts is defined in child models
+      # accounts is defined in child models
       errors.add(:kaytossa, msg) if accounts.count > 0
     end
   end

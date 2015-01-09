@@ -54,7 +54,6 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   private
-
     def sum_level_params
       params.require(:sum_level).permit(
         :tyyppi,

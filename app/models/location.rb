@@ -8,5 +8,4 @@ class Location < ActiveRecord::Base
   def self.countries
     self.uniq.pluck(:maa)
   end
-
 end

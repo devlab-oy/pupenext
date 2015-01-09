@@ -1,6 +1,5 @@
 class Currency < ActiveRecord::Base
   extend AttributeSanitator
-  #With Searchable you can do LIKE searches on db
   extend Searchable
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -18,7 +17,6 @@ class Currency < ActiveRecord::Base
   self.primary_key = :tunnus
 
   protected
-
     def name_to_uppercase
       self.nimi = nimi.upcase if nimi.is_a? String
     end

@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :permissions
 

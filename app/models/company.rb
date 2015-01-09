@@ -1,5 +1,4 @@
 class Company < ActiveRecord::Base
-
   with_options foreign_key: :yhtio, primary_key: :yhtio do |options|
     options.has_many :keywords
 
@@ -26,5 +25,4 @@ class Company < ActiveRecord::Base
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
-
 end

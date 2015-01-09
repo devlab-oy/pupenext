@@ -1,5 +1,4 @@
 class Account < ActiveRecord::Base
-  #With Searchable one can do LIKE search on db
   extend Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio

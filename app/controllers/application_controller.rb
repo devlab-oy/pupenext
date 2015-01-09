@@ -36,7 +36,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
     def request_path
       # return first resource from request, our access control is based on it
       path = request.path_info.split '/'
@@ -53,7 +52,6 @@ class ApplicationController < ActionController::Base
     end
 
   protected
-
     def authorize
       render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
     end

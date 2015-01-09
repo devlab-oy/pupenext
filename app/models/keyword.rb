@@ -13,5 +13,4 @@ class Keyword < ActiveRecord::Base
   def option_value
     "#{selite} %"
   end
-
 end

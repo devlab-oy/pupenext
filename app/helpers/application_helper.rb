@@ -1,6 +1,4 @@
 module ApplicationHelper
-  PER_PAGE=10
-
   def sortable(column_name)
     link_to column_name, sort_options(column_name)
   end
@@ -22,9 +20,7 @@ module ApplicationHelper
   end
 
   private
-
     def user_agent_include?(value)
       request.user_agent.downcase.include? value.to_s.downcase
     end
-
 end

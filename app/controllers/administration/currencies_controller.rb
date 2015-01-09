@@ -50,7 +50,6 @@ class Administration::CurrenciesController < AdministrationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
     def currency_params
       params.require(:currency).permit(
         :nimi,
@@ -68,7 +67,7 @@ class Administration::CurrenciesController < AdministrationController
       @currency = current_company.currency.find(params[:id])
     end
 
-  def no_update_access_path
-    currencies_path
-  end
+    def no_update_access_path
+      currencies_path
+    end
 end
