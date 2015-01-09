@@ -28,15 +28,18 @@ class AccountTest < ActiveSupport::TestCase
     refute @account.valid?
   end
 
-  test "tilino needs to be unique" do
+  test "tilino needs to be unique inside company" do
     other_account = @account.dup
-
-    refute other_account.valid?
+    refute other_account.valid?, "tilino needs to be unique"
 
     other_account.tilino = '121212'
     assert other_account.valid?
+
+    other_account = @account.dup
+    other_account.company = companies(:estonian)
+    assert other_account.valid?, "different company, same tilino ok"
   end
-  
+
   test "accounts project needs to be in use" do
     project_not_in_use = Qualifier::Project.not_in_use.first
     @account.project = project_not_in_use

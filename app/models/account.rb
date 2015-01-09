@@ -30,7 +30,7 @@ class Account < ActiveRecord::Base
              primary_key: :taso
 
   validates :tilino, presence: true
-  validates :tilino, uniqueness: { scope: [:yhtio, :tilino] }
+  validates :tilino, uniqueness: { scope: [:yhtio] }
   validates :nimi, presence: true
   validates :ulkoinen_taso, presence: true
 
