@@ -2,9 +2,12 @@
 #
 # sortable_columns :taso, :tyyppi, :nimi,
 # default_sort_column :tunnus
-# filter_search_params
 module ColumnSort
   extend ActiveSupport::Concern
+
+  included do
+    helper_method :sort_options
+  end
 
   # Returns the column name the sorting should happen with
   # The returned column name is either the one given in HTTP request :sort or the one returned by
@@ -34,6 +37,16 @@ module ColumnSort
     options.merge! filter_search_params unless filter_search_params.nil?
 
     options
+  end
+
+  def filter_search_params
+    p = params.permit(searchable_columns)
+
+    p.reject { |_, v| v.empty? }
+  end
+
+  def sortable(column_name)
+    link_to column_name, sort_options(column_name)
   end
 
   module ClassMethods

@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :access_control
 
-  helper_method :sort_options
   helper_method :update_access?
   helper_method :current_user
   helper_method :t
@@ -41,12 +40,6 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
-    end
-
-    def filter_search_params
-      p = params.permit(searchable_columns)
-
-      p.reject { |_, v| v.empty? }
     end
 
   protected
