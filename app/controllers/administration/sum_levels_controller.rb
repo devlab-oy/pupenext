@@ -77,8 +77,4 @@ class Administration::SumLevelsController < AdministrationController
       @sum_level = current_company.sum_levels.find params[:id]
     end
 
-    def no_update_access_path
-      sum_levels_path
-    end
-
 end

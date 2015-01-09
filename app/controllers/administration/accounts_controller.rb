@@ -86,10 +86,6 @@ class Administration::AccountsController < AdministrationController
       @account = current_company.accounts.find params[:id]
     end
 
-    def no_update_access_path
-      accounts_path
-    end
-
     def fetch_options_for_selects
       @levels = {
         internal: current_company.sum_level_internals,

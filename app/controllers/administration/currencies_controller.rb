@@ -70,7 +70,4 @@ class Administration::CurrenciesController < AdministrationController
       @currency = current_company.currency.find(params[:id])
     end
 
-    def no_update_access_path
-      currencies_path
-    end
 end
