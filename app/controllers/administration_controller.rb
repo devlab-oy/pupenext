@@ -1,4 +1,6 @@
 class AdministrationController < ApplicationController
+  include ColumnSort
+
   before_action :update_access, only: [:new, :create, :update, :destroy]
   before_action :find_resource, only: [:show, :edit, :update, :destroy]
 
