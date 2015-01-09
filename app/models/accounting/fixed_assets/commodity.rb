@@ -40,9 +40,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     args.each do |key,value|
       if exact_search? value
         value = exact_search value
-        result = where(key => value)
+        result = result.where(key => value)
       else
-        result = where_like key, value
+        result = result.where_like key, value
       end
     end
 

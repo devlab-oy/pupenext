@@ -124,17 +124,13 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
       p = params.permit(
         :nimitys,
         :selite,
+        :nimi,
         :summa,
         :hankintapvm,
         :kayttoonottopvm,
-        :sumu_poistotyyppi,
-        :sumu_poistoera,
-        :evl_poistotyyppi,
-        :evl_poistoera,
         :tilino,
         :tila,
         :viite,
-        :nimi,
         :ytunnus,
         :viesti
       )
