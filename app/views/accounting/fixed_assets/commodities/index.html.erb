@@ -44,3 +44,9 @@
 <br />
 
 <%= button_to t('Uusi hyödyke'), new_accounting_fixed_assets_commodity_path, method: :get if update_access? %>
+<br />
+<br />
+
+<%= button_to 'Hyödykkeiden tilikausiajo', { action: "fiscal_year_run"},
+                                method: :get, data: { confirm: "Are you sure? This will lock all depreciations" } %>
+

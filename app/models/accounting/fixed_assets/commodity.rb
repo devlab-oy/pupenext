@@ -26,6 +26,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   validates :tilino, with: :check_that_account_number_matches
   validates :accounting_account, :length => { :minimum => 1}, if: :has_linked_accounting_rows?
 
+  scope :activated, -> { where(tila: 'a') }
 
   attr_accessor :generate_rows
 

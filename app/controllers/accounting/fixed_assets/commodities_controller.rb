@@ -64,7 +64,6 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     @purchase_orders = current_company.purchase_orders.limit(50)
     @purchase_orders = @purchase_orders.search_like params_search
     @purchase_orders = @purchase_orders.order("#{sort_column} #{sort_direction}")
-    render 'select_purchase_order'
   end
 
   # GET /accounting/fixed_assets/commodities/1/select_voucher
@@ -72,6 +71,27 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     @vouchers = current_company.accounting_vouchers.limit(50)
     @vouchers = @vouchers.search_like params_search
     @vouchers = @vouchers.order("#{sort_column} #{sort_direction}")
+  end
+
+  def fiscal_year_run
+    @commodities = current_company.accounting_fixed_assets_commodities.activated
+    @commodities.each do |com|
+      com.generate_rows = true
+      com.save
+    end
+    @commodities.reload
+    @commodities.each do |com|
+      #External bookkeepping rows locked
+      com.active.rows.each do |row|
+        row.lukko = 'x'
+      end
+      #Internal bookkeepping rows locked
+      com.accounting_voucher.rows.each do |crow|
+        crow.lukko = 'x'
+      end
+
+      com.save
+    end
   end
 
   private

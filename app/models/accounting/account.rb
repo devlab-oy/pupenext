@@ -4,7 +4,7 @@ class Accounting::Account < ActiveRecord::Base
   belongs_to :commodity, foreign_key: :tilino, primary_key: :tilino
 
   # Fixed assets accounts
-  #scope :fixed, -> { where(kayttomaisuustili: 'x') }
+  #scope :fixed, -> { where(evl_taso: 'jotain') }
 
   # Map old database schema table to Accounting::Attachment class
   self.table_name  = :tili
