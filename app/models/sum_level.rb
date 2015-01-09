@@ -12,8 +12,7 @@ class SumLevel < ActiveRecord::Base
   validates :tyyppi, inclusion: { in: proc { SumLevel.sum_levels.keys.collect(&:to_s) } }
   validates :kumulatiivinen, inclusion: { in: proc { SumLevel.kumulatiivinen_options.keys } }
   validates :kayttotarkoitus, inclusion: { in: proc { SumLevel.kayttotarkoitus_options.keys } }
-  validates :taso,
-            uniqueness: { scope: [:yhtio, :tyyppi], message: t("is already defined for this type") }
+  validates :taso, uniqueness: { scope: [:yhtio, :tyyppi], message: t("is already defined for this type") }
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
 
@@ -93,6 +92,7 @@ class SumLevel < ActiveRecord::Base
   end
 
   private
+
     def does_not_contain_char
       errors.add :taso, "can not contain Ö" if taso.to_s.include? "Ö"
     end
