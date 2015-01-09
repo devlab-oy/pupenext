@@ -1,24 +1,12 @@
 class Administration::AccountsController < AdministrationController
   before_action :fetch_options_for_selects, only: [:new, :edit, :show]
 
-  COLUMNS = [
-    :tilino,
-    :nimi,
-    :sisainen_taso,
-    :sisainen_nimi,
-    :ulkoinen_taso,
-    :ulkoinen_nimi,
-    :alv_taso,
-    :alv_nimi,
-  ]
-
-  sortable_columns *COLUMNS
-  default_sort_column :tunnus
-
   def index
-    @accounts = current_company.accounts.includes(:internal, :external, :vat)
-    @accounts = @accounts.search_like filter_search_params
-    @accounts = @accounts.order("#{sort_column} #{sort_direction}")
+    @accounts = current_company
+      .accounts
+      .includes(:internal, :external, :vat)
+      .search_like(search_params)
+      .order(order_params)
   end
 
   def new
@@ -77,8 +65,21 @@ class Administration::AccountsController < AdministrationController
       )
     end
 
+    def sortable_columns
+      [
+        :tilino,
+        :nimi,
+        :sisainen_taso,
+        :sisainen_nimi,
+        :ulkoinen_taso,
+        :ulkoinen_nimi,
+        :alv_taso,
+        :alv_nimi
+      ]
+    end
+
     def searchable_columns
-      COLUMNS
+      sortable_columns
     end
 
     def find_resource

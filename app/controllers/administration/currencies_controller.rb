@@ -1,17 +1,9 @@
 class Administration::CurrenciesController < AdministrationController
-  COLUMNS = [
-    :nimi,
-    :kurssi,
-  ]
-
-  sortable_columns *COLUMNS
-  default_sort_column :jarjestys
-
   # GET /currencies
   def index
     @currencies = current_company.currency
-    @currencies = @currencies.search_like filter_search_params
-    @currencies = @currencies.order("#{sort_column} #{sort_direction}")
+      .search_like(search_params)
+      .order(order_params)
   end
 
   # GET /currencies/1
@@ -60,7 +52,18 @@ class Administration::CurrenciesController < AdministrationController
     end
 
     def searchable_columns
-      COLUMNS
+      [
+        :nimi,
+        :kurssi,
+      ]
+    end
+
+    def sortable_columns
+      [
+        :jarjestys,
+        :nimi,
+        :kurssi,
+      ]
     end
 
     def find_resource

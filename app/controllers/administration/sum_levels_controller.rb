@@ -1,22 +1,9 @@
 class Administration::SumLevelsController < AdministrationController
-  COLUMNS = [
-    :taso,
-    :tyyppi,
-    :nimi,
-    :summattava_taso,
-    :kumulatiivinen,
-    :oletusarvo,
-    :kerroin,
-    :jakaja,
-  ]
-
-  sortable_columns *COLUMNS
-  default_sort_column :tunnus
-
   def index
-    @sum_levels = current_company.sum_levels
-    @sum_levels = @sum_levels.search_like filter_search_params
-    @sum_levels = @sum_levels.order("#{sort_column} #{sort_direction}")
+    @sum_levels = current_company
+      .sum_levels
+      .search_like(search_params)
+      .order(order_params)
   end
 
   def new
@@ -54,6 +41,7 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   private
+
     def sum_level_params
       params.require(:sum_level).permit(
         :tyyppi,
@@ -69,7 +57,20 @@ class Administration::SumLevelsController < AdministrationController
     end
 
     def searchable_columns
-      COLUMNS
+      [
+        :taso,
+        :tyyppi,
+        :nimi,
+        :summattava_taso,
+        :kumulatiivinen,
+        :oletusarvo,
+        :kerroin,
+        :jakaja
+      ]
+    end
+
+    def sortable_columns
+      searchable_columns
     end
 
     def find_resource
@@ -79,4 +80,5 @@ class Administration::SumLevelsController < AdministrationController
     def no_update_access_path
       sum_levels_path
     end
+
 end
