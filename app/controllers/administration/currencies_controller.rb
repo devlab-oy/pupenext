@@ -42,6 +42,11 @@ class Administration::CurrenciesController < AdministrationController
   end
 
   private
+
+    def find_resource
+      @currency = current_company.currency.find(params[:id])
+    end
+
     def currency_params
       params.require(:currency).permit(
         :nimi,
@@ -65,9 +70,4 @@ class Administration::CurrenciesController < AdministrationController
         :kurssi,
       ]
     end
-
-    def find_resource
-      @currency = current_company.currency.find(params[:id])
-    end
-
 end

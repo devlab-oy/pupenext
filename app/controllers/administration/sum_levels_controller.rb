@@ -42,6 +42,10 @@ class Administration::SumLevelsController < AdministrationController
 
   private
 
+    def find_resource
+      @sum_level = current_company.sum_levels.find params[:id]
+    end
+
     def sum_level_params
       params.require(:sum_level).permit(
         :tyyppi,
@@ -72,9 +76,4 @@ class Administration::SumLevelsController < AdministrationController
     def sortable_columns
       searchable_columns
     end
-
-    def find_resource
-      @sum_level = current_company.sum_levels.find params[:id]
-    end
-
 end

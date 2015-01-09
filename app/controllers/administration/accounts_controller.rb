@@ -47,6 +47,10 @@ class Administration::AccountsController < AdministrationController
 
   private
 
+    def find_resource
+      @account = current_company.accounts.find params[:id]
+    end
+
     def account_params
       params.require(:account).permit(
         :tilino,
@@ -82,10 +86,6 @@ class Administration::AccountsController < AdministrationController
       sortable_columns
     end
 
-    def find_resource
-      @account = current_company.accounts.find params[:id]
-    end
-
     def fetch_options_for_selects
       @levels = {
         internal: current_company.sum_level_internals,
@@ -101,8 +101,8 @@ class Administration::AccountsController < AdministrationController
       }
 
       @oletus_alv_options = current_company
-                              .keywords
-                              .vat_percents
-                              .order("selite+0, laji, jarjestys, selite")
+        .keywords
+        .vat_percents
+        .order("selite+0, laji, jarjestys, selite")
     end
 end
