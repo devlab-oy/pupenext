@@ -32,17 +32,8 @@ class ApplicationController < ActionController::Base
     current_user.can_update? request_path
   end
 
-  private
-    def request_path
-      # return first resource from request, our access control is based on it
-      path = request.path_info.split '/'
-
-      access = '/'
-      access << path.second unless path.empty?
-      access
-    end
-
   protected
+
     def authorize
       render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
     end
@@ -54,4 +45,16 @@ class ApplicationController < ActionController::Base
     def set_locale
       I18n.locale = current_user.locale || I18n.default_locale
     end
+
+  private
+
+    def request_path
+      # return first resource from request, our access control is based on it
+      path = request.path_info.split '/'
+
+      access = '/'
+      access << path.second unless path.empty?
+      access
+    end
+
 end
