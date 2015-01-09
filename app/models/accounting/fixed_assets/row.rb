@@ -14,6 +14,7 @@ class Accounting::FixedAssets::Row < ActiveRecord::Base
 
   default_scope { order(tapvm: :asc) }
   scope :active, -> { where(korjattu: '') }
+  scope :locked, -> { where(lukko: 'X') }
 
   protected
 

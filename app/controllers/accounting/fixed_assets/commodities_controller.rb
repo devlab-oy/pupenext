@@ -82,7 +82,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     @commodities.reload
     @commodities.each do |com|
       #External bookkeepping rows locked
-      com.active.rows.each do |row|
+      com.rows.each do |row|
         row.lukko = 'x'
       end
       #Internal bookkeepping rows locked
