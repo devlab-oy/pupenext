@@ -11,3 +11,18 @@ one_commodity_row:
   korjausaika: <%= Time.now %>
   selite: Kekkonen
   nimitys: Mekkonen
+
+two_commodity_row:
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+  hankintapvm: <%= Time.now %>
+  kayttoonottopvm: <%= Time.now %>
+  tilino: 1122
+  tapvm: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+  selite: Kakkonen
+  nimitys: Miekkonen
+  tila: A

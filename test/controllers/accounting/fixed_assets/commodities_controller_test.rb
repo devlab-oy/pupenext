@@ -32,6 +32,17 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_template 'new', 'Template should be new'
   end
 
+  test 'should get create new commodity' do
+    assert_difference('Accounting::FixedAssets::Commodity.count',1) do
+      patch :create, accounting_fixed_assets_commodity: {
+            nimitys: 'Chair30000',
+            selite: 'Chair for CEO'
+      }
+      assert_response :found
+      assert_redirected_to accounting_fixed_assets_commodities_path
+    end
+  end
+
   test 'should update commodity and create bookkeeping rows type D and B' do
     # Creates external bookkeeping reductions only for current fiscal year
     assert_difference('Accounting::FixedAssets::Row.count', 11) do
@@ -137,6 +148,11 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     assert_response :success
 
     assert_template 'select_purchase_order', 'Template should be select_purchase_order'
+  end
+
+  test 'should execute fiscal year run' do
+    get :fiscal_year_run
+    assert_response :success
   end
 
 end

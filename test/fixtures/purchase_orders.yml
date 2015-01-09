@@ -1,5 +1,6 @@
 voucher:
   yhtio: acme
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
   nimi: Acme Corporation Voucher
   tila: x
   luontiaika: <%= Time.now %>

@@ -61,6 +61,15 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     value[0].to_s.include? "@"
   end
 
+  def lock_all_rows
+    #External bookkeepping rows locked
+    rows.each { |row| row.lukko = 'X' }
+    #Internal bookkeepping rows locked
+    accounting_voucher.rows.each { |crow| crow.lukko = 'X' }
+
+    save
+  end
+
   def get_options_for_type
     [
       ['Valitse',''],

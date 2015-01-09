@@ -1,6 +1,7 @@
 voucher:
   yhtio: acme
   tila: x
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
   luontiaika: <%= Time.now %>
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>

@@ -75,16 +75,8 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
     end
     @commodities.reload
     @commodities.each do |com|
-      #External bookkeepping rows locked
-      com.rows.each do |row|
-        row.lukko = 'x'
-      end
-      #Internal bookkeepping rows locked
-      com.accounting_voucher.rows.each do |crow|
-        crow.lukko = 'x'
-      end
-
-      com.save
+      #All bookkeepping rows locked
+      com.lock_all_rows
     end
   end
 

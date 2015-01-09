@@ -52,7 +52,7 @@
    <% vou.rows.each do |vourow| %>
    <tr>
     <td><%= vourow.tunnus  %></td>
-    <td><%= vourow.selite.html_safe  %></td>
+    <td><%= vourow.selite.html_safe rescue 0 %></td>
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
     <td class='back'><%= form_tag(edit_accounting_fixed_assets_commodity_path, method: "get") do %>

@@ -30,3 +30,15 @@ three_accounting_row:
   muutospvm: <%= Time.now %>
   laatija: joe
   muuttaja: joe
+
+four_accounting_row:
+  yhtio: acme
+  ltunnus: <%= ActiveRecord::FixtureSet.identify(:voucher) %>
+  laadittu: <%= Time.now %>
+  tilino: 1122
+  tapvm: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: joe
+  muuttaja: joe

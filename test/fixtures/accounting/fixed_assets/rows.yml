@@ -1,5 +1,6 @@
 one:
   yhtio: acme
+  liitostunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

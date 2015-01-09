@@ -71,4 +71,11 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal randomizer[1], result.count
   end
 
+  test 'should update lock' do
+    @commodity = accounting_fixed_assets_commodities(:two_commodity_row)
+    @commodity.lock_all_rows
+
+    assert_equal 'X', @commodity.accounting_voucher.rows.first.lukko
+    assert_equal 'X', @commodity.rows.first.lukko
+  end
 end
