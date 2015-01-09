@@ -1,7 +1,5 @@
 class Administration::AccountsController < AdministrationController
-  with_options only: [:new, :edit, :show] do |options|
-    options.before_action :fetch_options_for_selects
-  end
+  before_action :fetch_options_for_selects, only: [:new, :edit, :show]
 
   COLUMNS = [
     :tilino,
