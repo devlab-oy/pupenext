@@ -43,6 +43,28 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     end
   end
 
+  test 'should update commodity and create bookkeeping rows type T and P' do
+    # Creates external bookkeeping reductions only for current fiscal year
+    assert_difference('Accounting::FixedAssets::Row.count', 11) do
+      # Creates internal bookkeeping reductions only for current fiscal year
+      assert_difference('Accounting::Row.count', 11) do
+        patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
+          nimitys: 'Chair50000',
+          selite: 'Chair for CEO',
+          summa: 10000.0,
+          tilino: @account.tilino,
+          sumu_poistotyyppi: 'T',
+          sumu_poistoera: 12,
+          evl_poistotyyppi: 'P',
+          evl_poistoera: 45,
+          kayttoonottopvm: Time.now,
+          hankintapvm: Time.now,
+          tila: 'A'
+        }
+      end
+    end
+  end
+
   test 'should update commodity and create bookkeeping rows type D and B' do
     # Creates external bookkeeping reductions only for current fiscal year
     assert_difference('Accounting::FixedAssets::Row.count', 11) do

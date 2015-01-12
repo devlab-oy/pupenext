@@ -26,3 +26,8 @@ two_commodity_row:
   selite: Kakkonen
   nimitys: Miekkonen
   tila: A
+  summa: 10000
+  sumu_poistotyyppi: T
+  sumu_poistoera: 12
+  evl_poistotyyppi: P
+  evl_poistoera: 65

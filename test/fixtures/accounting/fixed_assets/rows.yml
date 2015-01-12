@@ -1,5 +1,6 @@
 one:
   yhtio: acme
+  tilino: 1122
   liitostunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>

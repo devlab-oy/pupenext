@@ -78,4 +78,16 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 'X', @commodity.accounting_voucher.rows.first.lukko
     assert_equal 'X', @commodity.rows.first.lukko
   end
+
+  test 'account number should match between all records' do
+    @commodity = accounting_fixed_assets_commodities(:two_commodity_row)
+    assert_equal @commodity.rows.first.tilino, @commodity.tilino
+    assert_equal @commodity.rows.last.tilino, @commodity.tilino
+    assert @commodity.valid?
+
+    @commodity.tilino = 1234
+
+    assert_not_equal @commodity.rows.first.tilino, @commodity.tilino
+    refute @commodity.valid?, 'Should not be valid'
+  end
 end

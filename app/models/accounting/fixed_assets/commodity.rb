@@ -23,10 +23,10 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
   validates_numericality_of :tilino, greater_than: 999, if: :activated?
 
-  validates :tilino, with: :check_that_account_number_matches
+  validates :tilino, with: :check_that_account_number_matches, if: :activated?
   validates :accounting_account, :length => { :minimum => 1}, if: :has_linked_accounting_rows?
 
-  scope :activated, -> { where(tila: 'a') }
+  scope :activated, -> { where(tila: 'A') }
 
   attr_accessor :generate_rows
 
@@ -269,15 +269,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       }
       voucher = build_accounting_voucher voucher_params
       voucher.save
-    end
-
-    def check_that_po_amount_matches
-      purchase_orders_sum = BigDecimal.new 0
-      purchase_orders.each { |x| purchase_orders_sum += x.summa }
-
-      unless purchase_orders_sum == summa
-        errors.add(:base, 'Hyödykkeen summa ei täsmää ostolaskujen summaan')
-      end
     end
 
     def check_that_account_number_matches
