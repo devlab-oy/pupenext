@@ -31,16 +31,16 @@ class SumLevel < ActiveRecord::Base
 
   def self.kumulatiivinen_options
     {
-      '' => t('Ei'),
-      'X' => t('Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta'),
+      '' => 'Ei',
+      'X' => 'Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta',
     }
   end
 
   def self.kayttotarkoitus_options
     {
-      '' => t('Ei valintaa'),
-      'M' => t('Liikevaihto'),
-      'O' => t('Ostot, Aineet, tarvikkeet ja tavarat'),
+      '' => 'Ei valintaa',
+      'M' => 'Liikevaihto',
+      'O' => 'Ostot, Aineet, tarvikkeet ja tavarat',
     }
   end
 

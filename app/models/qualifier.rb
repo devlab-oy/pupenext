@@ -52,8 +52,8 @@ class Qualifier < ActiveRecord::Base
 
   def self.kaytossa_options
     {
-      in_use_char => t('Kyllä'),
-      not_in_use_char => t('Ei'),
+      in_use_char => 'Kyllä',
+      not_in_use_char => 'Ei',
     }
   end
 
