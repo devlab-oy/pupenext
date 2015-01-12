@@ -2,7 +2,7 @@ require 'codeclimate-test-reporter'
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'helpers/login_helper'
+require 'login_helper'
 
 if ENV['CODECLIMATE_REPO_TOKEN']
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
