@@ -20,6 +20,13 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     assert_template "edit", "Template should be edit"
   end
 
+  test 'should show new currency form' do
+    login users(:bob)
+
+    get :new
+    assert_response :success
+  end
+
   test 'should not show new currency form' do
     get :new
     assert_response :forbidden
