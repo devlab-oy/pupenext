@@ -4,11 +4,12 @@ class HomeControllerTest < ActionController::TestCase
 
   setup do
     # Bob has access to /test, Max does not.
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
   end
 
   test "forbidden if no session cookie" do
-    cookies[:pupesoft_session] = ""
+    logout
+
     get :index
     assert_response :unauthorized
   end
@@ -30,7 +31,8 @@ class HomeControllerTest < ActionController::TestCase
   end
 
   test "access denied if no permissions" do
-    cookies[:pupesoft_session] = users(:max).session
+    login users(:max)
+
     get :test
     assert_response :forbidden
   end

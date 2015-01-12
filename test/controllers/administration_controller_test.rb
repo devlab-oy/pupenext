@@ -5,12 +5,13 @@ class AdministrationControllerTest < ActionController::TestCase
   tests Administration::SumLevelsController
 
   def setup
-    cookies[:pupesoft_session] = users(:joe).session
+    login users(:joe)
     @sum_level = sum_levels(:external)
   end
 
   test "should not get resources index" do
-    cookies[:pupesoft_session] = users(:max).session
+    login users(:max)
+
     get :index
     assert_response :forbidden
   end
@@ -27,14 +28,14 @@ class AdministrationControllerTest < ActionController::TestCase
   end
 
   test "should not show resource" do
-    cookies[:pupesoft_session] = users(:max).session
+    login users(:max)
+
     request = { id: @sum_level.id }
     get :show, request
     assert_response :forbidden
   end
 
   test "should not create resource with no access" do
-    cookies[:pupesoft_session] = users(:joe).session
     assert_no_difference('SumLevel.count') do
       #With valid request
       request = {
@@ -56,7 +57,8 @@ class AdministrationControllerTest < ActionController::TestCase
 
 
   test "should not get resources edit" do
-    cookies[:pupesoft_session] = users(:max).session
+    login users(:max)
+
     request = { id: @sum_level.id }
     get :edit, request
     assert_response :forbidden
