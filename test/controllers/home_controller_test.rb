@@ -3,7 +3,7 @@ require 'test_helper'
 class HomeControllerTest < ActionController::TestCase
 
   setup do
-    # Bob has access to /test, Joe does not.
+    # Bob has access to /test, Max does not.
     cookies[:pupesoft_session] = users(:bob).session
   end
 
@@ -30,7 +30,7 @@ class HomeControllerTest < ActionController::TestCase
   end
 
   test "access denied if no permissions" do
-    cookies[:pupesoft_session] = users(:joe).session
+    cookies[:pupesoft_session] = users(:max).session
     get :test
     assert_response :forbidden
   end

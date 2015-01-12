@@ -20,7 +20,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 5, @joe.permissions.count
+    assert_equal 6, @joe.permissions.count
   end
 
   test "user has update permissions" do
@@ -37,7 +37,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "can read" do
     assert @joe.can_read? '/customers'
-    refute @joe.can_read? '/test'
+    refute users(:max).can_read? '/test'
   end
 
   test "can update" do

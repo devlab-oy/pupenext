@@ -1,134 +1,47 @@
-#joe permissions BEGIN joe allways has only read access, never update
+# list of permissions to create
+<% permississions = %w{
+    test
+    customers
+    currencies
+    companies
+    sum_levels
+    accounts
+  }
+%>
 
-joe_customers_read:
+<% permississions.each do |p| %>
+# create read permissions to joe
+joe_<%= p %>_read:
   yhtio: acme
   user: joe
-  nimi: pupenext/customers
-  paivitys: 0
   kuka: joe
+  nimi: pupenext/<%= p %>
+  paivitys: 0
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-joe_curriencies_read:
+# create update permissions to bob
+bob_<%= p %>_update:
   yhtio: acme
-  user: joe
-  nimi: pupenext/currencies
-  paivitys: 0
-  kuka: joe
+  user: bob
+  kuka: bob
+  nimi: pupenext/<%= p %>
+  paivitys: 1
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+<% end %>
 
-joe_companies_read:
-  yhtio: acme
-  user: joe
-  nimi: pupenext/companies
-  paivitys: 0
-  kuka: joe
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-joe_sum_levels_read:
-  yhtio: acme
-  user: joe
-  nimi: pupenext/sum_levels
-  paivitys: 0
-  kuka: joe
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-joe_accounts_read:
-  yhtio: acme
-  user: joe
-  nimi: pupenext/accounts
-  paivitys: 0
-  kuka: joe
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-#joe permissions END
-
-#---------------------
-
-#max permissions BEGIN max is estonian user which affects read and update access aswell
-max_currencies_update:
-  yhtio: esto
-  user: max
-  nimi: pupenext/currencies
-  paivitys: 1
-  kuka: max
-  muuttaja: max
-  laatija: max
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-#max permissions END
-
-#---------------------
-
-#bob permissions BEGIN bob has update and read access
-
-bob_test_update:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/test
-  paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-bob_currencies_update:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/currencies
-  paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-bob_companies_update:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/companies
-  paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-bob_sum_levels_update:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/sum_levels
-  paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-bob_accounts_update:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/accounts
-  paivitys: 1
-  kuka: bob
-  muuttaja: bob
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-#bob permissions END
+update_three:
+   yhtio: esto
+   user: max
+   kuka: max
+   nimi: pupenext/currencies
+   paivitys: 1
+   muuttaja: max
+   laatija: max
+   luontiaika: <%= Time.now %>
+   muutospvm: <%= Time.now %>

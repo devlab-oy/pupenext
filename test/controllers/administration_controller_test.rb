@@ -1,6 +1,6 @@
 require 'test_helper'
 
-#The purpose of AdministrationControllerTest is to test the common logic behind AdministrationController
+# The purpose of AdministrationControllerTest is to test the common logic behind AdministrationController
 class AdministrationControllerTest < ActionController::TestCase
   tests Administration::SumLevelsController
 
@@ -10,7 +10,7 @@ class AdministrationControllerTest < ActionController::TestCase
   end
 
   test "should not get resources index" do
-    cookies[:pupesoft_session] = users(:ben).session
+    cookies[:pupesoft_session] = users(:max).session
     get :index
     assert_response :forbidden
   end
@@ -27,7 +27,7 @@ class AdministrationControllerTest < ActionController::TestCase
   end
 
   test "should not show resource" do
-    cookies[:pupesoft_session] = users(:ben).session
+    cookies[:pupesoft_session] = users(:max).session
     request = { id: @sum_level.id }
     get :show, request
     assert_response :forbidden
@@ -56,7 +56,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
 
   test "should not get resources edit" do
-    cookies[:pupesoft_session] = users(:ben).session
+    cookies[:pupesoft_session] = users(:max).session
     request = { id: @sum_level.id }
     get :edit, request
     assert_response :forbidden
