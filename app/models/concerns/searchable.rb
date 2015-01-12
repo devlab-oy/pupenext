@@ -2,7 +2,9 @@ module Searchable
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def search_like(args)
+    def search_like(args = {})
+      raise ArgumentError, "should pass hash as argument #{args.class}" unless args.is_a? Hash
+
       result = self.all
 
       args.each do |key, value|
