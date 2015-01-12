@@ -1,5 +1,5 @@
 class SumLevel < ActiveRecord::Base
-  extend Searchable
+  include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 

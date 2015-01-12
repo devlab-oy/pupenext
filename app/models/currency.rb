@@ -1,6 +1,6 @@
 class Currency < ActiveRecord::Base
   extend AttributeSanitator
-  extend Searchable
+  include Searchable
 
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
 

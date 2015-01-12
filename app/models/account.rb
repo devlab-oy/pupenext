@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  extend Searchable
+  include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :project, class_name: 'Qualifier::Project', foreign_key: :projekti, primary_key: :tunnus
