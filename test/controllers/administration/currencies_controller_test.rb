@@ -24,7 +24,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
   test 'should not show new currency form' do
     get :new
-    assert_redirected_to currencies_path
+    assert_response :forbidden
   end
 
   test 'should search for specific currency' do
@@ -41,8 +41,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
       post :create, currency: {nimi: 'TES', kurssi: 0.8}
     end
 
-    assert_redirected_to currencies_path
-    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
+    assert_response :forbidden
   end
 
   test 'should create new currency' do
@@ -110,6 +109,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     currency = currencies(:eur)
 
     patch :update, id: currency.id, currency: {nimi: ''}
+
+    refute_equal '', currency.reload.nimi
 
     assert_template 'edit', 'Template should be edit'
   end

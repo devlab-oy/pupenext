@@ -17,7 +17,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
   test "should not get resources new" do
     get :new
-    assert_redirected_to sum_levels_path
+    assert_response :forbidden
   end
 
   test "should show resource with read access" do
@@ -51,7 +51,7 @@ class AdministrationControllerTest < ActionController::TestCase
       post :create, sum_level: request
     end
 
-    assert_redirected_to sum_levels_path
+    assert_response :forbidden
   end
 
 
@@ -70,8 +70,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
   test "should not update resource" do
     patch :update, id: @sum_level.id, sum_level: { nimi: 'Uusi nimi' }
-    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
-    assert_redirected_to sum_levels_path
+    assert_response :forbidden
   end
 
   test "should not destroy resource" do
@@ -79,7 +78,6 @@ class AdministrationControllerTest < ActionController::TestCase
       delete :destroy, id: @sum_level.id
     end
 
-    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
-    assert_redirected_to sum_levels_path
+    assert_response :forbidden
   end
 end

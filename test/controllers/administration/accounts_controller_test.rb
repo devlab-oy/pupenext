@@ -88,7 +88,6 @@ class Administration::AccountsControllerTest < ActionController::TestCase
 
     patch :update, id: @account.id, account: { nimi: 'Uusi nimi' }
 
-    assert_equal "Sinulla ei ole päivitysoikeuksia", flash[:notice]
-    assert_redirected_to accounts_path
+    assert_response :forbidden
   end
 end
