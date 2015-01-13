@@ -19,6 +19,9 @@ class Currency < ActiveRecord::Base
   private
 
     def name_to_uppercase
-      self.nimi = nimi.upcase if nimi.is_a? String
+      if nimi.present?
+        nimi.strip!
+        nimi.upcase!
+      end
     end
 end
