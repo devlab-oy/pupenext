@@ -2,12 +2,18 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
   def setup
-    @account = accounts(:first)
+    @account = accounts(:account_100)
     @project =  qualifiers(:project_in_use)
   end
 
   test "assert fixtures are valid" do
     assert @account.valid?, @account.errors.messages
+  end
+
+  test "assert sti works" do
+    assert_equal "S", @account.internal.tyyppi
+    assert_equal "U", @account.external.tyyppi
+    assert_equal "A", @account.vat.tyyppi
   end
 
   test "ulkoinen_taso cant be empty" do

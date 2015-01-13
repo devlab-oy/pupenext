@@ -1,10 +1,11 @@
-first:
+<% (100..500).step(10) do |account| %>
+account_<%= account %>:
   yhtio: acme
-  nimi: Perustamismenot
-  ulkoinen_taso: 1111
-  sisainen_taso: 1111
+  nimi: Perustamismenot <%= account %>
+  ulkoinen_taso: 112
+  sisainen_taso: 33
   alv_taso: fi307
-  tilino: 100
+  tilino: <%= account %>
   project: project_in_use
   target: target_in_use
   cost_center: cost_center_in_use
@@ -12,3 +13,4 @@ first:
   muutospvm: <%= Time.now %>
   muuttaja: bob
   laatija: bob
+<% end %>

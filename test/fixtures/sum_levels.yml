@@ -84,7 +84,7 @@ vat:
   yhtio: acme
   tyyppi: 'A'
   summattava_taso: ''
-  taso: 'fi300'
+  taso: 'fi307'
   nimi: Vero kotimaan myynnistä verokannoittain
   oletusarvo: 0.00
   kerroin: 0.00
