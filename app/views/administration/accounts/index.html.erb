@@ -31,9 +31,7 @@
         </th>
 
         <th>
-          <%= sortable 'sisainen_nimi' %>
-          <br/>
-          <%= text_field_tag :sisainen_nimi, params[:sisainen_nimi] %>
+          <%= label_tag :sisainen_nimi %>
         </th>
 
         <th>
@@ -43,9 +41,7 @@
         </th>
 
         <th>
-          <%= sortable 'ulkoinen_nimi' %>
-          <br/>
-          <%= text_field_tag :ulkoinen_nimi, params[:ulkoinen_nimi] %>
+          <%= label_tag :ulkoinen_nimi %>
         </th>
 
         <th>
@@ -53,11 +49,9 @@
           <br/>
           <%= text_field_tag :alv_taso, params[:alv_taso] %>
         </th>
-        
+
         <th>
-          <%= sortable 'alv_nimi' %>
-          <br/>
-          <%= text_field_tag :alv_nimi, params[:alv_nimi] %>
+          <%= label_tag :alv_nimi %>
         </th>
         <th class="back"><%= submit_tag t('Etsi') %></th>
       </tr>

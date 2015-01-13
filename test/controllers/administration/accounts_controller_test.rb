@@ -57,33 +57,6 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     assert_equal 'Perustamismenot 100', assigns(:accounts).first.nimi
   end
 
-  test 'special cases' do
-    skip
-
-    # Test special cases, since these fields are joined
-    get :index, sisainen_nimi: 'this string is not in database'
-    assert_response :success
-    assert_equal 0, assigns(:accounts).count
-
-    get :index, ulkoinen_nimi: 'this string is not in database'
-    assert_response :success
-    assert_equal 0, assigns(:accounts).count
-
-    get :index, alv_nimi: 'this string is not in database'
-    assert_response :success
-    assert_equal 0, assigns(:accounts).count
-
-    # Test special cases, since these fields are joined
-    get :index, sort: 'sisainen_nimi'
-    assert_response :success
-
-    get :index, sort: 'ulkoinen_nimi'
-    assert_response :success
-
-    get :index, sort: 'alv_nimi'
-    assert_response :success
-  end
-
   test "should get new" do
     login users(:bob)
     get :new

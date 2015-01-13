@@ -69,21 +69,18 @@ class Administration::AccountsController < AdministrationController
       )
     end
 
-    def sortable_columns
+    def searchable_columns
       [
         :tilino,
         :nimi,
         :sisainen_taso,
-        :sisainen_nimi,
         :ulkoinen_taso,
-        :ulkoinen_nimi,
-        :alv_taso,
-        :alv_nimi
+        :alv_taso
       ]
     end
 
-    def searchable_columns
-      sortable_columns
+    def sortable_columns
+      searchable_columns
     end
 
     def fetch_options_for_selects
