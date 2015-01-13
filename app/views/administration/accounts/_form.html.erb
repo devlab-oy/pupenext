@@ -14,7 +14,7 @@
                                 levels[:internal],
                                 :taso,
                                 :sum_level_name,
-                                include_blank: 'Ei tasoa', selected: account.sisainen_taso) %>
+                                include_blank: t('Ei tasoa'), selected: account.sisainen_taso) %>
       </td>
     </tr>
 
@@ -25,7 +25,7 @@
                                 levels[:external],
                                 :taso,
                                 :sum_level_name,
-                                include_blank: 'Ei tasoa', selected: account.ulkoinen_taso) %>
+                                include_blank: t('Ei tasoa'), selected: account.ulkoinen_taso) %>
       </td>
     </tr>
 
@@ -36,7 +36,7 @@
                                 levels[:vat],
                                 :taso,
                                 :sum_level_name,
-                                include_blank: 'Ei tasoa', selected: account.alv_taso) %>
+                                include_blank: t('Ei tasoa'), selected: account.alv_taso) %>
       </td>
     </tr>
 
@@ -47,7 +47,7 @@
                                 levels[:profit],
                                 :taso,
                                 :sum_level_name,
-                                include_blank: 'Ei tasoa', selected: account.tulosseuranta_taso) %>
+                                include_blank: t('Ei tasoa'), selected: account.tulosseuranta_taso) %>
       </td>
     </tr>
 
@@ -63,7 +63,7 @@
                                 qualifiers[:cost_center],
                                 :tunnus,
                                 :nimitys,
-                                include_blank: 'Ei oletusta', selected: account.kustp) %>
+                                include_blank: t('Ei oletusta'), selected: account.kustp) %>
       </td>
     </tr>
 
@@ -74,7 +74,7 @@
                                 qualifiers[:target],
                                 :tunnus,
                                 :nimitys,
-                                include_blank: 'Ei oletusta', selected: account.kohde) %>
+                                include_blank: t('Ei oletusta'), selected: account.kohde) %>
       </td>
     </tr>
 
@@ -85,7 +85,7 @@
                                 qualifiers[:project],
                                 :tunnus,
                                 :nimitys,
-                                include_blank: 'Ei oletusta', selected: account.projekti) %>
+                                include_blank: t('Ei oletusta'), selected: account.projekti) %>
       </td>
     </tr>
 
@@ -117,7 +117,7 @@
                                 oletus_alv_options,
                                 :selite,
                                 :option_value,
-                                include_blank: 'Ei oletusta', selected: account.oletus_alv.to_i) %>
+                                include_blank: t('Ei oletusta'), selected: account.oletus_alv.to_i) %>
       </td>
     </tr>
 
@@ -149,7 +149,7 @@
 
   <% if update_access? %>
     <div class="actions">
-      <% text = account.persisted? ? 'Päivitä tili' : 'Lisää' %>
+      <% text = account.persisted? ? t('Päivitä tili') : t('Lisää') %>
       <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
     </div>
   <% end %>
