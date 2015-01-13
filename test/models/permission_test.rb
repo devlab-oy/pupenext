@@ -3,7 +3,7 @@ require 'test_helper'
 class PermissionTest < ActiveSupport::TestCase
 
   setup do
-    @perms = permissions(:read_one)
+    @perms = permissions(:joe_customers_read)
   end
 
   test "permission model" do

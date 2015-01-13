@@ -1,0 +1,106 @@
+<%= render 'header' %>
+
+<% if notice %>
+    <%= t(notice) %>
+    <br/><br/>
+<% end %>
+
+<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
+
+<br/>
+
+<%= form_tag sum_levels_path, method: :get do %>
+    <table>
+      <tr>
+        <th>
+          <%= sortable 'taso' %>
+          <br/>
+          <%= text_field_tag :taso, params[:taso] %>
+        </th>
+
+        <th>
+          <%= sortable 'tyyppi' %>
+          <br/>
+          <%= text_field_tag :tyyppi, params[:tyyppi] %>
+        </th>
+
+        <th>
+          <%= sortable 'nimi' %>
+          <br/>
+          <%= text_field_tag :nimi, params[:nimi] %>
+        </th>
+
+        <th>
+          <%= sortable 'summattava_taso' %>
+          <br/>
+          <%= text_field_tag :summattava_taso, params[:summattava_taso] %>
+        </th>
+
+        <th>
+          <%= sortable 'kumulatiivinen' %>
+          <br/>
+          <%= text_field_tag :kumulatiivinen, params[:kumulatiivinen] %>
+        </th>
+
+        <th>
+          <%= sortable 'oletusarvo' %>
+          <br/>
+          <%= text_field_tag :oletusarvo, params[:oletusarvo] %>
+        </th>
+
+        <th>
+          <%= sortable 'kerroin' %>
+          <br/>
+          <%= text_field_tag :kerroin, params[:kerroin] %>
+        </th>
+
+        <th>
+          <%= sortable 'jakaja' %>
+          <br/>
+          <%= text_field_tag :jakaja, params[:jakaja] %>
+        </th>
+        <th class="back"><%= submit_tag t('Etsi') %></th>
+      </tr>
+
+      <% @sum_levels.each do |sum_level| %>
+          <tr class="aktiivi">
+            <td>
+              <%= link_to sum_level.taso, edit_sum_level_path(sum_level.tunnus) %>
+            </td>
+
+            <td>
+              <%= sum_level.tyyppi %>
+            </td>
+
+            <td>
+              <%= sum_level.nimi %>
+            </td>
+
+            <td>
+              <%= sum_level.summattava_taso %>
+            </td>
+
+            <td>
+              <%= sum_level.kumulatiivinen %>
+            </td>
+
+            <td>
+              <%= sum_level.oletusarvo %>
+            </td>
+
+            <td>
+              <%= sum_level.kerroin %>
+            </td>
+
+            <td>
+              <%= sum_level.jakaja %>
+            </td>
+            <td class="back"></td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
+
+<br/>
+
+<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>

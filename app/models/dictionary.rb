@@ -1,8 +1,7 @@
 class Dictionary < ActiveRecord::Base
-
   # Map old database schema table to class
-  self.table_name  = "sanakirja"
-  self.primary_key = "tunnus"
+  self.table_name = :sanakirja
+  self.primary_key = :tunnus
 
   def self.translate(string, language = nil)
     language ||= "fi"
@@ -22,5 +21,4 @@ class Dictionary < ActiveRecord::Base
     # Return string if we don't have translation
     translation[language].present? ? translation[language] : string
   end
-
 end

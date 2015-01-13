@@ -1,0 +1,15 @@
+fi:
+  activerecord:
+    attributes:
+      account:
+        tilino: Tilinumero
+        sisainen_taso: Sisäinen taso
+        sisainen_nimi: Sisäinen nimi
+        ulkoinen_taso: Ulkoinen taso
+        ulkoinen_nimi: Ulkoinen nimi
+        alv_taso: Alv taso
+        tasokoodi_s: Tasokoodi (sisäinen tuloslaskelma)
+        tasokoodi_u: Tasokoodi (ulkoinen tuloslaskelma / tase)
+        tasokoodi_a: ALV-laskelman verotaso
+        tasokoodi_b: Tulosseurantataso
+        kustp: Oletuskustannuspaikka

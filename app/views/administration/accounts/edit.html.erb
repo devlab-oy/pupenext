@@ -1,0 +1,16 @@
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("tilikartta")}", accounts_path %>
+<br/>
+<br/>
+<font class="head"><%= t("Muokkaa tiliä") %></font>
+<%= render 'form',
+           account: @account,
+           levels: @levels,
+           qualifiers: @qualifiers,
+           oletus_alv_options: @oletus_alv_options %>
+<br/>
+<% if @account.persisted? && update_access? %>
+  <%= button_to(t('Poista tili'),
+                account_path(@account.id),
+                data: { confirm: t('Haluatko todella poistaa tämän tietueen?') },
+                method: "delete") %>
+<% end %>

@@ -4,6 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   def setup
     @joe = users(:joe)
+    @bob = users(:bob)
   end
 
   test "user model" do
@@ -19,11 +20,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 3, @joe.permissions.count
+    assert_equal 6, @joe.permissions.count
   end
 
   test "user has update permissions" do
-    assert_equal 1, @joe.permissions.update_permissions.count
+    assert_equal 0, @joe.permissions.update_permissions.count
   end
 
   test 'read access' do
@@ -36,12 +37,15 @@ class UserTest < ActiveSupport::TestCase
 
   test "can read" do
     assert @joe.can_read? '/customers'
-    refute @joe.can_read? '/test'
+    refute users(:max).can_read? '/test'
   end
 
   test "can update" do
     refute @joe.can_update? '/currencies'
-    assert @joe.can_update? '/companies'
+    refute @joe.can_update? '/companies'
+
+    assert @bob.can_update? '/currencies'
+    assert @bob.can_update? '/companies'
   end
 
   test "user has correct css" do

@@ -1,65 +1,47 @@
-read_one:
+# list of permissions to create
+<% permississions = %w{
+    test
+    customers
+    currencies
+    companies
+    sum_levels
+    accounts
+  }
+%>
+
+<% permississions.each do |p| %>
+# create read permissions to joe
+joe_<%= p %>_read:
   yhtio: acme
   user: joe
-  nimi: pupenext/customers
+  kuka: joe
+  nimi: pupenext/<%= p %>
   paivitys: 0
-  kuka: joe
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-read_two:
-  yhtio: acme
-  user: joe
-  nimi: pupenext/currencies
-  paivitys: 0
-  kuka: joe
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-update_one:
-  yhtio: acme
-  user: joe
-  nimi: pupenext/companies
-  paivitys: 1
-  kuka: joe
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-update_two:
+# create update permissions to bob
+bob_<%= p %>_update:
   yhtio: acme
   user: bob
-  nimi: pupenext/currencies
-  paivitys: 1
   kuka: bob
-  muuttaja: bob
-  laatija: bob
+  nimi: pupenext/<%= p %>
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+<% end %>
 
 update_three:
-  yhtio: esto
-  user: max
-  nimi: pupenext/currencies
-  paivitys: 1
-  kuka: max
-  muuttaja: max
-  laatija: max
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
-test:
-  yhtio: acme
-  user: bob
-  nimi: pupenext/test
-  paivitys: 1
-  kuka: bob
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+   yhtio: esto
+   user: max
+   kuka: max
+   nimi: pupenext/currencies
+   paivitys: 1
+   muuttaja: max
+   laatija: max
+   luontiaika: <%= Time.now %>
+   muutospvm: <%= Time.now %>
