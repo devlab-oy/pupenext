@@ -3,11 +3,84 @@ require 'test_helper'
 class Administration::AccountsControllerTest < ActionController::TestCase
   def setup
     login users(:joe)
-    @account = accounts(:first)
+    @account = accounts(:account_100)
   end
 
   test "should get index" do
     get :index
+    assert_response :success
+  end
+
+  test "should search index" do
+    params = {
+      sisainen_taso: 33
+    }
+    get :index, params
+    assert_response :success
+    assert_equal 41, assigns(:accounts).count
+
+    params = {
+      tilino: 10
+    }
+    get :index, params
+    assert_response :success
+    assert_equal 5, assigns(:accounts).count
+
+    params = {
+      tilino: 10,
+      nimi: '@Perustamismenot 210'
+    }
+    get :index, params
+    assert_response :success
+    assert_equal 1, assigns(:accounts).count
+  end
+
+  test 'should search and sort index' do
+    params = {
+      tilino: 10,
+      sort: 'nimi',
+      direction: 'desc'
+    }
+    get :index, params
+    assert_response :success
+    assert_equal 5, assigns(:accounts).count
+    assert_equal 'Perustamismenot 410', assigns(:accounts).first.nimi
+
+    params = {
+      tilino: 10,
+      sort: 'nimi',
+      direction: 'asc'
+    }
+    get :index, params
+    assert_response :success
+    assert_equal 5, assigns(:accounts).count
+    assert_equal 'Perustamismenot 100', assigns(:accounts).first.nimi
+  end
+
+  test 'special cases' do
+    skip
+
+    # Test special cases, since these fields are joined
+    get :index, sisainen_nimi: 'this string is not in database'
+    assert_response :success
+    assert_equal 0, assigns(:accounts).count
+
+    get :index, ulkoinen_nimi: 'this string is not in database'
+    assert_response :success
+    assert_equal 0, assigns(:accounts).count
+
+    get :index, alv_nimi: 'this string is not in database'
+    assert_response :success
+    assert_equal 0, assigns(:accounts).count
+
+    # Test special cases, since these fields are joined
+    get :index, sort: 'sisainen_nimi'
+    assert_response :success
+
+    get :index, sort: 'ulkoinen_nimi'
+    assert_response :success
+
+    get :index, sort: 'alv_nimi'
     assert_response :success
   end
 
