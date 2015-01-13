@@ -14,6 +14,7 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal "S", @account.internal.tyyppi
     assert_equal "U", @account.external.tyyppi
     assert_equal "A", @account.vat.tyyppi
+    assert_equal "B", @account.profit.tyyppi
   end
 
   test "ulkoinen_taso cant be empty" do
