@@ -8,6 +8,6 @@ namespace :resque do
       pids << worker.to_s.split(/:/).second
     end
 
-    system "kill -TERM #{pids.join(' ')}" if pids.size > 0
+    system "kill -TERM #{pids.join(' ')} && sleep 2" if pids.size > 0
   end
 end
