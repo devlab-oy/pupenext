@@ -41,14 +41,15 @@ module ColumnSort
     # Sort options for sortable method
     def sort_options(column)
       direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
-      options = {}
-      options['sort'] = column
-      options['direction'] = direction
-      options['not_used'] = params[:not_used]
+
+      options = {
+        sort: column,
+        direction: direction,
+        not_used: params[:not_used]
+      }
 
       # If controller implements searchable_columns, add search params to sort url
-      options.merge! search_params unless search_params.nil?
-
+      options.merge! search_params unless searchable_columns.nil?
       options
     end
 end
