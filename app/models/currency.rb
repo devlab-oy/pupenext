@@ -16,7 +16,8 @@ class Currency < ActiveRecord::Base
   self.table_name = :valuu
   self.primary_key = :tunnus
 
-  protected
+  private
+
     def name_to_uppercase
       self.nimi = nimi.upcase if nimi.is_a? String
     end
