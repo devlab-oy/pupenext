@@ -16,10 +16,11 @@ class Account < ActiveRecord::Base
     o.belongs_to :profit,   class_name: 'SumLevel::Profit',   foreign_key: :tulosseuranta_taso
   end
 
-  validates :tilino, presence: true
-  validates :tilino, uniqueness: { scope: [:yhtio] }
+  validates :tilino, presence: true, uniqueness: { scope: [:yhtio] }
   validates :nimi, presence: true
   validates :ulkoinen_taso, presence: true
+
+  validate :sum_level_presence
 
   # Map old database schema table to Account class
   self.table_name = :tili
@@ -51,4 +52,24 @@ class Account < ActiveRecord::Base
       ["Tiliöinnin manuaalinen lisäys/muokkaus estetty", "X"]
     ]
   end
+
+  private
+
+    def sum_level_presence
+      if sisainen_taso.present? && company.sum_level_internals.find_by(taso: sisainen_taso).blank?
+        errors.add :sisainen_taso, "must be correct if present"
+      end
+
+      if ulkoinen_taso.present? && company.sum_level_externals.find_by(taso: ulkoinen_taso).blank?
+        errors.add :ulkoinen_taso, "must be correct"
+      end
+
+      if alv_taso.present? && company.sum_level_vats.find_by(taso: alv_taso).blank?
+        errors.add :alv_taso, "must be correct if present"
+      end
+
+      if tulosseuranta_taso.present? && company.sum_level_profits.find_by(taso: tulosseuranta_taso).blank?
+        errors.add :tulosseuranta_taso, "must be correct if present"
+      end
+    end
 end

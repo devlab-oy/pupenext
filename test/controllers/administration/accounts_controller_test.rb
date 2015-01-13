@@ -76,7 +76,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
       request = {
         tilino: 1212,
         nimi: 'xxx',
-        ulkoinen_taso: 1111
+        ulkoinen_taso: 112
       }
       post :create, account: request
     end

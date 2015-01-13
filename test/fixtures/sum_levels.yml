@@ -111,3 +111,19 @@ profit:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
+
+external_ee:
+  yhtio: esto
+  tyyppi: 'U'
+  summattava_taso: ''
+  taso: '112'
+  nimi: TILIKAUDEN TULOS112
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
