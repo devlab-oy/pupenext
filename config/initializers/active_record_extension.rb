@@ -1,5 +1,4 @@
 module ActiveRecordExtension
-
   extend ActiveSupport::Concern
 
   included do
@@ -23,12 +22,6 @@ module ActiveRecordExtension
     self.muuttaja = user.kuka
     self.laatija = user.kuka unless self.persisted? && self.laatija.present?
     self.update params
-  end
-
-  module ClassMethods
-    def t(string)
-      Dictionary.translate(string, I18n.locale.to_s)
-    end
   end
 
   private
