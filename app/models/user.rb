@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :permissions
 
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
   end
 
   # Map old database schema table to User class
-  self.table_name = :kuka
-  self.primary_key = :tunnus
+  self.table_name  = "kuka"
+  self.primary_key = "tunnus"
+
 end
