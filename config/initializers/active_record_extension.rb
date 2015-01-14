@@ -25,7 +25,6 @@ module ActiveRecordExtension
   end
 
   private
-
     def set_legacy_timestamps
       self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
       self.muutospvm = Time.now

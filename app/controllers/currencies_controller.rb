@@ -1,9 +1,17 @@
-class Administration::CurrenciesController < AdministrationController
+class CurrenciesController < ApplicationController
+  include ApplicationHelper
+
+  before_action :find_currency, only: [:show, :edit, :update]
+  before_action :update_access, only: [:create, :edit, :update]
+
+  helper_method :sort_column
+  helper_method :params_search
+
   # GET /currencies
   def index
     @currencies = current_company.currency
-      .search_like(search_params)
-      .order(order_params)
+    @currencies = @currencies.search_like params_search
+    @currencies = @currencies.order("#{sort_column} #{sort_direction}")
   end
 
   # GET /currencies/1
@@ -42,11 +50,7 @@ class Administration::CurrenciesController < AdministrationController
   end
 
   private
-
-    def find_resource
-      @currency = current_company.currency.find(params[:id])
-    end
-
+    # Only allow a trusted parameter "white list" through.
     def currency_params
       params.require(:currency).permit(
         :nimi,
@@ -56,18 +60,26 @@ class Administration::CurrenciesController < AdministrationController
       )
     end
 
-    def searchable_columns
-      [
+    def params_search
+      p = params.permit(
         :nimi,
-        :kurssi,
-      ]
+        :kurssi
+      )
+
+      p.reject { |_,v| v.empty? }
     end
 
-    def sortable_columns
-      [
-        :jarjestys,
-        :nimi,
-        :kurssi,
-      ]
+    def find_currency
+      @currency = current_company.currency.find(params[:id])
     end
+
+    def sort_column
+      params.values.include?(params[:sort]) ? params[:sort] : "jarjestys"
+    end
+
+    def update_access
+      msg = "Sinulla ei ole päivitysoikeuksia."
+      redirect_to currencies_path, notice: msg unless update_access?
+    end
+
 end

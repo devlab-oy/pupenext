@@ -1,7 +1,0 @@
-one:
-  yhtio: acme
-  selite: Testing keyword
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>

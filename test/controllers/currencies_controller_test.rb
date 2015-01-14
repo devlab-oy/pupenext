@@ -1,13 +1,15 @@
 require 'test_helper'
 
-class Administration::CurrenciesControllerTest < ActionController::TestCase
+class CurrenciesControllerTest < ActionController::TestCase
+
   def setup
-    login users(:joe)
+    cookies[:pupesoft_session] = users(:joe).session
   end
 
   test 'should get all currencies' do
     get :index
     assert_response :success
+
     assert_template "index", "Template should be index"
   end
 
@@ -17,19 +19,15 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     get :show, request
     assert_response :success
+
     assert_template "edit", "Template should be edit"
   end
 
   test 'should show new currency form' do
-    login users(:bob)
-
     get :new
     assert_response :success
-  end
 
-  test 'should not show new currency form' do
-    get :new
-    assert_response :forbidden
+    assert_template 'new', 'Template should be new'
   end
 
   test 'should search for specific currency' do
@@ -37,6 +35,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     get :index, request
     assert_response :success
+
     assert_template "index", "Template should be index"
   end
 
@@ -45,11 +44,12 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
       post :create, currency: {nimi: 'TES', kurssi: 0.8}
     end
 
-    assert_response :forbidden
+    assert_redirected_to currencies_path
+    assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
   end
 
   test 'should create new currency' do
-    login users(:bob)
+    cookies[:pupesoft_session] = users(:bob).session
 
     assert_difference('Currency.count') do
       post :create, currency: {nimi: 'TES', kurssi: 0.8}
@@ -60,7 +60,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should not create new currency' do
-    login users(:bob)
+    cookies[:pupesoft_session] = users(:bob).session
 
     assert_no_difference('Currency.count') do
       post :create, currency: {nimi: 'FOO_BAR'}
@@ -69,17 +69,19 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should update currency' do
-    login users(:bob)
+    cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
 
     patch :update, id: currency.id, currency: {nimi: 'TES'}
+
     assert_redirected_to currencies_path, response.body
     assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not see intrastat-field' do
-    login users(:bob)
+    cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
+
     request = {id: currency.id}
 
     get :show, request
@@ -87,8 +89,9 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should see intrastat-field' do
-    login users(:max)
+    cookies[:pupesoft_session] = users(:max).session
     currency = currencies(:eur_ee)
+
     request = {id: currency.id}
 
     get :show, request
@@ -96,20 +99,21 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
   end
 
   test 'should update estonian currency' do
-    login users(:max)
+    cookies[:pupesoft_session] = users(:max).session
     currency = currencies(:eur_ee)
 
     patch :update, id: currency.id, currency: {nimi: 'TES', intrastat_kurssi: 1.5}
+
     assert_redirected_to currencies_path, response.body
     assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not update currency' do
-    login users(:bob)
+    cookies[:pupesoft_session] = users(:bob).session
     currency = currencies(:eur)
 
     patch :update, id: currency.id, currency: {nimi: ''}
-    refute_equal '', currency.reload.nimi
+
     assert_template 'edit', 'Template should be edit'
   end
 end

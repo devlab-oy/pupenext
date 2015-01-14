@@ -21,9 +21,9 @@ module Pupesoft
     config.i18n.default_locale = :fi
     I18n.enforce_available_locales = false
 
-    config.time_zone = 'Helsinki'
-
     config.cache_store = :memory_store
 
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
