@@ -1,4 +1,12 @@
+#lib/tasks/resque.rake
+
+require 'resque/tasks'
+
 namespace :resque do
+  task :setup do
+    require 'resque'
+  end
+
   desc "Stop all Resque workers"
 
   task stop_workers: :environment do
