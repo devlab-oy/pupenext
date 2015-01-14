@@ -22,6 +22,8 @@ class Account < ActiveRecord::Base
 
   validate :sum_level_presence
 
+  before_save :defaults
+
   # Map old database schema table to Account class
   self.table_name = :tili
   self.primary_key = :tunnus
@@ -71,5 +73,11 @@ class Account < ActiveRecord::Base
       if tulosseuranta_taso.present? && company.sum_level_profits.find_by(taso: tulosseuranta_taso).blank?
         errors.add :tulosseuranta_taso, "must be correct if present"
       end
+    end
+
+    def defaults
+      self.projekti ||= 0
+      self.kustp ||= 0
+      self.kohde ||= 0
     end
 end

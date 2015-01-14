@@ -109,4 +109,14 @@ class AccountTest < ActiveSupport::TestCase
 
     assert_nil @account.project
   end
+
+  test "kustp, kohde and projekti default to 0" do
+    @account.project, @account.cost_center, @account.target = nil
+
+    @account.save
+
+    assert_equal 0, @account.projekti
+    assert_equal 0, @account.kustp
+    assert_equal 0, @account.kohde
+  end
 end
