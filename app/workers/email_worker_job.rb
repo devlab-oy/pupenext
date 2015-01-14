@@ -1,4 +1,4 @@
-class EmailWorker < ActiveJob::Base
+class EmailWorkerJob < ActiveJob::Base
   queue_as :PupeEmail
 
   def perform(params)
