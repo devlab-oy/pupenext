@@ -15,3 +15,21 @@ two_cost_row:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
+
+three_cost_row:
+  yhtio: acme
+  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_accounting_row) %>
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+four_cost_row:
+  yhtio: acme
+  tiliointirivi_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_accounting_row) %>
+  hyodyke_tunnus: <%= ActiveRecord::FixtureSet.identify(:two_commodity_row) %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe

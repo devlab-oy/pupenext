@@ -45,9 +45,9 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
   test 'should update commodity and create bookkeeping rows type T and P' do
     # Creates external bookkeeping reductions only for current fiscal year
-    assert_difference('Accounting::FixedAssets::Row.count', 11) do
+    assert_difference('Accounting::FixedAssets::Row.count', 5) do
       # Creates internal bookkeeping reductions only for current fiscal year
-      assert_difference('Accounting::Row.count', 11) do
+      assert_difference('Accounting::Row.count', 5) do
         patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
           nimitys: 'Chair50000',
           selite: 'Chair for CEO',
@@ -67,9 +67,9 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
   test 'should update commodity and create bookkeeping rows type D and B' do
     # Creates external bookkeeping reductions only for current fiscal year
-    assert_difference('Accounting::FixedAssets::Row.count', 11) do
+    assert_difference('Accounting::FixedAssets::Row.count', 5) do
       # Creates internal bookkeeping reductions only for current fiscal year
-      assert_difference('Accounting::Row.count', 11) do
+      assert_difference('Accounting::Row.count', 5) do
         patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
           nimitys: 'Chair50000',
           selite: 'Chair for CEO',

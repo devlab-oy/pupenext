@@ -36,6 +36,20 @@ four_accounting_row:
   ltunnus: <%= ActiveRecord::FixtureSet.identify(:voucher) %>
   laadittu: <%= Time.now %>
   tilino: 1122
+  summa: 1000
+  tapvm: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: joe
+  muuttaja: joe
+
+five_accounting_row:
+  yhtio: acme
+  ltunnus: <%= ActiveRecord::FixtureSet.identify(:voucher) %>
+  laadittu: <%= Time.now %>
+  tilino: 1122
+  summa: 100
   tapvm: <%= Time.now %>
   korjausaika: <%= Time.now %>
   luontiaika: <%= Time.now %>
