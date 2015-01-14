@@ -35,7 +35,7 @@ class EmailWorker < ActionMailer::Base
       mail(from: from,
            to: params['to'],
            subject: params['subject'],
-           body: params['body']).deliver
+           body: params['body']).deliver_now
     rescue => e
       # Notify user if mail sending failed
       body = "#{params['error_message']}\n\nERROR: #{e}\n\n#{params['body']}"
@@ -43,7 +43,7 @@ class EmailWorker < ActionMailer::Base
       mail(from: from,
            to: params['user'],
            subject: params['subject'],
-           body: body).deliver
+           body: body).deliver_now
     end
   end
 end
