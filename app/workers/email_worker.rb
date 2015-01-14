@@ -1,6 +1,5 @@
-
-class EmailWorker < ActionMailer::Base
-  @queue = :PupeEmail
+class EmailWorker < ActiveJob::Base
+  queue_as :PupeEmail
 
   def perform(params)
     # Params are inserted by php-resque into redis database and are of the following format
