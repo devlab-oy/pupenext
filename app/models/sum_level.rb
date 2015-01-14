@@ -76,19 +76,13 @@ class SumLevel < ActiveRecord::Base
   # value in the inheritance column.
   def self.subclass_from_attributes(attrs)
     subclass_name = attrs.with_indifferent_access[inheritance_column]
-
     subclass_name = child_class(subclass_name).to_s
 
     if subclass_name.present? && subclass_name != self.name
-      subclass = subclass_name.safe_constantize
-
-      unless descendants.include?(subclass)
-        raise ActiveRecord::SubclassNotFound.new("Invalid single-table inheritance type: " \
-        "#{subclass_name} is not a subclass of #{name}")
-      end
-
-      subclass
+      return subclass_name.safe_constantize
     end
+
+    nil
   end
 
   private
