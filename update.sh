@@ -106,7 +106,7 @@ if [[ "${jatketaanko}" = "k" ]]; then
 
     # Restart Resque workers
     bundle exec rake resque:stop_workers &&
-    TERM_CHILD=1 BACKGROUND=yes QUEUES=* bundle exec rake environment resque:work &&
+    TERM_CHILD=1 BACKGROUND=yes QUEUES=* bundle exec rake resque:work &&
 
     # Tehdään requesti Rails appiin, jotta latautuu valmiiksi seuraavaa requestiä varten
     curl --silent --connect-timeout 1 --insecure "https://$(hostname -I)/pupenext" > /dev/null &&
