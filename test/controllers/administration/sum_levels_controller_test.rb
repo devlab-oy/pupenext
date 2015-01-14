@@ -74,7 +74,7 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
   end
 
   test "should update" do
-    patch :update, id: @sum_level.id, sum_level: { nimi: 'Uusi nimi' }
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'Uusi nimi' }
     assert_equal "Taso päivitettiin onnistuneesti", flash[:notice]
     assert_redirected_to sum_levels_path
   end

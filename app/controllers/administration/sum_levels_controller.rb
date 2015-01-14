@@ -28,8 +28,10 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def update
-    if @sum_level.update_by sum_level_params, current_user
+    if params[:commit] && @sum_level.update_by(sum_level_params, current_user)
       redirect_to sum_levels_path, notice: 'Taso päivitettiin onnistuneesti'
+    elsif @sum_level.update_by(sum_level_params, current_user)
+      render :edit
     else
       render :edit
     end
