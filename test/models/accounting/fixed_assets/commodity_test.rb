@@ -98,19 +98,21 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'should calculate depreciations by fiscal payments' do
     @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
     # Full amount to be reducted
-    reduct = 10000
-    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
-    # Total amounts of payments
-    total_payments = 35
+    total_amount = 10000
+    # Total amounts of depreciations
+    total_depreciations = 12
+    # How many depreciations have been done
+    past_fiscal_depreciations = 0
 
-    result = @commodity.degressive_by_fiscal_payments(reduct, total_payments)
+    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
+
+    result = @commodity.degressive_by_fiscal_payments(total_amount, total_depreciations, 6, 5000)
 
     assert_equal fiscal_year, result.count
-    assert_equal 3500, result.sum
+    assert_equal 5000, result.sum.to_s
 
-    #result = @commodity.degressive_by_fiscal_payments(reduct, fiscalyearly_percentage, 3500)
-    #assert_equal fiscal_year, result.count
-    #assert_equal 2275, result.sum
+    #resse = @commodity.divide_to_payments(10000, 12)
+    #assert_equal resse.sum.to_s, 'kissa'
   end
 
 end

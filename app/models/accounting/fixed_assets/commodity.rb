@@ -88,13 +88,23 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  # Calculates monthly payments
-  def divide_to_payments(full_amount, payments = 12)
+  # Calculates monthly payments within fiscal year
+  def divide_to_payments(full_amount, full_count)
     full_amount = full_amount.to_d
-    return [] if full_amount.zero? || payments.zero?
+    return [] if full_amount.zero? || full_count.zero?
 
-    payment_amount = full_amount / payments
+    fiscal_year = company.get_months_in_current_fiscal_year
+
+    fiscal_maximum = full_amount / full_count * fiscal_year
+    fiscal_maximum = fiscal_maximum.ceil
+
+    payment_amount = full_amount / full_count
     payment_amount = payment_amount.round(2)
+
+    if full_amount > fiscal_maximum
+      full_amount = fiscal_maximum
+    end
+
     remainder = full_amount.divmod(payment_amount)
 
     result = []
@@ -104,7 +114,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     unless remainder[1].zero?
-      if remainder[0] < payments
+      if remainder[0] < full_count
         result.push remainder[1]
       else
         result[-1] += remainder[1]
@@ -169,39 +179,29 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     fiscal_year_depreciations
   end
 
-  def degressive_by_fiscal_payments(full_amount, months, depreciated_amount = 0)
-    total_number_of_payments = months
-    one_year = company.get_months_in_current_fiscal_year
+  def degressive_by_fiscal_payments(full_amount, total_number_of_payments,
+    depreciated_payments = 0, depreciated_amount = 0)
+
+    fiscal_length = company.get_months_in_current_fiscal_year
+    remaining_payments = total_number_of_payments - depreciated_payments
+    remaining_amount = full_amount - depreciated_amount
+
+    fiscal_maximum = full_amount.to_d / total_number_of_payments * fiscal_length
+    fiscal_maximum = fiscal_maximum.ceil
 
     result = []
-    # Calculate first year
-    first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
-    result = first_year_reductions.take(one_year)
-    remaining_payments = total_number_of_payments-one_year
-    remaining_amount = full_amount - result.sum
 
-    # Calculate the rest
-    until remaining_payments.zero?
-      if remaining_payments < one_year+1
-        count_with_this = remaining_payments
-      else
-        count_with_this = total_number_of_payments
-      end
-      later_year_result = divide_to_payments(remaining_amount, count_with_this)
-
-      later_result = later_year_result.take(one_year)
-      remaining_payments -= later_result.count
-      remaining_amount -= later_result.sum
-      result.concat later_result
-      remaining_amount = full_amount - result.sum
-
-      if remaining_payments < 1
-        remaining_payments = 0
-        if remaining_amount > 0
-          result.push remaining_amount
-        end
-      end
+    if remaining_amount > fiscal_maximum
+      remaining_amount = fiscal_maximum
     end
+
+    # Calculate fiscal payments
+    if remaining_payments >= fiscal_length
+      result = divide_to_payments(remaining_amount, fiscal_length)
+    else
+      result = divide_to_payments(remaining_amount, remaining_payments)
+    end
+
     result
   end
 
@@ -278,7 +278,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_external_bk_rows
-      deactivate_old_rows unless rows.count.zero?
+      #deactivate_old_rows unless rows.count.zero?
 
       external_rows = create_installment_rows(:evl)
       external_rows.each do |params|
@@ -290,7 +290,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_internal_bk_rows
-      accounting_voucher.deactivate_old_rows unless accounting_voucher.nil?
+      #accounting_voucher.deactivate_old_rows unless accounting_voucher.nil?
 
       internal_rows = create_installment_rows(:sumu)
       internal_rows.each do |params|
@@ -360,17 +360,19 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     def create_installment_rows(payment_type)
       full_amount = summa
 
-      depreciated_amount = BigDecimal.new 0
+      depreciated_sum = BigDecimal.new 0
 
       if payment_type == :sumu
         calculation_type = sumu_poistotyyppi
         calculation_amount = sumu_poistoera
-        accounting_voucher.rows.active.each { |x| depreciated_amount += x.summa }
+        accounting_voucher.rows.active.each { |x| depreciated_sum += x.summa }
+        depreciation_amount = accounting_voucher.rows.active.count
       else
         payment_type = :evl
         calculation_type = evl_poistotyyppi
         calculation_amount = evl_poistoera
-        rows.active.each { |x| depreciated_amount += x.summa }
+        rows.active.each { |x| depreciated_sum += x.summa }
+        depreciation_amount = rows.active.count
       end
 
       # Switch adds correct numbers to reductions array
@@ -380,8 +382,9 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       case calculation_type
       when 'T'
         # Fixed by months
-        reductions = divide_to_payments(full_amount, calculation_amount)
-
+        #reductions = divide_to_payments(full_amount, calculation_amount)
+        reductions = degressive_by_fiscal_payments(full_amount, calculation_amount,
+          depreciation_amount, depreciated_sum)
       when 'P'
         # Fixed by percentage
         yearly_amount = full_amount * calculation_amount / 100
@@ -391,12 +394,12 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
 
       when 'D'
         # Degressive by months
-        reductions = divide_to_degressive_payments_by_months(full_amount, calculation_amount)
-
+        #reductions = divide_to_payments(full_amount, calculation_amount)
+        reductions = degressive_by_fiscal_payments(full_amount, calculation_amount,
+          depreciation_amount, depreciated_sum)
       when 'B'
         # Degressive by percentage
-        #reductions = divide_to_degressive_payments_by_percentage(full_amount, calculation_amount)
-        reductions = degressive_by_fiscal_percentage(full_amount, calculation_amount, depreciated_amount)
+        reductions = degressive_by_fiscal_percentage(full_amount, calculation_amount, depreciated_sum)
       end
 
       activation_date = self.kayttoonottopvm
