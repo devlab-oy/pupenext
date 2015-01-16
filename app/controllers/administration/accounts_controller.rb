@@ -91,19 +91,10 @@ class Administration::AccountsController < AdministrationController
         profit: current_company.sum_level_profits
       }
 
-      cc = current_company.cost_centers.order("koodi+0, koodi, nimi")
-      cc << current_company.cost_centers.build(tunnus: 0, nimi: 'Ei kustannuspaikkaa')
-
-      ta = current_company.targets.order("koodi+0, koodi, nimi")
-      ta << current_company.targets.build(tunnus: 0, nimi: 'Ei kohdetta')
-
-      pr = current_company.projects.order("koodi+0, koodi, nimi")
-      pr << current_company.projects.build(tunnus: 0, nimi: 'Ei projektia')
-
       @qualifiers = {
-        cost_center: cc,
-        target: ta,
-        project: pr
+        cost_center: current_company.cost_centers.order("koodi+0, koodi, nimi"),
+        target: current_company.targets.order("koodi+0, koodi, nimi"),
+        project: current_company.projects.order("koodi+0, koodi, nimi")
       }
 
       @oletus_alv_options = current_company

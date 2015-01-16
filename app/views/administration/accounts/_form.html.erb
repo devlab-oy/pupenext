@@ -63,6 +63,7 @@
                                 qualifiers[:cost_center],
                                 :tunnus,
                                 :nimitys,
+                                include_blank: t("Ei kustannuspaikkaa"),
                                 selected: account.kustp) %>
       </td>
     </tr>
@@ -74,6 +75,7 @@
                                 qualifiers[:target],
                                 :tunnus,
                                 :nimitys,
+                                include_blank: t("Ei kohdetta"),
                                 selected: account.kohde) %>
       </td>
     </tr>
@@ -85,6 +87,7 @@
                                 qualifiers[:project],
                                 :tunnus,
                                 :nimitys,
+                                include_blank: t("Ei projektia"),
                                 selected: account.projekti) %>
       </td>
     </tr>

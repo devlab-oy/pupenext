@@ -4,6 +4,7 @@ account_<%= account %>:
   nimi: Perustamismenot <%= account %>
   ulkoinen_taso: 112
   sisainen_taso: 33
+  tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: <%= account %>
   project: project_in_use

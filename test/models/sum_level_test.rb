@@ -237,4 +237,12 @@ class SumLevelTest < ActiveSupport::TestCase
       assert_equal class_name, sum_level.class.to_s
     end
   end
+
+  test "default_child_instance returns correct class" do
+    assert_equal SumLevel::Internal, SumLevel.default_child_instance
+  end
+
+  test "subclass_from_attributes returns nil if subclass can't be found with the provided tyyppi" do
+    assert_equal nil, SumLevel.subclass_from_attributes({ tyyppi: "M" })
+  end
 end

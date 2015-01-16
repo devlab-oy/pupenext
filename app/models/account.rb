@@ -2,17 +2,27 @@ class Account < ActiveRecord::Base
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-  belongs_to :project, class_name: 'Qualifier::Project', foreign_key: :projekti, primary_key: :tunnus
-  belongs_to :target, class_name: 'Qualifier::Target', foreign_key: :kohde, primary_key: :tunnus
-  belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp, primary_key: :tunnus
-  belongs_to :internal, class_name: 'SumLevel::Internal', foreign_key: :sisainen_taso, primary_key: :taso
-  belongs_to :external, class_name: 'SumLevel::External', foreign_key: :ulkoinen_taso, primary_key: :taso
-  belongs_to :vat, class_name: 'SumLevel::Vat', foreign_key: :alv_taso, primary_key: :taso
 
-  validates :tilino, presence: true
-  validates :tilino, uniqueness: { scope: [:yhtio] }
+  with_options primary_key: :tunnus do |o|
+    o.belongs_to :project,     class_name: 'Qualifier::Project',    foreign_key: :projekti
+    o.belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde
+    o.belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp
+  end
+
+  with_options primary_key: :taso do |o|
+    o.belongs_to :internal, class_name: 'SumLevel::Internal', foreign_key: :sisainen_taso
+    o.belongs_to :external, class_name: 'SumLevel::External', foreign_key: :ulkoinen_taso
+    o.belongs_to :vat,      class_name: 'SumLevel::Vat',      foreign_key: :alv_taso
+    o.belongs_to :profit,   class_name: 'SumLevel::Profit',   foreign_key: :tulosseuranta_taso
+  end
+
+  validates :tilino, presence: true, uniqueness: { scope: [:yhtio] }
   validates :nimi, presence: true
   validates :ulkoinen_taso, presence: true
+
+  validate :sum_level_presence
+
+  before_save :defaults
 
   # Map old database schema table to Account class
   self.table_name = :tili
@@ -44,4 +54,30 @@ class Account < ActiveRecord::Base
       ["Tiliöinnin manuaalinen lisäys/muokkaus estetty", "X"]
     ]
   end
+
+  private
+
+    def sum_level_presence
+      if sisainen_taso.present? && company.sum_level_internals.find_by(taso: sisainen_taso).blank?
+        errors.add :sisainen_taso, "must be correct if present"
+      end
+
+      if ulkoinen_taso.present? && company.sum_level_externals.find_by(taso: ulkoinen_taso).blank?
+        errors.add :ulkoinen_taso, "must be correct"
+      end
+
+      if alv_taso.present? && company.sum_level_vats.find_by(taso: alv_taso).blank?
+        errors.add :alv_taso, "must be correct if present"
+      end
+
+      if tulosseuranta_taso.present? && company.sum_level_profits.find_by(taso: tulosseuranta_taso).blank?
+        errors.add :tulosseuranta_taso, "must be correct if present"
+      end
+    end
+
+    def defaults
+      self.projekti ||= 0
+      self.kustp ||= 0
+      self.kohde ||= 0
+    end
 end
