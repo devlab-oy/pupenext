@@ -134,12 +134,12 @@
 
       <tr>
         <th><%= f.label :luontiaika %></th>
-        <td><%= account.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        <td><%= account.luontiaika.try(:to_formatted_s, :db) %></td>
       </tr>
 
       <tr>
         <th><%= f.label :muutospvm %></th>
-        <td><%= account.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        <td><%= account.muutospvm.try(:to_formatted_s, :db) %></td>
       </tr>
 
       <tr>
