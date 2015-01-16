@@ -6,7 +6,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
 
     @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
 
-    @account = accounting_accounts(:one_account_row)
+#    @account = accounting_accounts(:one_account_row)
   end
 
   test 'should get all commodities' do

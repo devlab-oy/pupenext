@@ -6,9 +6,6 @@ class Accounting::FixedAssets::RowTest < ActiveSupport::TestCase
     # Valid Accounting fixed assets commodity row
     @fixed_asset_row = accounting_fixed_assets_rows(:one)
 
-    @account = accounting_accounts(:one_account_row)
-    @fixed_asset_row.tilino = @account.tilino
-
     # New object
     @new_one = Accounting::FixedAssets::Row.new
   end

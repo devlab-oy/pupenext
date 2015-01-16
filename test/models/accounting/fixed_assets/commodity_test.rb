@@ -5,9 +5,8 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   def setup
     # Valid Accounting fixed assets commodity
     @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
-    @account = accounting_accounts(:one_account_row)
-
-    @commodity.tilino = @account.tilino
+#    @account = accounting_accounts(:one_account_row)
+#    @commodity.tilino = @account.tilino
     # New object
     @new_commodity = Accounting::FixedAssets::Commodity.new
   end
@@ -109,7 +108,7 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
     result = @commodity.degressive_by_fiscal_payments(total_amount, total_depreciations, 6, 5000)
 
     assert_equal fiscal_year, result.count
-    assert_equal 5000, result.sum.to_s
+    assert_equal 5000, result.sum
 
     #resse = @commodity.divide_to_payments(10000, 12)
     #assert_equal resse.sum.to_s, 'kissa'

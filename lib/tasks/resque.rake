@@ -1,4 +1,12 @@
+#lib/tasks/resque.rake
+
+require 'resque/tasks'
+
 namespace :resque do
+  task setup: :environment do
+    require 'resque'
+  end
+
   desc "Stop all Resque workers"
 
   task stop_workers: :environment do
@@ -8,6 +16,6 @@ namespace :resque do
       pids << worker.to_s.split(/:/).second
     end
 
-    system "kill -TERM #{pids.join(' ')}" if pids.size > 0
+    system "kill -TERM #{pids.join(' ')} && sleep 2" if pids.size > 0
   end
 end

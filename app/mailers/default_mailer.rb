@@ -1,8 +1,5 @@
-
-class EmailWorker < ActionMailer::Base
-  @queue = :PupeEmail
-
-  def perform(params)
+class DefaultMailer < ApplicationMailer
+  def pupesoft_email(params)
     # Params are inserted by php-resque into redis database and are of the following format
     #
     #[{"user"          => "somebody@example.com",
@@ -29,21 +26,13 @@ class EmailWorker < ActionMailer::Base
       attachments[filename] = File.read(filepath)
     end
 
-    from = %Q("#{params['from_name']}" <#{params['from']}>)
+    params = {
+      from: %Q("#{params['from_name']}" <#{params['from']}>),
+      to: params['to'],
+      subject: params['subject'],
+      body: params['body']
+    }
 
-    begin
-      mail(from: from,
-           to: params['to'],
-           subject: params['subject'],
-           body: params['body']).deliver
-    rescue => e
-      # Notify user if mail sending failed
-      body = "#{params['error_message']}\n\nERROR: #{e}\n\n#{params['body']}"
-
-      mail(from: from,
-           to: params['user'],
-           subject: params['subject'],
-           body: body).deliver
-    end
+    mail params
   end
 end

@@ -4,8 +4,6 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/email', to: 'monitoring#nagios_resque_email'
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
-  resources :currencies, except: :destroy
-
   namespace :accounting do
     namespace :fixed_assets do
       get '/commodities/:id/select_purchase_order(.:format)',
@@ -16,6 +14,12 @@ Pupesoft::Application.routes.draw do
         to: 'commodities#fiscal_year_run',as: 'fiscal_year_run'
       resources :commodities, except: :destroy
     end
+  end
+
+  scope module: :administration do
+    resources :currencies, except: :destroy
+    resources :sum_levels
+    resources :accounts
   end
 
   root to: 'home#index'

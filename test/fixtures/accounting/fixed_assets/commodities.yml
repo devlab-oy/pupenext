@@ -4,10 +4,10 @@ one_commodity_row:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
+  tilino: 2122
   hankintapvm: <%= Time.now %>
   kayttoonottopvm: <%= Time.now %>
   tilino: 1122
-  tapvm: <%= Time.now %>
   korjausaika: <%= Time.now %>
   selite: Kekkonen
   nimitys: Mekkonen
@@ -21,7 +21,6 @@ two_commodity_row:
   hankintapvm: <%= Time.now %>
   kayttoonottopvm: <%= Time.now %>
   tilino: 1122
-  tapvm: <%= Time.now %>
   korjausaika: <%= Time.now %>
   selite: Kakkonen
   nimitys: Miekkonen
