@@ -28,6 +28,9 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def update
+    # Redirect to sum_levels_path only if commit is present in params (submit button or enter
+    # pressed). Otherwise submits triggered i.e. from select updates would also result in
+    # redirection.
     if params[:commit] && @sum_level.update_by(sum_level_params, current_user)
       redirect_to sum_levels_path, notice: 'Taso päivitettiin onnistuneesti'
     elsif @sum_level.update_by(sum_level_params, current_user)
