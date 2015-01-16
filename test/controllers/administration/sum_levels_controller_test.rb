@@ -79,6 +79,11 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     assert_redirected_to sum_levels_path
   end
 
+  test "should not update if commit not present in params" do
+    patch :update, id: @sum_level.id, sum_level: { nimi: 'Uusi nimi' }
+    assert_template :edit
+  end
+
   test "should not update with invalid data" do
     patch :update, id: @sum_level.id, sum_level: { taso: '' }
     assert_template :edit
