@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Head::SalesInvoiceTest < ActiveSupport::TestCase
   setup do
-    @invoice = head_sales_invoices(:one)
+    @invoice = heads(:si_one)
   end
 
   test 'fixture should be valid' do

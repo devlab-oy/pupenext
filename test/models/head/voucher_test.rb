@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Head::VoucherTest < ActiveSupport::TestCase
   setup do
-    @voucher = head_vouchers(:one)
+    @voucher = heads(:vo_one)
   end
 
   test 'fixture should be valid' do

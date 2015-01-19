@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Head::SalesOrderTest < ActiveSupport::TestCase
   setup do
-    @order = head_sales_orders(:one)
+    @order = heads(:so_one)
   end
 
   test 'fixture should be valid' do
