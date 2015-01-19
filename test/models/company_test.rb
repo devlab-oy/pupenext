@@ -18,13 +18,34 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_nil @acme.parameter
   end
 
-  test "company has working STI invoices" do
+  test "company has working STI headers" do
     assert_not_nil @acme.heads
+    assert_equal 6, @acme.heads.count
+
     assert_not_nil @acme.purchase_orders
+    assert_equal Head::PurchaseOrder.new.class, @acme.purchase_orders.first.class
+    assert_equal 1, @acme.purchase_orders.count
+    assert_equal ['O'], @acme.purchase_orders.collect(&:tila).uniq
+
     assert_not_nil @acme.purchase_invoices
+    assert_equal Head::PurchaseInvoice.new.class, @acme.purchase_invoices.first.class
+    assert_equal 1, @acme.purchase_invoices.count
+    assert_equal ['H'], @acme.purchase_invoices.collect(&:tila).uniq
+
     assert_not_nil @acme.sales_orders
+    assert_equal Head::SalesOrder.new.class, @acme.sales_orders.first.class
+    assert_equal 1, @acme.sales_orders.count
+    assert_equal ['N'], @acme.sales_orders.collect(&:tila).uniq
+
     assert_not_nil @acme.sales_invoices
+    assert_equal Head::SalesInvoice.new.class, @acme.sales_invoices.first.class
+    assert_equal 1, @acme.sales_invoices.count
+    assert_equal ['U'], @acme.sales_invoices.collect(&:tila).uniq
+
     assert_not_nil @acme.vouchers
+    assert_equal Head::Voucher.new.class, @acme.vouchers.first.class
+    assert_equal 1, @acme.vouchers.count
+    assert_equal ['X'], @acme.vouchers.collect(&:tila).uniq
   end
 
   test 'get fiscal year returns fiscal year' do

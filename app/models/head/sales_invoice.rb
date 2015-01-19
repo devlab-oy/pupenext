@@ -1,10 +1,6 @@
 class Head::SalesInvoice < ActiveRecord::Base
-  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
-  has_many :accounting_rows, class_name: 'Accounting::Row', foreign_key: :ltunnus
+  validates :tila, inclusion: { in: ['U'] }
 
-  default_scope { where("lasku.tila = 'U'") }
-
-  # Map old database schema table to Accounting::Attachment class
   self.table_name = :lasku
   self.primary_key = :tunnus
 

@@ -1,11 +1,10 @@
 class Head < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+  has_many :accounting_rows, class_name: 'Accounting::Row', foreign_key: :ltunnus
 
   self.table_name = :lasku
   self.primary_key = :tunnus
   self.inheritance_column = :tila
-
-  before_save :defaults
 
   def self.child_class(value)
     child_class_names[value.try(:to_sym)]
@@ -17,9 +16,9 @@ class Head < ActiveRecord::Base
 
   def self.child_class_names
     {
-      H: Head::Purchase,
+      H: Head::PurchaseInvoice,
       O: Head::PurchaseOrder,
-      U: Head::Sales,
+      U: Head::SalesInvoice,
       N: Head::SalesOrder,
       X: Head::Voucher,
     }
