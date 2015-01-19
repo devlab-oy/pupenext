@@ -296,7 +296,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       internal_rows.each do |params|
         # Only create rows for current fiscal year
         if company.is_date_in_this_fiscal_year?(params[:tapvm])
-          accounting_voucher.create_voucher_row(params)
+          accounting_voucher.rows.build params
         end
       end
       accounting_voucher.save

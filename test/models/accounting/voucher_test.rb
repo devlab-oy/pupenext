@@ -23,7 +23,7 @@ class Accounting::VoucherTest < ActiveSupport::TestCase
     }
 
     assert_difference('Accounting::Row.count') do
-      @voucher.create_voucher_row params
+      @voucher.rows.build params
       @voucher.save
     end
   end
