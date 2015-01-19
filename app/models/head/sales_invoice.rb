@@ -1,8 +1,5 @@
-class Head::SalesInvoice < ActiveRecord::Base
+class Head::SalesInvoice < Head
   validates :tila, inclusion: { in: ['U'] }
-
-  self.table_name = :lasku
-  self.primary_key = :tunnus
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name

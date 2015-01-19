@@ -1,8 +1,5 @@
-class Head::PurchaseOrder < ActiveRecord::Base
+class Head::PurchaseOrder < Head
   validates :tila, inclusion: { in: ['O'] }
-
-  self.table_name = :lasku
-  self.primary_key = :tunnus
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
