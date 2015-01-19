@@ -1,8 +1,8 @@
 # Tosite
-# tila: X
 
 one:
   yhtio: acme
+  tila: X
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>

@@ -1,8 +1,8 @@
 # Myyntilasku
-# tila: U
 
 one:
   yhtio: acme
+  tila: U
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>

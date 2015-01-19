@@ -1,8 +1,8 @@
 # Ostotilaus
-# tila: O
 
 one:
   yhtio: acme
+  tila: O
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>

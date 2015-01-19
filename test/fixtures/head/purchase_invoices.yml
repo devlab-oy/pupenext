@@ -1,8 +1,8 @@
 # Ostolasku
-# tila: H
 
 one:
   yhtio: acme
+  tila: H
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
