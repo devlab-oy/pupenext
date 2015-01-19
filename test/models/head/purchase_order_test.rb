@@ -7,5 +7,6 @@ class Head::PurchaseOrderTest < ActiveSupport::TestCase
 
   test 'fixture should be valid' do
     assert @order.valid?
+    assert_equal "Acme Corporation", @order.company.nimi
   end
 end

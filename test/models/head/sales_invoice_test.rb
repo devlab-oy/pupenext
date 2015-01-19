@@ -7,5 +7,6 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
 
   test 'fixture should be valid' do
     assert @invoice.valid?
+    assert_equal "Acme Corporation", @invoice.company.nimi
   end
 end

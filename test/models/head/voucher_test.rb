@@ -7,5 +7,6 @@ class Head::VoucherTest < ActiveSupport::TestCase
 
   test 'fixture should be valid' do
     assert @voucher.valid?
+    assert_equal "Acme Corporation", @voucher.company.nimi
   end
 end
