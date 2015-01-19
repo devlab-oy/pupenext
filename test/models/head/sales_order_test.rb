@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class Head::SalesOrderTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @order = head_sales_orders(:one)
+  end
+
+  test 'fixture should be valid' do
+    assert @order.valid?
+  end
 end

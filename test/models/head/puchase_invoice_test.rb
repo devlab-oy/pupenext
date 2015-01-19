@@ -2,14 +2,10 @@ require 'test_helper'
 
 class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
   setup do
-    @po = purchase_orders(:purchase_order)
+    @invoice = head_purchase_orders(:one)
   end
 
   test 'fixtures should be valid' do
-    assert @po.valid?
-  end
-
-  test 'default scope' do
-    assert_equal 0, PurchaseOrder.where("lasku.tila not in ('H','Y','M','P','Q')").count
+    assert @invoice.valid?
   end
 end
