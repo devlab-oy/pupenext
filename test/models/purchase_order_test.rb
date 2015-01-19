@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class PurchaseOrderTest < ActiveSupport::TestCase
-
-  def setup
+  setup do
     @po = purchase_orders(:purchase_order)
   end
 
@@ -10,4 +9,7 @@ class PurchaseOrderTest < ActiveSupport::TestCase
     assert @po.valid?
   end
 
+  test 'default scope' do
+    assert_equal 0, PurchaseOrder.where("lasku.tila not in ('H','Y','M','P','Q')").count
+  end
 end
