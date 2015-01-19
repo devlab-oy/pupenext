@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Invoice::PurchaseTest < ActiveSupport::TestCase
+class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
   setup do
     @po = purchase_orders(:purchase_order)
   end

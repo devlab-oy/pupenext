@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Accounting::VoucherTest < ActiveSupport::TestCase
+class Head::VoucherTest < ActiveSupport::TestCase
 
   def setup
     @voucher = accounting_vouchers(:voucher)

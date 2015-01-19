@@ -19,12 +19,12 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test "company has working STI invoices" do
-    assert_not_nil @acme.invoices
-    assert_not_nil @acme.invoice_purchase_orders
-    assert_not_nil @acme.invoice_purchases
-    assert_not_nil @acme.invoice_sales_orders
-    assert_not_nil @acme.invoice_sales
-    assert_not_nil @acme.invoice_vouchers
+    assert_not_nil @acme.heads
+    assert_not_nil @acme.purchase_orders
+    assert_not_nil @acme.purchase_invoices
+    assert_not_nil @acme.sales_orders
+    assert_not_nil @acme.sales_invoices
+    assert_not_nil @acme.vouchers
   end
 
   test 'get fiscal year returns fiscal year' do

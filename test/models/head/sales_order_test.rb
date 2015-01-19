@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Invoice::PurchaseOrderTest < ActiveSupport::TestCase
+class Head::SalesOrderTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

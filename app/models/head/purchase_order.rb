@@ -1,4 +1,4 @@
-class Invoice::PurchaseOrder < ActiveRecord::Base
+class Head::PurchaseOrder < ActiveRecord::Base
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :accounting_rows, class_name: 'Accounting::Row', foreign_key: :ltunnus
 
@@ -20,6 +20,6 @@ class Invoice::PurchaseOrder < ActiveRecord::Base
   # Rails figures out paths from the model name. User model has users_path etc.
   # With STI we want to use same name for each child. Thats why we override model_name
   def self.model_name
-    Invoice.model_name
+    Head.model_name
   end
 end

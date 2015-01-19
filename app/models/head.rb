@@ -1,4 +1,4 @@
-class Invoice < ActiveRecord::Base
+class Head < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   self.table_name = :lasku
@@ -17,11 +17,11 @@ class Invoice < ActiveRecord::Base
 
   def self.child_class_names
     {
-      H: Invoice::Purchase,
-      O: Invoice::PurchaseOrder,
-      U: Invoice::Sales,
-      N: Invoice::SalesOrder,
-      X: Invoice::Voucher,
+      H: Head::Purchase,
+      O: Head::PurchaseOrder,
+      U: Head::Sales,
+      N: Head::SalesOrder,
+      X: Head::Voucher,
     }
   end
 
