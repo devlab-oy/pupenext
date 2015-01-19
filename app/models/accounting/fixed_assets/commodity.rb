@@ -34,33 +34,6 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
   self.table_name = :kayttomaisuus_hyodyke
   self.primary_key = :tunnus
 
-  def self.search_like(args)
-    result = self.all
-
-    args.each do |key,value|
-      if exact_search? value
-        value = exact_search value
-        result = result.where(key => value)
-      else
-        result = result.where_like key, value
-      end
-    end
-
-    result
-  end
-
-  def self.where_like(column, search_term)
-    where(self.arel_table[column].matches "%#{search_term}%")
-  end
-
-  def self.exact_search(value)
-    value[1..-1]
-  end
-
-  def self.exact_search?(value)
-    value[0].to_s.include? "@"
-  end
-
   def lock_all_rows
     #External bookkeepping rows locked
     rows.each { |row| row.lukko = 'X' }
@@ -257,7 +230,7 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
     new_cost_row.save
   end
 
-  protected
+  private
 
     def activated?
       tila == 'A'
@@ -429,5 +402,4 @@ class Accounting::FixedAssets::Commodity < ActiveRecord::Base
       cost_rows.each {|x| totalsum += x.accounting_row.summa rescue 0 }
       summa = totalsum
     end
-
 end
