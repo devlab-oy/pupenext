@@ -14,6 +14,13 @@ class Company < ActiveRecord::Base
     o.has_many :sum_level_vats,      class_name: 'SumLevel::Vat'
     o.has_many :sum_level_profits,   class_name: 'SumLevel::Profit'
 
+    o.has_many :invoices
+    o.has_many :invoice_purchase_orders, class_name: 'Invoice::PurchaseOrder'
+    o.has_many :invoice_purchases,       class_name: 'Invoice::Purchase'
+    o.has_many :invoice_sales_orders,    class_name: 'Invoice::SalesOrder'
+    o.has_many :invoice_sales,           class_name: 'Invoice::Sale'
+    o.has_many :invoice_vouchers,        class_name: 'Invoice::Voucher'
+
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     o.has_many :projects,     class_name: 'Qualifier::Project'
     o.has_many :targets,      class_name: 'Qualifier::Target'

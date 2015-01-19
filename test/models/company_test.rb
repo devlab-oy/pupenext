@@ -18,6 +18,15 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_nil @acme.parameter
   end
 
+  test "company has working STI invoices" do
+    assert_not_nil @acme.invoices
+    assert_not_nil @acme.invoice_purchase_orders
+    assert_not_nil @acme.invoice_purchases
+    assert_not_nil @acme.invoice_sales_orders
+    assert_not_nil @acme.invoice_sales
+    assert_not_nil @acme.invoice_vouchers
+  end
+
   test 'get fiscal year returns fiscal year' do
     @acme.tilikausi_alku = Date.today
     @acme.tilikausi_loppu = Date.today+4
