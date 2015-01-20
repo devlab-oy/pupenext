@@ -24,11 +24,7 @@ class Company < ActiveRecord::Base
     o.has_many :projects,     class_name: 'Qualifier::Project'
     o.has_many :targets,      class_name: 'Qualifier::Target'
 
-    o.has_many :accounting_rows,                     class_name: 'Accounting::Row'
-    o.has_many :accounting_attachments,              class_name: 'Accounting::Attachment'
-    o.has_many :accounting_fixed_assets_commodities, class_name: 'Accounting::FixedAssets::Commodity'
-    o.has_many :accounting_fixed_assets_rows,        class_name: 'Accounting::FixedAssets::Row'
-    o.has_many :accounting_accounts,                 class_name: 'Accounting::Account'
+    o.has_many :commodities, class_name: 'Accounting::FixedAssets::Commodity'
   end
 
   # Map old database schema table to Company class

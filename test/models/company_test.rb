@@ -18,6 +18,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_nil @acme.cost_centers
     assert_not_nil @acme.projects
     assert_not_nil @acme.targets
+    assert_not_nil @acme.commodities
   end
 
   test "company has working STI headings" do
