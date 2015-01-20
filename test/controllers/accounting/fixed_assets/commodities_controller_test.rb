@@ -7,6 +7,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should get all commodities' do
+    skip
     get :index
     assert_response :success
 
@@ -14,6 +15,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should show commodity' do
+    skip
     request = {id: @commodity.id}
 
     get :show, request
@@ -23,6 +25,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should show new commodity form' do
+    skip
     get :new
     assert_response :success
 
@@ -30,6 +33,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should get create new commodity' do
+    skip
     assert_difference('Accounting::FixedAssets::Commodity.count',1) do
       patch :create, accounting_fixed_assets_commodity: {
             nimitys: 'Chair30000',
@@ -41,6 +45,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should update commodity and create bookkeeping rows type T and P' do
+    skip
     # Creates external bookkeeping reductions only for current fiscal year
     assert_difference('Accounting::FixedAssets::Row.count', 5) do
       # Creates internal bookkeeping reductions only for current fiscal year
@@ -63,6 +68,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should update commodity and create bookkeeping rows type D and B' do
+    skip
     # Creates external bookkeeping reductions only for current fiscal year
     assert_difference('Accounting::FixedAssets::Row.count', 5) do
       # Creates internal bookkeeping reductions only for current fiscal year
@@ -88,6 +94,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should not create new commodity due to permissions' do
+    skip
     # User bob does not have permission to create
     cookies[:pupesoft_session] = users(:bob).session
 
@@ -102,6 +109,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should not create new commodity due to params missing' do
+    skip
     assert_no_difference('Accounting::FixedAssets::Commodity.count') do
       post :create, accounting_fixed_assets_commodity: {
         nimitys: '', selite: '', summa: 300, tila: 'A'
@@ -112,6 +120,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should update commodity' do
+    skip
     patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {
       nimitys: 'Kissa'
     }
@@ -121,6 +130,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should not update commodity due to rights' do
+    skip
     cookies[:pupesoft_session] = users(:bob).session
 
     patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {nimi: ''}
@@ -130,12 +140,14 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should not update commodity due to required params missing' do
+    skip
     patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {nimitys: ''}
 
     assert_template 'edit', 'Template should be edit'
   end
 
   test 'should link commodity cost row' do
+    skip
     unlinked_row = accounting_rows(:three_accounting_row)
     assert_difference('Accounting::FixedAssets::CommodityCostRow.count') do
       patch :edit, id: @commodity.id, selected_accounting_row: unlinked_row.id
@@ -143,6 +155,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should search for specific commodity' do
+    skip
     request = {nimitys: 'Mekkonen'}
 
     get :index, request
@@ -152,6 +165,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should search for specific voucher' do
+    skip
     request = {id: @commodity.id, nimi: 'Acme Corporation Voucher'}
 
     get 'select_voucher', request
@@ -161,6 +175,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should search for specific purchase order' do
+    skip
     request = {id: @commodity.id, nimi: 'Acme Corporation PO'}
 
     get 'select_purchase_order', request
@@ -170,6 +185,7 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
   end
 
   test 'should execute fiscal year run' do
+    skip
     get :fiscal_year_run
     assert_response :success
   end
