@@ -569,9 +569,20 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   end
 
   create_table "fixed_assets_commodities", force: :cascade, options: "ENGINE=myisam" do |t|
-    t.integer  "company_id", limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "company_id",  limit: 4
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "nimitys",     limit: 255
+    t.string   "selite",      limit: 255
+    t.decimal  "summa",                   precision: 16, scale: 6
+    t.date     "hankintapvm"
+    t.integer  "kustp",       limit: 4
+    t.integer  "kohde",       limit: 4
+    t.integer  "projekti",    limit: 4
+    t.string   "laatija",     limit: 255
+    t.datetime "luontiaika"
+    t.datetime "muutospvm"
+    t.string   "muuttaja",    limit: 255
   end
 
   add_index "fixed_assets_commodities", ["company_id"], name: "index_fixed_assets_commodities_on_company_id", using: :btree
