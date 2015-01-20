@@ -4,6 +4,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   belongs_to :company
   has_one :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
+  has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
   def lock_all_rows
     commodity_rows.update_all(locked: true)

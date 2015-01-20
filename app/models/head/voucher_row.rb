@@ -1,5 +1,6 @@
 class Head::VoucherRow < ActiveRecord::Base
   belongs_to :voucher, foreign_key: :ltunnus, primary_key: :tunnus, class_name: 'Head::Voucher'
+  belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   validates :yhtio, presence: true
 
