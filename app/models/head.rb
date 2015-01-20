@@ -1,6 +1,6 @@
 class Head < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-  has_many :accounting_rows, class_name: 'Accounting::Row', foreign_key: :ltunnus
+  has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
   self.table_name = :lasku
   self.primary_key = :tunnus
