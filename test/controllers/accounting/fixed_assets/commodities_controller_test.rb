@@ -1,12 +1,9 @@
 require 'test_helper'
+
 class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::TestCase
-
-  def setup
-    cookies[:pupesoft_session] = users(:joe).session
-
-    @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
-
-#    @account = accounting_accounts(:one_account_row)
+  setup do
+    login users(:joe)
+    @commodity = fixed_assets_commodities(:commodity_one)
   end
 
   test 'should get all commodities' do
@@ -176,5 +173,4 @@ class Accounting::FixedAssets::CommoditiesControllerTest < ActionController::Tes
     get :fiscal_year_run
     assert_response :success
   end
-
 end
