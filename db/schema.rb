@@ -2242,6 +2242,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "korjattu",         limit: 50,                             default: "",  null: false
     t.datetime "korjausaika",                                                           null: false
     t.integer  "tosite",           limit: 4,                              default: 0,   null: false
+    t.integer  "commodity_id",     limit: 4
     t.integer  "aputunnus",        limit: 4,                              default: 0,   null: false
     t.integer  "tapahtumatunnus",  limit: 4,                              default: 0,   null: false
   end

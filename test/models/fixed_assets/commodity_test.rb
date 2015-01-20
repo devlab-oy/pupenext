@@ -11,7 +11,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
-    assert_not_nil @commodity.voucher
+    assert_not_nil @commodity.voucher, "hyödykkeellä on tosite, jolle kirjtaaan SUMU-poistot"
+    assert_not_nil @commodity.voucher.rows, "em. tosittella on SUMU-poisto rivejä"
+    assert_not_nil @commodity.commodity_rows, "hyödyllällä on rivejä, jolla kirjtaan EVL poistot"
+    assert_not_nil @commodity.procurement_rows, "hyödyllällä on tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat"
   end
 
   test 'should update lock' do
