@@ -18,6 +18,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.lock_all_rows
 
     assert_equal 'X', @commodity.voucher.rows.first.lukko
-    assert_equal true, @commodity.rows.first.locked
+    assert_equal true, @commodity.commodity_rows.first.locked
   end
 end
