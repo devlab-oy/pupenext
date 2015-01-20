@@ -1,62 +1,29 @@
 require 'test_helper'
 
-class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
-
-  def setup
-    # Valid Accounting fixed assets commodity
-    @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
-#    @account = accounting_accounts(:one_account_row)
-#    @commodity.tilino = @account.tilino
-    # New object
-    @new_commodity = Accounting::FixedAssets::Commodity.new
+class FixedAssets::CommodityTest < ActiveSupport::TestCase
+  setup do
+    @commodity = fixed_assets_commodities(:commodity_one)
   end
 
-  test 'fixture should be valid' do
-    assert_equal @new_commodity.class, @commodity.class
-    assert @commodity.valid?, "#{@commodity.errors.full_messages} #{@commodity.cost_rows.inspect}"
+  test 'fixtures are valid' do
+    assert @commodity.valid?
+    assert_equal "Acme Corporation", @commodity.company.nimi
   end
 
-  # test 'should calculate degressive payments by percentage' do
-
-  #   amount = 10000
-  #   percentage = 45
-  #   result = @commodity.divide_to_degressive_payments_by_percentage(amount,percentage)
-  #   assert_equal amount, result.sum
-  #   assert_equal 36, result.count
-  #   assert_equal 375, result.first
-  #   assert_equal 2634, result.last
-
-  #   # Create two random parameters
-  #   randomizer = [Random.rand(0...100000), Random.rand(10...60)]
-  #   result = @commodity.divide_to_degressive_payments_by_percentage(randomizer[0], randomizer[1])
-
-  #   assert_equal randomizer[0], result.sum
-  # end
+  test 'model relations' do
+    assert_not_nil @commodity.voucher
+  end
 
   test 'should update lock' do
-    @commodity = accounting_fixed_assets_commodities(:two_commodity_row)
     @commodity.lock_all_rows
 
-    assert_equal 'X', @commodity.accounting_voucher.rows.first.lukko
-    assert_equal 'X', @commodity.rows.first.lukko
-  end
-
-  test 'account number should match between all records' do
-    @commodity = accounting_fixed_assets_commodities(:two_commodity_row)
-    assert_equal @commodity.rows.first.tilino, @commodity.tilino
-    assert_equal @commodity.rows.last.tilino, @commodity.tilino
-    assert @commodity.valid?
-
-    @commodity.tilino = 1234
-
-    assert_not_equal @commodity.rows.first.tilino, @commodity.tilino
-    refute @commodity.valid?, 'Should not be valid'
+    assert_equal 'X', @commodity.voucher.rows.first.lukko
+    assert_equal true, @commodity.commodity_rows.first.locked
   end
 
   test 'should calculate payments by fiscal year' do
     amount = 1000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
-
     result = @commodity.divide_to_payments(amount, fiscal_year)
 
     assert_equal amount, result.sum
@@ -77,7 +44,6 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate depreciations by fiscal percentage' do
-    @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
     # Full amount to be reducted
     reduct = 10000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
@@ -95,7 +61,6 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate depreciations by fiscal payments' do
-    @commodity = accounting_fixed_assets_commodities(:one_commodity_row)
     # Full amount to be reducted
     total_amount = 10000
     # Total amounts of depreciations
@@ -113,5 +78,4 @@ class Accounting::FixedAssets::CommodityTest < ActiveSupport::TestCase
     #resse = @commodity.divide_to_payments(10000, 12)
     #assert_equal resse.sum.to_s, 'kissa'
   end
-
 end

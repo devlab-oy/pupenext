@@ -1,17 +1,9 @@
-class Accounting::FixedAssets::CommoditiesController < ApplicationController
-  include ApplicationHelper
-
-  before_action :find_commodity, only: [:show, :edit, :update, :select_account]
-  before_action :update_access, only: [:create, :edit, :update]
-
-  helper_method :sort_column
-  helper_method :params_search
-
+class Accounting::FixedAssets::CommoditiesController < AdministrationController
   # GET /accounting/fixed_assets/commodities
   def index
-    @commodities = current_company.accounting_fixed_assets_commodities
-    @commodities = @commodities.search_like params_search
-    @commodities = @commodities.order("#{sort_column} #{sort_direction}")
+    @commodities = current_company.commodities
+      .search_like(search_params)
+      .order(order_params)
   end
 
    # GET /accounting/fixed_assets/commodities/1
@@ -21,7 +13,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # GET /accounting/fixed_assets/commodities/new
   def new
-    @commodity = current_company.accounting_fixed_assets_commodities.build
+    @commodity = current_company.commodities.build
   end
 
   # PATCH/PUT /accounting/fixed_assets/commodities/1
@@ -43,7 +35,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
 
   # POST /accounting/fixed_assets/commodities
   def create
-    @commodity = current_company.accounting_fixed_assets_commodities.build
+    @commodity = current_company.commodities.build
     @commodity.attributes = commodity_params
 
     if @commodity.save_by current_user
@@ -68,7 +60,7 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
   end
 
   def fiscal_year_run
-    @commodities = current_company.accounting_fixed_assets_commodities.activated
+    @commodities = current_company.commodities.activated
     @commodities.each do |com|
       com.generate_rows = true
       com.save
@@ -102,35 +94,18 @@ class Accounting::FixedAssets::CommoditiesController < ApplicationController
       )
     end
 
-    def sort_column
-      params.values.include?(params[:sort]) ? params[:sort] : "tunnus"
-    end
-
-    def params_search
-      p = params.permit(
-        :nimitys,
+    def searchable_columns
+      [
         :selite,
-        :nimi,
-        :summa,
-        :hankintapvm,
-        :kayttoonottopvm,
-        :tilino,
-        :tila,
-        :viite,
-        :ytunnus,
-        :viesti
-      )
-      p.reject { |_,v| v.empty? }
+      ]
     end
 
-    def find_commodity
-      @commodity = current_company.accounting_fixed_assets_commodities.find(params[:id])
+    def sortable_columns
+      searchable_columns
     end
 
-    def update_access
-      msg = "Sinulla ei ole päivitysoikeuksia."
-      redirect_to accounting_fixed_assets_commodities_path, notice: msg unless update_access?
+    def find_resource
+      @commodity = current_company.commodities.find(params[:id])
     end
-
 end
 
