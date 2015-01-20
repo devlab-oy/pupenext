@@ -33,6 +33,8 @@ module ActiveRecordExtension
 
     def table_does_not_have_company?
       %w{
+        fixed_assets_commodities
+        fixed_assets_commodity_rows
         git_paivitykset
         git_pulkkarit
         karhu_lasku
