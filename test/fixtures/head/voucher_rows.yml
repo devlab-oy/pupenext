@@ -4,7 +4,3 @@ one:
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: joe
