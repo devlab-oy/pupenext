@@ -9,4 +9,8 @@ class Head::VoucherTest < ActiveSupport::TestCase
     assert @voucher.valid?
     assert_equal "Acme Corporation", @voucher.company.nimi
   end
+
+  test 'model relations' do
+    assert_not_nil @voucher.commodity
+  end
 end

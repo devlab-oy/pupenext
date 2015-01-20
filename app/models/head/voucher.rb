@@ -1,5 +1,5 @@
 class Head::Voucher < Head
-  has_one :accounting_fixed_assets_commodity, foreign_key: :tunnus, primary_key: :hyodyke_tunnus
+  belongs_to :commodity, foreign_key: :hyodyke_tunnus, class_name: 'FixedAssets::Commodity'
 
   validates :tila, inclusion: { in: ['X'] }
 
