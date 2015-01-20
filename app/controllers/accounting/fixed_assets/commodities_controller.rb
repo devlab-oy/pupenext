@@ -96,7 +96,7 @@ class Accounting::FixedAssets::CommoditiesController < AdministrationController
 
     def searchable_columns
       [
-        :description,
+        :selite,
       ]
     end
 
