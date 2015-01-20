@@ -41,6 +41,7 @@ module ActiveRecordExtension
         maat
         schema_migrations
         taric_veroperusteet
+        tiliointi
         valuu_historia
       }.include? self.class.table_name
     end
