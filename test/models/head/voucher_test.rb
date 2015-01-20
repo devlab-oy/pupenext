@@ -12,5 +12,6 @@ class Head::VoucherTest < ActiveSupport::TestCase
 
   test 'model relations' do
     assert_not_nil @voucher.commodity
+    assert_not_nil @voucher.rows
   end
 end
