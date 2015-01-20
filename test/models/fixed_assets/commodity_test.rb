@@ -13,4 +13,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'model relations' do
     assert_not_nil @commodity.voucher
   end
+
+  test 'should update lock' do
+    @commodity.lock_all_rows
+
+    assert_equal 'X', @commodity.voucher.rows.first.lukko
+    assert_equal true, @commodity.rows.first.locked
+  end
 end
