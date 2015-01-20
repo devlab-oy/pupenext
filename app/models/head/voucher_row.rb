@@ -11,6 +11,10 @@ class Head::VoucherRow < ActiveRecord::Base
 
   validates :yhtio, presence: true
 
+  def account
+    voucher.company.accounts.find_by(tilino: tilino)
+  end
+
   self.table_name = :tiliointi
   self.primary_key = :tunnus
 

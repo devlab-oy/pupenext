@@ -11,6 +11,7 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
+    assert_equal '100', @row.account.tilino
     assert_not_nil @row.commodity
     assert_not_nil @row.voucher
     assert_not_nil head_voucher_rows(:two).purchase_invoice

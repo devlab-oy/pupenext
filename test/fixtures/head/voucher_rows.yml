@@ -1,6 +1,7 @@
 one:
   yhtio: acme
   voucher: vo_one
+  tilino: 100
   commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
