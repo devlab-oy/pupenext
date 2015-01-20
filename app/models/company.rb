@@ -3,9 +3,8 @@ class Company < ActiveRecord::Base
     o.has_one  :parameter
 
     o.has_many :accounts
-    o.has_many :currency
+    o.has_many :currencies
     o.has_many :keywords
-    o.has_many :purchase_orders
     o.has_many :users
 
     o.has_many :sum_levels
@@ -25,7 +24,6 @@ class Company < ActiveRecord::Base
     o.has_many :projects,     class_name: 'Qualifier::Project'
     o.has_many :targets,      class_name: 'Qualifier::Target'
 
-    o.has_many :accounting_vouchers,                 class_name: 'Accounting::Voucher'
     o.has_many :accounting_rows,                     class_name: 'Accounting::Row'
     o.has_many :accounting_attachments,              class_name: 'Accounting::Attachment'
     o.has_many :accounting_fixed_assets_commodities, class_name: 'Accounting::FixedAssets::Commodity'
