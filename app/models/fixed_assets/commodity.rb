@@ -6,6 +6,28 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
+  attr_accessor :generate_rows
+
+  before_validation :create_bookkeepping_rows, on: [:update], if: :should_create_rows?
+
+  def get_options_for_type
+    [
+      ['Valitse',''],
+      ['Tasapoisto kuukausittain','T'],
+      ['Tasapoisto vuosiprosentti','P'],
+      ['Menojäännöspoisto kuukausittain','D'],
+      ['Menojäännöspoisto vuosiprosentti','B']
+    ]
+  end
+
+  def get_options_for_status
+    [
+      ['Ei aktivoitu', ''],
+      ['Aktivoitu', 'A'],
+      ['Poistettu', 'P']
+    ]
+  end
+
   def lock_all_rows
     commodity_rows.update_all(locked: true)
     voucher.rows.update_all(lukko: "X")
@@ -139,4 +161,53 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
     result
   end
+
+  private
+
+    def activated?
+      status == 'A'
+    end
+
+    def should_create_rows?
+      generate_rows && activated?
+    end
+
+    def create_bookkeepping_rows
+      create_voucher if voucher.nil?
+      create_internal_bk_rows
+      create_external_bk_rows
+    end
+
+    def create_voucher
+      voucher_params = {
+        nimi: "Poistoerätosite",
+        laatija: author,
+        muuttaja: modifier,
+        commodity_id: id,
+        lapvm: Date.today,
+        tapvm: Date.today,
+        kapvm: Date.today,
+        erpcm: Date.today,
+        olmapvm: Date.today,
+        kerayspvm: Date.today,
+        muutospvm: Date.today,
+        toimaika: Date.today,
+        maksuaika: Date.today,
+        lahetepvm: Date.today,
+        laskutettu: Date.today,
+        h1time: Date.today,
+        h2time: Date.today,
+        h3time: Date.today,
+        h4time: Date.today,
+        h5time: Date.today,
+        mapvm: Date.today,
+        popvm: Date.today,
+        puh: '',
+        toim_puh: '',
+        email: '',
+        toim_email: ''
+      }
+      accounting_voucher = company.vouchers.build voucher_params
+      accounting_voucher.save
+    end
 end

@@ -68,8 +68,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     total_amount = 10000
     # Total amounts of depreciations
     total_depreciations = 12
-    # How many depreciations have been done
-    past_fiscal_depreciations = 0
 
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
 
@@ -77,8 +75,50 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal fiscal_year, result.count
     assert_equal 5000, result.sum
+  end
 
-    #resse = @commodity.divide_to_payments(10000, 12)
-    #assert_equal resse.sum.to_s, 'kissa'
+  test 'should create bookkeeping rows' do
+    params = {
+      name: 'Chair50000',
+      description: 'Chair for CEO',
+      amount: 10000.0,
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 12,
+      btl_depreciation_type: 'P',
+      btl_depreciation_amount: 45,
+      activated_at: Time.now,
+      purchased_at: Time.now,
+      status: 'A'
+    }
+    @commodity.voucher = nil
+    @commodity.attributes = params
+
+    assert_difference('FixedAssets::CommodityRow.count', 5) do
+      @commodity.generate_rows = true
+      @commodity.save
+    end
+  end
+
+  test 'should get options for depreciation types' do
+    assert_equal 5, @commodity.get_options_for_type.count
+    returned_types = []
+    @commodity.get_options_for_type.each { |x| returned_types.push x.last }
+
+    all_types = [ 'T','P','D','B','' ]
+    all_types.each do |typ|
+      assert returned_types.include? typ
+    end
+
+  end
+
+  test 'should get options for commodity statuses' do
+    assert_equal 3, @commodity.get_options_for_status.count
+    returned_options = []
+    @commodity.get_options_for_status.each { |x| returned_options.push x.last }
+
+    all_statuses = [ 'A','P','' ]
+    all_statuses.each do |stat|
+      assert returned_options.include? stat
+    end
   end
 end

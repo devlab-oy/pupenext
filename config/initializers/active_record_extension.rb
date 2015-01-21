@@ -11,8 +11,18 @@ module ActiveRecordExtension
   def save_by(user)
     raise ArgumentError, "Should pass User -class"  unless user.kind_of? User
 
-    self.muuttaja = user.kuka
-    self.laatija = user.kuka unless self.persisted?
+    if self.responds_to(:created_by=)
+      self.created_by = user.kuka
+    else
+      self.laatija = user.kuka unless self.persisted?
+    end
+
+    if self.responds_to(:modified_by=)
+      self.modified_by = user.kuka
+    else
+      self.muuttaja = user.kuka
+    end
+
     self.save
   end
 
