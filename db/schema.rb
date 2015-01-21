@@ -574,14 +574,18 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "updated_at",                             null: false
     t.string   "nimitys",     limit: 255
     t.string   "selite",      limit: 255
-    t.decimal  "summa",                   precision: 16, scale: 6
+    t.date     "kayttoonottopvm"
+    t.string   "tila",  limit: 1
+    t.string   "sumu_poistotyyppi",  limit: 1
+    t.decimal  "sumu_poistoera",     precision: 16, scale: 6
+    t.string   "evl_poistotyyppi",   limit: 1
+    t.decimal  "evl_poistoera",      precision: 16, scale: 6
+    t.decimal  "summa",              precision: 16, scale: 6
     t.date     "hankintapvm"
     t.integer  "kustp",       limit: 4
     t.integer  "kohde",       limit: 4
     t.integer  "projekti",    limit: 4
     t.string   "laatija",     limit: 255
-    t.datetime "luontiaika"
-    t.datetime "muutospvm"
     t.string   "muuttaja",    limit: 255
   end
 
