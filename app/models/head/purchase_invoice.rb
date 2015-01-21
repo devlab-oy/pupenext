@@ -5,7 +5,4 @@ class Head::PurchaseInvoice < Head
 
   # Child class will have the STI tables
   self.abstract_class = true
-
-  # Make sure tila is correct
-  validates :tila, inclusion: { in: INVOICE_TYPES }
 end
