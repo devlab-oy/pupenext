@@ -9,7 +9,7 @@ one:
 
 two:
   yhtio: acme
-  purchase_invoice: pi_one
+  purchase_invoice: pi_H
   commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>

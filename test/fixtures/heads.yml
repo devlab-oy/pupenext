@@ -1,7 +1,8 @@
-# Ostolasku
-pi_one:
+# Ostolaskut, tehdään yks jokaista "ostolaskutyyppiä"
+<% Head::PurchaseInvoice::INVOICE_TYPES.each do |i| %>
+pi_<%= i %>:
   yhtio: acme
-  tila: H
+  tila: <%= i %>
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -23,6 +24,7 @@ pi_one:
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
+<% end %>
 
 # Ostotilaus
 po_one:

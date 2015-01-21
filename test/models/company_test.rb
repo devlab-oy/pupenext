@@ -23,7 +23,7 @@ class CompanyTest < ActiveSupport::TestCase
 
   test "company has working STI headings" do
     assert_not_nil @acme.heads
-    assert_equal 5, @acme.heads.count
+    assert_equal 9, @acme.heads.count
 
     assert_not_nil @acme.purchase_orders
     assert_equal Head::PurchaseOrder.new.class, @acme.purchase_orders.first.class

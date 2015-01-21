@@ -1,5 +1,9 @@
 class Head::PurchaseInvoice < Head
-  validates :tila, inclusion: { in: ['H'] }
+  # We have actually 5 types, that are saved in "tila".
+  # Eventough it's supposed to be the STI column.
+  INVOICE_TYPES = %w{H Y M P Q}
+
+  validates :tila, inclusion: { in: INVOICE_TYPES }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
