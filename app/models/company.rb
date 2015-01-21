@@ -14,11 +14,15 @@ class Company < ActiveRecord::Base
     o.has_many :sum_level_profits,   class_name: 'SumLevel::Profit'
 
     o.has_many :heads
-    o.has_many :purchase_orders,   class_name: 'Head::PurchaseOrder'
-    o.has_many :purchase_invoices, class_name: 'Head::PurchaseInvoice'
-    o.has_many :sales_orders,      class_name: 'Head::SalesOrder'
-    o.has_many :sales_invoices,    class_name: 'Head::SalesInvoice'
-    o.has_many :vouchers,          class_name: 'Head::Voucher'
+    o.has_many :purchase_orders,                       class_name: 'Head::PurchaseOrder'
+    o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
+    o.has_many :purchase_invoices_paid,                class_name: 'Head::PurchaseInvoice::Paid'
+    o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'
+    o.has_many :purchase_invoices_ready_for_transfer,  class_name: 'Head::PurchaseInvoice::Transfer'
+    o.has_many :purchase_invoices_waiting_for_payment, class_name: 'Head::PurchaseInvoice::Waiting'
+    o.has_many :sales_orders,                          class_name: 'Head::SalesOrder'
+    o.has_many :sales_invoices,                        class_name: 'Head::SalesInvoice'
+    o.has_many :vouchers,                              class_name: 'Head::Voucher'
 
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     o.has_many :projects,     class_name: 'Qualifier::Project'

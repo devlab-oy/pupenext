@@ -16,7 +16,11 @@ class Head < ActiveRecord::Base
 
   def self.child_class_names
     {
-      H: Head::PurchaseInvoice,
+      H: Head::PurchaseInvoice::Approval,
+      Y: Head::PurchaseInvoice::Paid,
+      M: Head::PurchaseInvoice::Approved,
+      P: Head::PurchaseInvoice::Transfer,
+      Q: Head::PurchaseInvoice::Waiting,
       O: Head::PurchaseOrder,
       U: Head::SalesInvoice,
       N: Head::SalesOrder,

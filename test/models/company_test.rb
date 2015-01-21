@@ -30,10 +30,30 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal 1, @acme.purchase_orders.count
     assert_equal ['O'], @acme.purchase_orders.collect(&:tila).uniq
 
-    assert_not_nil @acme.purchase_invoices
-    assert_equal Head::PurchaseInvoice.new.class, @acme.purchase_invoices.first.class
-    assert_equal 1, @acme.purchase_invoices.count
-    assert_equal ['H'], @acme.purchase_invoices.collect(&:tila).uniq
+    assert_not_nil @acme.purchase_invoices_approval
+    assert_equal Head::PurchaseInvoice::Approval.new.class, @acme.purchase_invoices_approval.first.class
+    assert_equal 1, @acme.purchase_invoices_approval.count
+    assert_equal ['H'], @acme.purchase_invoices_approval.collect(&:tila).uniq
+
+    assert_not_nil @acme.purchase_invoices_paid
+    assert_equal Head::PurchaseInvoice::Paid.new.class, @acme.purchase_invoices_paid.first.class
+    assert_equal 1, @acme.purchase_invoices_paid.count
+    assert_equal ['Y'], @acme.purchase_invoices_paid.collect(&:tila).uniq
+
+    assert_not_nil @acme.purchase_invoices_approved
+    assert_equal Head::PurchaseInvoice::Approved.new.class, @acme.purchase_invoices_approved.first.class
+    assert_equal 1, @acme.purchase_invoices_approved.count
+    assert_equal ['M'], @acme.purchase_invoices_approved.collect(&:tila).uniq
+
+    assert_not_nil @acme.purchase_invoices_ready_for_transfer
+    assert_equal Head::PurchaseInvoice::Transfer.new.class, @acme.purchase_invoices_ready_for_transfer.first.class
+    assert_equal 1, @acme.purchase_invoices_ready_for_transfer.count
+    assert_equal ['P'], @acme.purchase_invoices_ready_for_transfer.collect(&:tila).uniq
+
+    assert_not_nil @acme.purchase_invoices_waiting_for_payment
+    assert_equal Head::PurchaseInvoice::Waiting.new.class, @acme.purchase_invoices_waiting_for_payment.first.class
+    assert_equal 1, @acme.purchase_invoices_waiting_for_payment.count
+    assert_equal ['Q'], @acme.purchase_invoices_waiting_for_payment.collect(&:tila).uniq
 
     assert_not_nil @acme.sales_orders
     assert_equal Head::SalesOrder.new.class, @acme.sales_orders.first.class
