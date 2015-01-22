@@ -19,6 +19,20 @@ class Head::Voucher < Head
     Head.model_name
   end
 
+  def create_voucher_row(params)
+    row_params = {
+      laatija: params[:created_by],
+      tapvm: params[:transacted_at],
+      yhtio: params[:yhtio],
+      summa: params[:amount],
+      selite: params[:description],
+      tilino: params[:account]
+      #ltunnus: tunnus
+    }
+    rowi = rows.build row_params
+    rowi.save
+  end
+
   private
 
     def deactivate_old_rows

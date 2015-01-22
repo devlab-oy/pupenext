@@ -174,15 +174,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def create_bookkeepping_rows
       create_voucher if voucher.nil?
-      create_internal_bk_rows
-      create_external_bk_rows
+      create_planned_depreciation_rows
+      create_btl_depreciation_rows
     end
 
     def create_voucher
+      tilikausi = company.get_fiscal_year
       voucher_params = {
-        nimi: "Poistoerätosite",
-        laatija: author,
-        muuttaja: modifier,
+        nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
+        yhtio: self.company.yhtio,
+        laatija: created_by,
+        muuttaja: modified_by,
         commodity_id: id,
         lapvm: Date.today,
         tapvm: Date.today,
@@ -207,7 +209,108 @@ class FixedAssets::Commodity < ActiveRecord::Base
         email: '',
         toim_email: ''
       }
-      accounting_voucher = company.vouchers.build voucher_params
+      accounting_voucher = build_voucher voucher_params
+
       accounting_voucher.save
+    end
+
+    def create_planned_depreciation_rows
+      #voucher.deactivate_old_rows unless voucher.nil?
+
+      planned_rows = create_depreciation_rows(:planned_depreciation)
+      planned_rows.each do |params|
+        # Only create rows for current fiscal year
+        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+          voucher.create_voucher_row(params)
+        end
+      end
+      # Trigger autosave
+      voucher.save
+    end
+
+    def create_btl_depreciation_rows
+      #deactivate_old_rows unless rows.count.zero?
+
+      btl_rows = create_depreciation_rows(:btl_depreciation)
+      btl_rows.each do |params|
+        # Only create rows for current fiscal year
+        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+          build_commodity_row(params)
+        end
+      end
+    end
+
+    def build_commodity_row(params)
+      params.delete :yhtio
+      commodity_rows.build params
+    end
+
+    def create_depreciation_rows(depreciation_type)
+      full_amount = amount
+
+      depreciated_sum = BigDecimal.new 0
+
+      if depreciation_type == :planned_depreciation
+        calculation_type = planned_depreciation_type
+        calculation_amount = planned_depreciation_amount
+        voucher.rows.each { |x| depreciated_sum += x.summa }
+        depreciation_amount = voucher.rows.count
+      else
+        depreciation_type = :btl_depreciation
+        calculation_type = btl_depreciation_type
+        calculation_amount = btl_depreciation_amount
+        commodity_rows.each { |x| depreciated_sum += x.amount }
+        depreciation_amount = commodity_rows.count
+      end
+
+      # Switch adds correct numbers to calculated_depreciations array
+      calculated_depreciations = []
+
+      # Calculation rules
+      case calculation_type
+      when 'T'
+        # Fixed by months
+        calculated_depreciations = degressive_by_fiscal_payments(full_amount, calculation_amount,
+          depreciation_amount, depreciated_sum)
+
+      when 'P'
+        # Fixed by percentage
+        yearly_amount = full_amount * calculation_amount / 100
+        payments = full_amount / yearly_amount * 12
+        payments = payments.to_i
+        calculated_depreciations = divide_to_payments(full_amount, payments)
+
+      when 'D'
+        # Degressive by months
+        calculated_depreciations = degressive_by_fiscal_payments(full_amount, calculation_amount,
+          depreciation_amount, depreciated_sum)
+
+      when 'B'
+        # Degressive by percentage
+        calculated_depreciations = degressive_by_fiscal_percentage(full_amount, calculation_amount, depreciated_sum)
+
+      end
+
+      activation_date = self.activated_at
+      all_row_params = []
+
+      amt = 0
+      calculated_depreciations.each do |red|
+        time = activation_date.advance(:months => +amt)
+
+        all_row_params<<{
+          yhtio: company.yhtio,
+          created_by: created_by,
+          modified_by: modified_by,
+          transacted_at: time.end_of_month,
+          amount: red,
+          description: "#{depreciation_type}",
+          account: procurement_rows.first.tilino
+        }
+
+        amt += 1
+      end
+
+      all_row_params
     end
 end

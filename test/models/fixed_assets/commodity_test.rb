@@ -77,7 +77,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 5000, result.sum
   end
 
-  test 'should create bookkeeping rows' do
+  test 'should create bookkeeping voucher and rows' do
     params = {
       name: 'Chair50000',
       description: 'Chair for CEO',
@@ -94,8 +94,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 5) do
-      @commodity.generate_rows = true
-      @commodity.save
+      assert_difference('Head::VoucherRow.count', 5) do
+        @commodity.generate_rows = true
+        @commodity.save
+      end
     end
   end
 

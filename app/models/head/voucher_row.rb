@@ -11,6 +11,16 @@ class Head::VoucherRow < ActiveRecord::Base
 
   validates :yhtio, presence: true
 
+  default_scope { where(korjattu: '') }
+
+  def self.locked
+    where(lukittu: 'X')
+  end
+
+  def self.unlocked
+    where(lukittu: '')
+  end
+
   def account
     voucher.company.accounts.find_by(tilino: tilino)
   end

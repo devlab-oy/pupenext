@@ -587,8 +587,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "project",     limit: 4
     t.string   "created_by",  limit: 255
     t.string   "modified_by", limit: 255
-    #t.string   "laatija",     limit: 255
-    #t.string   "muuttaja",    limit: 255
   end
 
   add_index "fixed_assets_commodities", ["company_id"], name: "index_fixed_assets_commodities_on_company_id", using: :btree
@@ -599,7 +597,12 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "updated_at",                             null: false
     t.date     "transacted_at"
     t.decimal  "amount",       precision: 16, scale: 6
+    t.string   "account",      limit: 255
+    t.string   "description",  limit: 255
+    t.boolean  "amended",      limit: 1, default: false, null: false
     t.boolean  "locked",       limit: 1, default: false, null: false
+    t.string   "created_by",   limit: 255
+    t.string   "modified_by",  limit: 255
   end
 
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
