@@ -5,22 +5,16 @@ module ActiveRecordExtension
     validates :yhtio, presence: true,    unless: :table_does_not_have_company?
     validates :muuttaja, presence: true, unless: :table_does_not_have_company?
     validates :laatija, presence: true,  unless: :table_does_not_have_company?
-    before_save :set_legacy_timestamps,  unless: :table_does_not_have_company?
+    before_save :set_legacy_timestamps
   end
 
   def save_by(user)
     raise ArgumentError, "Should pass User -class"  unless user.kind_of? User
 
-    if self.responds_to(:created_by=)
-      self.created_by = user.kuka
+    if self.respond_to?(:created_by=) && self.respond_to?(:modified_by=)
+      touch_modern_columns(user)
     else
-      self.laatija = user.kuka unless self.persisted?
-    end
-
-    if self.responds_to(:modified_by=)
-      self.modified_by = user.kuka
-    else
-      self.muuttaja = user.kuka
+      touch_antique_columns(user)
     end
 
     self.save
@@ -29,16 +23,32 @@ module ActiveRecordExtension
   def update_by(params, user)
     raise ArgumentError, "Should pass User -class" unless user.kind_of? User
 
-    self.muuttaja = user.kuka
-    self.laatija = user.kuka unless self.persisted? && self.laatija.present?
+    if self.respond_to?(:modified_by=) && self.respond_to?(:created_by=)
+      touch_modern_columns(user)
+    else
+      touch_antique_columns(user)
+    end
+
     self.update params
   end
 
   private
 
+    def touch_modern_columns(user)
+      self.created_by = user.kuka unless self.persisted? && self.created_by.present?
+      self.modified_by = user.kuka
+    end
+
+    def touch_antique_columns(user)
+      self.laatija = user.kuka unless self.persisted? && self.laatija.present?
+      self.muuttaja = user.kuka
+    end
+
     def set_legacy_timestamps
-      self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
-      self.muutospvm = Time.now
+      if self.respond_to?(:luontiaika=) && self.respond_to?(:muutospvm=)
+        self.luontiaika = Time.now unless self.persisted? && self.luontiaika.present?
+        self.muutospvm = Time.now
+      end
     end
 
     def table_does_not_have_company?
