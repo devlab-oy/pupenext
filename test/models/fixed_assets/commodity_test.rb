@@ -27,12 +27,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'should calculate payments by fiscal year' do
     amount = 1000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
-    result = @commodity.divide_to_payments(amount, fiscal_year)
+    result = @commodity.divide_to_payments(amount, fiscal_year*2)
 
-    assert_equal amount, result.sum
+    assert_equal fiscal_year, 6
+    assert_equal amount/2, result.sum
+
+    firsti = 83.33.to_d
+    lasti = 83.35.to_d
+
     assert_equal fiscal_year, result.count
-    assert_equal 166.67, result.first
-    assert_equal 166.65, result.last
+    assert_equal firsti, result.first
+    assert_equal lasti, result.last
   end
 
   test 'should calculate degressive payments by fiscal year' do
@@ -86,19 +91,27 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       planned_depreciation_amount: 12,
       btl_depreciation_type: 'P',
       btl_depreciation_amount: 45,
-      activated_at: Time.now,
+      activated_at: @commodity.company.get_fiscal_year.first.to_date,
       purchased_at: Time.now,
       status: 'A'
     }
+
     @commodity.voucher = nil
     @commodity.attributes = params
 
-    assert_difference('FixedAssets::CommodityRow.count', 5) do
-      assert_difference('Head::VoucherRow.count', 5) do
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      assert_difference('Head::VoucherRow.count', 6) do
         @commodity.generate_rows = true
         @commodity.save
       end
     end
+
+    assert_equal @commodity.voucher.rows.first.summa, 833.33
+    assert_equal @commodity.voucher.rows.last.summa, 833.35
+
+    totali = BigDecimal.new 0
+    @commodity.voucher.rows.each { |x| totali += x.summa }
+    assert_equal totali, 5000
   end
 
   test 'should get options for depreciation types' do

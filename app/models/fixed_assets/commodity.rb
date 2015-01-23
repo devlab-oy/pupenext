@@ -59,7 +59,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     unless remainder[1].zero?
-      if remainder[0] < full_count
+      if remainder[0] < fiscal_year
         result.push remainder[1]
       else
         result[-1] += remainder[1]
@@ -220,9 +220,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       planned_rows = create_depreciation_rows(:planned_depreciation)
       planned_rows.each do |params|
         # Only create rows for current fiscal year
-        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+        #if company.is_date_in_this_fiscal_year?(params[:transacted_at])
           voucher.create_voucher_row(params)
-        end
+        #end
       end
       # Trigger autosave
       voucher.save
@@ -234,9 +234,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       btl_rows = create_depreciation_rows(:btl_depreciation)
       btl_rows.each do |params|
         # Only create rows for current fiscal year
-        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+        #if company.is_date_in_this_fiscal_year?(params[:transacted_at])
           build_commodity_row(params)
-        end
+        #end
       end
     end
 

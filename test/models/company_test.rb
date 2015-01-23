@@ -91,8 +91,8 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test 'get months in current fiscal year' do
-    @acme.tilikausi_alku = '01 Aug 2014'
+    @acme.tilikausi_alku = '01 July 2014'
     @acme.tilikausi_loppu = '31 Dec 2014'
-    assert_equal 5, @acme.get_months_in_current_fiscal_year
+    assert_equal 6, @acme.get_months_in_current_fiscal_year
   end
 end
