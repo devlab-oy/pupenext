@@ -15,7 +15,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       ['Valitse',''],
       ['Tasapoisto kuukausittain','T'],
       ['Tasapoisto vuosiprosentti','P'],
-      ['Menojäännöspoisto kuukausittain','D'],
       ['Menojäännöspoisto vuosiprosentti','B']
     ]
   end
@@ -126,42 +125,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     result
   end
 
-  def divide_to_degressive_payments_by_months(full_amount, months)
-    total_number_of_payments = months
-    one_year = company.get_months_in_current_fiscal_year
-
-    result = []
-    # Calculate first year
-    first_year_reductions = divide_to_payments(full_amount, total_number_of_payments)
-    result = first_year_reductions.take(one_year)
-    remaining_payments = total_number_of_payments-one_year
-    remaining_amount = full_amount - result.sum
-
-    # Calculate the rest
-    until remaining_payments.zero?
-      if remaining_payments < one_year+1
-        count_with_this = remaining_payments
-      else
-        count_with_this = total_number_of_payments
-      end
-      later_year_result = divide_to_payments(remaining_amount, count_with_this)
-
-      later_result = later_year_result.take(one_year)
-      remaining_payments -= later_result.count
-      remaining_amount -= later_result.sum
-      result.concat later_result
-      remaining_amount = full_amount - result.sum
-
-      if remaining_payments < 1
-        remaining_payments = 0
-        if remaining_amount > 0
-          result.push remaining_amount
-        end
-      end
-    end
-    result
-  end
-
   private
 
     def activated?
@@ -220,9 +183,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       planned_rows = create_depreciation_rows(:planned_depreciation)
       planned_rows.each do |params|
         # Only create rows for current fiscal year
-        #if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
           voucher.create_voucher_row(params)
-        #end
+        end
       end
       # Trigger autosave
       voucher.save
@@ -234,9 +197,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       btl_rows = create_depreciation_rows(:btl_depreciation)
       btl_rows.each do |params|
         # Only create rows for current fiscal year
-        #if company.is_date_in_this_fiscal_year?(params[:transacted_at])
+        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
           build_commodity_row(params)
-        #end
+        end
       end
     end
 
@@ -279,11 +242,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
         payments = full_amount / yearly_amount * 12
         payments = payments.to_i
         calculated_depreciations = divide_to_payments(full_amount, payments)
-
-      when 'D'
-        # Degressive by months
-        calculated_depreciations = degressive_by_fiscal_payments(full_amount, calculation_amount,
-          depreciation_amount, depreciated_sum)
 
       when 'B'
         # Degressive by percentage

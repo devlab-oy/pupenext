@@ -40,17 +40,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal lasti, result.last
   end
 
-  test 'should calculate degressive payments by fiscal year' do
-    # Amount to be reducted during this fiscal year
-    reduct = 1000
-    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
-
-    result = @commodity.divide_to_degressive_payments_by_months(reduct, fiscal_year)
-
-    assert_equal result.sum, reduct
-    assert_equal result.count, fiscal_year
-  end
-
   test 'should calculate depreciations by fiscal percentage' do
     # Full amount to be reducted
     reduct = 10000
@@ -115,11 +104,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should get options for depreciation types' do
-    assert_equal 5, @commodity.get_options_for_type.count
+    assert_equal 4, @commodity.get_options_for_type.count
     returned_types = []
     @commodity.get_options_for_type.each { |x| returned_types.push x.last }
 
-    all_types = [ 'T','P','D','B','' ]
+    all_types = [ 'T','P','B','' ]
     all_types.each do |typ|
       assert returned_types.include? typ
     end
