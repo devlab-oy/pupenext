@@ -27,7 +27,6 @@ class Head::Voucher < Head
       summa: params[:amount],
       selite: params[:description],
       tilino: params[:account]
-      #ltunnus: tunnus
     }
     rowi = rows.build row_params
     rowi.save
