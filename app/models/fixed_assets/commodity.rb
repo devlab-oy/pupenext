@@ -168,7 +168,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
             laatija: params[:created_by],
             tapvm: params[:transacted_at],
             summa: params[:amount],
-            yhtio: params[:yhtio],
+            yhtio: company.yhtio,
             selite: params[:description],
             tilino: params[:account]
           }
@@ -185,18 +185,37 @@ class FixedAssets::Commodity < ActiveRecord::Base
       btl_rows.each do |params|
         # Only create rows for current fiscal year
         if company.is_date_in_this_fiscal_year?(params[:transacted_at])
-          build_commodity_row(params)
+          commodity_rows.build params
         end
       end
     end
 
-    def build_commodity_row(params)
-      params.delete :yhtio
-      commodity_rows.build params
+    def create_depreciation_rows(depreciation_type)
+      depreciations = calculate_depreciations(depreciation_type)
+      activation_date = activated_at
+      all_row_params = []
+      amt = 0
+
+      depreciations.each do |red|
+        time = activation_date.advance(months: +amt)
+
+        all_row_params << {
+          created_by: created_by,
+          modified_by: modified_by,
+          transacted_at: time.end_of_month,
+          amount: red,
+          description: "#{depreciation_type}",
+          account: procurement_rows.first.tilino
+        }
+
+        amt += 1
+      end
+
+      all_row_params
     end
 
-    def create_depreciation_rows(depreciation_type)
-      case depreciation_type
+    def calculate_depreciations(depreciation_type)
+      case depreciation_type.to_sym
       when :planned_depreciation
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
@@ -212,40 +231,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
 
       # Calculation rules
-      case calculation_type
-      when 'T'
+      case calculation_type.to_sym
+      when :T
         # Fixed by months
-        calculated_depreciations = fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
-      when 'P'
+        fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
+      when :P
         # Fixed by percentage
-        calculated_depreciations = fixed_by_percentage(amount, calculation_amount)
-      when 'B'
+        fixed_by_percentage(amount, calculation_amount)
+      when :B
         # Degressive by percentage
-        calculated_depreciations = degressive_by_percentage(amount, calculation_amount, depreciated_sum)
+        degressive_by_percentage(amount, calculation_amount, depreciated_sum)
       else
         raise ArgumentError, 'Invalid calculation_type'
       end
-
-      activation_date = self.activated_at
-      all_row_params = []
-
-      amt = 0
-      calculated_depreciations.each do |red|
-        time = activation_date.advance(months: +amt)
-
-        all_row_params << {
-          yhtio: company.yhtio,
-          created_by: created_by,
-          modified_by: modified_by,
-          transacted_at: time.end_of_month,
-          amount: red,
-          description: "#{depreciation_type}",
-          account: procurement_rows.first.tilino
-        }
-
-        amt += 1
-      end
-
-      all_row_params
     end
 end
