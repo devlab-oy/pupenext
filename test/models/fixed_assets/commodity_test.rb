@@ -47,12 +47,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Yearly degressive percentage
     fiscalyearly_percentage = 35
 
-    result = @commodity.degressive_by_fiscal_percentage(reduct, fiscalyearly_percentage)
-
+    result = @commodity.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal fiscal_year, result.count
     assert_equal 3500, result.sum
 
-    result = @commodity.degressive_by_fiscal_percentage(reduct, fiscalyearly_percentage, 3500)
+    result = @commodity.degressive_by_percentage(reduct, fiscalyearly_percentage, 3500)
     assert_equal fiscal_year, result.count
     assert_equal 2275, result.sum
   end
@@ -65,7 +64,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
 
-    result = @commodity.degressive_by_fiscal_payments(total_amount, total_depreciations, 6, 5000)
+    result = @commodity.fixed_by_month(total_amount, total_depreciations, 6, 5000)
 
     assert_equal fiscal_year, result.count
     assert_equal 5000, result.sum

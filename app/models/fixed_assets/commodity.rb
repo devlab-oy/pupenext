@@ -68,7 +68,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
     result
   end
 
-  def degressive_by_fiscal_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
+  def fixed_by_percentage(full_amount, calculation_amount)
+    yearly_amount = full_amount * calculation_amount / 100
+    payments = full_amount / yearly_amount * 12
+    payments = payments.to_i
+    divide_to_payments(full_amount, payments)
+  end
+
+  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
     one_year = company.get_months_in_current_fiscal_year
     full_amount = full_amount.to_d
 
@@ -99,7 +106,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     fiscal_year_depreciations
   end
 
-  def degressive_by_fiscal_payments(full_amount, total_number_of_payments,
+  def fixed_by_month(full_amount, total_number_of_payments,
     depreciated_payments = 0, depreciated_amount = 0)
 
     fiscal_length = company.get_months_in_current_fiscal_year
@@ -222,20 +229,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
       case calculation_type
       when 'T'
         # Fixed by months
-        calculated_depreciations = degressive_by_fiscal_payments(full_amount, calculation_amount,
-          depreciation_amount, depreciated_sum)
-
+        calculated_depreciations = fixed_by_month(full_amount, calculation_amount, depreciation_amount, depreciated_sum)
       when 'P'
         # Fixed by percentage
-        yearly_amount = full_amount * calculation_amount / 100
-        payments = full_amount / yearly_amount * 12
-        payments = payments.to_i
-        calculated_depreciations = divide_to_payments(full_amount, payments)
-
+        calculated_depreciations = fixed_by_percentage(full_amount, calculation_amount)
       when 'B'
         # Degressive by percentage
-        calculated_depreciations = degressive_by_fiscal_percentage(full_amount, calculation_amount, depreciated_sum)
-
+        calculated_depreciations = degressive_by_percentage(full_amount, calculation_amount, depreciated_sum)
       end
 
       activation_date = self.activated_at
