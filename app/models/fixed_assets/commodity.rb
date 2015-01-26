@@ -53,13 +53,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     result = []
 
-    remainder[0].to_i.times do |k|
-      result[k] = payment_amount
+    remainder[0].to_i.times do
+      result << payment_amount
     end
 
     unless remainder[1].zero?
       if remainder[0] < fiscal_year
-        result.push remainder[1]
+        result << remainder[1]
       else
         result[-1] += remainder[1]
       end
@@ -86,28 +86,27 @@ class FixedAssets::Commodity < ActiveRecord::Base
     fiscal_year_depreciations = []
     first_depreciation = full_amount * fiscal_percentage / one_year
 
-    fiscal_year_depreciations.push first_depreciation.to_i
+    fiscal_year_depreciations << first_depreciation.to_i
 
-    fiscalreduction = full_amount*fiscal_percentage
+    fiscalreduction = full_amount * fiscal_percentage
     keep_running = true
 
     while keep_running do
-      injecthis = (full_amount-fiscal_year_depreciations.sum) * fiscal_percentage / one_year
+      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / one_year
 
-      if fiscal_year_depreciations.count == one_year-1
-        injecthis = fiscalreduction-fiscal_year_depreciations.sum
+      if fiscal_year_depreciations.count == one_year - 1
+        injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
       injecthis = injecthis.to_i
 
-      fiscal_year_depreciations.push injecthis unless injecthis.zero?
+      fiscal_year_depreciations << injecthis unless injecthis.zero?
     end
 
     fiscal_year_depreciations
   end
 
-  def fixed_by_month(full_amount, total_number_of_payments,
-    depreciated_payments = 0, depreciated_amount = 0)
+  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
 
     fiscal_length = company.get_months_in_current_fiscal_year
     remaining_payments = total_number_of_payments - depreciated_payments
@@ -116,20 +115,16 @@ class FixedAssets::Commodity < ActiveRecord::Base
     fiscal_maximum = full_amount.to_d / total_number_of_payments * fiscal_length
     fiscal_maximum = fiscal_maximum.ceil
 
-    result = []
-
     if remaining_amount > fiscal_maximum
       remaining_amount = fiscal_maximum
     end
 
     # Calculate fiscal payments
     if remaining_payments >= fiscal_length
-      result = divide_to_payments(remaining_amount, fiscal_length)
+      divide_to_payments(remaining_amount, fiscal_length)
     else
-      result = divide_to_payments(remaining_amount, remaining_payments)
+      divide_to_payments(remaining_amount, remaining_payments)
     end
-
-    result
   end
 
   private
@@ -201,12 +196,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_depreciation_rows(depreciation_type)
-      if depreciation_type == :planned_depreciation
+      case depreciation_type
+      when :planned_depreciation
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
         depreciated_sum = voucher.rows.sum(:summa)
         depreciation_amount = voucher.rows.count
-      elsif depreciation_type == :btl_depreciation
+      when :btl_depreciation
         calculation_type = btl_depreciation_type
         calculation_amount = btl_depreciation_amount
         depreciated_sum = commodity_rows.sum(:amount)
@@ -214,9 +210,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       else
         raise ArgumentError, 'Invalid depreciation_type'
       end
-
-      # Switch adds correct numbers to calculated_depreciations array
-      calculated_depreciations = []
 
       # Calculation rules
       case calculation_type
@@ -238,9 +231,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
       amt = 0
       calculated_depreciations.each do |red|
-        time = activation_date.advance(:months => +amt)
+        time = activation_date.advance(months: +amt)
 
-        all_row_params<<{
+        all_row_params << {
           yhtio: company.yhtio,
           created_by: created_by,
           modified_by: modified_by,
