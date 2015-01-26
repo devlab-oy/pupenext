@@ -71,7 +71,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 5000, result.sum
   end
 
-  test 'should create bookkeeping voucher and rows' do
+  test 'should create bookkeeping voucher and rows for type T and P' do
     params = {
       name: 'Chair50000',
       description: 'Chair for CEO',
@@ -101,6 +101,34 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     totali = BigDecimal.new 0
     @commodity.voucher.rows.each { |x| totali += x.summa }
     assert_equal totali, 5000
+  end
+
+  test 'should create bookkeeping voucher and rows for type B' do
+    params = {
+      name: 'Chair50000',
+      description: 'Chair for CEO',
+      amount: 10000.0,
+      planned_depreciation_type: 'B',
+      planned_depreciation_amount: 12,
+      activated_at: @commodity.company.get_fiscal_year.first.to_date,
+      purchased_at: Time.now,
+      status: 'A'
+    }
+
+    @commodity.voucher = nil
+    @commodity.attributes = params
+
+    assert_difference('Head::VoucherRow.count', 6) do
+      @commodity.generate_rows = true
+      @commodity.save
+    end
+
+    assert_equal @commodity.voucher.rows.first.summa, 200
+    assert_equal @commodity.voucher.rows.last.summa, 240
+
+    totali = BigDecimal.new 0
+    @commodity.voucher.rows.each { |x| totali += x.summa }
+    assert_equal totali, 1200
   end
 
   test 'should get options for depreciation types' do
