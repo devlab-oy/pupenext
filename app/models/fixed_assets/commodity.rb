@@ -229,6 +229,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
       when 'B'
         # Degressive by percentage
         calculated_depreciations = degressive_by_percentage(amount, calculation_amount, depreciated_sum)
+      else
+        raise ArgumentError, 'Invalid calculation_type'
       end
 
       activation_date = self.activated_at

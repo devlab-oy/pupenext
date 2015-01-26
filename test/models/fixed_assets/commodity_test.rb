@@ -109,6 +109,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount: 10000.0,
       planned_depreciation_type: 'B',
       planned_depreciation_amount: 12,
+      btl_depreciation_type: 'P',
+      btl_depreciation_amount: 45,
       activated_at: @commodity.company.get_fiscal_year.first.to_date,
       purchased_at: Time.now,
       status: 'A'
