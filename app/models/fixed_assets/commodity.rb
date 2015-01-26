@@ -165,8 +165,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_planned_depreciation_rows
-      #voucher.deactivate_old_rows unless voucher.nil?
-
       planned_rows = create_depreciation_rows(:planned_depreciation)
       planned_rows.each do |params|
         # Only create rows for current fiscal year
@@ -188,8 +186,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_btl_depreciation_rows
-      #deactivate_old_rows unless rows.count.zero?
-
       btl_rows = create_depreciation_rows(:btl_depreciation)
       btl_rows.each do |params|
         # Only create rows for current fiscal year
@@ -205,21 +201,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_depreciation_rows(depreciation_type)
-      full_amount = amount
-
-      depreciated_sum = BigDecimal.new 0
-
       if depreciation_type == :planned_depreciation
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
-        voucher.rows.each { |x| depreciated_sum += x.summa }
+        depreciated_sum = voucher.rows.sum(:summa)
         depreciation_amount = voucher.rows.count
-      else
-        depreciation_type = :btl_depreciation
+      elsif depreciation_type == :btl_depreciation
         calculation_type = btl_depreciation_type
         calculation_amount = btl_depreciation_amount
-        commodity_rows.each { |x| depreciated_sum += x.amount }
+        depreciated_sum = commodity_rows.sum(:amount)
         depreciation_amount = commodity_rows.count
+      else
+        raise ArgumentError, 'Invalid depreciation_type'
       end
 
       # Switch adds correct numbers to calculated_depreciations array
@@ -229,13 +222,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
       case calculation_type
       when 'T'
         # Fixed by months
-        calculated_depreciations = fixed_by_month(full_amount, calculation_amount, depreciation_amount, depreciated_sum)
+        calculated_depreciations = fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
       when 'P'
         # Fixed by percentage
-        calculated_depreciations = fixed_by_percentage(full_amount, calculation_amount)
+        calculated_depreciations = fixed_by_percentage(amount, calculation_amount)
       when 'B'
         # Degressive by percentage
-        calculated_depreciations = degressive_by_percentage(full_amount, calculation_amount, depreciated_sum)
+        calculated_depreciations = degressive_by_percentage(amount, calculation_amount, depreciated_sum)
       end
 
       activation_date = self.activated_at
