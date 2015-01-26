@@ -154,7 +154,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save
+      accounting_voucher.save!
 
       self.voucher = accounting_voucher
     end
@@ -162,32 +162,22 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def create_planned_depreciation_rows
       planned_rows = create_depreciation_rows(:planned_depreciation)
       planned_rows.each do |params|
-        # Only create rows for current fiscal year
-        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
-          row_params = {
-            laatija: params[:created_by],
-            tapvm: params[:transacted_at],
-            summa: params[:amount],
-            yhtio: company.yhtio,
-            selite: params[:description],
-            tilino: params[:account]
-          }
+        row_params = {
+          laatija: params[:created_by],
+          tapvm: params[:transacted_at],
+          summa: params[:amount],
+          yhtio: company.yhtio,
+          selite: params[:description],
+          tilino: params[:account]
+        }
 
-          voucher.rows.create(row_params)
-        end
+        voucher.rows.create!(row_params)
       end
-      # Trigger autosave
-      voucher.save
     end
 
     def create_btl_depreciation_rows
       btl_rows = create_depreciation_rows(:btl_depreciation)
-      btl_rows.each do |params|
-        # Only create rows for current fiscal year
-        if company.is_date_in_this_fiscal_year?(params[:transacted_at])
-          commodity_rows.build params
-        end
-      end
+      commodity_rows.create!(btl_rows)
     end
 
     def create_depreciation_rows(depreciation_type)
