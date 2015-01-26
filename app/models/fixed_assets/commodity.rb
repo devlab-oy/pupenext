@@ -143,38 +143,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def create_voucher
       tilikausi = company.get_fiscal_year
+
       voucher_params = {
         nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
-        yhtio: self.company.yhtio,
         laatija: created_by,
         muuttaja: modified_by,
-        commodity_id: id,
-        lapvm: Date.today,
-        tapvm: Date.today,
-        kapvm: Date.today,
-        erpcm: Date.today,
-        olmapvm: Date.today,
-        kerayspvm: Date.today,
-        muutospvm: Date.today,
-        toimaika: Date.today,
-        maksuaika: Date.today,
-        lahetepvm: Date.today,
-        laskutettu: Date.today,
-        h1time: Date.today,
-        h2time: Date.today,
-        h3time: Date.today,
-        h4time: Date.today,
-        h5time: Date.today,
-        mapvm: Date.today,
-        popvm: Date.today,
-        puh: '',
-        toim_puh: '',
-        email: '',
-        toim_email: ''
+        commodity_id: id
       }
-      accounting_voucher = build_voucher voucher_params
 
+      accounting_voucher = company.vouchers.build(voucher_params)
       accounting_voucher.save
+
+      self.voucher = accounting_voucher
     end
 
     def create_planned_depreciation_rows
