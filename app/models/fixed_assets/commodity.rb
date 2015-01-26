@@ -164,7 +164,16 @@ class FixedAssets::Commodity < ActiveRecord::Base
       planned_rows.each do |params|
         # Only create rows for current fiscal year
         if company.is_date_in_this_fiscal_year?(params[:transacted_at])
-          voucher.create_voucher_row(params)
+          row_params = {
+            laatija: params[:created_by],
+            tapvm: params[:transacted_at],
+            summa: params[:amount],
+            yhtio: params[:yhtio],
+            selite: params[:description],
+            tilino: params[:account]
+          }
+
+          voucher.rows.create(row_params)
         end
       end
       # Trigger autosave
