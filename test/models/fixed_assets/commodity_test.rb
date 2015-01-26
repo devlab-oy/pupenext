@@ -103,7 +103,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal totali, 5000
   end
 
-  test 'should create bookkeeping voucher and rows for type B' do
+  test 'should create bookkeeping rows for type B' do
     params = {
       name: 'Chair50000',
       description: 'Chair for CEO',
