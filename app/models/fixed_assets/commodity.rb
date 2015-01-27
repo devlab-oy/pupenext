@@ -6,10 +6,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-  attr_accessor :generate_rows
-
-  before_validation :create_bookkeepping_rows, on: [:update], if: :should_create_rows?
-
   def get_options_for_type
     [
       ['Valitse',''],
@@ -25,6 +21,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
       ['Aktivoitu', 'A'],
       ['Poistettu', 'P']
     ]
+  end
+
+  def activated?
+    status == 'A'
+  end
+
+  def generate_rows
+    raise RuntimeError, 'Commodity not activated' unless activated?
+
+    generate_voucher_rows
+    generate_commodity_rows
   end
 
   def lock_all_rows
@@ -128,19 +135,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   private
-
-    def activated?
-      status == 'A'
-    end
-
-    def should_create_rows?
-      generate_rows && activated?
-    end
-
-    def create_bookkeepping_rows
-      generate_voucher_rows
-      generate_commodity_rows
-    end
 
     def create_voucher
       tilikausi = company.get_fiscal_year

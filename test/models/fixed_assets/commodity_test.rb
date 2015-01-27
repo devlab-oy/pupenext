@@ -89,7 +89,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       assert_difference('Head::VoucherRow.count', 6) do
-        @commodity.generate_rows = true
+        @commodity.generate_rows
         @commodity.save
       end
     end
@@ -120,7 +120,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 6) do
-      @commodity.generate_rows = true
+      @commodity.generate_rows
       @commodity.save
     end
 
