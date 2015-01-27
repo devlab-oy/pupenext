@@ -34,7 +34,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     generate_commodity_rows
   end
 
-  def lock_all_rows
+  def lock_rows
     commodity_rows.update_all(locked: true)
     voucher.rows.update_all(lukko: "X")
   end

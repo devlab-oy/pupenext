@@ -18,7 +18,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should update lock' do
-    @commodity.lock_all_rows
+    @commodity.lock_rows
 
     assert_equal 'X', @commodity.voucher.rows.first.lukko
     assert_equal true, @commodity.commodity_rows.first.locked
