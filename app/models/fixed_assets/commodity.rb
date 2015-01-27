@@ -138,9 +138,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_bookkeepping_rows
-      create_voucher if voucher.nil?
-      create_planned_depreciation_rows
-      create_btl_depreciation_rows
+      generate_voucher_rows
+      generate_commodity_rows
     end
 
     def create_voucher
@@ -159,7 +158,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       self.voucher = accounting_voucher
     end
 
-    def create_planned_depreciation_rows
+    def generate_voucher_rows
+      create_voucher if voucher.nil?
+
       planned_rows = create_depreciation_rows(:planned_depreciation)
       planned_rows.each do |params|
         row_params = {
@@ -175,7 +176,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
-    def create_btl_depreciation_rows
+    def generate_commodity_rows
       btl_rows = create_depreciation_rows(:btl_depreciation)
       commodity_rows.create!(btl_rows)
     end
