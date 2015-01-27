@@ -213,10 +213,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
       # Calculation rules
       case calculation_type.to_sym
       when :T
+        # Tasapoisto kuukausittain
         fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
       when :P
+        # Tasapoisto vuosiprosentti
         fixed_by_percentage(amount, calculation_amount)
       when :B
+        # Menojäännöspoisto vuosiprosentti
         degressive_by_percentage(amount, calculation_amount, depreciated_sum)
       else
         raise ArgumentError, 'Invalid calculation_type'
