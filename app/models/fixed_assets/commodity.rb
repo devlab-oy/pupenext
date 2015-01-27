@@ -155,15 +155,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def generate_voucher_rows
       create_voucher if voucher.nil?
 
-      planned_rows = create_depreciation_rows(:planned_depreciation)
-      planned_rows.each do |params|
+      activation_date = activated_at
+      amounts = calculate_depreciations(:planned_depreciation)
+
+      amounts.each_with_index do |amount, i|
+        time = activation_date.advance(months: +i)
+
         row_params = {
-          laatija: params[:created_by],
-          tapvm: params[:transacted_at],
-          summa: params[:amount],
+          laatija: created_by,
+          tapvm: time.end_of_month,
+          summa: amount,
           yhtio: company.yhtio,
-          selite: params[:description],
-          tilino: params[:account]
+          selite: :planned_depreciation,
+          tilino: procurement_rows.first.tilino
         }
 
         voucher.rows.create!(row_params)
@@ -171,32 +175,23 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def generate_commodity_rows
-      btl_rows = create_depreciation_rows(:btl_depreciation)
-      commodity_rows.create!(btl_rows)
-    end
-
-    def create_depreciation_rows(depreciation_type)
-      depreciations = calculate_depreciations(depreciation_type)
       activation_date = activated_at
-      all_row_params = []
-      amt = 0
+      amounts = calculate_depreciations(:btl_depreciation)
 
-      depreciations.each do |red|
-        time = activation_date.advance(months: +amt)
+      amounts.each_with_index do |amount, i|
+        time = activation_date.advance(months: +i)
 
-        all_row_params << {
+        row_params = {
           created_by: created_by,
           modified_by: modified_by,
           transacted_at: time.end_of_month,
-          amount: red,
-          description: "#{depreciation_type}",
+          amount: amount,
+          description: :btl_depreciation,
           account: procurement_rows.first.tilino
         }
 
-        amt += 1
+        commodity_rows.create!(row_params)
       end
-
-      all_row_params
     end
 
     def calculate_depreciations(depreciation_type)
