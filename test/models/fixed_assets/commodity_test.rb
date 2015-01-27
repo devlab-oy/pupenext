@@ -86,11 +86,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.voucher = nil
     @commodity.attributes = params
+    @commodity.save
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       assert_difference('Head::VoucherRow.count', 6) do
         @commodity.generate_rows
-        @commodity.save
       end
     end
 
@@ -118,10 +118,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.voucher = nil
     @commodity.attributes = params
+    @commodity.save
 
     assert_difference('Head::VoucherRow.count', 6) do
       @commodity.generate_rows
-      @commodity.save
     end
 
     assert_equal @commodity.voucher.rows.first.summa, 200
