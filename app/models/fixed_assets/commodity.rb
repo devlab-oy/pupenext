@@ -156,7 +156,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       create_voucher if voucher.nil?
 
       activation_date = activated_at
-      amounts = calculate_depreciations(:planned_depreciation)
+      amounts = calculate_depreciations(:SUMU)
 
       amounts.each_with_index do |amount, i|
         time = activation_date.advance(months: +i)
@@ -166,7 +166,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           tapvm: time.end_of_month,
           summa: amount,
           yhtio: company.yhtio,
-          selite: :planned_depreciation,
+          selite: :SUMU,
           tilino: procurement_rows.first.tilino
         }
 
@@ -176,7 +176,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def generate_commodity_rows
       activation_date = activated_at
-      amounts = calculate_depreciations(:btl_depreciation)
+      amounts = calculate_depreciations(:EVL)
 
       amounts.each_with_index do |amount, i|
         time = activation_date.advance(months: +i)
@@ -186,7 +186,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           modified_by: modified_by,
           transacted_at: time.end_of_month,
           amount: amount,
-          description: :btl_depreciation,
+          description: :EVL,
           account: procurement_rows.first.tilino
         }
 
@@ -196,12 +196,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def calculate_depreciations(depreciation_type)
       case depreciation_type.to_sym
-      when :planned_depreciation
+      when :SUMU
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
         depreciated_sum = voucher.rows.sum(:summa)
         depreciation_amount = voucher.rows.count
-      when :btl_depreciation
+      when :EVL
         calculation_type = btl_depreciation_type
         calculation_amount = btl_depreciation_amount
         depreciated_sum = commodity_rows.sum(:amount)

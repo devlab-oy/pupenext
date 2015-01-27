@@ -24,7 +24,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal true, @commodity.commodity_rows.first.locked
   end
 
-  test 'should calculate payments by fiscal year' do
+  test 'should calculate SUMU depreciation with fixed_by_percentage' do
     amount = 1000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
     result = @commodity.divide_to_payments(amount, fiscal_year*2)
@@ -40,7 +40,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal lasti, result.last
   end
 
-  test 'should calculate depreciations by fiscal percentage' do
+  test 'should calculate SUMU depreciation with degressive_by_percentage' do
     # Full amount to be reducted
     reduct = 10000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
@@ -56,7 +56,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 2275, result.sum
   end
 
-  test 'should calculate depreciations by fiscal payments' do
+  test 'should calculate SUMU depreciation with fixed_by_month' do
     # Full amount to be reducted
     total_amount = 10000
     # Total amounts of depreciations
@@ -68,6 +68,18 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal fiscal_year, result.count
     assert_equal 5000, result.sum
+  end
+
+  test 'should calculate EVL depreciation with fixed_by_percentage' do
+
+  end
+
+  test 'should calculate EVL depreciation with degressive_by_percentage' do
+
+  end
+
+  test 'should calculate EVL depreciation with fixed_by_month' do
+
   end
 
   test 'should create bookkeeping voucher and rows for type T and P' do
