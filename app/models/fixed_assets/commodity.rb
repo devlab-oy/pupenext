@@ -213,13 +213,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
       # Calculation rules
       case calculation_type.to_sym
       when :T
-        # Fixed by months
         fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
       when :P
-        # Fixed by percentage
         fixed_by_percentage(amount, calculation_amount)
       when :B
-        # Degressive by percentage
         degressive_by_percentage(amount, calculation_amount, depreciated_sum)
       else
         raise ArgumentError, 'Invalid calculation_type'
