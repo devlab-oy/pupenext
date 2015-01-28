@@ -24,7 +24,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal true, @commodity.commodity_rows.first.locked
   end
 
-  test 'should calculate SUMU depreciation with fixed_by_percentage' do
+  test 'should calculate with divide_to_payments' do
     amount = 1000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
     result = @commodity.divide_to_payments(amount, fiscal_year*2)
@@ -40,7 +40,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal lasti, result.last
   end
 
-  test 'should calculate SUMU depreciation with degressive_by_percentage' do
+  test 'should calculate with fixed_by_percentage' do
+    # Tasapoisto vuosiprosentti
+
+  end
+
+  test 'should calculate with degressive_by_percentage' do
+    # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
@@ -56,7 +62,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 2275, result.sum
   end
 
-  test 'should calculate SUMU depreciation with fixed_by_month' do
+  test 'should calculate with fixed_by_month' do
+    # Tasapoisto kuukausittain
     # Full amount to be reducted
     total_amount = 10000
     # Total amounts of depreciations
@@ -70,16 +77,66 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 5000, result.sum
   end
 
-  test 'should calculate EVL depreciation with fixed_by_percentage' do
+  test 'should calculate SUMU depreciation with fixed_by_percentage' do
+    params = {
+      voucher: nil,
+      status: 'A',
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      planned_depreciation_type: 'P', # Tasapoisto vuosiprosentti
+      planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
+    }
+    # pitäs tulla voucher.rows
+  end
 
+  test 'should calculate SUMU depreciation with degressive_by_percentage' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+    }
+    # pitäs tulla voucher.rows
+  end
+
+  test 'should calculate SUMU depreciation with fixed_by_month' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      planned_depreciation_type: 'T', # Tasapoisto kuukausittain
+      planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
+    }
+    # pitäs tulla voucher.rows
+  end
+
+  test 'should calculate EVL depreciation with fixed_by_percentage' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
+      btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
+    }
+    # pitäs tulla commodity_rows
   end
 
   test 'should calculate EVL depreciation with degressive_by_percentage' do
-
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+    }
+    # pitäs tulla commodity_rows
   end
 
   test 'should calculate EVL depreciation with fixed_by_month' do
-
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'T', # Tasapoisto kuukausittain
+      btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
+    }
+    # pitäs tulla commodity_rows
   end
 
   test 'should create bookkeeping voucher and rows for type T and P' do
