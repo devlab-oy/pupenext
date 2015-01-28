@@ -1,6 +1,12 @@
 class FixedAssets::Commodity < ActiveRecord::Base
   include Searchable
 
+  # commodity = hyödyke
+  # .voucher = tosite, jolle kirjataan SUMU-poistot
+  # .voucher.rows = tosittella on SUMU-poisto tiliöintirivejä
+  # .commodity_rows = rivejä, jolla kirjataan EVL poistot
+  # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
+
   belongs_to :company
   has_one :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
@@ -114,7 +120,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
-
     fiscal_length = company.get_months_in_current_fiscal_year
     remaining_payments = total_number_of_payments - depreciated_payments
     remaining_amount = full_amount - depreciated_amount
