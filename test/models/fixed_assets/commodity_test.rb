@@ -32,17 +32,22 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal fiscal_year, 6
     assert_equal amount/2, result.sum
 
-    firsti = 83.33.to_d
-    lasti = 83.35.to_d
-
     assert_equal fiscal_year, result.count
-    assert_equal firsti, result.first
-    assert_equal lasti, result.last
+    assert_equal 83.33.to_d, result.first
+    assert_equal 83.35.to_d, result.last
   end
 
   test 'should calculate with fixed_by_percentage' do
     # Tasapoisto vuosiprosentti
+    full_amount = 10000
+    percentage = 35
 
+    result = @commodity.fixed_by_percentage(full_amount, percentage)
+
+    assert_equal result.sum, full_amount * percentage / 100
+    assert_equal result.first, 833.33
+    assert_equal result.second, 833.33
+    assert_equal result.last, 166.68
   end
 
   test 'should calculate with degressive_by_percentage' do
@@ -86,119 +91,128 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       planned_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
     }
-    # pitäs tulla voucher.rows
-  end
-
-  test 'should calculate SUMU depreciation with degressive_by_percentage' do
-    params = {
-      amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
-      planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
-      planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
-    }
-    # pitäs tulla voucher.rows
-  end
-
-  test 'should calculate SUMU depreciation with fixed_by_month' do
-    params = {
-      amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
-      planned_depreciation_type: 'T', # Tasapoisto kuukausittain
-      planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
-    }
-    # pitäs tulla voucher.rows
-  end
-
-  test 'should calculate EVL depreciation with fixed_by_percentage' do
-    params = {
-      amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
-      btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
-      btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
-    }
-    # pitäs tulla commodity_rows
-  end
-
-  test 'should calculate EVL depreciation with degressive_by_percentage' do
-    params = {
-      amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
-      btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
-      btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
-    }
-    # pitäs tulla commodity_rows
-  end
-
-  test 'should calculate EVL depreciation with fixed_by_month' do
-    params = {
-      amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
-      btl_depreciation_type: 'T', # Tasapoisto kuukausittain
-      btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
-    }
-    # pitäs tulla commodity_rows
-  end
-
-  test 'should create bookkeeping voucher and rows for type T and P' do
-    params = {
-      name: 'Chair50000',
-      description: 'Chair for CEO',
-      amount: 10000.0,
-      planned_depreciation_type: 'T',
-      planned_depreciation_amount: 12,
-      btl_depreciation_type: 'P',
-      btl_depreciation_amount: 45,
-      activated_at: @commodity.company.get_fiscal_year.first.to_date,
-      purchased_at: Time.now,
-      status: 'A'
-    }
-
-    @commodity.voucher = nil
     @commodity.attributes = params
-    @commodity.save
-
-    assert_difference('FixedAssets::CommodityRow.count', 6) do
-      assert_difference('Head::VoucherRow.count', 6) do
-        @commodity.generate_rows
-      end
-    end
-
-    assert_equal @commodity.voucher.rows.first.summa, 833.33
-    assert_equal @commodity.voucher.rows.last.summa, 833.35
-
-    totali = BigDecimal.new 0
-    @commodity.voucher.rows.each { |x| totali += x.summa }
-    assert_equal totali, 5000
-  end
-
-  test 'should create bookkeeping rows for type B' do
-    params = {
-      name: 'Chair50000',
-      description: 'Chair for CEO',
-      amount: 10000.0,
-      planned_depreciation_type: 'B',
-      planned_depreciation_amount: 12,
-      btl_depreciation_type: 'P',
-      btl_depreciation_amount: 45,
-      activated_at: @commodity.company.get_fiscal_year.first.to_date,
-      purchased_at: Time.now,
-      status: 'A'
-    }
-
-    @commodity.voucher = nil
-    @commodity.attributes = params
-    @commodity.save
 
     assert_difference('Head::VoucherRow.count', 6) do
       @commodity.generate_rows
     end
 
-    assert_equal @commodity.voucher.rows.first.summa, 200
-    assert_equal @commodity.voucher.rows.last.summa, 240
+    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 45 / 100
+    assert_equal @commodity.voucher.rows.first.summa, 769.23
+    assert_equal @commodity.voucher.rows.second.summa, 769.23
+    assert_equal @commodity.voucher.rows.last.summa, 653.85
+  end
 
-    totali = BigDecimal.new 0
-    @commodity.voucher.rows.each { |x| totali += x.summa }
-    assert_equal totali, 1200
+  test 'should calculate SUMU depreciation with degressive_by_percentage' do
+    params = {
+      voucher: nil,
+      amount: 10000, # hyödykkeen arvo
+      status: 'A',
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+    }
+
+    @commodity.attributes = params
+
+    assert_difference('Head::VoucherRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 20 / 100
+    assert_equal @commodity.voucher.rows.first.summa, 333.0
+    assert_equal @commodity.voucher.rows.second.summa, 322.0
+    assert_equal @commodity.voucher.rows.third.summa, 311.0
+    assert_equal @commodity.voucher.rows.fourth.summa, 301.0
+    assert_equal @commodity.voucher.rows.fifth.summa, 291.0
+    assert_equal @commodity.voucher.rows.last.summa, 442.0
+  end
+
+  test 'should calculate SUMU depreciation with fixed_by_month' do
+    params = {
+      voucher: nil,
+      amount: 10000, # hyödykkeen arvo
+      status: 'A',
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      planned_depreciation_type: 'T', # Tasapoisto kuukausittain
+      planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
+    }
+    @commodity.attributes = params
+
+    assert_difference('Head::VoucherRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    assert_equal @commodity.voucher.rows.sum(:summa), 1001
+    assert_equal @commodity.voucher.rows.first.summa, 166.83
+    assert_equal @commodity.voucher.rows.second.summa, 166.83
+    assert_equal @commodity.voucher.rows.last.summa, 166.85
+  end
+
+  test 'should calculate EVL depreciation with fixed_by_percentage' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      status: 'A',
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
+      btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
+    }
+    @commodity.commodity_rows.delete_all
+    @commodity.attributes = params
+
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    assert_equal @commodity.commodity_rows.sum(:amount), 1600
+    assert_equal @commodity.commodity_rows.first.amount, 270.27
+    assert_equal @commodity.commodity_rows.second.amount, 270.27
+    assert_equal @commodity.commodity_rows.last.amount, 248.65
+  end
+
+  test 'should calculate EVL depreciation with degressive_by_percentage' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      status: 'A',
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+    }
+    @commodity.commodity_rows.delete_all
+    @commodity.attributes = params
+
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
+    assert_equal @commodity.commodity_rows.first.amount, 333.0
+    assert_equal @commodity.commodity_rows.second.amount, 322.0
+    assert_equal @commodity.commodity_rows.third.amount, 311.0
+    assert_equal @commodity.commodity_rows.fourth.amount, 301.0
+    assert_equal @commodity.commodity_rows.fifth.amount, 291.0
+    assert_equal @commodity.commodity_rows.last.amount, 442.0
+  end
+
+  test 'should calculate EVL depreciation with fixed_by_month' do
+    params = {
+      amount: 10000, # hyödykkeen arvo
+      status: 'A',
+      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      btl_depreciation_type: 'T', # Tasapoisto kuukausittain
+      btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
+    }
+    @commodity.commodity_rows.delete_all
+    @commodity.attributes = params
+
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    assert_equal @commodity.commodity_rows.sum(:amount), 1001
+    assert_equal @commodity.commodity_rows.first.amount, 166.83
+    assert_equal @commodity.commodity_rows.second.amount, 166.83
+    assert_equal @commodity.commodity_rows.last.amount, 166.85
   end
 
   test 'should get options for depreciation types' do

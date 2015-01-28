@@ -46,9 +46,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   # Calculates monthly payments within fiscal year
-  def divide_to_payments(full_amount, full_count)
+  def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0)
     # full_amount = hydykkeen hankintahinta
     # full_count = kokonaispoistoaika kuukausissa
+    # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
     full_amount = full_amount.to_d
     return [] if full_amount.zero? || full_count.zero?
 
@@ -56,6 +57,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     fiscal_maximum = full_amount / full_count * payment_count
     fiscal_maximum = fiscal_maximum.ceil
+
+    if max_fiscal_reduction > 0 && fiscal_maximum > max_fiscal_reduction
+      fiscal_maximum = max_fiscal_reduction
+    end
 
     payment_amount = full_amount / full_count
     payment_amount = payment_amount.round(2)
@@ -87,9 +92,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
     yearly_amount = full_amount * percentage / 100
-    payments = full_amount / yearly_amount * 12
+    payments = full_amount / yearly_amount * company.get_months_in_current_fiscal_year
     payments = payments.to_i
-    divide_to_payments(full_amount, payments)
+    divide_to_payments(full_amount, payments, yearly_amount)
   end
 
   def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
