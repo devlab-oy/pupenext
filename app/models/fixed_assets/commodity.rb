@@ -47,12 +47,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Calculates monthly payments within fiscal year
   def divide_to_payments(full_amount, full_count)
+    # full_amount = hydykkeen hankintahinta
+    # full_count = kokonaispoistoaika kuukausissa
     full_amount = full_amount.to_d
     return [] if full_amount.zero? || full_count.zero?
 
-    fiscal_year = company.get_months_in_current_fiscal_year
+    payment_count = company.get_months_in_current_fiscal_year
 
-    fiscal_maximum = full_amount / full_count * fiscal_year
+    fiscal_maximum = full_amount / full_count * payment_count
     fiscal_maximum = fiscal_maximum.ceil
 
     payment_amount = full_amount / full_count
@@ -71,7 +73,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     unless remainder[1].zero?
-      if remainder[0] < fiscal_year
+      if remainder[0] < payment_count
         result << remainder[1]
       else
         result[-1] += remainder[1]
@@ -81,14 +83,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     result
   end
 
-  def fixed_by_percentage(full_amount, calculation_amount)
-    yearly_amount = full_amount * calculation_amount / 100
+  def fixed_by_percentage(full_amount, percentage)
+    # full_amount = hydykkeen hankintahinta
+    # percentage = vuosipoistoprosentti
+    yearly_amount = full_amount * percentage / 100
     payments = full_amount / yearly_amount * 12
     payments = payments.to_i
     divide_to_payments(full_amount, payments)
   end
 
   def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
+    # full_amount = hydykkeen hankintahinta
+    # fiscal_percentage = vuosipoistoprosentti
+    # depreciated_amount = jo poistettu summa
     one_year = company.get_months_in_current_fiscal_year
     full_amount = full_amount.to_d
 
@@ -120,6 +127,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
+    # full_amount = hydykkeen hankintahinta
+    # total_number_of_payments = poistojen kokonaismäärä kuukausissa
+    # depreciated_payments = jo poistettujen erien lukumäärä
+    # depreciated_amount = jo poistettu summa
     fiscal_length = company.get_months_in_current_fiscal_year
     remaining_payments = total_number_of_payments - depreciated_payments
     remaining_amount = full_amount - depreciated_amount
