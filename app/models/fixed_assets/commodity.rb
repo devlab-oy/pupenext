@@ -12,6 +12,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
+
+  validate :only_one_account_number
+
+  validate :cost_sum_must_match_amount, if: :activated?
+  validate :activation_only_on_open_fiscal_year, if: :activated?
+  validate :depreciation_amount_must_follow_type, if: :activated?
+
   def get_options_for_type
     [
       ['Valitse',''],
@@ -156,6 +163,39 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   private
+
+    def depreciation_amount_must_follow_type
+      check_amount_allowed_for_type(planned_depreciation_type, planned_depreciation_amount)
+      check_amount_allowed_for_type(btl_depreciation_type, btl_depreciation_amount)
+    end
+
+    def check_amount_allowed_for_type(type, amount)
+      case type
+      when 'T'
+        errors.add(type.to_sym, "Must be a positive number") unless amount >= 0
+      when 'P', 'B'
+        errors.add(type.to_sym, "Must be between 1-100") unless amount > 0 && amount <= 100
+      end
+    end
+
+    def activation_only_on_open_fiscal_year
+      unless company.is_date_in_this_fiscal_year?(activated_at)
+        errors.add(:base, "Activation date must be within current editable fiscal year")
+      end
+    end
+
+    def only_one_account_number
+      if procurement_rows.map{|m| m.tilino }.uniq.count > 1
+        errors.add(:base, "Account number must be shared between all linked cost records")
+      end
+    end
+
+    def cost_sum_must_match_amount
+      procurement_sum = procurement_rows.sum(:summa)
+      unless amount == procurement_sum
+        errors.add(:base, "Commodity amount #{amount} must match sum of all cost records #{procurement_sum}")
+      end
+    end
 
     def create_voucher
       tilikausi = company.get_fiscal_year

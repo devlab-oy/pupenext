@@ -26,19 +26,26 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'procurement_rows can have only one account number' do
     row = head_voucher_rows(:one).attributes
+    row[:tunnus] = nil
+    row[:summa] = 0
 
-    @commodity.procurement_rows.build(row)
-    @commodity.procurement_rows.build(row)
+    @commodity.procurement_rows.create!(row)
+    @commodity.procurement_rows.create!(row)
 
-    assert @commodity.valid?, @commodity.errors.full_messages
+    assert @commodity.valid?
 
-    row[:tilino] = '1234'
-    @commodity.procurement_rows.build(row)
-    refute @commodity.valid?, 'should not be valid'
+    row[:tilino] = 1234
+    @commodity.procurement_rows.create!(row)
+    refute @commodity.valid?, "should not be valid"
   end
 
   test 'amount should be sum of procurement_rows' do
     assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
+
+    @commodity.amount = 1000
+    @commodity.procurement_rows.first.summa = 100
+
+    refute @commodity.valid?
   end
 
   test 'required fields when active' do
@@ -49,10 +56,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.btl_depreciation_amount = ''
     @commodity.amount = ''
     @commodity.activated_at = ''
-    assert @commodity.valid?
+    assert @commodity.valid?, @commodity.errors.full_messages
 
     @commodity.status = 'A'
-    refute @commodity.valid?, 'should not be valid'
+    refute @commodity.valid?, "should not be valid"
   end
 
   test 'cannot set active unless we have procurement rows' do
@@ -67,7 +74,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'must activate on open fiscal year' do
     params = {
-      tilikausi_alku: '2015-01-01'
+      tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-03-31'
     }
     @commodity.company.attributes = params
@@ -83,14 +90,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'amount is a percentage' do
     [100.01, 101, 0].each do |p|
       @commodity.planned_depreciation_amount = p
-      @commodity.planned_depreciation_type = 'P'
-      assert @commodity.valid?
+      @commodity.planned_depreciation_type = 'T'
+      assert @commodity.valid?, "1#{@commodity.errors.full_messages}"
 
-      @commodity.planned_depreciation_type = 'A'
-      refute @commodity.valid?
+      @commodity.planned_depreciation_type = 'P'
+      refute @commodity.valid?, "2#{@commodity.errors.full_messages}"
 
       @commodity.planned_depreciation_type = 'B'
-      refute @commodity.valid?
+      refute @commodity.valid?, "3#{@commodity.errors.full_messages}"
     end
   end
 
@@ -358,7 +365,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     end
 
     params = {
-      tilikausi_alku: '2015-01-01'
+      tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-12-31'
     }
     @commodity.company.attributes = params
@@ -368,7 +375,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.generate_rows
     end
 
-    @commodity.activated_at: '2015-06-01'
+    @commodity.activated_at = '2015-06-01'
     @commodity.generate_rows
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
@@ -376,12 +383,12 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     end
 
     params = {
-      tilikausi_alku: '2015-01-01'
+      tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2016-03-31'
     }
     @commodity.company.update_attributes! params
 
-    @commodity.activated_at: '2015-01-01'
+    @commodity.activated_at = '2015-01-01'
     @commodity.generate_rows
 
     assert_difference('FixedAssets::CommodityRow.count', 20) do

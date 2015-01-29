@@ -2,6 +2,7 @@ one:
   yhtio: acme
   voucher: vo_one
   tilino: 100
+  summa: 10000
   commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -10,7 +11,6 @@ one:
 two:
   yhtio: acme
   purchase_invoice: pi_H
-  commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
@@ -18,7 +18,6 @@ two:
 three:
   yhtio: acme
   purchase_order: po_one
-  commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
@@ -26,7 +25,6 @@ three:
 four:
   yhtio: acme
   sales_invoice: si_one
-  commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
@@ -34,7 +32,6 @@ four:
 five:
   yhtio: acme
   sales_order: so_one
-  commodity: commodity_one
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
