@@ -10,6 +10,6 @@ class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
     assert @one.valid?
     assert_equal "Acme Corporation", @one.commodity.company.nimi
     assert @two.valid?
-    assert_equal "This is a commodity!", @two.commodity.selite
+    assert_equal "This is a commodity!", @two.commodity.name
   end
 end

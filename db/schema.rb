@@ -570,19 +570,23 @@ ActiveRecord::Schema.define(version: 20150102091914) do
 
   create_table "fixed_assets_commodities", force: :cascade, options: "ENGINE=myisam" do |t|
     t.integer  "company_id",  limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "nimitys",     limit: 255
-    t.string   "selite",      limit: 255
-    t.decimal  "summa",                   precision: 16, scale: 6
-    t.date     "hankintapvm"
-    t.integer  "kustp",       limit: 4
-    t.integer  "kohde",       limit: 4
-    t.integer  "projekti",    limit: 4
-    t.string   "laatija",     limit: 255
-    t.datetime "luontiaika"
-    t.datetime "muutospvm"
-    t.string   "muuttaja",    limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.date     "purchased_at"
+    t.date     "activated_at"
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 255
+    t.string   "status",      limit: 1
+    t.string   "planned_depreciation_type",    limit: 1
+    t.decimal  "planned_depreciation_amount",  precision: 16, scale: 6
+    t.string   "btl_depreciation_type",        limit: 1
+    t.decimal  "btl_depreciation_amount",      precision: 16, scale: 6
+    t.decimal  "amount",                       precision: 16, scale: 6
+    t.integer  "cost_centre", limit: 4
+    t.integer  "target",      limit: 4
+    t.integer  "project",     limit: 4
+    t.string   "created_by",  limit: 255
+    t.string   "modified_by", limit: 255
   end
 
   add_index "fixed_assets_commodities", ["company_id"], name: "index_fixed_assets_commodities_on_company_id", using: :btree
@@ -591,7 +595,14 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "commodity_id", limit: 4
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.date     "transacted_at"
+    t.decimal  "amount",       precision: 16, scale: 6
+    t.string   "account",      limit: 255
+    t.string   "description",  limit: 255
+    t.boolean  "amended",      limit: 1, default: false, null: false
     t.boolean  "locked",       limit: 1, default: false, null: false
+    t.string   "created_by",   limit: 255
+    t.string   "modified_by",  limit: 255
   end
 
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
@@ -1233,7 +1244,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "label",                            limit: 4,                              default: 0,          null: false
     t.integer  "tunnusnippu",                      limit: 4,                              default: 0,          null: false
     t.integer  "vanhatunnus",                      limit: 4,                              default: 0,          null: false
-    t.integer  "commodity_id",                     limit: 4,                              default: 0,          null: false
+    t.integer  "commodity_id",                     limit: 4,                              default: 0,          null: true
   end
 
   add_index "lasku", ["nimi"], name: "asiakasnimi", type: :fulltext
