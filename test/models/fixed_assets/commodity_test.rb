@@ -24,6 +24,81 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal true, @commodity.commodity_rows.first.locked
   end
 
+  test 'procurement_rows can have only one account number' do
+    row = head_voucher_rows(:one).attributes
+
+    @commodity.procurement_rows.build(row)
+    @commodity.procurement_rows.build(row)
+
+    assert @commodity.valid?, @commodity.errors.full_messages
+
+    row[:tilino] = '1234'
+    @commodity.procurement_rows.build(row)
+    refute @commodity.valid?, 'should not be valid'
+  end
+
+  test 'amount should be sum of procurement_rows' do
+    assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
+  end
+
+  test 'required fields when active' do
+    @commodity.status = ''
+    @commodity.planned_depreciation_type = ''
+    @commodity.planned_depreciation_amount = ''
+    @commodity.btl_depreciation_type = ''
+    @commodity.btl_depreciation_amount = ''
+    @commodity.amount = ''
+    @commodity.activated_at = ''
+    assert @commodity.valid?
+
+    @commodity.status = 'A'
+    refute @commodity.valid?, 'should not be valid'
+  end
+
+  test 'cannot set active unless we have procurement rows' do
+    assert_not_equal 0, @commodity.procurement_rows.count
+    @commodity.status = 'A'
+    assert @commodity.valid?
+
+    @commodity.procurement_rows.delete_all
+    @commodity.status = 'A'
+    refute @commodity.valid?, 'should not be valid'
+  end
+
+  test 'must activate on open fiscal year' do
+    params = {
+      tilikausi_alku: '2015-01-01'
+      tilikausi_loppu: '2015-03-31'
+    }
+    @commodity.company.attributes = params
+
+    @commodity.activated_at = '2015-01-01'
+    @commodity.status = 'A'
+    assert @commodity.valid?
+
+    @commodity.activated_at = '2015-06-01'
+    refute @commodity.valid?, 'should not be valid'
+  end
+
+  test 'amount is a percentage' do
+    [100.01, 101, 0].each do |p|
+      @commodity.planned_depreciation_amount = p
+      @commodity.planned_depreciation_type = 'P'
+      assert @commodity.valid?
+
+      @commodity.planned_depreciation_type = 'A'
+      refute @commodity.valid?
+
+      @commodity.planned_depreciation_type = 'B'
+      refute @commodity.valid?
+    end
+  end
+
+  test 'should calculate deprecated amount' do
+    assert_equal 5423.20, @commodity.deprecated_sumu_amount
+    assert_equal 4223.20, @commodity.deprecated_evl_amount
+  end
+
   test 'should calculate with divide_to_payments' do
     amount = 1000
     fiscal_year = @commodity.company.get_months_in_current_fiscal_year
@@ -97,10 +172,21 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.generate_rows
     end
 
+    # Test no locked rows are updated
+    assert_nil @commodity.voucher.rows.locked.collect(&:previous_changes)
+
     assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 45 / 100
     assert_equal @commodity.voucher.rows.first.summa, 769.23
     assert_equal @commodity.voucher.rows.second.summa, 769.23
     assert_equal @commodity.voucher.rows.last.summa, 653.85
+
+    assert_no_difference('Head::VoucherRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
+
   end
 
   test 'should calculate SUMU depreciation with degressive_by_percentage' do
@@ -126,6 +212,27 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.rows.fourth.summa, 301.0
     assert_equal @commodity.voucher.rows.fifth.summa, 291.0
     assert_equal @commodity.voucher.rows.last.summa, 442.0
+
+    assert_no_difference('Head::VoucherRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
+  end
+
+  test 'when we have to generate all rows' do
+    params = {
+      planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+    }
+
+    @commodity.attributes = params
+
+    assert @commodity.generate_all?
+
+    @commodity.generate_rows
+    assert_equal 10, @commodity.voucher.rows.collect(&:previous_changes).count
   end
 
   test 'should calculate SUMU depreciation with fixed_by_month' do
@@ -147,6 +254,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.rows.first.summa, 166.83
     assert_equal @commodity.voucher.rows.second.summa, 166.83
     assert_equal @commodity.voucher.rows.last.summa, 166.85
+
+    assert_no_difference('Head::VoucherRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with fixed_by_percentage' do
@@ -168,6 +282,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.first.amount, 270.27
     assert_equal @commodity.commodity_rows.second.amount, 270.27
     assert_equal @commodity.commodity_rows.last.amount, 248.65
+
+    assert_no_difference('FixedAssets::CommodityRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with degressive_by_percentage' do
@@ -192,6 +313,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.fourth.amount, 301.0
     assert_equal @commodity.commodity_rows.fifth.amount, 291.0
     assert_equal @commodity.commodity_rows.last.amount, 442.0
+
+    assert_no_difference('FixedAssets::CommodityRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with fixed_by_month' do
@@ -213,6 +341,52 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.first.amount, 166.83
     assert_equal @commodity.commodity_rows.second.amount, 166.83
     assert_equal @commodity.commodity_rows.last.amount, 166.85
+
+    assert_no_difference('FixedAssets::CommodityRow.count') do
+      @commodity.generate_rows
+    end
+
+    # Test no rows are updated if not needed
+    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
+  end
+
+  test 'should create ' do
+    @commodity.generate_rows
+
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    params = {
+      tilikausi_alku: '2015-01-01'
+      tilikausi_loppu: '2015-12-31'
+    }
+    @commodity.company.attributes = params
+    @commodity.generate_rows
+
+    assert_difference('FixedAssets::CommodityRow.count', 12) do
+      @commodity.generate_rows
+    end
+
+    @commodity.activated_at: '2015-06-01'
+    @commodity.generate_rows
+
+    assert_difference('FixedAssets::CommodityRow.count', 6) do
+      @commodity.generate_rows
+    end
+
+    params = {
+      tilikausi_alku: '2015-01-01'
+      tilikausi_loppu: '2016-03-31'
+    }
+    @commodity.company.update_attributes! params
+
+    @commodity.activated_at: '2015-01-01'
+    @commodity.generate_rows
+
+    assert_difference('FixedAssets::CommodityRow.count', 20) do
+      @commodity.generate_rows
+    end
   end
 
   test 'should get options for depreciation types' do
