@@ -1,7 +1,7 @@
 one:
   commodity: commodity_one
   locked: true
-  amount: 0
+  amount: 1001
 
 two:
   commodity: commodity_one

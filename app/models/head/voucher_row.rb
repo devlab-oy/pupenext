@@ -14,11 +14,11 @@ class Head::VoucherRow < ActiveRecord::Base
   default_scope { where(korjattu: '') }
 
   def self.locked
-    where(lukittu: 'X')
+    where(lukko: 'X')
   end
 
   def self.unlocked
-    where(lukittu: '')
+    where(lukko: '')
   end
 
   def account

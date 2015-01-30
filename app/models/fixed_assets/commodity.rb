@@ -19,6 +19,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
 
+  before_save :check_if_important_values_changed, if: :activated?
+
   def get_options_for_type
     [
       ['Valitse',''],
@@ -40,16 +42,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     status == 'A'
   end
 
-  def generate_rows
-    raise RuntimeError, 'Commodity not activated' unless activated?
-
-    generate_voucher_rows
-    generate_commodity_rows
-  end
-
   def lock_rows
     commodity_rows.update_all(locked: true)
     voucher.rows.update_all(lukko: "X")
+  end
+
+  # Returns sum of past sumu depreciations
+  def deprecated_sumu_amount
+    voucher.rows.locked.sum(:summa)
+  end
+
+  # Returns sum of past evl depreciations
+  def deprecated_evl_amount
+    commodity_rows.locked.sum(:amount)
   end
 
   # Calculates monthly payments within fiscal year
@@ -164,6 +169,28 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   private
 
+    # This should trigger generation of rows automatically
+    def check_if_important_values_changed
+      attrs = ["amount", "activated_at", "planned_depreciation_type", "planned_depreciation_amount",
+        "btl_depreciation_type","btl_depreciation_amount"]
+      if (changed & attrs).any?
+        mark_rows_obsolete
+        generate_rows
+      end
+    end
+
+    def mark_rows_obsolete
+      commodity_rows.update_all(amended: true)
+      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) unless voucher.nil?
+    end
+
+    def generate_rows
+      raise RuntimeError, 'Commodity not activated' unless activated?
+
+      generate_voucher_rows
+      generate_commodity_rows
+    end
+
     def depreciation_amount_must_follow_type
       check_amount_allowed_for_type(planned_depreciation_type, planned_depreciation_amount)
       check_amount_allowed_for_type(btl_depreciation_type, btl_depreciation_amount)
@@ -260,12 +287,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
       when :SUMU
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
-        depreciated_sum = voucher.rows.sum(:summa)
+        depreciated_sum = deprecated_sumu_amount
         depreciation_amount = voucher.rows.count
       when :EVL
         calculation_type = btl_depreciation_type
         calculation_amount = btl_depreciation_amount
-        depreciated_sum = commodity_rows.sum(:amount)
+        depreciated_sum = deprecated_evl_amount
         depreciation_amount = commodity_rows.count
       else
         raise ArgumentError, 'Invalid depreciation_type'

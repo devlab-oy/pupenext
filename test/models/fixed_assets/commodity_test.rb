@@ -6,7 +6,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'fixtures are valid' do
-    assert @commodity.valid?
+    assert @commodity.valid?, @commodity.errors.full_messages
     assert_equal "Acme Corporation", @commodity.company.nimi
   end
 
@@ -18,6 +18,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should update lock' do
+    @commodity.voucher.rows.first.lukko = ''
+    @commodity.commodity_rows.first.locked = false
     @commodity.lock_rows
 
     assert_equal 'X', @commodity.voucher.rows.first.lukko
@@ -40,7 +42,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'amount should be sum of procurement_rows' do
-    assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
+    assert_equal @commodity.amount.to_s, @commodity.procurement_rows.sum(:summa).to_s
 
     @commodity.amount = 1000
     @commodity.procurement_rows.first.summa = 100
@@ -56,7 +58,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.btl_depreciation_amount = ''
     @commodity.amount = ''
     @commodity.activated_at = ''
-    assert @commodity.valid?, @commodity.errors.full_messages
+    assert @commodity.valid?
 
     @commodity.status = 'A'
     refute @commodity.valid?, "should not be valid"
@@ -81,7 +83,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.activated_at = '2015-01-01'
     @commodity.status = 'A'
-    assert @commodity.valid?
+    assert @commodity.valid?, @commodity.errors.full_messages
 
     @commodity.activated_at = '2015-06-01'
     refute @commodity.valid?, 'should not be valid'
@@ -91,19 +93,19 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     [100.01, 101, 0].each do |p|
       @commodity.planned_depreciation_amount = p
       @commodity.planned_depreciation_type = 'T'
-      assert @commodity.valid?, "1#{@commodity.errors.full_messages}"
+      assert @commodity.valid?,
 
       @commodity.planned_depreciation_type = 'P'
-      refute @commodity.valid?, "2#{@commodity.errors.full_messages}"
+      refute @commodity.valid?
 
       @commodity.planned_depreciation_type = 'B'
-      refute @commodity.valid?, "3#{@commodity.errors.full_messages}"
+      refute @commodity.valid?
     end
   end
 
   test 'should calculate deprecated amount' do
-    assert_equal 5423.20, @commodity.deprecated_sumu_amount
-    assert_equal 4223.20, @commodity.deprecated_evl_amount
+    assert_equal 2345.0, @commodity.deprecated_sumu_amount
+    assert_equal 1001.0, @commodity.deprecated_evl_amount
   end
 
   test 'should calculate with divide_to_payments' do
@@ -119,7 +121,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 83.35.to_d, result.last
   end
 
-  test 'should calculate with fixed_by_percentage' do
+  test 'should calculate with fixed by percentage' do
     # Tasapoisto vuosiprosentti
     full_amount = 10000
     percentage = 35
@@ -132,7 +134,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal result.last, 166.68
   end
 
-  test 'should calculate with degressive_by_percentage' do
+  test 'should calculate with degressive by percentage' do
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
@@ -149,7 +151,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 2275, result.sum
   end
 
-  test 'should calculate with fixed_by_month' do
+  test 'should calculate with fixed by month' do
     # Tasapoisto kuukausittain
     # Full amount to be reducted
     total_amount = 10000
@@ -164,7 +166,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 5000, result.sum
   end
 
-  test 'should calculate SUMU depreciation with fixed_by_percentage' do
+  test 'should calculate SUMU depreciation with fixed by percentage' do
     params = {
       voucher: nil,
       status: 'A',
@@ -176,27 +178,32 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     # Test no locked rows are updated
-    assert_nil @commodity.voucher.rows.locked.collect(&:previous_changes)
+    assert_equal [], @commodity.voucher.rows.locked.collect(&:previous_changes)
 
     assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 45 / 100
     assert_equal @commodity.voucher.rows.first.summa, 769.23
     assert_equal @commodity.voucher.rows.second.summa, 769.23
     assert_equal @commodity.voucher.rows.last.summa, 653.85
 
+    @commodity.lock_rows
+    params.delete(:voucher)
+
     assert_no_difference('Head::VoucherRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
+    assert_equal 6, @commodity.voucher.rows.locked.count
     # Test no rows are updated if not needed
-    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.voucher.rows.locked.collect(&:previous_changes)
 
   end
 
-  test 'should calculate SUMU depreciation with degressive_by_percentage' do
+  test 'should calculate SUMU depreciation with degressive by percentage' do
     params = {
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
@@ -209,7 +216,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 20 / 100
@@ -220,15 +227,20 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.rows.fifth.summa, 291.0
     assert_equal @commodity.voucher.rows.last.summa, 442.0
 
+    @commodity.lock_rows
+    params.delete(:voucher)
+
     assert_no_difference('Head::VoucherRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.voucher.rows.locked.collect(&:previous_changes)
   end
 
   test 'when we have to generate all rows' do
+    skip
     params = {
       planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
@@ -254,7 +266,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     assert_equal @commodity.voucher.rows.sum(:summa), 1001
@@ -262,12 +274,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.rows.second.summa, 166.83
     assert_equal @commodity.voucher.rows.last.summa, 166.85
 
+    @commodity.lock_rows
+    params.delete(:voucher)
+
     assert_no_difference('Head::VoucherRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_nil @commodity.voucher.rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.voucher.rows.locked.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with fixed_by_percentage' do
@@ -282,20 +298,24 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
+
 
     assert_equal @commodity.commodity_rows.sum(:amount), 1600
     assert_equal @commodity.commodity_rows.first.amount, 270.27
     assert_equal @commodity.commodity_rows.second.amount, 270.27
     assert_equal @commodity.commodity_rows.last.amount, 248.65
 
+    @commodity.lock_rows
+
     assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.commodity_rows.locked.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with degressive_by_percentage' do
@@ -310,7 +330,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
@@ -321,12 +341,15 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.fifth.amount, 291.0
     assert_equal @commodity.commodity_rows.last.amount, 442.0
 
+    @commodity.lock_rows
+
     assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.commodity_rows.locked.collect(&:previous_changes)
   end
 
   test 'should calculate EVL depreciation with fixed_by_month' do
@@ -341,7 +364,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     assert_equal @commodity.commodity_rows.sum(:amount), 1001
@@ -349,15 +372,19 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.second.amount, 166.83
     assert_equal @commodity.commodity_rows.last.amount, 166.85
 
+    @commodity.lock_rows
+
     assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.generate_rows
+      @commodity.attributes = params
+      @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_nil @commodity.commodity_rows.collect(&:previous_changes)
+    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.commodity_rows.locked.collect(&:previous_changes)
   end
 
-  test 'should create ' do
+  test 'should create something' do
+    skip
     @commodity.generate_rows
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
