@@ -18,7 +18,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
 
-  before_save :check_if_important_values_changed, if: :activated?
+  before_save :generate_rows, if: :generate_rows?
 
   def get_options_for_type
     [
@@ -168,8 +168,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   private
 
-    # This should trigger generation of rows automatically
-    def check_if_important_values_changed
+    def important_values_changed?
       attrs = %w{
         amount
         activated_at
@@ -179,10 +178,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
         btl_depreciation_amount
       }
 
-      if (changed & attrs).any?
-        mark_rows_obsolete
-        generate_rows
-      end
+      (changed & attrs).any?
+    end
+
+    def generate_rows?
+      activated? && important_values_changed?
     end
 
     def mark_rows_obsolete
@@ -191,6 +191,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def generate_rows
+      mark_rows_obsolete
       generate_voucher_rows
       generate_commodity_rows
     end
