@@ -12,13 +12,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-
   validate :only_one_account_number
 
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
-
   before_save :check_if_important_values_changed, if: :activated?
 
   def get_options_for_type
@@ -181,7 +179,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def mark_rows_obsolete
       commodity_rows.update_all(amended: true)
-      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) unless voucher.nil?
+      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) if voucher.present?
     end
 
     def generate_rows

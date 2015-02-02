@@ -58,7 +58,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.btl_depreciation_amount = ''
     @commodity.amount = ''
     @commodity.activated_at = ''
-    assert @commodity.valid?
+
+    assert @commodity.valid?, @commodity.errors.full_messages
 
     @commodity.status = 'A'
     refute @commodity.valid?, "should not be valid"
