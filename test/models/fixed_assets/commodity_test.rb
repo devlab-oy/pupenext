@@ -228,19 +228,21 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.rows.fifth.summa, 291.0
     assert_equal @commodity.voucher.rows.last.summa, 442.0
 
-    @commodity.lock_rows
-    params.delete(:voucher)
+    # Updating commodity should not update any rows
+    @commodity.reload
+    @commodity.name = 'foo'
+    @commodity.description = 'bar'
 
     assert_no_difference('Head::VoucherRow.count') do
-      @commodity.attributes = params
       @commodity.save
     end
 
     # Test no rows are updated if not needed
-    assert_equal [{}, {}, {}, {}, {}, {}], @commodity.voucher.rows.locked.collect(&:previous_changes)
+    assert @commodity.voucher.rows.collect(&:previous_changes).all? {|i| i.empty?}
   end
 
   test 'when we have to generate all rows' do
+    # otsikon tieto muuttui, pitää laskea kaikki
     skip
     params = {
       planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
