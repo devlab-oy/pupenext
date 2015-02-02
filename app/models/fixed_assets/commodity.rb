@@ -17,6 +17,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
+
   before_save :check_if_important_values_changed, if: :activated?
 
   def get_options_for_type
@@ -169,8 +170,15 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     # This should trigger generation of rows automatically
     def check_if_important_values_changed
-      attrs = ["amount", "activated_at", "planned_depreciation_type", "planned_depreciation_amount",
-        "btl_depreciation_type","btl_depreciation_amount"]
+      attrs = %w{
+        amount
+        activated_at
+        planned_depreciation_type
+        planned_depreciation_amount
+        btl_depreciation_type
+        btl_depreciation_amount
+      }
+
       if (changed & attrs).any?
         mark_rows_obsolete
         generate_rows
@@ -183,8 +191,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def generate_rows
-      raise RuntimeError, 'Commodity not activated' unless activated?
-
       generate_voucher_rows
       generate_commodity_rows
     end
@@ -195,11 +201,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def check_amount_allowed_for_type(type, amount)
+      type = type.to_sym
+
       case type
-      when 'T'
-        errors.add(type.to_sym, "Must be a positive number") unless amount >= 0
-      when 'P', 'B'
-        errors.add(type.to_sym, "Must be between 1-100") unless amount > 0 && amount <= 100
+      when :T
+        errors.add(type, "Must be a positive number") if amount < 0
+      when :P, :B
+        errors.add(type, "Must be between 1-100") if amount <= 0 || amount > 100
       end
     end
 
