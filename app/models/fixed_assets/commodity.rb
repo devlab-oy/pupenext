@@ -64,8 +64,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     full_amount = full_amount.to_d
     return [] if full_amount.zero? || full_count.zero?
 
-    payment_count = company.get_months_in_current_fiscal_year
-
     fiscal_maximum = full_amount / full_count * payment_count
     fiscal_maximum = fiscal_maximum.ceil
 
@@ -103,7 +101,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
     yearly_amount = full_amount * percentage / 100
-    payments = full_amount / yearly_amount * company.get_months_in_current_fiscal_year
+    payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
     divide_to_payments(full_amount, payments, yearly_amount)
   end
@@ -112,7 +110,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # full_amount = hydykkeen hankintahinta
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
-    one_year = company.get_months_in_current_fiscal_year
     full_amount = full_amount.to_d
 
     # Sum the value of previous fiscal reductions
@@ -120,7 +117,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     fiscal_percentage = fiscal_percentage.to_d / 100
     fiscal_year_depreciations = []
-    first_depreciation = full_amount * fiscal_percentage / one_year
+    first_depreciation = full_amount * fiscal_percentage / payment_count
 
     fiscal_year_depreciations << first_depreciation.to_i
 
@@ -128,9 +125,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
     keep_running = true
 
     while keep_running do
-      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / one_year
+      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / payment_count
 
-      if fiscal_year_depreciations.count == one_year - 1
+      if fiscal_year_depreciations.count == payment_count - 1
         injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
@@ -147,11 +144,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # total_number_of_payments = poistojen kokonaismäärä kuukausissa
     # depreciated_payments = jo poistettujen erien lukumäärä
     # depreciated_amount = jo poistettu summa
-    fiscal_length = company.get_months_in_current_fiscal_year
     remaining_payments = total_number_of_payments - depreciated_payments
     remaining_amount = full_amount - depreciated_amount
 
-    fiscal_maximum = full_amount.to_d / total_number_of_payments * fiscal_length
+    fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
     fiscal_maximum = fiscal_maximum.ceil
 
     if remaining_amount > fiscal_maximum
@@ -159,8 +155,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     # Calculate fiscal payments
-    if remaining_payments >= fiscal_length
-      divide_to_payments(remaining_amount, fiscal_length)
+    if remaining_payments >= payment_count
+      divide_to_payments(remaining_amount, payment_count)
     else
       divide_to_payments(remaining_amount, remaining_payments)
     end
@@ -319,5 +315,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       else
         raise ArgumentError, 'Invalid calculation_type'
       end
+    end
+
+    def payment_count
+      company.get_months_in_current_fiscal_year
     end
 end
