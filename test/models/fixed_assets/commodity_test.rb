@@ -111,7 +111,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'should calculate with divide_to_payments' do
     amount = 1000
-    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
+    fiscal_year = @commodity.company.months_in_current_fiscal_year
     result = @commodity.divide_to_payments(amount, fiscal_year*2)
 
     assert_equal fiscal_year, 6
@@ -139,7 +139,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
-    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
+    fiscal_year = @commodity.company.months_in_current_fiscal_year
     # Yearly degressive percentage
     fiscalyearly_percentage = 35
 
@@ -159,7 +159,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Total amounts of depreciations
     total_depreciations = 12
 
-    fiscal_year = @commodity.company.get_months_in_current_fiscal_year
+    fiscal_year = @commodity.company.months_in_current_fiscal_year
 
     result = @commodity.fixed_by_month(total_amount, total_depreciations, 6, 5000)
 
@@ -172,7 +172,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       status: 'A',
       amount: 10000, # hyödykkeen arvo
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       planned_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
     }
@@ -206,7 +206,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -241,17 +241,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'when we have to generate all rows' do
     # otsikon tieto muuttui, pitää laskea kaikki
     params = {
-      planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
-      planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+      btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
+      btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
 
     @commodity.attributes = params
-
-    assert_difference('Head::VoucherRow.count', 3) do
+    # This commodity already has 2 commodity_rows
+    assert_difference('FixedAssets::CommodityRow.count', 4) do
       @commodity.save
     end
 
-    assert_equal 10, @commodity.voucher.rows.collect(&:previous_changes).count
+    assert_equal 6, @commodity.commodity_rows.collect(&:previous_changes).count
   end
 
   test 'should calculate SUMU depreciation with fixed_by_month' do
@@ -259,7 +259,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       planned_depreciation_type: 'T', # Tasapoisto kuukausittain
       planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
@@ -288,7 +288,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
     }
@@ -319,7 +319,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -352,7 +352,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: '2015-06-01', # poistot tästä päivästä eteenpäin
+      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
       btl_depreciation_type: 'T', # Tasapoisto kuukausittain
       btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
@@ -379,29 +379,30 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should create something' do
-    skip
-    @commodity.generate_rows
+
+    @commodity.commodity_rows.delete_all
+    @commodity.activated_at = Date.today.beginning_of_month
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
+
+    @commodity.activated_at = '2015-01-01'
 
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-12-31'
     }
-    @commodity.company.attributes = params
-    @commodity.generate_rows
+    @commodity.company.update_attributes! params
 
     assert_difference('FixedAssets::CommodityRow.count', 12) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     @commodity.activated_at = '2015-06-01'
-    @commodity.generate_rows
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      @commodity.save
     end
 
     params = {
@@ -409,19 +410,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       tilikausi_loppu: '2016-03-31'
     }
     @commodity.company.update_attributes! params
-
     @commodity.activated_at = '2015-01-01'
-    @commodity.generate_rows
 
     assert_difference('FixedAssets::CommodityRow.count', 20) do
-      @commodity.generate_rows
+      @commodity.save
     end
   end
 
   test 'should get options for depreciation types' do
-    assert_equal 4, @commodity.get_options_for_type.count
+    assert_equal 4, @commodity.options_for_type.count
     returned_types = []
-    @commodity.get_options_for_type.each { |x| returned_types.push x.last }
+    @commodity.options_for_type.each { |x| returned_types.push x.last }
 
     all_types = [ 'T','P','B','' ]
     all_types.each do |typ|
@@ -431,9 +430,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should get options for commodity statuses' do
-    assert_equal 3, @commodity.get_options_for_status.count
+    assert_equal 3, @commodity.options_for_status.count
     returned_options = []
-    @commodity.get_options_for_status.each { |x| returned_options.push x.last }
+    @commodity.options_for_status.each { |x| returned_options.push x.last }
 
     all_statuses = [ 'A','P','' ]
     all_statuses.each do |stat|

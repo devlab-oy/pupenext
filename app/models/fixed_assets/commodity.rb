@@ -20,7 +20,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   before_save :generate_rows, if: :generate_rows?
 
-  def get_options_for_type
+  def options_for_type
     [
       ['Valitse',''],
       ['Tasapoisto kuukausittain','T'],
@@ -29,7 +29,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  def get_options_for_status
+  def options_for_status
     [
       ['Ei aktivoitu', ''],
       ['Aktivoitu', 'A'],
@@ -228,7 +228,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_voucher
-      tilikausi = company.get_fiscal_year
+      tilikausi = company.fiscal_year
 
       voucher_params = {
         nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
@@ -318,6 +318,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def payment_count
-      company.get_months_in_current_fiscal_year
+      current_active = company.months_in_current_fiscal_year
+      return current_active if activated_at < company.fiscal_year.first
+      (activated_at..company.fiscal_year.last).map{|m| m.end_of_month }.uniq.count
     end
 end
