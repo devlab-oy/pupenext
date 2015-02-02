@@ -11,6 +11,6 @@ class Head::PurchaseOrderTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
-    assert_equal 1, @order.accounting_rows.count
+    assert_equal 2, @order.accounting_rows.count
   end
 end
