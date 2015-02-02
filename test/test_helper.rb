@@ -11,6 +11,8 @@ if ENV['CODECLIMATE_REPO_TOKEN']
   ]
 else
   SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+  SimpleCov.add_group 'Validators', '/app/validators/'
+  SimpleCov.add_group 'Modules', '/app/modules/'
 end
 
 SimpleCov.start 'rails'

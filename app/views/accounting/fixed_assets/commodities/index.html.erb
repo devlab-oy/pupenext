@@ -1,0 +1,52 @@
+<%= render 'header' %>
+
+<% if notice %>
+  <%= t(notice) %>
+  <br /><br />
+<% end %>
+
+<%= button_to t('Uusi hyödyke'), new_accounting_fixed_assets_commodity_path, method: :get if update_access? %>
+
+<br />
+
+<%= form_tag accounting_fixed_assets_commodities_path, method: :get do %>
+<table>
+  <tr>
+    <th>
+      <%= sortable 'nimitys' %>
+      <br />
+      <%= text_field_tag :nimitys, params[:nimitys] %>
+    </th>
+    <th>
+      <%= sortable 'selite' %>
+      <br />
+      <%= text_field_tag :selite, params[:selite] %>
+    </th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
+  </tr>
+
+  <% @commodities.each do |com| %>
+    <tr class="aktiivi">
+      <td><% if update_access? %>
+          <%= link_to com.nimitys, edit_accounting_fixed_assets_commodity_path(com.id)  %>
+        <% else %>
+          <%= com.nimitys %>
+        <% end %></td>
+      <td><%= com.selite %></td>
+      <% keijo = com.accounting_voucher.rows.active.count rescue 0 %>
+      <% kaaleleppi = !com.accounting_voucher.nil? rescue 0  %>
+      <td class="back"><%= "Tila: '#{com.tila}'" + ", EVL Poistoeriä: '#{com.rows.active.count}' kpl" + ", Poistoerätosite: #{kaaleleppi}" + ", SUMU Poistoeriä: #{keijo}" + ", Kustannustiliöintejä: " %></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
+
+<br />
+
+<%= button_to t('Uusi hyödyke'), new_accounting_fixed_assets_commodity_path, method: :get if update_access? %>
+<br />
+<br />
+
+<%= button_to 'Hyödykkeiden tilikausiajo', { action: "fiscal_year_run"},
+                                method: :get, data: { confirm: "Are you sure? This will lock all depreciations" } %>
+

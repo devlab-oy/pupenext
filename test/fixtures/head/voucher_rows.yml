@@ -1,0 +1,56 @@
+one:
+  yhtio: acme
+  voucher: vo_one
+  tilino: 100
+  summa: 1234
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+two:
+  yhtio: acme
+  purchase_invoice: pi_H
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+three:
+  yhtio: acme
+  purchase_order: po_one
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+four:
+  yhtio: acme
+  sales_invoice: si_one
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+five:
+  yhtio: acme
+  sales_order: so_one
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+six:
+  yhtio: acme
+  voucher: po_one
+  tilino: 100
+  summa: 10000
+  commodity: commodity_one
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+seven:
+  yhtio: acme
+  voucher: vo_one
+  tilino: 100
+  summa: 2345
+  lukko: X
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>

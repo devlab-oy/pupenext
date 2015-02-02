@@ -1,0 +1,12 @@
+commodity_one:
+  company: acme
+  name: This is a commodity!
+  created_by: joe
+  modified_by: joe
+  amount: 10000
+  status: A
+  activated_at: <%= Date.today %>
+  planned_depreciation_type: P
+  planned_depreciation_amount: 35
+  btl_depreciation_type: B
+  btl_depreciation_amount: 40

@@ -1,0 +1,68 @@
+<%= javascript_include_tag "my_javascript_file" %>
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
+<%= link_to return_text, accounting_fixed_assets_commodities_path %>
+<br /><br />
+
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
+<%= link_to return_text, edit_accounting_fixed_assets_commodity_path %>
+<br /><br />
+
+<%= render 'header' %>
+<font class="head"><%= t('Valitse tositteen tiliöinnit') %></font>
+<br /><br />
+<%= form_tag accounting_fixed_assets_commodities_vouchers_path, method: :get do %>
+<table>
+<tr>
+  <th>
+    <%= sortable 'tunnus' %>
+    <br />
+    <%= text_field_tag :tunnus, params[:tunnus] %>
+  </th>
+  <th>
+    <%= sortable 'ytunnus' %>
+    <br />
+    <%= text_field_tag :ytunnus, params[:ytunnus] %>
+  </th>
+  <th>
+    <%= sortable 'nimi' %>
+    <br />
+    <%= text_field_tag :nimi, params[:nimi] %>
+  </th>
+  <th>
+    <%= sortable 'viesti' %>
+    <br />
+    <%= text_field_tag :viesti, params[:viesti] %>
+  </th>
+  <th class="back"><%= submit_tag t('Etsi') %></th>
+</tr>
+
+<% @vouchers.each do |vou| %>
+  <tr>
+    <td><%= vou.tunnus %></td>
+    <td><%= vou.ytunnus %></td>
+    <td><%= vou.nimi %></td>
+    <td><%= vou.viesti %></td>
+  </tr>
+  <tr>
+    <th>Tunnus</th>
+    <th>Selite</th>
+    <th>Summa</th>
+    <th>Tili</th>
+  </tr>
+   <% vou.rows.each do |vourow| %>
+   <tr>
+    <td><%= vourow.tunnus  %></td>
+    <td><%= vourow.selite.html_safe rescue 0 %></td>
+    <td><%= vourow.summa  %></td>
+    <td><%= vourow.tilino %></td>
+    <td class='back'><%= form_tag(edit_accounting_fixed_assets_commodity_path, method: "get") do %>
+    <%= hidden_field_tag(:selected_accounting_row, vourow.tunnus) %>
+    <%= submit_tag('Liitä') %></td>
+    <% end %>
+    </tr>
+    <% end %>
+<% end %>
+
+</table>
+<br /><br />
+<% end %>

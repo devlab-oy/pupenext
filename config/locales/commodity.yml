@@ -1,0 +1,6 @@
+fi:
+  activerecord:
+    attributes:
+      accounting/fixed_assets/commodity:
+        evl_poistotyyppi: EVL Poistotyyppi
+        kayttoonottopvm: Käyttöönottopvm

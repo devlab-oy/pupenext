@@ -1,0 +1,78 @@
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
+<%= link_to return_text, accounting_fixed_assets_commodities_path %>
+<br /><br />
+
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
+<%= link_to return_text, edit_accounting_fixed_assets_commodity_path %>
+<br /><br />
+
+<%= render 'header' %>
+
+<font class="head"><%= t('Valitse ostolaskujen tiliöinnit') %></font>
+<br /><br />
+<%= "#{@purchase_orders.count} purchase orders in system" %>
+
+<%= form_tag accounting_fixed_assets_commodities_purchase_orders_path, method: :get do %>
+
+<table>
+  <tr>
+    <th>
+      <%= sortable 'tunnus' %>
+      <br />
+      <%= text_field_tag :tunnus, params[:tunnus] %>
+    </th>
+    <th>
+      <%= sortable 'ytunnus' %>
+      <br />
+      <%= text_field_tag :ytunnus, params[:ytunnus] %>
+    </th>
+    <th>
+      <%= sortable 'nimi' %>
+      <br />
+      <%= text_field_tag :nimi, params[:nimi] %>
+    </th>
+    <th>
+      <%= sortable 'viesti' %>
+      <br />
+      <%= text_field_tag :viesti, params[:viesti] %>
+    </th>
+    <th>
+      <%= sortable 'summa' %>
+      <br />
+      <%= text_field_tag :summa, params[:summa] %>
+    </th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
+  </tr>
+<% end %>
+
+  <% @purchase_orders.each do |po| %>
+
+  <tr>
+    <td><%= po.tunnus %></td>
+    <td><%= po.ytunnus %></td>
+    <td><%= po.nimi %></td>
+    <td><%= po.viesti %></td>
+    <td><%= po.summa %></td>
+  </tr>
+  <tr>
+  <th>Tunnus</th>
+  <th>Summa</th>
+  <th>Tili</th>
+  </tr>
+  <% po.accounting_rows.each do |acc| %>
+  <tr>
+    <td><%= acc.tunnus  %></td>
+    <td><%= acc.summa  %></td>
+    <td><%= acc.tilino %></td>
+    <td class="back">
+    <%= form_tag(edit_accounting_fixed_assets_commodity_path, method: "get") do %>
+    <%= hidden_field_tag(:selected_accounting_row, acc.tunnus) %>
+    <%= submit_tag('Liitä') %>
+    <% end %>
+    </td>
+  </tr>
+  <% end %>
+<% end %>
+
+
+</table>
