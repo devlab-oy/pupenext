@@ -387,6 +387,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    @commodity.commodity_rows.delete_all
     @commodity.activated_at = '2015-01-01'
 
     params = {
@@ -399,9 +400,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    @commodity.commodity_rows.delete_all
     @commodity.activated_at = '2015-06-01'
 
-    assert_difference('FixedAssets::CommodityRow.count', 6) do
+    assert_difference('FixedAssets::CommodityRow.count', 7) do
       @commodity.save
     end
 
@@ -410,9 +412,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       tilikausi_loppu: '2016-03-31'
     }
     @commodity.company.update_attributes! params
+    @commodity.commodity_rows.delete_all
     @commodity.activated_at = '2015-01-01'
 
-    assert_difference('FixedAssets::CommodityRow.count', 20) do
+    assert_difference('FixedAssets::CommodityRow.count', 15) do
       @commodity.save
     end
   end
