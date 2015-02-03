@@ -209,7 +209,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def activation_only_on_open_fiscal_year
-      unless company.is_date_in_this_fiscal_year?(activated_at)
+      unless company.date_in_current_fiscal_year?(activated_at)
         errors.add(:base, "Activation date must be within current editable fiscal year")
       end
     end

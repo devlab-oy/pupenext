@@ -43,7 +43,7 @@ class Company < ActiveRecord::Base
     (tilikausi_alku..tilikausi_loppu).map(&:end_of_month).uniq.count
   end
 
-  def is_date_in_this_fiscal_year?(date)
+  def date_in_current_fiscal_year?(date)
     (tilikausi_alku..tilikausi_loppu).cover?(date)
   end
 
