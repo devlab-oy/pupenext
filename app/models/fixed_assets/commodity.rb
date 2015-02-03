@@ -320,6 +320,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def payment_count
       current_active = company.months_in_current_fiscal_year
       return current_active if activated_at < company.fiscal_year.first
-      (activated_at..company.fiscal_year.last).map{|m| m.end_of_month }.uniq.count
+      (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
     end
 end
