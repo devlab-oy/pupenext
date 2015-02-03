@@ -215,7 +215,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def only_one_account_number
-      if procurement_rows.map{|m| m.tilino }.uniq.count > 1
+      if procurement_rows.map(&:tilino).uniq.count > 1
         errors.add(:base, "Account number must be shared between all linked cost records")
       end
     end
