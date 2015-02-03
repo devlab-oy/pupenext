@@ -35,15 +35,15 @@ class Company < ActiveRecord::Base
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
-  def get_fiscal_year
+  def fiscal_year
     [tilikausi_alku, tilikausi_loppu]
   end
 
-  def get_months_in_current_fiscal_year
-    (tilikausi_alku..tilikausi_loppu).map{|m| m.end_of_month }.uniq.count
+  def months_in_current_fiscal_year
+    (tilikausi_alku..tilikausi_loppu).map(&:end_of_month).uniq.count
   end
 
-  def is_date_in_this_fiscal_year?(date)
+  def date_in_current_fiscal_year?(date)
     (tilikausi_alku..tilikausi_loppu).cover?(date)
   end
 

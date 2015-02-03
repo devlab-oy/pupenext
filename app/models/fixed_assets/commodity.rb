@@ -12,7 +12,15 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-  def get_options_for_type
+  validate :only_one_account_number
+
+  validate :cost_sum_must_match_amount, if: :activated?
+  validate :activation_only_on_open_fiscal_year, if: :activated?
+  validate :depreciation_amount_must_follow_type, if: :activated?
+
+  before_save :generate_rows, if: :generate_rows?
+
+  def options_for_type
     [
       ['Valitse',''],
       ['Tasapoisto kuukausittain','T'],
@@ -21,7 +29,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  def get_options_for_status
+  def options_for_status
     [
       ['Ei aktivoitu', ''],
       ['Aktivoitu', 'A'],
@@ -33,16 +41,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     status == 'A'
   end
 
-  def generate_rows
-    raise RuntimeError, 'Commodity not activated' unless activated?
-
-    generate_voucher_rows
-    generate_commodity_rows
-  end
-
   def lock_rows
     commodity_rows.update_all(locked: true)
     voucher.rows.update_all(lukko: "X")
+  end
+
+  # Returns sum of past sumu depreciations
+  def deprecated_sumu_amount
+    voucher.rows.locked.sum(:summa)
+  end
+
+  # Returns sum of past evl depreciations
+  def deprecated_evl_amount
+    commodity_rows.locked.sum(:amount)
   end
 
   # Calculates monthly payments within fiscal year
@@ -52,8 +63,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
     full_amount = full_amount.to_d
     return [] if full_amount.zero? || full_count.zero?
-
-    payment_count = company.get_months_in_current_fiscal_year
 
     fiscal_maximum = full_amount / full_count * payment_count
     fiscal_maximum = fiscal_maximum.ceil
@@ -92,7 +101,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
     yearly_amount = full_amount * percentage / 100
-    payments = full_amount / yearly_amount * company.get_months_in_current_fiscal_year
+    payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
     divide_to_payments(full_amount, payments, yearly_amount)
   end
@@ -101,7 +110,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # full_amount = hydykkeen hankintahinta
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
-    one_year = company.get_months_in_current_fiscal_year
     full_amount = full_amount.to_d
 
     # Sum the value of previous fiscal reductions
@@ -109,7 +117,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     fiscal_percentage = fiscal_percentage.to_d / 100
     fiscal_year_depreciations = []
-    first_depreciation = full_amount * fiscal_percentage / one_year
+    first_depreciation = full_amount * fiscal_percentage / payment_count
 
     fiscal_year_depreciations << first_depreciation.to_i
 
@@ -117,9 +125,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
     keep_running = true
 
     while keep_running do
-      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / one_year
+      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / payment_count
 
-      if fiscal_year_depreciations.count == one_year - 1
+      if fiscal_year_depreciations.count == payment_count - 1
         injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
@@ -136,11 +144,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # total_number_of_payments = poistojen kokonaismäärä kuukausissa
     # depreciated_payments = jo poistettujen erien lukumäärä
     # depreciated_amount = jo poistettu summa
-    fiscal_length = company.get_months_in_current_fiscal_year
     remaining_payments = total_number_of_payments - depreciated_payments
     remaining_amount = full_amount - depreciated_amount
 
-    fiscal_maximum = full_amount.to_d / total_number_of_payments * fiscal_length
+    fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
     fiscal_maximum = fiscal_maximum.ceil
 
     if remaining_amount > fiscal_maximum
@@ -148,8 +155,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     # Calculate fiscal payments
-    if remaining_payments >= fiscal_length
-      divide_to_payments(remaining_amount, fiscal_length)
+    if remaining_payments >= payment_count
+      divide_to_payments(remaining_amount, payment_count)
     else
       divide_to_payments(remaining_amount, remaining_payments)
     end
@@ -157,8 +164,71 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   private
 
+    def important_values_changed?
+      attrs = %w{
+        amount
+        activated_at
+        planned_depreciation_type
+        planned_depreciation_amount
+        btl_depreciation_type
+        btl_depreciation_amount
+      }
+
+      (changed & attrs).any?
+    end
+
+    def generate_rows?
+      activated? && important_values_changed?
+    end
+
+    def mark_rows_obsolete
+      commodity_rows.update_all(amended: true)
+      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) if voucher.present?
+    end
+
+    def generate_rows
+      mark_rows_obsolete
+      generate_voucher_rows
+      generate_commodity_rows
+    end
+
+    def depreciation_amount_must_follow_type
+      check_amount_allowed_for_type(planned_depreciation_type, planned_depreciation_amount)
+      check_amount_allowed_for_type(btl_depreciation_type, btl_depreciation_amount)
+    end
+
+    def check_amount_allowed_for_type(type, amount)
+      type = type.to_sym
+
+      case type
+      when :T
+        errors.add(type, "Must be a positive number") if amount < 0
+      when :P, :B
+        errors.add(type, "Must be between 1-100") if amount <= 0 || amount > 100
+      end
+    end
+
+    def activation_only_on_open_fiscal_year
+      unless company.date_in_current_fiscal_year?(activated_at)
+        errors.add(:base, "Activation date must be within current editable fiscal year")
+      end
+    end
+
+    def only_one_account_number
+      if procurement_rows.map(&:tilino).uniq.count > 1
+        errors.add(:base, "Account number must be shared between all linked cost records")
+      end
+    end
+
+    def cost_sum_must_match_amount
+      procurement_sum = procurement_rows.sum(:summa)
+      unless amount == procurement_sum
+        errors.add(:base, "Commodity amount #{amount} must match sum of all cost records #{procurement_sum}")
+      end
+    end
+
     def create_voucher
-      tilikausi = company.get_fiscal_year
+      tilikausi = company.fiscal_year
 
       voucher_params = {
         nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
@@ -220,12 +290,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
       when :SUMU
         calculation_type = planned_depreciation_type
         calculation_amount = planned_depreciation_amount
-        depreciated_sum = voucher.rows.sum(:summa)
+        depreciated_sum = deprecated_sumu_amount
         depreciation_amount = voucher.rows.count
       when :EVL
         calculation_type = btl_depreciation_type
         calculation_amount = btl_depreciation_amount
-        depreciated_sum = commodity_rows.sum(:amount)
+        depreciated_sum = deprecated_evl_amount
         depreciation_amount = commodity_rows.count
       else
         raise ArgumentError, 'Invalid depreciation_type'
@@ -245,5 +315,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
       else
         raise ArgumentError, 'Invalid calculation_type'
       end
+    end
+
+    def payment_count
+      current_active = company.months_in_current_fiscal_year
+      return current_active if activated_at < company.fiscal_year.first
+      (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
     end
 end
