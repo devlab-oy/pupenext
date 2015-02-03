@@ -380,19 +380,28 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'should create something' do
 
+    params = {
+      tilikausi_alku: '2015-01-01',
+      tilikausi_loppu: '2015-06-30'
+    }
+    @commodity.company.update_attributes! params
+
     @commodity.commodity_rows.delete_all
-    @commodity.activated_at = Date.today.beginning_of_month
+    @commodity.activated_at = '2015-01-01'
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       @commodity.save
     end
 
+    assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
+    assert_equal '2015-06-30'.to_date, @commodity.commodity_rows.last.transacted_at
+
     @commodity.commodity_rows.delete_all
-    @commodity.activated_at = '2015-01-01'
+    @commodity.activated_at = '2016-01-01'
 
     params = {
-      tilikausi_alku: '2015-01-01',
-      tilikausi_loppu: '2015-12-31'
+      tilikausi_alku: '2016-01-01',
+      tilikausi_loppu: '2016-12-31'
     }
     @commodity.company.update_attributes! params
 
@@ -400,12 +409,18 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    assert_equal '2016-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
+    assert_equal '2016-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
+
     @commodity.commodity_rows.delete_all
-    @commodity.activated_at = '2015-06-01'
+    @commodity.activated_at = '2016-06-01'
 
     assert_difference('FixedAssets::CommodityRow.count', 7) do
       @commodity.save
     end
+
+    assert_equal '2016-06-30'.to_date, @commodity.commodity_rows.first.transacted_at
+    assert_equal '2016-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
 
     params = {
       tilikausi_alku: '2015-01-01',
@@ -418,6 +433,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_difference('FixedAssets::CommodityRow.count', 15) do
       @commodity.save
     end
+
+    assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
+    assert_equal '2016-03-31'.to_date, @commodity.commodity_rows.last.transacted_at
   end
 
   test 'should get options for depreciation types' do
