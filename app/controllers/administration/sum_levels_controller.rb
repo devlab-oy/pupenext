@@ -61,6 +61,13 @@ class Administration::SumLevelsController < AdministrationController
         :kumulatiivinen,
         :kayttotarkoitus,
         :kerroin,
+        :poisto_vastatili,
+        :poistoero_tili,
+        :poistoero_vastatili,
+        :planned_depreciation_type,
+        :planned_depreciation_amount,
+        :btl_depreciation_type,
+        :btl_depreciation_amount,
       )
     end
 

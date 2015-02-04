@@ -58,6 +58,7 @@ class SumLevel < ActiveRecord::Base
       U: SumLevel::External,
       A: SumLevel::Vat,
       B: SumLevel::Profit,
+      E: SumLevel::Commodity
     }
   end
 
