@@ -7,11 +7,19 @@ class Head::VoucherRow < ActiveRecord::Base
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
+  validate :allow_only_active_fiscal_period
+
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   validates :yhtio, presence: true
 
   default_scope { where(korjattu: '') }
+
+  def allow_only_active_fiscal_period
+    unless voucher.company.date_in_current_fiscal_year?(tapvm)
+      errors.add(:base, 'Must be created in current fiscal period')
+    end
+  end
 
   def self.locked
     where(lukko: 'X')

@@ -2047,6 +2047,13 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.decimal  "jakaja",                      precision: 12, scale: 2, default: 0.0, null: false
     t.string   "kumulatiivinen",  limit: 1,                            default: "",  null: false
     t.string   "kayttotarkoitus", limit: 1,                            default: "",  null: false
+    t.string   "poisto_vastatili",    limit: 6,                        default: "",  null: false
+    t.string   "poistoero_tili",      limit: 6,                        default: "",  null: false
+    t.string   "poistoero_vastatili", limit: 6,                        default: "",  null: false
+    t.string   "planned_depreciation_type",   limit: 1,                default: "",  null: false
+    t.decimal  "planned_depreciation_amount", precision: 16, scale: 6, default: 0.0, null: false
+    t.string   "btl_depreciation_type",       limit: 1,                default: "",  null: false
+    t.decimal  "btl_depreciation_amount",     precision: 16, scale: 6, default: 0.0, null: false
     t.string   "laatija",         limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                         null: false
     t.datetime "muutospvm",                                                          null: false

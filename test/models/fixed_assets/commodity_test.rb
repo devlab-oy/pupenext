@@ -3,6 +3,8 @@ require 'test_helper'
 class FixedAssets::CommodityTest < ActiveSupport::TestCase
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
+    @options_for_type = FixedAssets::Commodity.options_for_type
+    @options_for_status = FixedAssets::Commodity.options_for_status
   end
 
   test 'fixtures are valid' do
@@ -198,7 +200,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
-
   end
 
   test 'should calculate SUMU depreciation with degressive by percentage' do
@@ -299,7 +300,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
-
     assert_equal @commodity.commodity_rows.sum(:amount), 1600
     assert_equal @commodity.commodity_rows.first.amount, 270.27
     assert_equal @commodity.commodity_rows.second.amount, 270.27
@@ -379,7 +379,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should create something' do
-
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-06-30'
@@ -439,25 +438,20 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should get options for depreciation types' do
-    assert_equal 4, @commodity.options_for_type.count
-    returned_types = []
-    @commodity.options_for_type.each { |x| returned_types.push x.last }
+    assert_equal 4, @options_for_type.count
 
-    all_types = [ 'T','P','B','' ]
-    all_types.each do |typ|
-      assert returned_types.include? typ
-    end
+    returned_types = @options_for_type.map(&:last).sort
+    all_types = [ '', 'B', 'P', 'T' ]
 
+    assert_equal all_types, returned_types
   end
 
   test 'should get options for commodity statuses' do
-    assert_equal 3, @commodity.options_for_status.count
-    returned_options = []
-    @commodity.options_for_status.each { |x| returned_options.push x.last }
+    assert_equal 3, @options_for_status.count
 
-    all_statuses = [ 'A','P','' ]
-    all_statuses.each do |stat|
-      assert returned_options.include? stat
-    end
+    returned_options = @options_for_status.map(&:last).sort
+    all_statuses = [ '', 'A', 'P' ]
+
+    assert_equal all_statuses, returned_options
   end
 end

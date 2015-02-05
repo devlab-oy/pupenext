@@ -10,10 +10,11 @@ class Account < ActiveRecord::Base
   end
 
   with_options primary_key: :taso do |o|
-    o.belongs_to :internal, class_name: 'SumLevel::Internal', foreign_key: :sisainen_taso
-    o.belongs_to :external, class_name: 'SumLevel::External', foreign_key: :ulkoinen_taso
-    o.belongs_to :vat,      class_name: 'SumLevel::Vat',      foreign_key: :alv_taso
-    o.belongs_to :profit,   class_name: 'SumLevel::Profit',   foreign_key: :tulosseuranta_taso
+    o.belongs_to :internal,  class_name: 'SumLevel::Internal',  foreign_key: :sisainen_taso
+    o.belongs_to :external,  class_name: 'SumLevel::External',  foreign_key: :ulkoinen_taso
+    o.belongs_to :vat,       class_name: 'SumLevel::Vat',       foreign_key: :alv_taso
+    o.belongs_to :profit,    class_name: 'SumLevel::Profit',    foreign_key: :tulosseuranta_taso
+    o.belongs_to :commodity, class_name: 'SumLevel::Commodity', foreign_key: :evl_taso
   end
 
   validates :tilino, presence: true, uniqueness: { scope: [:yhtio] }

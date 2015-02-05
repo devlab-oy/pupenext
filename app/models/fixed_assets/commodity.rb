@@ -20,7 +20,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   before_save :generate_rows, if: :generate_rows?
 
-  def options_for_type
+  def self.options_for_type
     [
       ['Valitse',''],
       ['Tasapoisto kuukausittain','T'],
@@ -29,7 +29,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
-  def options_for_status
+  def self.options_for_status
     [
       ['Ei aktivoitu', ''],
       ['Aktivoitu', 'A'],

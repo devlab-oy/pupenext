@@ -51,6 +51,51 @@
       </tr>
     <% end %>
 
+    <% if @sum_level.tyyppi == 'E' %>
+      <tr>
+        <th><%= f.label :poisto_vastatili, t('Poisto vastatili') %></th>
+        <td>
+          <%= f.text_field :poisto_vastatili %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :poistoero_tili, t('Poistoero tili') %></th>
+        <td>
+          <%= f.text_field :poistoero_tili %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :poistoero_vastatili, t('Poistoero vastatili') %></th>
+        <td>
+          <%= f.text_field :poistoero_vastatili %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :planned_depreciation_type, t('SUMU poistotyyppi') %></th>
+        <td>
+          <%= f.select :planned_depreciation_type, FixedAssets::Commodity.options_for_type %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :planned_depreciation_amount, t('SUMU poistomäärä') %></th>
+        <td>
+          <%= f.text_field :planned_depreciation_amount %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :btl_depreciation_type, t('EVL poistotyyppi') %></th>
+        <td>
+          <%= f.select :btl_depreciation_type, FixedAssets::Commodity.options_for_type %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :btl_depreciation_amount, t('EVL poistomäärä') %></th>
+        <td>
+          <%= f.text_field :btl_depreciation_amount %>
+        </td>
+      </tr>
+    <% end %>
+
     <tr>
       <th><%= t('Laatija') %></th>
       <td><%= @sum_level.laatija %></td>
