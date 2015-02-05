@@ -200,7 +200,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
-
   end
 
   test 'should calculate SUMU depreciation with degressive by percentage' do
@@ -301,7 +300,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
-
     assert_equal @commodity.commodity_rows.sum(:amount), 1600
     assert_equal @commodity.commodity_rows.first.amount, 270.27
     assert_equal @commodity.commodity_rows.second.amount, 270.27
@@ -381,7 +379,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should create something' do
-
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-06-30'
