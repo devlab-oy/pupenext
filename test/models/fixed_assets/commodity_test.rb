@@ -442,10 +442,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'should get options for depreciation types' do
     assert_equal 4, @options_for_type.count
-    returned_types = []
-    @options_for_type.each { |x| returned_types.push x.last }
 
+    returned_types = @options_for_type.map { |x| x.last }
     all_types = [ 'T','P','B','' ]
+
     all_types.each do |typ|
       assert returned_types.include? typ
     end
@@ -454,10 +454,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'should get options for commodity statuses' do
     assert_equal 3, @options_for_status.count
-    returned_options = []
-    @options_for_status.each { |x| returned_options.push x.last }
 
+    returned_options = @options_for_status.map { |x| x.last }
     all_statuses = [ 'A','P','' ]
+
     all_statuses.each do |stat|
       assert returned_options.include? stat
     end
