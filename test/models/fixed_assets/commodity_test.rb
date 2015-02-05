@@ -191,6 +191,19 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.voucher.depreciation_rows.second.summa, 769.23
     assert_equal @commodity.voucher.depreciation_rows.last.summa, 653.85
 
+    # Difference is calculated correctly
+    btl_one = @commodity.commodity_rows.first.amount
+    planned_one = @commodity.voucher.depreciation_rows.first.summa
+    difference = @commodity.voucher.difference_rows.first.summa
+
+    assert_equal (planned_one - btl_one).to_s, difference.to_s
+
+    # Difference goes to right account
+    number_one = @commodity.voucher.difference_rows.first.tilino
+    number_two = @commodity.company.accounts.find_by(tilino: @commodity.procurement_rows.first.tilino).commodity.poistoero_account.tilino
+
+    assert_equal number_two, number_one
+
     @commodity.reload
 
     assert_no_difference('Head::VoucherRow.count') do
