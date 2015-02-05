@@ -249,7 +249,9 @@ class SumLevelTest < ActiveSupport::TestCase
     assert_equal nil, SumLevel.subclass_from_attributes({ tyyppi: "M" })
   end
 
-  test "stuff" do
-    refute true, 'doesnt do stuff'
+  test "SumLevel::Commodity should have multiple accounts" do
+    assert_not_nil @commodity.poistovasta_account.tilino
+    assert_not_nil @commodity.poistoero_account.tilino
+    assert_not_nil @commodity.poistoerovasta_account.tilino
   end
 end

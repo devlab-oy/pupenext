@@ -1,5 +1,5 @@
 class SumLevel::Commodity < SumLevel
-  has_many :accounts
+  has_many :accounts, primary_key: :yhtio, foreign_key: :yhtio
 
   validates_with SumLevelValidator
 
@@ -17,4 +17,17 @@ class SumLevel::Commodity < SumLevel
   def self.model_name
     SumLevel.model_name
   end
+
+  def poistovasta_account
+    accounts.find_by_tilino(poisto_vastatili)
+  end
+
+  def poistoero_account
+    accounts.find_by_tilino(poistoero_tili)
+  end
+
+  def poistoerovasta_account
+    accounts.find_by_tilino(poistoero_vastatili)
+  end
+
 end

@@ -15,3 +15,51 @@ account_<%= account %>:
   muuttaja: bob
   laatija: bob
 <% end %>
+
+account_evl1:
+  yhtio: acme
+  nimi: EVL poistovastatili
+  ulkoinen_taso: 112
+  sisainen_taso: 33
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 1111
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+account_evl2:
+  yhtio: acme
+  nimi: EVL poistoerotili
+  ulkoinen_taso: 112
+  sisainen_taso: 33
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 1122
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+account_evl3:
+  yhtio: acme
+  nimi: EVL poistoerovastatili
+  ulkoinen_taso: 112
+  sisainen_taso: 33
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 1133
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
