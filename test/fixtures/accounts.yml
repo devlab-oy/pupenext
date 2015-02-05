@@ -63,3 +63,20 @@ account_evl3:
   muutospvm: <%= Time.now %>
   muuttaja: bob
   laatija: bob
+
+account_commodity:
+  yhtio: acme
+  nimi: EVL poistoerovastatili
+  ulkoinen_taso: 112
+  sisainen_taso: 33
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  evl_taso: 10000
+  tilino: 4444
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob

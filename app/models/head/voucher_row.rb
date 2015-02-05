@@ -7,16 +7,19 @@ class Head::VoucherRow < ActiveRecord::Base
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
-  validate :allow_only_active_fiscal_period
 
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   validates :yhtio, presence: true
 
+  validate :allow_only_active_fiscal_period
+
   default_scope { where(korjattu: '') }
 
   def allow_only_active_fiscal_period
-    unless voucher.company.date_in_current_fiscal_year?(tapvm)
+    date_is_correct = commodity.company.date_in_current_fiscal_year?(tapvm) if commodity.present?
+    date_is_correct = voucher.company.date_in_current_fiscal_year?(tapvm) if voucher.present?
+    unless date_is_correct
       errors.add(:base, 'Must be created in current fiscal period')
     end
   end
@@ -30,7 +33,8 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def account
-    voucher.company.accounts.find_by(tilino: tilino)
+    commodity.company.accounts.find_by(tilino: tilino) if commodity.present?
+    voucher.company.accounts.find_by(tilino: tilino) if voucher.present?
   end
 
   self.table_name = :tiliointi

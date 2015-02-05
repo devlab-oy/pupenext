@@ -21,11 +21,12 @@ class Head::Voucher < Head
     Head.model_name
   end
 
-  private
+  # Poistorivit
+  def depreciation_rows
+    rows.where(tilino: commodity.procurement_rows.first.tilino)
+  end
 
-    def deactivate_old_rows
-      rows.active.update_all(korjattu: 'X', korjausaika: Time.now)
-    end
+  private
 
     def defaults
       self.lapvm ||= Date.today

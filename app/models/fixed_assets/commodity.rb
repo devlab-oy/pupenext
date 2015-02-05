@@ -190,6 +190,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       mark_rows_obsolete
       generate_voucher_rows
       generate_commodity_rows
+      generate_depreciation_difference_rows
     end
 
     def depreciation_amount_must_follow_type
@@ -285,6 +286,28 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
+    def generate_depreciation_difference_rows
+      # Poistoeron kirjaus
+      monthly_differences = calculate_depreciation_difference
+
+      monthly_differences.each do |md|
+        amount = md.first
+        time = md.last
+        sumlevel = company.accounts.find_by(tilino: procurement_rows.first.tilino).commodity
+
+        row_params = {
+          laatija: created_by,
+          tapvm: time,
+          summa: amount,
+          yhtio: company.yhtio,
+          selite: 'poistoerokirjaus',
+          tilino: sumlevel.poistoero_account.tilino
+        }
+
+        voucher.rows.create!(row_params)
+      end
+    end
+
     def calculate_depreciations(depreciation_type)
       case depreciation_type.to_sym
       when :SUMU
@@ -322,4 +345,20 @@ class FixedAssets::Commodity < ActiveRecord::Base
       return current_active if activated_at < company.fiscal_year.first
       (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
     end
+
+    def calculate_depreciation_difference
+      thisgoesouttomomanddad = []
+
+      # EVL-poistot
+      commodity_rows.each do |x|
+        # Tämän EVL-poiston saman kuukauden SUMU-poisto
+        y = voucher.rows.find_by_tapvm(x.transacted_at)
+
+        difference = y.summa - x.amount rescue 0
+        thisgoesouttomomanddad << [difference, x.transacted_at]
+      end
+
+      thisgoesouttomomanddad
+    end
+
 end

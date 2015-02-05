@@ -29,14 +29,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'procurement_rows can have only one account number' do
-    row = head_voucher_rows(:one).attributes
+    row = head_voucher_rows(:six).attributes
     row[:tunnus] = nil
     row[:summa] = 0
 
     @commodity.procurement_rows.create!(row)
     @commodity.procurement_rows.create!(row)
 
-    assert @commodity.valid?
+    assert @commodity.valid?, @commodity.errors.full_messages
 
     row[:tilino] = 1234
     @commodity.procurement_rows.create!(row)
@@ -180,17 +180,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
     # Test no locked rows are updated
-    assert_equal [], @commodity.voucher.rows.locked.collect(&:previous_changes)
-
-    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.voucher.rows.first.summa, 769.23
-    assert_equal @commodity.voucher.rows.second.summa, 769.23
-    assert_equal @commodity.voucher.rows.last.summa, 653.85
+    assert @commodity.voucher.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
+    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 10000 * 45 / 100
+    assert_equal @commodity.voucher.depreciation_rows.first.summa, 769.23
+    assert_equal @commodity.voucher.depreciation_rows.second.summa, 769.23
+    assert_equal @commodity.voucher.depreciation_rows.last.summa, 653.85
 
     @commodity.reload
 
@@ -214,17 +213,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.voucher.rows.first.summa, 333.0
-    assert_equal @commodity.voucher.rows.second.summa, 322.0
-    assert_equal @commodity.voucher.rows.third.summa, 311.0
-    assert_equal @commodity.voucher.rows.fourth.summa, 301.0
-    assert_equal @commodity.voucher.rows.fifth.summa, 291.0
-    assert_equal @commodity.voucher.rows.last.summa, 442.0
+    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 10000 * 20 / 100
+    assert_equal @commodity.voucher.depreciation_rows.first.summa, 333.0
+    assert_equal @commodity.voucher.depreciation_rows.second.summa, 322.0
+    assert_equal @commodity.voucher.depreciation_rows.third.summa, 311.0
+    assert_equal @commodity.voucher.depreciation_rows.fourth.summa, 301.0
+    assert_equal @commodity.voucher.depreciation_rows.fifth.summa, 291.0
+    assert_equal @commodity.voucher.depreciation_rows.last.summa, 442.0
 
     # Updating commodity should not update any rows
     @commodity.reload
@@ -266,14 +265,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.rows.sum(:summa), 1001
-    assert_equal @commodity.voucher.rows.first.summa, 166.83
-    assert_equal @commodity.voucher.rows.second.summa, 166.83
-    assert_equal @commodity.voucher.rows.last.summa, 166.85
+    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 1001
+    assert_equal @commodity.voucher.depreciation_rows.first.summa, 166.83
+    assert_equal @commodity.voucher.depreciation_rows.second.summa, 166.83
+    assert_equal @commodity.voucher.depreciation_rows.last.summa, 166.85
 
     @commodity.reload
 
