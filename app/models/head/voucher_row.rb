@@ -7,6 +7,7 @@ class Head::VoucherRow < ActiveRecord::Base
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
@@ -17,9 +18,7 @@ class Head::VoucherRow < ActiveRecord::Base
   default_scope { where(korjattu: '') }
 
   def allow_only_active_fiscal_period
-    date_is_correct = commodity.company.date_in_current_fiscal_year?(tapvm) if commodity.present?
-    date_is_correct = voucher.company.date_in_current_fiscal_year?(tapvm) if voucher.present?
-    unless date_is_correct
+    unless company.date_in_current_fiscal_year?(tapvm)
       errors.add(:base, 'Must be created in current fiscal period')
     end
   end
