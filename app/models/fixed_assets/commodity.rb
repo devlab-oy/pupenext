@@ -39,13 +39,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistorivit
   def depreciation_rows
-    voucher.rows.where(tilino: procurement_rows.first.tilino)
+    voucher.rows.where(tilino: procurement_number)
   end
 
   # Poistoerorivit
   def difference_rows
-    searchthis = company.accounts.find_by(tilino: procurement_rows.first.tilino).commodity.poistoero_account.tilino
-    voucher.rows.where(tilino: searchthis)
+    voucher.rows.where(tilino: poistoero_number)
   end
 
   def activated?
@@ -365,11 +364,27 @@ class FixedAssets::Commodity < ActiveRecord::Base
         # Tämän EVL-poiston saman kuukauden SUMU-poisto
         y = voucher.rows.find_by_tapvm(x.transacted_at)
 
-        difference = y.summa - x.amount rescue 0
+        difference = y.summa - x.amount
         thisgoesouttomomanddad << [difference, x.transacted_at]
       end
 
       thisgoesouttomomanddad
+    end
+
+    def procurement_number
+      procurement_rows.first.tilino
+    end
+
+    def poistoero_number
+      procurement_sumlevel.poistoero_account.tilino
+    end
+
+    def procurement_account
+      company.accounts.find_by(tilino: procurement_number)
+    end
+
+    def procurement_sumlevel
+      procurement_account.commodity
     end
 
 end

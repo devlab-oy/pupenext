@@ -235,13 +235,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.voucher.depreciation_rows.first.summa, 333.0
-    assert_equal @commodity.voucher.depreciation_rows.second.summa, 322.0
-    assert_equal @commodity.voucher.depreciation_rows.third.summa, 311.0
-    assert_equal @commodity.voucher.depreciation_rows.fourth.summa, 301.0
-    assert_equal @commodity.voucher.depreciation_rows.fifth.summa, 291.0
-    assert_equal @commodity.voucher.depreciation_rows.last.summa, 442.0
+    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 20 / 100
+    assert_equal @commodity.depreciation_rows.first.summa, 333.0
+    assert_equal @commodity.depreciation_rows.second.summa, 322.0
+    assert_equal @commodity.depreciation_rows.third.summa, 311.0
+    assert_equal @commodity.depreciation_rows.fourth.summa, 301.0
+    assert_equal @commodity.depreciation_rows.fifth.summa, 291.0
+    assert_equal @commodity.depreciation_rows.last.summa, 442.0
 
     # Updating commodity should not update any rows
     @commodity.reload
@@ -287,10 +287,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 1001
-    assert_equal @commodity.voucher.depreciation_rows.first.summa, 166.83
-    assert_equal @commodity.voucher.depreciation_rows.second.summa, 166.83
-    assert_equal @commodity.voucher.depreciation_rows.last.summa, 166.85
+    assert_equal @commodity.depreciation_rows.sum(:summa), 1001
+    assert_equal @commodity.depreciation_rows.first.summa, 166.83
+    assert_equal @commodity.depreciation_rows.second.summa, 166.83
+    assert_equal @commodity.depreciation_rows.last.summa, 166.85
 
     @commodity.reload
 
