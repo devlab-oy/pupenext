@@ -37,6 +37,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  # Poistorivit
+  def depreciation_rows
+    voucher.rows.where(tilino: procurement_rows.first.tilino)
+  end
+
+  # Poistoerorivit
+  def difference_rows
+    searchthis = company.accounts.find_by(tilino: procurement_rows.first.tilino).commodity.poistoero_account.tilino
+    voucher.rows.where(tilino: searchthis)
+  end
+
   def activated?
     status == 'A'
   end

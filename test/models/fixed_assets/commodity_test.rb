@@ -185,17 +185,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     end
 
     # Test no locked rows are updated
-    assert @commodity.voucher.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
+    assert @commodity.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
 
     # Test amounts are set correctly
-    assert_equal @commodity.voucher.depreciation_rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.voucher.depreciation_rows.first.summa, 769.23
-    assert_equal @commodity.voucher.depreciation_rows.second.summa, 769.23
-    assert_equal @commodity.voucher.depreciation_rows.last.summa, 653.85
+    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 45 / 100
+    assert_equal @commodity.depreciation_rows.first.summa, 769.23
+    assert_equal @commodity.depreciation_rows.second.summa, 769.23
+    assert_equal @commodity.depreciation_rows.last.summa, 653.85
 
     btl_one = @commodity.commodity_rows.first
-    planned_one = @commodity.voucher.depreciation_rows.first
-    difference = @commodity.voucher.difference_rows.first
+    planned_one = @commodity.depreciation_rows.first
+    difference = @commodity.difference_rows.first
 
     # Difference is calculated correctly
     assert_equal (planned_one.summa - btl_one.amount), difference.summa
@@ -203,7 +203,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Difference is set for same date
     assert_equal btl_one.transacted_at, difference.tapvm
 
-    number_one = @commodity.voucher.difference_rows.first
+    number_one = @commodity.difference_rows.first
     number_two = @commodity.company.accounts.find_by(tilino: @commodity.procurement_rows.first.tilino).commodity.poistoero_account
 
     # Difference goes to right account

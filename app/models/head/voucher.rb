@@ -21,17 +21,6 @@ class Head::Voucher < Head
     Head.model_name
   end
 
-  # Poistorivit
-  def depreciation_rows
-    rows.where(tilino: commodity.procurement_rows.first.tilino)
-  end
-
-  # Poistoerorivit
-  def difference_rows
-    searchthis = company.accounts.find_by(tilino: commodity.procurement_rows.first.tilino).commodity.poistoero_account.tilino
-    rows.where(tilino: searchthis)
-  end
-
   private
 
     def defaults

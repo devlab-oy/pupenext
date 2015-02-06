@@ -8,7 +8,6 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   validates :yhtio, presence: true
