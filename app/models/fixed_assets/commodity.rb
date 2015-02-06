@@ -47,6 +47,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
     voucher.rows.where(tilino: poistoero_number)
   end
 
+  # Poistoerorivit tietyllä aikavälillä
+  def difference_rows_between(date1, date2)
+    difference_rows.where(tapvm: date1..date2)
+  end
+
   def activated?
     status == 'A'
   end
@@ -242,7 +247,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       tilikausi = company.fiscal_year
 
       voucher_params = {
-        nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
+        nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
         laatija: created_by,
         muuttaja: modified_by,
         commodity_id: id

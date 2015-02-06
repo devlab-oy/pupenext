@@ -54,3 +54,12 @@ seven:
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
+
+eight:
+  yhtio: acme
+  voucher: vo_one
+  tilino: 1122
+  summa: 111
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
