@@ -119,4 +119,12 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal 0, @account.kustp
     assert_equal 0, @account.kohde
   end
+
+  test "toimijaliitos and manuaali_esto default to empty strings" do
+    @account.toimijaliitos, @account.manuaali_esto = nil
+    @account.save
+
+    assert_equal "", @account.reload.toimijaliitos
+    assert_equal "", @account.reload.toimijaliitos
+  end
 end
