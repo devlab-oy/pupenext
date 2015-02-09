@@ -25,12 +25,11 @@ class Head::VoucherRow < ActiveRecord::Base
 
   def counter_entry(account_number)
     # Create a counter entry for self
-    row_params = self.attributes
-    row_params.delete('tunnus')
-    row_params['tilino'] = account_number
-    row_params['summa'] *= -1
-    row_params['selite'] += ' vastakirjaus'
-    voucher.rows.create!(row_params)
+    row = self.dup
+    row.tilino = account_number
+    row.summa *= -1
+    row.selite += ' vastakirjaus'
+    row.save!
   end
 
   self.table_name = :tiliointi
