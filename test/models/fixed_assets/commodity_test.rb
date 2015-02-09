@@ -203,11 +203,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Difference is set for same date
     assert_equal btl_one.transacted_at, difference.tapvm
 
-    number_one = @commodity.difference_rows.first
-    number_two = @commodity.company.accounts.find_by(tilino: @commodity.procurement_rows.first.tilino).commodity.poistoero_account
+    number_one = @commodity.difference_rows.first.tilino
+    number_two = @commodity.poistoero_number
 
     # Difference goes to right account
-    assert_equal number_two.tilino, number_one.tilino
+    assert_equal number_two, number_one
 
     @commodity.reload
 
