@@ -31,8 +31,7 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def account
-    commodity.company.accounts.find_by(tilino: tilino) if commodity.present?
-    voucher.company.accounts.find_by(tilino: tilino) if voucher.present?
+    company.accounts.find_by(tilino: tilino)
   end
 
   self.table_name = :tiliointi
