@@ -300,7 +300,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def generate_depreciation_difference_rows
       # Poistoeron kirjaus
-      calculate_depreciation_difference.each do |md|
+      depreciation_differences.each do |md|
         amount = md.first
         time = md.last
 
@@ -355,7 +355,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
     end
 
-    def calculate_depreciation_difference
+    def depreciation_differences
       differences = []
 
       # EVL-poistot
