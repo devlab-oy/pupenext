@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  yhtio: acme
+  tilikausi_alku: 2014-01-01
+  tilikausi_loppu: 2014-12-31
+  avaava_tase: 1
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+two:
+  yhtio: acme
+  tilikausi_alku: 2015-01-01
+  tilikausi_loppu: 2015-12-31
+  avaava_tase: 1
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe

@@ -19,6 +19,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_nil @acme.projects
     assert_not_nil @acme.targets
     assert_not_nil @acme.commodities
+    assert_not_nil @acme.fiscal_years
   end
 
   test "company has working STI headings" do
