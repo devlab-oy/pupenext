@@ -19,6 +19,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_nil @acme.projects
     assert_not_nil @acme.targets
     assert_not_nil @acme.commodities
+    assert_not_nil @acme.fiscal_years
   end
 
   test "company has working STI headings" do
@@ -114,5 +115,23 @@ class CompanyTest < ActiveSupport::TestCase
     @acme.tilikausi_alku = '01 July 2014'
     @acme.tilikausi_loppu = '31 Dec 2014'
     assert_equal 6, @acme.months_in_current_fiscal_year
+  end
+
+  test 'should return current fiscal year' do
+    fy = Date.today.beginning_of_year..Date.today.end_of_year
+    assert_equal fy, @acme.current_fiscal_year
+
+    params = {
+      tilikausi_alku: Date.today.beginning_of_year,
+      tilikausi_loppu: Date.today.end_of_year
+    }
+
+    fy = fiscal_years(:one).dup
+    fy.attributes = params
+    assert fy.save
+
+    assert_raise RuntimeError do
+      @acme.reload.current_fiscal_year
+    end
   end
 end

@@ -6,6 +6,7 @@ class Company < ActiveRecord::Base
     o.has_many :currencies
     o.has_many :keywords
     o.has_many :users
+    o.has_many :fiscal_years
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
@@ -34,6 +35,13 @@ class Company < ActiveRecord::Base
   # Map old database schema table to Company class
   self.table_name = :yhtio
   self.primary_key = :tunnus
+
+  def current_fiscal_year
+    fy = fiscal_years.where("tilikausi_alku <= now() and tilikausi_loppu >= now()")
+    raise RuntimeError, "Tilikaudet rikki!" unless fy.count == 1
+
+    fy.first.tilikausi_alku..fy.first.tilikausi_loppu
+  end
 
   def fiscal_year
     [tilikausi_alku, tilikausi_loppu]
