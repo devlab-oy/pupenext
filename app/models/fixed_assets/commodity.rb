@@ -364,18 +364,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def depreciation_differences
-      differences = []
-
-      # EVL-poistot
-      commodity_rows.each do |evl|
-        # Tämän EVL-poiston saman kuukauden SUMU-poisto
-        sumu = voucher.rows.find_by_tapvm(evl.transacted_at)
-
-        difference = sumu.summa - evl.amount
-        differences << [difference, evl.transacted_at]
-      end
-
-      differences
+      commodity_rows.map { |evl| [evl.depreciation_difference, evl.transacted_at] }
     end
 
     def procurement_account
