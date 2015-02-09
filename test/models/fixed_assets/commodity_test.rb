@@ -180,9 +180,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
+    # We get 12 rows in total...
     assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
+
+    # ...of which 6 are depreciation and 6 are difference rows
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     # Test no locked rows are updated
     assert @commodity.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
