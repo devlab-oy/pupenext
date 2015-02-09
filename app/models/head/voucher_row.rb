@@ -7,41 +7,35 @@ class Head::VoucherRow < ActiveRecord::Base
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
-  validate :allow_only_active_fiscal_period
-
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
-  validates :yhtio, presence: true
-
   default_scope { where(korjattu: '') }
+  scope :locked, -> { where(lukko: 'X') }
+  scope :unlocked, -> { where(lukko: '') }
 
-  def allow_only_active_fiscal_period
-    unless voucher.company.date_in_current_fiscal_year?(tapvm)
-      errors.add(:base, 'Must be created in current fiscal period')
-    end
-  end
+  validates :yhtio, presence: true
+  validate :allow_only_active_fiscal_period
 
-  def self.locked
-    where(lukko: 'X')
-  end
-
-  def self.unlocked
-    where(lukko: '')
-  end
+  before_save :defaults
 
   def account
-    voucher.company.accounts.find_by(tilino: tilino)
+    company.accounts.find_by(tilino: tilino)
   end
 
   self.table_name = :tiliointi
   self.primary_key = :tunnus
-
-  before_save :defaults
 
   private
 
     def defaults
       self.laadittu ||= Date.today
       self.korjausaika ||= Date.today
+    end
+
+    def allow_only_active_fiscal_period
+      unless company.date_in_current_fiscal_year?(tapvm)
+        errors.add(:base, 'Must be created in current fiscal period')
+      end
     end
 end

@@ -13,7 +13,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
   validate :only_one_account_number
-
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
@@ -37,6 +36,21 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  # Poistorivit
+  def depreciation_rows
+    voucher.rows.where(tilino: procurement_number)
+  end
+
+  # Poistoerorivit
+  def difference_rows
+    voucher.rows.where(tilino: poistoero_number)
+  end
+
+  # Poistoerorivit tietyllä aikavälillä
+  def difference_rows_between(date1, date2)
+    difference_rows.where(tapvm: date1..date2)
+  end
+
   def activated?
     status == 'A'
   end
@@ -54,6 +68,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # Returns sum of past evl depreciations
   def deprecated_evl_amount
     commodity_rows.locked.sum(:amount)
+  end
+
+  def procurement_number
+    procurement_rows.first.tilino
+  end
+
+  def poistoero_number
+    procurement_sumlevel.poistoero_account.tilino
   end
 
   # Calculates monthly payments within fiscal year
@@ -190,6 +212,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       mark_rows_obsolete
       generate_voucher_rows
       generate_commodity_rows
+      generate_depreciation_difference_rows
     end
 
     def depreciation_amount_must_follow_type
@@ -228,10 +251,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_voucher
-      tilikausi = company.fiscal_year
-
       voucher_params = {
-        nimi: "Poistoerätosite tilikaudelta #{tilikausi.first}-#{tilikausi.last}",
+        nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
         laatija: created_by,
         muuttaja: modified_by,
         commodity_id: id
@@ -258,7 +279,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           summa: amount,
           yhtio: company.yhtio,
           selite: :SUMU,
-          tilino: procurement_rows.first.tilino
+          tilino: procurement_number
         }
 
         voucher.rows.create!(row_params)
@@ -278,10 +299,29 @@ class FixedAssets::Commodity < ActiveRecord::Base
           transacted_at: time.end_of_month,
           amount: amount,
           description: :EVL,
-          account: procurement_rows.first.tilino
+          account: procurement_number
         }
 
         commodity_rows.create!(row_params)
+      end
+    end
+
+    def generate_depreciation_difference_rows
+      # Poistoeron kirjaus
+      depreciation_differences.each do |md|
+        amount = md.first
+        time = md.last
+
+        row_params = {
+          laatija: created_by,
+          tapvm: time,
+          summa: amount,
+          yhtio: company.yhtio,
+          selite: 'poistoerokirjaus',
+          tilino: poistoero_number
+        }
+
+        voucher.rows.create!(row_params)
       end
     end
 
@@ -321,5 +361,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
       current_active = company.months_in_current_fiscal_year
       return current_active if activated_at < company.fiscal_year.first
       (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
+    end
+
+    def depreciation_differences
+      commodity_rows.map { |evl| [evl.depreciation_difference, evl.transacted_at] }
+    end
+
+    def procurement_account
+      company.accounts.find_by(tilino: procurement_number)
+    end
+
+    def procurement_sumlevel
+      procurement_account.commodity
     end
 end

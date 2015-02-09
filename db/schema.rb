@@ -2210,6 +2210,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "sisainen_taso",       limit: 20,                          default: "", null: false
     t.string   "ulkoinen_taso",       limit: 20,                          default: "", null: false
     t.string   "alv_taso",            limit: 20,                          default: "", null: false
+    t.string   "evl_taso",            limit: 20,                          default: "", null: false
     t.string   "tulosseuranta_taso",  limit: 20,                          default: "", null: false
     t.string   "nimi",                limit: 100,                         default: "", null: false
     t.integer  "kustp",               limit: 4,                           default: 0,  null: false

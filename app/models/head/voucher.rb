@@ -23,10 +23,6 @@ class Head::Voucher < Head
 
   private
 
-    def deactivate_old_rows
-      rows.active.update_all(korjattu: 'X', korjausaika: Time.now)
-    end
-
     def defaults
       self.lapvm ||= Date.today
       self.tapvm ||= Date.today

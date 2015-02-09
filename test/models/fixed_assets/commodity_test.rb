@@ -29,14 +29,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'procurement_rows can have only one account number' do
-    row = head_voucher_rows(:one).attributes
+    row = head_voucher_rows(:six).attributes
     row[:tunnus] = nil
     row[:summa] = 0
 
     @commodity.procurement_rows.create!(row)
     @commodity.procurement_rows.create!(row)
 
-    assert @commodity.valid?
+    assert @commodity.valid?, @commodity.errors.full_messages
 
     row[:tilino] = 1234
     @commodity.procurement_rows.create!(row)
@@ -180,23 +180,50 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    # We get 12 rows in total...
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
-    # Test no locked rows are updated
-    assert_equal [], @commodity.voucher.rows.locked.collect(&:previous_changes)
+    # ...of which 6 are depreciation and 6 are difference rows
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
-    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.voucher.rows.first.summa, 769.23
-    assert_equal @commodity.voucher.rows.second.summa, 769.23
-    assert_equal @commodity.voucher.rows.last.summa, 653.85
+    # Test no locked rows are updated
+    assert @commodity.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
+
+    # Test amounts are set correctly
+    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 45 / 100
+    assert_equal @commodity.depreciation_rows.first.summa, 769.23
+    assert_equal @commodity.depreciation_rows.second.summa, 769.23
+    assert_equal @commodity.depreciation_rows.last.summa, 653.85
+
+    btl_one = @commodity.commodity_rows.first
+    planned_one = @commodity.depreciation_rows.first
+    difference = @commodity.difference_rows.first
+
+    # Difference is calculated correctly
+    assert_equal (planned_one.summa - btl_one.amount), difference.summa
+
+    # Difference is set for same date
+    assert_equal btl_one.transacted_at, difference.tapvm
+
+    number_one = @commodity.difference_rows.first.tilino
+    number_two = @commodity.poistoero_number
+
+    # Difference goes to right account
+    assert_equal number_two, number_one
 
     @commodity.reload
 
+    # Rows do not change
     assert_no_difference('Head::VoucherRow.count') do
       @commodity.save
     end
+
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
@@ -214,17 +241,21 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.voucher.rows.first.summa, 333.0
-    assert_equal @commodity.voucher.rows.second.summa, 322.0
-    assert_equal @commodity.voucher.rows.third.summa, 311.0
-    assert_equal @commodity.voucher.rows.fourth.summa, 301.0
-    assert_equal @commodity.voucher.rows.fifth.summa, 291.0
-    assert_equal @commodity.voucher.rows.last.summa, 442.0
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
+    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 20 / 100
+    assert_equal @commodity.depreciation_rows.first.summa, 333.0
+    assert_equal @commodity.depreciation_rows.second.summa, 322.0
+    assert_equal @commodity.depreciation_rows.third.summa, 311.0
+    assert_equal @commodity.depreciation_rows.fourth.summa, 301.0
+    assert_equal @commodity.depreciation_rows.fifth.summa, 291.0
+    assert_equal @commodity.depreciation_rows.last.summa, 442.0
 
     # Updating commodity should not update any rows
     @commodity.reload
@@ -234,6 +265,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_no_difference('Head::VoucherRow.count') do
       @commodity.save
     end
+
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
@@ -252,6 +287,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
     assert_equal 6, @commodity.commodity_rows.collect(&:previous_changes).count
   end
 
@@ -266,14 +305,18 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 6) do
+    assert_difference('Head::VoucherRow.count', 12) do
       @commodity.save
     end
 
-    assert_equal @commodity.voucher.rows.sum(:summa), 1001
-    assert_equal @commodity.voucher.rows.first.summa, 166.83
-    assert_equal @commodity.voucher.rows.second.summa, 166.83
-    assert_equal @commodity.voucher.rows.last.summa, 166.85
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
+    assert_equal @commodity.depreciation_rows.sum(:summa), 1001
+    assert_equal @commodity.depreciation_rows.first.summa, 166.83
+    assert_equal @commodity.depreciation_rows.second.summa, 166.83
+    assert_equal @commodity.depreciation_rows.last.summa, 166.85
 
     @commodity.reload
 
@@ -300,6 +343,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    # a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
     assert_equal @commodity.commodity_rows.sum(:amount), 1600
     assert_equal @commodity.commodity_rows.first.amount, 270.27
     assert_equal @commodity.commodity_rows.second.amount, 270.27
@@ -310,6 +357,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_no_difference('FixedAssets::CommodityRow.count') do
       @commodity.save
     end
+
+    # a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
@@ -329,6 +380,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       @commodity.save
     end
+
+    # a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
     assert_equal @commodity.commodity_rows.first.amount, 333.0
@@ -363,6 +418,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    # a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
     assert_equal @commodity.commodity_rows.sum(:amount), 1001
     assert_equal @commodity.commodity_rows.first.amount, 166.83
     assert_equal @commodity.commodity_rows.second.amount, 166.83
@@ -392,6 +451,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    # a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
+
     assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
     assert_equal '2015-06-30'.to_date, @commodity.commodity_rows.last.transacted_at
 
@@ -408,6 +471,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.save
     end
 
+    assert_equal 12, @commodity.depreciation_rows.count
+    assert_equal 12, @commodity.difference_rows.count
+
     assert_equal '2016-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
     assert_equal '2016-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
 
@@ -417,6 +483,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_difference('FixedAssets::CommodityRow.count', 7) do
       @commodity.save
     end
+
+    assert_equal 7, @commodity.depreciation_rows.count
+    assert_equal 7, @commodity.difference_rows.count
 
     assert_equal '2016-06-30'.to_date, @commodity.commodity_rows.first.transacted_at
     assert_equal '2016-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
@@ -432,6 +501,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_difference('FixedAssets::CommodityRow.count', 15) do
       @commodity.save
     end
+
+    assert_equal 15, @commodity.depreciation_rows.count
+    assert_equal 15, @commodity.difference_rows.count
 
     assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
     assert_equal '2016-03-31'.to_date, @commodity.commodity_rows.last.transacted_at
@@ -454,4 +526,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal all_statuses, returned_options
   end
+
+  test 'should get difference rows between two dates' do
+    assert_equal 1, @commodity.difference_rows_between(Date.today, Date.today.advance(months: +1)).count
+    assert_equal 0, @commodity.difference_rows_between(Date.yesterday-1, Date.yesterday).count
+  end
+
 end

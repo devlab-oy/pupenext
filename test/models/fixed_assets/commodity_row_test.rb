@@ -23,4 +23,9 @@ class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
     @one.transacted_at = '2017-31-1'
     refute @one.valid?, @one.errors.full_messages
   end
+
+  test 'has a depreciation difference' do
+    assert_equal 233, @one.depreciation_difference
+    assert_equal 1234, @two.depreciation_difference
+  end
 end

@@ -13,6 +13,6 @@ class Head::VoucherTest < ActiveSupport::TestCase
   test 'model relations' do
     assert_not_nil @voucher.commodity
     assert_not_nil @voucher.rows
-    assert_equal 2, @voucher.accounting_rows.count
+    assert_equal 3, @voucher.accounting_rows.count
   end
 end
