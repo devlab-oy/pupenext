@@ -13,7 +13,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
   validate :only_one_account_number
-
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
@@ -244,8 +243,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def create_voucher
-      tilikausi = company.fiscal_year
-
       voucher_params = {
         nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
         laatija: created_by,
@@ -303,9 +300,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def generate_depreciation_difference_rows
       # Poistoeron kirjaus
-      monthly_differences = calculate_depreciation_difference
-
-      monthly_differences.each do |md|
+      calculate_depreciation_difference.each do |md|
         amount = md.first
         time = md.last
 
@@ -361,7 +356,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def calculate_depreciation_difference
-      thisgoesouttomomanddad = []
+      differences = []
 
       # EVL-poistot
       commodity_rows.each do |x|
@@ -369,10 +364,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
         y = voucher.rows.find_by_tapvm(x.transacted_at)
 
         difference = y.summa - x.amount
-        thisgoesouttomomanddad << [difference, x.transacted_at]
+        differences << [difference, x.transacted_at]
       end
 
-      thisgoesouttomomanddad
+      differences
     end
 
     def procurement_number
@@ -390,5 +385,4 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def procurement_sumlevel
       procurement_account.commodity
     end
-
 end
