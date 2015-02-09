@@ -274,7 +274,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           summa: amount,
           yhtio: company.yhtio,
           selite: :SUMU,
-          tilino: procurement_rows.first.tilino
+          tilino: procurement_number
         }
 
         voucher.rows.create!(row_params)
@@ -294,7 +294,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           transacted_at: time.end_of_month,
           amount: amount,
           description: :EVL,
-          account: procurement_rows.first.tilino
+          account: procurement_number
         }
 
         commodity_rows.create!(row_params)
@@ -308,7 +308,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       monthly_differences.each do |md|
         amount = md.first
         time = md.last
-        sumlevel = company.accounts.find_by(tilino: procurement_rows.first.tilino).commodity
 
         row_params = {
           laatija: created_by,
@@ -316,7 +315,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
           summa: amount,
           yhtio: company.yhtio,
           selite: 'poistoerokirjaus',
-          tilino: sumlevel.poistoero_account.tilino
+          tilino: poistoero_number
         }
 
         voucher.rows.create!(row_params)
