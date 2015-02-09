@@ -359,12 +359,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
       differences = []
 
       # EVL-poistot
-      commodity_rows.each do |x|
+      commodity_rows.each do |evl|
         # Tämän EVL-poiston saman kuukauden SUMU-poisto
-        y = voucher.rows.find_by_tapvm(x.transacted_at)
+        sumu = voucher.rows.find_by_tapvm(evl.transacted_at)
 
-        difference = y.summa - x.amount
-        differences << [difference, x.transacted_at]
+        difference = sumu.summa - evl.amount
+        differences << [difference, evl.transacted_at]
       end
 
       differences
