@@ -300,10 +300,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
           tilino: procurement_number
         }
 
-        voucher.rows.create!(row_params)
+        row = voucher.rows.create!(row_params)
+
+        # Poistoerän vastakirjaus
+        row.counter_entry(planned_counter_number)
       end
-      # Poistoerän vastakirjaus
-      depreciation_rows.each { |row| row.counter_entry(planned_counter_number) }
     end
 
     def generate_commodity_rows
@@ -341,10 +342,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
           tilino: poistoero_number
         }
 
-        voucher.rows.create!(row_params)
+        row = voucher.rows.create!(row_params)
+
+        # Poistoeron vastakirjaus
+        row.counter_entry(difference_counter_number)
       end
-      # Poistoeron vastakirjaus
-      difference_rows.each { |row| row.counter_entry(difference_counter_number) }
     end
 
     def calculate_depreciations(depreciation_type)
