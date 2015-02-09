@@ -36,6 +36,13 @@ class Company < ActiveRecord::Base
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
+  def current_fiscal_year
+    fy = fiscal_years.where("tilikausi_alku <= now() and tilikausi_loppu >= now()")
+    raise RuntimeError, "Tilikaudet rikki!" unless fy.count == 1
+
+    fy.first.tilikausi_alku..fy.first.tilikausi_loppu
+  end
+
   def fiscal_year
     [tilikausi_alku, tilikausi_loppu]
   end
