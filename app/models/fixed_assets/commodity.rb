@@ -70,6 +70,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_rows.locked.sum(:amount)
   end
 
+  def procurement_number
+    procurement_rows.first.tilino
+  end
+
+  def poistoero_number
+    procurement_sumlevel.poistoero_account.tilino
+  end
+
   # Calculates monthly payments within fiscal year
   def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0)
     # full_amount = hydykkeen hankintahinta
@@ -368,14 +376,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
 
       differences
-    end
-
-    def procurement_number
-      procurement_rows.first.tilino
-    end
-
-    def poistoero_number
-      procurement_sumlevel.poistoero_account.tilino
     end
 
     def procurement_account
