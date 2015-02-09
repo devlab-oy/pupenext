@@ -216,9 +216,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.reload
 
+    # Rows do not change
     assert_no_difference('Head::VoucherRow.count') do
       @commodity.save
     end
+
+    # ... still a 6/6 split
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
