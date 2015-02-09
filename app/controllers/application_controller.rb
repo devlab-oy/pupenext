@@ -26,11 +26,11 @@ class ApplicationController < ActionController::Base
     # Root path does not require access
     return true if request_path == root_path
 
-    current_user.can_read? request_path
+    @read_access ||= current_user.can_read?(request_path)
   end
 
   def update_access?
-    current_user.can_update? request_path
+    @update_access ||= current_user.can_update?(request_path)
   end
 
   protected
