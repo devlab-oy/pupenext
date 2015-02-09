@@ -180,8 +180,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    # We get 12 rows in total...
-    assert_difference('Head::VoucherRow.count', 12) do
+    # We get 24 rows in total...
+    assert_difference('Head::VoucherRow.count', 24) do
       @commodity.save
     end
 
@@ -197,6 +197,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.depreciation_rows.first.summa, 769.23
     assert_equal @commodity.depreciation_rows.second.summa, 769.23
     assert_equal @commodity.depreciation_rows.last.summa, 653.85
+
+    # counter entries also 6/6
+    assert_equal 6, @commodity.counter_depreciation_rows.count
+    assert_equal 6, @commodity.counter_difference_rows.count
+
+    # counter entries amounts correct
+    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
+    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
 
     btl_one = @commodity.commodity_rows.first
     planned_one = @commodity.depreciation_rows.first
@@ -225,6 +233,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_rows.count
     assert_equal 6, @commodity.difference_rows.count
 
+    # counter entries also still 6/6
+    assert_equal 6, @commodity.counter_depreciation_rows.count
+    assert_equal 6, @commodity.counter_difference_rows.count
+
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
   end
@@ -241,7 +253,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 12) do
+    assert_difference('Head::VoucherRow.count', 24) do
       @commodity.save
     end
 
@@ -256,6 +268,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.depreciation_rows.fourth.summa, 301.0
     assert_equal @commodity.depreciation_rows.fifth.summa, 291.0
     assert_equal @commodity.depreciation_rows.last.summa, 442.0
+
+    # counter entries also 6/6
+    assert_equal 6, @commodity.counter_depreciation_rows.count
+    assert_equal 6, @commodity.counter_difference_rows.count
+
+    # counter entries amounts correct
+    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
+    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
 
     # Updating commodity should not update any rows
     @commodity.reload
@@ -305,7 +325,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = params
 
-    assert_difference('Head::VoucherRow.count', 12) do
+    assert_difference('Head::VoucherRow.count', 24) do
       @commodity.save
     end
 
@@ -313,10 +333,19 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_rows.count
     assert_equal 6, @commodity.difference_rows.count
 
+
     assert_equal @commodity.depreciation_rows.sum(:summa), 1001
     assert_equal @commodity.depreciation_rows.first.summa, 166.83
     assert_equal @commodity.depreciation_rows.second.summa, 166.83
     assert_equal @commodity.depreciation_rows.last.summa, 166.85
+
+    # counter entries also 6/6
+    assert_equal 6, @commodity.counter_depreciation_rows.count
+    assert_equal 6, @commodity.counter_difference_rows.count
+
+    # counter entries amounts correct
+    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
+    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
 
     @commodity.reload
 

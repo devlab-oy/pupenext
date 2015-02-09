@@ -46,6 +46,16 @@ class FixedAssets::Commodity < ActiveRecord::Base
     voucher.rows.where(tilino: poistoero_number)
   end
 
+  # Poistovastarivit
+  def counter_depreciation_rows
+    voucher.rows.where(tilino: planned_counter_number)
+  end
+
+  # Poistoerovastarivit
+  def counter_difference_rows
+    voucher.rows.where(tilino: difference_counter_number)
+  end
+
   # Poistoerorivit tietyllä aikavälillä
   def difference_rows_between(date1, date2)
     difference_rows.where(tapvm: date1..date2)
@@ -76,6 +86,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   def poistoero_number
     procurement_sumlevel.poistoero_account.tilino
+  end
+
+  def planned_counter_number
+    procurement_sumlevel.poistovasta_account.tilino
+  end
+
+  def difference_counter_number
+    procurement_sumlevel.poistoerovasta_account.tilino
   end
 
   # Calculates monthly payments within fiscal year
@@ -266,10 +284,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def generate_voucher_rows
       create_voucher if voucher.nil?
-
       activation_date = activated_at
       amounts = calculate_depreciations(:SUMU)
 
+      # Poistoerän kirjaus
       amounts.each_with_index do |amount, i|
         time = activation_date.advance(months: +i)
 
@@ -284,6 +302,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
         voucher.rows.create!(row_params)
       end
+      # Poistoerän vastakirjaus
+      depreciation_rows.each { |row| row.counter_entry(planned_counter_number) }
     end
 
     def generate_commodity_rows
@@ -323,6 +343,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
         voucher.rows.create!(row_params)
       end
+      # Poistoeron vastakirjaus
+      difference_rows.each { |row| row.counter_entry(difference_counter_number) }
     end
 
     def calculate_depreciations(depreciation_type)

@@ -23,6 +23,16 @@ class Head::VoucherRow < ActiveRecord::Base
     company.accounts.find_by(tilino: tilino)
   end
 
+  def counter_entry(account_number)
+    # Create a counter entry for self
+    row_params = self.attributes
+    row_params.delete('tunnus')
+    row_params['tilino'] = account_number
+    row_params['summa'] *= -1
+    row_params['selite'] += ' vastakirjaus'
+    voucher.rows.create!(row_params)
+  end
+
   self.table_name = :tiliointi
   self.primary_key = :tunnus
 
