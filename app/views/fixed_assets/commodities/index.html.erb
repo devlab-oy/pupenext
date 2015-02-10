@@ -5,11 +5,11 @@
   <br /><br />
 <% end %>
 
-<%= button_to t('Uusi hyödyke'), new_accounting_fixed_assets_commodity_path, method: :get if update_access? %>
+<%= button_to t('Uusi hyödyke'), new_fixed_assets_commodity_path, method: :get if update_access? %>
 
 <br />
 
-<%= form_tag accounting_fixed_assets_commodities_path, method: :get do %>
+<%= form_tag fixed_assets_commodities_path, method: :get do %>
 <table>
   <tr>
     <th>
@@ -28,7 +28,7 @@
   <% @commodities.each do |com| %>
     <tr class="aktiivi">
       <td><% if update_access? %>
-          <%= link_to com.nimitys, edit_accounting_fixed_assets_commodity_path(com.id)  %>
+          <%= link_to com.nimitys, edit_fixed_assets_commodity_path(com.id)  %>
         <% else %>
           <%= com.nimitys %>
         <% end %></td>
@@ -43,7 +43,7 @@
 
 <br />
 
-<%= button_to t('Uusi hyödyke'), new_accounting_fixed_assets_commodity_path, method: :get if update_access? %>
+<%= button_to t('Uusi hyödyke'), new_fixed_assets_commodity_path, method: :get if update_access? %>
 <br />
 <br />
 

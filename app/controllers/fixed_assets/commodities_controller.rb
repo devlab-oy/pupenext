@@ -1,22 +1,22 @@
-class Accounting::FixedAssets::CommoditiesController < AdministrationController
-  # GET /accounting/fixed_assets/commodities
+class FixedAssets::CommoditiesController < AdministrationController
+  # GET /fixed_assets/commodities
   def index
     @commodities = current_company.commodities
       .search_like(search_params)
       .order(order_params)
   end
 
-   # GET /accounting/fixed_assets/commodities/1
+   # GET /fixed_assets/commodities/1
   def show
     render 'edit'
   end
 
-  # GET /accounting/fixed_assets/commodities/new
+  # GET /fixed_assets/commodities/new
   def new
     @commodity = current_company.commodities.build
   end
 
-  # PATCH/PUT /accounting/fixed_assets/commodities/1
+  # PATCH/PUT /fixed_assets/commodities/1
   def update
     @commodity.generate_rows = true
 
@@ -27,13 +27,13 @@ class Accounting::FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
-  # GET /accounting/fixed_assets/commodities/1/edit
+  # GET /fixed_assets/commodities/1/edit
   def edit
     @commodity.link_cost_row params[:selected_accounting_row] unless params[:selected_accounting_row].nil?
     @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
   end
 
-  # POST /accounting/fixed_assets/commodities
+  # POST /fixed_assets/commodities
   def create
     @commodity = current_company.commodities.build
     @commodity.attributes = commodity_params
@@ -45,14 +45,14 @@ class Accounting::FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
-  # GET /accounting/fixed_assets/commodities/1/select_purchase_order
+  # GET /fixed_assets/commodities/1/select_purchase_order
   def select_purchase_order
     @purchase_orders = current_company.purchase_orders.limit(50)
     @purchase_orders = @purchase_orders.search_like params_search
     @purchase_orders = @purchase_orders.order("#{sort_column} #{sort_direction}")
   end
 
-  # GET /accounting/fixed_assets/commodities/1/select_voucher
+  # GET /fixed_assets/commodities/1/select_voucher
   def select_voucher
     @vouchers = current_company.accounting_vouchers.limit(50)
     @vouchers = @vouchers.search_like params_search
