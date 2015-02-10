@@ -3,7 +3,7 @@ require 'test_helper'
 class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
   setup do
-    login users(:joe)
+    login users(:bob)
     @commodity = fixed_assets_commodities(:commodity_one)
   end
 
@@ -16,14 +16,12 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should show commodity' do
-    request = {id: @commodity.id}
+    request = { id: @commodity.id }
 
     get :show, request
     assert_response :success
 
     assert_not_nil assigns(:commodity)
-    assert_not_nil assigns(:commodity_rows)
-    assert_not_nil assigns(:voucher_rows)
     assert_template "edit", "Template should be edit"
   end
 
@@ -37,15 +35,14 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
   test 'should get create new commodity' do
     assert_difference('FixedAssets::Commodity.count',1) do
-      patch :create, accounting_fixed_assets_commodity: {
-            nimitys: 'Chair30000',
-            selite: 'Chair for CEO',
-            sumu_poistotyyppi: 'B'
+      patch :create, fixed_assets_commodity: {
+            name: 'Chair30000',
+            description: 'Chair for CEO',
+            planned_depreciation_type: 'B'
       }
       assert_response :found
-      assert_equal '', assigns(:commodity).sumu_poistotyyppi
-
-      assert_redirected_to edit_accounting_fixed_assets_commodity_path
+      assert_nil assigns(:commodity).planned_depreciation_type
+      assert_redirected_to edit_fixed_assets_commodity_path assigns(:commodity)
     end
   end
 
@@ -53,7 +50,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     params = {
       nimitys: 'Chair50000',
       selite: 'Chair for CEO',
-      sumu_poistotyyppi: 'T',
+      planned_depreciation_type: 'T',
       sumu_poistoera: 12,
       evl_poistotyyppi: 'P',
       evl_poistoera: 45,
@@ -64,7 +61,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     patch :update, id: @commodity.id, accounting_fixed_assets_commodity: params
 
-    assert_equal params[:sumu_poistotyyppi], assigns(:commodity).sumu_poistotyyppi
+    assert_equal params[:planned_depreciation_type], assigns(:commodity).planned_depreciation_type
 
     assert_response :success
     assert_template 'edit', 'Template should be edit'

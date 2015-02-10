@@ -18,34 +18,28 @@
 
   <table>
     <tr>
-      <th><%= f.label :nimitys, t('Nimitys') %></th>
-      <td><%= f.text_field :nimitys %></td>
+      <th><%= f.label :name, t('name') %></th>
+      <td><%= f.text_field :name %></td>
     </tr>
     <tr>
-      <th><%= f.label :selite, t('Selite') %></th>
-      <td><%= f.text_field :selite %></td>
+      <th><%= f.label :description, t('description') %></th>
+      <td><%= f.text_field :description %></td>
     </tr>
-
-    <tr>
-      <th><%= f.label :hankintapvm, t('Hankintapvm') %></th>
-      <td><%= f.date_field :hankintapvm %></td>
-    </tr>
-
     <tr>
       <th><%= t('Laatija') %></th>
-      <td><%= @commodity.laatija %></td>
+      <td><%= @commodity.created_by %></td>
     </tr>
     <tr>
       <th><%= t('Luontiaika') %></th>
-      <td><%= @commodity.luontiaika %></td>
+      <td><%= @commodity.created_at %></td>
     </tr>
     <tr>
       <th><%= t('Muutospvm') %></th>
-      <td><%= @commodity.muutospvm %></td>
+      <td><%= @commodity.updated_at %></td>
     </tr>
     <tr>
       <th><%= t('Muuttaja') %></th>
-      <td><%= @commodity.muuttaja %></td>
+      <td><%= @commodity.modified_by %></td>
     </tr>
   </table>
 

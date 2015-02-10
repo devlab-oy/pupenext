@@ -13,14 +13,14 @@
 <table>
   <tr>
     <th>
-      <%= sortable 'nimitys' %>
+      <%= sortable 'name' %>
       <br />
-      <%= text_field_tag :nimitys, params[:nimitys] %>
+      <%= text_field_tag :name, params[:name] %>
     </th>
     <th>
-      <%= sortable 'selite' %>
+      <%= sortable 'description' %>
       <br />
-      <%= text_field_tag :selite, params[:selite] %>
+      <%= text_field_tag :description, params[:description] %>
     </th>
     <th class="back"><%= submit_tag t('Etsi') %></th>
   </tr>
@@ -28,14 +28,11 @@
   <% @commodities.each do |com| %>
     <tr class="aktiivi">
       <td><% if update_access? %>
-          <%= link_to com.nimitys, edit_fixed_assets_commodity_path(com.id)  %>
+          <%= link_to com.name, edit_fixed_assets_commodity_path(com.id)  %>
         <% else %>
-          <%= com.nimitys %>
+          <%= com.name %>
         <% end %></td>
-      <td><%= com.selite %></td>
-      <% keijo = com.accounting_voucher.rows.active.count rescue 0 %>
-      <% kaaleleppi = !com.accounting_voucher.nil? rescue 0  %>
-      <td class="back"><%= "Tila: '#{com.tila}'" + ", EVL Poistoeriä: '#{com.rows.active.count}' kpl" + ", Poistoerätosite: #{kaaleleppi}" + ", SUMU Poistoeriä: #{keijo}" + ", Kustannustiliöintejä: " %></td>
+      <td><%= com.description %></td>
     </tr>
   <% end %>
 </table>

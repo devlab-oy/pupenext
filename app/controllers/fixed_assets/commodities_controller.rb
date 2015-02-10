@@ -21,7 +21,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     @commodity.generate_rows = true
 
     if @commodity.update_by(commodity_params, current_user)
-      redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
+      redirect_to fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
       render action: 'edit'
     end
@@ -29,17 +29,15 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /fixed_assets/commodities/1/edit
   def edit
-    @commodity.link_cost_row params[:selected_accounting_row] unless params[:selected_accounting_row].nil?
-    @commodity.tilino = params[:selected_account] unless params[:selected_account].nil?
   end
 
   # POST /fixed_assets/commodities
   def create
     @commodity = current_company.commodities.build
-    @commodity.attributes = commodity_params
+    @commodity.attributes = commodity_create_params
 
     if @commodity.save_by current_user
-      redirect_to accounting_fixed_assets_commodities_path, notice: 'Hyödyke luotiin onnistuneesti.'
+      redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
     else
       render action: 'new'
     end
@@ -54,49 +52,57 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /fixed_assets/commodities/1/select_voucher
   def select_voucher
-    @vouchers = current_company.accounting_vouchers.limit(50)
+    @vouchers = current_company.vouchers.limit(50)
     @vouchers = @vouchers.search_like params_search
     @vouchers = @vouchers.order("#{sort_column} #{sort_direction}")
   end
 
   def fiscal_year_run
-    @commodities = current_company.commodities.activated
-    @commodities.each do |com|
-      com.generate_rows = true
-      com.save
-    end
-    @commodities.reload
-    @commodities.each do |com|
-      #All bookkeepping rows locked
-      com.lock_all_rows
-    end
+    #@commodities = current_company.commodities.activated
+    #@commodities.each do |com|
+    #  com.generate_rows = true
+    #  com.save
+    #end
+    #@commodities.reload
+    #@commodities.each do |com|
+    #  #All bookkeepping rows locked
+    #  com.lock_all_rows
+    #end
   end
 
   private
 
     # Only allow a trusted parameter "white list" through.
     def commodity_params
-      params.require(:accounting_fixed_assets_commodity).permit(
-        :nimitys,
-        :selite,
-        :summa,
-        :hankintapvm,
-        :kayttoonottopvm,
-        :sumu_poistotyyppi,
-        :sumu_poistoera,
-        :evl_poistotyyppi,
-        :evl_poistoera,
-        :tilino,
-        :tila,
-        :kustp,
-        :kohde,
-        :projekti
+      params.require(:fixed_assets_commodity).permit(
+        :name,
+        :description,
+        :amount,
+        :purchased_at,
+        :activated_at,
+        :planned_depreciation_type,
+        :planned_depreciation_amount,
+        :btl_depreciation_type,
+        :btl_depreciation_amount,
+        :status,
+        :cost_centre,
+        :target,
+        :project
+      )
+    end
+
+    # Allow only these params for create
+    def commodity_create_params
+      params.require(:fixed_assets_commodity).permit(
+        :name,
+        :description
       )
     end
 
     def searchable_columns
       [
-        :selite,
+        :name,
+        :description
       ]
     end
 

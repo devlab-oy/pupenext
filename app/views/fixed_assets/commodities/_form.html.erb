@@ -18,115 +18,108 @@
 
   <table>
     <tr>
-      <th><%= f.label :nimitys, t('Nimitys') %></th>
-      <td><%= f.text_field :nimitys %></td>
+      <th><%= f.label :name, t('name') %></th>
+      <td><%= f.text_field :name %></td>
     </tr>
     <tr>
-      <th><%= f.label :selite, t('Selite') %></th>
-      <td><%= f.text_field :selite %></td>
+      <th><%= f.label :description, t('description') %></th>
+      <td><%= f.text_field :description %></td>
     </tr>
     <tr>
-    <% summayhteensa = BigDecimal.new 0 %>
-    <% @commodity.cost_rows.each {|x| summayhteensa += x.accounting_row.summa rescue 0 } %>
-      <th><%= f.label :summa, t('Hankintasumma') %></th>
-      <td><%= f.text_field :summa, value: summayhteensa %></td>
+      <th><%= f.label :amount, t('amount') %></th>
+      <td><%= f.text_field :amount %></td>
     </tr>
     <tr>
-      <th><%= f.label :hankintapvm, t('Hankintapvm') %></th>
-      <td><%= f.date_field :hankintapvm %></td>
+      <th><%= f.label :purchased_at, t('purchased_at') %></th>
+      <td><%= f.date_field :purchased_at %></td>
     </tr>
     <tr>
-      <th><%= f.label :kustp, t('Kustannuspaikka') %></th>
-      <% preselected_cost_center = @commodity.cost_rows.first.accounting_row.kustp rescue 0 %>
-      <td><%= f.text_field :kustp, value: preselected_cost_center %></td>
+      <th><%= f.label :cost_centre, t('cost_centre') %></th>
+      <td><%= f.text_field :cost_centre %></td>
     </tr>
     <tr>
-      <th><%= f.label :kohde, t('Kohde') %></th>
-      <% preselected_target = @commodity.cost_rows.first.accounting_row.kohde rescue 0 %>
-      <td><%= f.text_field :kohde, value: preselected_target %></td>
+      <th><%= f.label :target, t('target') %></th>
+      <td><%= f.text_field :target %></td>
     </tr>
     <tr>
-      <th><%= f.label :projekti, t('Projekti') %></th>
-      <% preselected_project = @commodity.cost_rows.first.accounting_row.projekti rescue 0%>
-      <td><%= f.text_field :projekti, value: preselected_project %></td>
+      <th><%= f.label :project, t('project') %></th>
+      <td><%= f.text_field :project %></td>
     </tr>
     <tr>
-      <th><%= f.label :tilino, t('Tili') %></th>
-      <% preselected_account = @commodity.cost_rows.first.accounting_row.tilino rescue 0 %>
-      <td><%= f.text_field :tilino, value: preselected_account %></td>
+      <th><%= t('Tili') %></th>
+      <% preselected_account = @commodity.procurement_rows.first.tilino rescue 0 %>
+      <td><%= preselected_account %></td>
     </tr>
     <tr>
-      <th><%= f.label :kayttoonottopvm, t('Käyttöönottopvm') %></th>
-      <td><%= f.date_field :kayttoonottopvm %></td>
+      <th><%= f.label :activated_at, t('activated_at') %></th>
+      <td><%= f.date_field :activated_at %></td>
     </tr>
     <tr>
-      <th><%= f.label :tila, t('Tila') %></th>
-      <td><%= f.select :tila, options_for_select(@commodity.get_options_for_state, @commodity.tila) %></td>
+      <th><%= f.label :status, t('status') %></th>
+      <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status) %></td>
     </tr>
-      <th><%= f.label :sumu_poistotyyppi, t('SUMU poistotyyppi') %></th>
-      <td><%= f.select :sumu_poistotyyppi, options_for_select(@commodity.get_options_for_type, @commodity.sumu_poistotyyppi) %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :sumu_poistoera, t('SUMU poistoerä') %></th>
-      <td><%= f.text_field :sumu_poistoera %></td>
+      <th><%= f.label :planned_depreciation_type, t('planned_depreciation_type') %></th>
+      <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
     </tr>
     <tr>
-      <th><%= f.label :evl_poistotyyppi, t('EVL poistotyyppi') %></th>
-      <td><%= f.select :evl_poistotyyppi, options_for_select(@commodity.get_options_for_type, @commodity.evl_poistotyyppi) %></td>
+      <th><%= f.label :planned_depreciation_amount, t('planned_depreciation_amount') %></th>
+      <td><%= f.text_field :planned_depreciation_amount %></td>
     </tr>
     <tr>
-      <th><%= f.label :evl_poistoera, t('EVL poistoerä') %></th>
-      <td><%= f.text_field :evl_poistoera %></td>
+      <th><%= f.label :btl_depreciation_type, t('btl_depreciation_type') %></th>
+      <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :btl_depreciation_amount, t('btl_depreciation_amount') %></th>
+      <td><%= f.text_field :btl_depreciation_amount %></td>
     </tr>
     <tr>
       <th><%= t('Laatija') %></th>
-      <td><%= @commodity.laatija %></td>
+      <td><%= @commodity.created_by %></td>
     </tr>
     <tr>
       <th><%= t('Luontiaika') %></th>
-      <td><%= @commodity.luontiaika %></td>
+      <td><%= @commodity.created_at %></td>
     </tr>
     <tr>
       <th><%= t('Muutospvm') %></th>
-      <td><%= @commodity.muutospvm %></td>
+      <td><%= @commodity.updated_at %></td>
     </tr>
     <tr>
       <th><%= t('Muuttaja') %></th>
-      <td><%= @commodity.muuttaja %></td>
+      <td><%= @commodity.modified_by %></td>
     </tr>
   </table>
   <br/>
-  <% if @commodity.rows.active.count > 0 %>
+  <% if @commodity.commodity_rows.count > 0 %>
   <font class="head"><%= t('Poistoerät avoimelle tilikaudelle') %></font>
   <br/>
   <br/>
   <table>
   <tr>
   <th>Selite</th>
-  <th>Tyyppi</th>
   <th>Summa</th>
   <th>Tili</th>
   <th>Tapahtumapäivä</th>
   </tr>
-  <% @commodity.rows.active.each do |rivi| %>
+  <% @commodity.commodity_rows.each do |rivi| %>
     <tr>
-      <td><%= rivi.selite %></td>
-      <td><%= rivi.tyyppi %></td>
-      <td><%= rivi.summa %></td>
-      <td><%= rivi.tilino %></td>
-      <td><%= rivi.tapvm %></td>
+      <td><%= rivi.description %></td>
+      <td><%= rivi.amount %></td>
+      <td><%= rivi.account %></td>
+      <td><%= rivi.transacted_at %></td>
     </tr>
   <% end %>
   <% kokonaismaara = BigDecimal.new 0 %>
-  <% @commodity.rows.active.each { |x| kokonaismaara += x.summa } %>
-  <tr><td colspan='2'><%= t('EVL poistot yhteensä') + ": #{kokonaismaara.to_s} #{@commodity.rows.active.count} erässä" %></td></tr>
+  <% @commodity.commodity_rows.each { |x| kokonaismaara += x.amount } %>
+  <tr><td colspan='2'><%= t('EVL poistot yhteensä') + ": #{kokonaismaara.to_s} #{@commodity.commodity_rows.count} erässä" %></td></tr>
   </table>
   <br/>
 
   <% end %>
 
-  <% unless @commodity.accounting_voucher.nil? %>
-    <% unless @commodity.accounting_voucher.rows.active.count.zero? %>
+  <% unless @commodity.voucher.nil? %>
+    <% unless @commodity.voucher.rows.count.zero? %>
     <table>
     <tr>
     <th>Selite</th>
@@ -134,7 +127,7 @@
     <th>Tili</th>
     <th>Tapahtumapäivä</th>
     </tr>
-    <% @commodity.accounting_voucher.rows.active.each do |rivi| %>
+    <% @commodity.voucher.rows.each do |rivi| %>
       <tr>
         <td><%= rivi.selite %></td>
         <td><%= rivi.summa %></td>
@@ -143,8 +136,8 @@
       </tr>
     <% end %>
     <% kokonaismaara2 = BigDecimal.new 0 %>
-    <% @commodity.accounting_voucher.rows.active.each { |x| kokonaismaara2 += x.summa } %>
-    <tr><td colspan='2'><%= t('SUMU poistot yhteensä') + ": #{kokonaismaara2.to_s} #{@commodity.accounting_voucher.rows.active.count} erässä" %></td></tr>
+    <% @commodity.voucher.rows.each { |x| kokonaismaara2 += x.summa } %>
+    <tr><td colspan='2'><%= t('SUMU poistot yhteensä') + ": #{kokonaismaara2.to_s} #{@commodity.voucher.rows.count} erässä" %></td></tr>
     </table>
     <br/>
     <% end %>
@@ -158,13 +151,13 @@
 <br/>
 <font class="head"><%= t('Liitetyt tiliöinnit') %></font>
 <br/><br/>
-<%= form_tag accounting_fixed_assets_commodities_purchase_orders_path, method: :get do %>
+<%= form_tag fixed_assets_commodities_purchase_orders_path, method: :get do %>
 <% summayhteensa = BigDecimal.new 0 %>
-<% @commodity.cost_rows.each {|x| summayhteensa += x.accounting_row.summa rescue 0 } %>
-<%=  t('Yhteensä') + " #{@commodity.cost_rows.count} kpl #{summayhteensa} eur"  %>
+<% @commodity.procurement_rows.each {|x| summayhteensa += x.accounting_row.summa rescue 0 } %>
+<%=  t('Yhteensä') + " #{@commodity.procurement_rows.count} kpl #{summayhteensa} eur"  %>
 <br/><br/>
-<%= button_to t('Liitä ostolaskun tiliöinti'), accounting_fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
-<%= button_to t('Liitä tositteen tiliöinti'), accounting_fixed_assets_commodities_vouchers_path, method: :get if update_access? %>
+<%= button_to t('Liitä ostolaskun tiliöinti'), fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
+<%= button_to t('Liitä tositteen tiliöinti'), fixed_assets_commodities_vouchers_path, method: :get if update_access? %>
 <% end %>
 <br/>
 
