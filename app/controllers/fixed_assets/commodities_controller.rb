@@ -8,7 +8,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
    # GET /fixed_assets/commodities/1
   def show
-    render 'edit'
+    render :edit
   end
 
   # GET /fixed_assets/commodities/new
@@ -21,7 +21,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     if @commodity.update_by(commodity_params, current_user)
       redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -37,7 +37,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     if @commodity.save_by current_user
       redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -57,7 +57,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   private
 
-    # Only allow a trusted parameter "white list" through.
+    # Allow only these params for update
     def commodity_params
       params.require(:fixed_assets_commodity).permit(
         :name,
