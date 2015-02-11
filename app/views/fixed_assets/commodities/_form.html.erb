@@ -1,20 +1,5 @@
 <%= form_for(:commodity) do |f| %>
-  <% if @commodity.errors.any? %>
-    <div id="error_explanation">
-      <font class="message">
-        <%= pluralize(@commodity.errors.count, t("virhe"), t("virhettä")) %>
-        <%= t('esti tätä hyödykettä tallentumasta.') %>
-      </font>
-
-      <font class="error">
-        <ul>
-        <% @commodity.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </font>
-    </div>
-  <% end %>
+  <%= render "administration/form_errors", resource: @commodity %>
 
   <table>
     <tr>
