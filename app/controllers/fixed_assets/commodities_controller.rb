@@ -18,10 +18,8 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # PATCH/PUT /fixed_assets/commodities/1
   def update
-    @commodity.generate_rows = true
-
     if @commodity.update_by(commodity_params, current_user)
-      redirect_to fixed_assets_commodities_path, notice: 'Hyödyke päivitettiin onnistuneesti.'
+      redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
       render action: 'edit'
     end
@@ -55,19 +53,6 @@ class FixedAssets::CommoditiesController < AdministrationController
     @vouchers = current_company.vouchers.limit(50)
     @vouchers = @vouchers.search_like params_search
     @vouchers = @vouchers.order("#{sort_column} #{sort_direction}")
-  end
-
-  def fiscal_year_run
-    #@commodities = current_company.commodities.activated
-    #@commodities.each do |com|
-    #  com.generate_rows = true
-    #  com.save
-    #end
-    #@commodities.reload
-    #@commodities.each do |com|
-    #  #All bookkeepping rows locked
-    #  com.lock_all_rows
-    #end
   end
 
   private
