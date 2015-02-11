@@ -48,119 +48,84 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
   test 'should update commodity' do
     params = {
-      nimitys: 'Chair50000',
-      selite: 'Chair for CEO',
+      name: 'Chair500003',
+      description: 'Chair for CEO',
       planned_depreciation_type: 'T',
-      sumu_poistoera: 12,
-      evl_poistotyyppi: 'P',
-      evl_poistoera: 45,
-      kayttoonottopvm: Time.now,
-      hankintapvm: Time.now,
-      tila: 'A'
+      planned_depreciation_amount: 12,
+      btl_depreciation_type: 'P',
+      btl_depreciation_amount: 45,
+      activated_at: Time.now,
+      purchased_at: Time.now,
+      status: ''
     }
 
-    patch :update, id: @commodity.id, accounting_fixed_assets_commodity: params
+    patch :update, id: @commodity.id, fixed_assets_commodity: params
 
+    assert_redirected_to edit_fixed_assets_commodity_path assigns(:commodity)
     assert_equal params[:planned_depreciation_type], assigns(:commodity).planned_depreciation_type
 
-    assert_response :success
-    assert_template 'edit', 'Template should be edit'
+    assert_response :found
     assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not create new commodity due to permissions' do
     login users(:joe)
 
-    assert_no_difference('Accounting::FixedAssets::Commodity.count') do
-      post :create, accounting_fixed_assets_commodity: {
-        nimitys: 'Kerrostalo', selite: 'Nooh halvalla sai', summa: 300
+    assert_no_difference('FixedAssets::Commodity.count') do
+      post :create, fixed_assets_commodity: {
+        name: 'House', description: 'Gregory, M.D.'
       }
     end
 
-    assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
+    assert_response :forbidden
   end
 
   test 'should not create new commodity due to params missing' do
     assert_no_difference('FixedAssets::Commodity.count') do
-      post :create, accounting_fixed_assets_commodity: {}
+      post :create, fixed_assets_commodity: { name: nil }
     end
     assert_template 'new', 'Template should be new'
   end
 
   test 'should not update commodity due to params missing' do
-    post :patch, accounting_fixed_assets_commodity: {
-      nimitys: 'Kissa', selite: '', summa: 300, tila: 'A'
+    patch :update, id: @commodity, fixed_assets_commodity: {
+      name: 'Kissa', description: ''
     }
-    #reload?
-    assert_not_equal 'Kissa', assigns(:commodity).nimitys
+    assert_not_equal 'Kissa', @commodity.reload.name
     assert_template 'edit', 'Template should be edit'
   end
 
   test 'should not update commodity due to rights' do
     login users(:joe)
 
-    patch :update, id: @commodity.id, accounting_fixed_assets_commodity: {nimi: ''}
+    patch :update, id: @commodity.id, fixed_assets_commodity: {nimi: ''}
 
-    assert_redirected_to accounting_fixed_assets_commodities_path
-    assert_equal "Sinulla ei ole päivitysoikeuksia.", flash[:notice]
+    assert_response :forbidden
   end
 
   test 'should link commodity cost row' do
+    skip
     unlinked_row = accounting_rows(:three_accounting_row)
     assert_difference('FixedAssets::CommodityCostRow.count') do
       patch :edit, id: @commodity.id, selected_accounting_row: unlinked_row.id
     end
   end
 
-  test 'should search for specific commodity' do
-    skip
-    request = {nimitys: 'Mekkonen'}
-
-    get :index, request
-    assert_response :success
-
-    assert_template "index", "Template should be index"
-  end
-
-  test 'should search for specific voucher' do
-    skip
-    request = {id: @commodity.id, nimi: 'Acme Corporation Voucher'}
-
-    get 'select_voucher', request
-    assert_response :success
-
-    assert_template 'select_voucher', 'Template should be select_voucher'
-  end
-
-  test 'should search for specific purchase order' do
-    skip
-    request = {id: @commodity.id, nimi: 'Acme Corporation PO'}
-
-    get 'select_purchase_order', request
-    assert_response :success
-
-    assert_template 'select_purchase_order', 'Template should be select_purchase_order'
-  end
-
-  test 'should get fiscal year run' do
-    skip
-    get :fiscal_year_run
-    assert_response :success
-  end
-
   test 'should get link voucher' do
+    skip
     get :select_voucher, id: @Commodity.id
     assert_response :success
   end
 
   test 'should update link voucher' do
+    skip
     params = {}
     patch :select_voucher, params
     assert_response :success
   end
 
   test 'should get link purchase order' do
+    skip
     get :select_purchase_order, id: @Commodity.id
     assert_response :success
   end
