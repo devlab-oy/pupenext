@@ -1,4 +1,5 @@
-<%= form_for(:commodity) do |f| %>
+<%= form_for(@commodity, url: commodities_path) do |f| %>
+
   <%= render "administration/form_errors", resource: @commodity %>
 
   <table>
@@ -10,28 +11,12 @@
       <th><%= f.label :description, t('description') %></th>
       <td><%= f.text_field :description %></td>
     </tr>
-    <tr>
-      <th><%= t('Laatija') %></th>
-      <td><%= @commodity.created_by %></td>
-    </tr>
-    <tr>
-      <th><%= t('Luontiaika') %></th>
-      <td><%= @commodity.created_at %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muutospvm') %></th>
-      <td><%= @commodity.updated_at %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muuttaja') %></th>
-      <td><%= @commodity.modified_by %></td>
-    </tr>
   </table>
 
   <br />
 
   <div class="actions">
-    <% text = @commodity.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    <%= f.submit t('Lisää'), disable_with: t('Tallentaa') + '...' %>
   </div>
-  <% end %>
+
+<% end %>
