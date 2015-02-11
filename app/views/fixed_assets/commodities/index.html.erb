@@ -1,10 +1,10 @@
 <%= render 'header' %>
 
-<%= button_to t('Uusi hyödyke'), new_fixed_assets_commodity_path, method: :get if update_access? %>
+<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
 
 <br />
 
-<%= form_tag fixed_assets_commodities_path, method: :get do %>
+<%= form_tag commodities_path, method: :get do %>
 <table>
   <tr>
     <th>
@@ -23,7 +23,7 @@
   <% @commodities.each do |com| %>
     <tr class="aktiivi">
       <td><% if update_access? %>
-          <%= link_to com.name, edit_fixed_assets_commodity_path(com.id)  %>
+          <%= link_to com.name, edit_commodity_path(com.id)  %>
         <% else %>
           <%= com.name %>
         <% end %></td>
@@ -35,7 +35,7 @@
 
 <br />
 
-<%= button_to t('Uusi hyödyke'), new_fixed_assets_commodity_path, method: :get if update_access? %>
+<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
 <br />
 <br />
 

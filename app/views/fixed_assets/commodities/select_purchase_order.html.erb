@@ -1,9 +1,9 @@
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
-<%= link_to return_text, accounting_fixed_assets_commodities_path %>
+<%= link_to return_text, commodities_path %>
 <br /><br />
 
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, edit_accounting_fixed_assets_commodity_path %>
+<%= link_to return_text, edit_commodity_path %>
 <br /><br />
 
 <%= render 'header' %>
@@ -65,7 +65,7 @@
     <td><%= acc.summa  %></td>
     <td><%= acc.tilino %></td>
     <td class="back">
-    <%= form_tag(edit_accounting_fixed_assets_commodity_path, method: "get") do %>
+    <%= form_tag(edit_commodity_path, method: "get") do %>
       <%= hidden_field_tag(:selected_accounting_row, acc.tunnus) %>
       <%= submit_tag('Liitä') %>
     <% end %>

@@ -42,7 +42,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       }
       assert_response :found
       assert_nil assigns(:commodity).planned_depreciation_type
-      assert_redirected_to edit_fixed_assets_commodity_path assigns(:commodity)
+      assert_redirected_to edit_commodity_path assigns(:commodity)
     end
   end
 
@@ -61,7 +61,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     patch :update, id: @commodity.id, fixed_assets_commodity: params
 
-    assert_redirected_to edit_fixed_assets_commodity_path assigns(:commodity)
+    assert_redirected_to edit_commodity_path assigns(:commodity)
     assert_equal params[:planned_depreciation_type], assigns(:commodity).planned_depreciation_type
 
     assert_response :found

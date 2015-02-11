@@ -19,7 +19,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   # PATCH/PUT /fixed_assets/commodities/1
   def update
     if @commodity.update_by(commodity_params, current_user)
-      redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke päivitettiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke päivitettiin onnistuneesti.'
     else
       render :edit
     end
@@ -34,7 +34,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     @commodity = current_company.commodities.build(commodity_create_params)
 
     if @commodity.save_by current_user
-      redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
     else
       render :new
     end
