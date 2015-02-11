@@ -1,10 +1,5 @@
 <%= render 'header' %>
 
-<% if notice %>
-  <%= t(notice) %>
-  <br /><br />
-<% end %>
-
 <%= button_to t('Uusi hyödyke'), new_fixed_assets_commodity_path, method: :get if update_access? %>
 
 <br />
