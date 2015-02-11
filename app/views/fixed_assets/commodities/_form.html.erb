@@ -27,28 +27,27 @@
     </tr>
     <tr>
       <th><%= f.label :amount, t('amount') %></th>
-      <td><%= f.text_field :amount %></td>
+      <td><%= @commodity.amount %></td>
     </tr>
     <tr>
       <th><%= f.label :purchased_at, t('purchased_at') %></th>
-      <td><%= f.date_field :purchased_at %></td>
+      <td><%= @commodity.purchased_at %></td>
     </tr>
     <tr>
       <th><%= f.label :cost_centre, t('cost_centre') %></th>
-      <td><%= f.text_field :cost_centre %></td>
+      <td><%= @commodity.procurement_cost_centre %></td>
     </tr>
     <tr>
       <th><%= f.label :target, t('target') %></th>
-      <td><%= f.text_field :target %></td>
+      <td><%= @commodity.procurement_target %></td>
     </tr>
     <tr>
       <th><%= f.label :project, t('project') %></th>
-      <td><%= f.text_field :project %></td>
+      <td><%= @commodity.procurement_project %></td>
     </tr>
     <tr>
       <th><%= t('Tili') %></th>
-      <% preselected_account = @commodity.procurement_rows.first.tilino rescue 0 %>
-      <td><%= preselected_account %></td>
+      <td><%= @commodity.procurement_number %></td>
     </tr>
     <tr>
       <th><%= f.label :activated_at, t('activated_at') %></th>
