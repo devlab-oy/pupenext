@@ -148,15 +148,16 @@
   </div>
 <% end %>
 <br/>
+
 <font class="head"><%= t('Liitetyt tiliöinnit') %></font>
 <br/><br/>
-<%= form_tag fixed_assets_commodities_purchase_orders_path, method: :get do %>
-<% summayhteensa = BigDecimal.new 0 %>
-<% @commodity.procurement_rows.each {|x| summayhteensa += x.accounting_row.summa rescue 0 } %>
-<%=  t('Yhteensä') + " #{@commodity.procurement_rows.count} kpl #{summayhteensa} eur"  %>
-<br/><br/>
-<%= button_to t('Liitä ostolaskun tiliöinti'), fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
-<%= button_to t('Liitä tositteen tiliöinti'), fixed_assets_commodities_vouchers_path, method: :get if update_access? %>
-<% end %>
-<br/>
 
+<%#= form_tag fixed_assets_commodities_purchase_orders_path, method: :get do %>
+  <%# summayhteensa = BigDecimal.new 0 %>
+  <%# @commodity.procurement_rows.each {|x| summayhteensa += x.accounting_row.summa rescue 0 } %>
+  <%#=  t('Yhteensä') + " #{@commodity.procurement_rows.count} kpl #{summayhteensa} eur"  %>
+  <%#= button_to t('Liitä ostolaskun tiliöinti'), fixed_assets_commodities_purchase_orders_path, method: :get if update_access? %>
+  <%#= button_to t('Liitä tositteen tiliöinti'), fixed_assets_commodities_vouchers_path, method: :get if update_access? %>
+<%# end %>
+
+<br/>
