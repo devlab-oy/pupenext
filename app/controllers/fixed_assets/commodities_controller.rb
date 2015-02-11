@@ -31,8 +31,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /fixed_assets/commodities
   def create
-    @commodity = current_company.commodities.build
-    @commodity.attributes = commodity_create_params
+    @commodity = current_company.commodities.build(commodity_create_params)
 
     if @commodity.save_by current_user
       redirect_to edit_fixed_assets_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
