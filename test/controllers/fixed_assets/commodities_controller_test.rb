@@ -113,30 +113,25 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test 'should link commodity cost row' do
-    skip
-    unlinked_row = accounting_rows(:three_accounting_row)
-    assert_difference('FixedAssets::CommodityCostRow.count') do
-      patch :edit, id: @commodity.id, selected_accounting_row: unlinked_row.id
-    end
-  end
-
   test 'should get link voucher' do
-    skip
-    get :select_voucher, id: @Commodity.id
+    get :vouchers, commodity_id: @commodity.id
     assert_response :success
   end
 
   test 'should update link voucher' do
-    skip
-    params = {}
-    patch :select_voucher, params
+    params = { commodity_id: @commodity.id }
+    post :vouchers, params
     assert_response :success
   end
 
   test 'should get link purchase order' do
-    skip
-    get :select_purchase_order, id: @Commodity.id
+    get :purchase_orders, commodity_id: @commodity.id
+    assert_response :success
+  end
+
+  test 'should update link purchase order' do
+    params = { commodity_id: @commodity.id }
+    post :purchase_orders, params
     assert_response :success
   end
 end
