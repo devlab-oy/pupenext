@@ -5,7 +5,12 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
   scope module: :fixed_assets do
-    resources :commodities, except: :destroy
+    resources :commodities, except: :destroy do
+      get  'purchase_orders'
+      post 'purchase_orders', to: 'commodities#link_purchase_order'
+      get  'vouchers'
+      post 'vouchers', to: 'commodities#link_voucher'
+    end
   end
 
   scope module: :administration do
