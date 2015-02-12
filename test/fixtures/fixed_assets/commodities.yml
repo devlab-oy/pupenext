@@ -1,6 +1,7 @@
 commodity_one:
   company: acme
   name: This is a commodity!
+  description: Commodity described
   created_by: joe
   modified_by: joe
   amount: 10000

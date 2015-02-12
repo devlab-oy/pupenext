@@ -1,0 +1,85 @@
+<%= form_for(@commodity, url: commodity_path) do |f| %>
+
+  <%= render "administration/form_errors", resource: @commodity %>
+
+  <table>
+    <tr>
+      <th><%= f.label :name, t('Nimi') %></th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :description, t('Kuvaus') %></th>
+      <td><%= f.text_field :description %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :amount, t('Summa') %></th>
+      <td><%= @commodity.amount %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :purchased_at, t('Ostopäivä') %></th>
+      <td><%= @commodity.purchased_at %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :cost_centre, t('Kustannuspaikka') %></th>
+      <td><%= @commodity.procurement_cost_centre %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :target, t('Kohde') %></th>
+      <td><%= @commodity.procurement_target %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :project, t('Projekti') %></th>
+      <td><%= @commodity.procurement_project %></td>
+    </tr>
+    <tr>
+      <th><%= t('Tili') %></th>
+      <td><%= @commodity.procurement_number %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :activated_at, t('Aktivointipäivä') %></th>
+      <td><%= f.date_field :activated_at %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :status, t('Status') %></th>
+      <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status) %></td>
+    </tr>
+      <th><%= f.label :planned_depreciation_type, t('SUMU poistotyyppi') %></th>
+      <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :planned_depreciation_amount, t('SUMU poistomäärä') %></th>
+      <td><%= f.text_field :planned_depreciation_amount %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :btl_depreciation_type, t('EVL poistotyyppi') %></th>
+      <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :btl_depreciation_amount, t('EVL poistomäärä') %></th>
+      <td><%= f.text_field :btl_depreciation_amount %></td>
+    </tr>
+    <tr>
+      <th><%= t('Laatija') %></th>
+      <td><%= @commodity.created_by %></td>
+    </tr>
+    <tr>
+      <th><%= t('Luontipäivä') %></th>
+      <td><%= @commodity.created_at %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muuttaja') %></th>
+      <td><%= @commodity.modified_by %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muutospäivä') %></th>
+      <td><%= @commodity.updated_at %></td>
+    </tr>
+  </table>
+
+  <br/>
+
+  <div class="actions">
+    <%= f.submit t('Tallenna'), disable_with: t('Tallentaa') + '...' %>
+  </div>
+
+<% end %>

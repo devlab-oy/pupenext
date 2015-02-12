@@ -12,6 +12,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
+  validates_presence_of :name, :description
+
   validate :only_one_account_number
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
@@ -81,7 +83,27 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def procurement_number
-    procurement_rows.first.tilino
+    return 0 if procurement_row.nil?
+    procurement_row.tilino
+  end
+
+  def procurement_cost_centre
+    return 0 if procurement_row.nil?
+    procurement_row.kustp
+  end
+
+  def procurement_project
+    return 0 if procurement_row.nil?
+    procurement_row.projekti
+  end
+
+  def procurement_target
+    return 0 if procurement_row.nil?
+    procurement_row.kohde
+  end
+
+  def procurement_row
+    procurement_rows.first
   end
 
   def poistoero_number

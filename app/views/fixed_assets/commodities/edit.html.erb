@@ -1,0 +1,13 @@
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
+<%= link_to return_text, commodities_path %>
+
+<br /><br />
+
+<%= render 'header' %>
+
+<% if notice %>
+  <font class='ok'><%= t(notice) %></font>
+  <br /><br />
+<% end %>
+
+<%= render 'form' %>

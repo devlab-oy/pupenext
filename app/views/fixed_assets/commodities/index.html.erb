@@ -1,0 +1,48 @@
+<%= render 'header' %>
+
+<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
+
+<br /><br />
+
+<table>
+
+<%= form_tag commodities_path, method: :get do %>
+  <tr>
+    <th>
+      <%= sortable 'name' %>
+      <br />
+      <%= text_field_tag :name, params[:name] %>
+    </th>
+    <th>
+      <%= sortable 'description' %>
+      <br />
+      <%= text_field_tag :description, params[:description] %>
+    </th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
+  </tr>
+<% end %>
+
+<% @commodities.each do |com| %>
+  <tr class="aktiivi">
+    <td>
+      <% if update_access? %>
+        <%= link_to com.name, edit_commodity_path(com.id)  %>
+      <% else %>
+        <%= com.name %>
+      <% end %>
+    </td>
+    <td><%= com.description %></td>
+  </tr>
+<% end %>
+
+</table>
+
+<br />
+
+<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
+
+<br /><br />
+
+<%#= button_to 'Hyödykkeiden tilikausiajo', { action: "fiscal_year_run" },
+                                method: :get, data: { confirm: "Are you sure? This will lock all depreciations" } %>
+

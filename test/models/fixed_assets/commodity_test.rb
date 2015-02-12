@@ -561,4 +561,25 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.difference_rows_between(Date.yesterday-1, Date.yesterday).count
   end
 
+  test 'procurement row methods work' do
+    params = {
+      tilino: '4443',
+      kustp: 13,
+      projekti: 33,
+      kohde: 43
+    }
+    @commodity.procurement_row.update_attributes! params
+
+    assert_equal params[:tilino], @commodity.procurement_number
+    assert_equal params[:kustp], @commodity.procurement_cost_centre
+    assert_equal params[:projekti], @commodity.procurement_project
+    assert_equal params[:kohde], @commodity.procurement_target
+
+    @commodity.procurement_rows.delete_all
+    assert_equal 0, @commodity.procurement_number
+    assert_equal 0, @commodity.procurement_cost_centre
+    assert_equal 0, @commodity.procurement_project
+    assert_equal 0, @commodity.procurement_target
+  end
+
 end
