@@ -101,7 +101,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     patch :update, id: @commodity, fixed_assets_commodity: params
 
-    assert_not_equal 'Kissa', @commodity.reload.name
+    assert_not_equal params[:name], @commodity.reload.name
     assert_template 'edit', 'Template should be edit'
   end
 

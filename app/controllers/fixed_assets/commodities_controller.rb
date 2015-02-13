@@ -1,4 +1,7 @@
 class FixedAssets::CommoditiesController < AdministrationController
+
+  before_action :find_resource, only: [:vouchers, :link_voucher, :purchase_orders, :link_purchase_order, :show, :edit, :update]
+
   # GET /commodities
   def index
     @commodities = current_company.commodities
@@ -42,22 +45,24 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/purchase_orders
   def purchase_orders
-    render nothing: true
+    @purchase_orders = @commodity.linkable_invoices
   end
 
   # POST /commodities/1/purchase_orders
   def link_purchase_order
-    render nothing: true
+    #render nothing: true
   end
 
   # GET /commodities/1/vouchers
   def vouchers
+    @vouchers = @commodity.linkable_vouchers
+    logger.debug("KISSA #{@vouchers.count}")
     render nothing: true
   end
 
   # POST /commodities/1/vouchers
   def link_voucher
-    render nothing: true
+
   end
 
   private
@@ -101,6 +106,6 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def find_resource
-      @commodity = current_company.commodities.find(params[:id])
+      @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
     end
 end

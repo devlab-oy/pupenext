@@ -4,13 +4,13 @@
 <br /><br />
 
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, commodity_path %>
+<%= link_to return_text, edit_commodity_path(commodity_id: @commodity, id: @commodity) %>
 <br /><br />
 
 <%= render 'header' %>
 <font class="head"><%= t('Valitse tositteen tiliöinnit') %></font>
 <br /><br />
-<%#= form_tag accounting_fixed_assets_commodities_vouchers_path, method: :get do %>
+<%#= form_tag accounting_fixed_assets_commodities_vouchers_path, method: :post do %>
 <table>
 <tr>
   <th>
@@ -55,7 +55,7 @@
     <td><%= vourow.selite.html_safe rescue 0 %></td>
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
-    <td class='back'><%= form_tag(edit_commodity_path, method: "get") do %>
+    <td class='back'><%= form_tag(edit_commodity_path(@commodity), method: :post) do %>
     <%= hidden_field_tag(:selected_accounting_row, vourow.tunnus) %>
     <%= submit_tag('Liitä') %></td>
     <% end %>

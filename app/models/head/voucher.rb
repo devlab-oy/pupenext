@@ -6,6 +6,8 @@ class Head::Voucher < Head
 
   before_save :defaults
 
+  scope :commodity_linkable, -> { where(commodity_id: nil) }
+
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     "X"
@@ -19,6 +21,10 @@ class Head::Voucher < Head
   # With STI we want to use same name for each child. Thats why we override model_name
   def self.model_name
     Head.model_name
+  end
+
+  def linkable_rows(account_no)
+    rows.where(tilino: account_no)
   end
 
   private

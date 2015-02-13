@@ -1,9 +1,8 @@
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
 <%= link_to return_text, commodities_path %>
 <br /><br />
-
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, edit_commodity_path %>
+<%= link_to return_text, edit_commodity_path(commodity_id: @commodity, id: @commodity) %>
 <br /><br />
 
 <%= render 'header' %>

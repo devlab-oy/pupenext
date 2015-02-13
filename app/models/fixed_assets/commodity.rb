@@ -38,6 +38,28 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  # Sopivat ostolaskut
+  def linkable_invoices
+    return [] if procurement_row.nil?
+    ['kissa', 'kissu', 'issu']
+
+  end
+
+  # Sopivat tositteet
+  def linkable_vouchers
+    result = []
+    if procurement_row.present?
+      # Tilinumero jo valittu
+      company.vouchers.commodity_linkable.each { |x| result << x if x.linkable_rows(procurement_number).count > 0 }
+    else
+      logger.debug("koira #{company.vouchers.commodity_linkable.count}")
+      # Tilinumeroa ei valittu
+      company.vouchers.commodity_linkable.each { |x| result << x if x.rows.map(&:linkable?).any? }
+    end
+
+    result
+  end
+
   # Poistorivit
   def depreciation_rows
     voucher.rows.where(tilino: procurement_number)

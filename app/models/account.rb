@@ -29,6 +29,10 @@ class Account < ActiveRecord::Base
   self.table_name = :tili
   self.primary_key = :tunnus
 
+  def linkable_rows
+    company.vouchers.voucher_rows.find_by_tilino(tilino)
+  end
+
   def toimijaliitos_options
     [
       ["Ei liitospakkoa", "0"],
