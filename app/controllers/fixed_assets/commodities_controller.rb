@@ -55,9 +55,8 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/vouchers
   def vouchers
-    @vouchers = @commodity.linkable_vouchers
-    logger.debug("KISSA #{@vouchers.count}")
-    render nothing: true
+    #@vouchers = @commodity.linkable_vouchers
+    @vouchers = current_company.vouchers.limit(50)
   end
 
   # POST /commodities/1/vouchers

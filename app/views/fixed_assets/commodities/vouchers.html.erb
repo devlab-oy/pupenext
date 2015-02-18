@@ -4,7 +4,7 @@
 <br /><br />
 
 <% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, edit_commodity_path(commodity_id: @commodity, id: @commodity) %>
+<%= link_to return_text, edit_commodity_path(@commodity) %>
 <br /><br />
 
 <%= render 'header' %>

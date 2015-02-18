@@ -40,19 +40,27 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    return [] if procurement_row.nil?
-    ['kissa', 'kissu', 'issu']
+    result = []
+    if procurement_row.present?
+      logger.debug("Linkable purchase invoices when acct chosen: #{company.purchase_invoices_paid.count}")
+      company.purchase_invoices_paid
+    else
+      logger.debug("Linkable purchase invoices when acct not chosen: #{company.purchase_invoices_paid.count}")
+      company.purchase_invoices_paid
+    end
 
+    #result
   end
 
   # Sopivat tositteet
   def linkable_vouchers
     result = []
     if procurement_row.present?
+      logger.debug("Linkable vouchers when acct chosen: #{company.vouchers.commodity_linkable.count}")
       # Tilinumero jo valittu
       company.vouchers.commodity_linkable.each { |x| result << x if x.linkable_rows(procurement_number).count > 0 }
     else
-      logger.debug("koira #{company.vouchers.commodity_linkable.count}")
+      logger.debug("Linkable vouchers when no acct chosen: #{company.vouchers.commodity_linkable.count}")
       # Tilinumeroa ei valittu
       company.vouchers.commodity_linkable.each { |x| result << x if x.rows.map(&:linkable?).any? }
     end
