@@ -24,6 +24,7 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def linkable?
+    return false unless account.present?
     account.evl_taso.present?
   end
 
