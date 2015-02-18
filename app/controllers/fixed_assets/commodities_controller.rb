@@ -50,7 +50,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities/1/purchase_orders
   def link_purchase_order
-    #render nothing: true
+    render nothing: true
   end
 
   # GET /commodities/1/vouchers
@@ -61,7 +61,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities/1/vouchers
   def link_voucher
-
+    render nothing: true
   end
 
   private

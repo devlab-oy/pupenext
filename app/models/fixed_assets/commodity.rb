@@ -43,13 +43,15 @@ class FixedAssets::Commodity < ActiveRecord::Base
     result = []
     if procurement_row.present?
       logger.debug("Linkable purchase invoices when acct chosen: #{company.purchase_invoices_paid.count}")
-      company.purchase_invoices_paid
+      # Tilinumero jo valittu
+      company.purchase_invoices_paid.each { |x| result << x if x.linkable_rows(procurement_number).count > 0 }
     else
       logger.debug("Linkable purchase invoices when acct not chosen: #{company.purchase_invoices_paid.count}")
-      company.purchase_invoices_paid
+      # Tilinumeroa ei valittu
+      company.purchase_invoices_paid.each { |x| result << x if x.rows.map(&:linkable?).any? }
     end
 
-    #result
+    result
   end
 
   # Sopivat tositteet
