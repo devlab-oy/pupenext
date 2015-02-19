@@ -21,8 +21,4 @@ class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
     Head.model_name
   end
 
-  def linkable_rows(account_no)
-    rows.where(tilino: account_no)
-  end
-
 end

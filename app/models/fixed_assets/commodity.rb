@@ -42,24 +42,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
   def linkable_invoices
     # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
     account_no = procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
-
     company.purchase_invoices_paid.find_by_account(account_no)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    result = []
-    if procurement_row.present?
-      logger.debug("Linkable vouchers when acct chosen: #{company.vouchers.commodity_linkable.count}")
-      # Tilinumero jo valittu
-      company.vouchers.commodity_linkable.each { |x| result << x if x.linkable_rows(procurement_number).count > 0 }
-    else
-      logger.debug("Linkable vouchers when no acct chosen: #{company.vouchers.commodity_linkable.count}")
-      # Tilinumeroa ei valittu
-      company.vouchers.commodity_linkable.each { |x| result << x if x.rows.map(&:linkable?).any? }
-    end
-
-    result
+    # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
+    account_no = procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
+    company.vouchers.commodity_linkable.find_by_account(account_no)
   end
 
   # Poistorivit

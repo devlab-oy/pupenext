@@ -23,8 +23,8 @@ class Head::Voucher < Head
     Head.model_name
   end
 
-  def linkable_rows(account_no)
-    rows.where(tilino: account_no)
+  def self.find_by_account(account_no)
+    joins(:rows).where(tiliointi: { tilino: account_no })
   end
 
   private
