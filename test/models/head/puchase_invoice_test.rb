@@ -41,6 +41,6 @@ class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
   test 'list only invoices with voucher rows with given account number' do
     company = companies(:acme)
     assert_equal 1, company.purchase_invoices_paid.find_by_account('4444').count
-    assert_equal 1, company.purchase_invoices_paid.find_by_account(['4444', 'notcorretaccount']).count
+    assert_equal 2, company.purchase_invoices_paid.find_by_account(['4444', '4443', 'notcorretaccount']).count
   end
 end
