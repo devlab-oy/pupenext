@@ -74,7 +74,7 @@ class CompanyTest < ActiveSupport::TestCase
 
   test 'company has working STI sum levels' do
     assert_not_nil @acme.sum_levels
-    assert_equal 8, @acme.sum_levels.count
+    assert_equal 9, @acme.sum_levels.count
 
     assert_not_nil @acme.sum_level_internals
     assert_equal SumLevel::Internal.new.class, @acme.sum_level_internals.first.class

@@ -591,7 +591,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'linkable vouchers method works' do
     assert_equal 2, @commodity.linkable_vouchers.count
     @commodity.procurement_rows.delete_all
-    assert_equal 2, @commodity.linkable_vouchers.count
+    assert_equal 3, @commodity.linkable_vouchers.count
   end
 
 end

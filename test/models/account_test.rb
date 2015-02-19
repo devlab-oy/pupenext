@@ -122,6 +122,6 @@ class AccountTest < ActiveSupport::TestCase
 
   test 'get all EVL accounts' do
     company = companies(:acme)
-    assert_equal 1, company.accounts.evl_accounts.count
+    assert_equal 2, company.accounts.evl_accounts.count
   end
 end
