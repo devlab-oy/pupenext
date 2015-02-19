@@ -11,6 +11,10 @@ class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
     "Ostolasku maksettu"
   end
 
+  def self.find_by_account(account_no)
+    joins(:rows).where(tiliointi: { tilino: account_no })
+  end
+
   # Rails figures out paths from the model name. User model has users_path etc.
   # With STI we want to use same name for each child. Thats why we override model_name
   def self.model_name
