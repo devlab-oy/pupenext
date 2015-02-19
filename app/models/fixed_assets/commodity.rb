@@ -40,18 +40,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    result = []
-    if procurement_row.present?
-      logger.debug("Linkable purchase invoices when acct chosen: #{company.purchase_invoices_paid.count}")
-      # Tilinumero jo valittu
-      company.purchase_invoices_paid.each { |x| result << x if x.linkable_rows(procurement_number).count > 0 }
-    else
-      logger.debug("Linkable purchase invoices when acct not chosen: #{company.purchase_invoices_paid.count}")
-      # Tilinumeroa ei valittu
-      company.purchase_invoices_paid.each { |x| result << x if x.rows.map(&:linkable?).any? }
-    end
+    # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
+    account_no = procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
 
-    result
+    company.purchase_invoices_paid.find_by_account(account_no)
   end
 
   # Sopivat tositteet
