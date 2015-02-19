@@ -119,4 +119,9 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal 0, @account.kustp
     assert_equal 0, @account.kohde
   end
+
+  test 'get all EVL accounts' do
+    company = companies(:acme)
+    assert_equal 1, company.accounts.evl_accounts.count
+  end
 end
