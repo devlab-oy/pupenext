@@ -55,8 +55,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/vouchers
   def vouchers
-    #@vouchers = @commodity.linkable_vouchers
-    @vouchers = current_company.vouchers.limit(50)
+    @vouchers = @commodity.linkable_vouchers
   end
 
   # POST /commodities/1/vouchers
