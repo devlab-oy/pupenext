@@ -80,3 +80,20 @@ account_commodity:
   muutospvm: <%= Time.now %>
   muuttaja: bob
   laatija: bob
+
+account_commodity2:
+  yhtio: acme
+  nimi: Kiinteistöhankintatili
+  ulkoinen_taso: 112
+  sisainen_taso: 33
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  evl_taso: 10001
+  tilino: 4443
+  project: project_in_use
+  target: target_in_use
+  cost_center: cost_center_in_use
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
