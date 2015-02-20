@@ -582,4 +582,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.procurement_target
   end
 
+  test 'linkable invoices method works' do
+    assert_equal 1, @commodity.linkable_invoices.count
+    @commodity.procurement_rows.delete_all
+    assert_equal 2, @commodity.linkable_invoices.count
+  end
+
+  test 'linkable vouchers method works' do
+    assert_equal 2, @commodity.linkable_vouchers.count
+    @commodity.procurement_rows.delete_all
+    assert_equal 3, @commodity.linkable_vouchers.count
+  end
+
 end

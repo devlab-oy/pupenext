@@ -150,3 +150,26 @@ commodity:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
+
+commodity2:
+  yhtio: acme
+  tyyppi: 'E'
+  summattava_taso: ''
+  poisto_vastatili: 1111
+  poistoero_tili: 1122
+  poistoero_vastatili: 1133
+  planned_depreciation_type: 'B'
+  planned_depreciation_amount: 35
+  btl_depreciation_type: 'P'
+  btl_depreciation_amount: 40
+  taso: '10001'
+  nimi: Kiinteistöt
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe

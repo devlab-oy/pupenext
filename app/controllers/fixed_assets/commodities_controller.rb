@@ -1,4 +1,6 @@
 class FixedAssets::CommoditiesController < AdministrationController
+  before_action :find_resource, except: [:index, :new, :create]
+
   # GET /commodities
   def index
     @commodities = current_company.commodities
@@ -40,18 +42,24 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
-  # GET /commodities/1/select_purchase_order
-  def select_purchase_order
-    @purchase_orders = current_company.purchase_orders.limit(50)
-    @purchase_orders = @purchase_orders.search_like params_search
-    @purchase_orders = @purchase_orders.order("#{sort_column} #{sort_direction}")
+  # GET /commodities/1/purchase_orders
+  def purchase_orders
+    @purchase_orders = @commodity.linkable_invoices
   end
 
-  # GET /commodities/1/select_voucher
-  def select_voucher
-    @vouchers = current_company.vouchers.limit(50)
-    @vouchers = @vouchers.search_like params_search
-    @vouchers = @vouchers.order("#{sort_column} #{sort_direction}")
+  # POST /commodities/1/purchase_orders
+  def link_purchase_order
+    render nothing: true
+  end
+
+  # GET /commodities/1/vouchers
+  def vouchers
+    @vouchers = @commodity.linkable_vouchers
+  end
+
+  # POST /commodities/1/vouchers
+  def link_voucher
+    render nothing: true
   end
 
   private
@@ -95,6 +103,6 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def find_resource
-      @commodity = current_company.commodities.find(params[:id])
+      @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
     end
 end

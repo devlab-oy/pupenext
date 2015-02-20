@@ -37,7 +37,7 @@ five:
 
 six:
   yhtio: acme
-  voucher: po_one
+  voucher: pi_one
   tilino: 4444
   summa: 10000
   commodity: commodity_one
@@ -60,6 +60,42 @@ eight:
   voucher: vo_one
   tilino: 1122
   summa: 111
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+nine:
+  yhtio: acme
+  voucher: vo_two
+  tilino: 4444
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+ten:
+  yhtio: acme
+  voucher: vo_two
+  tilino: 4444
+  summa: 1000
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+eleven:
+  yhtio: acme
+  voucher: vo_two
+  tilino: 4443
+  summa: 1001
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twelve:
+  yhtio: acme
+  voucher: pi_one
+  tilino: 4443
+  summa: 1000
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>

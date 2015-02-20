@@ -24,7 +24,7 @@ class CompanyTest < ActiveSupport::TestCase
 
   test "company has working STI headings" do
     assert_not_nil @acme.heads
-    assert_equal 9, @acme.heads.count
+    assert_equal 11, @acme.heads.count
 
     assert_not_nil @acme.purchase_orders
     assert_equal Head::PurchaseOrder.new.class, @acme.purchase_orders.first.class
@@ -38,7 +38,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     assert_not_nil @acme.purchase_invoices_paid
     assert_equal Head::PurchaseInvoice::Paid.new.class, @acme.purchase_invoices_paid.first.class
-    assert_equal 1, @acme.purchase_invoices_paid.count
+    assert_equal 2, @acme.purchase_invoices_paid.count
     assert_equal ['Y'], @acme.purchase_invoices_paid.collect(&:tila).uniq
 
     assert_not_nil @acme.purchase_invoices_approved
@@ -68,13 +68,13 @@ class CompanyTest < ActiveSupport::TestCase
 
     assert_not_nil @acme.vouchers
     assert_equal Head::Voucher.new.class, @acme.vouchers.first.class
-    assert_equal 1, @acme.vouchers.count
+    assert_equal 2, @acme.vouchers.count
     assert_equal ['X'], @acme.vouchers.collect(&:tila).uniq
   end
 
   test 'company has working STI sum levels' do
     assert_not_nil @acme.sum_levels
-    assert_equal 8, @acme.sum_levels.count
+    assert_equal 9, @acme.sum_levels.count
 
     assert_not_nil @acme.sum_level_internals
     assert_equal SumLevel::Internal.new.class, @acme.sum_level_internals.first.class

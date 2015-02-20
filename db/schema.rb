@@ -1244,7 +1244,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "label",                            limit: 4,                              default: 0,          null: false
     t.integer  "tunnusnippu",                      limit: 4,                              default: 0,          null: false
     t.integer  "vanhatunnus",                      limit: 4,                              default: 0,          null: false
-    t.integer  "commodity_id",                     limit: 4,                              default: 0,          null: true
+    t.integer  "commodity_id",                     limit: 4
   end
 
   add_index "lasku", ["nimi"], name: "asiakasnimi", type: :fulltext

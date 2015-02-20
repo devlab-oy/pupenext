@@ -29,6 +29,10 @@ class Account < ActiveRecord::Base
   self.table_name = :tili
   self.primary_key = :tunnus
 
+  def self.evl_accounts
+    where.not(evl_taso: '')
+  end
+
   def toimijaliitos_options
     [
       ["Ei liitospakkoa", "0"],
