@@ -23,11 +23,6 @@ class Head::VoucherRow < ActiveRecord::Base
     company.accounts.find_by(tilino: tilino)
   end
 
-  def linkable?
-    return false unless account.present?
-    account.evl_taso.present?
-  end
-
   def counter_entry(account_number)
     # Create a counter entry for self
     row = self.dup
