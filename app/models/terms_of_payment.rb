@@ -1,6 +1,5 @@
 class TermsOfPayment < ActiveRecord::Base
-
-  extend AttributeSanitator
+  include AttributeSanitator
   include Validators
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -106,6 +105,4 @@ class TermsOfPayment < ActiveRecord::Base
 
   self.table_name = :maksuehto
   self.primary_key = :tunnus
-  self.record_timestamps = false
-
 end
