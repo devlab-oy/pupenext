@@ -1,129 +1,18 @@
 stubborn_customer:
   yhtio: acme
-  laji: ''
-  tila: ''
   ytunnus: FI12345678
   ovttunnus: 003712345678
   nimi: Very stubborn customer
-  nimitark: ''
   osoite: Street 1
   postino: 00100
   postitp: Helsinki
-  kunta: ''
-  laani: ''
   maa: fi
   kansalaisuus: fi
-  tyonantaja: ''
-  ammatti: ''
   email: email@ding.com
-  lasku_email: ''
-  puhelin: ''
-  gsm: ''
-  tyopuhelin: ''
-  fax: ''
-  toim_ovttunnus: ''
-  toim_nimi: ''
-  toim_nimitark: ''
-  toim_osoite: ''
-  toim_postino: ''
-  toim_postitp: ''
-  toim_maa: ''
-  kolm_ovttunnus: ''
-  kolm_nimi: ''
-  kolm_nimitark: ''
-  kolm_osoite: ''
-  kolm_postino: ''
-  kolm_postitp: ''
-  kolm_maa: ''
-  laskutus_nimi: ''
-  laskutus_nimitark: ''
-  laskutus_osoite: ''
-  laskutus_postino: ''
-  laskutus_postitp: ''
-  laskutus_maa: ''
-  maksukehotuksen_osoitetiedot: ''
-  konserni: ''
-  asiakasnro: ''
-  piiri: ''
-  ryhma: ''
-  osasto: ''
-  verkkotunnus: ''
   kieli: fi
-  chn: ''
-  konserniyhtio: ''
-  fakta: ''
-  sisviesti1: ''
-  myynti_kommentti1: ''
-  kuljetusohje: ''
-  selaus: ''
-  alv: 0
   valkoodi: eur
   terms_of_payment: sixty_days_net
-  toimitustapa: ''
-  rahtivapaa: ''
-  rahtivapaa_alarajasumma: 0
-  kuljetusvakuutus_tyyppi: ''
-  toimitusehto: ''
-  tilausvahvistus: ''
-  tilausvahvistus_jttoimituksista: ''
-  toimitusvahvistus: ''
-  kerayspoikkeama: ''
-  keraysvahvistus_lahetys: ''
-  keraysvahvistus_email: ''
-  kerayserat: ''
-  lahetetyyppi: ''
-  lahetteen_jarjestys: ''
-  lahetteen_jarjestys_suunta: ''
-  laskutyyppi: ''
-  laskutusvkopv: ''
-  maksusopimus_toimitus: ''
-  laskun_jarjestys: ''
-  laskun_jarjestys_suunta: ''
-  extranet_tilaus_varaa_saldoa: ''
-  vienti: ''
-  ketjutus: ''
-  luokka: ''
-  jtkielto: ''
-  jtrivit: ''
-  myyjanro: ''
-  erikoisale: 0
-  myyntikielto: ''
-  myynninseuranta: ''
-  luottoraja: 0
-  luottovakuutettu: ''
-  kuluprosentti: 0
-  tuntihinta: 0
-  tuntikerroin: 0
-  hintakerroin: 0
-  pientarvikelisa: 0
-  laskunsummapyoristys: 0
-  laskutuslisa: 0
-  panttitili: ''
-  tilino: ''
-  tilino_eu: ''
-  tilino_ei_eu: ''
-  tilino_kaanteinen: ''
-  tilino_marginaali: ''
-  tilino_osto_marginaali: ''
-  tilino_triang: ''
-  kustannuspaikka: ''
-  kohde: ''
-  projekti: ''
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
-  flag_1: ''
-  flag_2: ''
-  flag_3: ''
-  flag_4: ''
-  maa_maara: ''
-  sisamaan_kuljetus: ''
-  sisamaan_kuljetus_kansallisuus: ''
-  sisamaan_kuljetusmuoto: ''
-  kontti: ''
-  aktiivinen_kuljetus: ''
-  aktiivinen_kuljetus_kansallisuus: ''
-  kauppatapahtuman_luonne: ''
-  kuljetusmuoto: ''
-  poistumistoimipaikka_koodi: ''
+  muuttaja: joe
