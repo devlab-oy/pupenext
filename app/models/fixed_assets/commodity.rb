@@ -40,16 +40,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
-    account_no = procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
-    company.purchase_invoices_paid.find_by_account(account_no)
+    company.purchase_invoices_paid.find_by_account(viable_accounts)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
-    account_no = procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
-    company.vouchers.commodity_linkable.find_by_account(account_no)
+    company.vouchers.commodity_linkable.find_by_account(viable_accounts)
   end
 
   # Poistorivit
@@ -433,5 +429,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def procurement_sumlevel
       procurement_account.commodity
+    end
+
+    def viable_accounts
+      # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
+      procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
     end
 end
