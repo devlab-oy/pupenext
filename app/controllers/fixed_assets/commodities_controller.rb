@@ -1,6 +1,5 @@
 class FixedAssets::CommoditiesController < AdministrationController
-
-  before_action :find_resource, only: [:vouchers, :link_voucher, :purchase_orders, :link_purchase_order, :show, :edit, :update]
+  before_action :find_resource, except: [:index, :new, :create]
 
   # GET /commodities
   def index
