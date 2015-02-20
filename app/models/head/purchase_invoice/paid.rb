@@ -20,5 +20,4 @@ class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
   def self.model_name
     Head.model_name
   end
-
 end
