@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                              default: "",  null: false
     t.string   "vienti",                           limit: 1,                              default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                              default: "",  null: false
-    t.string   "koontilaskut_yhdistetaan",         limit: 1,                                            null: false
+    t.string   "koontilaskut_yhdistetaan",         limit: 1,                              default: "",  null: false
     t.string   "luokka",                           limit: 50,                             default: "",  null: false
     t.string   "jtkielto",                         limit: 1,                              default: "",  null: false
     t.integer  "jtrivit",                          limit: 4,                              default: 0,   null: false
