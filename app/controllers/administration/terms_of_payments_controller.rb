@@ -1,24 +1,12 @@
-class TermsOfPaymentsController < ApplicationController
-  include ApplicationHelper
-
-  before_action :find_terms_of_payment, only: [:show, :edit, :update]
+class Administration::TermsOfPaymentsController < AdministrationController
   before_action :find_all_terms_of_payments
-  before_action :update_access, only: [:create, :edit, :update, :new, :show]
-
   helper_method :showing_not_used?
-  helper_method :sort_column
-  helper_method :params_search
 
   # GET /terms_of_payments
   def index
-    if showing_not_used?
-      @terms_of_payments = current_company.terms_of_payments.not_in_use
-    else
-      @terms_of_payments = current_company.terms_of_payments
-    end
-
-    @terms_of_payments.search_like params_search
-    @terms_of_payments = @terms_of_payments.order("#{sort_column} #{sort_direction}")
+    @terms_of_payments = current_company.terms_of_payments
+      .search_like(search_params)
+      .order(order_params)
   end
 
   # GET /terms_of_payments/1
@@ -37,8 +25,7 @@ class TermsOfPaymentsController < ApplicationController
 
   # POST /terms_of_payments
   def create
-    @terms_of_payment = current_company.terms_of_payments.build
-    @terms_of_payment.attributes = terms_of_payment_params
+    @terms_of_payment = current_company.terms_of_payments.build(terms_of_payment_params)
 
     if @terms_of_payment.save_by current_user
       redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
@@ -58,7 +45,6 @@ class TermsOfPaymentsController < ApplicationController
 
   private
 
-    # Only allow a trusted parameter "white list" through.
     def terms_of_payment_params
       params.require(:terms_of_payment).permit(
         :teksti,
@@ -80,7 +66,7 @@ class TermsOfPaymentsController < ApplicationController
       )
     end
 
-    def find_terms_of_payment
+    def find_resource
       @terms_of_payment = current_user.company.terms_of_payments.find(params[:id])
     end
 
@@ -92,8 +78,8 @@ class TermsOfPaymentsController < ApplicationController
       params[:not_used] ? true : false
     end
 
-    def params_search
-      p = params.permit(
+    def searchable_columns
+      [
         :teksti,
         :rel_pvm,
         :abs_pvm,
@@ -101,18 +87,10 @@ class TermsOfPaymentsController < ApplicationController
         :kassa_abspvm,
         :kassa_alepros,
         :jarjestys,
-      )
-
-      p.reject { |_,v| v.empty? }
+      ]
     end
 
-    def sort_column
-      params.values.include?(params[:sort]) ? params[:sort] : "teksti"
+    def sortable_columns
+      searchable_columns
     end
-
-    def update_access
-      msg = "Sinulla ei ole päivitysoikeuksia."
-      redirect_to terms_of_payments_path, notice: msg unless update_access?
-    end
-
 end
