@@ -15,6 +15,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validates_presence_of :name, :description
 
   validate :only_one_account_number
+  validate :set_amount
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
@@ -434,5 +435,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def viable_accounts
       # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
       procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
+    end
+
+    def set_amount
+      self.amount = procurement_row.present? ? procurement_rows.sum(:summa) : 0.0
     end
 end
