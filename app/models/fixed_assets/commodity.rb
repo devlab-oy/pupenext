@@ -16,7 +16,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   validate :only_one_account_number
   validate :set_amount
-  validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
   validate :must_have_procurement_rows, if: :activated?
@@ -292,13 +291,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def only_one_account_number
       if procurement_rows.map(&:tilino).uniq.count > 1
         errors.add(:base, "Account number must be shared between all linked cost records")
-      end
-    end
-
-    def cost_sum_must_match_amount
-      procurement_sum = procurement_rows.sum(:summa)
-      unless amount == procurement_sum
-        errors.add(:base, "Commodity amount #{amount} must match sum of all cost records #{procurement_sum}")
       end
     end
 
