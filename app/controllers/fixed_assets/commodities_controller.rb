@@ -44,25 +44,51 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/purchase_orders
   def purchase_orders
-    @purchase_orders = @commodity.linkable_invoices
+    linkable_purchase_orders
   end
 
   # POST /commodities/1/purchase_orders
   def link_purchase_order
-    render nothing: true
+    find_the_row(params[:selected_accounting_row])
+    @linkable_row.commodity_id = @commodity.id
+    linkable_purchase_orders
+    if @linkable_row.save_by current_user
+      redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+    else
+      render :purchase_orders, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
+    end
   end
 
   # GET /commodities/1/vouchers
   def vouchers
-    @vouchers = @commodity.linkable_vouchers
+    linkable_vouchers
   end
 
   # POST /commodities/1/vouchers
   def link_voucher
-    render nothing: true
+    find_the_row(params[:selected_accounting_row])
+    @linkable_row.commodity_id = @commodity.id
+    linkable_vouchers
+    if @linkable_row.save_by current_user
+      redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+    else
+      render :vouchers, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
+    end
   end
 
   private
+
+    def linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers
+    end
+
+    def linkable_purchase_orders
+      @purchase_orders = @commodity.linkable_invoices
+    end
+
+    def find_the_row(id)
+      @linkable_row = current_company.voucher_rows.find_by_tunnus(id)
+    end
 
     # Allow only these params for update
     def commodity_params
