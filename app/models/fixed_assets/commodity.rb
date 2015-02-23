@@ -19,6 +19,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
+  validate :must_have_procurement_rows, if: :activated?
 
   before_save :generate_rows, if: :generate_rows?
 
@@ -439,5 +440,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def set_amount
       self.amount = procurement_row.present? ? procurement_rows.sum(:summa) : 0.0
+    end
+
+    def must_have_procurement_rows
+      unless procurement_row.present?
+        errors.add(:base, 'Must have procurement rows if activated')
+      end
     end
 end
