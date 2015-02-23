@@ -6,7 +6,7 @@
 <%= link_to return_text, edit_commodity_path(@commodity) %>
 <br /><br />
 
-<%= render "administration/form_errors", resource: @linkable_row %>
+<%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
 
 <% if notice %>
   <font class='ok'><%= t(notice) %></font>
