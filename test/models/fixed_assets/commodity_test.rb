@@ -29,27 +29,25 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'procurement_rows can have only one account number' do
-    row = head_voucher_rows(:six).attributes
-    row[:tunnus] = nil
-    row[:summa] = 0
-
-    @commodity.procurement_rows.create!(row)
-    @commodity.procurement_rows.create!(row)
+    new_row = head_voucher_rows(:six).dup
+    assert new_row.valid? new_row.errors.full_messages
 
     assert @commodity.valid?, @commodity.errors.full_messages
 
-    row[:tilino] = 1234
-    @commodity.procurement_rows.create!(row)
-    refute @commodity.valid?, "should not be valid"
+    new_row.tilino = 1234
+    refute new_row.valid?, "should not be valid"
   end
 
-  test 'amount should be sum of procurement_rows' do
+  test 'amount should be set to sum of procurement_rows' do
     assert_equal @commodity.amount.to_s, @commodity.procurement_rows.sum(:summa).to_s
 
-    @commodity.amount = 1000
-    @commodity.procurement_rows.first.summa = 100
+    proc_row = head_voucher_rows(:six)
+    proc_row.summa = 100
+    proc_row.save!
 
-    refute @commodity.valid?
+    assert_not_equal @commodity.procurement_rows.sum(:summa), @commodity.amount
+    assert @commodity.valid?
+    assert_equal @commodity.procurement_rows.sum(:summa), @commodity.amount
   end
 
   test 'required fields when active' do
@@ -562,13 +560,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'procurement row methods work' do
+    @commodity.procurement_rows.delete_all
     params = {
       tilino: '4443',
       kustp: 13,
       projekti: 33,
       kohde: 43
     }
-    @commodity.procurement_row.update_attributes! params
+    @commodity.procurement_rows.build params
 
     assert_equal params[:tilino], @commodity.procurement_number
     assert_equal params[:kustp], @commodity.procurement_cost_centre
