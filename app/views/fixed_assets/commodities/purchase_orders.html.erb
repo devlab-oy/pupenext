@@ -5,11 +5,17 @@
 <%= link_to return_text, edit_commodity_path(@commodity) %>
 <br /><br />
 
+<%= render "administration/form_errors", resource: @linkable_row %>
+
+<% if notice %>
+  <font class='ok'><%= t(notice) %></font>
+  <br /><br />
+<% end %>
+
 <%= render 'header' %>
 
 <font class="head"><%= t('Valitse ostolaskujen tiliöinnit') %></font>
 <br /><br />
-<%#= form_tag accounting_fixed_assets_commodities_purchase_orders_path, method: :get do %>
 
 <table>
   <tr>
@@ -40,35 +46,33 @@
     </th>
     <th class="back"><%= submit_tag t('Etsi') %></th>
   </tr>
-<%# end %>
 
   <% @purchase_orders.each do |po| %>
+    <tr>
+      <td><%= po.tunnus %></td>
+      <td><%= po.ytunnus %></td>
+      <td><%= po.nimi %></td>
+      <td><%= po.viesti %></td>
+      <td><%= po.summa %></td>
+    </tr>
+    <tr>
+    <th>Tunnus</th>
+    <th>Summa</th>
+    <th>Tili</th>
+    </tr>
 
-  <tr>
-    <td><%= po.tunnus %></td>
-    <td><%= po.ytunnus %></td>
-    <td><%= po.nimi %></td>
-    <td><%= po.viesti %></td>
-    <td><%= po.summa %></td>
-  </tr>
-  <tr>
-  <th>Tunnus</th>
-  <th>Summa</th>
-  <th>Tili</th>
-  </tr>
-  <% po.rows.each do |acc| %>
-  <tr>
-    <td><%= acc.tunnus  %></td>
-    <td><%= acc.summa  %></td>
-    <td><%= acc.tilino %></td>
-    <td class="back">
-    <%= form_tag(edit_commodity_path(@commodity), method: "get") do %>
-      <%= hidden_field_tag(:selected_accounting_row, acc.tunnus) %>
-      <%= submit_tag('Liitä') %>
+    <% po.rows.each do |acc| %>
+      <tr>
+        <td><%= acc.tunnus  %></td>
+        <td><%= acc.summa  %></td>
+        <td><%= acc.tilino %></td>
+        <td class="back">
+        <%= form_tag(commodity_purchase_orders_path(@commodity), method: :post) do %>
+          <%= hidden_field_tag(:selected_accounting_row, acc.tunnus) %>
+          <%= submit_tag('Liitä') %>
+        <% end %>
+        </td>
+      </tr>
     <% end %>
-    </td>
-  </tr>
   <% end %>
-<% end %>
-
 </table>
