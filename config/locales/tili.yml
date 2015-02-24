@@ -12,4 +12,5 @@ fi:
         tasokoodi_u: Tasokoodi (ulkoinen tuloslaskelma / tase)
         tasokoodi_a: ALV-laskelman verotaso
         tasokoodi_b: Tulosseurantataso
+        tasokoodi_e: EVL-taso
         kustp: Oletuskustannuspaikka
