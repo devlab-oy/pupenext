@@ -1,3 +1,19 @@
 <% if @commodity.procurement_rows.present? %>
-<p>Irony Godard lumbersexual meggings crucifix master cleanse, mumblecore narwhal ennui DIY. Selvage flannel tofu, disrupt vinyl fashion axe iPhone XOXO drinking vinegar. Salvia YOLO wolf chia, mixtape literally banjo. Truffaut Schlitz try-hard typewriter stumptown cold-pressed heirloom. Small batch Williamsburg 3 wolf moon four dollar toast paleo. Actually gastropub wayfarers, selvage swag Carles beard Etsy Echo Park pork belly Truffaut. Polaroid Pinterest slow-carb dreamcatcher squid selvage, butcher ennui semiotics fanny pack leggings.</p>
+<br/>
+<font class="head"><%= t('Liitetyt hankintakustannukset') %></font>
+<br/><br/>
+<table>
+<tr>
+  <th><%= t('Tunnus') %></th>
+  <th><%= t('Summa') %></th>
+  <th><%= t('Pvm') %></th>
+</tr>
+  <% @commodity.procurement_rows.each do |procrow| %>
+  <tr>
+    <td><%= procrow.tunnus  %></td>
+    <td><%= procrow.summa %></td>
+    <td><%= procrow.tapvm %></td>
+  </tr>
+  <% end %>
+</table>
 <% end %>
