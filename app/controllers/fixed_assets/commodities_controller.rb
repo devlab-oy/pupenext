@@ -69,9 +69,9 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
-      linkable_vouchers
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
+      linkable_vouchers
       render :vouchers, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
     end
   end
@@ -113,6 +113,13 @@ class FixedAssets::CommoditiesController < AdministrationController
       )
     end
 
+    # Allow only these params for link
+    def link_params
+      params.permit(
+        :voucher_row_id
+      )
+    end
+
     def searchable_columns
       [
         :name,
@@ -128,13 +135,8 @@ class FixedAssets::CommoditiesController < AdministrationController
       @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
     end
 
-
-    def find_the_row(id)
-      @linkable_row = current_company.voucher_rows.find_by_tunnus(id)
-    end
-
     def link_resource
-      find_the_row(params[:selected_accounting_row])
+      @linkable_row = current_company.voucher_rows.find_by_tunnus(link_params[:voucher_row_id])
       @linkable_row.commodity_id = @commodity.id
     end
 end
