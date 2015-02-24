@@ -131,6 +131,23 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_redirected_to commodity_vouchers_path
   end
 
+  test 'linking first voucher' do
+    b = @commodity.dup
+    b.status = nil
+    assert b.save, b.errors.full_messages
+
+    params = {
+      commodity_id: b.id,
+      voucher_row_id: head_voucher_rows(:nine).id
+    }
+
+    assert_difference("Head::VoucherRow.where(commodity_id: #{b.id}).count") do
+      post :link_voucher, params
+    end
+
+    assert_redirected_to commodity_vouchers_path
+  end
+
   test 'should not link voucher_row with wrong account number' do
     params = {
       commodity_id: @commodity.id,
