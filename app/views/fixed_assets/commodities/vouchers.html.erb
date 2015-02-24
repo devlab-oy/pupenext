@@ -61,7 +61,7 @@
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
     <td class='back'><%= form_tag(commodity_vouchers_path(@commodity, vourow), method: :post) do %>
-    <%= hidden_field_tag(:selected_accounting_row, vourow.tunnus) %>
+    <%= hidden_field_tag(:voucher_row_id, vourow.tunnus) %>
     <%= submit_tag('Liitä') %></td>
     <% end %>
     </tr>

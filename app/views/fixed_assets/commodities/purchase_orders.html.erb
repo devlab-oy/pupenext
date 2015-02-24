@@ -68,7 +68,7 @@
         <td><%= acc.tilino %></td>
         <td class="back">
         <%= form_tag(commodity_purchase_orders_path(@commodity), method: :post) do %>
-          <%= hidden_field_tag(:selected_accounting_row, acc.tunnus) %>
+          <%= hidden_field_tag(:voucher_row_id, acc.tunnus) %>
           <%= submit_tag('Liitä') %>
         <% end %>
         </td>
