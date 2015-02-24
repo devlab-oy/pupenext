@@ -55,7 +55,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_purchase_orders
-      render :purchase_orders, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
+      render :purchase_orders
     end
   end
 
@@ -72,7 +72,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_vouchers
-      render :vouchers, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
+      render :vouchers
     end
   end
 
