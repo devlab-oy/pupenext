@@ -79,11 +79,11 @@ class FixedAssets::CommoditiesController < AdministrationController
   private
 
     def linkable_vouchers
-      @vouchers = @commodity.linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers.includes(:rows)
     end
 
     def linkable_purchase_orders
-      @purchase_orders = @commodity.linkable_invoices
+      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
     end
 
     # Allow only these params for update
