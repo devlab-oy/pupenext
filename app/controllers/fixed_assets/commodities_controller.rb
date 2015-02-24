@@ -52,9 +52,9 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
-      linkable_purchase_orders
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
+      linkable_purchase_orders
       render :purchase_orders, notice: 'Tiliöintirivin liittäminen ei onnistunut.'
     end
   end

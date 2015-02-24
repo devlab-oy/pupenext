@@ -150,8 +150,28 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should update link purchase order' do
-    params = { commodity_id: @commodity.id }
-    post :purchase_orders, params
-    assert_response :success
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: head_voucher_rows(:thirteen).id
+    }
+
+    assert_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
+      post :link_purchase_order, params
+    end
+
+    assert_redirected_to commodity_purchase_orders_path
+  end
+
+  test 'should not update link purchase order with wrong account number' do
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: head_voucher_rows(:twelve).id
+    }
+
+    assert_no_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
+      post :link_purchase_order, params
+    end
+
+    assert_template 'purchase_orders'
   end
 end
