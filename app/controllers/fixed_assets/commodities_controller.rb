@@ -113,13 +113,6 @@ class FixedAssets::CommoditiesController < AdministrationController
       )
     end
 
-    # Allow only these params for link
-    def link_params
-      params.permit(
-        :voucher_row_id
-      )
-    end
-
     def searchable_columns
       [
         :name,
@@ -136,7 +129,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def link_resource
-      @linkable_row = current_company.voucher_rows.find_by_tunnus(link_params[:voucher_row_id])
+      @linkable_row = current_company.voucher_rows.find(params[:voucher_row_id])
       @linkable_row.commodity_id = @commodity.id
     end
 end
