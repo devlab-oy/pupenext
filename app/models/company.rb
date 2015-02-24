@@ -24,6 +24,7 @@ class Company < ActiveRecord::Base
     o.has_many :sales_orders,                          class_name: 'Head::SalesOrder'
     o.has_many :sales_invoices,                        class_name: 'Head::SalesInvoice'
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
+    o.has_many :voucher_rows,                          class_name: 'Head::VoucherRow'
 
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     o.has_many :projects,     class_name: 'Qualifier::Project'
@@ -31,6 +32,7 @@ class Company < ActiveRecord::Base
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
+  has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
 
   # Map old database schema table to Company class
   self.table_name = :yhtio

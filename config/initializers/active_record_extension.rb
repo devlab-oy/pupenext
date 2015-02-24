@@ -41,7 +41,7 @@ module ActiveRecordExtension
 
     def touch_antique_columns(user)
       self.laatija = user.kuka unless self.persisted? && self.laatija.present?
-      self.muuttaja = user.kuka
+      self.muuttaja = user.kuka if self.respond_to?(:muuttaja=)
     end
 
     def set_legacy_timestamps

@@ -15,10 +15,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validates_presence_of :name, :description
 
   validate :only_one_account_number
-  validate :cost_sum_must_match_amount, if: :activated?
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
+  validate :must_have_procurement_rows, if: :activated?
 
+  before_save :set_amount
   before_save :generate_rows, if: :generate_rows?
 
   def self.options_for_type
@@ -93,23 +94,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def procurement_number
-    return 0 if procurement_row.nil?
-    procurement_row.tilino
+    procurement_row.try(:tilino)
   end
 
   def procurement_cost_centre
-    return 0 if procurement_row.nil?
-    procurement_row.kustp
+    procurement_row.try(:kustp)
   end
 
   def procurement_project
-    return 0 if procurement_row.nil?
-    procurement_row.projekti
+    procurement_row.try(:projekti)
   end
 
   def procurement_target
-    return 0 if procurement_row.nil?
-    procurement_row.kohde
+    procurement_row.try(:kohde)
   end
 
   def procurement_row
@@ -293,13 +290,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
-    def cost_sum_must_match_amount
-      procurement_sum = procurement_rows.sum(:summa)
-      unless amount == procurement_sum
-        errors.add(:base, "Commodity amount #{amount} must match sum of all cost records #{procurement_sum}")
-      end
-    end
-
     def create_voucher
       voucher_params = {
         nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
@@ -434,5 +424,15 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def viable_accounts
       # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
       procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
+    end
+
+    def set_amount
+      self.amount = procurement_row.present? ? procurement_rows.sum(:summa) : 0.0
+    end
+
+    def must_have_procurement_rows
+      unless procurement_row.present?
+        errors.add(:base, 'Must have procurement rows if activated')
+      end
     end
 end

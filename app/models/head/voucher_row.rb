@@ -16,6 +16,7 @@ class Head::VoucherRow < ActiveRecord::Base
 
   validates :yhtio, presence: true
   validate :allow_only_active_fiscal_period
+  validate :only_one_account_per_commodity, if: :has_commodity_account?
 
   before_save :defaults
 
@@ -46,5 +47,15 @@ class Head::VoucherRow < ActiveRecord::Base
       unless company.date_in_current_fiscal_year?(tapvm)
         errors.add(:base, 'Must be created in current fiscal period')
       end
+    end
+
+    def only_one_account_per_commodity
+      unless tilino == commodity.procurement_number
+        errors.add(:base, "Account #{commodity.procurement_number} already selected for this commodity")
+      end
+    end
+
+    def has_commodity_account?
+      commodity.try(:procurement_number).present?
     end
 end

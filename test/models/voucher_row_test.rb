@@ -27,7 +27,20 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     }
     @row.voucher.company.update_attributes! params
 
-    @row.tapvm = '2017-31-1'
-    refute @row.valid?, @row.errors.full_messages
+    new_row = @row.dup
+    new_row.tapvm = '2017-31-1'
+    refute new_row.valid?
+  end
+
+  test 'allows only one account per commodity id' do
+    # Commodity already has account number that differs from this row
+    commodity = fixed_assets_commodities(:commodity_one)
+    assert_not_equal commodity.procurement_number, @row.tilino
+    @row.commodity_id = commodity.id
+    refute @row.valid?
+
+    # Accepts the same account number
+    @row.tilino = commodity.procurement_number
+    assert @row.valid?
   end
 end

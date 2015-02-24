@@ -52,5 +52,6 @@ class Head::Voucher < Head
       self.toim_puh ||= ''
       self.email ||= ''
       self.toim_email ||= ''
+      self.alatila ||= ''
     end
 end

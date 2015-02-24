@@ -1,0 +1,40 @@
+<% if @commodity.voucher.present? %>
+<br/>
+<font class="head"><%= t('SUMU Poistoerät') %></font>
+<br/><br/>
+<table>
+<tr>
+  <th><%= t('Tunnus') %></th>
+  <th><%= t('Summa') %></th>
+  <th><%= t('Pvm') %></th>
+</tr>
+  <% @commodity.voucher.rows.each do |vourow| %>
+  <tr>
+    <td><%= vourow.tunnus  %></td>
+    <td><%= vourow.summa %></td>
+    <td><%= vourow.tapvm %></td>
+  </tr>
+  <% end %>
+</table>
+<% end %>
+
+<% if @commodity.commodity_rows.present? %>
+<br/>
+<font class="head"><%= t('EVL Poistoerät') %></font>
+<br/><br/>
+<table>
+<tr>
+  <th><%= t('Tunnus') %></th>
+  <th><%= t('Summa') %></th>
+  <th><%= t('Pvm') %></th>
+</tr>
+  <% @commodity.commodity_rows.each do |comrow| %>
+  <tr>
+    <td><%= comrow.id  %></td>
+    <td><%= comrow.amount %></td>
+    <td><%= comrow.transacted_at %></td>
+  </tr>
+  <% end %>
+</table>
+<% end %>
+

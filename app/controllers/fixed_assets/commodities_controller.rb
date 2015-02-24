@@ -44,25 +44,47 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/purchase_orders
   def purchase_orders
-    @purchase_orders = @commodity.linkable_invoices
+    linkable_purchase_orders
   end
 
   # POST /commodities/1/purchase_orders
   def link_purchase_order
-    render nothing: true
+    link_resource
+
+    if @linkable_row.save_by current_user
+      redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+    else
+      linkable_purchase_orders
+      render :purchase_orders
+    end
   end
 
   # GET /commodities/1/vouchers
   def vouchers
-    @vouchers = @commodity.linkable_vouchers
+    linkable_vouchers
   end
 
   # POST /commodities/1/vouchers
   def link_voucher
-    render nothing: true
+    link_resource
+
+    if @linkable_row.save_by current_user
+      redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+    else
+      linkable_vouchers
+      render :vouchers
+    end
   end
 
   private
+
+    def linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers.includes(:rows)
+    end
+
+    def linkable_purchase_orders
+      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
+    end
 
     # Allow only these params for update
     def commodity_params
@@ -91,6 +113,13 @@ class FixedAssets::CommoditiesController < AdministrationController
       )
     end
 
+    # Allow only these params for link
+    def link_params
+      params.permit(
+        :voucher_row_id
+      )
+    end
+
     def searchable_columns
       [
         :name,
@@ -104,5 +133,10 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def find_resource
       @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
+    end
+
+    def link_resource
+      @linkable_row = current_company.voucher_rows.find_by_tunnus(link_params[:voucher_row_id])
+      @linkable_row.commodity_id = @commodity.id
     end
 end

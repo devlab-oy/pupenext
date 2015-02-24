@@ -99,3 +99,12 @@ twelve:
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
+
+thirteen:
+  yhtio: acme
+  voucher: pi_Y
+  tilino: 4444
+  summa: 54932
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
