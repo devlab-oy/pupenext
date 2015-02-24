@@ -57,24 +57,36 @@ else
 fi
 
 if [[ "${jatketaanko}" = "k" ]]; then
-  # Get old head
-  OLD_HEAD=$(cd "${app_dir}" && git rev-parse HEAD)
+
+  # Jos toinen parametri on bundle, niin bundlataan aina eikä tarvitse tsekata git-juttuja
+  if [[ -n "${2}" && ${2} = "bundle" ]]; then
+    OLD_HEAD=0
+  else
+    # Get old head
+    OLD_HEAD=$(cd "${app_dir}" && git rev-parse HEAD)
+  fi
 
   # Change to app directory
   cd "${app_dir}" &&
 
-  # Update app with git
-  git fetch origin &&
-  git checkout . &&
-  git checkout master &&
-  git pull origin master &&
-  git remote prune origin
+  # Jos toinen parametri on bundle, niin bundlataan aina eikä tarvitse tsekata git-juttuja
+  if [[ -n "${2}" && ${2} = "bundle" ]]; then
+    STATUS=0
+    NEW_HEAD=1
+  else
+    # Update app with git
+    git fetch origin &&
+    git checkout . &&
+    git checkout master &&
+    git pull origin master &&
+    git remote prune origin
 
-  # Save git exit status
-  STATUS=$?
+    # Save git exit status
+    STATUS=$?
 
-  # Get new head
-  NEW_HEAD=$(git rev-parse HEAD)
+    # Get new head
+    NEW_HEAD=$(git rev-parse HEAD)
+  fi
 
   # Check tmp dir
   if [ ! -d "${app_dir}/tmp" ]; then
@@ -82,11 +94,6 @@ if [[ "${jatketaanko}" = "k" ]]; then
   fi
 
   echo
-
-  # Jos toinen parametri on bundle, niin bundlataan aina
-  if [[ -n "${2}" && ${2} = "bundle" ]]; then
-    NEW_HEAD=
-  fi
 
   # Ei päivitettävää
   if [[ ${STATUS} -eq 0 && ${OLD_HEAD} = ${NEW_HEAD} ]]; then

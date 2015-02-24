@@ -35,7 +35,7 @@ class Account < ActiveRecord::Base
 
   def toimijaliitos_options
     [
-      ["Ei liitospakkoa", "0"],
+      ["Ei liitospakkoa", ""],
       ["Muistiotositteelle on liitettävä asiakas tai toimittaja", "A"]
     ]
   end
@@ -55,7 +55,7 @@ class Account < ActiveRecord::Base
 
   def manuaali_esto_options
     [
-      ["Tiliöinti muokattavissa", "0"],
+      ["Tiliöinti muokattavissa", ""],
       ["Tiliöinnin manuaalinen lisäys/muokkaus estetty", "X"]
     ]
   end
@@ -84,5 +84,7 @@ class Account < ActiveRecord::Base
       self.projekti ||= 0
       self.kustp ||= 0
       self.kohde ||= 0
+      self.toimijaliitos ||= ""
+      self.manuaali_esto ||= ""
     end
 end
