@@ -16,7 +16,7 @@ class Head::VoucherRow < ActiveRecord::Base
 
   validates :yhtio, presence: true
   validate :allow_only_active_fiscal_period, on: :create
-  validate :only_one_account_per_commodity, if: :has_commodity?
+  validate :only_one_account_per_commodity, if: :has_commodity_account?
 
   before_save :defaults
 
@@ -55,7 +55,7 @@ class Head::VoucherRow < ActiveRecord::Base
       end
     end
 
-    def has_commodity?
-      commodity.present?
+    def has_commodity_account?
+      commodity.try(:procurement_number).present?
     end
 end
