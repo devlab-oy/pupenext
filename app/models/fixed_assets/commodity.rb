@@ -94,23 +94,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def procurement_number
-    return 0 if procurement_row.nil?
-    procurement_row.tilino
+    procurement_row.try(:tilino)
   end
 
   def procurement_cost_centre
-    return 0 if procurement_row.nil?
-    procurement_row.kustp
+    procurement_row.try(:kustp)
   end
 
   def procurement_project
-    return 0 if procurement_row.nil?
-    procurement_row.projekti
+    procurement_row.try(:projekti)
   end
 
   def procurement_target
-    return 0 if procurement_row.nil?
-    procurement_row.kohde
+    procurement_row.try(:kohde)
   end
 
   def procurement_row

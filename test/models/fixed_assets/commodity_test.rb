@@ -575,10 +575,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal params[:kohde], @commodity.procurement_target
 
     @commodity.procurement_rows.delete_all
-    assert_equal 0, @commodity.procurement_number
-    assert_equal 0, @commodity.procurement_cost_centre
-    assert_equal 0, @commodity.procurement_project
-    assert_equal 0, @commodity.procurement_target
+    assert_nil @commodity.procurement_number
+    assert_nil @commodity.procurement_cost_centre
+    assert_nil @commodity.procurement_project
+    assert_nil @commodity.procurement_target
   end
 
   test 'linkable invoices method works' do
