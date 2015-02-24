@@ -15,11 +15,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validates_presence_of :name, :description
 
   validate :only_one_account_number
-  validate :set_amount
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
   validate :must_have_procurement_rows, if: :activated?
 
+  before_save :set_amount
   before_save :generate_rows, if: :generate_rows?
 
   def self.options_for_type

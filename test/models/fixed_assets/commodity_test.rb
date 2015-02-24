@@ -39,15 +39,15 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'amount should be set to sum of procurement_rows' do
-    assert_equal @commodity.amount.to_s, @commodity.procurement_rows.sum(:summa).to_s
+    assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
 
-    proc_row = head_voucher_rows(:six)
-    proc_row.summa = 100
+    proc_row = @commodity.procurement_rows.first
+    proc_row.summa += 100
     proc_row.save!
+    assert_not_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
 
-    assert_not_equal @commodity.procurement_rows.sum(:summa), @commodity.amount
-    assert @commodity.valid?
-    assert_equal @commodity.procurement_rows.sum(:summa), @commodity.amount
+    assert @commodity.save
+    assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
   end
 
   test 'required fields when active' do
