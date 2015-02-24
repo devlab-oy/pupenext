@@ -15,7 +15,7 @@ class Head::VoucherRow < ActiveRecord::Base
   scope :unlocked, -> { where(lukko: '') }
 
   validates :yhtio, presence: true
-  validate :allow_only_active_fiscal_period, on: :create
+  validate :allow_only_active_fiscal_period
   validate :only_one_account_per_commodity, if: :has_commodity_account?
 
   before_save :defaults
