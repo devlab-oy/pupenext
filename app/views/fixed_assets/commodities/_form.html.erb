@@ -1,6 +1,4 @@
  <% if update_access? %>
- <%= render "administration/form_errors", resource: @commodity %>
-  <br/>
   <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
   <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
   <br/>
