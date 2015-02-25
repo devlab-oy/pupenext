@@ -594,27 +594,24 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'depreciation dates work correctly' do
+    @commodity.depreciation_rows.delete_all
     # Create depreciation rows to past
     params = {
       tilikausi_alku: '2014-10-01',
       tilikausi_loppu: '2014-12-31'
     }
     @commodity.company.update_attributes! params
-    @commodity.depreciation_rows.delete_all
-    #assert_equal 'kissa', @commodity.voucher.rows.sum(:summa).to_s
-    @commodity.activated_at = '2014-10-01'
+    @commodity.activated_at = '2014-11-01'
+    @commodity.save
 
-    assert_difference('FixedAssets::CommodityRow.count', 1) do
-      @commodity.save
-    end
-    assert_equal 15, @commodity.depreciation_rows.count
-    assert_equal assert_equal 'kissa', @commodity.voucher.rows.last.tapvm
+    assert_equal 2, @commodity.depreciation_rows.count
+    assert_equal 2, @commodity.difference_rows.count
 
+    assert_equal '2014-11-30'.to_date, @commodity.voucher.rows.first.tapvm
+    assert_equal '2014-12-31'.to_date, @commodity.voucher.rows.last.tapvm
 
-    assert_equal 15, @commodity.difference_rows.count
-
-    assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.first.transacted_at
-    assert_equal '2016-03-31'.to_date, @commodity.commodity_rows.last.transacted_at
+    assert_equal '2014-11-30'.to_date, @commodity.commodity_rows.first.transacted_at
+    assert_equal '2014-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
 
     # Create depreciation rows to current fiscal period
 
