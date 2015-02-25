@@ -4,15 +4,17 @@
 <br/><br/>
 <table>
 <tr>
-  <th><%= t('Tunnus') %></th>
+  <th><%= t('Tili') %></th>
   <th><%= t('Summa') %></th>
   <th><%= t('Pvm') %></th>
+  <th><%= t('Selite') %></th>
 </tr>
   <% @commodity.voucher.rows.each do |vourow| %>
   <tr>
-    <td><%= vourow.tunnus  %></td>
+    <td><%= vourow.tilino  %></td>
     <td><%= vourow.summa %></td>
     <td><%= vourow.tapvm %></td>
+    <td><%= vourow.selite %></td>
   </tr>
   <% end %>
 </table>
@@ -24,15 +26,17 @@
 <br/><br/>
 <table>
 <tr>
-  <th><%= t('Tunnus') %></th>
+  <th><%= t('Tili') %></th>
   <th><%= t('Summa') %></th>
   <th><%= t('Pvm') %></th>
+  <th><%= t('Selite') %></th>
 </tr>
   <% @commodity.commodity_rows.each do |comrow| %>
   <tr>
-    <td><%= comrow.id  %></td>
+    <td><%= comrow.account  %></td>
     <td><%= comrow.amount %></td>
     <td><%= comrow.transacted_at %></td>
+    <td><%= comrow.description %></td>
   </tr>
   <% end %>
 </table>
