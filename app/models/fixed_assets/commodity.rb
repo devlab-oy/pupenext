@@ -318,7 +318,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
           tapvm: time.end_of_month,
           summa: amount,
           yhtio: company.yhtio,
-          selite: :SUMU,
+          selite: "SUMU poisto, tyyppi: #{planned_depreciation_type},
+            erä: #{planned_depreciation_amount}",
           tilino: procurement_number
         }
 
@@ -341,7 +342,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
           modified_by: modified_by,
           transacted_at: time.end_of_month,
           amount: amount,
-          description: :EVL,
+          description: "EVL poisto, tyyppi: #{btl_depreciation_type},
+            erä: #{btl_depreciation_amount}",
           account: procurement_number
         }
 
