@@ -37,6 +37,38 @@ class TermsOfPayment < ActiveRecord::Base
   default_scope { where(kaytossa: '') }
   scope :not_in_use, -> { unscoped.where(kaytossa: 'E') }
 
+  def cash_options
+    [
+      ["Tämä ei ole käteismaksuehto", ""],
+      ["Käteismaksuehto, pankkikortti ei pyöristetä", "n"],
+      ["Käteismaksuehto, luottokortti ei pyöristetä", "o"],
+      ["Käteismaksuehto, käteinen pyöristetään", "p"]
+    ]
+  end
+
+  def factoring_options
+    ops = [["Ei factoroida", ""]]
+
+    Factoring.where(yhtio: yhtio).select(:factoringyhtio).uniq.each do |i|
+      ops << [ i.factoringyhtio, i.factoringyhtio ]
+    end
+
+    ops
+  end
+
+  def bank_details_options
+    ops = [["Käytä yrityksen oletuksia", 0]]
+    BankDetail.where(yhtio: yhtio).each { |i| ops << [ i.nimitys, i.id ] }
+    ops
+  end
+
+  def in_use_options
+    [
+      ["Käytössä", ""],
+      ["Poistettu / Ei käytössä", "E"]
+    ]
+  end
+
   def date_is_valid
     unless valid_date? self.abs_pvm
       errors.add(:abs_pvm, "is invalid")

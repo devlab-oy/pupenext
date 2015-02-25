@@ -45,34 +45,19 @@
     <tr>
       <th><%= f.label :kateinen %></th>
       <td>
-        <% ops = [ %>
-        <% [t('Tämä ei ole käteismaksuehto'), ''], %>
-        <% [t('Käteismaksuehto, pankkikortti ei pyöristetä'), 'n'], %>
-        <% [t('Käteismaksuehto, luottokortti ei pyöristetä'), 'o'], %>
-        <% [t('Käteismaksuehto, käteinen pyöristetään'), 'p'], %>
-        <% ] %>
-        <% options = options_for_select(ops, f.object.kateinen) %>
-        <%= select_tag 'terms_of_payment[kateinen]', options, include_blank: false %>
+        <%= f.select(:kateinen, @terms_of_payment.cash_options) %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :factoring %></th>
       <td>
-        <% ops = [[t('Ei factoroida'), '']] %>
-        <% current_user.company.factorings.select(:factoringyhtio).uniq.each do |i| %>
-        <% ops << [ i.factoringyhtio, i.factoringyhtio ] %>
-        <% end %>
-        <% options = options_for_select(ops, f.object.factoring) %>
-        <%= select_tag 'terms_of_payment[factoring]', options, include_blank: false %>
+        <%= f.select(:factoring, @terms_of_payment.factoring_options) %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :pankkiyhteystiedot %></th>
       <td>
-        <% ops = [[t('Käytä yrityksen oletuksia'), 0]] %>
-        <% current_user.company.bank_details.each { |i| ops << [ i.nimitys, i.id ] } %>
-        <% options = options_for_select(ops, f.object.pankkiyhteystiedot) %>
-        <%= select_tag 'terms_of_payment[pankkiyhteystiedot]', options, include_blank: false %>
+        <%= f.select(:pankkiyhteystiedot, @terms_of_payment.bank_details_options) %>
       </td>
     </tr>
     <tr>
@@ -99,8 +84,7 @@
     <tr>
       <th><%= f.label :kaytossa %></th>
       <td>
-        <% options = options_for_select([[t('Käytössä'), ''], [t('Poistettu / Ei käytössä'), 'E']], f.object.kaytossa) %>
-        <%= select_tag 'terms_of_payment[kaytossa]', options, include_blank: false %>
+        <%= f.select(:kaytossa, @terms_of_payment.in_use_options) %>
       </td>
     </tr>
     <tr>
