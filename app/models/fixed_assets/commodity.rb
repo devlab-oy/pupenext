@@ -279,7 +279,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def activation_only_on_open_fiscal_year
-      unless company.date_in_current_fiscal_year?(activated_at)
+      unless company.date_in_open_period?(activated_at)
         errors.add(:base, "Activation date must be within current editable fiscal year")
       end
     end
@@ -403,8 +403,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def payment_count
       current_active = company.months_in_current_fiscal_year
-      return current_active if activated_at < company.fiscal_year.first
-      (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
+      return current_active if activated_at < company.current_fiscal_year.first
+      (activated_at..company.current_fiscal_year.last).map(&:end_of_month).uniq.count
     end
 
     def depreciation_start_date

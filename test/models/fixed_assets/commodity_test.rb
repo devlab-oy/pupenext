@@ -110,14 +110,19 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should calculate with divide_to_payments' do
-    amount = 1000
+    # We have a 12 month fiscal year
     fiscal_year = @commodity.company.months_in_current_fiscal_year
-    result = @commodity.divide_to_payments(amount, fiscal_year*2)
+    assert_equal fiscal_year, 12
 
-    assert_equal fiscal_year, 6
-    assert_equal amount/2, result.sum
+    # We active in july
+    @commodity.activated_at = DateTime.now.change(month: 7, day: 1)
 
-    assert_equal fiscal_year, result.count
+    # Divide 1000 into 12 depreciations
+    result = @commodity.divide_to_payments(1000, 12)
+
+    # We should get 500 this fiscal year, in 6 depreciations
+    assert_equal 500, result.sum
+    assert_equal 6, result.count
     assert_equal 83.33.to_d, result.first
     assert_equal 83.35.to_d, result.last
   end
@@ -126,6 +131,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Tasapoisto vuosiprosentti
     full_amount = 10000
     percentage = 35
+
+    # We active in july
+    @commodity.activated_at = DateTime.now.change(month: 7, day: 1)
 
     result = @commodity.fixed_by_percentage(full_amount, percentage)
 
@@ -139,16 +147,23 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
+
+    # We have a 12 month fiscal year
     fiscal_year = @commodity.company.months_in_current_fiscal_year
+    assert_equal fiscal_year, 12
+
+    # We active in july
+    @commodity.activated_at = DateTime.now.change(month: 7, day: 1)
+
     # Yearly degressive percentage
     fiscalyearly_percentage = 35
 
     result = @commodity.degressive_by_percentage(reduct, fiscalyearly_percentage)
-    assert_equal fiscal_year, result.count
+    assert_equal 6, result.count
     assert_equal 3500, result.sum
 
     result = @commodity.degressive_by_percentage(reduct, fiscalyearly_percentage, 3500)
-    assert_equal fiscal_year, result.count
+    assert_equal 6, result.count
     assert_equal 2275, result.sum
   end
 
@@ -159,11 +174,18 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Total amounts of depreciations
     total_depreciations = 12
 
+    # We have a 12 month fiscal year
+    fiscal_year = @commodity.company.months_in_current_fiscal_year
+    assert_equal fiscal_year, 12
+
+    # We active in july
+    @commodity.activated_at = DateTime.now.change(month: 7, day: 1)
+
     fiscal_year = @commodity.company.months_in_current_fiscal_year
 
     result = @commodity.fixed_by_month(total_amount, total_depreciations, 6, 5000)
 
-    assert_equal fiscal_year, result.count
+    assert_equal 6, result.count
     assert_equal 5000, result.sum
   end
 
@@ -172,7 +194,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       status: 'A',
       amount: 10000, # hyödykkeen arvo
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
     }
@@ -244,7 +266,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -296,7 +318,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # otsikon tieto muuttui, pitää laskea kaikki
     params = {
       btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
-      btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
+      btl_depreciation_amount: 20, # poistetaan 20% vuodessa menojäännöksestä
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
     }
 
     @commodity.attributes = params
@@ -317,7 +340,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'T', # Tasapoisto kuukausittain
       planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
@@ -359,7 +382,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
     }
@@ -397,7 +420,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -434,7 +457,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: Date.today.beginning_of_month, # poistot tästä päivästä eteenpäin
+      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'T', # Tasapoisto kuukausittain
       btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
@@ -465,6 +488,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'should create something' do
+    skip
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-06-30'
