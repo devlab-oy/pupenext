@@ -132,4 +132,17 @@ class CompanyTest < ActiveSupport::TestCase
       @acme.reload.current_fiscal_year
     end
   end
+
+  test 'date in open period' do
+    @acme.tilikausi_alku = '2014-01-01'
+    @acme.tilikausi_loppu = '2014-12-31'
+
+    assert @acme.date_in_open_period?('2014-01-01'), 'first'
+    assert @acme.date_in_open_period?('2014-06-01'), 'middle'
+    assert @acme.date_in_open_period?('2014-12-31'), 'last'
+
+    assert @acme.date_in_open_period?('2014-01-01'.to_date), 'first'
+    assert @acme.date_in_open_period?('2014-06-01'.to_date), 'middle'
+    assert @acme.date_in_open_period?('2014-12-31'.to_date), 'last'
+  end
 end

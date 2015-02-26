@@ -47,16 +47,20 @@ class Company < ActiveRecord::Base
     fy.first.tilikausi_alku..fy.first.tilikausi_loppu
   end
 
-  def open_period
-    [tilikausi_alku, tilikausi_loppu]
-  end
-
   def months_in_current_fiscal_year
     current_fiscal_year.map(&:end_of_month).uniq.count
   end
 
   def date_in_current_fiscal_year?(date)
     current_fiscal_year.cover?(date)
+  end
+
+  def open_period
+    [tilikausi_alku, tilikausi_loppu]
+  end
+
+  def date_in_open_period?(date)
+    (open_period.first..open_period.last).cover?(date.to_date)
   end
 
   def classic_ui?
