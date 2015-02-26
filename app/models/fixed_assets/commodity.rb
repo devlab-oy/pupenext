@@ -408,6 +408,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def depreciation_start_date
+      current_start = company.current_fiscal_year.first
+      return current_start if activated_at < current_start
       activated_at
     end
 
