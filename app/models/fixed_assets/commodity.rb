@@ -306,12 +306,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def generate_voucher_rows
       create_voucher if voucher.nil?
-      activation_date = activated_at
       amounts = calculate_depreciations(:SUMU)
 
       # Poistoerän kirjaus
       amounts.each_with_index do |amount, i|
-        time = activation_date.advance(months: +i)
+        time = depreciation_start_date.advance(months: +i)
 
         row_params = {
           laatija: created_by,
@@ -330,11 +329,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def generate_commodity_rows
-      activation_date = activated_at
       amounts = calculate_depreciations(:EVL)
 
       amounts.each_with_index do |amount, i|
-        time = activation_date.advance(months: +i)
+        time = depreciation_start_date.advance(months: +i)
 
         row_params = {
           created_by: created_by,
@@ -407,6 +405,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
       current_active = company.months_in_current_fiscal_year
       return current_active if activated_at < company.fiscal_year.first
       (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
+    end
+
+    def depreciation_start_date
+      activated_at
     end
 
     def depreciation_differences
