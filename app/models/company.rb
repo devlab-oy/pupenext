@@ -60,7 +60,7 @@ class Company < ActiveRecord::Base
   end
 
   def date_in_open_period?(date)
-    (open_period.first..open_period.last).cover?(date.to_date)
+    (open_period.first..open_period.last).cover?(date.try(:to_date))
   end
 
   def classic_ui?
