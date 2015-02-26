@@ -100,21 +100,16 @@ class CompanyTest < ActiveSupport::TestCase
   test 'get fiscal year returns fiscal year' do
     @acme.tilikausi_alku = Date.today
     @acme.tilikausi_loppu = Date.today+4
-    assert_equal [Date.today, Date.today+4], @acme.fiscal_year
+    assert_equal [Date.today, Date.today+4], @acme.open_period
   end
 
   test 'method returns if given date is in this fiscal year' do
-    @acme.tilikausi_alku = Date.today
-    @acme.tilikausi_loppu = Date.today+4
-    assert @acme.date_in_current_fiscal_year? Date.today+1
-    refute @acme.date_in_current_fiscal_year? Date.today+5
-    refute @acme.date_in_current_fiscal_year? Date.yesterday
+    assert @acme.date_in_current_fiscal_year? Date.today
+    refute @acme.date_in_current_fiscal_year? '2014-01-01'
   end
 
   test 'get months in current fiscal year' do
-    @acme.tilikausi_alku = '01 July 2014'
-    @acme.tilikausi_loppu = '31 Dec 2014'
-    assert_equal 6, @acme.months_in_current_fiscal_year
+    assert_equal 12, @acme.months_in_current_fiscal_year
   end
 
   test 'should return current fiscal year' do
