@@ -1,7 +1,7 @@
 class Administration::PrintersController < AdministrationController
   # GET /printers
   def index
-    @printers = current_company.printers
+    @printers = current_company.printers.search_like(search_params)
   end
 
   # GET /printers/1
@@ -51,5 +51,13 @@ class Administration::PrintersController < AdministrationController
 
     def find_resource
       @printer = current_company.printers.find(params[:id])
+    end
+
+    def sortable_columns
+      [:kirjoitin, :komento]
+    end
+
+    def searchable_columns
+      sortable_columns
     end
 end
