@@ -8,8 +8,8 @@ class PrinterTest < ActiveSupport::TestCase
   end
 
   test 'all valid' do
-    assert(@printer1.valid?)
-    assert(@printer2.valid?)
+    assert @printer1.valid?, @printer1.errors.messages
+    assert @printer2.valid?, @printer2.errors.messages
   end
 
   test 'komento' do
