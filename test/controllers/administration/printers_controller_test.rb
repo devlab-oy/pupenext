@@ -29,9 +29,18 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should create new printer' do
+    params = { merkisto: 1, mediatyyppi: "A4", komento: "lpr -P testitulostin",
+               kirjoitin: "Testitulostin", unifaun_nimi: "kala", osoite: "Testitie 6",
+               postino: "00100", postitp: "Turku", puhelin: "555 111 222",
+               yhteyshenkilo: "Testiukko", jarjestys: 1 }
+
     assert_difference('Printer.count', 1) do
-      post :create, printer: { merkisto: 1, mediatyyppi: "A4", komento: "lpr -P testitulostin",
-                               kirjoitin: "Testitulostin" }
+      post :create, printer: params
+    end
+
+    params.each do |attribute_key, attribute_value|
+      assert_equal attribute_value, Printer.last.send(attribute_key),
+                   "Attribute #{attribute_key} did not get set"
     end
 
     assert_redirected_to printers_path
