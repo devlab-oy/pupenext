@@ -15,9 +15,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should show printer' do
-    request = { format: :html, id: 1 }
-
-    get :show, request
+    get :show, id: @printer1.id
     assert_response :success
 
     assert_template "edit", "Template should be edit"
@@ -41,16 +39,16 @@ class Administration::PrintersControllerTest < ActionController::TestCase
 
   test 'should not create new printer' do
     assert_no_difference('Printer.count') do
-      post :create, printer: {}
+      post :create, printer: { kirjoitin: "" }
       assert_template 'new', 'Template should be new'
     end
   end
 
   test 'should update printer' do
-    patch :update, id: 1, printer: { nimi: 'TES' }
+    patch :update, id: @printer1.id, printer: { kirjoitin: 'Testikirjoitin 2' }
+    assert_equal @printer1.reload.kirjoitin, "Testikirjoitin 2"
 
     assert_redirected_to printers_path
-    assert_equal 'Printer was successfully updated.', flash[:notice]
   end
 
   test 'should not update printer' do
