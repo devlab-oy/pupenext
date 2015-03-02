@@ -29,7 +29,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should create new printer' do
-    params = { merkisto: 1, mediatyyppi: "A4", komento: "lpr -P testitulostin",
+    params = { merkisto: 1, mediatyyppi: "A4", nimi: "Testinimi", komento: "lpr -P testitulostin",
                kirjoitin: "Testitulostin", unifaun_nimi: "kala", osoite: "Testitie 6",
                postino: "00100", postitp: "Turku", puhelin: "555 111 222",
                yhteyshenkilo: "Testiukko", jarjestys: 1 }
