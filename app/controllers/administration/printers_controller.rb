@@ -5,7 +5,7 @@ class Administration::PrintersController < AdministrationController
 
   # GET /printers
   def index
-    @printers = current_company.printer.all
+    @printers = current_company.printers
   end
 
   # GET /printers/1

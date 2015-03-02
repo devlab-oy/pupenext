@@ -7,9 +7,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should get all printers' do
-    request = { format: :html }
-
-    get :index, request
+    get :index
     assert_response :success
 
     assert_template "index", "Template should be index"
