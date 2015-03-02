@@ -20,15 +20,12 @@ class Administration::PrintersController < AdministrationController
 
   # POST /printers
   def create
-    @printer = current_company.printer.build
-    @printer.attributes = printer_params
-    @printer.muuttaja = current_user.kuka
-    @printer.laatija = current_user.kuka
+    @printer = current_company.printers.build(printer_params)
 
-    if @printer.save
-      redirect_to @printer, notice: 'Printer was successfully created.'
+    if @printer.save_by current_user
+      redirect_to @printer, notice: "Kirjoitin luotiin onnistuneesti"
     else
-      render action: 'new'
+      render :new
     end
   end
 

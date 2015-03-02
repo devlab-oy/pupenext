@@ -3,11 +3,11 @@ require 'test_helper'
 class Administration::PrintersControllerTest < ActionController::TestCase
 
   def setup
-    cookies[:pupesoft_session] = users(:joe).session
+    login users(:bob)
   end
 
   test 'should get all printers' do
-    request = {format: :html}
+    request = { format: :html }
 
     get :index, request
     assert_response :success
@@ -16,7 +16,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should show printer' do
-    request = {format: :html, id: 1}
+    request = { format: :html, id: 1 }
 
     get :show, request
     assert_response :success
@@ -33,7 +33,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
 
   test 'should create new printer' do
     assert_difference('Printer.count') do
-      post :create, printer: {nimi: 'TES', kurssi: 0.8}
+      post :create, printer: { nimi: 'TES', kurssi: 0.8 }
     end
 
     assert_redirected_to printers_path
@@ -48,14 +48,14 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should update printer' do
-    patch :update, id: 1, printer: {nimi: 'TES'}
+    patch :update, id: 1, printer: { nimi: 'TES' }
 
     assert_redirected_to printers_path
     assert_equal 'Printer was successfully updated.', flash[:notice]
   end
 
   test 'should not update printer' do
-    patch :update, id: 1, printer: {nimi: ''}
+    patch :update, id: 1, printer: { nimi: '' }
 
     assert_template 'edit', 'Template should be edit'
   end
