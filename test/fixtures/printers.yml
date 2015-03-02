@@ -3,7 +3,7 @@ printer1:
   komento: email
   merkisto: 3
   mediatyyppi: A4
-  yhtio: artr
+  yhtio: acme
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: bob
@@ -14,7 +14,7 @@ printer2:
   komento: lpr
   merkisto: 4
   mediatyyppi: A5
-  yhtio: artr
+  yhtio: acme
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: bob
