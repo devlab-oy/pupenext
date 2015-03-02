@@ -1,7 +1,8 @@
 class Printer < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :komento, presence: true, allow_blank: false, uniqueness: { scope: :company }
+  validates :komento, presence: true, allow_blank: false, uniqueness: { scope: :company },
+            format: { without: /["'<>\\;]/ }
   validates :kirjoitin, presence: true, allow_blank: false
   validates :merkisto, inclusion: { in: proc { Printer.merkisto_types.keys } }
   validates :mediatyyppi, inclusion: { in: proc { Printer.mediatyyppi_types.keys } }
