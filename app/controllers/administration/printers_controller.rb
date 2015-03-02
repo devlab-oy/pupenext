@@ -23,7 +23,7 @@ class Administration::PrintersController < AdministrationController
     @printer = current_company.printers.build(printer_params)
 
     if @printer.save_by current_user
-      redirect_to @printer, notice: "Kirjoitin luotiin onnistuneesti"
+      redirect_to printers_path, notice: "Kirjoitin luotiin onnistuneesti"
     else
       render :new
     end
@@ -46,13 +46,9 @@ class Administration::PrintersController < AdministrationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
+
     def printer_params
-      params[:printer].permit(
-        :nimi,
-        :jarjestys,
-        :kurssi,
-      )
+      params.require(:printer).permit(:merkisto, :mediatyyppi, :komento, :kirjoitin)
     end
 
     def find_printer

@@ -32,12 +32,12 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should create new printer' do
-    assert_difference('Printer.count') do
-      post :create, printer: { nimi: 'TES', kurssi: 0.8 }
+    assert_difference('Printer.count', 1) do
+      post :create, printer: { merkisto: 1, mediatyyppi: "A4", komento: "lpr -P testitulostin",
+                               kirjoitin: "Testitulostin" }
     end
 
     assert_redirected_to printers_path
-    assert_equal 'Printer was successfully created.', flash[:notice]
   end
 
   test 'should not create new printer' do
