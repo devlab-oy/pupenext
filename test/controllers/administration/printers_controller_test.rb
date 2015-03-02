@@ -4,6 +4,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
 
   def setup
     login users(:bob)
+    @printer1 = printers(:printer1)
   end
 
   test 'should get all printers' do
@@ -53,7 +54,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   end
 
   test 'should not update printer' do
-    patch :update, id: 1, printer: { nimi: '' }
+    patch :update, id: @printer1.id, printer: { kirjoitin: '' }
 
     assert_template 'edit', 'Template should be edit'
   end
