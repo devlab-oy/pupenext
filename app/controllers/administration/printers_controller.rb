@@ -15,7 +15,7 @@ class Administration::PrintersController < AdministrationController
 
   # GET /printers/new
   def new
-    @printer = current_company.printer.build
+    @printer = current_company.printers.build
   end
 
   # POST /printers
