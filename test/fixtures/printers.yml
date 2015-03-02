@@ -4,6 +4,8 @@ printer1:
   merkisto: 3
   mediatyyppi: A4
   yhtio: artr
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
 
 printer2:
   kirjoitin: Printer 2
@@ -11,3 +13,5 @@ printer2:
   merkisto: 4
   mediatyyppi: A5
   yhtio: artr
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
