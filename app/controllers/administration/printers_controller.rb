@@ -1,4 +1,4 @@
-class PrintersController < ApplicationController
+class Administration::PrintersController < AdministrationController
   include ApplicationHelper
 
   before_action :find_printer, only: [:show, :edit, :update, :destroy]

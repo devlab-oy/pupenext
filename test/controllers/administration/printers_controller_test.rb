@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PrintersControllerTest < ActionController::TestCase
+class Administration::PrintersControllerTest < ActionController::TestCase
 
   def setup
     cookies[:pupesoft_session] = users(:joe).session
