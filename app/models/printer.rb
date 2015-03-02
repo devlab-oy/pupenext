@@ -1,5 +1,5 @@
 class Printer < ActiveRecord::Base
-  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :komento, presence: true, allow_blank: false, uniqueness: { scope: :company }
   validates :kirjoitin, presence: true, allow_blank: false
