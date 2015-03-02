@@ -1,8 +1,4 @@
 class Administration::PrintersController < AdministrationController
-  include ApplicationHelper
-
-  before_action :find_printer, only: [:show, :edit, :update, :destroy]
-
   # GET /printers
   def index
     @printers = current_company.printers
@@ -51,7 +47,7 @@ class Administration::PrintersController < AdministrationController
       params.require(:printer).permit(:merkisto, :mediatyyppi, :komento, :kirjoitin)
     end
 
-    def find_printer
-      @printer = current_company.printer.find(params[:id])
+    def find_resource
+      @printer = current_company.printers.find(params[:id])
     end
 end
