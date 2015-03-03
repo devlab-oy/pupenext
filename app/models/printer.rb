@@ -31,6 +31,7 @@ class Printer < ActiveRecord::Base
 
   def self.mediatyyppi_types
     [
+      ["Ei valintaa", ""],
       %w(A4 A4),
       %w(A5 A5),
       ["Lämpösiirto/nauha 149X104mm", "LSN149X104"],
