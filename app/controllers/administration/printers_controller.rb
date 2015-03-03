@@ -1,7 +1,7 @@
 class Administration::PrintersController < AdministrationController
   # GET /printers
   def index
-    @printers = current_company.printers.search_like(search_params)
+    @printers = current_company.printers.search_like(search_params).order(order_params)
   end
 
   # GET /printers/1
