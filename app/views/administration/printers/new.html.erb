@@ -1,0 +1,7 @@
+<%= link_to "#{t("Palaa ohjelmaan")}: #{t("Kirjoittimien ylläpito")}", printers_path %>
+
+<br/><br/>
+
+<%= render "administration/header", title: "Kirjoittimien ylläpito" %>
+
+<%= render 'form', printer: @printer %>

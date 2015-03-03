@@ -1,0 +1,101 @@
+<%= form_for(printer) do |f| %>
+  <%= render "administration/form_errors", resource: printer %>
+
+  <table>
+    <tr>
+      <th><%= f.label :kirjoitin %></th>
+      <td><%= f.text_field :kirjoitin %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :komento %></th>
+      <td><%= f.text_field :komento %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :unifaun_nimi %></th>
+      <td><%= f.text_field :unifaun_nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :merkisto %></th>
+      <td><%= f.select :merkisto, Printer.merkisto_types %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :mediatyyppi %></th>
+      <td><%= f.select :mediatyyppi, Printer.mediatyyppi_types %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :osoite %></th>
+      <td><%= f.text_field :osoite %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :postino %></th>
+      <td><%= f.text_field :postino %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :postitp %></th>
+      <td><%= f.text_field :postitp, size: 10, maxlength: 10 %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :puhelin %></th>
+      <td><%= f.telephone_field :puhelin %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :yhteyshenkilo %></th>
+      <td><%= f.text_field :yhteyshenkilo %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :ip %></th>
+      <td><%= f.text_field :ip %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :jarjestys %></th>
+      <td><%= f.number_field :jarjestys %></td>
+    </tr>
+
+    <% if printer.persisted? %>
+      <tr>
+        <th><%= f.label :laatija %></th>
+        <td><%= printer.laatija %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :luontiaika %></th>
+        <td><%= printer.luontiaika.try(:to_formatted_s, :db) %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muutospvm %></th>
+        <td><%= printer.muutospvm.try(:to_formatted_s, :db) %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muuttaja %></th>
+        <td><%= printer.muuttaja %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <% if update_access? %>
+    <br/>
+
+    <div class="actions">
+      <% text = printer.persisted? ? t('Päivitä kirjoitin') : t('Lisää') %>
+      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    </div>
+  <% end %>
+<% end %>
