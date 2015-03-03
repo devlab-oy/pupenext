@@ -46,11 +46,21 @@ class Administration::PrintersControllerTest < ActionController::TestCase
     assert_redirected_to printers_path
   end
 
-  test 'should not create new printer' do
+  test 'does not create a new printer with invalid parameters' do
     assert_no_difference('Printer.count') do
       post :create, printer: { kirjoitin: "" }
       assert_template 'new', 'Template should be new'
     end
+  end
+
+  test "does not allow creating a new printer with invalid privileges" do
+    login users(:joe)
+
+    assert_no_difference("Printer.count") do
+      post :create, printer: { kirjoitin: "testing", komento: "kala" }
+    end
+
+    assert_response :forbidden
   end
 
   test 'should update printer' do
