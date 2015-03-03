@@ -6,7 +6,7 @@ class Administration::PrintersController < AdministrationController
 
   # GET /printers/1
   def show
-    render 'edit'
+    render :edit
   end
 
   # GET /printers/new
@@ -27,17 +27,14 @@ class Administration::PrintersController < AdministrationController
 
   # GET /printers/1/edit
   def edit
-
   end
 
   # PATCH/PUT /printers/1
   def update
-    @printer.muuttaja = current_user.kuka
-
-    if @printer.update(printer_params)
-      redirect_to printers_path, notice: 'Printer was successfully updated.'
+    if @printer.update_by(printer_params, current_user)
+      redirect_to printers_path, notice: "Kirjoitin päivitettiin onnistuneesti"
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
