@@ -5,3 +5,12 @@
 <%= render "administration/header", title: "Kirjoittimien ylläpito" %>
 
 <%= render 'form', printer: @printer %>
+
+<% if @printer.persisted? && update_access? %>
+  <br/>
+
+  <%= button_to(t("Poista kirjoitin"),
+                printer_path(@printer.id),
+                data: { confirm: t("Haluatko todella poistaa tämän tietueen?") },
+                method: "delete") %>
+<% end %>
