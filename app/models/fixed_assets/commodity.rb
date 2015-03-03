@@ -20,7 +20,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :must_have_procurement_rows, if: :activated?
 
   before_save :set_amount
-  before_save :generate_rows, if: :generate_rows?
 
   def self.options_for_type
     [
@@ -37,6 +36,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
       ['Aktivoitu', 'A'],
       ['Poistettu', 'P']
     ]
+  end
+
+  def ok_to_generate_rows?
+    activated? && important_values_changed?
+  end
+
+  def generate_rows
+    mark_rows_obsolete
+    generate_voucher_rows
+    generate_commodity_rows
+    generate_depreciation_difference_rows
   end
 
   # Sopivat ostolaskut
@@ -246,20 +256,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       (changed & attrs).any?
     end
 
-    def generate_rows?
-      activated? && important_values_changed?
-    end
-
     def mark_rows_obsolete
       commodity_rows.update_all(amended: true)
       voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) if voucher.present?
-    end
-
-    def generate_rows
-      mark_rows_obsolete
-      generate_voucher_rows
-      generate_commodity_rows
-      generate_depreciation_difference_rows
     end
 
     def depreciation_amount_must_follow_type

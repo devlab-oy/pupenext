@@ -202,7 +202,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # ...of which 6 are depreciation and 6 are difference rows
@@ -245,9 +245,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.reload
 
     # Rows do not change
-    assert_no_difference('Head::VoucherRow.count') do
-      @commodity.save
-    end
+    refute @commodity.ok_to_generate_rows?
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.depreciation_rows.count
@@ -274,7 +272,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # ... still a 6/6 split
@@ -302,9 +300,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.name = 'foo'
     @commodity.description = 'bar'
 
-    assert_no_difference('Head::VoucherRow.count') do
-      @commodity.save
-    end
+    # Rows do not change
+    refute @commodity.ok_to_generate_rows?
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.depreciation_rows.count
@@ -325,7 +322,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # ... still a 6/6 split
@@ -347,7 +344,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # ... still a 6/6 split
@@ -370,9 +367,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    assert_no_difference('Head::VoucherRow.count') do
-      @commodity.save
-    end
+    # Rows do not change
+    refute @commodity.ok_to_generate_rows?
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
@@ -390,7 +386,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # a 6/6 split
@@ -404,9 +400,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.save
-    end
+    # Rows do not change
+    refute @commodity.ok_to_generate_rows?
 
     # a 6/6 split
     assert_equal 6, @commodity.depreciation_rows.count
@@ -428,7 +423,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # a 6/6 split
@@ -445,9 +440,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.save
-    end
+    # Rows do not change
+    refute @commodity.ok_to_generate_rows?
 
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
@@ -465,7 +459,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = params
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # a 6/6 split
@@ -479,9 +473,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    assert_no_difference('FixedAssets::CommodityRow.count') do
-      @commodity.save
-    end
+    # Rows do not change
+    refute @commodity.ok_to_generate_rows?
 
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
@@ -499,7 +492,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.activated_at = '2015-01-01'
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.save
+      @commodity.generate_rows
     end
 
     # a 6/6 split
