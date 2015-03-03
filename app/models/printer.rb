@@ -37,7 +37,8 @@ class Printer < ActiveRecord::Base
       ["Lämpösiirto/nauha 149X104mm", "LSN149X104"],
       ["Lämpösiirto/nauha 59X40mm", "LSN59X40"],
       ["Lämpösiirto 149X104mm", "LS149X104"],
-      ["Lämpösiirto 59X40mm", "LS59X40"]
+      ["Lämpösiirto 59X40mm", "LS59X40"],
+      %w(Kuittitulostin kuittitulostin)
     ]
   end
 
