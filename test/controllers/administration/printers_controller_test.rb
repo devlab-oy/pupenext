@@ -75,4 +75,12 @@ class Administration::PrintersControllerTest < ActionController::TestCase
 
     assert_template 'edit', 'Template should be edit'
   end
+
+  test "deleting printer works" do
+    assert_difference("Printer.count", -1) do
+      delete :destroy, id: @printer1.id
+    end
+
+    assert_redirected_to printers_path
+  end
 end

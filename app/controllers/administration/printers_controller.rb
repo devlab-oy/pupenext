@@ -38,6 +38,16 @@ class Administration::PrintersController < AdministrationController
     end
   end
 
+  def destroy
+    if @printer.destroy
+      notice = "Kirjoitin poistettiin onnistuneesti"
+    else
+      notice = "Kirjoittimen poistaminen ei onnistunut"
+    end
+
+    redirect_to printers_path, notice: notice
+  end
+
   private
 
     def printer_params
