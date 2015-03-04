@@ -174,13 +174,13 @@ class CommodityRowGenerator
           summa: amount,
           yhtio: company.yhtio,
           selite: "SUMU poisto, tyyppi: #{commodity.planned_depreciation_type}, erä: #{commodity.planned_depreciation_amount}",
-          tilino: commodity.procurement_number
+          tilino: commodity.procurement_account
         }
 
         row = commodity.voucher.rows.create!(row_params)
 
         # Poistoerän vastakirjaus
-        row.counter_entry(commodity.planned_counter_number)
+        row.counter_entry(commodity.procurement_counter_account)
       end
     end
 
@@ -195,8 +195,7 @@ class CommodityRowGenerator
           modified_by: commodity.modified_by,
           transacted_at: time.end_of_month,
           amount: amount,
-          description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}",
-          account: commodity.procurement_number
+          description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
         commodity.commodity_rows.create!(row_params)
@@ -212,13 +211,13 @@ class CommodityRowGenerator
           summa: amount,
           yhtio: company.yhtio,
           selite: 'poistoerokirjaus',
-          tilino: commodity.poistoero_number
+          tilino: commodity.difference_account
         }
 
         row = commodity.voucher.rows.create!(row_params)
 
         # Poistoeron vastakirjaus
-        row.counter_entry(commodity.difference_counter_number)
+        row.counter_entry(commodity.difference_counter_account)
       end
     end
 

@@ -61,22 +61,22 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistorivit
   def depreciation_rows
-    voucher.rows.where(tilino: procurement_number)
-  end
-
-  # Poistoerorivit
-  def difference_rows
-    voucher.rows.where(tilino: poistoero_number)
+    voucher.rows.where(tilino: procurement_account)
   end
 
   # Poistovastarivit
   def counter_depreciation_rows
-    voucher.rows.where(tilino: planned_counter_number)
+    voucher.rows.where(tilino: procurement_counter_account)
+  end
+
+  # Poistoerorivit
+  def difference_rows
+    voucher.rows.where(tilino: difference_account)
   end
 
   # Poistoerovastarivit
   def counter_difference_rows
-    voucher.rows.where(tilino: difference_counter_number)
+    voucher.rows.where(tilino: difference_counter_account)
   end
 
   def activated?
@@ -93,36 +93,39 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_rows.locked.sum(:amount)
   end
 
-  def procurement_number
-    procurement_row.try(:tilino)
+  # Poistotilinumero (hankinnan tili)
+  def procurement_account
+    procurement_rows.first.try(:tilino)
   end
 
-  def procurement_cost_centre
-    procurement_row.try(:kustp)
+  # Poistovastatilinumero (hankinnan vastatili)
+  def procurement_counter_account
+    procurement_sum_level.try(:poistovasta_account).try(:tilino)
   end
 
-  def procurement_project
-    procurement_row.try(:projekti)
+  # Poistoerotilinumero
+  def difference_account
+    procurement_sum_level.try(:poistoero_account).try(:tilino)
   end
 
-  def procurement_target
-    procurement_row.try(:kohde)
+  # Poistoerovastatilinumero
+  def difference_counter_account
+    procurement_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
 
-  def procurement_row
-    procurement_rows.first
+  # Kaikki poiston kustannuspaikat
+  def procurement_cost_centres
+    procurement_rows.map(&:kustp)
   end
 
-  def poistoero_number
-    procurement_sumlevel.poistoero_account.tilino
+  # Kaikki poiston kohteet
+  def procurement_targets
+    procurement_rows.map(&:kohde)
   end
 
-  def planned_counter_number
-    procurement_sumlevel.poistovasta_account.tilino
-  end
-
-  def difference_counter_number
-    procurement_sumlevel.poistoerovasta_account.tilino
+  # Kaikki poiston projektit
+  def procurement_projects
+    procurement_rows.map(&:projekti)
   end
 
   private
@@ -168,25 +171,21 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
-    def procurement_account
-      company.accounts.find_by(tilino: procurement_number)
-    end
-
-    def procurement_sumlevel
-      procurement_account.commodity
-    end
-
     def viable_accounts
-      # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
-      procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
+      # Jos tiliä ei ole valittu, otetaan kaikki EVL tilit. Muuten valittu tili.
+      procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
+    end
+
+    def procurement_sum_level
+      company.accounts.find_by(tilino: procurement_account).try(:commodity)
     end
 
     def set_amount
-      self.amount = procurement_row.present? ? procurement_rows.sum(:summa) : 0.0
+      self.amount = procurement_rows.empty? ? 0 : procurement_rows.sum(:summa)
     end
 
     def must_have_procurement_rows
-      unless procurement_row.present?
+      if procurement_rows.empty?
         errors.add(:base, 'Must have procurement rows if activated')
       end
     end

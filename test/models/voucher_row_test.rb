@@ -35,12 +35,13 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
   test 'allows only one account per commodity id' do
     # Commodity already has account number that differs from this row
     commodity = fixed_assets_commodities(:commodity_one)
-    assert_not_equal commodity.procurement_number, @row.tilino
+
+    assert_not_equal commodity.procurement_account, @row.tilino
     @row.commodity_id = commodity.id
     refute @row.valid?
 
     # Accepts the same account number
-    @row.tilino = commodity.procurement_number
+    @row.tilino = commodity.procurement_account
     assert @row.valid?
   end
 end

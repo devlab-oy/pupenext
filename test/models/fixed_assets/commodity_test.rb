@@ -19,16 +19,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_not_nil @commodity.procurement_rows, "hyödyllällä on tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat"
   end
 
-  test 'procurement_rows can have only one account number' do
-    new_row = head_voucher_rows(:six).dup
-    assert new_row.valid? new_row.errors.full_messages
-
-    assert @commodity.valid?, @commodity.errors.full_messages
-
-    new_row.tilino = 1234
-    refute new_row.valid?, "should not be valid"
-  end
-
   test 'amount should be set to sum of procurement_rows' do
     assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
 
@@ -123,16 +113,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.procurement_rows.build params
 
-    assert_equal params[:tilino], @commodity.procurement_number
-    assert_equal params[:kustp], @commodity.procurement_cost_centre
-    assert_equal params[:projekti], @commodity.procurement_project
-    assert_equal params[:kohde], @commodity.procurement_target
+    assert_equal params[:tilino], @commodity.procurement_account
+    assert_equal params[:kustp], @commodity.procurement_cost_centres.first
+    assert_equal params[:projekti], @commodity.procurement_projects.first
+    assert_equal params[:kohde], @commodity.procurement_targets.first
 
     @commodity.procurement_rows.delete_all
-    assert_nil @commodity.procurement_number
-    assert_nil @commodity.procurement_cost_centre
-    assert_nil @commodity.procurement_project
-    assert_nil @commodity.procurement_target
+    assert_nil @commodity.procurement_account
+    assert_empty @commodity.procurement_cost_centres
+    assert_empty @commodity.procurement_projects
+    assert_empty @commodity.procurement_targets
   end
 
   test 'linkable invoices method works' do
