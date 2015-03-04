@@ -70,7 +70,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       voucher: nil,
       status: 'A',
       amount: 10000, # hyödykkeen arvo
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
     }
@@ -141,7 +140,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       planned_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -194,7 +192,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     params = {
       btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       btl_depreciation_amount: 20, # poistetaan 20% vuodessa menojäännöksestä
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
     }
 
     @commodity.attributes = params
@@ -217,7 +214,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       voucher: nil,
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       planned_depreciation_type: 'T', # Tasapoisto kuukausittain
       planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
@@ -259,7 +255,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'P', # Tasapoisto vuosiprosentti
       btl_depreciation_amount: 16 # poistetaan 16% vuodessa hankintasummasta
     }
@@ -297,7 +292,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'B', # Menojäännöspoisto vuosiprosentti
       btl_depreciation_amount: 20 # poistetaan 20% vuodessa menojäännöksestä
     }
@@ -334,7 +328,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     params = {
       amount: 10000, # hyödykkeen arvo
       status: 'A',
-      activated_at: DateTime.now.change(month: 7, day: 1), # poistot aina july
       btl_depreciation_type: 'T', # Tasapoisto kuukausittain
       btl_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
