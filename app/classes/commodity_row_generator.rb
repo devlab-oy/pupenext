@@ -125,11 +125,15 @@ class CommodityRowGenerator
     end
 
     def depreciation_start_date
-      (activation_date < fiscal_start) ? fiscal_start : activation_date
+      fiscal_period.cover?(activation_date) ? activation_date : fiscal_start
+    end
+
+    def fiscal_period
+      fiscal_start..fiscal_end
     end
 
     def calculation_period
-      (depreciation_start_date..fiscal_end)
+      depreciation_start_date..fiscal_end
     end
 
     def payment_count
