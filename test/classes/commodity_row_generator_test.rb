@@ -431,45 +431,63 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   end
 
   test 'depreciation generation and dates works like they should' do
-    skip
-    @commodity.depreciation_rows.delete_all
-    # Create depreciation rows to past
+    # Simulate fresh start
+    @commodity.voucher.rows.destroy_all
+    @commodity.commodity_rows.destroy_all
+
+    # Open fiscal periods for 2014 - 2015
     params = {
-      tilikausi_alku: '2014-10-01',
-      tilikausi_loppu: '2014-12-31'
-    }
-    @commodity.company.update_attributes! params
-    @commodity.activated_at = '2014-11-01'
-    @commodity.save
-
-    assert_equal 2, @commodity.depreciation_rows.count
-    assert_equal 2, @commodity.difference_rows.count
-
-    assert_equal '2014-11-30'.to_date, @commodity.voucher.rows.first.tapvm
-    assert_equal '2014-12-31'.to_date, @commodity.voucher.rows.last.tapvm
-
-    assert_equal '2014-11-30'.to_date, @commodity.commodity_rows.first.transacted_at
-    assert_equal '2014-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
-
-    # Create depreciation rows to new fiscal period
-    params = {
-      tilikausi_alku: '2015-01-01',
+      tilikausi_alku: '2014-01-01',
       tilikausi_loppu: '2015-12-31'
     }
     @commodity.company.update_attributes! params
 
-    # At this point, updating open fiscal period should trigger generation of rows
-    @commodity.save
+    # Create depreciation rows for 2014
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_start: '2014-01-01'.to_date,
+      fiscal_end: '2014-12-31'.to_date
+    }
 
-    assert_equal 14, @commodity.depreciation_rows.count
-    assert_equal 14, @commodity.difference_rows.count
+    # Activate commodity on 2014-11-01
+    @commodity.activated_at = '2014-11-01'.to_date
+    @commodity.save!
 
-    assert_equal '2014-11-30'.to_date, @commodity.voucher.rows.first.tapvm
-    assert_equal '2015-01-31'.to_date, @commodity.voucher.rows.third.tapvm
-    assert_equal '2015-12-31'.to_date, @commodity.voucher.rows.last.tapvm
+    @generator = CommodityRowGenerator.new(params).generate_rows
+    @commodity.reload
 
-    assert_equal '2014-11-30'.to_date, @commodity.commodity_rows.first.transacted_at
-    assert_equal '2015-01-31'.to_date, @commodity.commodity_rows.third.transacted_at
-    assert_equal '2015-12-31'.to_date, @commodity.commodity_rows.last.transacted_at
+    assert_equal 2, @commodity.depreciation_rows.count, "poistot"
+    assert_equal 2, @commodity.difference_rows.count, "poistoero"
+
+    rows = @commodity.voucher.rows.order(:tapvm)
+    assert_equal '2014-11-30'.to_date, rows.first.tapvm
+    assert_equal '2014-12-31'.to_date, rows.last.tapvm
+
+    rows = @commodity.commodity_rows.order(:transacted_at)
+    assert_equal '2014-11-30'.to_date, rows.first.transacted_at
+    assert_equal '2014-12-31'.to_date, rows.last.transacted_at
+
+    # Create depreciation rows to next fiscal period
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_start: '2015-01-01'.to_date,
+      fiscal_end: '2015-12-31'.to_date
+    }
+
+    @generator = CommodityRowGenerator.new(params).generate_rows
+    @commodity.reload
+
+    assert_equal 14, @commodity.depreciation_rows.count, "poistot"
+    assert_equal 14, @commodity.difference_rows.count, "poistoero"
+
+    rows = @commodity.voucher.rows.order(:tapvm)
+    assert_equal '2014-11-30'.to_date, rows.first.tapvm
+    assert_equal '2015-01-31'.to_date, rows.map(&:tapvm).uniq.third
+    assert_equal '2015-12-31'.to_date, rows.last.tapvm
+
+    rows = @commodity.commodity_rows.order(:transacted_at)
+    assert_equal '2014-11-30'.to_date, rows.first.transacted_at
+    assert_equal '2015-01-31'.to_date, rows.map(&:transacted_at).uniq.third
+    assert_equal '2015-12-31'.to_date, rows.last.transacted_at
   end
 end

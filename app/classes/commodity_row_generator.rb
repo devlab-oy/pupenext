@@ -1,12 +1,12 @@
 class CommodityRowGenerator
   attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date
 
-  def initialize(commodity_id:)
+  def initialize(commodity_id:, fiscal_start: nil, fiscal_end: nil)
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
     self.company         = commodity.company
     self.activation_date = commodity.activated_at
-    self.fiscal_start    = company.current_fiscal_year.first
-    self.fiscal_end      = company.current_fiscal_year.last
+    self.fiscal_start    = fiscal_start || company.current_fiscal_year.first
+    self.fiscal_end      = fiscal_end || company.current_fiscal_year.last
   end
 
   def generate_rows
