@@ -13,6 +13,8 @@ class SumLevel < ActiveRecord::Base
   validates :kumulatiivinen, inclusion: { in: proc { SumLevel.kumulatiivinen_options.keys } }
   validates :kayttotarkoitus, inclusion: { in: proc { SumLevel.kayttotarkoitus_options.keys } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi], message: "is already defined for this type" }
+  validates_presence_of :poisto_vastatili, :poistoero_tili, :poistoero_vastatili,
+    :if => lambda {tyyppi == 'E'}
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
 
