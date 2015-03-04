@@ -119,6 +119,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       planned_depreciation_amount: 45 # poistetaan 45% vuodessa hankintasummasta
     }
     @commodity.attributes = params
+    @commodity.save!
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
@@ -190,6 +191,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
 
     @commodity.attributes = params
+    @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
       @commodity.generate_rows
@@ -240,6 +242,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
 
     @commodity.attributes = params
+    @commodity.save!
+
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
       @commodity.generate_rows
@@ -262,6 +266,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       planned_depreciation_amount: 60 # poistetaan 60 kuukaudessa
     }
     @commodity.attributes = params
+    @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
       @commodity.generate_rows
@@ -304,6 +309,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.commodity_rows.delete_all
     @commodity.attributes = params
+    @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       @commodity.generate_rows
@@ -341,6 +347,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.commodity_rows.delete_all
     @commodity.attributes = params
+    @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       @commodity.generate_rows
@@ -377,6 +384,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.commodity_rows.delete_all
     @commodity.attributes = params
+    @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
       @commodity.generate_rows
