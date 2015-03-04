@@ -113,17 +113,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
     procurement_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
 
-  # Kaikki poiston kustannuspaikat
+  # Kaikki hankinnan kustannuspaikat
   def procurement_cost_centres
     procurement_rows.map(&:kustp)
   end
 
-  # Kaikki poiston kohteet
+  # Kaikki hankinnan kohteet
   def procurement_targets
     procurement_rows.map(&:kohde)
   end
 
-  # Kaikki poiston projektit
+  # Kaikki hankinnan projektit
   def procurement_projects
     procurement_rows.map(&:projekti)
   end
