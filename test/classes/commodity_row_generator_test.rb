@@ -9,7 +9,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   test 'fixture is correct for calculations' do
     # We have a 12 month fiscal year
-    fiscal_year = @commodity.company.months_in_current_fiscal_year
+    fiscal_year = @commodity.company.current_fiscal_year.map(&:end_of_month).uniq.count
     assert_equal fiscal_year, 12
 
     # We activate July 1st, current year.

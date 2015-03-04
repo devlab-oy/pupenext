@@ -103,15 +103,6 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal [Date.today, Date.today+4], @acme.open_period
   end
 
-  test 'method returns if given date is in this fiscal year' do
-    assert @acme.date_in_current_fiscal_year? Date.today
-    refute @acme.date_in_current_fiscal_year? '2014-01-01'
-  end
-
-  test 'get months in current fiscal year' do
-    assert_equal 12, @acme.months_in_current_fiscal_year
-  end
-
   test 'should return current fiscal year' do
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
