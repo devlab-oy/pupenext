@@ -122,11 +122,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal all_statuses, returned_options
   end
 
-  test 'should get difference rows between two dates' do
-    assert_equal 1, @commodity.difference_rows_between(Date.today, Date.today.advance(months: +1)).count
-    assert_equal 0, @commodity.difference_rows_between(Date.yesterday-1, Date.yesterday).count
-  end
-
   test 'procurement row methods work' do
     @commodity.procurement_rows.delete_all
     params = {

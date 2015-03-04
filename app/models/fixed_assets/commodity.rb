@@ -79,11 +79,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     voucher.rows.where(tilino: difference_counter_number)
   end
 
-  # Poistoerorivit tietyllä aikavälillä
-  def difference_rows_between(date1, date2)
-    difference_rows.where(tapvm: date1..date2)
-  end
-
   def activated?
     status == 'A'
   end
