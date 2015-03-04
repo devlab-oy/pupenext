@@ -169,7 +169,7 @@ class CommodityRowGenerator
           tapvm: time.end_of_month,
           summa: amount,
           yhtio: company.yhtio,
-          selite: :SUMU,
+          selite: "SUMU poisto, tyyppi: #{commodity.planned_depreciation_type}, erä: #{commodity.planned_depreciation_amount}",
           tilino: commodity.procurement_number
         }
 
@@ -191,7 +191,7 @@ class CommodityRowGenerator
           modified_by: commodity.modified_by,
           transacted_at: time.end_of_month,
           amount: amount,
-          description: :EVL,
+          description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}",
           account: commodity.procurement_number
         }
 

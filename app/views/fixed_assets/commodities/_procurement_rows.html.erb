@@ -4,15 +4,17 @@
 <br/><br/>
 <table>
 <tr>
-  <th><%= t('Tunnus') %></th>
+  <th><%= t('Tili') %></th>
   <th><%= t('Summa') %></th>
   <th><%= t('Pvm') %></th>
+  <th><%= t('Selite') %></th>
 </tr>
   <% @commodity.procurement_rows.each do |procrow| %>
   <tr>
-    <td><%= procrow.tunnus  %></td>
+    <td><%= procrow.tilino  %></td>
     <td><%= procrow.summa %></td>
     <td><%= procrow.tapvm %></td>
+    <td><%= procrow.selite %></td>
   </tr>
   <% end %>
 </table>

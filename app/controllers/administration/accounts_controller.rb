@@ -58,6 +58,7 @@ class Administration::AccountsController < AdministrationController
         :ulkoinen_taso,
         :alv_taso,
         :tulosseuranta_taso,
+        :evl_taso,
         :nimi,
         :kustp,
         :kohde,
@@ -88,7 +89,8 @@ class Administration::AccountsController < AdministrationController
         internal: current_company.sum_level_internals,
         external: current_company.sum_level_externals,
         vat: current_company.sum_level_vats,
-        profit: current_company.sum_level_profits
+        profit: current_company.sum_level_profits,
+        commodity: current_company.sum_level_commodities
       }
 
       @qualifiers = {

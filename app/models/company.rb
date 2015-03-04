@@ -9,10 +9,11 @@ class Company < ActiveRecord::Base
     o.has_many :fiscal_years
 
     o.has_many :sum_levels
-    o.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
-    o.has_many :sum_level_externals, class_name: 'SumLevel::External'
-    o.has_many :sum_level_vats,      class_name: 'SumLevel::Vat'
-    o.has_many :sum_level_profits,   class_name: 'SumLevel::Profit'
+    o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'
+    o.has_many :sum_level_externals,   class_name: 'SumLevel::External'
+    o.has_many :sum_level_vats,        class_name: 'SumLevel::Vat'
+    o.has_many :sum_level_profits,     class_name: 'SumLevel::Profit'
+    o.has_many :sum_level_commodities, class_name: 'SumLevel::Commodity'
 
     o.has_many :heads
     o.has_many :purchase_orders,                       class_name: 'Head::PurchaseOrder'

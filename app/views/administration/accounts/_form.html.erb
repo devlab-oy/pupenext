@@ -52,6 +52,17 @@
     </tr>
 
     <tr>
+      <th><%= f.label :tasokoodi_e %></th>
+      <td>
+        <%= f.collection_select(:evl_taso,
+                                levels[:commodity],
+                                :taso,
+                                :sum_level_name,
+                                include_blank: t('Ei tasoa'), selected: account.evl_taso) %>
+      </td>
+    </tr>
+
+    <tr>
       <th><%= f.label :nimi %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
