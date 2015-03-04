@@ -3,7 +3,7 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
 
   default_scope { where(amended: false) }
 
-  validate :allow_only_active_fiscal_period
+  validate :allow_only_open_fiscal_period
 
   def self.locked
     where(locked: true)
@@ -21,9 +21,9 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
 
   private
 
-    def allow_only_active_fiscal_period
-      unless commodity.company.date_in_current_fiscal_year?(transacted_at)
-        errors.add(:base, 'Must be created in current fiscal period')
+    def allow_only_open_fiscal_period
+      unless commodity.company.date_in_open_period?(transacted_at)
+        errors.add(:base, 'Must be created on an open fiscal period.')
       end
     end
 end
