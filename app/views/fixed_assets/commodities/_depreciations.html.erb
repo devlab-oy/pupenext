@@ -3,6 +3,12 @@
 <font class="head"><%= t('SUMU Poistoerät') %></font>
 <br/><br/>
 <table>
+<tr><th><%= t('Tilikauden SUMU poistot') %></th></tr>
+<tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.depreciation_rows.sum(:summa) %></td></tr>
+<tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.difference_rows.sum(:summa) %></td></tr>
+</table>
+<br/><br/>
+<table>
 <tr>
   <th><%= t('Tili') %></th>
   <th><%= t('Summa') %></th>
@@ -23,6 +29,11 @@
 <% if @commodity.commodity_rows.present? %>
 <br/>
 <font class="head"><%= t('EVL Poistoerät') %></font>
+<br/><br/>
+<table>
+<tr><th><%= t('Tilikauden EVL poistot') %></th></tr>
+<tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.commodity_rows.sum(:amount).round(2) %></td></tr>
+</table>
 <br/><br/>
 <table>
 <tr>
