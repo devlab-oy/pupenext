@@ -7,6 +7,9 @@
 <tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.depreciation_rows.sum(:summa) %></td></tr>
 <tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.difference_rows.sum(:summa) %></td></tr>
 </table>
+<br/>
+<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('sumu_rows');">
+<div id='sumu_rows' style="display: none;">
 <br/><br/>
 <table>
 <tr>
@@ -24,6 +27,8 @@
   </tr>
   <% end %>
 </table>
+</div>
+<br/>
 <% end %>
 
 <% if @commodity.commodity_rows.present? %>
@@ -34,6 +39,9 @@
 <tr><th><%= t('Tilikauden EVL poistot') %></th></tr>
 <tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.commodity_rows.sum(:amount).round(2) %></td></tr>
 </table>
+<br/>
+<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('evl_rows');">
+<div id='evl_rows' style="display: none;">
 <br/><br/>
 <table>
 <tr>
@@ -52,4 +60,4 @@
   <% end %>
 </table>
 <% end %>
-
+</div>
