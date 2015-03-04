@@ -43,10 +43,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def generate_rows
-    mark_rows_obsolete
-    generate_voucher_rows
-    generate_commodity_rows
-    generate_depreciation_difference_rows
+    @generator = CommodityRowGenerator.new(commodity_id: id).generate_rows
+
+    # We must reload, since generator can modify commodity instance
+    reload
   end
 
   # Sopivat ostolaskut
@@ -150,11 +150,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       (changed & attrs).any?
     end
 
-    def mark_rows_obsolete
-      commodity_rows.update_all(amended: true)
-      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) if voucher.present?
-    end
-
     def depreciation_amount_must_follow_type
       check_amount_allowed_for_type(planned_depreciation_type, planned_depreciation_amount)
       check_amount_allowed_for_type(btl_depreciation_type, btl_depreciation_amount)
@@ -181,129 +176,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       if procurement_rows.map(&:tilino).uniq.count > 1
         errors.add(:base, "Account number must be shared between all linked cost records")
       end
-    end
-
-    def create_voucher
-      voucher_params = {
-        nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
-        laatija: created_by,
-        muuttaja: modified_by,
-        commodity_id: id
-      }
-
-      accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save!
-
-      self.voucher = accounting_voucher
-    end
-
-    def generate_voucher_rows
-      create_voucher if voucher.nil?
-      amounts = calculate_depreciations(:SUMU)
-
-      # Poistoerän kirjaus
-      amounts.each_with_index do |amount, i|
-        time = depreciation_start_date.advance(months: +i)
-
-        row_params = {
-          laatija: created_by,
-          tapvm: time.end_of_month,
-          summa: amount,
-          yhtio: company.yhtio,
-          selite: :SUMU,
-          tilino: procurement_number
-        }
-
-        row = voucher.rows.create!(row_params)
-
-        # Poistoerän vastakirjaus
-        row.counter_entry(planned_counter_number)
-      end
-    end
-
-    def generate_commodity_rows
-      amounts = calculate_depreciations(:EVL)
-
-      amounts.each_with_index do |amount, i|
-        time = depreciation_start_date.advance(months: +i)
-
-        row_params = {
-          created_by: created_by,
-          modified_by: modified_by,
-          transacted_at: time.end_of_month,
-          amount: amount,
-          description: :EVL,
-          account: procurement_number
-        }
-
-        commodity_rows.create!(row_params)
-      end
-    end
-
-    def generate_depreciation_difference_rows
-      # Poistoeron kirjaus
-      depreciation_differences.each do |md|
-        amount = md.first
-        time = md.last
-
-        row_params = {
-          laatija: created_by,
-          tapvm: time,
-          summa: amount,
-          yhtio: company.yhtio,
-          selite: 'poistoerokirjaus',
-          tilino: poistoero_number
-        }
-
-        row = voucher.rows.create!(row_params)
-
-        # Poistoeron vastakirjaus
-        row.counter_entry(difference_counter_number)
-      end
-    end
-
-    def calculate_depreciations(depreciation_type)
-      case depreciation_type.to_sym
-      when :SUMU
-        calculation_type = planned_depreciation_type
-        calculation_amount = planned_depreciation_amount
-        depreciated_sum = deprecated_sumu_amount
-        depreciation_amount = voucher.rows.count
-      when :EVL
-        calculation_type = btl_depreciation_type
-        calculation_amount = btl_depreciation_amount
-        depreciated_sum = deprecated_evl_amount
-        depreciation_amount = commodity_rows.count
-      else
-        raise ArgumentError, 'Invalid depreciation_type'
-      end
-
-      @generator = CommodityRowGenerator.new(commodity_id: id)
-
-      # Calculation rules
-      case calculation_type.to_sym
-      when :T
-        # Tasapoisto kuukausittain
-        @generator.fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
-      when :P
-        # Tasapoisto vuosiprosentti
-        @generator.fixed_by_percentage(amount, calculation_amount)
-      when :B
-        # Menojäännöspoisto vuosiprosentti
-        @generator.degressive_by_percentage(amount, calculation_amount, depreciated_sum)
-      else
-        raise ArgumentError, 'Invalid calculation_type'
-      end
-    end
-
-    def depreciation_start_date
-      current_start = company.current_fiscal_year.first
-      return current_start if activated_at < current_start
-      activated_at
-    end
-
-    def depreciation_differences
-      commodity_rows.map { |evl| [evl.depreciation_difference, evl.transacted_at] }
     end
 
     def procurement_account
