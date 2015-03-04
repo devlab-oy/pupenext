@@ -83,11 +83,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     status == 'A'
   end
 
-  def lock_rows
-    commodity_rows.update_all(locked: true)
-    voucher.rows.update_all(lukko: "X")
-  end
-
   # Returns sum of past sumu depreciations
   def deprecated_sumu_amount
     voucher.rows.locked.sum(:summa)

@@ -19,15 +19,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_not_nil @commodity.procurement_rows, "hyödyllällä on tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat"
   end
 
-  test 'should update lock' do
-    @commodity.voucher.rows.first.lukko = ''
-    @commodity.commodity_rows.first.locked = false
-    @commodity.lock_rows
-
-    assert_equal 'X', @commodity.voucher.rows.first.lukko
-    assert_equal true, @commodity.commodity_rows.first.locked
-  end
-
   test 'procurement_rows can have only one account number' do
     new_row = head_voucher_rows(:six).dup
     assert new_row.valid? new_row.errors.full_messages
