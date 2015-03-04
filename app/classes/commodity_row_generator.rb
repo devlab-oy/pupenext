@@ -255,6 +255,6 @@ class CommodityRowGenerator
     end
 
     def depreciation_differences
-      commodity.commodity_rows.map { |evl| [evl.depreciation_difference, evl.transacted_at] }
+      commodity.commodity_rows.where(transacted_at: fiscal_period).map { |evl| [evl.depreciation_difference, evl.transacted_at] }
     end
 end
