@@ -59,26 +59,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     company.vouchers.commodity_linkable.find_by_account(viable_accounts)
   end
 
-  # Käyttöomaisuus-rivit
-  def fixed_assets_rows
-    voucher.rows.where(tilino: fixed_assets_account)
-  end
-
-  # Poisto-rivit
-  def depreciation_rows
-    voucher.rows.where(tilino: depreciation_account)
-  end
-
-  # Poistoero-rivit
-  def depreciation_difference_rows
-    voucher.rows.where(tilino: depreciation_difference_account)
-  end
-
-  # Poistoeromuutos-rivit
-  def depreciation_difference_change_rows
-    voucher.rows.where(tilino: depreciation_difference_change_account)
-  end
-
   def activated?
     status == 'A'
   end
@@ -98,9 +78,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     procurement_rows.first.try(:tilino)
   end
 
+  # Käyttöomaisuus-rivit
+  def fixed_assets_rows
+    voucher.rows.where(tilino: fixed_assets_account)
+  end
+
   # Poisto-tili (tuloslaskelma)
   def depreciation_account
     commodity_sum_level.try(:poistovasta_account).try(:tilino)
+  end
+
+  # Poisto-rivit
+  def depreciation_rows
+    voucher.rows.where(tilino: depreciation_account)
   end
 
   # Poistoero-tili (tase)
@@ -108,9 +98,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_sum_level.try(:poistoero_account).try(:tilino)
   end
 
+  # Poistoero-rivit
+  def depreciation_difference_rows
+    voucher.rows.where(tilino: depreciation_difference_account)
+  end
+
   # Poistoeromuutos-tili (tuloslaskelma)
   def depreciation_difference_change_account
     commodity_sum_level.try(:poistoerovasta_account).try(:tilino)
+  end
+
+  # Poistoeromuutos-rivit
+  def depreciation_difference_change_rows
+    voucher.rows.where(tilino: depreciation_difference_change_account)
   end
 
   # Kaikki hankinnan kustannuspaikat
