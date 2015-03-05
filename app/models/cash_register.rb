@@ -1,4 +1,4 @@
-class CashBox < ActiveRecord::Base
+class CashRegister < ActiveRecord::Base
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -17,7 +17,7 @@ class CashBox < ActiveRecord::Base
   validate :check_kassaerotus
   validate :check_kateisotto
 
-  # Map old database schema table to CashBox class
+  # Map old database schema table to CashRegister class
   self.table_name  = "kassalipas"
   self.primary_key = "tunnus"
 

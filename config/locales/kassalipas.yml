@@ -18,7 +18,7 @@
 fi:
   activerecord:
     attributes:
-      cash_box:
+      cash_register:
         nimi: 'Nimi'
         kustp: 'Kustannuspaikka'
         toimipaikka: 'Toimipaikka'

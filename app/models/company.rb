@@ -12,7 +12,7 @@ class Company < ActiveRecord::Base
     o.has_many :factorings
     o.has_many :bank_details
     o.has_many :customers
-    o.has_many :cash_boxes
+    o.has_many :cash_registers
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'

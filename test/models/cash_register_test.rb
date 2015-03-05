@@ -1,16 +1,16 @@
 require 'test_helper'
 
-class CashBoxTest < ActiveSupport::TestCase
+class CashRegisterTest < ActiveSupport::TestCase
 
   def setup
-    @q = cash_boxes(:first)
+    @q = cash_registers(:first)
   end
 
   test "assert fixtures are valid" do
     assert @q.valid?, @q.errors.messages
   end
 
-  test "cashbox has a company" do
+  test "cash register has a company" do
     assert_not_nil @q.company
   end
 

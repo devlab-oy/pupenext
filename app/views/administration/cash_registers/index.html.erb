@@ -1,0 +1,34 @@
+<font class="head">Kassalippaat</font>
+<hr />
+<%= link_to "<button>Uusi kassalipas</button>".html_safe, new_cash_register_path %>
+<br /><br />
+
+<table>
+  <tr>
+    <th><%= CashRegister.human_attribute_name(:nimi) %></th>
+    <th><%= CashRegister.human_attribute_name(:kustp) %></th>
+    <th><%= CashRegister.human_attribute_name(:kassa) %></th>
+    <th><%= CashRegister.human_attribute_name(:pankkikortti) %></th>
+    <th><%= CashRegister.human_attribute_name(:luottokortti) %></th>
+    <th><%= CashRegister.human_attribute_name(:kateistilitys) %></th>
+    <th><%= CashRegister.human_attribute_name(:kassaerotus) %></th>
+    <th><%= CashRegister.human_attribute_name(:kateisotto) %></th>
+  </tr>
+
+  <% @cash_registers.each do |p| %>
+    <tr>
+      <td><%= link_to p.nimi, edit_cash_register_path(p.id) %></td>
+      <td><%= p.kustp %></td>
+      <td><%= p.kassa %></td>
+      <td><%= p.pankkikortti %></td>
+      <td><%= p.luottokortti %></td>
+      <td><%= p.kateistilitys %></td>
+      <td><%= p.kassaerotus %></td>
+      <td><%= p.kateisotto %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to "<button>Uusi kassalipas</button>".html_safe, new_cash_register_path %>

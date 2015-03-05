@@ -1,4 +1,4 @@
-class Administration::CashBoxesController < AdministrationController
+class Administration::CashRegistersController < AdministrationController
 
   before_action :get_qualifiers, only: [:new, :show, :edit, :update, :create]
   before_action :get_locations, only: [:new, :show, :edit, :update, :create]
@@ -11,7 +11,7 @@ class Administration::CashBoxesController < AdministrationController
   before_action :check_kateisotto_account, only: [:create, :update]
 
   def index
-    @cash_boxes = current_company.cash_boxes
+    @cash_registers = current_company.cash_registers
     .search_like(search_params)
     .order(order_params)
   end
@@ -24,27 +24,27 @@ class Administration::CashBoxesController < AdministrationController
   end
 
   def new
-    @cash_box = current_company.cash_boxes.build
+    @cash_register = current_company.cash_registers.build
   end
 
 def create
-    @cash_box = current_company.cash_boxes.build
-    @cash_box.attributes = cash_box_params
+    @cash_register = current_company.cash_registers.build
+    @cash_register.attributes = cash_register_params
 
-    if @cash_box.kustp == nil
-      @cash_box.kustp = 0
+    if @cash_register.kustp == nil
+      @cash_register.kustp = 0
     end
 
-    if @cash_box.save_by current_user
-      redirect_to cash_boxes_path, notice: 'Cash box was successfully created.'
+    if @cash_register.save_by current_user
+      redirect_to cash_registers_path, notice: 'Cash register was successfully created.'
     else
       render action: 'new'
     end
   end
 
   def update
-    if @cash_box.update_by(cash_box_params, current_user)
-      redirect_to cash_boxes_path, notice: 'Cash box was successfully updated.'
+    if @cash_register.update_by(cash_register_params, current_user)
+      redirect_to cash_registers_path, notice: 'Cash register was successfully updated.'
     else
       render action: 'edit'
     end
@@ -53,7 +53,7 @@ def create
 private
 
     def find_resource
-      @cash_box = current_company.cash_boxes.find(params[:id])
+      @cash_register = current_company.cash_registers.find(params[:id])
     end
 
     def get_qualifiers
@@ -89,7 +89,7 @@ private
     end
 
     def get_accounts(type)
-      search = params[:cash_box][type]
+      search = params[:cash_register][type]
       Account.by_name(search) if search.present?
     end
 
@@ -111,8 +111,8 @@ private
       searchable_columns
     end
 
-    def cash_box_params
-        params.require(:cash_box).permit(
+    def cash_register_params
+        params.require(:cash_register).permit(
           :nimi,
           :kustp,
           :toimipaikka,
