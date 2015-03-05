@@ -174,7 +174,7 @@ class CommodityRowGenerator
           summa: amount,
           yhtio: company.yhtio,
           selite: "SUMU poisto, tyyppi: #{commodity.planned_depreciation_type}, erä: #{commodity.planned_depreciation_amount}",
-          tilino: commodity.procurement_account
+          tilino: commodity.fixed_assets_account
         }
 
         row = commodity.voucher.rows.create!(row_params)

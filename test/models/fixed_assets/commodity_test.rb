@@ -113,13 +113,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.procurement_rows.build params
 
-    assert_equal params[:tilino], @commodity.procurement_account
+    assert_equal params[:tilino], @commodity.fixed_assets_account
     assert_equal params[:kustp], @commodity.procurement_cost_centres.first
     assert_equal params[:projekti], @commodity.procurement_projects.first
     assert_equal params[:kohde], @commodity.procurement_targets.first
 
     @commodity.procurement_rows.delete_all
-    assert_nil @commodity.procurement_account
+    assert_nil @commodity.fixed_assets_account
     assert_empty @commodity.procurement_cost_centres
     assert_empty @commodity.procurement_projects
     assert_empty @commodity.procurement_targets

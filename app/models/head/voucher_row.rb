@@ -50,12 +50,12 @@ class Head::VoucherRow < ActiveRecord::Base
     end
 
     def only_one_account_per_commodity
-      unless commodity.procurement_account == tilino
+      unless commodity.fixed_assets_account == tilino
         errors.add(:base, "Commodity has already a different account selected!")
       end
     end
 
     def has_commodity_account?
-      commodity.try(:procurement_account).present?
+      commodity.try(:fixed_assets_account).present?
     end
 end

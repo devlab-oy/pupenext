@@ -61,7 +61,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistorivit
   def depreciation_rows
-    voucher.rows.where(tilino: procurement_account)
+    voucher.rows.where(tilino: fixed_assets_account)
   end
 
   # Poistovastarivit
@@ -93,22 +93,22 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_rows.locked.sum(:amount)
   end
 
-  # Poistotilinumero (hankinnan tili)
-  def procurement_account
+  # Käyttöomaisuus-tili (tase)
+  def fixed_assets_account
     procurement_rows.first.try(:tilino)
   end
 
-  # Poistovastatilinumero (hankinnan vastatili)
+  # Poisto-tili (tuloslaskelma)
   def procurement_counter_account
     procurement_sum_level.try(:poistovasta_account).try(:tilino)
   end
 
-  # Poistoerotilinumero
+  # Poistoero-tili (tase)
   def difference_account
     procurement_sum_level.try(:poistoero_account).try(:tilino)
   end
 
-  # Poistoerovastatilinumero
+  # Poistoeromuutos-tili (tuloslaskelma)
   def difference_counter_account
     procurement_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
@@ -177,7 +177,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def procurement_sum_level
-      company.accounts.find_by(tilino: procurement_account).try(:commodity)
+      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
     end
 
     def set_amount
