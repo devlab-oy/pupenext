@@ -3,12 +3,12 @@ first:
   nimi: nimi
   kustp: 12
   toimipaikka: 12
-  kassa: 4001
-  pankkikortti: 4001
-  luottokortti: 4001
-  kateistilitys: 4001
-  kassaerotus: 4001
-  kateisotto: 4001
+  kassa: 110
+  pankkikortti: 120
+  luottokortti: 130
+  kateistilitys: 140
+  kassaerotus: 150
+  kateisotto: 160
   luontiaika: <%= Time.now %>
   muuttaja: joe
   muutospvm: <%= Time.now %>
