@@ -217,7 +217,7 @@ class CommodityRowGenerator
         row = commodity.voucher.rows.create!(row_params)
 
         # Poistoeron vastakirjaus
-        row.counter_entry(commodity.difference_counter_account)
+        row.counter_entry(commodity.depreciation_difference_change_account)
       end
     end
 

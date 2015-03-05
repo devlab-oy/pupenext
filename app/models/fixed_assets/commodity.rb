@@ -76,7 +76,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistoerovastarivit
   def counter_difference_rows
-    voucher.rows.where(tilino: difference_counter_account)
+    voucher.rows.where(tilino: depreciation_difference_change_account)
   end
 
   def activated?
@@ -109,7 +109,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
-  def difference_counter_account
+  def depreciation_difference_change_account
     procurement_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
 
