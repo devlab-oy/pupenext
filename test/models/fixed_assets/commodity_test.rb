@@ -136,4 +136,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.procurement_rows.delete_all
     assert_equal 3, @commodity.linkable_vouchers.count
   end
+
+  test 'current bookkeeping value works' do
+    @commodity.status = 'A'
+    @commodity.generate_rows
+
+    @commodity.reload
+    assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
+    assert_equal 6500, @commodity.bookkeeping_value
+  end
 end

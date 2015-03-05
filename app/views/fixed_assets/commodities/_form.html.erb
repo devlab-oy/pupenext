@@ -23,6 +23,14 @@
       <td><%= @commodity.amount %></td>
     </tr>
     <tr>
+      <th><%= t('Arvo nyt') %></th>
+      <td><%= @commodity.bookkeeping_value(Time.now) if @commodity.voucher.present? %></td>
+    </tr>
+    <tr>
+      <th><%= t('Arvo tilikauden lopussa') %></th>
+      <td><%= @commodity.bookkeeping_value if @commodity.voucher.present? %></td>
+    </tr>
+    <tr>
       <th><%= f.label :cost_centre, t('Kustannuspaikka') %></th>
       <td><%= @commodity.procurement_cost_centres %></td>
     </tr>

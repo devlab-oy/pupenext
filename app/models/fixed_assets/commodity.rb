@@ -128,6 +128,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
     procurement_rows.map(&:projekti)
   end
 
+  # Kirjanpidollinen arvo annettuna ajankohtana
+  def bookkeeping_value(date = nil)
+    calculation = 0.0
+    if date.nil?
+      calculation = depreciation_rows.where(tapvm: company.current_fiscal_year.first..company.current_fiscal_year.last).sum(:summa)
+    else
+      calculation = depreciation_rows.where(tapvm: company.current_fiscal_year.first..date).sum(:summa)
+    end
+    amount + calculation
+  end
+
   private
 
     def important_values_changed?
