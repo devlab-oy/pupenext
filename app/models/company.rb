@@ -39,23 +39,23 @@ class Company < ActiveRecord::Base
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
-  def current_fiscal_year
-    fy = fiscal_years.where("tilikausi_alku <= now() and tilikausi_loppu >= now()")
+  def fiscal_year(date)
+    fy = fiscal_years.where("tilikausi_alku <= :date and tilikausi_loppu >= :date", date: date)
     raise RuntimeError, "Tilikaudet rikki!" unless fy.count == 1
 
     fy.first.tilikausi_alku..fy.first.tilikausi_loppu
   end
 
-  def fiscal_year
+  def current_fiscal_year
+    fiscal_year(Date.today)
+  end
+
+  def open_period
     [tilikausi_alku, tilikausi_loppu]
   end
 
-  def months_in_current_fiscal_year
-    (tilikausi_alku..tilikausi_loppu).map(&:end_of_month).uniq.count
-  end
-
-  def date_in_current_fiscal_year?(date)
-    (tilikausi_alku..tilikausi_loppu).cover?(date)
+  def date_in_open_period?(date)
+    (open_period.first..open_period.last).cover?(date.try(:to_date))
   end
 
   def classic_ui?

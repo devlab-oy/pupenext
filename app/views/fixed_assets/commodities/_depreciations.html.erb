@@ -45,14 +45,12 @@
 <br/><br/>
 <table>
 <tr>
-  <th><%= t('Tili') %></th>
   <th><%= t('Summa') %></th>
   <th><%= t('Pvm') %></th>
   <th><%= t('Selite') %></th>
 </tr>
   <% @commodity.commodity_rows.each do |comrow| %>
   <tr>
-    <td><%= comrow.account  %></td>
     <td><%= comrow.amount %></td>
     <td><%= comrow.transacted_at %></td>
     <td><%= comrow.description %></td>

@@ -20,7 +20,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :must_have_procurement_rows, if: :activated?
 
   before_save :set_amount
-  before_save :generate_rows, if: :generate_rows?
 
   def self.options_for_type
     [
@@ -39,6 +38,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  def ok_to_generate_rows?
+    activated? && important_values_changed?
+  end
+
+  def generate_rows
+    @generator = CommodityRowGenerator.new(commodity_id: id).generate_rows
+
+    # We must reload, since generator can modify commodity instance
+    reload
+  end
+
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.find_by_account(viable_accounts)
@@ -49,38 +59,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
     company.vouchers.commodity_linkable.find_by_account(viable_accounts)
   end
 
-  # Poistorivit
-  def depreciation_rows
-    voucher.rows.where(tilino: procurement_number)
-  end
-
-  # Poistoerorivit
-  def difference_rows
-    voucher.rows.where(tilino: poistoero_number)
-  end
-
-  # Poistovastarivit
-  def counter_depreciation_rows
-    voucher.rows.where(tilino: planned_counter_number)
-  end
-
-  # Poistoerovastarivit
-  def counter_difference_rows
-    voucher.rows.where(tilino: difference_counter_number)
-  end
-
-  # Poistoerorivit tietyllä aikavälillä
-  def difference_rows_between(date1, date2)
-    difference_rows.where(tapvm: date1..date2)
-  end
-
   def activated?
     status == 'A'
-  end
-
-  def lock_rows
-    commodity_rows.update_all(locked: true)
-    voucher.rows.update_all(lukko: "X")
   end
 
   # Returns sum of past sumu depreciations
@@ -93,142 +73,59 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_rows.locked.sum(:amount)
   end
 
-  def procurement_number
-    procurement_row.try(:tilino)
+  # Käyttöomaisuus-tili (tase)
+  def fixed_assets_account
+    procurement_rows.first.try(:tilino)
   end
 
-  def procurement_cost_centre
-    procurement_row.try(:kustp)
+  # Käyttöomaisuus-rivit
+  def fixed_assets_rows
+    voucher.rows.where(tilino: fixed_assets_account)
   end
 
-  def procurement_project
-    procurement_row.try(:projekti)
+  # Poisto-tili (tuloslaskelma)
+  def depreciation_account
+    commodity_sum_level.try(:poistovasta_account).try(:tilino)
   end
 
-  def procurement_target
-    procurement_row.try(:kohde)
+  # Poisto-rivit
+  def depreciation_rows
+    voucher.rows.where(tilino: depreciation_account)
   end
 
-  def procurement_row
-    procurement_rows.first
+  # Poistoero-tili (tase)
+  def depreciation_difference_account
+    commodity_sum_level.try(:poistoero_account).try(:tilino)
   end
 
-  def poistoero_number
-    procurement_sumlevel.poistoero_account.tilino
+  # Poistoero-rivit
+  def depreciation_difference_rows
+    voucher.rows.where(tilino: depreciation_difference_account)
   end
 
-  def planned_counter_number
-    procurement_sumlevel.poistovasta_account.tilino
+  # Poistoeromuutos-tili (tuloslaskelma)
+  def depreciation_difference_change_account
+    commodity_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
 
-  def difference_counter_number
-    procurement_sumlevel.poistoerovasta_account.tilino
+  # Poistoeromuutos-rivit
+  def depreciation_difference_change_rows
+    voucher.rows.where(tilino: depreciation_difference_change_account)
   end
 
-  # Calculates monthly payments within fiscal year
-  def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0)
-    # full_amount = hydykkeen hankintahinta
-    # full_count = kokonaispoistoaika kuukausissa
-    # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
-    full_amount = full_amount.to_d
-    return [] if full_amount.zero? || full_count.zero?
-
-    fiscal_maximum = full_amount / full_count * payment_count
-    fiscal_maximum = fiscal_maximum.ceil
-
-    if max_fiscal_reduction > 0 && fiscal_maximum > max_fiscal_reduction
-      fiscal_maximum = max_fiscal_reduction
-    end
-
-    payment_amount = full_amount / full_count
-    payment_amount = payment_amount.round(2)
-
-    if full_amount > fiscal_maximum
-      full_amount = fiscal_maximum
-    end
-
-    remainder = full_amount.divmod(payment_amount)
-
-    result = []
-
-    remainder[0].to_i.times do
-      result << payment_amount
-    end
-
-    unless remainder[1].zero?
-      if remainder[0] < payment_count
-        result << remainder[1]
-      else
-        result[-1] += remainder[1]
-      end
-    end
-
-    result
+  # Kaikki hankinnan kustannuspaikat
+  def procurement_cost_centres
+    procurement_rows.map(&:kustp)
   end
 
-  def fixed_by_percentage(full_amount, percentage)
-    # full_amount = hydykkeen hankintahinta
-    # percentage = vuosipoistoprosentti
-    yearly_amount = full_amount * percentage / 100
-    payments = full_amount / yearly_amount * payment_count
-    payments = payments.to_i
-    divide_to_payments(full_amount, payments, yearly_amount)
+  # Kaikki hankinnan kohteet
+  def procurement_targets
+    procurement_rows.map(&:kohde)
   end
 
-  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
-    # full_amount = hydykkeen hankintahinta
-    # fiscal_percentage = vuosipoistoprosentti
-    # depreciated_amount = jo poistettu summa
-    full_amount = full_amount.to_d
-
-    # Sum the value of previous fiscal reductions
-    full_amount = full_amount - depreciated_amount
-
-    fiscal_percentage = fiscal_percentage.to_d / 100
-    fiscal_year_depreciations = []
-    first_depreciation = full_amount * fiscal_percentage / payment_count
-
-    fiscal_year_depreciations << first_depreciation.to_i
-
-    fiscalreduction = full_amount * fiscal_percentage
-    keep_running = true
-
-    while keep_running do
-      injecthis = (full_amount - fiscal_year_depreciations.sum) * fiscal_percentage / payment_count
-
-      if fiscal_year_depreciations.count == payment_count - 1
-        injecthis = fiscalreduction - fiscal_year_depreciations.sum
-        keep_running = false
-      end
-      injecthis = injecthis.to_i
-
-      fiscal_year_depreciations << injecthis unless injecthis.zero?
-    end
-
-    fiscal_year_depreciations
-  end
-
-  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
-    # full_amount = hydykkeen hankintahinta
-    # total_number_of_payments = poistojen kokonaismäärä kuukausissa
-    # depreciated_payments = jo poistettujen erien lukumäärä
-    # depreciated_amount = jo poistettu summa
-    remaining_payments = total_number_of_payments - depreciated_payments
-    remaining_amount = full_amount - depreciated_amount
-
-    fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
-    fiscal_maximum = fiscal_maximum.ceil
-
-    if remaining_amount > fiscal_maximum
-      remaining_amount = fiscal_maximum
-    end
-
-    # Calculate fiscal payments
-    if remaining_payments >= payment_count
-      divide_to_payments(remaining_amount, payment_count)
-    else
-      divide_to_payments(remaining_amount, remaining_payments)
-    end
+  # Kaikki hankinnan projektit
+  def procurement_projects
+    procurement_rows.map(&:projekti)
   end
 
   private
@@ -244,22 +141,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       }
 
       (changed & attrs).any?
-    end
-
-    def generate_rows?
-      activated? && important_values_changed?
-    end
-
-    def mark_rows_obsolete
-      commodity_rows.update_all(amended: true)
-      voucher.rows.update_all(korjattu: "X", korjausaika: Time.now) if voucher.present?
-    end
-
-    def generate_rows
-      mark_rows_obsolete
-      generate_voucher_rows
-      generate_commodity_rows
-      generate_depreciation_difference_rows
     end
 
     def depreciation_amount_must_follow_type
@@ -279,7 +160,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def activation_only_on_open_fiscal_year
-      unless company.date_in_current_fiscal_year?(activated_at)
+      unless company.date_in_open_period?(activated_at)
         errors.add(:base, "Activation date must be within current editable fiscal year")
       end
     end
@@ -290,150 +171,21 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
-    def create_voucher
-      voucher_params = {
-        nimi: "Poistoerätosite hyödykkeelle #{name}: #{id}",
-        laatija: created_by,
-        muuttaja: modified_by,
-        commodity_id: id
-      }
-
-      accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save!
-
-      self.voucher = accounting_voucher
-    end
-
-    def generate_voucher_rows
-      create_voucher if voucher.nil?
-      activation_date = activated_at
-      amounts = calculate_depreciations(:SUMU)
-
-      # Poistoerän kirjaus
-      amounts.each_with_index do |amount, i|
-        time = activation_date.advance(months: +i)
-
-        row_params = {
-          laatija: created_by,
-          tapvm: time.end_of_month,
-          summa: amount,
-          yhtio: company.yhtio,
-          selite: "SUMU poisto, tyyppi: #{planned_depreciation_type},
-            erä: #{planned_depreciation_amount}",
-          tilino: procurement_number
-        }
-
-        row = voucher.rows.create!(row_params)
-
-        # Poistoerän vastakirjaus
-        row.counter_entry(planned_counter_number)
-      end
-    end
-
-    def generate_commodity_rows
-      activation_date = activated_at
-      amounts = calculate_depreciations(:EVL)
-
-      amounts.each_with_index do |amount, i|
-        time = activation_date.advance(months: +i)
-
-        row_params = {
-          created_by: created_by,
-          modified_by: modified_by,
-          transacted_at: time.end_of_month,
-          amount: amount,
-          description: "EVL poisto, tyyppi: #{btl_depreciation_type},
-            erä: #{btl_depreciation_amount}",
-          account: procurement_number
-        }
-
-        commodity_rows.create!(row_params)
-      end
-    end
-
-    def generate_depreciation_difference_rows
-      # Poistoeron kirjaus
-      depreciation_differences.each do |md|
-        amount = md.first
-        time = md.last
-
-        row_params = {
-          laatija: created_by,
-          tapvm: time,
-          summa: amount,
-          yhtio: company.yhtio,
-          selite: 'poistoerokirjaus',
-          tilino: poistoero_number
-        }
-
-        row = voucher.rows.create!(row_params)
-
-        # Poistoeron vastakirjaus
-        row.counter_entry(difference_counter_number)
-      end
-    end
-
-    def calculate_depreciations(depreciation_type)
-      case depreciation_type.to_sym
-      when :SUMU
-        calculation_type = planned_depreciation_type
-        calculation_amount = planned_depreciation_amount
-        depreciated_sum = deprecated_sumu_amount
-        depreciation_amount = voucher.rows.count
-      when :EVL
-        calculation_type = btl_depreciation_type
-        calculation_amount = btl_depreciation_amount
-        depreciated_sum = deprecated_evl_amount
-        depreciation_amount = commodity_rows.count
-      else
-        raise ArgumentError, 'Invalid depreciation_type'
-      end
-
-      # Calculation rules
-      case calculation_type.to_sym
-      when :T
-        # Tasapoisto kuukausittain
-        fixed_by_month(amount, calculation_amount, depreciation_amount, depreciated_sum)
-      when :P
-        # Tasapoisto vuosiprosentti
-        fixed_by_percentage(amount, calculation_amount)
-      when :B
-        # Menojäännöspoisto vuosiprosentti
-        degressive_by_percentage(amount, calculation_amount, depreciated_sum)
-      else
-        raise ArgumentError, 'Invalid calculation_type'
-      end
-    end
-
-    def payment_count
-      current_active = company.months_in_current_fiscal_year
-      return current_active if activated_at < company.fiscal_year.first
-      (activated_at..company.fiscal_year.last).map(&:end_of_month).uniq.count
-    end
-
-    def depreciation_differences
-      commodity_rows.map { |evl| [evl.depreciation_difference, evl.transacted_at] }
-    end
-
-    def procurement_account
-      company.accounts.find_by(tilino: procurement_number)
-    end
-
-    def procurement_sumlevel
-      procurement_account.commodity
-    end
-
     def viable_accounts
-      # Jos tili on valittu, käytetään sitä. Muuten kaikki EVL tilit
-      procurement_row ? procurement_number : company.accounts.evl_accounts.select(:tilino)
+      # Jos tiliä ei ole valittu, otetaan kaikki EVL tilit. Muuten valittu tili.
+      procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
+    end
+
+    def commodity_sum_level
+      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
     end
 
     def set_amount
-      self.amount = procurement_row.present? ? procurement_rows.sum(:summa) : 0.0
+      self.amount = procurement_rows.empty? ? 0 : procurement_rows.sum(:summa)
     end
 
     def must_have_procurement_rows
-      unless procurement_row.present?
+      if procurement_rows.empty?
         errors.add(:base, 'Must have procurement rows if activated')
       end
     end

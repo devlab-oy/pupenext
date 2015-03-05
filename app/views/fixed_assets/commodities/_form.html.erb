@@ -28,19 +28,19 @@
     </tr>
     <tr>
       <th><%= f.label :cost_centre, t('Kustannuspaikka') %></th>
-      <td><%= @commodity.procurement_cost_centre %></td>
+      <td><%= @commodity.procurement_cost_centres %></td>
     </tr>
     <tr>
       <th><%= f.label :target, t('Kohde') %></th>
-      <td><%= @commodity.procurement_target %></td>
+      <td><%= @commodity.procurement_targets %></td>
     </tr>
     <tr>
       <th><%= f.label :project, t('Projekti') %></th>
-      <td><%= @commodity.procurement_project %></td>
+      <td><%= @commodity.procurement_projects %></td>
     </tr>
     <tr>
       <th><%= t('Tili') %></th>
-      <td><%= @commodity.procurement_number %></td>
+      <td><%= @commodity.fixed_assets_account %></td>
     </tr>
     <tr>
       <th><%= f.label :activated_at, t('Aktivointipäivä') %></th>

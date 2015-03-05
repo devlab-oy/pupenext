@@ -100,26 +100,18 @@ class CompanyTest < ActiveSupport::TestCase
   test 'get fiscal year returns fiscal year' do
     @acme.tilikausi_alku = Date.today
     @acme.tilikausi_loppu = Date.today+4
-    assert_equal [Date.today, Date.today+4], @acme.fiscal_year
-  end
-
-  test 'method returns if given date is in this fiscal year' do
-    @acme.tilikausi_alku = Date.today
-    @acme.tilikausi_loppu = Date.today+4
-    assert @acme.date_in_current_fiscal_year? Date.today+1
-    refute @acme.date_in_current_fiscal_year? Date.today+5
-    refute @acme.date_in_current_fiscal_year? Date.yesterday
-  end
-
-  test 'get months in current fiscal year' do
-    @acme.tilikausi_alku = '01 July 2014'
-    @acme.tilikausi_loppu = '31 Dec 2014'
-    assert_equal 6, @acme.months_in_current_fiscal_year
+    assert_equal [Date.today, Date.today+4], @acme.open_period
   end
 
   test 'should return current fiscal year' do
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
+
+    assert_equal '2014-01-01'.to_date, @acme.fiscal_year('2014-06-01').first
+    assert_equal '2014-12-31'.to_date, @acme.fiscal_year('2014-06-01').last
+
+    assert_equal Date.today.beginning_of_year, @acme.current_fiscal_year.first
+    assert_equal Date.today.end_of_year, @acme.current_fiscal_year.last
 
     params = {
       tilikausi_alku: Date.today.beginning_of_year,
@@ -133,5 +125,18 @@ class CompanyTest < ActiveSupport::TestCase
     assert_raise RuntimeError do
       @acme.reload.current_fiscal_year
     end
+  end
+
+  test 'date in open period' do
+    @acme.tilikausi_alku = '2014-01-01'
+    @acme.tilikausi_loppu = '2014-12-31'
+
+    assert @acme.date_in_open_period?('2014-01-01'), 'first'
+    assert @acme.date_in_open_period?('2014-06-01'), 'middle'
+    assert @acme.date_in_open_period?('2014-12-31'), 'last'
+
+    assert @acme.date_in_open_period?('2014-01-01'.to_date), 'first'
+    assert @acme.date_in_open_period?('2014-06-01'.to_date), 'middle'
+    assert @acme.date_in_open_period?('2014-12-31'.to_date), 'last'
   end
 end
