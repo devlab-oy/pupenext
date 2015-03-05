@@ -17,7 +17,21 @@ fi:
         yhteyshenkilo: Yhteyshenkilö
         ip: Ip
         jarjestys: Järjestys
-
+  options:
+    merkisto_types:
+      "1": 7 Bit
+      "2": DOS
+      "3": ANSI
+      "4": UTF8
+      "5": Scandic off
+    mediatyyppi_types:
+      A4: A4
+      A5: A5
+      LSN149X104: "Lämpösiirto/nauha 149X104mm"
+      LSN59X40: "Lämpösiirto/nauha 59X40mm"
+      LS149X104: "Lämpösiirto 149X104mm"
+      LS59X40: "Lämpösiirto 59X40mm"
+      kuittitulostin: "Kuittitulostin"
 en:
   activerecord:
     models:
@@ -37,3 +51,18 @@ en:
         yhteyshenkilo: Contact person
         ip: Ip
         jarjestys: Order
+  options:
+    merkisto_types:
+      "1": 7 Bit
+      "2": DOS
+      "3": ANSI
+      "4": UTF8
+      "5": Scandic off
+    mediatyyppi_types:
+      A4: A4
+      A5: A5
+      LSN149X104: "Thermal transfer/label 149X104mm"
+      LSN59X40: "Thermal transfer/label 59X40mm"
+      LS149X104: "Thermal transfer 149X104mm"
+      LS59X40: "Thermal transfer 59X40mm"
+      kuittitulostin: "Receipt printer"

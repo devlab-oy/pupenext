@@ -19,12 +19,12 @@
 
     <tr>
       <th><%= f.label :merkisto %></th>
-      <td><%= f.select :merkisto, Printer.merkisto_types %></td>
+      <td><%= f.select :merkisto, merkisto_types, include_blank: t("Ei valintaa") %></td>
     </tr>
 
     <tr>
       <th><%= f.label :mediatyyppi %></th>
-      <td><%= f.select :mediatyyppi, Printer.mediatyyppi_types %></td>
+      <td><%= f.select :mediatyyppi, mediatyyppi_types, include_blank: t("Ei valintaa") %></td>
     </tr>
 
     <tr>
