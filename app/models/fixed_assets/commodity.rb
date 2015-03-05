@@ -66,7 +66,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistovastarivit
   def counter_depreciation_rows
-    voucher.rows.where(tilino: procurement_counter_account)
+    voucher.rows.where(tilino: depreciation_account)
   end
 
   # Poistoerorivit
@@ -99,7 +99,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   # Poisto-tili (tuloslaskelma)
-  def procurement_counter_account
+  def depreciation_account
     procurement_sum_level.try(:poistovasta_account).try(:tilino)
   end
 

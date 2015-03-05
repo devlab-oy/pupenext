@@ -180,7 +180,7 @@ class CommodityRowGenerator
         row = commodity.voucher.rows.create!(row_params)
 
         # Poistoerän vastakirjaus
-        row.counter_entry(commodity.procurement_counter_account)
+        row.counter_entry(commodity.depreciation_account)
       end
     end
 
