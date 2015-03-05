@@ -597,7 +597,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.datetime "updated_at",                             null: false
     t.date     "transacted_at"
     t.decimal  "amount",       precision: 16, scale: 6
-    t.string   "account",      limit: 255
     t.string   "description",  limit: 255
     t.boolean  "amended",      limit: 1, default: false, null: false
     t.boolean  "locked",       limit: 1, default: false, null: false
