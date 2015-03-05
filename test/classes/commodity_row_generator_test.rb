@@ -113,7 +113,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal btl_one.transacted_at, difference.tapvm
 
     number_one = @commodity.difference_rows.first.tilino
-    number_two = @commodity.difference_account
+    number_two = @commodity.depreciation_difference_account
 
     # Difference goes to right account
     assert_equal number_two, number_one

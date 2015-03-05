@@ -71,7 +71,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistoerorivit
   def difference_rows
-    voucher.rows.where(tilino: difference_account)
+    voucher.rows.where(tilino: depreciation_difference_account)
   end
 
   # Poistoerovastarivit
@@ -104,7 +104,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   # Poistoero-tili (tase)
-  def difference_account
+  def depreciation_difference_account
     procurement_sum_level.try(:poistoero_account).try(:tilino)
   end
 

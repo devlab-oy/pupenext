@@ -211,7 +211,7 @@ class CommodityRowGenerator
           summa: amount,
           yhtio: company.yhtio,
           selite: 'poistoerokirjaus',
-          tilino: commodity.difference_account
+          tilino: commodity.depreciation_difference_account
         }
 
         row = commodity.voucher.rows.create!(row_params)
