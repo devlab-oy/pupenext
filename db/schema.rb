@@ -572,7 +572,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "company_id",  limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.date     "purchased_at"
     t.date     "activated_at"
     t.string   "name",        limit: 255
     t.string   "description", limit: 255

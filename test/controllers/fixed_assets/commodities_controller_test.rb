@@ -57,7 +57,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       btl_depreciation_type: 'P',
       btl_depreciation_amount: 45,
       activated_at: Time.now,
-      purchased_at: Time.now,
       status: ''
     }
 
