@@ -82,29 +82,29 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # ...of which 6 are depreciation and 6 are difference rows
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     # Test no locked rows are updated
-    assert @commodity.depreciation_rows.locked.collect(&:previous_changes).all?(&:empty?)
+    assert @commodity.fixed_assets_rows.locked.collect(&:previous_changes).all?(&:empty?)
 
     # Test amounts are set correctly
-    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.depreciation_rows.first.summa, 769.23
-    assert_equal @commodity.depreciation_rows.second.summa, 769.23
-    assert_equal @commodity.depreciation_rows.last.summa, 653.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 45 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, 769.23
+    assert_equal @commodity.fixed_assets_rows.second.summa, 769.23
+    assert_equal @commodity.fixed_assets_rows.last.summa, 653.85
 
     # counter entries also 6/6
-    assert_equal 6, @commodity.counter_depreciation_rows.count
-    assert_equal 6, @commodity.counter_difference_rows.count
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.depreciation_difference_change_rows.count
 
     # counter entries amounts correct
-    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
-    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
+    assert_equal @commodity.fixed_assets_rows.first.summa * -1, @commodity.depreciation_rows.first.summa
+    assert_equal @commodity.fixed_assets_rows.last.summa * -1, @commodity.depreciation_rows.last.summa
 
     btl_one = @commodity.commodity_rows.first
-    planned_one = @commodity.depreciation_rows.first
-    difference = @commodity.difference_rows.first
+    planned_one = @commodity.fixed_assets_rows.first
+    difference = @commodity.depreciation_difference_rows.first
 
     # Difference is calculated correctly
     assert_equal (planned_one.summa - btl_one.amount), difference.summa
@@ -112,7 +112,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Difference is set for same date
     assert_equal btl_one.transacted_at, difference.tapvm
 
-    number_one = @commodity.difference_rows.first.tilino
+    number_one = @commodity.depreciation_difference_rows.first.tilino
     number_two = @commodity.depreciation_difference_account
 
     # Difference goes to right account
@@ -124,12 +124,12 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     refute @commodity.ok_to_generate_rows?
 
     # ... still a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     # counter entries also still 6/6
-    assert_equal 6, @commodity.counter_depreciation_rows.count
-    assert_equal 6, @commodity.counter_difference_rows.count
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.depreciation_difference_change_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
@@ -152,24 +152,24 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # ... still a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.depreciation_rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.depreciation_rows.first.summa, 333.0
-    assert_equal @commodity.depreciation_rows.second.summa, 322.0
-    assert_equal @commodity.depreciation_rows.third.summa, 311.0
-    assert_equal @commodity.depreciation_rows.fourth.summa, 301.0
-    assert_equal @commodity.depreciation_rows.fifth.summa, 291.0
-    assert_equal @commodity.depreciation_rows.last.summa, 442.0
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 20 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, 333.0
+    assert_equal @commodity.fixed_assets_rows.second.summa, 322.0
+    assert_equal @commodity.fixed_assets_rows.third.summa, 311.0
+    assert_equal @commodity.fixed_assets_rows.fourth.summa, 301.0
+    assert_equal @commodity.fixed_assets_rows.fifth.summa, 291.0
+    assert_equal @commodity.fixed_assets_rows.last.summa, 442.0
 
     # counter entries also 6/6
-    assert_equal 6, @commodity.counter_depreciation_rows.count
-    assert_equal 6, @commodity.counter_difference_rows.count
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.depreciation_difference_change_rows.count
 
     # counter entries amounts correct
-    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
-    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
+    assert_equal @commodity.fixed_assets_rows.first.summa * -1, @commodity.depreciation_rows.first.summa
+    assert_equal @commodity.fixed_assets_rows.last.summa * -1, @commodity.depreciation_rows.last.summa
 
     # Updating commodity should not update any rows
     @commodity.reload
@@ -180,8 +180,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     refute @commodity.ok_to_generate_rows?
 
     # ... still a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
@@ -203,8 +203,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # ... still a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal 6, @commodity.commodity_rows.collect(&:previous_changes).count
   end
@@ -225,22 +225,22 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # ... still a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
 
-    assert_equal @commodity.depreciation_rows.sum(:summa), 1001
-    assert_equal @commodity.depreciation_rows.first.summa, 166.83
-    assert_equal @commodity.depreciation_rows.second.summa, 166.83
-    assert_equal @commodity.depreciation_rows.last.summa, 166.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), 1001
+    assert_equal @commodity.fixed_assets_rows.first.summa, 166.83
+    assert_equal @commodity.fixed_assets_rows.second.summa, 166.83
+    assert_equal @commodity.fixed_assets_rows.last.summa, 166.85
 
     # counter entries also 6/6
-    assert_equal 6, @commodity.counter_depreciation_rows.count
-    assert_equal 6, @commodity.counter_difference_rows.count
+    assert_equal 6, @commodity.depreciation_rows.count
+    assert_equal 6, @commodity.depreciation_difference_change_rows.count
 
     # counter entries amounts correct
-    assert_equal @commodity.depreciation_rows.first.summa * -1, @commodity.counter_depreciation_rows.first.summa
-    assert_equal @commodity.depreciation_rows.last.summa * -1, @commodity.counter_depreciation_rows.last.summa
+    assert_equal @commodity.fixed_assets_rows.first.summa * -1, @commodity.depreciation_rows.first.summa
+    assert_equal @commodity.fixed_assets_rows.last.summa * -1, @commodity.depreciation_rows.last.summa
 
     @commodity.reload
 
@@ -267,8 +267,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal @commodity.commodity_rows.sum(:amount), 1600
     assert_equal @commodity.commodity_rows.first.amount, 270.27
@@ -281,8 +281,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     refute @commodity.ok_to_generate_rows?
 
     # a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
@@ -304,8 +304,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
     assert_equal @commodity.commodity_rows.first.amount, 333.0
@@ -340,8 +340,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
 
     # a 6/6 split
-    assert_equal 6, @commodity.depreciation_rows.count
-    assert_equal 6, @commodity.difference_rows.count
+    assert_equal 6, @commodity.fixed_assets_rows.count
+    assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal @commodity.commodity_rows.sum(:amount), 1001
     assert_equal @commodity.commodity_rows.first.amount, 166.83
@@ -383,8 +383,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @generator = CommodityRowGenerator.new(params).generate_rows
     @commodity.reload
 
-    assert_equal 2, @commodity.depreciation_rows.count, "poistot"
-    assert_equal 2, @commodity.difference_rows.count, "poistoero"
+    assert_equal 2, @commodity.fixed_assets_rows.count, "poistot"
+    assert_equal 2, @commodity.depreciation_difference_rows.count, "poistoero"
 
     rows = @commodity.voucher.rows.order(:tapvm)
     assert_equal '2014-11-30'.to_date, rows.first.tapvm
@@ -404,8 +404,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @generator = CommodityRowGenerator.new(params).generate_rows
     @commodity.reload
 
-    assert_equal 14, @commodity.depreciation_rows.count, "poistot"
-    assert_equal 14, @commodity.difference_rows.count, "poistoero"
+    assert_equal 14, @commodity.fixed_assets_rows.count, "poistot"
+    assert_equal 14, @commodity.depreciation_difference_rows.count, "poistoero"
 
     rows = @commodity.voucher.rows.order(:tapvm)
     assert_equal '2014-11-30'.to_date, rows.first.tapvm
