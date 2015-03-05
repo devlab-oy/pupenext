@@ -1,0 +1,39 @@
+fi:
+  activerecord:
+    models:
+      printer: Kirjoitin
+    attributes:
+      printer:
+        kirjoitin: Kirjoitin
+        komento: Komento
+        unifaun_nimi: Unifaun nimi
+        merkisto: Merkistö
+        mediatyyppi: Mediatyyppi
+        nimi: Nimi
+        osoite: Osoite
+        postino: Postino
+        postitp: Postitp
+        puhelin: Puhelin
+        yhteyshenkilo: Yhteyshenkilö
+        ip: Ip
+        jarjestys: Järjestys
+
+en:
+  activerecord:
+    models:
+      printer: Printer
+    attributes:
+      printer:
+        kirjoitin: Printer
+        komento: Command
+        unifaun_nimi: Unifaun name
+        merkisto: Character set
+        mediatyyppi: Media type
+        nimi: Name
+        osoite: Address
+        postino: Postal code
+        postitp: Post office
+        puhelin: Phone
+        yhteyshenkilo: Contact person
+        ip: Ip
+        jarjestys: Order
