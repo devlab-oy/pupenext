@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class CashBoxesControllerTest < ActionController::TestCase
+class Administration::CashBoxesControllerTest < ActionController::TestCase
 
   def setup
-    cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
+    login users(:bob)
     @cash_box = cash_boxes(:first)
   end
 
@@ -32,11 +32,11 @@ class CashBoxesControllerTest < ActionController::TestCase
       nimi: 'Kissa',
       kustp: 434,
       toimipaikka: 3,
-      kassa: 4001,
-      pankkikortti: 4001,
-      luottokortti: 4001,
-      kateistilitys: 4001,
-      kassaerotus: 4001,
+      kassa: 110,
+      pankkikortti: 120,
+      luottokortti: 130,
+      kateistilitys: 140,
+      kassaerotus: 150,
       kateisotto: ''
     }
 
@@ -52,11 +52,11 @@ test "should not create" do
       nimi: 'Kissa',
       kustp: 105,
       toimipaikka: 3,
-      kasssa: 3344,
+      kasssa: 160,
       pankkikortti: nil,
-      luottokortti: 2232,
-      kateistilitys: 2562,
-      kassaerotus: 2562
+      luottokortti: 170,
+      kateistilitys: 180,
+      kassaerotus: 190
     }
 
     assert_no_difference('CashBox.count') do

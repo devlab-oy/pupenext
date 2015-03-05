@@ -1,6 +1,5 @@
-class CashBoxesController < ApplicationController
+class Administration::CashBoxesController < AdministrationController
 
-  before_action :find_cash_box, only: [:show, :edit, :update]
   before_action :get_qualifiers, only: [:new, :show, :edit, :update, :create]
   before_action :get_locations, only: [:new, :show, :edit, :update, :create]
 
@@ -12,7 +11,9 @@ class CashBoxesController < ApplicationController
   before_action :check_kateisotto_account, only: [:create, :update]
 
   def index
-    @cash_boxes = current_user.company.cash_boxes
+    @cash_boxes = current_company.cash_boxes
+    .search_like(search_params)
+    .order(order_params)
   end
 
   def show
@@ -23,11 +24,11 @@ class CashBoxesController < ApplicationController
   end
 
   def new
-    @cash_box = current_user.company.cash_boxes.build
+    @cash_box = current_company.cash_boxes.build
   end
 
 def create
-    @cash_box = current_user.company.cash_boxes.build
+    @cash_box = current_company.cash_boxes.build
     @cash_box.attributes = cash_box_params
 
     if @cash_box.kustp == nil
@@ -51,8 +52,8 @@ def create
 
 private
 
-    def find_cash_box
-      @cash_box = current_user.company.cash_boxes.find(params[:id])
+    def find_resource
+      @cash_box = current_company.cash_boxes.find(params[:id])
     end
 
     def get_qualifiers
@@ -90,6 +91,24 @@ private
     def get_accounts(type)
       search = params[:cash_box][type]
       Account.by_name(search) if search.present?
+    end
+
+    def searchable_columns
+      [
+        :nimi,
+        :kustp,
+        :toimipaikka,
+        :kassa,
+        :pankkikortti,
+        :luottokortti,
+        :kateistilitys,
+        :kassaerotus,
+        :kateisotto
+      ]
+    end
+
+    def sortable_columns
+      searchable_columns
     end
 
     def cash_box_params
