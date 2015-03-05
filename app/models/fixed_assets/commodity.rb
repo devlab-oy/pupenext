@@ -59,22 +59,22 @@ class FixedAssets::Commodity < ActiveRecord::Base
     company.vouchers.commodity_linkable.find_by_account(viable_accounts)
   end
 
-  # Poistorivit
+  # Käyttöomaisuus-rivit
   def depreciation_rows
     voucher.rows.where(tilino: fixed_assets_account)
   end
 
-  # Poistovastarivit
+  # Poisto-rivit
   def counter_depreciation_rows
     voucher.rows.where(tilino: depreciation_account)
   end
 
-  # Poistoerorivit
+  # Poistoero-rivit
   def difference_rows
     voucher.rows.where(tilino: depreciation_difference_account)
   end
 
-  # Poistoerovastarivit
+  # Poistoeromuutos-rivit
   def counter_difference_rows
     voucher.rows.where(tilino: depreciation_difference_change_account)
   end
