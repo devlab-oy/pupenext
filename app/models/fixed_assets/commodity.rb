@@ -100,17 +100,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poisto-tili (tuloslaskelma)
   def depreciation_account
-    procurement_sum_level.try(:poistovasta_account).try(:tilino)
+    commodity_sum_level.try(:poistovasta_account).try(:tilino)
   end
 
   # Poistoero-tili (tase)
   def depreciation_difference_account
-    procurement_sum_level.try(:poistoero_account).try(:tilino)
+    commodity_sum_level.try(:poistoero_account).try(:tilino)
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
   def depreciation_difference_change_account
-    procurement_sum_level.try(:poistoerovasta_account).try(:tilino)
+    commodity_sum_level.try(:poistoerovasta_account).try(:tilino)
   end
 
   # Kaikki hankinnan kustannuspaikat
@@ -176,7 +176,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
     end
 
-    def procurement_sum_level
+    def commodity_sum_level
       company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
     end
 
