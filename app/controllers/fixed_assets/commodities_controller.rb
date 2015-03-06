@@ -87,6 +87,11 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
+  def generate_rows
+    @commodity.generate_rows
+    redirect_to edit_commodity_path(@commodity)
+  end
+
   private
 
     def linkable_vouchers

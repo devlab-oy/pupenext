@@ -10,7 +10,8 @@ Pupesoft::Application.routes.draw do
       post 'purchase_orders', to: 'commodities#link_purchase_order'
       get  'vouchers'
       post 'vouchers', to: 'commodities#link_voucher'
-      post 'activation', to: 'commodities#activation'
+      post 'activation'
+      post 'generate_rows'
     end
   end
 
