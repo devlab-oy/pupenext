@@ -76,6 +76,17 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
+  def activation
+    @commodity.status = 'A'
+
+    if @commodity.update_by(activation_params, current_user)
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
+    else
+      render :edit
+      #redirect_to edit_commodity_path(@commodity), notice: 'FAIL FAIL FAIL.'
+    end
+  end
+
   private
 
     def linkable_vouchers
@@ -84,6 +95,12 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def linkable_purchase_orders
       @purchase_orders = @commodity.linkable_invoices.includes(:rows)
+    end
+
+    def activation_params
+      params.permit(
+        :status
+      )
     end
 
     # Allow only these params for update
@@ -98,7 +115,6 @@ class FixedAssets::CommoditiesController < AdministrationController
         :planned_depreciation_amount,
         :btl_depreciation_type,
         :btl_depreciation_amount,
-        :status,
         :cost_centre,
         :target,
         :project

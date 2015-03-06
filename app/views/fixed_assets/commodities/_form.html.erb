@@ -1,6 +1,7 @@
  <% if update_access? %>
   <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
   <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
+  <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
   <br/>
   <br/>
 <% end %>
@@ -52,7 +53,7 @@
     </tr>
     <tr>
       <th><%= f.label :status, t('Status') %></th>
-      <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status) %></td>
+      <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status), {}, {:disabled => true} %></td>
     </tr>
       <th><%= f.label :planned_depreciation_type, t('SUMU poistotyyppi') %></th>
       <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
