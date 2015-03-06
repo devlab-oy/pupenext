@@ -3,88 +3,88 @@
 
   <table>
     <tr>
-      <th><%= f.label :kirjoitin %></th>
+      <th><%= f.label :kirjoitin, t("Kirjoitin") %></th>
       <td><%= f.text_field :kirjoitin %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :komento %></th>
+      <th><%= f.label :komento, t("Komento") %></th>
       <td><%= f.text_field :komento %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :unifaun_nimi %></th>
+      <th><%= f.label :unifaun_nimi, t("Unifaun nimi") %></th>
       <td><%= f.text_field :unifaun_nimi %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :merkisto %></th>
+      <th><%= f.label :merkisto, t("Merkistö") %></th>
       <td><%= f.select :merkisto, Printer.merkisto_types %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :mediatyyppi %></th>
+      <th><%= f.label :mediatyyppi, t("Mediatyyppi") %></th>
       <td><%= f.select :mediatyyppi, Printer.mediatyyppi_types %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :nimi %></th>
+      <th><%= f.label :nimi, t("Nimi") %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :osoite %></th>
+      <th><%= f.label :osoite, t("Osoite") %></th>
       <td><%= f.text_field :osoite %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :postino %></th>
+      <th><%= f.label :postino, t("Postino") %></th>
       <td><%= f.text_field :postino %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :postitp %></th>
+      <th><%= f.label :postitp, t("Postitp") %></th>
       <td><%= f.text_field :postitp, size: 10, maxlength: 10 %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :puhelin %></th>
+      <th><%= f.label :puhelin, t("Puhelin") %></th>
       <td><%= f.telephone_field :puhelin %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :yhteyshenkilo %></th>
+      <th><%= f.label :yhteyshenkilo, t("Yhteyshenkilö") %></th>
       <td><%= f.text_field :yhteyshenkilo %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :ip %></th>
+      <th><%= f.label :ip, t("Ip") %></th>
       <td><%= f.text_field :ip %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :jarjestys %></th>
+      <th><%= f.label :jarjestys, t("Järjestys") %></th>
       <td><%= f.number_field :jarjestys %></td>
     </tr>
 
     <% if printer.persisted? %>
       <tr>
-        <th><%= f.label :laatija %></th>
+        <th><%= f.label :laatija, t("Laatija") %></th>
         <td><%= printer.laatija %></td>
       </tr>
 
       <tr>
-        <th><%= f.label :luontiaika %></th>
+        <th><%= f.label :luontiaika, t("Luontiaika") %></th>
         <td><%= printer.luontiaika.try(:to_formatted_s, :db) %></td>
       </tr>
 
       <tr>
-        <th><%= f.label :muutospvm %></th>
+        <th><%= f.label :muutospvm, t("Muutospvm") %></th>
         <td><%= printer.muutospvm.try(:to_formatted_s, :db) %></td>
       </tr>
 
       <tr>
-        <th><%= f.label :muuttaja %></th>
+        <th><%= f.label :muuttaja, t("Muuttaja") %></th>
         <td><%= printer.muuttaja %></td>
       </tr>
     <% end %>
