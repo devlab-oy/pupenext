@@ -1,8 +1,13 @@
  <% if update_access? %>
   <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
   <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
-  <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
-  <%= button_to t('Luo poistoerät'), commodity_generate_rows_path(@commodity), method: :post %>
+
+  <% if @commodity.activated? %>
+    <%= button_to t('Luo poistoerät'), commodity_generate_rows_path(@commodity), method: :post %>
+  <% else %>
+    <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
+  <% end %>
+
   <br/>
   <br/>
 <% end %>
@@ -93,6 +98,6 @@
     <%= f.submit t('Tallenna'), disable_with: t('Tallentaa') + '...' %>
   </div>
 
-<%= render 'procurement_rows', resource: @commodity %>
-<%= render 'depreciations', resource: @commodity %>
+  <%= render 'procurement_rows', resource: @commodity %>
+  <%= render 'depreciations', resource: @commodity %>
 <% end %>
