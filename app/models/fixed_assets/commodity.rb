@@ -42,8 +42,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
     activated? && important_values_changed?
   end
 
-  def generate_rows
-    @generator = CommodityRowGenerator.new(commodity_id: id).generate_rows
+  def generate_rows(fiscal_start = nil, fiscal_end = nil)
+    params = {
+      commodity_id: id
+    }
+
+    if fiscal_start.present? && fiscal_end.present?
+      params[:fiscal_start] = fiscal_start
+      params[:fiscal_end] = fiscal_end
+    end
+
+    @generator = CommodityRowGenerator.new(params).generate_rows
 
     # We must reload, since generator can modify commodity instance
     reload
@@ -160,6 +169,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def check_amount_allowed_for_type(type, amount)
+      return '' if type.nil?
       type = type.to_sym
 
       case type
