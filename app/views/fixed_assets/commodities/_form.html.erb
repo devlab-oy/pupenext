@@ -4,8 +4,8 @@
 
   <% if @commodity.activated? %>
     <br/><br/>
-    <%= label_tag :tilikausi, t('Valitse tilikausi') + ':' %>
-    <%= select_tag :tilikausi, options_for_select(@commodity.company.fiscal_years.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
+    <%= label_tag :selected_fiscal_year, t('Valitse tilikausi') + ':' %>
+    <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
     <%= button_to t('Luo poistoerät'), commodity_generate_rows_path(@commodity), method: :post %>
   <% else %>
     <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
