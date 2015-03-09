@@ -82,8 +82,8 @@ class FixedAssets::CommoditiesController < AdministrationController
     if @commodity.update_by(activation_params, current_user)
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
     else
+      @commodity.status = ''
       render :edit
-      #redirect_to edit_commodity_path(@commodity), notice: 'FAIL FAIL FAIL.'
     end
   end
 
