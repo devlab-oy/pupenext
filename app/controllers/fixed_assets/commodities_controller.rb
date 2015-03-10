@@ -88,7 +88,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def generate_rows
-    @commodity.generate_rows(row_params)
+    @commodity.generate_rows(params[:selected_fiscal_year])
     redirect_to edit_commodity_path(@commodity)
   end
 
@@ -105,12 +105,6 @@ class FixedAssets::CommoditiesController < AdministrationController
     def activation_params
       params.permit(
         :status
-      )
-    end
-
-    def row_params
-      params.permit(
-        :selected_fiscal_year
       )
     end
 
