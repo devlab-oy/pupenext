@@ -149,6 +149,23 @@ class FixedAssets::Commodity < ActiveRecord::Base
     amount + calculation
   end
 
+  def default_planned_depreciation_type
+    commodity_sum_level.present? ? commodity_sum_level.planned_depreciation_type : ''
+  end
+
+  def default_planned_depreciation_amount
+    commodity_sum_level.present? ? commodity_sum_level.planned_depreciation_amount : 0.0
+  end
+
+  def default_btl_depreciation_type
+    commodity_sum_level.present? ? commodity_sum_level.btl_depreciation_type : ''
+  end
+
+  def default_btl_depreciation_amount
+   commodity_sum_level.present? ? commodity_sum_level.btl_depreciation_amount : 0.0
+  end
+
+
   private
 
     def important_values_changed?
@@ -198,10 +215,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
     end
 
-    def commodity_sum_level
-      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
-    end
-
     def set_amount
       self.amount = procurement_rows.empty? ? 0 : procurement_rows.sum(:summa)
     end
@@ -210,5 +223,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       if procurement_rows.empty?
         errors.add(:base, 'Must have procurement rows if activated')
       end
+    end
+
+    def commodity_sum_level
+      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
     end
 end
