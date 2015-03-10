@@ -5,7 +5,7 @@
   <br/>
 <% end %>
 
-<%= form_for(@commodity, url: commodity_path) do |f| %>
+<%= form_for(@commodity, url: commodity_path(@commodity)) do |f| %>
 
   <%= render "administration/form_errors", resource: @commodity %>
 
@@ -87,6 +87,7 @@
     <%= f.submit t('Tallenna'), disable_with: t('Tallentaa') + '...' %>
   </div>
 
+<% end %>
+
 <%= render 'procurement_rows', resource: @commodity %>
 <%= render 'depreciations', resource: @commodity %>
-<% end %>

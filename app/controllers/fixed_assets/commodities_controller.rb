@@ -76,6 +76,17 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
+  # POST /commodities/1/unlink_procurement
+  def unlink_procurement
+    unlink_voucher_row
+
+    if @unlinked_row.save_by current_user
+      redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintirivi poistettiin onnistuneesti.'
+    else
+      render :edit
+    end
+  end
+
   private
 
     def linkable_vouchers
@@ -131,5 +142,10 @@ class FixedAssets::CommoditiesController < AdministrationController
     def link_resource
       @linkable_row = current_company.voucher_rows.find(params[:voucher_row_id])
       @linkable_row.commodity_id = @commodity.id
+    end
+
+    def unlink_voucher_row
+      @unlinked_row = current_company.voucher_rows.find(params[:target_row_id])
+      @unlinked_row.commodity_id = nil
     end
 end
