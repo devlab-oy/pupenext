@@ -51,12 +51,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.find_by_account(viable_accounts)
+    company.purchase_invoices_paid.where(tapvm: company.current_fiscal_year).find_by_account(viable_accounts)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.commodity_linkable.find_by_account(viable_accounts)
+    company.vouchers.where(tapvm: company.current_fiscal_year).commodity_linkable.find_by_account(viable_accounts)
   end
 
   def activated?
