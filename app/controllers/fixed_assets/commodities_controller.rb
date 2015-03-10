@@ -52,6 +52,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
+      @commodity.save!
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_purchase_orders
@@ -69,6 +70,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
+      @commodity.save!
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_vouchers
@@ -79,7 +81,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   def activation
     @commodity.status = 'A'
 
-    if @commodity.update_by(activation_params, current_user)
+    if @commodity.save_by current_user
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
     else
       @commodity.status = ''
@@ -100,12 +102,6 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def linkable_purchase_orders
       @purchase_orders = @commodity.linkable_invoices.includes(:rows)
-    end
-
-    def activation_params
-      params.permit(
-        :status
-      )
     end
 
     # Allow only these params for update
