@@ -83,6 +83,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     unlink_voucher_row
 
     if @unlinked_row.save_by current_user
+      @commodity.save_by current_user
       redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintirivi poistettiin onnistuneesti.'
     else
       render :edit
