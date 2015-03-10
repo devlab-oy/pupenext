@@ -12,7 +12,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-  validates_presence_of :name, :description
+  validates :name, :description, presence: true
+  validates :planned_depreciation_type,
+            :planned_depreciation_amount,
+            :btl_depreciation_type,
+            :btl_depreciation_amount, presence: true, if: :activated?
 
   validate :only_one_account_number
   validate :activation_only_on_open_fiscal_year, if: :activated?
