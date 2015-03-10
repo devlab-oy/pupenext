@@ -72,10 +72,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'amount is a percentage' do
-    [100.01, 101, 0].each do |p|
+    [100.01, 101].each do |p|
       @commodity.planned_depreciation_amount = p
       @commodity.planned_depreciation_type = 'T'
-      assert @commodity.valid?,
+      assert @commodity.valid?
 
       @commodity.planned_depreciation_type = 'P'
       refute @commodity.valid?

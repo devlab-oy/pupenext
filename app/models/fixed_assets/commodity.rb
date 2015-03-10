@@ -13,10 +13,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
   validates :name, :description, presence: true
-  validates :planned_depreciation_type,
-            :planned_depreciation_amount,
-            :btl_depreciation_type,
-            :btl_depreciation_amount, presence: true, if: :activated?
+  validates :planned_depreciation_type, :btl_depreciation_type, presence: true, if: :activated?
+  validates :planned_depreciation_amount, :btl_depreciation_amount,
+            numericality: { greater_than: 0 }, presence: true, if: :activated?
 
   validate :only_one_account_number
   validate :activation_only_on_open_fiscal_year, if: :activated?
@@ -157,10 +156,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
       type = type.to_sym
 
       case type
-      when :T
-        errors.add(type, "Must be a positive number") if amount < 0
       when :P, :B
-        errors.add(type, "Must be between 1-100") if amount <= 0 || amount > 100
+        errors.add(type, "Must be between 1-100") if amount > 100
       end
     end
 
