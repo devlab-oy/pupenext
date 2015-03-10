@@ -42,23 +42,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     activated? && important_values_changed?
   end
 
-  def generate_rows(fiscal_year_id = nil)
-    params = {
-      commodity_id: id
-    }
-
-    if fiscal_year_id.present?
-      selected_fiscal_year = company.fiscal_years.find(fiscal_year_id)
-      params[:fiscal_start] = selected_fiscal_year[:tilikausi_alku]
-      params[:fiscal_end] = selected_fiscal_year[:tilikausi_loppu]
-    end
-
-    @generator = CommodityRowGenerator.new(params).generate_rows
-
-    # We must reload, since generator can modify commodity instance
-    reload
-  end
-
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.find_by_account(viable_accounts)

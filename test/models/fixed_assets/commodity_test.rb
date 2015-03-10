@@ -139,9 +139,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'current bookkeeping value works' do
     @commodity.status = 'A'
-    @commodity.generate_rows
+    @commodity.save!
 
-    @commodity.reload
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+
     assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
     assert_equal 6500, @commodity.bookkeeping_value
   end

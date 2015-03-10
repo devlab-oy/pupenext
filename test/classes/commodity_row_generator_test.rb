@@ -78,8 +78,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ...of which 6 are depreciation and 6 are difference rows
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -148,8 +150,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -199,8 +203,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -221,8 +227,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -263,8 +271,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -300,8 +310,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -336,8 +348,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
