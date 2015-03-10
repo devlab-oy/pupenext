@@ -90,12 +90,12 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def generate_rows
-    params = {
+    options = {
       commodity_id: @commodity.id,
       fiscal_id: params[:selected_fiscal_year]
     }
 
-    CommodityRowGenerator.new(params).generate_rows
+    CommodityRowGenerator.new(options).generate_rows
 
     redirect_to edit_commodity_path(@commodity)
   end
