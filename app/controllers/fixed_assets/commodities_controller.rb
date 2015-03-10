@@ -106,7 +106,6 @@ class FixedAssets::CommoditiesController < AdministrationController
         :name,
         :description,
         :amount,
-        :purchased_at,
         :activated_at,
         :planned_depreciation_type,
         :planned_depreciation_amount,

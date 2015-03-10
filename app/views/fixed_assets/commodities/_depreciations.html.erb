@@ -5,7 +5,7 @@
 <table>
 <tr><th><%= t('Tilikauden SUMU poistot') %></th></tr>
 <tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.depreciation_rows.sum(:summa) %></td></tr>
-<tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.difference_rows.sum(:summa) %></td></tr>
+<tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.depreciation_difference_rows.sum(:summa) %></td></tr>
 </table>
 <br/>
 <input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('sumu_rows');">
