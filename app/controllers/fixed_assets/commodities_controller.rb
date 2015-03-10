@@ -52,6 +52,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
+      @commodity.save_by current_user
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_purchase_orders
@@ -69,6 +70,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
+      @commodity.save_by current_user
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_vouchers
