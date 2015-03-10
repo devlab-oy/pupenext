@@ -48,7 +48,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
     }
 
     if fiscal_year_id.present?
-      selected_fiscal_year = company.fiscal_years.find_by_tunnus(fiscal_year_id)
+      selected_fiscal_year = company.fiscal_years.find(fiscal_year_id)
       params[:fiscal_start] = selected_fiscal_year[:tilikausi_alku]
       params[:fiscal_end] = selected_fiscal_year[:tilikausi_loppu]
     end

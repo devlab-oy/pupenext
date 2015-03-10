@@ -60,7 +60,11 @@
     </tr>
     <tr>
       <th><%= f.label :activated_at, t('Aktivointipäivä') %></th>
-      <td><%= f.date_field :activated_at %></td>
+      <% if @commodity.activated? %>
+        <td><%= @commodity.activated_at %></td>
+      <% else %>
+        <td><%= f.date_field :activated_at %></td>
+      <% end %>
     </tr>
     <tr>
       <th><%= f.label :status, t('Status') %></th>
