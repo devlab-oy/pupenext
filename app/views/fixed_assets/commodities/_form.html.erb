@@ -71,19 +71,19 @@
       <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status), {}, {:disabled => true} %></td>
     </tr>
       <th><%= f.label :planned_depreciation_type, t('SUMU poistotyyppi') %></th>
-      <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, (@commodity.planned_depreciation_type || @commodity.default_planned_depreciation_type)) %></td>
+      <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
     </tr>
     <tr>
       <th><%= f.label :planned_depreciation_amount, t('SUMU poistomäärä') %></th>
-      <td><%= f.text_field :planned_depreciation_amount, value: (@commodity.planned_depreciation_amount || @commodity.default_planned_depreciation_amount) %></td>
+      <td><%= f.text_field :planned_depreciation_amount, value: @commodity.planned_depreciation_amount %></td>
     </tr>
     <tr>
       <th><%= f.label :btl_depreciation_type, t('EVL poistotyyppi') %></th>
-      <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, (@commodity.btl_depreciation_type || @commodity.default_btl_depreciation_type)) %></td>
+      <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
     </tr>
     <tr>
       <th><%= f.label :btl_depreciation_amount, t('EVL poistomäärä') %></th>
-      <td><%= f.text_field :btl_depreciation_amount, value: (@commodity.btl_depreciation_amount || @commodity.default_btl_depreciation_amount) %></td>
+      <td><%= f.text_field :btl_depreciation_amount, value: @commodity.btl_depreciation_amount %></td>
     </tr>
     <tr>
       <th><%= t('Laatija') %></th>
