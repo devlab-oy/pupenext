@@ -57,7 +57,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       btl_depreciation_type: 'P',
       btl_depreciation_amount: 45,
       activated_at: Time.now,
-      purchased_at: Time.now,
       status: ''
     }
 
@@ -190,5 +189,34 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     end
 
     assert_template 'purchase_orders'
+  end
+
+  test 'should activate commodity' do
+    params = {
+      commodity_id: @commodity.id
+    }
+    @commodity.status = ''
+    @commodity.save!
+
+    post :activation, params
+    @commodity.reload
+
+    assert_equal 'A', @commodity.status
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+  end
+
+  test 'should not activate commodity' do
+    params = {
+      commodity_id: @commodity.id
+    }
+    @commodity.status = ''
+    @commodity.procurement_rows.delete_all
+    @commodity.save!
+
+    post :activation, params
+    @commodity.reload
+
+    assert_equal '', @commodity.status
+    assert_template :edit, 'Template should be edit'
   end
 end

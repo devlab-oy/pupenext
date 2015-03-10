@@ -12,14 +12,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-  validates_presence_of :name, :description
+  validates :name, :description, presence: true
+  validates :planned_depreciation_type, :btl_depreciation_type, presence: true, if: :activated?
+  validates :planned_depreciation_amount, :btl_depreciation_amount,
+            numericality: { greater_than: 0 }, presence: true, if: :activated?
 
   validate :only_one_account_number
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
   validate :must_have_procurement_rows, if: :activated?
 
-  before_save :set_amount
+  before_save :set_amount, :defaults
 
   def self.options_for_type
     [
@@ -40,13 +43,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   def ok_to_generate_rows?
     activated? && important_values_changed?
-  end
-
-  def generate_rows
-    @generator = CommodityRowGenerator.new(commodity_id: id).generate_rows
-
-    # We must reload, since generator can modify commodity instance
-    reload
   end
 
   # Sopivat ostolaskut
@@ -128,6 +124,13 @@ class FixedAssets::Commodity < ActiveRecord::Base
     procurement_rows.map(&:projekti)
   end
 
+  # Kirjanpidollinen arvo annettuna ajankohtana
+  def bookkeeping_value(end_date = company.current_fiscal_year.last)
+    range = company.current_fiscal_year.first..end_date
+    calculation = depreciation_rows.where(tapvm: range).sum(:summa)
+    amount + calculation
+  end
+
   private
 
     def important_values_changed?
@@ -149,13 +152,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def check_amount_allowed_for_type(type, amount)
+      return '' if type.nil?
       type = type.to_sym
 
       case type
-      when :T
-        errors.add(type, "Must be a positive number") if amount < 0
       when :P, :B
-        errors.add(type, "Must be between 1-100") if amount <= 0 || amount > 100
+        errors.add(type, "Must be between 1-100") if amount > 100
       end
     end
 
@@ -176,10 +178,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
     end
 
-    def commodity_sum_level
-      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
-    end
-
     def set_amount
       self.amount = procurement_rows.empty? ? 0 : procurement_rows.sum(:summa)
     end
@@ -188,5 +186,16 @@ class FixedAssets::Commodity < ActiveRecord::Base
       if procurement_rows.empty?
         errors.add(:base, 'Must have procurement rows if activated')
       end
+    end
+
+    def commodity_sum_level
+      company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
+    end
+
+    def defaults
+      self.planned_depreciation_type   ||= commodity_sum_level.try(:planned_depreciation_type)
+      self.planned_depreciation_amount ||= commodity_sum_level.try(:planned_depreciation_amount)
+      self.btl_depreciation_type       ||= commodity_sum_level.try(:btl_depreciation_type)
+      self.btl_depreciation_amount     ||= commodity_sum_level.try(:btl_depreciation_amount)
     end
 end

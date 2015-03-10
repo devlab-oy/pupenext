@@ -72,10 +72,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'amount is a percentage' do
-    [100.01, 101, 0].each do |p|
+    [100.01, 101].each do |p|
       @commodity.planned_depreciation_amount = p
       @commodity.planned_depreciation_type = 'T'
-      assert @commodity.valid?,
+      assert @commodity.valid?
 
       @commodity.planned_depreciation_type = 'P'
       refute @commodity.valid?
@@ -135,5 +135,15 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 2, @commodity.linkable_vouchers.count
     @commodity.procurement_rows.delete_all
     assert_equal 3, @commodity.linkable_vouchers.count
+  end
+
+  test 'current bookkeeping value works' do
+    @commodity.status = 'A'
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+
+    assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
+    assert_equal 6500, @commodity.bookkeeping_value
   end
 end
