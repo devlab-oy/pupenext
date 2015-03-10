@@ -12,7 +12,7 @@ class CommodityRowGenerator
 
     raise ArgumentError unless commodity.activated?
     raise ArgumentError unless commodity.valid?
-    raise ArgumentError unless company.date_in_open_period?(fiscal_start)
+    raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
     raise ArgumentError unless company.date_in_open_period?(fiscal_end)
   end
 
