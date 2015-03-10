@@ -19,7 +19,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :depreciation_amount_must_follow_type, if: :activated?
   validate :must_have_procurement_rows, if: :activated?
 
-  before_save :set_amount
+  before_save :set_amount, :defaults
 
   def self.options_for_type
     [
@@ -139,32 +139,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   # Kirjanpidollinen arvo annettuna ajankohtana
-  def bookkeeping_value(date = nil)
-    calculation = 0.0
-    if date.nil?
-      calculation = depreciation_rows.where(tapvm: company.current_fiscal_year.first..company.current_fiscal_year.last).sum(:summa)
-    else
-      calculation = depreciation_rows.where(tapvm: company.current_fiscal_year.first..date).sum(:summa)
-    end
+  def bookkeeping_value(end_date = company.current_fiscal_year.last)
+    range = company.current_fiscal_year.first..end_date
+    calculation = depreciation_rows.where(tapvm: range).sum(:summa)
     amount + calculation
   end
-
-  def default_planned_depreciation_type
-    commodity_sum_level.present? ? commodity_sum_level.planned_depreciation_type : ''
-  end
-
-  def default_planned_depreciation_amount
-    commodity_sum_level.present? ? commodity_sum_level.planned_depreciation_amount : 0.0
-  end
-
-  def default_btl_depreciation_type
-    commodity_sum_level.present? ? commodity_sum_level.btl_depreciation_type : ''
-  end
-
-  def default_btl_depreciation_amount
-   commodity_sum_level.present? ? commodity_sum_level.btl_depreciation_amount : 0.0
-  end
-
 
   private
 
@@ -227,5 +206,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def commodity_sum_level
       company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
+    end
+
+    def defaults
+      self.planned_depreciation_type   ||= commodity_sum_level.try(:planned_depreciation_type)
+      self.planned_depreciation_amount ||= commodity_sum_level.try(:planned_depreciation_amount)
+      self.btl_depreciation_type       ||= commodity_sum_level.try(:btl_depreciation_type)
+      self.btl_depreciation_amount     ||= commodity_sum_level.try(:btl_depreciation_amount)
     end
 end
