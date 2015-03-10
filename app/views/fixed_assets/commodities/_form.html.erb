@@ -4,9 +4,11 @@
 
   <% if @commodity.activated? %>
     <br/><br/>
+    <%= form_tag(commodity_generate_rows_path(@commodity), method: "post") do %>
     <%= label_tag :selected_fiscal_year, t('Valitse tilikausi') + ':' %>
-    <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
-    <%= button_to t('Luo poistoerät'), commodity_generate_rows_path(@commodity), method: :post %>
+    <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
+    <%= submit_tag(t('Luo poistoerät')) %>
+    <% end %>
   <% else %>
     <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
   <% end %>
