@@ -86,6 +86,9 @@ class FixedAssets::CommoditiesController < AdministrationController
       @commodity.save!
       redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintirivi poistettiin onnistuneesti.'
     else
+      render :edit
+    end
+  end
 
   def activation
     @commodity.status = 'A'
