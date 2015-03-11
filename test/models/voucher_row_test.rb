@@ -44,4 +44,47 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     @row.tilino = commodity.fixed_assets_account
     assert @row.valid?
   end
+
+  test 'should split row' do
+    @row.summa = 100
+    @row.save!
+    params = [
+      { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
+      { percent: 33.33 },
+      { percent: 33.34 },
+    ]
+
+    # Creates 3 rows and removes 1
+    assert_difference('Head::VoucherRow.count', 2) do
+      @row.split(params)
+    end
+
+  end
+
+  test 'should not split row and raise error' do
+    params = [
+      { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
+      { percent: 33.33 },
+      { percent: 33.34 },
+      { target: 0 },
+    ]
+
+    # Rejects broken params
+    assert_raise ArgumentError do
+      @row.split(params)
+    end
+
+    params = [
+      { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
+      { percent: 33.33 },
+      { percent: 33.34 },
+      { percent: 0 },
+      { percent: 10 }
+    ]
+
+    # Rejects broken params
+    assert_raise ArgumentError do
+      @row.split(params)
+    end
+  end
 end
