@@ -52,7 +52,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
-      @commodity.save_by current_user
+      @commodity.save!
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_purchase_orders
@@ -70,7 +70,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     link_resource
 
     if @linkable_row.save_by current_user
-      @commodity.save_by current_user
+      @commodity.save!
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_vouchers
@@ -83,11 +83,30 @@ class FixedAssets::CommoditiesController < AdministrationController
     unlink_voucher_row
 
     if @unlinked_row.save_by current_user
-      @commodity.save_by current_user
+      @commodity.save!
       redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintirivi poistettiin onnistuneesti.'
     else
+
+  def activation
+    @commodity.status = 'A'
+
+    if @commodity.save_by current_user
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
+    else
+      @commodity.status = ''
       render :edit
     end
+  end
+
+  def generate_rows
+    options = {
+      commodity_id: @commodity.id,
+      fiscal_id: params[:selected_fiscal_year]
+    }
+
+    CommodityRowGenerator.new(options).generate_rows
+
+    redirect_to edit_commodity_path(@commodity)
   end
 
   private
@@ -111,7 +130,6 @@ class FixedAssets::CommoditiesController < AdministrationController
         :planned_depreciation_amount,
         :btl_depreciation_type,
         :btl_depreciation_amount,
-        :status,
         :cost_centre,
         :target,
         :project

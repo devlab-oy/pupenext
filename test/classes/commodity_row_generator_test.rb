@@ -78,8 +78,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ...of which 6 are depreciation and 6 are difference rows
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -148,8 +150,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -199,8 +203,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -221,8 +227,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -263,8 +271,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -300,8 +310,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -336,8 +348,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      @commodity.generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
+
+    @commodity.reload
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -372,8 +386,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows for 2014
     params = {
       commodity_id: @commodity.id,
-      fiscal_start: '2014-01-01'.to_date,
-      fiscal_end: '2014-12-31'.to_date
+      fiscal_id: fiscal_years(:one).id
     }
 
     # Activate commodity on 2014-11-01
@@ -394,11 +407,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal '2014-11-30'.to_date, rows.first.transacted_at
     assert_equal '2014-12-31'.to_date, rows.last.transacted_at
 
-    # Create depreciation rows to next fiscal period
+    # Create depreciation rows to current fiscal period
     params = {
       commodity_id: @commodity.id,
-      fiscal_start: '2015-01-01'.to_date,
-      fiscal_end: '2015-12-31'.to_date
+      fiscal_id: fiscal_years(:two).id
     }
 
     @generator = CommodityRowGenerator.new(params).generate_rows
@@ -407,14 +419,14 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 14, @commodity.fixed_assets_rows.count, "poistot"
     assert_equal 14, @commodity.depreciation_difference_rows.count, "poistoero"
 
-    rows = @commodity.voucher.rows.order(:tapvm)
+    rows = @commodity.fixed_assets_rows.order(tapvm: :asc)
     assert_equal '2014-11-30'.to_date, rows.first.tapvm
-    assert_equal '2015-01-31'.to_date, rows.map(&:tapvm).uniq.third
-    assert_equal '2015-12-31'.to_date, rows.last.tapvm
+    assert_equal Date.today.change(month: 1, day: 31), rows[-12].tapvm
+    assert_equal Date.today.change(month: 12, day: 31), rows.last.tapvm
 
-    rows = @commodity.commodity_rows.order(:transacted_at)
+    rows = @commodity.commodity_rows.order(transacted_at: :asc)
     assert_equal '2014-11-30'.to_date, rows.first.transacted_at
-    assert_equal '2015-01-31'.to_date, rows.map(&:transacted_at).uniq.third
-    assert_equal '2015-12-31'.to_date, rows.last.transacted_at
+    assert_equal Date.today.change(month: 1, day: 31), rows[-12].transacted_at
+    assert_equal Date.today.change(month: 12, day: 31), rows.last.transacted_at
   end
 end

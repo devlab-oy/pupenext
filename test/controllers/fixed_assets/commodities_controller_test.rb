@@ -190,4 +190,33 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     assert_template 'purchase_orders'
   end
+
+  test 'should activate commodity' do
+    params = {
+      commodity_id: @commodity.id
+    }
+    @commodity.status = ''
+    @commodity.save!
+
+    post :activation, params
+    @commodity.reload
+
+    assert_equal 'A', @commodity.status
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+  end
+
+  test 'should not activate commodity' do
+    params = {
+      commodity_id: @commodity.id
+    }
+    @commodity.status = ''
+    @commodity.procurement_rows.delete_all
+    @commodity.save!
+
+    post :activation, params
+    @commodity.reload
+
+    assert_equal '', @commodity.status
+    assert_template :edit, 'Template should be edit'
+  end
 end
