@@ -36,11 +36,11 @@
     </tr>
     <tr>
       <th><%= t('Arvo nyt') %></th>
-      <td><%= @commodity.bookkeeping_value(Time.now) if @commodity.voucher.present? %></td>
+      <td><%= @commodity.bookkeeping_value(Time.now) %></td>
     </tr>
     <tr>
       <th><%= t('Arvo tilikauden lopussa') %></th>
-      <td><%= @commodity.bookkeeping_value if @commodity.voucher.present? %></td>
+      <td><%= @commodity.bookkeeping_value %></td>
     </tr>
     <tr>
       <th><%= f.label :cost_centre, t('Kustannuspaikka') %></th>

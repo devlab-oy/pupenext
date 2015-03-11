@@ -127,7 +127,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
-    calculation = depreciation_rows.where(tapvm: range).sum(:summa)
+    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
     amount + calculation
   end
 
