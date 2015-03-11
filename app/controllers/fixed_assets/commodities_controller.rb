@@ -80,11 +80,11 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities/1/unlink_procurement
   def unlink_procurement
-    unlink_voucher_row
+    msg = unlink_voucher_row
 
     if @unlinked_row.save_by current_user
       @commodity.save!
-      redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintirivi poistettiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: msg
     else
       render :edit
     end
@@ -169,6 +169,11 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def unlink_voucher_row
       @unlinked_row = current_company.voucher_rows.find(params[:target_row_id])
-      @unlinked_row.commodity_id = nil
+      if @commodity.allows_unlinking?
+        @unlinked_row.commodity_id = nil
+        return 'Tiliöintirivi poistettiin onnistuneesti.'
+      else
+        return 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
+      end
     end
 end

@@ -41,6 +41,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  def allows_unlinking?
+    !activated? || procurement_rows.count > 1
+  end
+
   def ok_to_generate_rows?
     activated? && important_values_changed?
   end
