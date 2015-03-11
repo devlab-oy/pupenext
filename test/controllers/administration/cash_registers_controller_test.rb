@@ -30,7 +30,7 @@ class Administration::CashRegistersControllerTest < ActionController::TestCase
   test "should create" do
     request = {
       nimi: 'Kissa',
-      kustp: 434,
+      kustp: nil,
       toimipaikka: 3,
       kassa: 110,
       pankkikortti: 120,
@@ -75,4 +75,12 @@ test "should not create" do
     assert_redirected_to cash_registers_path, response.body
   end
 
+  test "should not update" do
+    request = {
+      nimi: ''
+    }
+
+    patch :update, id: @cash_register.id, cash_register: request
+    assert_template "edit", "Template should be edit"
+  end
 end
