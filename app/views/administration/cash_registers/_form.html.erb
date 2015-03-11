@@ -23,7 +23,7 @@
     <tr>
       <th><%= f.label :kustp %></th>
       <td>
-        <%= collection_select(:cash_register, :kustp, @qualifiers, :tunnus, :nimi, {include_blank: 'Ei kustannuspaikkaa', selected: @cash_register.toimipaikka} ) %>
+        <%= collection_select(:cash_register, :kustp, @qualifiers, :tunnus, :nimi, {include_blank: 'Ei kustannuspaikkaa', selected: @cash_register.kustp} ) %>
       </td>
     </tr>
 
