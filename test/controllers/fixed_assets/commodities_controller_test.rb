@@ -219,4 +219,42 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_equal '', @commodity.status
     assert_template :edit, 'Template should be edit'
   end
+
+  test 'should unlink row' do
+    # Link a second row so there is something to remove
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: head_voucher_rows(:thirteen).id
+    }
+    post :link_purchase_order, params
+    assert_equal 2, @commodity.procurement_rows.count
+
+    params = {
+      commodity_id: @commodity.id,
+      target_row_id: head_voucher_rows(:thirteen).id
+    }
+    post :unlink_procurement, params
+    assert_equal 1, @commodity.procurement_rows.count
+
+    @commodity.status = ''
+    @commodity.save!
+
+    # Last row can be removed from unactivated commodity
+    params = {
+      commodity_id: @commodity.id,
+      target_row_id: @commodity.procurement_rows.first.id
+    }
+    post :unlink_procurement, params
+    assert_equal 0, @commodity.procurement_rows.count
+  end
+
+  test 'should not unlink last row' do
+    assert_equal 1, @commodity.procurement_rows.count
+    params = {
+      commodity_id: @commodity.id,
+      target_row_id: @commodity.procurement_rows.first.id
+    }
+    post :unlink_procurement, params
+    assert_equal 1, @commodity.procurement_rows.count
+  end
 end
