@@ -33,10 +33,45 @@ class Head::VoucherRow < ActiveRecord::Base
     row.save!
   end
 
+  def split(params)
+    raise ArgumentError.new 'Params invalid' unless split_params_valid?(params)
+    # Splits one entry into multiple parts
+    params.each do |param_row|
+      row = self.dup
+
+      row.summa    = param_row[:percent] * row.summa / 100
+      row.kustp    = param_row[:cost_centre] || row.kustp
+      row.kohde    = param_row[:target]      || row.kohde
+      row.projekti = param_row[:project]     || row.projekti
+
+      row.save!
+    end
+    self.korjattu = 'X'
+    self.save!
+  end
+
   self.table_name = :tiliointi
   self.primary_key = :tunnus
 
   private
+
+    def split_params_valid?(params)
+      result = true
+
+      params.each do |row_params|
+        unless row_params[:percent].present?
+          result &= false
+          next
+        end
+        result &= false unless row_params[:percent] > 0
+      end
+
+      amount = 0
+      params.each { |x| amount += x[:percent] if x[:percent].present? }
+
+      result &= false unless amount == 100
+      result
+    end
 
     def defaults
       self.laadittu ||= Date.today
