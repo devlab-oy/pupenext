@@ -1,8 +1,6 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Tasot') %>
-<%= link_to return_text, sum_levels_path %>
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Tilikartan rakenne")}", sum_levels_path %>
 
-<br /><br />
+<br/>
 
-<%= render 'header' %>
-
+<%= render "administration/header", title: "Uusi taso" %>
 <%= render 'form' %>
