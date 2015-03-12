@@ -1,47 +1,45 @@
-<%= render "administration/header", title: "Kirjoittimien ylläpito" %>
-
-<% if notice %>
-  <%= t(notice) %>
-  <br/><br/>
-<% end %>
+<%= render "administration/header", title: "Kirjoittimet" %>
 
 <%= button_to t('Uusi kirjoitin'), new_printer_path, method: :get if update_access? %>
 
 <br/><br/>
+<table>
 
 <%= form_tag printers_path, method: :get do %>
-  <table>
-    <tr>
-      <th>
-        <%= sortable "kirjoitin" %>
-        <br/>
-        <%= text_field_tag :kirjoitin, params[:kirjoitin] %>
-      </th>
+  <tr>
+    <th>
+      <%= sortable "kirjoitin" %>
+      <br/>
+      <%= text_field_tag :kirjoitin, params[:kirjoitin] %>
+    </th>
 
-      <th>
-        <%= sortable "komento" %>
-        <br/>
-        <%= text_field_tag :komento, params[:komento] %>
-      </th>
+    <th>
+      <%= sortable "komento" %>
+      <br/>
+      <%= text_field_tag :komento, params[:komento] %>
+    </th>
 
-      <th class="back"><%= submit_tag t('Etsi') %></th>
-    </tr>
-
-    <% @printers.each do |printer| %>
-      <tr class="aktiivi">
-        <td>
-          <%= link_to printer.kirjoitin, edit_printer_path(printer) %>
-        </td>
-
-        <td>
-          <%= printer.komento %>
-        </td>
-        <td class="back"></td>
-      </tr>
-    <% end %>
-  </table>
+    <th class="back">
+      <%= submit_tag t('Etsi') %>
+    </th>
+  </tr>
 <% end %>
 
+<% @printers.each do |printer| %>
+  <tr class="aktiivi">
+    <td>
+      <%= link_to printer.kirjoitin, edit_printer_path(printer) %>
+    </td>
+
+    <td>
+      <%= printer.komento %>
+    </td>
+
+    <td class="back"></td>
+  </tr>
+<% end %>
+
+</table>
 <br/>
 
 <%= button_to t('Uusi kirjoitin'), new_printer_path, method: :get if update_access? %>

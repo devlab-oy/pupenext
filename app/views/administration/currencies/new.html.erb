@@ -1,8 +1,6 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Valuutat') %>
-<%= link_to return_text, currencies_path %>
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Valuutat")}", currencies_path %>
 
-<br /><br />
+<br/>
 
-<%= render 'header' %>
-
+<%= render "administration/header", title: "Uusi valuutta" %>
 <%= render 'form' %>

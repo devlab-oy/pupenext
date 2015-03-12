@@ -1,7 +1,6 @@
-<%= link_to "#{t("Palaa ohjelmaan")}: #{t("Kirjoittimien ylläpito")}", printers_path %>
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Kirjoittimet")}", printers_path %>
 
-<br/><br/>
+<br/>
 
-<%= render "administration/header", title: "Kirjoittimien ylläpito" %>
-
+<%= render "administration/header", title: "Uusi kirjoitin" %>
 <%= render 'form', printer: @printer %>
