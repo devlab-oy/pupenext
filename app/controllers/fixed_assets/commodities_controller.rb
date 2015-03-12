@@ -96,6 +96,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     }
 
     CommodityRowGenerator.new(options).generate_rows
+    @commodity.split_all_rows if @commodity.rows_need_to_split?
 
     redirect_to edit_commodity_path(@commodity)
   end

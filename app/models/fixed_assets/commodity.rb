@@ -45,6 +45,33 @@ class FixedAssets::Commodity < ActiveRecord::Base
     activated? && important_values_changed?
   end
 
+  def rows_need_to_split?
+    return true if procurement_cost_centres.count > 1
+    return true if procurement_targets.count > 1
+    return true if procurement_projects.count > 1
+    false
+  end
+
+  def split_all_rows
+    params = get_split_params
+    voucher.rows.each { |row| row.split(params) }
+  end
+
+  def get_split_params
+    split_params = []
+
+    procurement_rows.each do |pcu|
+      row_params = {}
+      row_params[:percent] = (pcu.summa / amount)*100.round(2)
+      row_params[:cost_centre] = pcu.kustp if pcu.kustp.present?
+      row_params[:target] = pcu.kohde if pcu.kohde.present?
+      row_params[:project] = pcu.projekti if pcu.projekti.present?
+      split_params << row_params
+    end
+
+    split_params
+  end
+
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.find_by_account(viable_accounts)
@@ -111,17 +138,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Kaikki hankinnan kustannuspaikat
   def procurement_cost_centres
-    procurement_rows.map(&:kustp)
+    procurement_rows.map(&:kustp).uniq
   end
 
   # Kaikki hankinnan kohteet
   def procurement_targets
-    procurement_rows.map(&:kohde)
+    procurement_rows.map(&:kohde).uniq
   end
 
   # Kaikki hankinnan projektit
   def procurement_projects
-    procurement_rows.map(&:projekti)
+    procurement_rows.map(&:projekti).uniq
   end
 
   # Kirjanpidollinen arvo annettuna ajankohtana
