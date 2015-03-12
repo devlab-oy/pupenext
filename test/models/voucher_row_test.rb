@@ -50,8 +50,8 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     @row.save!
     params = [
       { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
-      { percent: 33.33 },
-      { percent: 33.34 },
+      { percent: 33.33, project: 4},
+      { percent: 33.34, target: 5},
     ]
 
     # Creates 3 rows and removes 1
@@ -59,6 +59,12 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
       @row.split(params)
     end
 
+    created_rows = companies(:acme).voucher_rows.last(3)
+
+    assert_equal [33.33, 33.33, 33.34], created_rows.map(&:summa)
+    assert_equal [1, 0, 0], created_rows.map(&:kustp)
+    assert_equal [2, 0, 5], created_rows.map(&:kohde)
+    assert_equal [3, 4, 0], created_rows.map(&:projekti)
   end
 
   test 'should not split row and raise error' do
