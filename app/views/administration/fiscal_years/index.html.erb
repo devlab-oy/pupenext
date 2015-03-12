@@ -1,44 +1,46 @@
-<%= render 'header' %>
+<%= render "administration/header", title: "Yrityksen tilikaudet" %>
 
 <%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
 
-<br /><br />
+<br/><br/>
+<table>
 
 <%= form_tag fiscal_years_path, method: :get do %>
-  <table>
-    <thead>
-      <tr>
-        <th>
-          <%= sortable 'tilikausi_alku' %>
-          <br />
-          <%= text_field_tag :tilikausi_alku, params[:tilikausi_alku] %>
-        </th>
-        <th>
-          <%= sortable 'tilikausi_loppu' %>
-          <br />
-          <%= text_field_tag :tilikausi_loppu, params[:tilikausi_loppu] %>
-        </th>
-        <th class="back"><%= submit_tag t('Etsi') %></th>
-      </tr>
-    </thead>
+<tr>
+  <th>
+    <%= sortable 'tilikausi_alku' %>
+    <br/>
+    <%= text_field_tag :tilikausi_alku, params[:tilikausi_alku] %>
+  </th>
 
-    <tbody>
-      <% @fiscal_years.each do |fiscal_year| %>
-        <tr class="aktiivi">
-          <td>
-          <% if update_access? %>
-            <%= link_to fiscal_year.tilikausi_alku, edit_fiscal_year_path(fiscal_year.id) %>
-          <% else %>
-            <%= fiscal_year.tilikausi_alku %>
-          <% end %>
-          </td>
-          <td><%= fiscal_year.tilikausi_loppu %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <th>
+    <%= sortable 'tilikausi_loppu' %>
+    <br/>
+    <%= text_field_tag :tilikausi_loppu, params[:tilikausi_loppu] %>
+  </th>
+
+  <th class="back">
+    <%= submit_tag t('Etsi') %>
+  </th>
+</tr>
 <% end %>
 
-<br />
+<% @fiscal_years.each do |fiscal_year| %>
+<tr class="aktiivi">
+  <td>
+  <% if update_access? %>
+    <%= link_to fiscal_year.tilikausi_alku, edit_fiscal_year_path(fiscal_year.id) %>
+  <% else %>
+    <%= fiscal_year.tilikausi_alku %>
+  <% end %>
+  </td>
+  <td>
+    <%= fiscal_year.tilikausi_loppu %>
+  </td>
+</tr>
+<% end %>
+
+</table>
+<br/>
 
 <%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
