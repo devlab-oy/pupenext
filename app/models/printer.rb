@@ -1,6 +1,6 @@
 class Printer < ActiveRecord::Base
   include Searchable
-  include Translatable
+  extend Translatable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 

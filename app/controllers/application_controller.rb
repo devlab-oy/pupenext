@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Translatable
+
   protect_from_forgery with: :exception
 
   before_action :authorize
@@ -16,10 +18,6 @@ class ApplicationController < ActionController::Base
 
   def current_company
     @current_company ||= current_user.company
-  end
-
-  def t(string)
-    Dictionary.translate(string, I18n.locale.to_s)
   end
 
   def read_access?
