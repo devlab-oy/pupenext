@@ -178,7 +178,7 @@ class CommodityRowGenerator
         row_params = {
           laatija: commodity.created_by,
           tapvm: time.end_of_month,
-          summa: amount,
+          summa: amount * -1,
           yhtio: company.yhtio,
           selite: "SUMU poisto, tyyppi: #{commodity.planned_depreciation_type}, erä: #{commodity.planned_depreciation_amount}",
           tilino: commodity.fixed_assets_account
@@ -201,7 +201,7 @@ class CommodityRowGenerator
           created_by: commodity.created_by,
           modified_by: commodity.modified_by,
           transacted_at: time.end_of_month,
-          amount: amount,
+          amount: amount * -1,
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 

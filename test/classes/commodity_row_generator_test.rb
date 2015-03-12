@@ -91,10 +91,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert @commodity.fixed_assets_rows.locked.collect(&:previous_changes).all?(&:empty?)
 
     # Test amounts are set correctly
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.fixed_assets_rows.first.summa, 769.23
-    assert_equal @commodity.fixed_assets_rows.second.summa, 769.23
-    assert_equal @commodity.fixed_assets_rows.last.summa, 653.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -10000 * 45 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, -769.23
+    assert_equal @commodity.fixed_assets_rows.second.summa, -769.23
+    assert_equal @commodity.fixed_assets_rows.last.summa, -653.85
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -159,13 +159,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.fixed_assets_rows.first.summa, 333.0
-    assert_equal @commodity.fixed_assets_rows.second.summa, 322.0
-    assert_equal @commodity.fixed_assets_rows.third.summa, 311.0
-    assert_equal @commodity.fixed_assets_rows.fourth.summa, 301.0
-    assert_equal @commodity.fixed_assets_rows.fifth.summa, 291.0
-    assert_equal @commodity.fixed_assets_rows.last.summa, 442.0
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -10000 * 20 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, -333.0
+    assert_equal @commodity.fixed_assets_rows.second.summa, -322.0
+    assert_equal @commodity.fixed_assets_rows.third.summa, -311.0
+    assert_equal @commodity.fixed_assets_rows.fourth.summa, -301.0
+    assert_equal @commodity.fixed_assets_rows.fifth.summa, -291.0
+    assert_equal @commodity.fixed_assets_rows.last.summa, -442.0
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -237,10 +237,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
 
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 1001
-    assert_equal @commodity.fixed_assets_rows.first.summa, 166.83
-    assert_equal @commodity.fixed_assets_rows.second.summa, 166.83
-    assert_equal @commodity.fixed_assets_rows.last.summa, 166.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -1001
+    assert_equal @commodity.fixed_assets_rows.first.summa, -166.83
+    assert_equal @commodity.fixed_assets_rows.second.summa, -166.83
+    assert_equal @commodity.fixed_assets_rows.last.summa, -166.85
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -280,10 +280,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 1600
-    assert_equal @commodity.commodity_rows.first.amount, 270.27
-    assert_equal @commodity.commodity_rows.second.amount, 270.27
-    assert_equal @commodity.commodity_rows.last.amount, 248.65
+    assert_equal @commodity.commodity_rows.sum(:amount), -1600
+    assert_equal @commodity.commodity_rows.first.amount, -270.27
+    assert_equal @commodity.commodity_rows.second.amount, -270.27
+    assert_equal @commodity.commodity_rows.last.amount, -248.65
 
     @commodity.reload
 
@@ -319,13 +319,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
-    assert_equal @commodity.commodity_rows.first.amount, 333.0
-    assert_equal @commodity.commodity_rows.second.amount, 322.0
-    assert_equal @commodity.commodity_rows.third.amount, 311.0
-    assert_equal @commodity.commodity_rows.fourth.amount, 301.0
-    assert_equal @commodity.commodity_rows.fifth.amount, 291.0
-    assert_equal @commodity.commodity_rows.last.amount, 442.0
+    assert_equal @commodity.commodity_rows.sum(:amount), -10000 * 20 / 100
+    assert_equal @commodity.commodity_rows.first.amount, -333.0
+    assert_equal @commodity.commodity_rows.second.amount, -322.0
+    assert_equal @commodity.commodity_rows.third.amount, -311.0
+    assert_equal @commodity.commodity_rows.fourth.amount, -301.0
+    assert_equal @commodity.commodity_rows.fifth.amount, -291.0
+    assert_equal @commodity.commodity_rows.last.amount, -442.0
 
     @commodity.reload
 
@@ -357,10 +357,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 1001
-    assert_equal @commodity.commodity_rows.first.amount, 166.83
-    assert_equal @commodity.commodity_rows.second.amount, 166.83
-    assert_equal @commodity.commodity_rows.last.amount, 166.85
+    assert_equal @commodity.commodity_rows.sum(:amount), -1001
+    assert_equal @commodity.commodity_rows.first.amount, -166.83
+    assert_equal @commodity.commodity_rows.second.amount, -166.83
+    assert_equal @commodity.commodity_rows.last.amount, -166.85
 
     @commodity.reload
 

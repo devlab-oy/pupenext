@@ -128,7 +128,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
     calculation = depreciation_rows.where(tapvm: range).sum(:summa)
-    amount + calculation
+    amount - calculation
   end
 
   private
