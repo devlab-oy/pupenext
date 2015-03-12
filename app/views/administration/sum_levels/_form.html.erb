@@ -70,6 +70,8 @@
   </table>
 
   <% if update_access? %>
+    <br/>
+
     <div class="actions">
       <% text = @sum_level.persisted? ? 'Tallenna' : 'Lisää' %>
       <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>

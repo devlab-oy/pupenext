@@ -1,0 +1,21 @@
+printer1:
+  kirjoitin: Printer 1
+  komento: email
+  merkisto: 3
+  mediatyyppi: A4
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+printer2:
+  kirjoitin: Printer 2
+  komento: lpr
+  merkisto: 4
+  mediatyyppi: A5
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
