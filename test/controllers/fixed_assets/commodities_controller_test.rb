@@ -231,7 +231,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     params = {
       commodity_id: @commodity.id,
-      target_row_id: head_voucher_rows(:thirteen).id
+      voucher_row_id: head_voucher_rows(:thirteen).id
     }
     post :unlink_procurement, params
     assert_equal 1, @commodity.procurement_rows.count
@@ -242,7 +242,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     # Last row can be removed from unactivated commodity
     params = {
       commodity_id: @commodity.id,
-      target_row_id: @commodity.procurement_rows.first.id
+      voucher_row_id: @commodity.procurement_rows.first.id
     }
     post :unlink_procurement, params
     assert_equal 0, @commodity.procurement_rows.count
@@ -252,7 +252,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_equal 1, @commodity.procurement_rows.count
     params = {
       commodity_id: @commodity.id,
-      target_row_id: @commodity.procurement_rows.first.id
+      voucher_row_id: @commodity.procurement_rows.first.id
     }
     post :unlink_procurement, params
     assert_equal 1, @commodity.procurement_rows.count

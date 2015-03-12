@@ -1,5 +1,6 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
+  before_action :find_voucher_row, only: [:link_purchase_order, :link_voucher, :unlink_procurement]
 
   # GET /commodities
   def index
@@ -47,12 +48,9 @@ class FixedAssets::CommoditiesController < AdministrationController
     linkable_purchase_orders
   end
 
-  # POST /commodities/1/purchase_orders
+  # POST /commodities/1/link_order
   def link_purchase_order
-    link_resource
-
-    if @linkable_row.save_by current_user
-      @commodity.save!
+    if link_voucher_row
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_purchase_orders
@@ -65,12 +63,9 @@ class FixedAssets::CommoditiesController < AdministrationController
     linkable_vouchers
   end
 
-  # POST /commodities/1/vouchers
+  # POST /commodities/1/link_voucher
   def link_voucher
-    link_resource
-
-    if @linkable_row.save_by current_user
-      @commodity.save!
+    if link_voucher_row
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
       linkable_vouchers
@@ -78,13 +73,13 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
-  # POST /commodities/1/unlink_procurement
+  # POST /commodities/1/unlink
   def unlink_procurement
-    msg = unlink_voucher_row
-
-    if @unlinked_row.save_by current_user
-      @commodity.save!
-      redirect_to edit_commodity_path(@commodity), notice: msg
+    if !@commodity.allows_unlinking?
+      flash.now[:notice] = 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
+      render :edit
+    elsif unlink_voucher_row
+      redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintivi poistettu hyödykkeeltä.'
     else
       render :edit
     end
@@ -162,18 +157,17 @@ class FixedAssets::CommoditiesController < AdministrationController
       @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
     end
 
-    def link_resource
-      @linkable_row = current_company.voucher_rows.find(params[:voucher_row_id])
-      @linkable_row.commodity_id = @commodity.id
+    def find_voucher_row
+      @voucher_row = current_company.voucher_rows.find(params[:voucher_row_id])
+    end
+
+    def link_voucher_row
+      @voucher_row.commodity_id = @commodity.id
+      @voucher_row.save_by current_user
     end
 
     def unlink_voucher_row
-      @unlinked_row = current_company.voucher_rows.find(params[:target_row_id])
-      if @commodity.allows_unlinking?
-        @unlinked_row.commodity_id = nil
-        return 'Tiliöintirivi poistettiin onnistuneesti.'
-      else
-        return 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
-      end
+      @voucher_row.commodity_id = nil
+      @voucher_row.save_by current_user
     end
 end
