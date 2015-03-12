@@ -6,6 +6,7 @@ class Company < ActiveRecord::Base
     options.has_one :parameter
     options.has_many :accounts
     options.has_many :currency
+    options.has_many :printers
 
     options.has_many :sum_levels
     options.has_many :sum_level_internals, class_name: 'SumLevel::Internal'
@@ -16,8 +17,6 @@ class Company < ActiveRecord::Base
     options.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     options.has_many :projects, class_name: 'Qualifier::Project'
     options.has_many :targets, class_name: 'Qualifier::Target'
-
-    options.has_many :printers
   end
 
   # Map old database schema table to Company class
