@@ -146,4 +146,24 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
     assert_equal 6500, @commodity.bookkeeping_value
   end
+
+  test 'rows split' do
+    @commodity.status = 'A'
+    head_voucher_rows(:nine).commodity_id = @commodity.id
+    head_voucher_rows(:nine).kustp = 10
+    head_voucher_rows(:nine).save!
+
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+    # 24 rows generated
+    assert_equal 24, @commodity.voucher.rows.count
+    assert @commodity.rows_need_to_split?
+    @commodity.split_all_rows
+    @commodity.reload
+
+    # 24 rows split into 2 (different cost_centres)
+    assert_equal 48, @commodity.voucher.rows.count
+    assert_equal [0, 10], @commodity.voucher.rows.map(&:kustp).uniq
+  end
 end
