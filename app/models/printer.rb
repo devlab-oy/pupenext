@@ -4,13 +4,10 @@ class Printer < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :komento, presence: true, allow_blank: false, uniqueness: { scope: :company },
-            format: { without: /["'<>\\;]/ }
-  validates :kirjoitin, presence: true, allow_blank: false
-  validates :merkisto, inclusion: { in: proc { merkisto_types.to_h.values } },
-            allow_blank: true
-  validates :mediatyyppi, inclusion: { in: proc { mediatyyppi_types.to_h.values } },
-            allow_blank: true
+  validates :kirjoitin, presence: true
+  validates :komento, presence: true, uniqueness: { scope: :company }, format: { without: /["'<>\\;]/ }
+  validates :mediatyyppi, inclusion: { in: proc { mediatyyppi_types.to_h.values } }, allow_blank: true
+  validates :merkisto, inclusion: { in: proc { merkisto_types.to_h.values } }, allow_blank: true
 
   before_validation do |printer|
     printer.komento.strip
@@ -19,8 +16,8 @@ class Printer < ActiveRecord::Base
 
   before_save :defaults
 
-  self.table_name = 'kirjoittimet'
-  self.primary_key = 'tunnus'
+  self.table_name = :kirjoittimet
+  self.primary_key = :tunnus
   self.record_timestamps = false
 
   def self.merkisto_types
@@ -53,5 +50,4 @@ class Printer < ActiveRecord::Base
       self.merkisto ||= 0
       self.mediatyyppi ||= ""
     end
-
 end
