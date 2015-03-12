@@ -1,7 +1,10 @@
 class Administration::PrintersController < AdministrationController
   # GET /printers
   def index
-    @printers = current_company.printers.search_like(search_params).order(order_params)
+    @printers = current_company
+      .printers
+      .search_like(search_params)
+      .order(order_params)
   end
 
   # GET /printers/1
@@ -39,21 +42,28 @@ class Administration::PrintersController < AdministrationController
   end
 
   def destroy
-    if @printer.destroy
-      notice = "Kirjoitin poistettiin onnistuneesti"
-    else
-      notice = "Kirjoittimen poistaminen ei onnistunut"
-    end
-
-    redirect_to printers_path, notice: notice
+    @printer.destroy
+    redirect_to printers_path, notice: "Kirjoitin poistettiin onnistuneesti"
   end
 
   private
 
     def printer_params
-      params.require(:printer).permit(:merkisto, :mediatyyppi, :nimi, :komento, :kirjoitin, :ip,
-                                      :unifaun_nimi, :osoite, :postino, :postitp, :puhelin,
-                                      :yhteyshenkilo, :jarjestys)
+      params.require(:printer).permit(
+        :merkisto,
+        :mediatyyppi,
+        :nimi,
+        :komento,
+        :kirjoitin,
+        :ip,
+        :unifaun_nimi,
+        :osoite,
+        :postino,
+        :postitp,
+        :puhelin,
+        :yhteyshenkilo,
+        :jarjestys
+      )
     end
 
     def find_resource
