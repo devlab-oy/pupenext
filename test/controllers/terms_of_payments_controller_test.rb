@@ -91,14 +91,13 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
   end
 
   test 'should show terms of payments not in use' do
-    skip
     params = { not_used: :yes }
 
     get :index, params
     assert_response :success
     assert_not_nil assigns(:terms_of_payments)
     assert_select 'a' do |elements|
-      assert_select elements[1], 'a', "Näytä aktiivit"
+      assert_select elements, 'a', "Näytä aktiivit"
     end
   end
 
