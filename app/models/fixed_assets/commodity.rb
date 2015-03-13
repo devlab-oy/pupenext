@@ -52,7 +52,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.joins(:accounting_rows)
-      .where(tiliointi: { tilino: viable_accounts,
+      .where(tiliointi: { yhtio: company.yhtio,
+                          tilino: viable_accounts,
                           tapvm: company.current_fiscal_year,
                           commodity_id: nil })
   end
@@ -60,7 +61,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # Sopivat tositteet
   def linkable_vouchers
     company.vouchers.joins(:rows)
-      .where(tiliointi: { tilino: viable_accounts,
+      .where(tiliointi: { yhtio: company.yhtio,
+                          tilino: viable_accounts,
                           tapvm: company.current_fiscal_year,
                           commodity_id: nil })
   end
