@@ -34,8 +34,8 @@ class TermsOfPayment < ActiveRecord::Base
 
   before_validation :check_relations
 
-  default_scope { where(kaytossa: '') }
-  scope :not_in_use, -> { unscoped.where(kaytossa: 'E') }
+  scope :in_use, -> { where(kaytossa: '') }
+  scope :not_in_use, -> { where(kaytossa: 'E') }
 
   def cash_options
     [

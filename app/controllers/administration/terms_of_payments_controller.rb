@@ -1,12 +1,18 @@
 class Administration::TermsOfPaymentsController < AdministrationController
-  before_action :find_all_terms_of_payments
   helper_method :showing_not_used?
 
   # GET /terms_of_payments
   def index
+
     @terms_of_payments = current_company.terms_of_payments
       .search_like(search_params)
       .order(order_params)
+
+    if showing_not_used?
+      @terms_of_payments = @terms_of_payments.not_in_use
+    else
+      @terms_of_payments = @terms_of_payments.in_use
+    end
   end
 
   # GET /terms_of_payments/1
@@ -68,10 +74,6 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
     def find_resource
       @terms_of_payment = current_user.company.terms_of_payments.find(params[:id])
-    end
-
-    def find_all_terms_of_payments
-      @terms_of_payments = current_user.company.terms_of_payments.order(:jarjestys, :teksti)
     end
 
     def showing_not_used?
