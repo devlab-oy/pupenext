@@ -67,10 +67,7 @@
         <td><%= acc.summa  %></td>
         <td><%= acc.tilino %></td>
         <td class="back">
-        <%= form_tag(commodity_link_order_path(@commodity), method: :post) do %>
-          <%= hidden_field_tag(:voucher_row_id, acc.tunnus) %>
-          <%= submit_tag('Liitä') %>
-        <% end %>
+          <%= button_to t('Lisää'), commodity_link_order_path(@commodity, { voucher_row_id: acc.tunnus }), method: :post %>
         </td>
       </tr>
     <% end %>

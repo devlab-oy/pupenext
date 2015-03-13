@@ -60,10 +60,9 @@
     <td><%= vourow.selite.html_safe rescue 0 %></td>
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
-    <td class='back'><%= form_tag(commodity_link_voucher_path(@commodity, vourow), method: :post) do %>
-    <%= hidden_field_tag(:voucher_row_id, vourow.tunnus) %>
-    <%= submit_tag('Liitä') %></td>
-    <% end %>
+    <td class='back'>
+      <%= button_to t('Lisää'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
+    </td>
     </tr>
     <% end %>
 <% end %>
