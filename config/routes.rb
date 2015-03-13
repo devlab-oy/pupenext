@@ -8,7 +8,7 @@ Pupesoft::Application.routes.draw do
     resources :commodities, except: :destroy do
       get  'purchase_orders'
       get  'vouchers'
-      post 'activation'
+      post 'activate'
       post 'generate_rows'
       post 'link_order',   to: 'commodities#link_purchase_order'
       post 'link_voucher', to: 'commodities#link_voucher'

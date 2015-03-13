@@ -10,7 +10,7 @@
     <%= submit_tag(t('Luo poistoerät')) %>
     <% end %>
   <% else %>
-    <%= button_to t('Aktivoi hyödyke'), commodity_activation_path(@commodity), method: :post %>
+    <%= button_to t('Aktivoi hyödyke'), commodity_activate_path(@commodity), method: :post %>
   <% end %>
 
   <br/>

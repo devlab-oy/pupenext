@@ -81,7 +81,8 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
-  def activation
+  # POST /commodities/1/activate
+  def activate
     @commodity.status = 'A'
 
     if @commodity.save_by current_user

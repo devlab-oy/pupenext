@@ -198,7 +198,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     @commodity.status = ''
     @commodity.save!
 
-    post :activation, params
+    post :activate, params
     @commodity.reload
 
     assert_equal 'A', @commodity.status
@@ -213,7 +213,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     @commodity.procurement_rows.delete_all
     @commodity.save!
 
-    post :activation, params
+    post :activate, params
     @commodity.reload
 
     assert_equal '', @commodity.status
