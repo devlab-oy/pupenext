@@ -1,6 +1,9 @@
+<% return_text = t('Palaa ohjelmaan') + ': ' + t('Maksuehdot') %>
+<%= link_to return_text, terms_of_payments_path %>
+
+<br /><br />
+
 <font class="head"><%= t('Muokkaa maksuehtoa') %></font>
 <hr />
 
 <%= render 'form' %>
-
-<%= link_to t('Takaisin'), terms_of_payments_path %>

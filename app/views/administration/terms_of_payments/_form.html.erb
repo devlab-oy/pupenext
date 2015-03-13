@@ -1,15 +1,5 @@
 <%= form_for(@terms_of_payment) do |f| %>
-  <% if @terms_of_payment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@terms_of_payment.errors.count, "error") %> prohibited this terms of payment from being saved:</h2>
-
-      <ul>
-      <% @terms_of_payment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "administration/form_errors", resource: @terms_of_payment %>
 
   <table>
     <tr>
