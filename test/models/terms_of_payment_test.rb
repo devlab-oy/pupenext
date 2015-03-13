@@ -55,6 +55,10 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal 1, TermsOfPayment.search_like(params).count
   end
 
+  test 'should get more than one factoring' do
+    assert_operator terms_of_payments(:hundred_days_net).factoring_options.count, :>, 1
+  end
+
   test 'should search by like' do
     params = {
       kassa_relpvm: 15
