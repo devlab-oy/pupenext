@@ -53,20 +53,19 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def split_all_rows
-    params = get_split_params
-    voucher.rows.each { |row| row.split(params) }
+    voucher.rows.each { |row| row.split(split_params) }
   end
 
-  def get_split_params
+  def split_params
     split_params = []
 
     procurement_rows.each do |pcu|
-      row_params = {}
-      row_params[:percent] = (pcu.summa / amount)*100.round(2)
-      row_params[:cost_centre] = pcu.kustp if pcu.kustp.present?
-      row_params[:target] = pcu.kohde if pcu.kohde.present?
-      row_params[:project] = pcu.projekti if pcu.projekti.present?
-      split_params << row_params
+      split_params << {
+        :percent => pcu.summa / amount*100.round(2),
+        :cost_centre => pcu.kustp,
+        :target => pcu.kohde,
+        :project => pcu.projekti
+      }
     end
 
     split_params
