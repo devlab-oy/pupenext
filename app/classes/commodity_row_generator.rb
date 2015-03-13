@@ -21,6 +21,7 @@ class CommodityRowGenerator
     generate_voucher_rows
     generate_commodity_rows
     generate_depreciation_difference_rows
+    split_voucher_rows
   end
 
   def fixed_by_percentage(full_amount, percentage)
@@ -262,5 +263,28 @@ class CommodityRowGenerator
 
     def depreciation_differences
       commodity.commodity_rows.where(transacted_at: fiscal_period).map { |evl| [evl.depreciation_difference, evl.transacted_at] }
+    end
+
+    def rows_need_to_split?
+      return true if commodity.procurement_cost_centres.count > 1
+      return true if commodity.procurement_targets.count > 1
+      return true if commodity.procurement_projects.count > 1
+      false
+    end
+
+    def split_voucher_rows
+      return unless rows_need_to_split?
+      commodity.voucher.rows.each { |row| row.split(split_params) }
+    end
+
+    def split_params
+      commodity.procurement_rows.map do |pcu|
+        {
+          percent: (pcu.summa / commodity.amount * 100).round(2),
+          cost_centre: pcu.kustp,
+          target: pcu.kohde,
+          project: pcu.projekti
+        }
+      end
     end
 end

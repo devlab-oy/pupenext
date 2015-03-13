@@ -45,33 +45,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     activated? && important_values_changed?
   end
 
-  def rows_need_to_split?
-    if (procurement_cost_centres || procurement_targets || procurement_projects).count > 1
-      true
-    else
-      false
-    end
-  end
-
-  def split_all_rows
-    voucher.rows.each { |row| row.split(split_params) }
-  end
-
-  def split_params
-    params = []
-
-    procurement_rows.each do |pcu|
-      params << {
-        :percent => pcu.summa / amount*100.round(2),
-        :cost_centre => pcu.kustp,
-        :target => pcu.kohde,
-        :project => pcu.projekti
-      }
-    end
-
-    params
-  end
-
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.find_by_account(viable_accounts)

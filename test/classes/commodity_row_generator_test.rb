@@ -429,4 +429,21 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal Date.today.change(month: 1, day: 31), rows[-12].transacted_at
     assert_equal Date.today.change(month: 12, day: 31), rows.last.transacted_at
   end
+
+  test 'rows split' do
+    row = head_voucher_rows(:nine)
+    row.commodity_id = @commodity.id
+    row.kustp = 10
+    row.save!
+
+    @commodity.status = 'A'
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+    @commodity.reload
+
+    # 24 rows split into 2 (different cost_centres)
+    assert_equal 48, @commodity.voucher.rows.count
+    assert_equal [0, 10], @commodity.voucher.rows.map(&:kustp).uniq
+  end
 end
