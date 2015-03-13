@@ -1,13 +1,6 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
-<%= link_to return_text, commodities_path %>
+<%= return_link("Hyödykkeet", commodities_path) %>
 
 <br /><br />
 
-<%= render "administration/header", title: "Hyödykkeet" %>
-
-<% if notice %>
-  <font class='ok'><%= t(notice) %></font>
-  <br /><br />
-<% end %>
-
+<%= render "administration/header", title: "Muokkaa hyödykettä" %>
 <%= render 'form' %>

@@ -1,18 +1,11 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
-<%= link_to return_text, commodities_path %>
+<%= return_link("Hyödykkeet", commodities_path) %>
 <br /><br />
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, edit_commodity_path(@commodity) %>
+
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
 <br /><br />
 
 <%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
-
-<% if notice %>
-  <font class='ok'><%= t(notice) %></font>
-  <br /><br />
-<% end %>
-
-<%= render "administration/header", title: "Hyödykkeet" %>
+<%= render "administration/header", title: "Hyödykkeen ostolaskut" %>
 
 <font class="head"><%= t('Valitse ostolaskujen tiliöinnit') %></font>
 <br /><br />
