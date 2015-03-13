@@ -1,8 +1,8 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
-  before_action :find_voucher_row, only: [:link_purchase_order, :link_voucher, :unlink_procurement]
-  before_action :unlinking_allowed_check, only: [:unlink_procurement]
-  before_action :linkable_purchase_orders, only: [:purchase_orders, :link_purchase_order]
+  before_action :find_voucher_row, only: [:link_order, :link_voucher, :unlink]
+  before_action :unlinking_allowed_check, only: [:unlink]
+  before_action :linkable_purchase_orders, only: [:purchase_orders, :link_order]
   before_action :linkable_vouchers, only: [:vouchers, :link_voucher]
 
   # GET /commodities
@@ -51,7 +51,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   # POST /commodities/1/link_order
-  def link_purchase_order
+  def link_order
     if link_voucher_row
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
@@ -73,7 +73,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   # POST /commodities/1/unlink
-  def unlink_procurement
+  def unlink
     if unlink_voucher_row
       redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintivi poistettu hyödykkeeltä.'
     else

@@ -172,7 +172,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
 
     assert_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
-      post :link_purchase_order, params
+      post :link_order, params
     end
 
     assert_redirected_to commodity_purchase_orders_path
@@ -185,7 +185,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
 
     assert_no_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
-      post :link_purchase_order, params
+      post :link_order, params
     end
 
     assert_template 'purchase_orders'
@@ -226,14 +226,14 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       commodity_id: @commodity.id,
       voucher_row_id: head_voucher_rows(:thirteen).id
     }
-    post :link_purchase_order, params
+    post :link_order, params
     assert_equal 2, @commodity.procurement_rows.count
 
     params = {
       commodity_id: @commodity.id,
       voucher_row_id: head_voucher_rows(:thirteen).id
     }
-    post :unlink_procurement, params
+    post :unlink, params
     assert_equal 1, @commodity.procurement_rows.count
 
     @commodity.status = ''
@@ -244,7 +244,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       commodity_id: @commodity.id,
       voucher_row_id: @commodity.procurement_rows.first.id
     }
-    post :unlink_procurement, params
+    post :unlink, params
     assert_equal 0, @commodity.procurement_rows.count
   end
 
@@ -254,7 +254,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       commodity_id: @commodity.id,
       voucher_row_id: @commodity.procurement_rows.first.id
     }
-    post :unlink_procurement, params
+    post :unlink, params
     assert_equal 1, @commodity.procurement_rows.count
   end
 end
