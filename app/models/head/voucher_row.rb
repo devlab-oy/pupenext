@@ -57,17 +57,14 @@ class Head::VoucherRow < ActiveRecord::Base
 
     def split_params_valid?(params)
       result = true
-
-      params.each do |row_params|
-        unless row_params[:percent].present?
-          result &= false
-          next
-        end
-        result &= false unless row_params[:percent] > 0
-      end
-
       amount = 0
-      params.each { |x| amount += x[:percent] if x[:percent].present? }
+      params.each do |row_params|
+        if row_params[:percent].present? && row_params[:percent] > 0
+          amount += row_params[:percent]
+        else
+          result &= false
+        end
+      end
 
       result &= false unless amount == 100
       result
