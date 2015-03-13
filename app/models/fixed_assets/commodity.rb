@@ -51,12 +51,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.where(tapvm: company.current_fiscal_year).find_by_account(viable_accounts)
+    company.purchase_invoices_paid.joins(:accounting_rows)
+      .where(tiliointi: { tilino: viable_accounts,
+                          tapvm: company.current_fiscal_year,
+                          commodity_id: nil })
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.where(tapvm: company.current_fiscal_year).find_by_account(viable_accounts)
+    company.vouchers.joins(:rows)
+      .where(tiliointi: { tilino: viable_accounts,
+                          tapvm: company.current_fiscal_year,
+                          commodity_id: nil })
   end
 
   def activated?
