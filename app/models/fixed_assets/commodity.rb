@@ -56,7 +56,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.where(tapvm: company.current_fiscal_year).commodity_linkable.find_by_account(viable_accounts)
+    company.vouchers.where(tapvm: company.current_fiscal_year).find_by_account(viable_accounts)
   end
 
   def activated?
