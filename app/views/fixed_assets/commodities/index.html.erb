@@ -1,4 +1,4 @@
-<%= render 'header' %>
+<%= render "administration/header", title: "Hyödykkeet" %>
 
 <%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
 
