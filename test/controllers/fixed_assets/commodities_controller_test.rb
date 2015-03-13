@@ -254,6 +254,10 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
     post :unlink, params
     assert_equal 0, @commodity.procurement_rows.count
+
+    # Unlinking already unlinked should not work
+    post :unlink, params
+    assert_template :edit
   end
 
   test 'should not unlink last row' do
@@ -264,5 +268,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
     post :unlink, params
     assert_equal 1, @commodity.procurement_rows.count
+    assert_template :edit
   end
 end
