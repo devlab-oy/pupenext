@@ -57,10 +57,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def split_params
-    split_params = []
+    params = []
 
     procurement_rows.each do |pcu|
-      split_params << {
+      params << {
         :percent => pcu.summa / amount*100.round(2),
         :cost_centre => pcu.kustp,
         :target => pcu.kohde,
@@ -68,7 +68,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
       }
     end
 
-    split_params
+    params
   end
 
   # Sopivat ostolaskut
