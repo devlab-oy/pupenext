@@ -46,10 +46,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def rows_need_to_split?
-    return true if procurement_cost_centres.count > 1
-    return true if procurement_targets.count > 1
-    return true if procurement_projects.count > 1
-    false
+    if (procurement_cost_centres || procurement_targets || procurement_projects).count > 1
+      true
+    else
+      false
+    end
   end
 
   def split_all_rows
