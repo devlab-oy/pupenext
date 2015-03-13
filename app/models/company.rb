@@ -4,9 +4,10 @@ class Company < ActiveRecord::Base
 
     o.has_many :accounts
     o.has_many :currencies
-    o.has_many :keywords
-    o.has_many :users
     o.has_many :fiscal_years
+    o.has_many :keywords
+    o.has_many :printers
+    o.has_many :users
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'

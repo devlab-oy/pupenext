@@ -26,6 +26,12 @@ class DictionaryTest < ActiveSupport::TestCase
 
     t = Dictionary.translate("Hei maailma!", "ru")
     assert_equal "Hei maailma!", t, "should return string if translation is empty"
+
+    t = Dictionary.translate("not_in_the_database", "en")
+    assert_equal "not_in_the_database", t, "should return string if string is not in database"
+
+    t = Dictionary.translate("Hei maailma!")
+    assert_equal "Hei maailma!", t, "return string if no language given"
   end
 
 end

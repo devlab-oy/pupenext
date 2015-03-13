@@ -17,10 +17,11 @@ Pupesoft::Application.routes.draw do
   end
 
   scope module: :administration do
-    resources :currencies, except: :destroy
-    resources :sum_levels
     resources :accounts
+    resources :currencies, except: :destroy
     resources :fiscal_years, except: :destroy
+    resources :printers
+    resources :sum_levels
   end
 
   root to: 'home#index'
