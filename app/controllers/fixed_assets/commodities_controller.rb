@@ -1,6 +1,7 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
   before_action :find_voucher_row, only: [:link_purchase_order, :link_voucher, :unlink_procurement]
+  before_action :unlinking_allowed_check, only: [:unlink_procurement]
 
   # GET /commodities
   def index
@@ -75,10 +76,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities/1/unlink
   def unlink_procurement
-    if !@commodity.allows_unlinking?
-      flash.now[:notice] = 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
-      render :edit
-    elsif unlink_voucher_row
+    if unlink_voucher_row
       redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintivi poistettu hyödykkeeltä.'
     else
       render :edit
@@ -169,5 +167,12 @@ class FixedAssets::CommoditiesController < AdministrationController
     def unlink_voucher_row
       @voucher_row.commodity_id = nil
       @voucher_row.save_by current_user
+    end
+
+    def unlinking_allowed_check
+      if !@commodity.allows_unlinking?
+        flash.now[:notice] = 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
+        render :edit
+      end
     end
 end
