@@ -1,7 +1,6 @@
+<%= render "administration/form_errors", resource: @commodity %>
+
 <%= form_for(@commodity, url: commodities_path) do |f| %>
-
-  <%= render "administration/form_errors", resource: @commodity %>
-
   <table>
     <tr>
       <th><%= f.label :name, t('Nimi') %></th>
@@ -13,10 +12,9 @@
     </tr>
   </table>
 
-  <br />
+  <br/>
 
   <div class="actions">
     <%= f.submit t('Lisää'), disable_with: t('Tallentaa') + '...' %>
   </div>
-
 <% end %>

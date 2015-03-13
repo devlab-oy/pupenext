@@ -1,0 +1,30 @@
+<%= render "administration/header", title: "EVL poistoerät" %>
+
+<table>
+<tr><th><%= t('Tilikauden EVL poistot') %></th></tr>
+<tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.commodity_rows.sum(:amount).round(2) %></td></tr>
+</table>
+
+<br/>
+
+<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('evl_rows');">
+
+<div id='evl_rows' style="display: none;">
+  <br/><br/>
+
+  <table>
+  <tr>
+    <th><%= t('Summa') %></th>
+    <th><%= t('Pvm') %></th>
+    <th><%= t('Selite') %></th>
+  </tr>
+  <% @commodity.commodity_rows.each do |comrow| %>
+    <tr>
+      <td><%= comrow.amount %></td>
+      <td><%= comrow.transacted_at %></td>
+      <td><%= comrow.description %></td>
+    </tr>
+  <% end %>
+  </table>
+
+</div>

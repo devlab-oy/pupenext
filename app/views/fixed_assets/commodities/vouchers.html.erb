@@ -1,8 +1,8 @@
 <%= return_link("Hyödykkeet", commodities_path) %>
-<br /><br />
+<br/><br/>
 
 <%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
-<br /><br />
+<br/><br/>
 
 <%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
 <%= render "administration/header", title: "Hyödykkeen tositteet" %>
@@ -11,22 +11,22 @@
 <tr>
   <th>
     <%= sortable 'tunnus' %>
-    <br />
+    <br/>
     <%= text_field_tag :tunnus, params[:tunnus] %>
   </th>
   <th>
     <%= sortable 'ytunnus' %>
-    <br />
+    <br/>
     <%= text_field_tag :ytunnus, params[:ytunnus] %>
   </th>
   <th>
     <%= sortable 'nimi' %>
-    <br />
+    <br/>
     <%= text_field_tag :nimi, params[:nimi] %>
   </th>
   <th>
     <%= sortable 'viesti' %>
-    <br />
+    <br/>
     <%= text_field_tag :viesti, params[:viesti] %>
   </th>
   <th class="back"><%= submit_tag t('Etsi') %></th>
@@ -59,4 +59,4 @@
 <% end %>
 
 </table>
-<br /><br />
+<br/><br/>
