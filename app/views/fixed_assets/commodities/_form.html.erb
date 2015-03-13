@@ -1,21 +1,3 @@
- <% if update_access? %>
-  <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
-  <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
-
-  <% if @commodity.activated? %>
-    <br/><br/>
-    <%= form_tag(commodity_generate_rows_path(@commodity), method: "post") do %>
-      <%= label_tag :selected_fiscal_year, t('Valitse tilikausi') + ':' %>
-      <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
-      <%= submit_tag(t('Luo poistoerät')) %>
-    <% end %>
-  <% else %>
-    <%= button_to t('Aktivoi hyödyke'), commodity_activate_path(@commodity), method: :post %>
-  <% end %>
-
-  <br/><br/>
-<% end %>
-
 <%= render "administration/form_errors", resource: @commodity %>
 
 <%= form_for(@commodity, url: commodity_path(@commodity)) do |f| %>
@@ -105,7 +87,3 @@
     <%= f.submit t('Tallenna'), disable_with: t('Tallentaa') + '...' %>
   </div>
 <% end %>
-
-<%= render 'procurement_rows', resource: @commodity if @commodity.procurement_rows.present? %>
-<%= render 'depreciations',    resource: @commodity if @commodity.voucher.present? %>
-<%= render 'commodity_rows',   resource: @commodity if @commodity.commodity_rows.present? %>
