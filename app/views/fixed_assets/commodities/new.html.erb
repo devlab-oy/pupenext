@@ -1,8 +1,6 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
-<%= link_to return_text, commodities_path %>
+<%= return_link("Hyödykkeet", commodities_path) %>
 
 <br /><br />
 
-<%= render 'header' %>
-
+<%= render "administration/header", title: "Uusi Hyödyke" %>
 <%= render 'create_form' %>

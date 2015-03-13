@@ -145,6 +145,10 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to commodity_vouchers_path
+
+    # Second time should not update
+    post :link_voucher, params
+    assert_template :vouchers
   end
 
   test 'should not link voucher_row with wrong account number' do
@@ -172,10 +176,14 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
 
     assert_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
-      post :link_purchase_order, params
+      post :link_order, params
     end
 
     assert_redirected_to commodity_purchase_orders_path
+
+    # Second time should not update
+    post :link_order, params
+    assert_template :purchase_orders
   end
 
   test 'should not update link purchase order with wrong account number' do
@@ -185,7 +193,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
 
     assert_no_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
-      post :link_purchase_order, params
+      post :link_order, params
     end
 
     assert_template 'purchase_orders'
@@ -198,7 +206,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     @commodity.status = ''
     @commodity.save!
 
-    post :activation, params
+    post :activate, params
     @commodity.reload
 
     assert_equal 'A', @commodity.status
@@ -213,10 +221,53 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     @commodity.procurement_rows.delete_all
     @commodity.save!
 
-    post :activation, params
+    post :activate, params
     @commodity.reload
 
     assert_equal '', @commodity.status
     assert_template :edit, 'Template should be edit'
+  end
+
+  test 'should unlink row' do
+    # Link a second row so there is something to remove
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: head_voucher_rows(:thirteen).id
+    }
+    post :link_order, params
+    assert_equal 2, @commodity.procurement_rows.count
+
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: head_voucher_rows(:thirteen).id
+    }
+    post :unlink, params
+    assert_equal 1, @commodity.procurement_rows.count
+
+    @commodity.status = ''
+    @commodity.save!
+
+    # Last row can be removed from unactivated commodity
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: @commodity.procurement_rows.first.id
+    }
+    post :unlink, params
+    assert_equal 0, @commodity.procurement_rows.count
+
+    # Unlinking already unlinked should not work
+    post :unlink, params
+    assert_template :edit
+  end
+
+  test 'should not unlink last row' do
+    assert_equal 1, @commodity.procurement_rows.count
+    params = {
+      commodity_id: @commodity.id,
+      voucher_row_id: @commodity.procurement_rows.first.id
+    }
+    post :unlink, params
+    assert_equal 1, @commodity.procurement_rows.count
+    assert_template :edit
   end
 end

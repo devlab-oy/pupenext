@@ -41,18 +41,30 @@ class FixedAssets::Commodity < ActiveRecord::Base
     ]
   end
 
+  def allows_unlinking?
+    !activated? || procurement_rows.count > 1
+  end
+
   def ok_to_generate_rows?
     activated? && important_values_changed?
   end
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.find_by_account(viable_accounts)
+    company.purchase_invoices_paid.joins(:accounting_rows)
+      .where(tiliointi: { yhtio: company.yhtio,
+                          tilino: viable_accounts,
+                          tapvm: company.current_fiscal_year,
+                          commodity_id: nil })
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.commodity_linkable.find_by_account(viable_accounts)
+    company.vouchers.joins(:rows)
+      .where(tiliointi: { yhtio: company.yhtio,
+                          tilino: viable_accounts,
+                          tapvm: company.current_fiscal_year,
+                          commodity_id: nil })
   end
 
   def activated?
@@ -127,7 +139,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
-    calculation = depreciation_rows.where(tapvm: range).sum(:summa)
+    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
     amount + calculation
   end
 

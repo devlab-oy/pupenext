@@ -1,5 +1,8 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
+  before_action :find_voucher_row, only: [:link_order, :link_voucher, :unlink]
+  before_action :linkable_purchase_orders, only: [:purchase_orders, :link_order]
+  before_action :linkable_vouchers, only: [:vouchers, :link_voucher]
 
   # GET /commodities
   def index
@@ -44,41 +47,41 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/purchase_orders
   def purchase_orders
-    linkable_purchase_orders
   end
 
-  # POST /commodities/1/purchase_orders
-  def link_purchase_order
-    link_resource
-
-    if @linkable_row.save_by current_user
-      @commodity.save!
+  # POST /commodities/1/link_order
+  def link_order
+    if link_voucher_row
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
-      linkable_purchase_orders
       render :purchase_orders
     end
   end
 
   # GET /commodities/1/vouchers
   def vouchers
-    linkable_vouchers
   end
 
-  # POST /commodities/1/vouchers
+  # POST /commodities/1/link_voucher
   def link_voucher
-    link_resource
-
-    if @linkable_row.save_by current_user
-      @commodity.save!
+    if link_voucher_row
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
-      linkable_vouchers
       render :vouchers
     end
   end
 
-  def activation
+  # POST /commodities/1/unlink
+  def unlink
+    if unlink_voucher_row
+      redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintivi poistettu hyödykkeeltä.'
+    else
+      render :edit
+    end
+  end
+
+  # POST /commodities/1/activate
+  def activate
     @commodity.status = 'A'
 
     if @commodity.save_by current_user
@@ -102,21 +105,12 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   private
 
-    def linkable_vouchers
-      @vouchers = @commodity.linkable_vouchers.includes(:rows)
-    end
-
-    def linkable_purchase_orders
-      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
-    end
-
     # Allow only these params for update
     def commodity_params
       params.require(:fixed_assets_commodity).permit(
         :name,
         :description,
         :amount,
-        :purchased_at,
         :activated_at,
         :planned_depreciation_type,
         :planned_depreciation_amount,
@@ -151,8 +145,35 @@ class FixedAssets::CommoditiesController < AdministrationController
       @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
     end
 
-    def link_resource
-      @linkable_row = current_company.voucher_rows.find(params[:voucher_row_id])
-      @linkable_row.commodity_id = @commodity.id
+    def find_voucher_row
+      @voucher_row = current_company.voucher_rows.find(params[:voucher_row_id])
+    end
+
+    def linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers.includes(:rows)
+    end
+
+    def linkable_purchase_orders
+      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
+    end
+
+    def link_voucher_row
+      if @voucher_row.commodity_id.blank?
+        @voucher_row.commodity_id = @commodity.id
+        @voucher_row.save_by current_user
+      else
+        flash.now[:notice] = 'Rivi on jo lisättynä hyödykkeelle.'
+        false
+      end
+    end
+
+    def unlink_voucher_row
+      if @commodity.allows_unlinking? && @voucher_row.commodity_id.present?
+        @voucher_row.commodity_id = nil
+        @voucher_row.save_by current_user
+      else
+        flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
+        false
+      end
     end
 end

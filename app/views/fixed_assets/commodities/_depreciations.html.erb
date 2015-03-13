@@ -1,61 +1,33 @@
-<% if @commodity.voucher.present? %>
-<br/>
-<font class="head"><%= t('SUMU Poistoerät') %></font>
-<br/><br/>
+<%= render "administration/header", title: "SUMU poistoerät" %>
+
 <table>
 <tr><th><%= t('Tilikauden SUMU poistot') %></th></tr>
 <tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.depreciation_rows.sum(:summa) %></td></tr>
 <tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.depreciation_difference_rows.sum(:summa) %></td></tr>
 </table>
-<br/>
-<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('sumu_rows');">
-<div id='sumu_rows' style="display: none;">
-<br/><br/>
-<table>
-<tr>
-  <th><%= t('Tili') %></th>
-  <th><%= t('Summa') %></th>
-  <th><%= t('Pvm') %></th>
-  <th><%= t('Selite') %></th>
-</tr>
-  <% @commodity.voucher.rows.each do |vourow| %>
-  <tr>
-    <td><%= vourow.tilino  %></td>
-    <td><%= vourow.summa %></td>
-    <td><%= vourow.tapvm %></td>
-    <td><%= vourow.selite %></td>
-  </tr>
-  <% end %>
-</table>
-</div>
-<br/>
-<% end %>
 
-<% if @commodity.commodity_rows.present? %>
 <br/>
-<font class="head"><%= t('EVL Poistoerät') %></font>
-<br/><br/>
-<table>
-<tr><th><%= t('Tilikauden EVL poistot') %></th></tr>
-<tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.commodity_rows.sum(:amount).round(2) %></td></tr>
-</table>
-<br/>
-<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('evl_rows');">
-<div id='evl_rows' style="display: none;">
-<br/><br/>
-<table>
-<tr>
-  <th><%= t('Summa') %></th>
-  <th><%= t('Pvm') %></th>
-  <th><%= t('Selite') %></th>
-</tr>
-  <% @commodity.commodity_rows.each do |comrow| %>
-  <tr>
-    <td><%= comrow.amount %></td>
-    <td><%= comrow.transacted_at %></td>
-    <td><%= comrow.description %></td>
-  </tr>
-  <% end %>
-</table>
-<% end %>
+
+<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('sumu_rows');">
+
+<div id='sumu_rows' style="display: none;">
+  <br/><br/>
+
+  <table>
+    <tr>
+      <th><%= t('Tili') %></th>
+      <th><%= t('Summa') %></th>
+      <th><%= t('Pvm') %></th>
+      <th><%= t('Selite') %></th>
+    </tr>
+    <% @commodity.voucher.rows.each do |vourow| %>
+      <tr>
+        <td><%= vourow.tilino  %></td>
+        <td><%= vourow.summa %></td>
+        <td><%= vourow.tapvm %></td>
+        <td><%= vourow.selite %></td>
+      </tr>
+    <% end %>
+  </table>
+
 </div>
