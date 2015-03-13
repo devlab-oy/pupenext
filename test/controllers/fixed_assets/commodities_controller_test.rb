@@ -145,6 +145,10 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to commodity_vouchers_path
+
+    # Second time should not update
+    post :link_voucher, params
+    assert_template :vouchers
   end
 
   test 'should not link voucher_row with wrong account number' do
@@ -176,6 +180,10 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to commodity_purchase_orders_path
+
+    # Second time should not update
+    post :link_order, params
+    assert_template :purchase_orders
   end
 
   test 'should not update link purchase order with wrong account number' do

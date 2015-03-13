@@ -1,7 +1,6 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
   before_action :find_voucher_row, only: [:link_order, :link_voucher, :unlink]
-  before_action :unlinking_allowed_check, only: [:unlink]
   before_action :linkable_purchase_orders, only: [:purchase_orders, :link_order]
   before_action :linkable_vouchers, only: [:vouchers, :link_voucher]
 
@@ -159,19 +158,22 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def link_voucher_row
-      @voucher_row.commodity_id = @commodity.id
-      @voucher_row.save_by current_user
+      if @voucher_row.commodity_id.blank?
+        @voucher_row.commodity_id = @commodity.id
+        @voucher_row.save_by current_user
+      else
+        flash.now[:notice] = 'Rivi on jo lisättynä hyödykkeelle.'
+        false
+      end
     end
 
     def unlink_voucher_row
-      @voucher_row.commodity_id = nil
-      @voucher_row.save_by current_user
-    end
-
-    def unlinking_allowed_check
-      if !@commodity.allows_unlinking?
+      if @commodity.allows_unlinking?
+        @voucher_row.commodity_id = nil
+        @voucher_row.save_by current_user
+      else
         flash.now[:notice] = 'Viimeistä tiliöintiriviä ei voi poistaa aktivoidulta hyödykkeeltä.'
-        render :edit
+        false
       end
     end
 end
