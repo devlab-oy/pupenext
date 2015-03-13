@@ -2,6 +2,8 @@ class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
   before_action :find_voucher_row, only: [:link_purchase_order, :link_voucher, :unlink_procurement]
   before_action :unlinking_allowed_check, only: [:unlink_procurement]
+  before_action :linkable_purchase_orders, only: [:purchase_orders, :link_purchase_order]
+  before_action :linkable_vouchers, only: [:vouchers, :link_voucher]
 
   # GET /commodities
   def index
@@ -46,7 +48,6 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/1/purchase_orders
   def purchase_orders
-    linkable_purchase_orders
   end
 
   # POST /commodities/1/link_order
@@ -54,14 +55,12 @@ class FixedAssets::CommoditiesController < AdministrationController
     if link_voucher_row
       redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
-      linkable_purchase_orders
       render :purchase_orders
     end
   end
 
   # GET /commodities/1/vouchers
   def vouchers
-    linkable_vouchers
   end
 
   # POST /commodities/1/link_voucher
@@ -69,7 +68,6 @@ class FixedAssets::CommoditiesController < AdministrationController
     if link_voucher_row
       redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
     else
-      linkable_vouchers
       render :vouchers
     end
   end
@@ -106,14 +104,6 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   private
-
-    def linkable_vouchers
-      @vouchers = @commodity.linkable_vouchers.includes(:rows)
-    end
-
-    def linkable_purchase_orders
-      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
-    end
 
     # Allow only these params for update
     def commodity_params
@@ -157,6 +147,14 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def find_voucher_row
       @voucher_row = current_company.voucher_rows.find(params[:voucher_row_id])
+    end
+
+    def linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers.includes(:rows)
+    end
+
+    def linkable_purchase_orders
+      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
     end
 
     def link_voucher_row
