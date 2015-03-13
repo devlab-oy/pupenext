@@ -9,6 +9,7 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
     resources :accounts
     resources :terms_of_payments, except: :destroy
+    resources :printers
   end
 
   root to: 'home#index'

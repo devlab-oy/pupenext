@@ -38,8 +38,12 @@
     </tr>
   </table>
 
-  <div class="actions">
-    <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-  </div>
+  <% if update_access? %>
+    <br/>
+
+    <div class="actions">
+      <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
+      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    </div>
+  <% end %>
 <% end %>

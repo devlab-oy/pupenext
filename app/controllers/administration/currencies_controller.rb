@@ -1,14 +1,15 @@
 class Administration::CurrenciesController < AdministrationController
   # GET /currencies
   def index
-    @currencies = current_company.currency
+    @currencies = current_company
+      .currency
       .search_like(search_params)
       .order(order_params)
   end
 
   # GET /currencies/1
   def show
-    render 'edit'
+    render :edit
   end
 
   # GET /currencies/new
@@ -24,7 +25,7 @@ class Administration::CurrenciesController < AdministrationController
     if @currency.save_by current_user
       redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -37,7 +38,7 @@ class Administration::CurrenciesController < AdministrationController
     if @currency.update_by(currency_params, current_user)
       redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
