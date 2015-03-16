@@ -55,6 +55,10 @@ class TermsOfPayment < ActiveRecord::Base
     ]
   end
 
+  def kaytossa?
+    kaytossa != 'E'
+  end
+
   private
 
     def date_is_valid
