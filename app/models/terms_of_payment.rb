@@ -55,17 +55,17 @@ class TermsOfPayment < ActiveRecord::Base
     ]
   end
 
-  def date_is_valid
-    unless valid_date? self.abs_pvm
-      errors.add(:abs_pvm, "is invalid")
-    end
-
-    unless valid_date? self.kassa_abspvm
-      errors.add(:kassa_abspvm, "is invalid")
-    end
-  end
-
   private
+
+    def date_is_valid
+      unless valid_date? abs_pvm
+        errors.add(:abs_pvm, "is invalid")
+      end
+
+      unless valid_date? kassa_abspvm
+        errors.add(:kassa_abspvm, "is invalid")
+      end
+    end
 
     def check_if_in_use(obj, msg)
       count = obj.where(yhtio: yhtio).count
