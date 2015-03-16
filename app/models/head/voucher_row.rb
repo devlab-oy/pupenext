@@ -35,17 +35,32 @@ class Head::VoucherRow < ActiveRecord::Base
 
   def split(params)
     raise ArgumentError.new 'Params invalid' unless split_params_valid?(params)
+    # Separate last item
+    last_param_row = params.pop
+    sum_mem = 0
     # Splits one entry into multiple parts
-    params.each do |param_row|
+    params.each_with_index do |param_row, index|
       row = self.dup
 
-      row.summa    = param_row[:percent] * row.summa / 100
+      row.summa    = (param_row[:percent] * row.summa / 100).round(2)
       row.kustp    = param_row[:cost_centre] || row.kustp
       row.kohde    = param_row[:target]      || row.kohde
       row.projekti = param_row[:project]     || row.projekti
 
       row.save!
+      row.reload
+      sum_mem += row.summa
     end
+
+    last_row = self.dup
+    last_row_sum = summa - sum_mem
+
+    last_row.summa = last_row_sum
+    last_row.kustp = last_param_row[:cost_centre] || last_row.kustp
+    last_row.kohde = last_param_row[:target]      || last_row.kohde
+    last_row.projekti = last_param_row[:project]  || last_row.projekti
+    last_row.save!
+
     self.korjattu = 'X'
     self.save!
   end
