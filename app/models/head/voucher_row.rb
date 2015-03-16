@@ -54,8 +54,7 @@ class Head::VoucherRow < ActiveRecord::Base
     end
 
     # Calculate and set correct amount for last row
-    last_row_sum = summa - (new_rows.map(&:summa).sum - new_rows.last.summa)
-    new_rows.last.summa = last_row_sum
+    new_rows.last.summa = summa - (new_rows.map(&:summa).sum - new_rows.last.summa)
 
     new_rows_valid = new_rows.all? { |row| row.valid? }
 
