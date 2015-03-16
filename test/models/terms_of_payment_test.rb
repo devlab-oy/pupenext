@@ -74,4 +74,18 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal 1, TermsOfPayment.search_like(params).count
   end
 
+  test 'bank detail should be valid' do
+    @top.reload.pankkiyhteystiedot = nil
+    assert @top.valid?, 'nil is ok, this is an optional attribute'
+
+    @top.reload.pankkiyhteystiedot = @top.company.bank_details.first.id
+    assert @top.valid?
+
+    @top.reload.pankkiyhteystiedot = -1
+    refute @top.valid?, 'not a valid bank detail id'
+
+    @top.reload.pankkiyhteystiedot = nil
+    @top.save
+    assert_equal 0, @top.pankkiyhteystiedot, 'nil is saved as zero'
+  end
 end

@@ -6,10 +6,12 @@ class TermsOfPayment < ActiveRecord::Base
 
   has_many :customers, foreign_key: :maksuehto, primary_key: :tunnus
   has_many :sales_orders, foreign_key: :maksuehto, primary_key: :tunnus
+  has_one :bank_detail, foreign_key: :tunnus, primary_key: :pankkiyhteystiedot
+
+  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
 
   validates :rel_pvm,
             :kassa_relpvm,
-            :pankkiyhteystiedot,
             :jarjestys, numericality: { only_integer: true }
 
   validates :jv,
@@ -33,11 +35,12 @@ class TermsOfPayment < ActiveRecord::Base
   float_columns :kassa_alepros
 
   before_validation :check_relations
+  before_save :defaults
 
   scope :in_use, -> { where(kaytossa: '') }
   scope :not_in_use, -> { where(kaytossa: 'E') }
 
-  def cash_options
+   def cash_options
     [
       ["Tämä ei ole käteismaksuehto", ""],
       ["Käteismaksuehto, pankkikortti ei pyöristetä", "n"],
@@ -132,6 +135,10 @@ class TermsOfPayment < ActiveRecord::Base
       end
     end
 
-  self.table_name = :maksuehto
-  self.primary_key = :tunnus
+    def defaults
+      self.pankkiyhteystiedot ||= 0
+    end
+
+    self.table_name = :maksuehto
+    self.primary_key = :tunnus
 end
