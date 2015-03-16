@@ -20,6 +20,9 @@ class Head::VoucherRow < ActiveRecord::Base
 
   before_save :defaults
 
+  self.table_name = :tiliointi
+  self.primary_key = :tunnus
+
   def account
     company.accounts.find_by(tilino: tilino)
   end
@@ -34,10 +37,12 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def split(params)
-    raise ArgumentError.new 'Params invalid' unless split_params_valid?(params)
+    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params)
+
     # Separate last item
     last_param_row = params.pop
     sum_mem = 0
+
     # Splits one entry into multiple parts
     params.each_with_index do |param_row, index|
       row = self.dup
@@ -64,9 +69,6 @@ class Head::VoucherRow < ActiveRecord::Base
     self.korjattu = 'X'
     self.save!
   end
-
-  self.table_name = :tiliointi
-  self.primary_key = :tunnus
 
   private
 
