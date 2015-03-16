@@ -37,7 +37,7 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def split(params)
-    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params)
+    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && self.valid?
 
     # Separate last item
     last_param_row = params.pop
