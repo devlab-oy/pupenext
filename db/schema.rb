@@ -1394,7 +1394,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "kateinen",           limit: 1,                          default: "",  null: false
     t.string   "suoraveloitus",      limit: 1,                          default: "",  null: false
     t.string   "factoring",          limit: 50,                         default: "",  null: false
-    t.integer  "pankkiyhteystiedot", limit: 4,                          default: 0,   null: false
+    t.integer  "pankkiyhteystiedot", limit: 4,                                        null: true
     t.string   "itsetulostus",       limit: 1,                          default: "",  null: false
     t.string   "jaksotettu",         limit: 1,                          default: "",  null: false
     t.string   "erapvmkasin",        limit: 1,                          default: "",  null: false
