@@ -67,7 +67,7 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert_equal [3, 4, 0], created_rows.map(&:projekti)
   end
 
-  test 'should handle rounding' do
+  test 'negative rounding error to last split' do
     @row.summa = 100.03
     @row.save!
 
@@ -83,9 +83,32 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
 
     created_rows = companies(:acme).voucher_rows.last(2)
 
-    # Rounding error should go to the last amount
-    assert_equal 50.01, created_rows.first.summa
-    assert_equal 50.02, created_rows.last.summa
+    # Rounding error (< 0) should go to the last amount
+    assert_equal 50.02, created_rows.first.summa
+    assert_equal 50.01, created_rows.last.summa
+  end
+
+  test 'positive rounding error to last split' do
+    @row.summa = 99.99
+    @row.save!
+
+    params = [
+      { percent: 33 },
+      { percent: 33 },
+      { percent: 34 },
+    ]
+
+    # Creates 3 rows and removes 1
+    assert_difference('Head::VoucherRow.count', 2) do
+      @row.split(params)
+    end
+
+    created_rows = companies(:acme).voucher_rows.last(3)
+
+    # Rounding error (> 0) should go to the last amount
+    assert_equal 33.0, created_rows.first.summa
+    assert_equal 33.0, created_rows.second.summa
+    assert_equal 33.99, created_rows.last.summa
   end
 
   test 'should not split row and raise error' do
