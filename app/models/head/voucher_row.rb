@@ -37,7 +37,7 @@ class Head::VoucherRow < ActiveRecord::Base
   end
 
   def split(params)
-    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && self.valid?
+    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && valid?
 
     # Splits one entry object into multiple objects
     new_rows = params.map do |param_row|
@@ -58,10 +58,13 @@ class Head::VoucherRow < ActiveRecord::Base
 
     new_rows_valid = new_rows.all? { |row| row.valid? }
 
-    if new_rows_valid
+    # Mark original removed by THE creator
+    self.korjattu = laatija
+    self.korjausaika = DateTime.now
+
+    if new_rows_valid && valid?
       new_rows.each(&:save!)
-      self.korjattu = 'X'
-      self.save!
+      save!
     else
       raise ArgumentError, 'Invalid parameters'
     end
