@@ -67,7 +67,7 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert_equal [3, 4, 0], created_rows.map(&:projekti)
   end
 
-  test 'negative rounding error to last split' do
+  test 'adds rounding error to last split' do
     @row.summa = 100.03
     @row.save!
 
@@ -76,19 +76,19 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
       { percent: 50 },
     ]
 
-    # Creates 2 rows and removes 1
-    assert_difference('Head::VoucherRow.count', 1) do
+    # Creates 2 rows...
+    assert_difference('Head::VoucherRow.unscoped.count', 2) do
       @row.split(params)
     end
 
-    created_rows = companies(:acme).voucher_rows.last(2)
+    # ...and marks the original as removed
+    assert_nil @row.company.voucher_rows.find_by(tunnus: @row.id)
+    assert_not_nil @row.company.voucher_rows.unscoped.find_by(tunnus: @row.id)
 
-    # Rounding error (< 0) should go to the last amount
-    assert_equal 50.02, created_rows.first.summa
-    assert_equal 50.01, created_rows.last.summa
-  end
+    created_rows = @row.company.voucher_rows.last(2)
+    assert_equal 50.01, created_rows.first.summa
+    assert_equal 50.02, created_rows.last.summa
 
-  test 'positive rounding error to last split' do
     @row.summa = 99.99
     @row.save!
 
@@ -98,41 +98,51 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
       { percent: 34 },
     ]
 
-    # Creates 3 rows and removes 1
-    assert_difference('Head::VoucherRow.count', 2) do
+    # Creates 3 rows...
+    assert_difference('Head::VoucherRow.unscoped.count', 3) do
       @row.split(params)
     end
 
-    created_rows = companies(:acme).voucher_rows.last(3)
+    # ...and marks the original as removed
+    assert_nil @row.company.voucher_rows.find_by(tunnus: @row.id)
+    assert_not_nil @row.company.voucher_rows.unscoped.find_by(tunnus: @row.id)
 
-    # Rounding error (> 0) should go to the last amount
+    created_rows = @row.company.voucher_rows.last(3)
     assert_equal 33.0, created_rows.first.summa
     assert_equal 33.0, created_rows.second.summa
     assert_equal 33.99, created_rows.last.summa
   end
 
-  test 'should not split row and raise error' do
+  test 'should raise error on invalid parameters' do
     params = [
-      { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
-      { percent: 33.33 },
-      { percent: 33.34 },
+      { percent: 50 },
+      { percent: 50 },
       { target: 0 },
     ]
 
-    # Rejects broken params
+    # Every item must have a percentage value
     assert_raise ArgumentError do
       @row.split(params)
     end
 
     params = [
-      { percent: 33.33, cost_centre: 1, target: 2, project: 3 },
-      { percent: 33.33 },
-      { percent: 33.34 },
-      { percent: 0 },
-      { percent: 10 }
+      { percent: 50 },
+      { percent: 50 },
+      { percent: 'zecat' },
     ]
 
-    # Rejects broken params
+    # Every item must have a valid percentage value
+    assert_raise ArgumentError do
+      @row.split(params)
+    end
+
+    params = [
+      { percent: 25 },
+      { percent: 25 },
+      { percent: 50.0000000001 }
+    ]
+
+    # Items must add up to exactly 100
     assert_raise ArgumentError do
       @row.split(params)
     end
