@@ -31,4 +31,12 @@ class SearchableTest < ActiveSupport::TestCase
 
     assert_equal 1, DummyClass.search_like(args).count, "multiple hashes do AND query"
   end
+
+  test 'search like multiple keywords' do
+    params = { nimi: 'acm', muuttaja: 'jo' }
+    assert_equal 1, DummyClass.search_like(params).count
+
+    params = { nimi: 'acm', muuttaja: 'johanna' }
+    assert_equal 0, DummyClass.search_like(params).count
+  end
 end
