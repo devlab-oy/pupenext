@@ -2,6 +2,7 @@ class TermsOfPayment < ActiveRecord::Base
   include AttributeSanitator
   include Validators
   include Searchable
+  include Translatable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :customers, foreign_key: :maksuehto, primary_key: :tunnus
@@ -70,7 +71,7 @@ class TermsOfPayment < ActiveRecord::Base
       count = obj.where(yhtio: yhtio).count
 
       if count > 0
-        msg_pre = I18n.t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
+        msg_pre = t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
         errors.add(:base, "#{msg_pre} #{count} #{msg}")
       end
     end
