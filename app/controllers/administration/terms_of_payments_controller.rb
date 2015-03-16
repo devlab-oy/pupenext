@@ -82,13 +82,13 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
     def searchable_columns
       [
+        :jarjestys,
         :teksti,
         :rel_pvm,
         :abs_pvm,
         :kassa_relpvm,
         :kassa_abspvm,
         :kassa_alepros,
-        :jarjestys,
       ]
     end
 
