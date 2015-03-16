@@ -1,6 +1,6 @@
-<font class="head"><%= t('Uusi maksuehto') %></font>
-<hr />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Maksuehdot")}", terms_of_payments_path %>
 
+<br/>
+
+<%= render "administration/header", title: "Uusi maksuehto" %>
 <%= render 'form' %>
-
-<%= link_to t('Takaisin'), terms_of_payments_path %>

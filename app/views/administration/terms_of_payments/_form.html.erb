@@ -102,6 +102,8 @@
     </tr>
   </table>
 
+  <br/>
+
   <div class="actions">
     <% text = @terms_of_payment.persisted? ? t('Tallenna') : t('Lisää') %>
     <%= f.submit text, data: { disable_with: t('Tallentaa') + '...' } %>
