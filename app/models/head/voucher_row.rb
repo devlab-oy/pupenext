@@ -43,14 +43,13 @@ class Head::VoucherRow < ActiveRecord::Base
     new_rows = params.map do |param_row|
       # Always start with the original
       row = self.dup
-      new_row_params = {
+      row.attributes = {
         summa: (param_row[:percent] * row.summa / 100).round(2),
         kustp: param_row[:cost_centre] || row.kustp,
         kohde: param_row[:target]      || row.kohde,
         projekti: param_row[:project]  || row.projekti
       }
 
-      row.attributes = new_row_params
       row
     end
 
