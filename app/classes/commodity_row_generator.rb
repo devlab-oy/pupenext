@@ -1,10 +1,11 @@
 class CommodityRowGenerator
-  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date
+  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date, :user
 
-  def initialize(commodity_id:, fiscal_id: nil)
+  def initialize(commodity_id:, fiscal_id: nil, user_id:)
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
     self.company         = commodity.company
     self.activation_date = commodity.activated_at
+    self.user            = company.users.find(user_id)
 
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
     self.fiscal_start = fi.first
@@ -177,7 +178,7 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          laatija: commodity.created_by,
+          laatija: user.kuka,
           tapvm: time.end_of_month,
           summa: amount * -1,
           yhtio: company.yhtio,
@@ -199,8 +200,8 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          created_by: commodity.created_by,
-          modified_by: commodity.modified_by,
+          created_by: user.kuka,
+          modified_by: user.kuka,
           transacted_at: time.end_of_month,
           amount: amount * -1,
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
@@ -214,7 +215,7 @@ class CommodityRowGenerator
       # Poistoeron kirjaus
       depreciation_differences.each do |amount, time|
         row_params = {
-          laatija: commodity.created_by,
+          laatija: user.kuka,
           tapvm: time,
           summa: amount,
           yhtio: company.yhtio,
