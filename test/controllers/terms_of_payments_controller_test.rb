@@ -43,16 +43,6 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
         abs_pvm: Date.today,
         kassa_relpvm: 14,
         kassa_abspvm: Date.today,
-        kassa_alepros: 0.00,
-        jv: '',
-        kateinen: '',
-        factoring: '',
-        pankkiyhteystiedot: 0,
-        itsetulostus: '',
-        jaksotettu: '',
-        erapvmkasin: '',
-        sallitut_maat: '',
-        kaytossa: '',
         jarjestys: 1
       }
 
