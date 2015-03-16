@@ -29,6 +29,18 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal result.last, 166.68
   end
 
+  test 'should round correctly' do
+    # Tasapoisto vuosiprosentti
+    full_amount = 1248.83
+    percentage = 35
+    result = @generator.fixed_by_percentage(full_amount, percentage)
+
+    assert_equal result.sum, (full_amount * percentage / 100).round(2)
+    assert_equal result.first, 73.46.to_d
+    assert_equal result.second, 73.46.to_d
+    assert_equal result.last, 69.79.to_d
+  end
+
   test 'should calculate with degressive by percentage' do
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted

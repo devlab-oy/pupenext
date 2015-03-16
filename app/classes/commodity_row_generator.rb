@@ -103,7 +103,7 @@ class CommodityRowGenerator
       fiscal_maximum = fiscal_maximum.ceil
 
       if max_fiscal_reduction > 0 && fiscal_maximum > max_fiscal_reduction
-        fiscal_maximum = max_fiscal_reduction
+        fiscal_maximum = max_fiscal_reduction.round(2)
       end
 
       payment_amount = full_amount / full_count
