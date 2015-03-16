@@ -39,12 +39,11 @@ class Head::VoucherRow < ActiveRecord::Base
   def split(params)
     raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && self.valid?
 
-    # Separate last item
-    last_param_row = params.pop
-    sum_mem = 0
+    # Container
+    new_rows = []
 
-    # Splits one entry into multiple parts
-    params.each_with_index do |param_row, index|
+    # Splits one entry object into multiple objects
+    params.each do |param_row|
       row = self.dup
 
       row.summa    = (param_row[:percent] * row.summa / 100).round(2)
@@ -52,22 +51,22 @@ class Head::VoucherRow < ActiveRecord::Base
       row.kohde    = param_row[:target]      || row.kohde
       row.projekti = param_row[:project]     || row.projekti
 
-      row.save!
-      row.reload
-      sum_mem += row.summa
+      new_rows << row
     end
 
-    last_row = self.dup
-    last_row_sum = summa - sum_mem
+    # Calculate and set correct amount for last row
+    last_row_sum = summa - (new_rows.map(&:summa).sum - new_rows.last.summa)
+    new_rows.last.summa = last_row_sum
 
-    last_row.summa = last_row_sum
-    last_row.kustp = last_param_row[:cost_centre] || last_row.kustp
-    last_row.kohde = last_param_row[:target]      || last_row.kohde
-    last_row.projekti = last_param_row[:project]  || last_row.projekti
-    last_row.save!
+    new_rows_valid = new_rows.all? { |row| row.valid? }
 
-    self.korjattu = 'X'
-    self.save!
+    if new_rows_valid
+      new_rows.each(&:save!)
+      self.korjattu = 'X'
+      self.save!
+    else
+      raise ArgumentError, 'Invalid parameters'
+    end
   end
 
   private
