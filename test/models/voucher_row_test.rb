@@ -147,4 +147,18 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
       @row.split(params)
     end
   end
+
+  test 'should fail to split invalid row' do
+    @row.tapvm = '1984-04-04'
+
+    params = [
+      { percent: 50 },
+      { percent: 50 },
+    ]
+
+    # Split row must be valid
+    assert_raise ArgumentError do
+      @row.split(params)
+    end
+  end
 end
