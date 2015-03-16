@@ -50,16 +50,11 @@ class TermsOfPayment < ActiveRecord::Base
   end
 
   def factoring_options
-    ops = company.factorings.select(:factoringyhtio).uniq.map {
-      |i| [ i.factoringyhtio, i.factoringyhtio ]
-    }
-
-    ops.unshift ["Ei factoroida", ""]
+    company.factorings.select(:factoringyhtio).uniq.map(&:factoringyhtio)
   end
 
   def bank_details_options
-    ops = company.bank_details.map { |i| [ i.nimitys, i.id ] }
-    ops.unshift ["Käytä yrityksen oletuksia", 0]
+    company.bank_details.map { |i| [ i.nimitys, i.id ] }
   end
 
   def in_use_options
