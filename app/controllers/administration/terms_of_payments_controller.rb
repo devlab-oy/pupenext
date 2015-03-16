@@ -3,21 +3,21 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
   # GET /terms_of_payments
   def index
-
-    @terms_of_payments = current_company.terms_of_payments
+    top = current_company
+      .terms_of_payments
       .search_like(search_params)
       .order(order_params)
 
     if showing_not_used?
-      @terms_of_payments = @terms_of_payments.not_in_use
+      @terms_of_payments = top.not_in_use
     else
-      @terms_of_payments = @terms_of_payments.in_use
+      @terms_of_payments = top.in_use
     end
   end
 
   # GET /terms_of_payments/1
   def show
-    render 'edit'
+    render :edit
   end
 
   # GET /terms_of_payments/new
@@ -36,7 +36,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     if @terms_of_payment.save_by current_user
       redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -45,7 +45,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     if @terms_of_payment.update_by(terms_of_payment_params, current_user)
       redirect_to terms_of_payments_path, notice: t('Maksuehto päivitettiin onnistuneesti')
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
