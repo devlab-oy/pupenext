@@ -4,7 +4,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
-    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
+    @bob = users(:bob)
+    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
   end
 
   test 'fixture is correct for calculations' do
@@ -90,10 +91,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
+
+    # ...of which all are created by the user who triggered it
+    assert_equal [@bob.kuka], @commodity.fixed_assets_rows.map(&:laatija).uniq
 
     # ...of which 6 are depreciation and 6 are difference rows
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -162,7 +166,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -215,7 +219,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -239,7 +243,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -283,7 +287,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -322,7 +326,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -360,7 +364,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -398,7 +402,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows for 2014
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:one).id
+      fiscal_id: fiscal_years(:one).id,
+      user_id: @bob.id
     }
 
     # Activate commodity on 2014-11-01
@@ -422,7 +427,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows to current fiscal period
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:two).id
+      fiscal_id: fiscal_years(:two).id,
+      user_id: @bob.id
     }
 
     @generator = CommodityRowGenerator.new(params).generate_rows
@@ -451,7 +457,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.status = 'A'
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     @commodity.reload
 
     # 24 rows split into 2 (different cost_centres)

@@ -141,7 +141,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.status = 'A'
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
 
     assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
     assert_equal 6500, @commodity.bookkeeping_value
