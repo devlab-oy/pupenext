@@ -1,7 +1,8 @@
 class Administration::FiscalYearsController < AdministrationController
   # GET /fiscal_years
   def index
-    @fiscal_years = current_company.fiscal_years
+    @fiscal_years = current_company
+      .fiscal_years
       .search_like(search_params)
       .order(order_params)
   end
@@ -14,7 +15,6 @@ class Administration::FiscalYearsController < AdministrationController
   # GET /fiscal_years/new
   def new
     @fiscal_year = current_company.fiscal_years.build
-    render :edit
   end
 
   # GET /fiscal_years/1/edit

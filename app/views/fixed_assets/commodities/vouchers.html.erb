@@ -1,41 +1,32 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Hyödykkeet') %>
-<%= link_to return_text, commodities_path %>
-<br /><br />
+<%= return_link("Hyödykkeet", commodities_path) %>
+<br/><br/>
 
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Muokkaa hyödykettä') %>
-<%= link_to return_text, edit_commodity_path(@commodity) %>
-<br /><br />
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<br/><br/>
 
 <%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
+<%= render "administration/header", title: "Hyödykkeen tositteet" %>
 
-<% if notice %>
-  <font class='ok'><%= t(notice) %></font>
-  <br /><br />
-<% end %>
-
-<%= render 'header' %>
-<font class="head"><%= t('Valitse tositteen tiliöinnit') %></font>
-<br /><br />
 <table>
 <tr>
   <th>
     <%= sortable 'tunnus' %>
-    <br />
+    <br/>
     <%= text_field_tag :tunnus, params[:tunnus] %>
   </th>
   <th>
     <%= sortable 'ytunnus' %>
-    <br />
+    <br/>
     <%= text_field_tag :ytunnus, params[:ytunnus] %>
   </th>
   <th>
     <%= sortable 'nimi' %>
-    <br />
+    <br/>
     <%= text_field_tag :nimi, params[:nimi] %>
   </th>
   <th>
     <%= sortable 'viesti' %>
-    <br />
+    <br/>
     <%= text_field_tag :viesti, params[:viesti] %>
   </th>
   <th class="back"><%= submit_tag t('Etsi') %></th>
@@ -60,13 +51,12 @@
     <td><%= vourow.selite.html_safe rescue 0 %></td>
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
-    <td class='back'><%= form_tag(commodity_vouchers_path(@commodity, vourow), method: :post) do %>
-    <%= hidden_field_tag(:voucher_row_id, vourow.tunnus) %>
-    <%= submit_tag('Liitä') %></td>
-    <% end %>
+    <td class='back'>
+      <%= button_to t('Lisää'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
+    </td>
     </tr>
     <% end %>
 <% end %>
 
 </table>
-<br /><br />
+<br/><br/>

@@ -1,10 +1,8 @@
-<% return_text = t('Palaa ohjelmaan') + ': ' + t('Tilikartta') %>
-<%= link_to return_text, accounts_path %>
+<%= return_link("Tilikartta", accounts_path) %>
 
-<br/><br/>
+<br/>
 
-<%= render 'header' %>
-
+<%= render "administration/header", title: "Uusi tili" %>
 <%= render 'form',
            account: @account,
            levels: @levels,

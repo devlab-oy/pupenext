@@ -7,19 +7,21 @@ Pupesoft::Application.routes.draw do
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
       get  'purchase_orders'
-      post 'purchase_orders', to: 'commodities#link_purchase_order'
       get  'vouchers'
-      post 'vouchers', to: 'commodities#link_voucher'
-      post 'activation'
+      post 'activate'
       post 'generate_rows'
+      post 'link_order'
+      post 'link_voucher'
+      post 'unlink'
     end
   end
 
   scope module: :administration do
-    resources :currencies, except: :destroy
-    resources :sum_levels
     resources :accounts
+    resources :currencies, except: :destroy
     resources :fiscal_years, except: :destroy
+    resources :printers
+    resources :sum_levels
   end
 
   root to: 'home#index'

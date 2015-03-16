@@ -18,7 +18,7 @@ class Head::VoucherTest < ActiveSupport::TestCase
 
   test 'find by account works' do
     company = companies(:acme)
-    assert_equal 2, company.vouchers.commodity_linkable.find_by_account('4444').count
-    assert_equal 3, company.vouchers.commodity_linkable.find_by_account(['4443', '4444']).count
+    assert_equal 2, company.vouchers.find_by_account('4444').count
+    assert_equal 3, company.vouchers.find_by_account(['4443', '4444']).count
   end
 end

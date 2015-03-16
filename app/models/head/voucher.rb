@@ -6,8 +6,6 @@ class Head::Voucher < Head
 
   before_save :defaults
 
-  scope :commodity_linkable, -> { where(commodity_id: nil) }
-
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     "X"

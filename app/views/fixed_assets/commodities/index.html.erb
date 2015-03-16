@@ -1,8 +1,8 @@
-<%= render 'header' %>
+<%= render "administration/header", title: "Hyödykkeet" %>
 
 <%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
 
-<br /><br />
+<br/><br/>
 
 <table>
 
@@ -10,12 +10,12 @@
   <tr>
     <th>
       <%= sortable 'name' %>
-      <br />
+      <br/>
       <%= text_field_tag :name, params[:name] %>
     </th>
     <th>
       <%= sortable 'description' %>
-      <br />
+      <br/>
       <%= text_field_tag :description, params[:description] %>
     </th>
     <th class="back"><%= submit_tag t('Etsi') %></th>
@@ -37,12 +37,6 @@
 
 </table>
 
-<br />
+<br/>
 
 <%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
-
-<br /><br />
-
-<%#= button_to 'Hyödykkeiden tilikausiajo', { action: "fiscal_year_run" },
-                                method: :get, data: { confirm: "Are you sure? This will lock all depreciations" } %>
-

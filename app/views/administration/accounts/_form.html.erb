@@ -1,5 +1,5 @@
-<%= form_for(account) do |f| %>
-  <%= render "administration/form_errors", resource: account %>
+<%= form_for(@account) do |f| %>
+  <%= render "administration/form_errors", resource: @account %>
 
   <table>
     <tr>
@@ -162,6 +162,8 @@
   </table>
 
   <% if update_access? %>
+    <br/>
+
     <div class="actions">
       <% text = account.persisted? ? t('Päivitä tili') : t('Lisää') %>
       <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
