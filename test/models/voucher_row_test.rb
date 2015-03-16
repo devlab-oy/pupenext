@@ -86,9 +86,10 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert_not_nil @row.company.voucher_rows.unscoped.find_by(tunnus: @row.id)
 
     created_rows = @row.company.voucher_rows.last(2)
-    assert_equal 50.01, created_rows.first.summa
-    assert_equal 50.02, created_rows.last.summa
+    assert_equal 50.02, created_rows.first.summa
+    assert_equal 50.01, created_rows.last.summa
 
+    @row.korjattu = ''
     @row.summa = 99.99
     @row.save!
 
@@ -102,7 +103,6 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert_difference('Head::VoucherRow.unscoped.count', 3) do
       @row.split(params)
     end
-
     # ...and marks the original as removed
     assert_nil @row.company.voucher_rows.find_by(tunnus: @row.id)
     assert_not_nil @row.company.voucher_rows.unscoped.find_by(tunnus: @row.id)
