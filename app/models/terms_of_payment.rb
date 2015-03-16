@@ -4,33 +4,19 @@ class TermsOfPayment < ActiveRecord::Base
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   has_many :customers, foreign_key: :maksuehto, primary_key: :tunnus
   has_many :sales_orders, foreign_key: :maksuehto, primary_key: :tunnus
   has_one :bank_detail, foreign_key: :tunnus, primary_key: :pankkiyhteystiedot
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
-
-  validates :rel_pvm,
-            :kassa_relpvm,
-            :jarjestys, numericality: { only_integer: true }
-
-  validates :jv,
-            :itsetulostus,
-            :jaksotettu,
-            :erapvmkasin,
-            :kaytossa, presence: true, allow_blank: true, length: { is: 1 }
-
-  validates :kateinen,
-    presence: true,
-    allow_blank: true,
-    inclusion: { in: %w[n o p] }
-
-  validates :teksti, presence: true, allow_blank: false, length: { within: 1..40 }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
+  validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_alepros, numericality: true
+  validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
+  validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
+  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
+  validates :teksti, length: { within: 1..40 }
 
-  validates :abs_pvm, :kassa_abspvm, presence: true, allow_blank: true
   validate :date_is_valid
 
   float_columns :kassa_alepros
@@ -41,7 +27,10 @@ class TermsOfPayment < ActiveRecord::Base
   scope :in_use, -> { where(kaytossa: '') }
   scope :not_in_use, -> { where(kaytossa: 'E') }
 
-   def cash_options
+  self.table_name = :maksuehto
+  self.primary_key = :tunnus
+
+  def cash_options
     [
       ["Tämä ei ole käteismaksuehto", ""],
       ["Käteismaksuehto, pankkikortti ei pyöristetä", "n"],
@@ -97,7 +86,4 @@ class TermsOfPayment < ActiveRecord::Base
     def defaults
       self.pankkiyhteystiedot ||= 0
     end
-
-    self.table_name = :maksuehto
-    self.primary_key = :tunnus
 end
