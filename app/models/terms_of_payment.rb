@@ -1,6 +1,7 @@
 class TermsOfPayment < ActiveRecord::Base
   include AttributeSanitator
   include Validators
+  include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
@@ -72,43 +73,6 @@ class TermsOfPayment < ActiveRecord::Base
     unless valid_date? self.kassa_abspvm
       errors.add(:kassa_abspvm, "is invalid")
     end
-  end
-
-  def self.search_like(args)
-    result = self.all
-
-    args.each do |key,value|
-
-      case column_type(key)
-      when :integer, :decimal
-        result = exact_search key, value
-      else
-        if exact_search? value
-          value = value[1..-1]
-          result = exact_search key, value
-        else
-          result = where_like key, value
-        end
-      end
-    end
-
-    result
-  end
-
-  def self.where_like(column, search_term)
-    where(self.arel_table[column].matches "%#{search_term}%")
-  end
-
-  def self.exact_search(key, value)
-    where(key => value)
-  end
-
-  def self.exact_search?(value)
-    value[0].to_s.include? "@"
-  end
-
-  def self.column_type(column)
-    columns_hash[column.to_s].type
   end
 
   private

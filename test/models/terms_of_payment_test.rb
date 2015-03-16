@@ -61,17 +61,9 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   end
 
   test 'should search by like' do
-    params = {
-      kassa_relpvm: 15
-    }
+    assert_equal 1, TermsOfPayment.search_like(kassa_relpvm: '@15').count
 
-    assert_equal 1, TermsOfPayment.search_like(params).count
-
-    params = {
-      kassa_relpvm: 15,
-      teksti: '60'
-    }
-
+    params = { laatija: 'jo', osamaksuehto1: '0', teksti: '60' }
     assert_equal 1, TermsOfPayment.search_like(params).count
   end
 
