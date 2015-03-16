@@ -19,10 +19,10 @@ class TermsOfPayment < ActiveRecord::Base
   validates :teksti, length: { within: 1..40 }
 
   validate :date_is_valid
+  validate :check_relations
 
   float_columns :kassa_alepros
 
-  before_validation :check_relations
   before_save :defaults
 
   scope :in_use, -> { where(kaytossa: '') }
@@ -81,7 +81,7 @@ class TermsOfPayment < ActiveRecord::Base
     end
 
     def check_relations
-      if kaytossa?
+      unless kaytossa?
         check_if_in_use customers, "asiakkaalla"
         check_if_in_use sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
         check_if_in_use sales_orders.not_finished, "kesken olevalla myyntitilauksella"
