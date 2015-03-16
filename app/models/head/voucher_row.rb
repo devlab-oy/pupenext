@@ -39,19 +39,19 @@ class Head::VoucherRow < ActiveRecord::Base
   def split(params)
     raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && self.valid?
 
-    # Container
-    new_rows = []
-
     # Splits one entry object into multiple objects
-    params.each do |param_row|
+    new_rows = params.map do |param_row|
+      # Always start with the original
       row = self.dup
+      new_row_params = {
+        summa: (param_row[:percent] * row.summa / 100).round(2),
+        kustp: param_row[:cost_centre] || row.kustp,
+        kohde: param_row[:target]      || row.kohde,
+        projekti: param_row[:project]  || row.projekti
+      }
 
-      row.summa    = (param_row[:percent] * row.summa / 100).round(2)
-      row.kustp    = param_row[:cost_centre] || row.kustp
-      row.kohde    = param_row[:target]      || row.kohde
-      row.projekti = param_row[:project]     || row.projekti
-
-      new_rows << row
+      row.attributes = new_row_params
+      row
     end
 
     # Calculate and set correct amount for last row
