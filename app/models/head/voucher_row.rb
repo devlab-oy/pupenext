@@ -17,6 +17,7 @@ class Head::VoucherRow < ActiveRecord::Base
   validates :yhtio, presence: true
   validate :allow_only_open_fiscal_period
   validate :only_one_account_per_commodity, if: :has_commodity_account?
+  validate :allow_only_commodity_sum_level_accounts, if: :has_commodity_id?
 
   before_save :defaults
 
@@ -92,11 +93,21 @@ class Head::VoucherRow < ActiveRecord::Base
 
     def only_one_account_per_commodity
       unless commodity.fixed_assets_account == tilino
-        errors.add(:base, "Commodity has already a different account selected!")
+        errors.add(:base, 'Commodity has already a different account selected!')
       end
     end
 
     def has_commodity_account?
       commodity.try(:fixed_assets_account).present?
+    end
+
+    def allow_only_commodity_sum_level_accounts
+      unless company.accounts.evl_accounts.map(&:tilino).uniq.include? "#{tilino}"
+        errors.add(:tilino, 'Selected account must have commodity sumlevel set')
+      end
+    end
+
+    def has_commodity_id?
+      commodity_id.present?
     end
 end
