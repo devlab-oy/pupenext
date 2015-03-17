@@ -60,8 +60,7 @@ class Head::VoucherRow < ActiveRecord::Base
     new_rows_valid = new_rows.all? { |row| row.valid? }
 
     # Mark original removed by THE creator
-    self.korjattu = laatija
-    self.korjausaika = DateTime.now
+    amend_by(laatija)
 
     if new_rows_valid && valid?
       new_rows.each(&:save!)
@@ -69,6 +68,12 @@ class Head::VoucherRow < ActiveRecord::Base
     else
       raise ArgumentError, 'Invalid parameters'
     end
+  end
+
+  def amend_by(user = nil)
+    self.korjattu = user || 'X'
+    self.korjausaika = DateTime.now
+    save! unless user.present?
   end
 
   private
