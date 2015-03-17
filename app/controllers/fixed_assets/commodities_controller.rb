@@ -162,6 +162,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       if @voucher_row.commodity_id.blank?
         @voucher_row.commodity_id = @commodity.id
         @voucher_row.save_by current_user
+        @commodity.save!
       else
         flash.now[:notice] = 'Rivi on jo lisättynä hyödykkeelle.'
         false
@@ -172,6 +173,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       if @commodity.allows_unlinking? && @voucher_row.commodity_id.present?
         @voucher_row.commodity_id = nil
         @voucher_row.save_by current_user
+        @commodity.save!
       else
         flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
         false
