@@ -161,4 +161,21 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
       @row.split(params)
     end
   end
+
+  test 'cant link non-commodity sumlevel account voucher rows to commodity' do
+    # Row is valid to begin with
+    assert @row.valid?
+
+    # Row account is not one of the accounts with commodity sumlevel
+    refute @row.company.accounts.evl_accounts.map(&:tilino).uniq.include? @row.tilino
+
+    # Set a target commodity and delete all procurement rows for clarity
+    commodity = fixed_assets_commodities(:commodity_one)
+    commodity.procurement_rows.delete_all
+
+    # Set commodity_id to row
+    @row.commodity_id = fixed_assets_commodities(:commodity_one).id
+    refute @row.valid?
+    assert_not_nil @row.errors.messages[:tilino]
+  end
 end
