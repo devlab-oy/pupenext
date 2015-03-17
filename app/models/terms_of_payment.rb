@@ -5,8 +5,6 @@ class TermsOfPayment < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
-  has_many :customers, foreign_key: :maksuehto, primary_key: :tunnus
-  has_many :sales_orders, foreign_key: :maksuehto, primary_key: :tunnus
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
@@ -18,7 +16,7 @@ class TermsOfPayment < ActiveRecord::Base
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
   validates :teksti, length: { within: 1..40 }
 
-  validate :check_relations
+  validate :check_relations, if: :not_in_use?
 
   float_columns :kassa_alepros
 
@@ -32,10 +30,10 @@ class TermsOfPayment < ActiveRecord::Base
 
   def cash_options
     [
-      ["Tämä ei ole käteismaksuehto", ""],
-      ["Käteismaksuehto, pankkikortti ei pyöristetä", "n"],
-      ["Käteismaksuehto, luottokortti ei pyöristetä", "o"],
-      ["Käteismaksuehto, käteinen pyöristetään", "p"]
+      [t("Tämä ei ole käteismaksuehto"), ""],
+      [t("Käteismaksuehto, pankkikortti ei pyöristetä"), "n"],
+      [t("Käteismaksuehto, luottokortti ei pyöristetä"), "o"],
+      [t("Käteismaksuehto, käteinen pyöristetään"), "p"]
     ]
   end
 
@@ -49,32 +47,30 @@ class TermsOfPayment < ActiveRecord::Base
 
   def in_use_options
     [
-      ["Käytössä", ""],
-      ["Poistettu / Ei käytössä", "E"]
+      [t("Käytössä"), ""],
+      [t("Poistettu / Ei käytössä"), "E"]
     ]
   end
 
-  def kaytossa?
-    kaytossa != 'E'
+  def not_in_use?
+    kaytossa == 'E'
   end
 
   private
 
     def check_if_in_use(obj, msg)
-      count = obj.where(yhtio: yhtio).count
+      count = obj.where(maksuehto: tunnus).count
 
       if count > 0
         msg_pre = t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
-        errors.add(:base, "#{msg_pre} #{count} #{msg}")
+        errors.add(:base, "#{msg_pre} #{count} #{t(msg)}")
       end
     end
 
     def check_relations
-      unless kaytossa?
-        check_if_in_use customers, "asiakkaalla"
-        check_if_in_use sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
-        check_if_in_use sales_orders.not_finished, "kesken olevalla myyntitilauksella"
-      end
+      check_if_in_use company.customers, "asiakkaalla"
+      check_if_in_use company.sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
+      check_if_in_use company.sales_orders.not_finished, "kesken olevalla myyntitilauksella"
     end
 
     def defaults
