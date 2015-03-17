@@ -1,10 +1,11 @@
 class CommodityRowGenerator
-  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date
+  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date, :user
 
-  def initialize(commodity_id:, fiscal_id: nil)
+  def initialize(commodity_id:, fiscal_id: nil, user_id:)
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
     self.company         = commodity.company
     self.activation_date = commodity.activated_at
+    self.user            = company.users.find(user_id)
 
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
     self.fiscal_start = fi.first
@@ -21,6 +22,7 @@ class CommodityRowGenerator
     generate_voucher_rows
     generate_commodity_rows
     generate_depreciation_difference_rows
+    split_voucher_rows
   end
 
   def fixed_by_percentage(full_amount, percentage)
@@ -102,7 +104,7 @@ class CommodityRowGenerator
       fiscal_maximum = fiscal_maximum.ceil
 
       if max_fiscal_reduction > 0 && fiscal_maximum > max_fiscal_reduction
-        fiscal_maximum = max_fiscal_reduction
+        fiscal_maximum = max_fiscal_reduction.round(2)
       end
 
       payment_amount = full_amount / full_count
@@ -176,9 +178,9 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          laatija: commodity.created_by,
+          laatija: user.kuka,
           tapvm: time.end_of_month,
-          summa: amount,
+          summa: amount * -1,
           yhtio: company.yhtio,
           selite: "SUMU poisto, tyyppi: #{commodity.planned_depreciation_type}, erä: #{commodity.planned_depreciation_amount}",
           tilino: commodity.fixed_assets_account
@@ -198,10 +200,10 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          created_by: commodity.created_by,
-          modified_by: commodity.modified_by,
+          created_by: user.kuka,
+          modified_by: user.kuka,
           transacted_at: time.end_of_month,
-          amount: amount,
+          amount: amount * -1,
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
@@ -213,7 +215,7 @@ class CommodityRowGenerator
       # Poistoeron kirjaus
       depreciation_differences.each do |amount, time|
         row_params = {
-          laatija: commodity.created_by,
+          laatija: user.kuka,
           tapvm: time,
           summa: amount,
           yhtio: company.yhtio,
@@ -262,5 +264,28 @@ class CommodityRowGenerator
 
     def depreciation_differences
       commodity.commodity_rows.where(transacted_at: fiscal_period).map { |evl| [evl.depreciation_difference, evl.transacted_at] }
+    end
+
+    def rows_need_to_split?
+      return true if commodity.procurement_cost_centres.count > 1
+      return true if commodity.procurement_targets.count > 1
+      return true if commodity.procurement_projects.count > 1
+      false
+    end
+
+    def split_voucher_rows
+      return unless rows_need_to_split?
+      commodity.voucher.rows.each { |row| row.split(split_params) }
+    end
+
+    def split_params
+      commodity.procurement_rows.map do |pcu|
+        {
+          percent: (pcu.summa / commodity.amount * 100).round(2),
+          cost_centre: pcu.kustp,
+          target: pcu.kohde,
+          project: pcu.projekti
+        }
+      end
     end
 end

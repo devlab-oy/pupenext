@@ -123,24 +123,24 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Kaikki hankinnan kustannuspaikat
   def procurement_cost_centres
-    procurement_rows.map(&:kustp)
+    procurement_rows.map(&:kustp).uniq
   end
 
   # Kaikki hankinnan kohteet
   def procurement_targets
-    procurement_rows.map(&:kohde)
+    procurement_rows.map(&:kohde).uniq
   end
 
   # Kaikki hankinnan projektit
   def procurement_projects
-    procurement_rows.map(&:projekti)
+    procurement_rows.map(&:projekti).uniq
   end
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
     calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
-    amount + calculation
+    amount - calculation
   end
 
   private

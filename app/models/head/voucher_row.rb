@@ -20,6 +20,9 @@ class Head::VoucherRow < ActiveRecord::Base
 
   before_save :defaults
 
+  self.table_name = :tiliointi
+  self.primary_key = :tunnus
+
   def account
     company.accounts.find_by(tilino: tilino)
   end
@@ -33,10 +36,48 @@ class Head::VoucherRow < ActiveRecord::Base
     row.save!
   end
 
-  self.table_name = :tiliointi
-  self.primary_key = :tunnus
+  def split(params)
+    raise ArgumentError, 'Invalid parameters' unless split_params_valid?(params) && valid?
+
+    # Splits one entry object into multiple objects
+    new_rows = params.map do |param_row|
+      # Always start with the original
+      row = self.dup
+      row.attributes = {
+        summa: (param_row[:percent] * row.summa / 100).round(2),
+        kustp: param_row[:cost_centre] || row.kustp,
+        kohde: param_row[:target]      || row.kohde,
+        projekti: param_row[:project]  || row.projekti
+      }
+
+      row
+    end
+
+    # Calculate and set correct amount for last row
+    new_rows.last.summa = summa - (new_rows.map(&:summa).sum - new_rows.last.summa)
+
+    new_rows_valid = new_rows.all? { |row| row.valid? }
+
+    # Mark original removed by THE creator
+    self.korjattu = laatija
+    self.korjausaika = DateTime.now
+
+    if new_rows_valid && valid?
+      new_rows.each(&:save!)
+      save!
+    else
+      raise ArgumentError, 'Invalid parameters'
+    end
+  end
 
   private
+
+    def split_params_valid?(params)
+      valid_numbers = params.all? { |p| p[:percent].present? && p[:percent] > 0 }
+      valid_total   = params.map { |p| p[:percent].to_f }.sum == 100
+
+      valid_numbers && valid_total
+    end
 
     def defaults
       self.laadittu ||= Date.today

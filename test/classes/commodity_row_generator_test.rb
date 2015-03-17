@@ -4,7 +4,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
-    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
+    @bob = users(:bob)
+    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
   end
 
   test 'fixture is correct for calculations' do
@@ -27,6 +28,18 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal result.first, 833.33
     assert_equal result.second, 833.33
     assert_equal result.last, 166.68
+  end
+
+  test 'should round correctly' do
+    # Tasapoisto vuosiprosentti
+    full_amount = 1248.83
+    percentage = 35
+    result = @generator.fixed_by_percentage(full_amount, percentage)
+
+    assert_equal result.sum, (full_amount * percentage / 100).round(2)
+    assert_equal result.first, 73.46.to_d
+    assert_equal result.second, 73.46.to_d
+    assert_equal result.last, 69.79.to_d
   end
 
   test 'should calculate with degressive by percentage' do
@@ -78,10 +91,17 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
+
+    # ...of which all are created by the same user
+    assert_equal [@bob.kuka], @commodity.voucher.rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.fixed_assets_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_change_rows.map(&:laatija).uniq
 
     # ...of which 6 are depreciation and 6 are difference rows
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -91,10 +111,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert @commodity.fixed_assets_rows.locked.collect(&:previous_changes).all?(&:empty?)
 
     # Test amounts are set correctly
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 45 / 100
-    assert_equal @commodity.fixed_assets_rows.first.summa, 769.23
-    assert_equal @commodity.fixed_assets_rows.second.summa, 769.23
-    assert_equal @commodity.fixed_assets_rows.last.summa, 653.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -10000 * 45 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, -769.23
+    assert_equal @commodity.fixed_assets_rows.second.summa, -769.23
+    assert_equal @commodity.fixed_assets_rows.last.summa, -653.85
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -150,7 +170,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -159,13 +179,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 10000 * 20 / 100
-    assert_equal @commodity.fixed_assets_rows.first.summa, 333.0
-    assert_equal @commodity.fixed_assets_rows.second.summa, 322.0
-    assert_equal @commodity.fixed_assets_rows.third.summa, 311.0
-    assert_equal @commodity.fixed_assets_rows.fourth.summa, 301.0
-    assert_equal @commodity.fixed_assets_rows.fifth.summa, 291.0
-    assert_equal @commodity.fixed_assets_rows.last.summa, 442.0
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -10000 * 20 / 100
+    assert_equal @commodity.fixed_assets_rows.first.summa, -333.0
+    assert_equal @commodity.fixed_assets_rows.second.summa, -322.0
+    assert_equal @commodity.fixed_assets_rows.third.summa, -311.0
+    assert_equal @commodity.fixed_assets_rows.fourth.summa, -301.0
+    assert_equal @commodity.fixed_assets_rows.fifth.summa, -291.0
+    assert_equal @commodity.fixed_assets_rows.last.summa, -442.0
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -203,7 +223,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -227,7 +247,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -237,10 +257,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
 
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), 1001
-    assert_equal @commodity.fixed_assets_rows.first.summa, 166.83
-    assert_equal @commodity.fixed_assets_rows.second.summa, 166.83
-    assert_equal @commodity.fixed_assets_rows.last.summa, 166.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -1001
+    assert_equal @commodity.fixed_assets_rows.first.summa, -166.83
+    assert_equal @commodity.fixed_assets_rows.second.summa, -166.83
+    assert_equal @commodity.fixed_assets_rows.last.summa, -166.85
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -271,7 +291,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -280,10 +300,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 1600
-    assert_equal @commodity.commodity_rows.first.amount, 270.27
-    assert_equal @commodity.commodity_rows.second.amount, 270.27
-    assert_equal @commodity.commodity_rows.last.amount, 248.65
+    assert_equal @commodity.commodity_rows.sum(:amount), -1600
+    assert_equal @commodity.commodity_rows.first.amount, -270.27
+    assert_equal @commodity.commodity_rows.second.amount, -270.27
+    assert_equal @commodity.commodity_rows.last.amount, -248.65
 
     @commodity.reload
 
@@ -310,7 +330,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -319,13 +339,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 10000 * 20 / 100
-    assert_equal @commodity.commodity_rows.first.amount, 333.0
-    assert_equal @commodity.commodity_rows.second.amount, 322.0
-    assert_equal @commodity.commodity_rows.third.amount, 311.0
-    assert_equal @commodity.commodity_rows.fourth.amount, 301.0
-    assert_equal @commodity.commodity_rows.fifth.amount, 291.0
-    assert_equal @commodity.commodity_rows.last.amount, 442.0
+    assert_equal @commodity.commodity_rows.sum(:amount), -10000 * 20 / 100
+    assert_equal @commodity.commodity_rows.first.amount, -333.0
+    assert_equal @commodity.commodity_rows.second.amount, -322.0
+    assert_equal @commodity.commodity_rows.third.amount, -311.0
+    assert_equal @commodity.commodity_rows.fourth.amount, -301.0
+    assert_equal @commodity.commodity_rows.fifth.amount, -291.0
+    assert_equal @commodity.commodity_rows.last.amount, -442.0
 
     @commodity.reload
 
@@ -348,7 +368,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     end
 
     @commodity.reload
@@ -357,10 +377,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), 1001
-    assert_equal @commodity.commodity_rows.first.amount, 166.83
-    assert_equal @commodity.commodity_rows.second.amount, 166.83
-    assert_equal @commodity.commodity_rows.last.amount, 166.85
+    assert_equal @commodity.commodity_rows.sum(:amount), -1001
+    assert_equal @commodity.commodity_rows.first.amount, -166.83
+    assert_equal @commodity.commodity_rows.second.amount, -166.83
+    assert_equal @commodity.commodity_rows.last.amount, -166.85
 
     @commodity.reload
 
@@ -386,7 +406,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows for 2014
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:one).id
+      fiscal_id: fiscal_years(:one).id,
+      user_id: @bob.id
     }
 
     # Activate commodity on 2014-11-01
@@ -410,7 +431,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows to current fiscal period
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:two).id
+      fiscal_id: fiscal_years(:two).id,
+      user_id: @bob.id
     }
 
     @generator = CommodityRowGenerator.new(params).generate_rows
@@ -428,5 +450,40 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal '2014-11-30'.to_date, rows.first.transacted_at
     assert_equal Date.today.change(month: 1, day: 31), rows[-12].transacted_at
     assert_equal Date.today.change(month: 12, day: 31), rows.last.transacted_at
+  end
+
+  test 'rows split' do
+    row = head_voucher_rows(:nine)
+    row.commodity_id = @commodity.id
+    row.kustp = 10
+    row.save!
+
+    @commodity.status = 'A'
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+    @commodity.reload
+
+    # 24 rows split into 2 (with different cost_centres), all share same user
+    assert_equal 48, @commodity.voucher.rows.count
+    assert_equal [0, 10], @commodity.voucher.rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.voucher.rows.map(&:laatija).uniq
+
+    # Check all of the 48 rows separately
+    assert_equal 12, @commodity.fixed_assets_rows.count
+    assert_equal [0, 10], @commodity.fixed_assets_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.fixed_assets_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_rows.count
+    assert_equal [0, 10], @commodity.depreciation_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_difference_rows.count
+    assert_equal [0, 10], @commodity.depreciation_difference_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_difference_change_rows.count
+    assert_equal [0, 10], @commodity.depreciation_difference_change_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_change_rows.map(&:laatija).uniq
   end
 end

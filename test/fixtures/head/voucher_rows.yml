@@ -4,6 +4,7 @@ one:
   tilino: 100
   summa: 1234
   tapvm: <%= Time.now %>
+  laatija: joe
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
 
