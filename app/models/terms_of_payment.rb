@@ -1,6 +1,5 @@
 class TermsOfPayment < ActiveRecord::Base
   include AttributeSanitator
-  include Validators
   include Searchable
   include Translatable
 
@@ -12,13 +11,13 @@ class TermsOfPayment < ActiveRecord::Base
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
+  validates :kassa_abspvm, :abs_pvm, optional_date: true
   validates :kassa_alepros, numericality: true
   validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
   validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
   validates :teksti, length: { within: 1..40 }
 
-  validate :date_is_valid
   validate :check_relations
 
   float_columns :kassa_alepros
@@ -60,16 +59,6 @@ class TermsOfPayment < ActiveRecord::Base
   end
 
   private
-
-    def date_is_valid
-      unless valid_date? abs_pvm
-        errors.add(:abs_pvm, "is invalid")
-      end
-
-      unless valid_date? kassa_abspvm
-        errors.add(:kassa_abspvm, "is invalid")
-      end
-    end
 
     def check_if_in_use(obj, msg)
       count = obj.where(yhtio: yhtio).count
