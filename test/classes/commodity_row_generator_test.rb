@@ -96,8 +96,12 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    # ...of which all are created by the user who triggered it
+    # ...of which all are created by the same user
+    assert_equal [@bob.kuka], @commodity.voucher.rows.map(&:laatija).uniq
     assert_equal [@bob.kuka], @commodity.fixed_assets_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_rows.map(&:laatija).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_change_rows.map(&:laatija).uniq
 
     # ...of which 6 are depreciation and 6 are difference rows
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -460,8 +464,26 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
     @commodity.reload
 
-    # 24 rows split into 2 (different cost_centres)
+    # 24 rows split into 2 (with different cost_centres), all share same user
     assert_equal 48, @commodity.voucher.rows.count
     assert_equal [0, 10], @commodity.voucher.rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.voucher.rows.map(&:laatija).uniq
+
+    # Check all of the 48 rows separately
+    assert_equal 12, @commodity.fixed_assets_rows.count
+    assert_equal [0, 10], @commodity.fixed_assets_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.fixed_assets_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_rows.count
+    assert_equal [0, 10], @commodity.depreciation_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_difference_rows.count
+    assert_equal [0, 10], @commodity.depreciation_difference_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_rows.map(&:laatija).uniq
+
+    assert_equal 12, @commodity.depreciation_difference_change_rows.count
+    assert_equal [0, 10], @commodity.depreciation_difference_change_rows.map(&:kustp).uniq
+    assert_equal [@bob.kuka], @commodity.depreciation_difference_change_rows.map(&:laatija).uniq
   end
 end
