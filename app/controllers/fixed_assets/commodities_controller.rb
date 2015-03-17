@@ -161,10 +161,16 @@ class FixedAssets::CommoditiesController < AdministrationController
     def link_voucher_row
       if @voucher_row.commodity_id.blank?
         @voucher_row.commodity_id = @commodity.id
+      else
+        flash.now[:notice] = 'Tämä rivi on jo lisätty hyödykkeelle.'
+        return false
+      end
+
+      if @voucher_row.valid?
         @voucher_row.save_by current_user
         @commodity.save!
       else
-        flash.now[:notice] = 'Rivi on jo lisättynä hyödykkeelle.'
+        flash.now[:notice] = 'Et voi lisätä tätä riviä.'
         false
       end
     end
