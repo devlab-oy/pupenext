@@ -12,15 +12,15 @@
   <table>
   <tr>
   <th><%= label_tag :sales_amount, t('Myyntisumma') %></th>
-  <td><%= text_field :sales_amount, value: '' %></td>
+  <td><%= text_field_tag :sales_amount, '' %></td>
   </tr>
   <tr>
   <th><%= label_tag :sales_account, t('Myyntitili') %></th>
-  <td><%= text_field :sales_account, value: @commodity.fixed_assets_account, disabled: true %></td>
+  <td><%= text_field_tag :sales_account, @commodity.fixed_assets_account, readonly: true %></td>
   </tr>
   <tr>
   <th><%= label_tag :profit_account, t('Myyntivoittotili') %></th>
-  <td><%= text_field :profit_account, value: '' %></td>
+  <td><%= text_field_tag :profit_account, '' %></td>
   </tr>
   <tr>
   <th><%= label_tag :sales_type, t('EVL käsittely') %></th>
