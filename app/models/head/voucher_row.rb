@@ -18,6 +18,7 @@ class Head::VoucherRow < ActiveRecord::Base
   validate :allow_only_open_fiscal_period
   validate :only_one_account_per_commodity, if: :has_commodity_account?
   validate :allow_only_commodity_sum_level_accounts, if: :has_commodity_id?
+  validate :commodity_linking
 
   before_save :defaults
 
@@ -116,5 +117,11 @@ class Head::VoucherRow < ActiveRecord::Base
 
     def has_commodity_id?
       commodity_id.present?
+    end
+
+    def commodity_linking
+      if commodity_id.present? && commodity_id_was.present? && commodity_id_changed?
+        errors.add(:commodity_id, "Row already linked to a commodity. Can't relink!")
+      end
     end
 end

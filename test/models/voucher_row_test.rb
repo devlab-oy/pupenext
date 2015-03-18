@@ -45,6 +45,21 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert @row.valid?
   end
 
+  test 'cannot unlink already linked commodity' do
+    commodity = fixed_assets_commodities(:commodity_one)
+    @row.commodity_id = commodity.id
+    @row.tilino = commodity.fixed_assets_account
+    assert @row.save
+
+    # Cannot change commodity id
+    @row.commodity_id = 123
+    refute @row.valid?
+
+    # Can unlink though
+    @row.commodity_id = nil
+    assert @row.valid?
+  end
+
   test 'should split row' do
     @row.summa = 100
     @row.save!
