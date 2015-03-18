@@ -60,7 +60,8 @@ class Head::VoucherRow < ActiveRecord::Base
     new_rows_valid = new_rows.all? { |row| row.valid? }
 
     # Mark original removed by THE creator
-    amend_by(laatija)
+    creator = company.users.find_by(kuka: laatija)
+    amend_by(creator)
 
     if new_rows_valid && valid?
       new_rows.each(&:save!)
@@ -70,10 +71,11 @@ class Head::VoucherRow < ActiveRecord::Base
     end
   end
 
-  def amend_by(user = nil)
-    self.korjattu = user || 'X'
+  def amend_by(user)
+    raise ArgumentError, 'Argument must be an User -class' unless user.is_a? User
+
+    self.korjattu = user.kuka
     self.korjausaika = DateTime.now
-    save! unless user.present?
   end
 
   private

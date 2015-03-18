@@ -178,4 +178,20 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     refute @row.valid?
     assert_not_nil @row.errors.messages[:tilino]
   end
+
+  test 'amended correctly' do
+    joe = users(:joe)
+    @row.amend_by joe
+
+    assert joe.kuka, @row.korjattu
+    assert_not_nil @row.korjausaika
+
+    assert_raise ArgumentError do
+      @row.amend_by "joe"
+    end
+
+    assert_raise ArgumentError do
+      @row.amend_by
+    end
+  end
 end
