@@ -104,6 +104,12 @@ class FixedAssets::CommoditiesController < AdministrationController
     redirect_to edit_commodity_path(@commodity)
   end
 
+  def sell
+  end
+
+  def confirm_sale
+  end
+
   private
 
     # Allow only these params for update
