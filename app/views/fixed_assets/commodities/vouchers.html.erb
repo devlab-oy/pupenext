@@ -46,7 +46,7 @@
     <th>Tili</th>
   </tr>
   <% vou.rows.each do |vourow| %>
-    <% if vourow.commodity_id.present? %>
+    <% if vourow.commodity_id.present? || vourow.tilino != @commodity.fixed_assets_account %>
       <% next %>
     <% end %>
     <tr>
