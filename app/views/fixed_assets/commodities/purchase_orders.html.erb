@@ -52,7 +52,7 @@
     </tr>
 
     <% po.rows.each do |acc| %>
-     <% if acc.commodity_id.present? || acc.tilino != @commodity.fixed_assets_account %>
+     <% if acc.commodity_id.present? %>
       <% next %>
     <% end %>
       <tr>
