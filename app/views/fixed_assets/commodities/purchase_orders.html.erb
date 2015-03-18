@@ -52,6 +52,9 @@
     </tr>
 
     <% po.rows.each do |acc| %>
+     <% if acc.commodity_id.present? || acc.tilino != @commodity.fixed_assets_account %>
+      <% next %>
+    <% end %>
       <tr>
         <td><%= acc.tunnus  %></td>
         <td><%= acc.summa  %></td>
