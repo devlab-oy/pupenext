@@ -151,11 +151,11 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def linkable_vouchers
-      @vouchers = @commodity.linkable_vouchers
+      @vouchers = @commodity.linkable_vouchers.includes(:rows)
     end
 
     def linkable_purchase_orders
-      @purchase_orders = @commodity.linkable_invoices
+      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
     end
 
     def link_voucher_row
