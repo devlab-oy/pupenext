@@ -64,8 +64,8 @@ class Head::VoucherRow < ActiveRecord::Base
     amend_by(creator)
 
     if new_rows_valid && valid?
-      new_rows.each(&:save!)
-      save!
+      new_rows.each { |row| row.save_by(creator) }
+      save_by(creator)
     else
       raise ArgumentError, 'Invalid parameters'
     end

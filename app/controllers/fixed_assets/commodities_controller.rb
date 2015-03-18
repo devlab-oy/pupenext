@@ -168,7 +168,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
       if @voucher_row.valid?
         @voucher_row.save_by current_user
-        @commodity.save!
+        @commodity.save_by current_user
       else
         flash.now[:notice] = 'Et voi lisätä tätä riviä.'
         false
@@ -179,7 +179,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       if @commodity.allows_unlinking? && @voucher_row.commodity_id.present?
         @voucher_row.commodity_id = nil
         @voucher_row.save_by current_user
-        @commodity.save!
+        @commodity.save_by current_user
       else
         flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
         false

@@ -155,7 +155,7 @@ class CommodityRowGenerator
       if commodity.voucher.present?
         commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
           row.amend_by(user)
-          row.save!
+          row.save_by(user)
         end
       end
     end
@@ -169,10 +169,10 @@ class CommodityRowGenerator
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save!
+      accounting_voucher.save_by(user)
 
       commodity.voucher = accounting_voucher
-      commodity.save!
+      commodity.save_by(user)
     end
 
     def generate_voucher_rows
