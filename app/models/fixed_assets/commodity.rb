@@ -61,12 +61,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   def linkable_head_ids
     company.voucher_rows
+      .select(:ltunnus)
       .where(
-        yhtio: company.yhtio,
         tilino: viable_accounts,
         tapvm: company.current_fiscal_year,
         commodity_id: nil)
-      .map(&:ltunnus).uniq
   end
 
   def activated?
