@@ -13,6 +13,8 @@ Pupesoft::Application.routes.draw do
       post 'link_order'
       post 'link_voucher'
       post 'unlink'
+      get 'sell'
+      post 'confirm_sale'
     end
   end
 
