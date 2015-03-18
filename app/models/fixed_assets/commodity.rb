@@ -143,6 +143,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
     amount - calculation
   end
 
+  def sell(params)
+    logger.debug("parms")
+    logger.debug("#{params[:sales_amount].to_s}")
+    logger.debug("#{params[:sales_account].to_s}")
+    logger.debug("#{params[:profit_account].to_s}")
+    logger.debug("#{params[:sales_type].to_s}")
+  end
+
   private
 
     def important_values_changed?

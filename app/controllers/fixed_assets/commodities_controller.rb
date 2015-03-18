@@ -108,6 +108,14 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def confirm_sale
+    sell_commodity
+
+    if sell_commodity
+      @commodity.save_by current_user
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
+    else
+      render :sell
+    end
   end
 
   private
@@ -180,6 +188,23 @@ class FixedAssets::CommoditiesController < AdministrationController
         @voucher_row.save_by current_user
       else
         flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
+        false
+      end
+    end
+
+    def check_sales_parameters
+      required_values = [:sales_amount, :sales_account, :profit_account, :sales_type]
+      return false if required_values.any? { |value| params[value].nil? }
+      true
+    end
+
+    def sell_commodity
+      params_ok = check_sales_parameters
+      if params_ok
+        @commodity.sell(params)
+        true
+      else
+        flash.now[:notice] = 'Virheelliset parametrit'
         false
       end
     end
