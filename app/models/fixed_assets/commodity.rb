@@ -51,12 +51,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.where(tunnus: linkable_head_ids)
+    company.purchase_invoices_paid.where(tunnus: linkable_head_ids, commodity_id: nil)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.where(tunnus: linkable_head_ids)
+    company.vouchers.where(tunnus: linkable_head_ids, commodity_id: nil)
   end
 
   def linkable_head_ids
