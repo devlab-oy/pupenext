@@ -1,0 +1,30 @@
+<%= return_link("Hyödykkeet", commodities_path) %>
+<br/><br/>
+
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<br/><br/>
+
+<%= render "administration/form_errors", resource: @commodity if @commodity.present? %>
+<%= render "administration/header", title: "Hyödykkeen myynti" %>
+
+<%= form_tag(commodity_confirm_sale_path(@commodity), method: "post") do %>
+  <table>
+  <tr>
+  <th><%= label_tag :sales_amount, t('Myyntisumma') %></th>
+  <td><%= text_field :sales_amount, value: '' %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :sales_account, t('Myyntitili') %></th>
+  <td><%= text_field :sales_account, value: @commodity.fixed_assets_account, disabled: true %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :profit_account, t('Myyntivoittotili') %></th>
+  <td><%= text_field :profit_account, value: '' %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :sales_type, t('EVL käsittely') %></th>
+  <td><%= select_tag :sales_type, options_for_select([[t('Suora'), 'S'], [t('Epäsuora'), 'E']]) %></td>
+  </tr>
+  <tr><td class='back'><%= submit_tag(t('Vahvista myynti')) %></td></tr>
+  </table>
+<% end %>
