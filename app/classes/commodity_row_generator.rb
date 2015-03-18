@@ -151,7 +151,13 @@ class CommodityRowGenerator
 
     def mark_rows_obsolete
       commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
-      commodity.voucher.rows.where(tapvm: fiscal_period).update_all(korjattu: "X", korjausaika: Time.now) if commodity.voucher.present?
+
+      if commodity.voucher.present?
+        commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
+          row.amend_by(user)
+          row.save_by(user)
+        end
+      end
     end
 
     def create_voucher
@@ -163,10 +169,10 @@ class CommodityRowGenerator
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save!
+      accounting_voucher.save_by(user)
 
       commodity.voucher = accounting_voucher
-      commodity.save!
+      commodity.save_by(user)
     end
 
     def generate_voucher_rows
