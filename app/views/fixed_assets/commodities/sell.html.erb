@@ -15,16 +15,20 @@
   <td><%= text_field_tag :sales_amount, '' %></td>
   </tr>
   <tr>
+  <th><%= label_tag :sales_date, t('Myyntipvm') %></th>
+  <td><%= date_field_tag :sales_date, '' %></td>
+  </tr>
+  <tr>
   <th><%= label_tag :sales_account, t('Myyntitili') %></th>
-  <td><%= text_field_tag :sales_account, @commodity.fixed_assets_account, readonly: true %></td>
+  <td><%= @commodity.fixed_assets_account %></td>
   </tr>
   <tr>
   <th><%= label_tag :profit_account, t('Myyntivoittotili') %></th>
   <td><%= text_field_tag :profit_account, '' %></td>
   </tr>
   <tr>
-  <th><%= label_tag :sales_type, t('EVL käsittely') %></th>
-  <td><%= select_tag :sales_type, options_for_select([[t('Suora'), 'S'], [t('Epäsuora'), 'E']]) %></td>
+  <th><%= label_tag :depreciation_handling, t('EVL käsittely') %></th>
+  <td><%= select_tag :depreciation_handling, options_for_select([[t('Suora'), 'S'], [t('Epäsuora'), 'E']]) %></td>
   </tr>
   <tr><td class='back'><%= submit_tag(t('Vahvista myynti')) %></td></tr>
   </table>
