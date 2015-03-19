@@ -108,8 +108,6 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def confirm_sale
-    sell_commodity
-
     if sell_commodity
       @commodity.save_by current_user
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
@@ -194,15 +192,14 @@ class FixedAssets::CommoditiesController < AdministrationController
       end
     end
 
-    def check_sales_parameters
-      required_values = [:sales_amount, :sales_account, :profit_account, :sales_type]
-      return false if required_values.any? { |value| params[value].nil? }
+    def sales_params_ok?
+      required_values = [:sales_amount, :sales_date, :profit_account, :depreciation_handling]
+      return false if required_values.any? { |value| params[value].empty? }
       true
     end
 
     def sell_commodity
-      params_ok = check_sales_parameters
-      if params_ok
+      if sales_params_ok?
         @commodity.sell(params)
         true
       else
