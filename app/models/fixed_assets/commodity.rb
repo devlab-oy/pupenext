@@ -144,11 +144,61 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def sell(params)
-    logger.debug("parms")
+    logger.debug("params")
     logger.debug("#{params[:sales_amount].to_s}")
-    logger.debug("#{params[:sales_account].to_s}")
+    logger.debug("#{params[:sales_date].to_s}")
     logger.debug("#{params[:profit_account].to_s}")
-    logger.debug("#{params[:sales_type].to_s}")
+    logger.debug("#{params[:depreciation_handling].to_s}")
+
+    # validate params?
+
+    self.status = 'P'
+    self.deactivated_at = sales_date
+    self.amount_sold = sales_amount
+    self.depreciation_remainder_handling = depreciation_handling
+
+    profit = amount - sales_amount
+
+    # Kirjaa yli kaikki tulevat SUMU / EVL poistoerät
+    amend_rows(sales_date)
+
+    # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
+    # voucher.rows.build x 2
+    # commodity_rows.build x1
+    soldparams = {
+      laatija: 'Mr. Sales',
+      tapvm: sales_date,
+      summa: sales_amount,
+      yhtio: company.yhtio,
+      selite: "Hyödykkeen myynti",
+      tilino: commodity.fixed_assets_account
+    }
+    voucher.rows.build! soldparams
+
+    profitparams = {
+      laatija: 'Mr. Profit',
+      tapvm: sales_date,
+      summa: profit,
+      yhtio: company.yhtio,
+      selite: "Myyntivoitto/tappio",
+      tilino: profit_account
+    }
+    voucher.rows.build! profitparams
+
+    # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+    btlparams = {
+      created_by: 'Mr. Difference',
+      modified_by: 'Mr. Difference',
+      transacted_at: sales_date,
+      amount:
+      description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
+    }
+    commodity_rows.build! btlparams
+  end
+
+  def amend_rows(deactivation_date)
+    commodity.commodity_rows.where("transacted_at > ?", deactivation_date).update_all(amended: true)
+    commodity.voucher.rows.where("tapvm > ?", deactivation_date).update_all(korjattu: "X", korjausaika: Time.now)
   end
 
   private
