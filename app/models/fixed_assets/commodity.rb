@@ -145,52 +145,52 @@ class FixedAssets::Commodity < ActiveRecord::Base
     # validate params?
 
     self.status = 'P'
-    self.deactivated_at = sales_date
-    self.amount_sold = sales_amount
-    self.depreciation_remainder_handling = depreciation_handling
+    self.deactivated_at = params[:sales_date]
+    self.amount_sold = params[:sales_amount]
+    self.depreciation_remainder_handling = params[:depreciation_handling]
 
-    profit = amount - sales_amount
+    profit = amount - params[:sales_amount].to_d
 
     # Kirjaa yli kaikki tulevat SUMU / EVL poistoerät
-    amend_rows(sales_date)
+    amend_rows(params[:sales_date])
 
     # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
-    # voucher.rows.build x 2
-    # commodity_rows.build x1
     soldparams = {
       laatija: 'Mr. Sales',
-      tapvm: sales_date,
-      summa: sales_amount,
+      tapvm: params[:sales_date],
+      summa: params[:sales_amount],
       yhtio: company.yhtio,
       selite: "Hyödykkeen myynti",
-      tilino: commodity.fixed_assets_account
+      tilino: fixed_assets_account
     }
-    voucher.rows.build! soldparams
+    voucher.rows.create! soldparams
 
     profitparams = {
       laatija: 'Mr. Profit',
-      tapvm: sales_date,
+      tapvm: params[:sales_date],
       summa: profit,
       yhtio: company.yhtio,
       selite: "Myyntivoitto/tappio",
-      tilino: profit_account
+      tilino: params[:profit_account]
     }
-    voucher.rows.build! profitparams
+    voucher.rows.create! profitparams
 
     # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+    btl_dep_value = amount + commodity_rows.sum(:amount)
+
     btlparams = {
       created_by: 'Mr. Difference',
       modified_by: 'Mr. Difference',
-      transacted_at: sales_date,
-      amount:
-      description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
+      transacted_at: params[:sales_date],
+      amount: btl_dep_value * -1,
+      description: "Evl käsittely: #{params[:depreciation_handling]}"
     }
-    commodity_rows.build! btlparams
+    commodity_rows.create! btlparams
   end
 
   def amend_rows(deactivation_date)
-    commodity.commodity_rows.where("transacted_at > ?", deactivation_date).update_all(amended: true)
-    commodity.voucher.rows.where("tapvm > ?", deactivation_date).update_all(korjattu: "X", korjausaika: Time.now)
+    commodity_rows.where("transacted_at > ?", deactivation_date).update_all(amended: true)
+    voucher.rows.where("tapvm > ?", deactivation_date).update_all(korjattu: "X", korjausaika: Time.now)
   end
 
   private
