@@ -157,10 +157,12 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       voucher_row_id: head_voucher_rows(:eight).id
     }
 
+    assert_not_equal @commodity.fixed_assets_account, head_voucher_rows(:eight).tilino
+
     assert_no_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
       post :link_voucher, params
     end
-
+    assert_nil head_voucher_rows(:eight).commodity_id
     assert_template 'vouchers'
   end
 
@@ -191,11 +193,12 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       commodity_id: @commodity.id,
       voucher_row_id: head_voucher_rows(:twelve).id
     }
+    assert_not_equal @commodity.fixed_assets_account, head_voucher_rows(:twelve).tilino
 
     assert_no_difference("Head::VoucherRow.where(commodity_id: #{@commodity.id}).count") do
       post :link_order, params
     end
-
+    assert_nil head_voucher_rows(:twelve).commodity_id
     assert_template 'purchase_orders'
   end
 

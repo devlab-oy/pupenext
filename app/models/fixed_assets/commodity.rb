@@ -51,20 +51,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.joins(:accounting_rows)
-      .where(tiliointi: { yhtio: company.yhtio,
-                          tilino: viable_accounts,
-                          tapvm: company.current_fiscal_year,
-                          commodity_id: nil })
+    company.purchase_invoices_paid.where(tunnus: linkable_head_ids, commodity_id: nil)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.joins(:rows)
-      .where(tiliointi: { yhtio: company.yhtio,
-                          tilino: viable_accounts,
-                          tapvm: company.current_fiscal_year,
-                          commodity_id: nil })
+    company.vouchers.where(tunnus: linkable_head_ids, commodity_id: nil)
   end
 
   def activated?
@@ -260,6 +252,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
     def commodity_sum_level
       company.accounts.find_by(tilino: fixed_assets_account).try(:commodity)
+    end
+
+    def linkable_head_ids
+      company.voucher_rows.select(:ltunnus)
+        .where(tilino: viable_accounts, tapvm: company.current_fiscal_year, commodity_id: nil)
     end
 
     def defaults

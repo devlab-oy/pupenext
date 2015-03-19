@@ -52,6 +52,9 @@
     </tr>
 
     <% po.rows.each do |acc| %>
+     <% if acc.commodity_id.present? %>
+      <% next %>
+    <% end %>
       <tr>
         <td><%= acc.tunnus  %></td>
         <td><%= acc.summa  %></td>

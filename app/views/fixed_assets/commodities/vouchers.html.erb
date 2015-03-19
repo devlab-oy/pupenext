@@ -45,8 +45,11 @@
     <th>Summa</th>
     <th>Tili</th>
   </tr>
-   <% vou.rows.each do |vourow| %>
-   <tr>
+  <% vou.rows.each do |vourow| %>
+    <% if vourow.commodity_id.present? %>
+      <% next %>
+    <% end %>
+    <tr>
     <td><%= vourow.tunnus  %></td>
     <td><%= vourow.selite.html_safe rescue 0 %></td>
     <td><%= vourow.summa  %></td>

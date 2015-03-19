@@ -45,6 +45,21 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     assert @row.valid?
   end
 
+  test 'cannot unlink already linked commodity' do
+    commodity = fixed_assets_commodities(:commodity_one)
+    @row.commodity_id = commodity.id
+    @row.tilino = commodity.fixed_assets_account
+    assert @row.save
+
+    # Cannot change commodity id
+    @row.commodity_id = 123
+    refute @row.valid?
+
+    # Can unlink though
+    @row.commodity_id = nil
+    assert @row.valid?
+  end
+
   test 'should split row' do
     @row.summa = 100
     @row.save!
@@ -159,6 +174,39 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     # Split row must be valid
     assert_raise ArgumentError do
       @row.split(params)
+    end
+  end
+
+  test 'cant link non-commodity sumlevel account voucher rows to commodity' do
+    # Row is valid to begin with
+    assert @row.valid?
+
+    # Row account is not one of the accounts with commodity sumlevel
+    refute @row.company.accounts.evl_accounts.map(&:tilino).uniq.include? @row.tilino
+
+    # Set a target commodity and delete all procurement rows for clarity
+    commodity = fixed_assets_commodities(:commodity_one)
+    commodity.procurement_rows.delete_all
+
+    # Set commodity_id to row
+    @row.commodity_id = fixed_assets_commodities(:commodity_one).id
+    refute @row.valid?
+    assert_not_nil @row.errors.messages[:tilino]
+  end
+
+  test 'amended correctly' do
+    joe = users(:joe)
+    @row.amend_by joe
+
+    assert joe.kuka, @row.korjattu
+    assert_not_nil @row.korjausaika
+
+    assert_raise ArgumentError do
+      @row.amend_by "joe"
+    end
+
+    assert_raise ArgumentError do
+      @row.amend_by
     end
   end
 end

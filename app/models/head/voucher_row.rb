@@ -17,6 +17,8 @@ class Head::VoucherRow < ActiveRecord::Base
   validates :yhtio, presence: true
   validate :allow_only_open_fiscal_period
   validate :only_one_account_per_commodity, if: :has_commodity_account?
+  validate :allow_only_commodity_sum_level_accounts, if: :has_commodity_id?
+  validate :commodity_linking
 
   before_save :defaults
 
@@ -59,15 +61,22 @@ class Head::VoucherRow < ActiveRecord::Base
     new_rows_valid = new_rows.all? { |row| row.valid? }
 
     # Mark original removed by THE creator
-    self.korjattu = laatija
-    self.korjausaika = DateTime.now
+    creator = company.users.find_by(kuka: laatija)
+    amend_by(creator)
 
     if new_rows_valid && valid?
-      new_rows.each(&:save!)
-      save!
+      new_rows.each { |row| row.save_by(creator) }
+      save_by(creator)
     else
       raise ArgumentError, 'Invalid parameters'
     end
+  end
+
+  def amend_by(user)
+    raise ArgumentError, 'Argument must be an User -class' unless user.is_a? User
+
+    self.korjattu = user.kuka
+    self.korjausaika = DateTime.now
   end
 
   private
@@ -92,11 +101,27 @@ class Head::VoucherRow < ActiveRecord::Base
 
     def only_one_account_per_commodity
       unless commodity.fixed_assets_account == tilino
-        errors.add(:base, "Commodity has already a different account selected!")
+        errors.add(:base, 'Commodity already has a different account selected!')
       end
     end
 
     def has_commodity_account?
       commodity.try(:fixed_assets_account).present?
+    end
+
+    def allow_only_commodity_sum_level_accounts
+      unless company.accounts.evl_accounts.map(&:tilino).uniq.include? "#{tilino}"
+        errors.add(:tilino, 'Selected account must have commodity sumlevel set')
+      end
+    end
+
+    def has_commodity_id?
+      commodity_id.present?
+    end
+
+    def commodity_linking
+      if commodity_id.present? && commodity_id_was.present? && commodity_id_changed?
+        errors.add(:commodity_id, "Row already linked to a commodity. Can't relink!")
+      end
     end
 end
