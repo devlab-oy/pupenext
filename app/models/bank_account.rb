@@ -1,5 +1,6 @@
 class BankAccount < ActiveRecord::Base
 
+  include Searchable
   include BankHelper
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -19,8 +20,11 @@ class BankAccount < ActiveRecord::Base
   self.table_name = :yriti
   self.primary_key = :tunnus
 
-  default_scope { where kaytossa: '' }
-  scope :unused, -> { where(kaytossa: 'E') }
+  scope :in_use, -> { where.not(kaytossa: "E") }
+
+  def in_use?
+    kaytossa != "E"
+  end
 
   private
 
