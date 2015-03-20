@@ -206,11 +206,12 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def sell_commodity
       if sales_params_ok?
-        @commodity.sell(params)
-        true
-      else
-        flash.now[:notice] = 'Virheelliset parametrit'
-        false
+        if @commodity.sell(params)
+          true
+        else
+          flash.now[:notice] = 'Virheelliset parametrit'
+          false
+        end
       end
     end
 end
