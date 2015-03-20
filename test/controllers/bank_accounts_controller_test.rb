@@ -55,11 +55,10 @@ class BankAccountsControllerTest < ActionController::TestCase
   end
 
   test "should update" do
-     params = { nimi: "Kermitti" }
+    params = { nimi: "Kermitti" }
 
-     patch :update, id: @ba.tunnus, bank_account: params
-     assert_redirected_to bank_accounts_path
-     assert_equal 'Bank account was successfully updated.', flash.notice
+    patch :update, id: @ba.tunnus, bank_account: params
+    assert_redirected_to bank_accounts_path
   end
 
   test "should not update" do

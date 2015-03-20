@@ -5,53 +5,53 @@ class BankAccountsController < ApplicationController
   helper_method :show_account_name
 
   def index
-    @accounts = current_user.company.bank_accounts
-    @accounts = current_user.company.bank_accounts.unused if showing_unused
-
-
-    @accounts = resource_search(@accounts)
+    if params[:not_used] == "yes"
+      @bank_accounts = current_company
+                         .bank_accounts
+                         .search_like(search_params)
+                         .order(order_params)
+    else
+      @bank_accounts = current_company
+                         .bank_accounts
+                         .in_use
+                         .search_like(search_params)
+                         .order(order_params)
+    end
   end
 
   def edit
   end
 
   def create
-    @bank_account = current_user.company.bank_accounts.build
-    @bank_account.attributes = bank_account_params
-    @bank_account.muuttaja = current_user.kuka
-    @bank_account.laatija = current_user.kuka
+    @bank_account = current_company.bank_accounts.build(bank_account_params)
 
-    if @bank_account.save
-      redirect_to bank_accounts_path, notice: 'Bank account was successfully created.'
+    if @bank_account.save_by current_user
+      redirect_to bank_accounts_path, notice: "Uusi pankkitili perustettu"
     else
-      render action: 'new'
+      render :new
     end
   end
 
   def update
-    @bank_account.attributes = bank_account_params
-    @bank_account.muuttaja = current_user.kuka
-
-    if @bank_account.save
-      redirect_to bank_accounts_path, notice: 'Bank account was successfully updated.'
+    if @bank_account.update_by bank_account_params, current_user
+      redirect_to bank_accounts_path, notice: "Pankkitili päivitettiin onnistuneesti"
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
   def new
-    @bank_account = current_user.company.bank_accounts.build
+    @bank_account = current_company.bank_accounts.build
   end
 
   private
 
     def show_account_name(value)
-      record = current_user.company.accounts.find_by_tilino(value)
-      record.nimi unless record.nil?
+      current_company.accounts.find_by_tilino(value).try(:nimi)
     end
 
     def showing_unused
-      params[:not_used] ? true : false
+      params[:not_used].present?
     end
 
     def find_account
@@ -77,6 +77,14 @@ class BankAccountsController < ApplicationController
         :oletus_selvittelytili,
         :tilinylitys
       )
+    end
+
+    def searchable_columns
+      [:nimi, :tilino, :maksulimitti, :oletus_kulutili, :oletus_rahatili, :oletus_selvittelytili]
+    end
+
+    def sortable_columns
+      searchable_columns
     end
 
 end
