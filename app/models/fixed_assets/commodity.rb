@@ -23,6 +23,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validate :must_have_procurement_rows, if: :activated?
 
   before_save :set_amount, :defaults
+  after_save :prevent_further_changes, if: :deactivated?
 
   def self.options_for_type
     [
@@ -61,6 +62,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   def activated?
     status == 'A'
+  end
+
+  def deactivated?
+    status == 'P'
   end
 
   # Returns sum of past sumu depreciations
@@ -132,17 +137,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
     calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
+    if deactivated?
+      calculation = amount
+    end
     amount - calculation
   end
 
   def sell(params)
-    logger.debug("params")
-    logger.debug("#{params[:sales_amount].to_s}")
-    logger.debug("#{params[:sales_date].to_s}")
-    logger.debug("#{params[:profit_account].to_s}")
-    logger.debug("#{params[:depreciation_handling].to_s}")
-
-    # validate params?
+    return false unless can_be_sold?(params)
 
     self.status = 'P'
     self.deactivated_at = params[:sales_date]
@@ -186,6 +188,17 @@ class FixedAssets::Commodity < ActiveRecord::Base
       description: "Evl käsittely: #{params[:depreciation_handling]}"
     }
     commodity_rows.create! btlparams
+    true
+  end
+
+  def can_be_sold?(params)
+    return false unless activated?
+    return false if params[:sales_amount] < 0
+    return false unless company.date_in_open_period?(params[:sales_date])
+    return false if params[:sales_date] > Date.today
+    return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
+    return false unless ['S','E'].include?(params[:depreciation_handling])
+    true
   end
 
   def amend_rows(deactivation_date)
@@ -257,6 +270,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def linkable_head_ids
       company.voucher_rows.select(:ltunnus)
         .where(tilino: viable_accounts, tapvm: company.current_fiscal_year, commodity_id: nil)
+    end
+
+    def prevent_further_changes
+      self.readonly!
     end
 
     def defaults
