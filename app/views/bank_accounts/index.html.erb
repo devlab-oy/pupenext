@@ -1,49 +1,81 @@
-<font class="head">Yrityksen Pankkitilit</font>
-<hr />
+<%= render "administration/header", title: "Yrityksen pankkitilit" %>
 
-<%= link_to "<button>Uusi yrityksen pankkitili</button>".html_safe, new_bank_account_path %>
-<% if showing_unused %>
-  <%= link_to "<button>Näytä aktiivit</button>".html_safe %>
-<% else %>
-  <%= link_to "<button>Näytä poistetut</button>".html_safe, not_used: :yes %>
+<% if update_access? %>
+  <%= button_to t("Uusi yrityksen pankkitili"), new_bank_account_path, method: :get %>
 <% end %>
-<br /><br />
 
 <%= form_tag bank_accounts_path, method: :get do %>
-<%= hidden_field_tag :not_used, :yes if showing_unused %>
-<table>
-  <tr>
-    <th>Nimi:
-    <br />
-    <%= text_field_tag :nimi, params[:nimi] %></th>
-    <th>IBAN:
-    <br />
-    <%= text_field_tag :iban, params[:iban] %></th>
-    <th>Maksulimitti:
-    <br />
-    <%= text_field_tag :maksulimitti, params[:maksulimitti] %></th>
-    <th>Oletus_kulutili:
-    <br />
-    <%= text_field_tag :oletus_kulutili, params[:oletus_kulutili] %></th>
-    <th>Oletus_rahatili:
-    <br />
-    <%= text_field_tag :oletus_rahatili, params[:oletus_rahatili] %></th>
-    <th>Oletus_selvittelytili:
-    <br />
-    <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %></th>
-    <th class="back"><%= submit_tag t('Etsi') %></th>
-  </tr>
-
-<% @accounts.each do |acc| %>
-  <tr>
-    <td><%= link_to acc.nimi, edit_bank_account_path(acc.id) %></td>
-    <td><%= acc.iban.empty? ? '< empty iban >' : acc.iban %></td>
-    <td><%= acc.maksulimitti %></td>
-    <td><%= acc.oletus_kulutili %></td>
-    <td><%= acc.oletus_rahatili %></td>
-    <td><%= acc.oletus_selvittelytili %></td>
-  </tr>
+  <% if params[:not_used] == "yes" %>
+    <%= hidden_field_tag :not_used, :no %>
+    <%= submit_tag t("Piilota poistetut") %>
+  <% else %>
+    <%= hidden_field_tag :not_used, :yes %>
+    <%= submit_tag t("Näytä poistetut") %>
   <% end %>
-  </table>
-
 <% end %>
+
+<br/><br/>
+
+<%= form_tag bank_accounts_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= sortable :nimi %>
+        <br/>
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable :iban %>
+        <br/>
+        <%= text_field_tag :iban, params[:iban] %>
+      </th>
+
+      <th>
+        <%= sortable :maksulimitti %>
+        <br/>
+        <%= text_field_tag :maksulimitti, params[:maksulimitti] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_kulutili %>
+        <br/>
+        <%= text_field_tag :oletus_kulutili, params[:oletus_kulutili] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_rahatili %>
+        <br/>
+        <%= text_field_tag :oletus_rahatili, params[:oletus_rahatili] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_selvittelytili %>
+        <br/>
+        <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('Etsi') %>
+      </th>
+    </tr>
+
+    <% @bank_accounts.each do |bank_account| %>
+      <% classes = bank_account.in_use? ? "" : " class=line-through" %>
+      <tr class="aktiivi">
+        <td><%= link_to bank_account.nimi, edit_bank_account_path(bank_account) %></td>
+        <td<%= classes %>>
+          <%= bank_account.iban.empty? ? bank_account.tilino : bank_account.iban %>
+        </td>
+        <td<%= classes %>><%= bank_account.maksulimitti %></td>
+        <td<%= classes %>><%= bank_account.oletus_kulutili %></td>
+        <td<%= classes %>><%= bank_account.oletus_rahatili %></td>
+        <td<%= classes %>><%= bank_account.oletus_selvittelytili %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br/>
+
+<%= button_to t("Uusi yrityksen pankkitili"), new_bank_account_path, method: :get %>

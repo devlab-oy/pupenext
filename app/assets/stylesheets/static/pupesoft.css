@@ -140,3 +140,6 @@ table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[ty
   padding: 1px;
 }
 
+.line-through {
+  text-decoration: line-through;
+}

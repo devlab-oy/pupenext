@@ -46,3 +46,7 @@ table.indexvas td {
 .monivalintadiv {
   display: inline-block;
 }
+
+.line-through {
+  text-decoration: line-through;
+}
