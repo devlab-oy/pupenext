@@ -220,6 +220,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     invalidparams[:sales_date] = Date.today+1
     refute @commodity.sell(invalidparams)
+
+    invalidparams = {
+      sales_amount: -1,
+      sales_date: Date.today,
+      profit_account: '100',
+      depreciation_handling: 'S'
+    }
+    refute @commodity.sell(invalidparams)
   end
 
   test 'deactivation prevents further changes' do
