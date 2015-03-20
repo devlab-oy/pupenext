@@ -1,128 +1,113 @@
 <%= form_for(@bank_account) do |f| %>
-<% if @bank_account.errors.any? %>
-  <div id="error_explanation">
-      <h2><%= pluralize(@bank_account.errors.count, "error") %> prohibited this bank account from being saved:</h2>
-
-      <ul>
-      <% @bank_account.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "administration/form_errors", resource: @bank_account %>
 
   <table>
     <tr>
-      <th><%= f.label :kaytossa %></th>
-      <td>
-        <% options = options_for_select([["Käytössä", ""], ["Poistettu / Ei käytössä", "E"]], f.object.kaytossa) %>
-        <%= select_tag 'bank_account[kaytossa]', options, include_blank: false %>
-      </td>
+      <th><%= f.label :kaytossa, t("Käytössä") %></th>
+      <td><%= f.select :kaytossa, BankAccount.kaytossa_options %></td>
     </tr>
     <tr>
-      <th><%= f.label :nimi %></th>
+      <th><%= f.label :nimi, t("Nimi") %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
     <tr>
-      <th><%= f.label :iban %></th>
+      <th><%= f.label :iban, t("IBAN") %></th>
       <td><%= f.text_field :iban %></td>
     </tr>
     <tr>
-      <th><%= f.label :bic %></th>
+      <th><%= f.label :bic, t("BIC") %></th>
       <td><%= f.text_field :bic %></td>
     </tr>
     <tr>
-      <th><%= f.label :valkoodi %></th>
-      <td>
-      <% options = options_for_select([["EUR"]], f.object.valkoodi) %>
-        <%= select_tag 'bank_account[valkoodi]', options, include_blank: false %>
-      </td>
+      <th><%= f.label :valkoodi, t("Valuutta") %></th>
+      <td><%= f.collection_select(:valkoodi, currency_options, :tunnus, :nimi) %></td>
     </tr>
     <tr>
-      <th><%= f.label :factoring %></th>
-      <td>
-        <% options = options_for_select([["Ei", ""], ["Kyllä", "o"]], f.object.factoring) %>
-        <%= select_tag 'bank_account[factoring]', options, include_blank: false %>
-      </td>
+      <th><%= f.label :factoring, t("Factoring") %></th>
+      <td><%= f.select :factoring, BankAccount.factoring_options %></td>
     </tr>
     <tr>
-      <th><%= f.label :asiakastunnus %></th>
+      <th><%= f.label :asiakastunnus, t("Asiakastunnus") %></th>
       <td><%= f.text_field :asiakastunnus %></td>
     </tr>
     <tr>
-      <th><%= f.label :maksulimitti %></th>
+      <th><%= f.label :maksulimitti, t("Maksulimitti") %></th>
       <td><%= f.text_field :maksulimitti %></td>
     </tr>
     <tr>
-      <th><%= f.label :tilinylitys %></th>
+      <th><%= f.label :tilinylitys, t("Tilinylitys") %></th>
+      <td><%= f.select :tilinylitys, BankAccount.tilinylitys_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :hyvak, t("Oletushyväksyjä") %></th>
+      <td><%= f.collection_select(:hyvak, hyvaksyja_options, :kuka, :nimi,
+                                  include_blank: t("Ei kukaan")) %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :oletus_kulutili, t("Oletuskulutili") %></th>
       <td>
-        <% options = options_for_select([["Tilinylitys ei sallittu", ""], ["Tilinylitys sallittu", "o"]], f.object.tilinylitys) %>
-        <%= select_tag 'bank_account[tilinylitys]', options, include_blank: false %>
+        <%= f.text_field :oletus_kulutili %>
+        <%= show_account_name(f.object.oletus_kulutili) %>
       </td>
     </tr>
     <tr>
-      <th><%= f.label :hyvak %></th>
-      <td>
-        <% company_users = current_user.company.users.map(&:nimi) %>
-        <% company_users.unshift(["Ei kukaan", ""]) %>
-        <% options = options_for_select(company_users, f.object.hyvak) %>
-        <%= select_tag 'bank_account[hyvak]', options, include_blank: false %>
-      </td>
+      <th><%= f.label :oletus_kustp, t("Oletuskusannuspaikka") %></th>
+      <td><%= f.collection_select(:oletus_kustp, kustannuspaikka_options, :tunnus, :nimi,
+                                  include_blank: t("Ei kustannuspaikkaa")) %></td>
     </tr>
     <tr>
-      <th><%= f.label :oletus_kulutili %></th>
-      <td><%= f.text_field :oletus_kulutili %><%= show_account_name(f.object.oletus_kulutili) %></td>
+      <th><%= f.label :oletus_kohde, t("Oletuskohde") %></th>
+      <td><%= f.collection_select(:oletus_kohde, kohde_options, :tunnus, :nimi,
+                                  include_blank: t("Ei kohdetta")) %></td>
     </tr>
     <tr>
-      <th><%= f.label :oletus_kustp %></th>
-      <td>
-        <% options = options_for_select([["Ei kustannuspaikkaa", 0]], f.object.oletus_kustp) %>
-        <%= select_tag 'bank_account[oletus_kustp]', options, include_blank: false %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :oletus_kohde %></th>
-      <td>
-        <% options = options_for_select([["Ei kohdetta", 0]], f.object.oletus_kohde) %>
-        <%= select_tag 'bank_account[oletus_kohde]', options, include_blank: false %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :oletus_projekti %></th>
-      <td>
-        <% options = options_for_select([["Ei projektia", 0]], f.object.oletus_projekti) %>
-        <%= select_tag 'bank_account[oletus_projekti]', options, include_blank: false %>
-      </td>
+      <th><%= f.label :oletus_projekti, t("Oletusprojekti") %></th>
+      <td><%= f.collection_select(:oletus_projekti, projekti_options, :tunnus, :nimi,
+                                  include_blank: t("Ei projektia")) %></td>
     </tr>
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
-      <td><%= f.text_field :oletus_rahatili %><%= show_account_name(f.object.oletus_rahatili) %></td>
+      <td>
+        <%= f.text_field :oletus_rahatili %>
+        <%= show_account_name(f.object.oletus_rahatili) %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
-      <td><%= f.text_field :oletus_selvittelytili %><%= show_account_name(f.object.oletus_selvittelytili) %></td>
+      <td>
+        <%= f.text_field :oletus_selvittelytili %>
+        <%= show_account_name(f.object.oletus_selvittelytili) %>
+      </td>
     </tr>
-    <tr>
-      <th><%= f.label :laatija %></th>
-      <td><%= f.object.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :luontiaika %></th>
-      <td><%= f.object.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :muutospvm %></th>
-      <td><%= f.object.muutospvm %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :muuttaja %></th>
-      <td><%= f.object.muuttaja %></td>
-    </tr>
+    <% if @bank_account.persisted? %>
+      <tr>
+        <th><%= f.label :laatija, t("Laatija") %></th>
+        <td><%= @bank_account.laatija %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :luontiaika, t("Luontiaika") %></th>
+        <td><%= @bank_account.luontiaika.try(:to_formatted_s, :db) %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muutospvm, t("Muutospvm") %></th>
+        <td><%= @bank_account.muutospvm.try(:to_formatted_s, :db) %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :muuttaja, t("Muuttaja") %></th>
+        <td><%= @bank_account.muuttaja %></td>
+      </tr>
+    <% end %>
   </table>
 
-  <br />
-  <div class="actions">
-    <% text = @bank_account.persisted? ? 'Tallenna' : 'Lisää' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
-   </div>
+  <% if update_access? %>
+    <br/>
+
+    <div class="actions">
+      <% text = @bank_account.persisted? ? t("Päivitä pankkitili") : t("Lisää") %>
+      <%= f.submit t(text), disable_with: t("Tallentaa") + "..." %>
+    </div>
+  <% end %>
 <% end %>
