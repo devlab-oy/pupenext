@@ -78,14 +78,14 @@ module BankHelper
 
     # Loop digits
     digits.each_with_index do |n, i|
-       # Every other digit must be multiplied by 2
-       n *= 2 if i.odd?
+      # Every other digit must be multiplied by 2
+      n *= 2 if i.odd?
 
-       # If we get more than 10 add numbers together
-       n = 1 + (n - 10) if n >= 10
+      # If we get more than 10 add numbers together
+      n = 1 + (n - 10) if n >= 10
 
-       # Add digit to sum
-       sum += n
+      # Add digit to sum
+      sum += n
     end
 
     # Valid if remainder is zero
