@@ -145,5 +145,88 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
     assert_equal 6500, @commodity.bookkeeping_value
+
+    # Sold commodity bkvalue is 0
+    salesparams = {
+      sales_amount: @commodity.amount,
+      sales_date: Date.today,
+      profit_account: 100,
+      depreciation_handling: 'S'
+    }
+    @commodity.sell(salesparams)
+    @commodity.save!
+    @commodity.reload
+
+    assert_equal 'P', @commodity.status
+    assert_equal 0, @commodity.bookkeeping_value
+  end
+
+  test 'sells stuff with valid params' do
+    salesparams = {
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: '100',
+      depreciation_handling: 'S'
+    }
+
+    assert @commodity.sell(salesparams)
+
+    assert_equal 'P', @commodity.status
+    assert_equal salesparams[:sales_date], @commodity.deactivated_at
+    assert_equal salesparams[:sales_amount], @commodity.amount_sold
+    assert_equal salesparams[:depreciation_handling], @commodity.depreciation_remainder_handling
+
+    # Sets btl total to negative amount(100%)
+    assert_equal @commodity.amount * -1, @commodity.commodity_rows.sum(:amount)
+    assert_equal @commodity.amount - @commodity.amount_sold, @commodity.voucher.rows.last.summa
+    assert_equal salesparams[:profit_account], @commodity.voucher.rows.last.tilino
+    assert_equal salesparams[:sales_amount], @commodity.voucher.rows.fourth.summa
+  end
+
+  test 'doesnt sell stuff with invalid params' do
+    validparams = {
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: '100',
+      depreciation_handling: 'S'
+    }
+    @commodity.status = ''
+    refute @commodity.sell(validparams)
+
+    invalidparams = {
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: 'zecat',
+      depreciation_handling: 'S'
+    }
+    @commodity.status = 'A'
+    refute @commodity.sell(invalidparams)
+
+    invalidparams = {
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: '100',
+      depreciation_handling: 'K'
+    }
+    refute @commodity.sell(invalidparams)
+
+    invalidparams = {
+      sales_amount: 9800,
+      sales_date: @commodity.company.current_fiscal_year.first - 1,
+      profit_account: '100',
+      depreciation_handling: 'S'
+    }
+    refute @commodity.sell(invalidparams)
+
+    invalidparams[:sales_date] = Date.today+1
+    refute @commodity.sell(invalidparams)
+  end
+
+  test 'deactivation prevents further changes' do
+    # Commodity in status P turns readonly
+    @commodity.status = 'P'
+    assert @commodity.status_changed?
+    @commodity.save!
+    assert @commodity.readonly?
   end
 end
