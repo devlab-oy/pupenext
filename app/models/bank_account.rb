@@ -2,6 +2,7 @@ class BankAccount < ActiveRecord::Base
 
   include Searchable
   include BankHelper
+  extend Translatable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
@@ -24,6 +25,27 @@ class BankAccount < ActiveRecord::Base
 
   def in_use?
     kaytossa != "E"
+  end
+
+  def self.kaytossa_options
+    [
+      [t("Käytössä"), ""],
+      [t("Poistettu / Ei käytössä"), "E"]
+    ]
+  end
+
+  def self.factoring_options
+    [
+      [t("Ei"), ""],
+      [t("Kyllä"), "o"]
+    ]
+  end
+
+  def self.tilinylitys_options
+    [
+      [t("Tilinylitys ei sallittu"), ""],
+      [t("Tilinylitys sallittu"), "o"]
+    ]
   end
 
   private
