@@ -5,18 +5,20 @@ class BankAccountsController < ApplicationController
   helper_method :show_account_name
 
   def index
-    if params[:not_used] == "yes"
-      @bank_accounts = current_company
-                         .bank_accounts
-                         .search_like(search_params)
-                         .order(order_params)
-    else
-      @bank_accounts = current_company
-                         .bank_accounts
-                         .in_use
-                         .search_like(search_params)
-                         .order(order_params)
-    end
+    @bank_accounts =
+      case showing_unused
+      when true
+        current_company
+          .bank_accounts
+          .search_like(search_params)
+          .order(order_params)
+      else
+        current_company
+          .bank_accounts
+          .in_use
+          .search_like(search_params)
+          .order(order_params)
+      end
   end
 
   def edit
@@ -51,7 +53,7 @@ class BankAccountsController < ApplicationController
     end
 
     def showing_unused
-      params[:not_used].present?
+      params[:not_used] == "yes"
     end
 
     def find_account

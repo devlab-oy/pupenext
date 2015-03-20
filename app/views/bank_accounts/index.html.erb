@@ -5,7 +5,7 @@
 <% end %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
-  <% if params[:not_used] == "yes" %>
+  <% if showing_unused %>
     <%= hidden_field_tag :not_used, :no %>
     <%= submit_tag t("Piilota poistetut") %>
   <% else %>
