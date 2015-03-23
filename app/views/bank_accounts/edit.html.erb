@@ -1,6 +1,6 @@
-<%= link_to 'Takaisin', bank_accounts_path %>
-<br /><br />
-<font class="head">Muokkaa pankkitiliä</font>
-<hr />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Yrityksen pankkitilit")}", bank_accounts_path %>
 
-<%= render 'form' %>
+<br/>
+
+<%= render "administration/header", title: "Muokkaa pankkitiliä" %>
+<%= render "form" %>
