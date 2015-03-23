@@ -5,20 +5,18 @@ class BankAccountsController < ApplicationController
   helper_method :show_account_name
 
   def index
-    @bank_accounts =
-      case showing_unused
-      when true
-        current_company
-          .bank_accounts
-          .search_like(search_params)
-          .order(order_params)
-      else
-        current_company
-          .bank_accounts
-          .in_use
-          .search_like(search_params)
-          .order(order_params)
-      end
+    if showing_unused
+      @bank_accounts = current_company
+                         .bank_accounts
+                         .search_like(search_params)
+                         .order(order_params)
+    else
+      @bank_accounts = current_company
+                         .bank_accounts
+                         .in_use
+                         .search_like(search_params)
+                         .order(order_params)
+    end
   end
 
   def edit
