@@ -197,9 +197,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
     required_values = [:sales_amount, :sales_date, :profit_account, :depreciation_handling]
     return false if required_values.any? { |value| params[value].nil? }
     return false unless activated?
-    return false if params[:sales_amount] < 0
+    return false if params[:sales_amount].to_d < 0
     return false unless company.date_in_open_period?(params[:sales_date])
-    return false if params[:sales_date] > Date.today
+    return false if params[:sales_date].to_date > Date.today
     return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
     return false unless ['S','E'].include?(params[:depreciation_handling])
     true
