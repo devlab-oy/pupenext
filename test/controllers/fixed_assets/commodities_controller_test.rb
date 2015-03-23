@@ -273,4 +273,42 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_equal 1, @commodity.procurement_rows.count
     assert_template :edit
   end
+
+  test 'should get sell' do
+    get :sell, commodity_id: @commodity.id
+    assert_response :success
+
+    assert_template :sell, 'Template should be sell'
+  end
+
+  test 'should sell commodity' do
+    params = {
+      commodity_id: @commodity.id,
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: '100',
+      depreciation_handling: 'S'
+    }
+    post :confirm_sale, params
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+
+    @commodity.reload
+    assert_equal 'P', @commodity.status
+  end
+
+  test 'should not sell commodity' do
+    params = {
+      commodity_id: @commodity.id,
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: 0,
+      depreciation_handling: 'S'
+    }
+    post :confirm_sale, params
+    assert_template :_form_errors
+    assert_template :sell
+
+    @commodity.reload
+    assert_equal 'A', @commodity.status
+  end
 end

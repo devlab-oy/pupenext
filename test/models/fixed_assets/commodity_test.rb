@@ -161,7 +161,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.bookkeeping_value
   end
 
-  test 'sells stuff with valid params' do
+  test 'sells commodity with valid params' do
     salesparams = {
       sales_amount: 9800,
       sales_date: Date.today,
@@ -183,7 +183,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal salesparams[:sales_amount], @commodity.voucher.rows.fourth.summa
   end
 
-  test 'doesnt sell stuff with invalid params' do
+  test 'doesnt sell commodity with invalid params' do
     validparams = {
       sales_amount: 9800,
       sales_date: Date.today,
