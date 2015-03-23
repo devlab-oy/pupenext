@@ -12,6 +12,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
+  before_validation :prevent_further_changes, if: :deactivated_before?
+
   validates :name, :description, presence: true
   validates :planned_depreciation_type, :btl_depreciation_type, presence: true, if: :activated?
   validates :planned_depreciation_amount, :btl_depreciation_amount,
@@ -283,5 +285,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
       self.planned_depreciation_amount ||= commodity_sum_level.try(:planned_depreciation_amount)
       self.btl_depreciation_type       ||= commodity_sum_level.try(:btl_depreciation_type)
       self.btl_depreciation_amount     ||= commodity_sum_level.try(:btl_depreciation_amount)
+    end
+
+    def deactivated_before?
+      deactivated? && !status_changed?
     end
 end
