@@ -192,6 +192,8 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def can_be_sold?(params)
+    required_values = [:sales_amount, :sales_date, :profit_account, :depreciation_handling]
+    return false if required_values.any? { |value| params[value].nil? }
     return false unless activated?
     return false if params[:sales_amount] < 0
     return false unless company.date_in_open_period?(params[:sales_date])

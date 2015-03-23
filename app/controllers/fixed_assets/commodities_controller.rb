@@ -198,20 +198,12 @@ class FixedAssets::CommoditiesController < AdministrationController
       end
     end
 
-    def sales_params_ok?
-      required_values = [:sales_amount, :sales_date, :profit_account, :depreciation_handling]
-      return false if required_values.any? { |value| params[value].empty? }
-      true
-    end
-
     def sell_commodity
-      if sales_params_ok?
-        if @commodity.sell(params)
-          true
-        else
-          flash.now[:notice] = 'Virheelliset parametrit'
-          false
-        end
+      if @commodity.sell(params)
+        true
+      else
+        flash.now[:notice] = 'Virheelliset parametrit'
+        false
       end
     end
 end
