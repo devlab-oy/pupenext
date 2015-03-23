@@ -43,4 +43,29 @@ class BankAccountTest < ActiveSupport::TestCase
     refute @ba.valid?, "#{@ba.errors.full_messages}"
   end
 
+  test "existence of all associated accounts is required" do
+    @ba.oletus_rahatili = 9999
+
+    refute @ba.valid?
+  end
+
+  test "existence of default liquidity account is required" do
+    @ba.oletus_rahatili = 9999
+
+    refute @ba.valid?
+  end
+
+  test "existence of default expense account is required" do
+    @ba.oletus_kulutili = 9999
+
+    refute @ba.valid?
+  end
+
+  test "existence of default clearing account is required" do
+    @ba.oletus_selvittelytili = 9999
+
+    refute @ba.valid?
+  end
+
+
 end

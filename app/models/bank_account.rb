@@ -21,15 +21,14 @@ class BankAccount < ActiveRecord::Base
 
   validates :nimi, presence: true
   validates :iban, presence: true, uniqueness: { scope: :company }
-  validates :oletus_rahatili, presence: true
-  validates :oletus_kulutili, presence: true
-  validates :oletus_selvittelytili, presence: true
+  validates :default_liquidity_account, presence: true
+  validates :default_expense_account, presence: true
+  validates :default_clearing_account, presence: true
 
   validate :check_iban
   validate :check_bic
 
   before_validation :fix_numbers
-  before_validation :check_if_accounts_exist
 
   self.table_name = :yriti
   self.primary_key = :tunnus
@@ -62,16 +61,6 @@ class BankAccount < ActiveRecord::Base
   end
 
   private
-
-    def check_if_accounts_exist
-      status = true
-
-      status &= company.accounts.find_by_tilino(oletus_rahatili)
-      status &= company.accounts.find_by_tilino(oletus_kulutili)
-      status &= company.accounts.find_by_tilino(oletus_selvittelytili)
-
-      errors.add(:base, "Tili puuttuu tai sitä ei löydy") unless status
-    end
 
     def fix_numbers
       if iban.present? && !valid_iban?(iban)
