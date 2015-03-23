@@ -29,6 +29,7 @@ class BankAccount < ActiveRecord::Base
   validate :check_bic
 
   before_validation :fix_numbers
+  before_save :defaults
 
   self.table_name = :yriti
   self.primary_key = :tunnus
@@ -78,6 +79,12 @@ class BankAccount < ActiveRecord::Base
 
     def check_bic
       errors.add(:bic, "on virheellinen") unless valid_bic?(bic)
+    end
+
+    def defaults
+      self.oletus_kustp ||= 0
+      self.oletus_kohde ||= 0
+      self.oletus_projekti ||= 0
     end
 
 end

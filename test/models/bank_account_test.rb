@@ -67,5 +67,14 @@ class BankAccountTest < ActiveSupport::TestCase
     refute @ba.valid?
   end
 
+  test "default values" do
+    @ba.oletus_kustp, @ba.oletus_kohde, @ba.oletus_projekti = nil
+
+    @ba.save
+
+    assert_equal @ba.reload.oletus_kustp, 0
+    assert_equal @ba.reload.oletus_kohde, 0
+    assert_equal @ba.reload.oletus_projekti, 0
+  end
 
 end
