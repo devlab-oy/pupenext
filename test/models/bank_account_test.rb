@@ -16,16 +16,29 @@ class BankAccountTest < ActiveSupport::TestCase
   end
 
   test "should validate iban" do
-    @ba.iban = "FI37-1590-3000-0007-76"
-    assert @ba.valid?, "Should be a valid iban"
-    assert_equal "FI3715903000000776", @ba.iban
+    valid_ibans = %w(AL47212110090000000235698741 CZ6508000000192000145399 SE3550000000054910000003
+                     FI2112345600000785)
 
-    @ba.iban = "Keijon Kassatili"
-    assert @ba.valid?, "Only text should bypass iban validation"
-    assert_equal "KEIJONKASSATILI", @ba.iban
+    valid_ibans.each do |iban|
+      @ba.iban = iban
+      assert @ba.valid?, @ba.errors.full_messages
+    end
 
     @ba.iban = "NONO NOT A VALID IBAN3123"
     refute @ba.valid?, "Should not be valid with letters and few numbers"
+  end
+
+  test "text bypasses IBAN validation" do
+    @ba.iban = "Keijon Kassatili"
+    assert @ba.valid?, @ba.errors.full_messages
+    assert_equal "KEIJONKASSATILI", @ba.iban
+  end
+
+  test "IBAN is converted to uniform format" do
+    @ba.iban = "FI37-1590-3000-0007-76"
+
+    assert @ba.valid?, @ba.errors.full_messages
+    assert_equal "FI3715903000000776", @ba.iban
   end
 
   test "should generate iban from account number" do
@@ -35,12 +48,20 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal "FI0457404420005478", @ba.iban
   end
 
-  test "should validate bic" do
-    @ba.bic = 'DABAFIHH'
-    assert @ba.valid?, "#{@ba.errors.full_messages}"
+  test "validates BIC properly" do
+    valid_bics = %w(OKOYFIHH AABAFI22 PSPBFIHH HANDFIHH)
 
-    @ba.bic = 'KEIJONBANK'
-    refute @ba.valid?, "#{@ba.errors.full_messages}"
+    valid_bics.each do |bic|
+      @ba.bic = bic
+      assert @ba.valid?, @ba.errors.full_messages
+    end
+
+    invalid_bics = %w(kala kissa koira OKOYFKH PSPBFxh KEIJOBANK)
+
+    invalid_bics.each do |bic|
+      @ba.bic = bic
+      refute @ba.valid?, @ba.errors.full_messages
+    end
   end
 
   test "existence of all associated accounts is required" do
