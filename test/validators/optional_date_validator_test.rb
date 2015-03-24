@@ -23,7 +23,7 @@ class OptionalDateValidatorTest < ActiveSupport::TestCase
     assert @dummy.valid?
 
     @dummy.tilikausi_alku = ''
-    refute @dummy.valid?
+    assert @dummy.valid?
 
     @dummy.tilikausi_alku = '2015-35-35'
     refute @dummy.valid?

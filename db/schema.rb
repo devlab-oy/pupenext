@@ -1383,9 +1383,9 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "yhtio",              limit: 5,                          default: "",  null: false
     t.string   "teksti",             limit: 40,                         default: "",  null: false
     t.integer  "rel_pvm",            limit: 4,                          default: 0,   null: false
-    t.date     "abs_pvm",                                                             null: false
+    t.date     "abs_pvm",                                                             null: true
     t.integer  "kassa_relpvm",       limit: 4,                          default: 0,   null: false
-    t.date     "kassa_abspvm",                                                        null: false
+    t.date     "kassa_abspvm",                                                        null: true
     t.decimal  "kassa_alepros",                 precision: 5, scale: 2, default: 0.0, null: false
     t.integer  "osamaksuehto1",      limit: 4,                          default: 0,   null: false
     t.integer  "osamaksuehto2",      limit: 4,                          default: 0,   null: false

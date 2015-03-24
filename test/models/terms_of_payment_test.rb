@@ -19,7 +19,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert @top.valid?
 
     @top.abs_pvm = ''
-    refute @top.valid?
+    assert @top.valid?
 
     @top.abs_pvm = '2015-35-35'
     refute @top.valid?
