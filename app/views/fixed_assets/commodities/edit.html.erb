@@ -18,7 +18,7 @@
     <% end %>
     <br/><br/>
     <%= button_to t('Myy hyödyke'), commodity_sell_path(@commodity), method: :get %>
-  <% elsif @commodity.status.empty? %>
+  <% elsif !@commodity.deactivated? %>
     <%= button_to t('Aktivoi hyödyke'), commodity_activate_path(@commodity), method: :post %>
   <% end %>
 
