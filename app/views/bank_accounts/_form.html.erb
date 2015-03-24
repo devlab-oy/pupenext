@@ -106,7 +106,7 @@
     <br/>
 
     <div class="actions">
-      <% text = @bank_account.persisted? ? t("Päivitä yrityksen pankkitili") : t("Lisää") %>
+      <% text = @bank_account.persisted? ? t("Päivitä yrityksen pankkitili") : t("Perusta yrityksen pankkitili") %>
       <%= f.submit t(text), disable_with: t("Tallentaa") + "..." %>
     </div>
   <% end %>
