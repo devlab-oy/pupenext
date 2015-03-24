@@ -13,60 +13,82 @@ class BankAccountsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_template 'index', 'Template should be index'
+    assert_template :index
   end
 
   test "should get new" do
     get :new
     assert_response :success
-    assert_template 'new', 'Template should be new'
+    assert_template :new
   end
 
   test "should get edit" do
     get :edit, id: @ba.tunnus
     assert_response :success
-    assert_template 'edit', 'Template should be edit'
+    assert_template :edit
   end
 
-  test "should create" do
+  test "creates bank account with valid parameters" do
+    login users(:bob)
+
     params = {
-      nimi: 'Keijo',
-      pankki: 'Rolfs Bank',
-      iban: 'FI37-1590-3000-0007-76',
-      bic: 'DABAFIHH',
+      kaytossa: "",
+      nimi: "Keijo",
+      iban: "FI3715903000000776",
+      bic: "DABAFIHH",
+      valkoodi: "71",
+      factoring: "o",
+      asiakastunnus: "kala",
+      maksulimitti: 10,
+      tilinylitys: "o",
+      hyvak: "kissa",
       oletus_kulutili: @acc1.tilino,
+      oletus_kustp: 1,
+      oletus_kohde: 2,
+      oletus_projekti: 3,
       oletus_rahatili: @acc2.tilino,
       oletus_selvittelytili: @acc3.tilino
     }
 
     assert_difference('BankAccount.count', 1) do
-      patch :create, bank_account: params
+      post :create, bank_account: params
     end
+
+    params.each do |attribute_key, attribute_value|
+      assert_equal attribute_value, BankAccount.last.send(attribute_key),
+                   "Attribute #{attribute_key} did not get set"
+    end
+
     assert_redirected_to bank_accounts_path
   end
 
-  test "should not create" do
+  test "does not create bank account with invalid parameters" do
+    login users(:bob)
+
     params = { iban: @ba.iban }
 
     assert_no_difference('BankAccount.count') do
-      patch :create, bank_account: params
-      assert_template 'new', 'Template should be new'
+      post :create, bank_account: params
+      assert_template :new
     end
   end
 
-  test "should update" do
+  test "updates with valid parameters" do
+    login users(:bob)
+
     params = { nimi: "Kermitti" }
 
     patch :update, id: @ba.tunnus, bank_account: params
     assert_redirected_to bank_accounts_path
   end
 
-  test "should not update" do
+  test "does not update with invalid parameters" do
+    login users(:bob)
+
     params = { tilino: nil, bic: nil, iban: nil }
 
     patch :update, id: @ba.tunnus, bank_account: params
-    assert_template 'edit', 'Template should be edit'
-    assert_equal nil, flash.notice
+    assert_template :edit
   end
 
 end
