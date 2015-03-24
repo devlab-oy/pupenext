@@ -4,7 +4,7 @@ module BankAccountsHelper
   end
 
   def hyvaksyja_options
-    current_company.users.order(:nimi)
+    current_company.users.select(:kuka, :nimi).order(:nimi)
   end
 
   def kustannuspaikka_options
