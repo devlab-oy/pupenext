@@ -1,11 +1,6 @@
-<%= link_to '« Palaa ohjelmaan: Kassalippaat', cash_registers_path %>
-<br />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Kassalippaat")}", cash_registers_path %>
+
 <br/>
-<font class="head">Uusi Kassalipas</font>
-<hr />
-<%= render 'form' %>
 
-
-
-
-
+<%= render "administration/header", title: "Uusi Kassalipas" %>
+<%= render "form" %>
