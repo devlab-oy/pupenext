@@ -10,10 +10,6 @@ class CashRegisterTest < ActiveSupport::TestCase
     assert @q.valid?, @q.errors.messages
   end
 
-  test "cash register has a company" do
-    assert_not_nil @q.company
-  end
-
   test "name cant be empty" do
     @q.nimi = ''
     refute @q.valid?
