@@ -1,17 +1,6 @@
+<%= render "administration/form_errors", resource: @cash_register %>
+
 <%= form_for(@cash_register) do |f| %>
-
-  <% if @cash_register.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@cash_register.errors.count, "error") %> prohibited this Packing area from being saved:</h2>
-
-      <ul>
-      <% @cash_register.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-
-  <% end %>
 
   <table>
 
@@ -23,14 +12,18 @@
     <tr>
       <th><%= f.label :kustp %></th>
       <td>
-        <%= collection_select(:cash_register, :kustp, @qualifiers, :tunnus, :nimi, {include_blank: 'Ei kustannuspaikkaa', selected: @cash_register.kustp} ) %>
+        <%= collection_select(:cash_register, :kustp, @qualifiers, :tunnus, :nimi,
+          { include_blank: "Ei kustannuspaikkaa", selected: @cash_register.kustp }
+        ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :toimipaikka %></th>
       <td>
-        <%= collection_select(:cash_register, :toimipaikka, @locations, :tunnus, :nimi,  {include_blank: 'Ei toimipaikkaa', selected: @cash_register.toimipaikka} ) %>
+        <%= collection_select(:cash_register, :toimipaikka, @locations, :tunnus, :nimi,
+          { include_blank: "Ei toimipaikkaa", selected: @cash_register.toimipaikka }
+        ) %>
       </td>
     </tr>
 
@@ -38,7 +31,9 @@
       <th><%= f.label :kassa %></th>
       <td>
     <% if @kassa_accounts.present? %>
-      <%= collection_select(:cash_register, :kassa, @kassa_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :kassa, @kassa_accounts, :tilino, :tilino_nimi,
+        { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
       <%= f.text_field :kassa, maxlength: 6, size: 8 %>  <%= account_name f.object.kassa %>
     <% end %>
@@ -49,9 +44,13 @@
       <th><%= f.label :pankkikortti %></th>
       <td>
     <% if @pankkikortti_accounts.present? %>
-      <%= collection_select(:cash_register, :pankkikortti, @pankkikortti_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :pankkikortti, @pankkikortti_accounts, :tilino,
+        :tilino_nimi,
+        { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
-      <%= f.text_field :pankkikortti, maxlength: 6, size: 8 %>  <%= account_name f.object.pankkikortti %>
+      <%= f.text_field :pankkikortti, maxlength: 6, size: 8 %>
+      <%= account_name f.object.pankkikortti %>
     <% end %>
       </td>
     </tr>
@@ -60,9 +59,12 @@
       <th><%= f.label :luottokortti %></th>
       <td>
     <% if @luottokortti_accounts.present? %>
-      <%= collection_select(:cash_register, :luottokortti, @luottokortti_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :luottokortti, @luottokortti_accounts, :tilino,
+        :tilino_nimi, { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
-      <%= f.text_field :luottokortti, maxlength: 6, size: 8 %>  <%= account_name f.object.luottokortti %>
+      <%= f.text_field :luottokortti, maxlength: 6, size: 8 %>
+      <%= account_name f.object.luottokortti %>
     <% end %>
       </td>
     </tr>
@@ -71,9 +73,13 @@
       <th><%= f.label :kateistilitys %></th>
       <td>
     <% if @kateistilitys_accounts.present? %>
-      <%= collection_select(:cash_register, :kateistilitys, @kateistilitys_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :kateistilitys, @kateistilitys_accounts, :tilino,
+        :tilino_nimi,
+        { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
-      <%= f.text_field :kateistilitys, maxlength: 6, size: 8 %>  <%= account_name f.object.kateistilitys %>
+      <%= f.text_field :kateistilitys, maxlength: 6, size: 8 %>
+      <%= account_name f.object.kateistilitys %>
     <% end %>
       </td>
     </tr>
@@ -82,9 +88,13 @@
       <th><%= f.label :kassaerotus %></th>
       <td>
     <% if @kassaerotus_accounts.present? %>
-      <%= collection_select(:cash_register, :kassaerotus, @kassaerotus_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :kassaerotus, @kassaerotus_accounts, :tilino,
+        :tilino_nimi,
+        { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
-      <%= f.text_field :kassaerotus, maxlength: 6, size: 8 %>  <%= account_name f.object.kassaerotus %>
+      <%= f.text_field :kassaerotus, maxlength: 6, size: 8 %>
+      <%= account_name f.object.kassaerotus %>
     <% end %>
       </td>
     </tr>
@@ -93,9 +103,13 @@
       <th><%= f.label :kateisotto %></th>
       <td>
     <% if @kateisotto_accounts.present? %>
-      <%= collection_select(:cash_register, :kateisotto, @kateisotto_accounts, :tilino, :tilino_nimi,  {:include_blank => 'Ei valintaa'}  ) %>
+      <%= collection_select(:cash_register, :kateisotto, @kateisotto_accounts, :tilino,
+        :tilino_nimi,
+        { include_blank: "Ei valintaa" }
+      ) %>
     <% else %>
-      <%= f.text_field :kateisotto, maxlength: 6, size: 8 %>  <%= account_name f.object.kateisotto %>
+      <%= f.text_field :kateisotto, maxlength: 6, size: 8 %>
+      <%= account_name f.object.kateisotto %>
     <% end %>
       </td>
     </tr>
@@ -125,10 +139,13 @@
   <% end %>
 
   </table>
-  <br />
-  <div class="actions">
-    <% text = @cash_register.persisted? ? 'Päivitä kassalipas' : 'Perusta kassalipas' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
-  </div>
 
+  <% if update_access? %>
+    <br/>
+
+    <div class="actions">
+      <% text = @cash_register.persisted? ? "Tallenna" : "Lisää" %>
+      <%= f.submit t(text), disable_with: t("Tallentaa") + '...' %>
+    </div>
+  <% end %>
 <% end %>
