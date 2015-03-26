@@ -5,7 +5,7 @@ class CommodityRowGenerator
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
     self.company         = commodity.company
     self.activation_date = commodity.activated_at
-    self.user            = company.users.find(user_id)
+    self.user            = company.users.find_by(tunnus: user_id)
 
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
     self.fiscal_start = fi.first
@@ -26,8 +26,6 @@ class CommodityRowGenerator
   end
 
   def sell
-    # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
-
     # Yliajaa myyntipäivän jälkeiset poistotapahtumat
     amend_future_rows
 
@@ -50,7 +48,8 @@ class CommodityRowGenerator
       tilino: commodity.profit_account.tilino
     }
     commodity.voucher.rows.create! profitparams
-
+    case commodity.depreciation_remainder_handling
+    when 'S'
     # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
     btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
 
@@ -61,6 +60,11 @@ class CommodityRowGenerator
       amount: btl_dep_value * -1,
       description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
     }
+    when 'E'
+      raise ArgumentError.new 'Logic not yet implemented'
+    else
+      raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
+    end
     commodity.commodity_rows.create! btlparams
 
     commodity.status = 'P'
