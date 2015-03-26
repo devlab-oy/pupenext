@@ -8,6 +8,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
   belongs_to :company
+  belongs_to :profit_account, class_name: 'Account'
   has_one :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
@@ -148,48 +149,23 @@ class FixedAssets::Commodity < ActiveRecord::Base
   def sell(params)
     return false unless can_be_sold?(params)
 
-    self.status = 'P'
+    #self.status = 'P'
     self.deactivated_at = params[:sales_date]
     self.amount_sold = params[:sales_amount]
     self.depreciation_remainder_handling = params[:depreciation_handling]
-
-    profit = amount - params[:sales_amount].to_d
+    self.profit_account = company.accounts.find_by(tilino: params[:profit_account])
 
     # Kirjaa yli kaikki tulevat SUMU / EVL poistoerät
     amend_rows(params[:sales_date])
 
-    # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
-    soldparams = {
-      laatija: 'Mr. Sales',
-      tapvm: params[:sales_date],
-      summa: params[:sales_amount],
-      yhtio: company.yhtio,
-      selite: "Hyödykkeen myynti",
-      tilino: fixed_assets_account
-    }
-    voucher.rows.create! soldparams
+    save!
 
-    profitparams = {
-      laatija: 'Mr. Profit',
-      tapvm: params[:sales_date],
-      summa: profit,
-      yhtio: company.yhtio,
-      selite: "Myyntivoitto/tappio",
-      tilino: params[:profit_account]
+    options = {
+      commodity_id: id,
+      user_id: params[:current_user]
     }
-    voucher.rows.create! profitparams
 
-    # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
-    btl_dep_value = amount + commodity_rows.sum(:amount)
-
-    btlparams = {
-      created_by: 'Mr. Difference',
-      modified_by: 'Mr. Difference',
-      transacted_at: params[:sales_date],
-      amount: btl_dep_value * -1,
-      description: "Evl käsittely: #{params[:depreciation_handling]}"
-    }
-    commodity_rows.create! btlparams
+    CommodityRowGenerator.new(options).sell
     true
   end
 

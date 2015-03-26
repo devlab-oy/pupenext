@@ -569,7 +569,8 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   end
 
   create_table "fixed_assets_commodities", force: :cascade, options: "ENGINE=myisam" do |t|
-    t.integer  "company_id",  limit: 4
+    t.integer  "company_id",        limit: 4
+    t.integer  "profit_account_id", limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.date     "activated_at"
