@@ -282,14 +282,15 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should sell commodity' do
-    params = {
+    salesparams = {
       commodity_id: @commodity.id,
-      sales_amount: 9800,
-      sales_date: Date.today,
-      profit_account: '100',
-      depreciation_handling: 'S'
+      amount_sold: @commodity.amount,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100).tilino,
+      depreciation_remainder_handling: 'S',
     }
-    post :confirm_sale, params
+
+    post :confirm_sale, salesparams
     assert_redirected_to edit_commodity_path assigns(:commodity)
 
     @commodity.reload

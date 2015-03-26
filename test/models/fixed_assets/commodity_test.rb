@@ -148,75 +148,72 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     # Sold commodity bkvalue is 0
     salesparams = {
-      sales_amount: @commodity.amount,
-      sales_date: Date.today,
-      profit_account: 100,
-      depreciation_handling: 'S',
-      current_user: users(:bob).id
+      amount_sold: @commodity.amount,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      depreciation_remainder_handling: 'S',
     }
-    @commodity.sell(salesparams)
+    @commodity.attributes = salesparams
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).sell
     @commodity.reload
 
     assert_equal 'P', @commodity.status
     assert_equal 0, @commodity.bookkeeping_value
   end
 
-  test 'doesnt sell commodity with invalid params' do
+  test 'cant be sold with invalid params' do
     validparams = {
-      sales_amount: 9800,
-      sales_date: Date.today,
+      amount_sold: 9800,
+      deactivated_at: Date.today,
       profit_account: '100',
-      depreciation_handling: 'S',
-      current_user: users(:bob).id
+      depreciation_remainder_handling: 'S'
     }
     # Invalid status
     @commodity.status = ''
-    refute @commodity.sell(validparams)
+    refute @commodity.can_be_sold?(validparams)
 
     # Invalid profit account
     invalidparams = {
-      sales_amount: 9800,
-      sales_date: Date.today,
-      profit_account: 'zecat',
-      depreciation_handling: 'S',
-      current_user: users(:bob).id
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: '0',
+      depreciation_remainder_handling: 'S'
     }
     @commodity.status = 'A'
-    refute @commodity.sell(invalidparams)
+    refute @commodity.can_be_sold?(invalidparams)
 
     # Invalid depreciation handling
     invalidparams = {
-      sales_amount: 9800,
-      sales_date: Date.today,
-      profit_account: '100',
-      depreciation_handling: 'K',
-      current_user: users(:bob).id
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100).tilino,
+      depreciation_remainder_handling: 'K'
     }
-    refute @commodity.sell(invalidparams)
+    refute @commodity.can_be_sold?(invalidparams)
 
     # Invalid sales date
     invalidparams = {
-      sales_amount: 9800,
-      sales_date: @commodity.company.current_fiscal_year.first - 1,
-      profit_account: '100',
-      depreciation_handling: 'S',
-      current_user: users(:bob).id
+      amount_sold: 9800,
+      deactivated_at: @commodity.company.current_fiscal_year.first - 1,
+      profit_account: accounts(:account_100).tilino,
+      depreciation_remainder_handling: 'S'
     }
-    refute @commodity.sell(invalidparams)
+    refute @commodity.can_be_sold?(invalidparams)
 
     # Invalid sales date 2
-    invalidparams[:sales_date] = Date.today+1
-    refute @commodity.sell(invalidparams)
+    invalidparams[:deactivated_at] = Date.today+1
+    refute @commodity.can_be_sold?(invalidparams)
 
     # Invalid sales amount
     invalidparams = {
-      sales_amount: -1,
-      sales_date: Date.today,
-      profit_account: '100',
-      depreciation_handling: 'S',
-      current_user: users(:bob).id
+      amount_sold: -1,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100).tilino,
+      depreciation_remainder_handling: 'S'
     }
-    refute @commodity.sell(invalidparams)
+    refute @commodity.can_be_sold?(invalidparams)
   end
 
   test 'deactivation prevents further changes' do

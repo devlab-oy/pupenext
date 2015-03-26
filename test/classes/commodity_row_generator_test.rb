@@ -489,26 +489,26 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   test 'sells commodity with valid params' do
     salesparams = {
-      sales_amount: 9800,
-      sales_date: Date.today,
-      profit_account: '100',
-      depreciation_handling: 'S',
-      current_user: @bob.id
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      depreciation_remainder_handling: 'S',
     }
+    @commodity.attributes = salesparams
+    @commodity.save!
 
-    assert @commodity.sell(salesparams)
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
     @commodity.reload
-    #CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
 
     assert_equal 'P', @commodity.status
-    assert_equal salesparams[:sales_date], @commodity.deactivated_at
-    assert_equal salesparams[:sales_amount], @commodity.amount_sold
-    assert_equal salesparams[:depreciation_handling], @commodity.depreciation_remainder_handling
-    assert_equal salesparams[:profit_account], @commodity.profit_account.tilino
+    assert_equal salesparams[:deactivated_at], @commodity.deactivated_at
+    assert_equal salesparams[:amount_sold], @commodity.amount_sold
+    assert_equal salesparams[:depreciation_remainder_handling], @commodity.depreciation_remainder_handling
+    assert_equal salesparams[:profit_account].id, @commodity.profit_account.id
     # Sets btl total to negative amount(100%)
     assert_equal @commodity.amount * -1, @commodity.commodity_rows.sum(:amount)
     assert_equal @commodity.amount - @commodity.amount_sold, @commodity.voucher.rows.last.summa
-    assert_equal salesparams[:profit_account], @commodity.voucher.rows.last.tilino
-    assert_equal salesparams[:sales_amount], @commodity.voucher.rows.fourth.summa
+    assert_equal salesparams[:profit_account].tilino, @commodity.voucher.rows.last.tilino
+    assert_equal salesparams[:amount_sold], @commodity.voucher.rows.fourth.summa
   end
 end
