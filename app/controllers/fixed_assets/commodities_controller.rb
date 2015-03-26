@@ -108,7 +108,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def confirm_sale
-    if sell_commodity
+    if @commodity.can_be_sold?(params)
       commodity_sales_params
       @commodity.save_by current_user
       options = {
@@ -118,6 +118,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       CommodityRowGenerator.new(options).sell
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
     else
+      flash.now[:notice] = 'Virheelliset parametrit'
       render :sell
     end
   end
@@ -200,16 +201,6 @@ class FixedAssets::CommoditiesController < AdministrationController
         @commodity.save_by current_user
       else
         flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
-        false
-      end
-    end
-
-    def sell_commodity
-      params[:current_user] = current_user.id
-      if @commodity.can_be_sold?(params)
-        true
-      else
-        flash.now[:notice] = 'Virheelliset parametrit'
         false
       end
     end
