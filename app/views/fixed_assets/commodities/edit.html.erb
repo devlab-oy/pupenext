@@ -5,7 +5,7 @@
 <%= render "administration/header", title: "Muokkaa hyödykettä" %>
 <%= render "administration/notice" %>
 
-<% if update_access? && @commodity.status != 'P' %>
+<% if update_access? && !@commodity.deactivated? %>
   <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
   <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
 
