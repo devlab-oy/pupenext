@@ -1,0 +1,18 @@
+stubborn_customer:
+  yhtio: acme
+  ytunnus: FI12345678
+  ovttunnus: 003712345678
+  nimi: Very stubborn customer
+  osoite: Street 1
+  postino: 00100
+  postitp: Helsinki
+  maa: fi
+  kansalaisuus: fi
+  email: email@ding.com
+  kieli: fi
+  valkoodi: eur
+  terms_of_payment: sixty_days_net
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe

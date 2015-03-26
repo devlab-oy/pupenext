@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                              default: "",  null: false
     t.string   "vienti",                           limit: 1,                              default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                              default: "",  null: false
-    t.string   "koontilaskut_yhdistetaan",         limit: 1,                                            null: false
+    t.string   "koontilaskut_yhdistetaan",         limit: 1,                              default: "",  null: false
     t.string   "luokka",                           limit: 50,                             default: "",  null: false
     t.string   "jtkielto",                         limit: 1,                              default: "",  null: false
     t.integer  "jtrivit",                          limit: 4,                              default: 0,   null: false
@@ -1383,9 +1383,9 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "yhtio",              limit: 5,                          default: "",  null: false
     t.string   "teksti",             limit: 40,                         default: "",  null: false
     t.integer  "rel_pvm",            limit: 4,                          default: 0,   null: false
-    t.date     "abs_pvm",                                                             null: false
+    t.date     "abs_pvm",                                                             null: true
     t.integer  "kassa_relpvm",       limit: 4,                          default: 0,   null: false
-    t.date     "kassa_abspvm",                                                        null: false
+    t.date     "kassa_abspvm",                                                        null: true
     t.decimal  "kassa_alepros",                 precision: 5, scale: 2, default: 0.0, null: false
     t.integer  "osamaksuehto1",      limit: 4,                          default: 0,   null: false
     t.integer  "osamaksuehto2",      limit: 4,                          default: 0,   null: false
@@ -1394,7 +1394,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "kateinen",           limit: 1,                          default: "",  null: false
     t.string   "suoraveloitus",      limit: 1,                          default: "",  null: false
     t.string   "factoring",          limit: 50,                         default: "",  null: false
-    t.integer  "pankkiyhteystiedot", limit: 4,                          default: 0,   null: false
+    t.integer  "pankkiyhteystiedot", limit: 4,                                        null: true
     t.string   "itsetulostus",       limit: 1,                          default: "",  null: false
     t.string   "jaksotettu",         limit: 1,                          default: "",  null: false
     t.string   "erapvmkasin",        limit: 1,                          default: "",  null: false

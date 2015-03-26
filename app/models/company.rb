@@ -1,11 +1,15 @@
 class Company < ActiveRecord::Base
   with_options foreign_key: :yhtio, primary_key: :yhtio do |options|
     options.has_many :keywords
-
     options.has_many :users
     options.has_one :parameter
     options.has_many :accounts
     options.has_many :currency
+    options.has_many :terms_of_payments
+    options.has_many :factorings
+    options.has_many :bank_details
+    options.has_many :customers
+    options.has_many :sales_orders
     options.has_many :printers
 
     options.has_many :sum_levels

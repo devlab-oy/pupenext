@@ -1,0 +1,11 @@
+one:
+  yhtio: acme
+  nimitys: Nordea EUR
+  pankkinimi1: Nordea
+  pankkitili1: 12345
+  pankkiiban1: FI1234
+  pankkiswift1: NDEAFIHH
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
