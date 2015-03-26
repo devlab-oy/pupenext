@@ -151,36 +151,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       sales_amount: @commodity.amount,
       sales_date: Date.today,
       profit_account: 100,
-      depreciation_handling: 'S'
+      depreciation_handling: 'S',
+      current_user: users(:bob).id
     }
     @commodity.sell(salesparams)
-    @commodity.save!
     @commodity.reload
 
     assert_equal 'P', @commodity.status
     assert_equal 0, @commodity.bookkeeping_value
-  end
-
-  test 'sells commodity with valid params' do
-    salesparams = {
-      sales_amount: 9800,
-      sales_date: Date.today,
-      profit_account: '100',
-      depreciation_handling: 'S'
-    }
-
-    assert @commodity.sell(salesparams)
-
-    assert_equal 'P', @commodity.status
-    assert_equal salesparams[:sales_date], @commodity.deactivated_at
-    assert_equal salesparams[:sales_amount], @commodity.amount_sold
-    assert_equal salesparams[:depreciation_handling], @commodity.depreciation_remainder_handling
-
-    # Sets btl total to negative amount(100%)
-    assert_equal @commodity.amount * -1, @commodity.commodity_rows.sum(:amount)
-    assert_equal @commodity.amount - @commodity.amount_sold, @commodity.voucher.rows.last.summa
-    assert_equal salesparams[:profit_account], @commodity.voucher.rows.last.tilino
-    assert_equal salesparams[:sales_amount], @commodity.voucher.rows.fourth.summa
   end
 
   test 'doesnt sell commodity with invalid params' do
@@ -188,44 +166,55 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       sales_amount: 9800,
       sales_date: Date.today,
       profit_account: '100',
-      depreciation_handling: 'S'
+      depreciation_handling: 'S',
+      current_user: users(:bob).id
     }
+    # Invalid status
     @commodity.status = ''
     refute @commodity.sell(validparams)
 
+    # Invalid profit account
     invalidparams = {
       sales_amount: 9800,
       sales_date: Date.today,
       profit_account: 'zecat',
-      depreciation_handling: 'S'
+      depreciation_handling: 'S',
+      current_user: users(:bob).id
     }
     @commodity.status = 'A'
     refute @commodity.sell(invalidparams)
 
+    # Invalid depreciation handling
     invalidparams = {
       sales_amount: 9800,
       sales_date: Date.today,
       profit_account: '100',
-      depreciation_handling: 'K'
+      depreciation_handling: 'K',
+      current_user: users(:bob).id
     }
     refute @commodity.sell(invalidparams)
 
+    # Invalid sales date
     invalidparams = {
       sales_amount: 9800,
       sales_date: @commodity.company.current_fiscal_year.first - 1,
       profit_account: '100',
-      depreciation_handling: 'S'
+      depreciation_handling: 'S',
+      current_user: users(:bob).id
     }
     refute @commodity.sell(invalidparams)
 
+    # Invalid sales date 2
     invalidparams[:sales_date] = Date.today+1
     refute @commodity.sell(invalidparams)
 
+    # Invalid sales amount
     invalidparams = {
       sales_amount: -1,
       sales_date: Date.today,
       profit_account: '100',
-      depreciation_handling: 'S'
+      depreciation_handling: 'S',
+      current_user: users(:bob).id
     }
     refute @commodity.sell(invalidparams)
   end
