@@ -25,6 +25,45 @@ class CommodityRowGenerator
     split_voucher_rows
   end
 
+  def sell
+    # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
+
+    soldparams = {
+      laatija: user.kuka,
+      tapvm: commodity.deactivated_at,
+      summa: commodity.amount_sold,
+      yhtio: company.yhtio,
+      selite: "Hyödykkeen #{commodity.id} myynti",
+      tilino: commodity.fixed_assets_account
+    }
+    commodity.voucher.rows.create! soldparams
+
+    profitparams = {
+      laatija: user.kuka,
+      tapvm: commodity.deactivated_at,
+      summa: commodity.amount - commodity.amount_sold,
+      yhtio: company.yhtio,
+      selite: "Hyödykkeen #{commodity.id} myyntivoitto/tappio",
+      tilino: commodity.profit_account.tilino
+    }
+    commodity.voucher.rows.create! profitparams
+
+    # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+    btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
+
+    btlparams = {
+      created_by: user.kuka,
+      modified_by: user.kuka,
+      transacted_at: commodity.deactivated_at,
+      amount: btl_dep_value * -1,
+      description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
+    }
+    commodity.commodity_rows.create! btlparams
+
+    commodity.status = 'P'
+    commodity.save!
+  end
+
   def fixed_by_percentage(full_amount, percentage)
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
