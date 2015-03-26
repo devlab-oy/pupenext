@@ -46,7 +46,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_response :found
     assert_nil assigns(:commodity).planned_depreciation_type
     assert_redirected_to edit_commodity_path assigns(:commodity)
-    assert_not_nil flash[:notice]
   end
 
   test 'should update commodity' do
@@ -67,7 +66,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_equal params[:planned_depreciation_type], assigns(:commodity).planned_depreciation_type
 
     assert_response :found
-    assert_not_nil flash[:notice]
   end
 
   test 'should not create new commodity due to permissions' do
@@ -129,7 +127,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to commodity_vouchers_path
-    assert_not_nil flash[:notice]
   end
 
   test 'linking first voucher' do
@@ -185,7 +182,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     assert_redirected_to commodity_purchase_orders_path
 
-    assert_not_nil flash[:notice]
     # Second time should not update
     post :link_order, params
     assert_template :purchase_orders
@@ -202,7 +198,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       post :link_order, params
     end
     assert_nil head_voucher_rows(:twelve).commodity_id
-    assert_not_nil flash[:notice]
     assert_template 'purchase_orders'
   end
 
@@ -218,7 +213,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     assert_equal 'A', @commodity.status
     assert_redirected_to edit_commodity_path assigns(:commodity)
-    assert_not_nil flash[:notice]
   end
 
   test 'should not activate commodity' do
@@ -231,7 +225,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     post :activate, params
     @commodity.reload
-    assert_not_nil flash[:notice]
     assert_equal '', @commodity.status
     assert_template :edit, 'Template should be edit'
   end
@@ -262,7 +255,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
     post :unlink, params
     assert_equal 0, @commodity.procurement_rows.count
-    assert_not_nil flash[:notice]
     # Unlinking already unlinked should not work
     post :unlink, params
     assert_template :edit
@@ -275,7 +267,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       voucher_row_id: @commodity.procurement_rows.first.id
     }
     post :unlink, params
-    assert_not_nil flash[:notice]
     assert_equal 1, @commodity.procurement_rows.count
     assert_template :edit
   end
@@ -298,7 +289,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     post :confirm_sale, salesparams
     assert_redirected_to edit_commodity_path assigns(:commodity)
-    assert_not_nil flash[:notice]
     @commodity.reload
     assert_equal 'P', @commodity.status
   end
@@ -315,7 +305,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     assert_template :_form_errors
     assert_template :sell
-    assert_not_nil flash[:notice]
     @commodity.reload
     assert_equal 'A', @commodity.status
   end
