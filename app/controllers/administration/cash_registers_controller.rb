@@ -36,17 +36,17 @@ def create
     end
 
     if @cash_register.save_by current_user
-      redirect_to cash_registers_path, notice: 'Cash register was successfully created.'
+      redirect_to cash_registers_path, notice: t("Kassalipas luotiin onnistuneesti")
     else
-      render action: 'new'
+      render :new
     end
   end
 
   def update
     if @cash_register.update_by(cash_register_params, current_user)
-      redirect_to cash_registers_path, notice: 'Cash register was successfully updated.'
+      redirect_to cash_registers_path, notice: t("Kassalipas päivitettiin onnistuneesti")
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
