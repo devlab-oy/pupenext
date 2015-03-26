@@ -88,6 +88,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
     else
       @commodity.status = ''
+      flash.now[:notice] = 'Aktivointi epäonnistui'
       render :edit
     end
   end
