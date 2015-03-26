@@ -199,6 +199,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def sell_commodity
+      params[:current_user] = current_user.id
       if @commodity.sell(params)
         true
       else
