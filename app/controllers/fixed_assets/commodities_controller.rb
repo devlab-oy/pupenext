@@ -109,7 +109,13 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   def confirm_sale
     if sell_commodity
+      commodity_sales_params
       @commodity.save_by current_user
+      options = {
+        commodity_id: @commodity.id,
+        user_id: current_user.id
+      }
+      CommodityRowGenerator.new(options).sell
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
     else
       render :sell
@@ -200,11 +206,18 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def sell_commodity
       params[:current_user] = current_user.id
-      if @commodity.sell(params)
+      if @commodity.can_be_sold?(params)
         true
       else
         flash.now[:notice] = 'Virheelliset parametrit'
         false
       end
+    end
+
+    def commodity_sales_params
+      @commodity.deactivated_at = params[:deactivated_at]
+      @commodity.amount_sold    = params[:amount_sold]
+      @commodity.profit_account = current_company.accounts.find_by(tilino: params[:profit_account])
+      @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
     end
 end
