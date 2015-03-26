@@ -27,13 +27,10 @@ class Administration::CashRegistersController < AdministrationController
     @cash_register = current_company.cash_registers.build
   end
 
-def create
-    @cash_register = current_company.cash_registers.build
-    @cash_register.attributes = cash_register_params
+  def create
+    @cash_register = current_company.cash_registers.build(cash_register_params)
 
-    if @cash_register.kustp == nil
-      @cash_register.kustp = 0
-    end
+    @cash_register.kustp = 0 if @cash_register.kustp.nil?
 
     if @cash_register.save_by current_user
       redirect_to cash_registers_path, notice: t("Kassalipas luotiin onnistuneesti")
