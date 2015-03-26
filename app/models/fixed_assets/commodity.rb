@@ -146,37 +146,15 @@ class FixedAssets::Commodity < ActiveRecord::Base
     amount - calculation
   end
 
-  def sell(params)
-    return false unless can_be_sold?(params)
-
-    #self.status = 'P'
-    self.deactivated_at = params[:sales_date]
-    self.amount_sold = params[:sales_amount]
-    self.depreciation_remainder_handling = params[:depreciation_handling]
-    self.profit_account = company.accounts.find_by(tilino: params[:profit_account])
-
-    # Kirjaa yli kaikki tulevat SUMU / EVL poistoerät
-
-    save!
-
-    options = {
-      commodity_id: id,
-      user_id: params[:current_user]
-    }
-
-    CommodityRowGenerator.new(options).sell
-    true
-  end
-
   def can_be_sold?(params)
-    required_values = [:sales_amount, :sales_date, :profit_account, :depreciation_handling]
+    required_values = [:amount_sold, :deactivated_at, :profit_account, :depreciation_remainder_handling]
     return false if required_values.any? { |value| params[value].nil? }
     return false unless activated?
-    return false if params[:sales_amount].to_d < 0
-    return false unless company.date_in_open_period?(params[:sales_date])
-    return false if params[:sales_date].to_date > Date.today
+    return false if params[:amount_sold].to_d < 0
+    return false unless company.date_in_open_period?(params[:deactivated_at])
+    return false if params[:deactivated_at].to_date > Date.today
     return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
-    return false unless ['S','E'].include?(params[:depreciation_handling])
+    return false unless ['S','E'].include?(params[:depreciation_remainder_handling])
     true
   end
 
