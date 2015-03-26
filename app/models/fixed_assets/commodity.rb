@@ -156,7 +156,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     self.profit_account = company.accounts.find_by(tilino: params[:profit_account])
 
     # Kirjaa yli kaikki tulevat SUMU / EVL poistoerät
-    amend_rows(params[:sales_date])
 
     save!
 
@@ -179,11 +178,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
     return false unless ['S','E'].include?(params[:depreciation_handling])
     true
-  end
-
-  def amend_rows(deactivation_date)
-    commodity_rows.where("transacted_at > ?", deactivation_date).update_all(amended: true)
-    voucher.rows.where("tapvm > ?", deactivation_date).update_all(korjattu: "X", korjausaika: Time.now)
   end
 
   private

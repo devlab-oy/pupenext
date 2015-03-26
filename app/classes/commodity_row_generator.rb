@@ -28,6 +28,9 @@ class CommodityRowGenerator
   def sell
     # Kirjaa myyntitapahtumat ja poistoerokäsittely S - SUORA
 
+    # Yliajaa myyntipäivän jälkeiset poistotapahtumat
+    amend_future_rows
+
     soldparams = {
       laatija: user.kuka,
       tapvm: commodity.deactivated_at,
@@ -333,4 +336,9 @@ class CommodityRowGenerator
         }
       end
     end
+
+    def amend_future_rows
+    commodity.commodity_rows.where("transacted_at > ?", commodity.deactivated_at).update_all(amended: true)
+    commodity.voucher.rows.where("tapvm > ?", commodity.deactivated_at).update_all(korjattu: "X", korjausaika: Time.now)
+  end
 end
