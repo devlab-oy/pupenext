@@ -585,9 +585,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.decimal  "amount",                       precision: 16, scale: 6
     t.decimal  "amount_sold",                  precision: 16, scale: 6
     t.string   "depreciation_remainder_handling", limit: 1
-    t.integer  "cost_centre", limit: 4
-    t.integer  "target",      limit: 4
-    t.integer  "project",     limit: 4
     t.string   "created_by",  limit: 255
     t.string   "modified_by", limit: 255
   end
