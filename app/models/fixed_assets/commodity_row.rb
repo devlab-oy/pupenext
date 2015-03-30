@@ -9,10 +9,6 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
     where(locked: true)
   end
 
-  def self.unlocked
-    where(locked: false)
-  end
-
   def depreciation_difference
     # Tämän EVL-poiston saman kuukauden SUMU-poisto
     sumu = commodity.voucher.rows.find_by_tapvm(transacted_at)

@@ -20,7 +20,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
   validates :planned_depreciation_amount, :btl_depreciation_amount,
             numericality: { greater_than: 0 }, presence: true, if: :activated?
 
-  validate :only_one_account_number
   validate :activation_only_on_open_fiscal_year, if: :activated?
   validate :depreciation_amount_must_follow_type, if: :activated?
   validate :must_have_procurement_rows, if: :activated?
@@ -191,12 +190,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
     def activation_only_on_open_fiscal_year
       unless company.date_in_open_period?(activated_at)
         errors.add(:base, "Activation date must be within current editable fiscal year")
-      end
-    end
-
-    def only_one_account_number
-      if procurement_rows.map(&:tilino).uniq.count > 1
-        errors.add(:base, "Account number must be shared between all linked cost records")
       end
     end
 
