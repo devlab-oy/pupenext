@@ -526,7 +526,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # SUMU-tilin nollaus / fixed_assets_account
     resetting_amount = @commodity.amount + @commodity.fixed_assets_rows.sum(:summa) - salesrows.first.summa
-    assert_equal resetting_amount.to_s, salesrows.first.summa.to_s
+    assert_equal resetting_amount, salesrows.first.summa
     assert_equal @commodity.fixed_assets_account, salesrows.first.tilino
   end
 end
