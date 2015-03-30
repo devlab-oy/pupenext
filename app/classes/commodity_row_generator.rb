@@ -29,16 +29,29 @@ class CommodityRowGenerator
     # Yliajaa myyntipäivän jälkeiset poistotapahtumat
     amend_future_rows
 
+    # SUMU-tilin nollaus
+    plannedparams = {
+      laatija: user.kuka,
+      tapvm: commodity.deactivated_at,
+      summa: commodity.amount + commodity.fixed_assets_rows.sum(:summa),
+      yhtio: company.yhtio,
+      selite: "Hyödykkeen #{commodity.id} SUMU myyntikirjaus",
+      tilino: commodity.fixed_assets_account
+    }
+    commodity.voucher.rows.create! plannedparams
+
+    # Myyntisumma
     soldparams = {
       laatija: user.kuka,
       tapvm: commodity.deactivated_at,
       summa: commodity.amount_sold,
       yhtio: company.yhtio,
       selite: "Hyödykkeen #{commodity.id} myynti",
-      tilino: commodity.fixed_assets_account
+      tilino: commodity.sales_account.tilino
     }
     commodity.voucher.rows.create! soldparams
 
+    # Myyntivoitto/tappio
     profitparams = {
       laatija: user.kuka,
       tapvm: commodity.deactivated_at,
