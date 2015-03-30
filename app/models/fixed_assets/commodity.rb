@@ -9,6 +9,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   belongs_to :company
   belongs_to :profit_account, class_name: 'Account'
+  belongs_to :sales_account, class_name: 'Account'
   has_one :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
@@ -146,13 +147,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def can_be_sold?(params)
-    required_values = [:amount_sold, :deactivated_at, :profit_account, :depreciation_remainder_handling]
+    required_values = [:amount_sold, :deactivated_at, :profit_account, :sales_account, :depreciation_remainder_handling]
     return false if required_values.any? { |value| params[value].nil? }
     return false unless activated?
     return false if params[:amount_sold].to_d < 0
     return false unless company.date_in_open_period?(params[:deactivated_at])
     return false if params[:deactivated_at].to_date > Date.today
     return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
+    return false if company.accounts.find_by(tilino: params[:sales_account]).nil?
     return false unless ['S','E'].include?(params[:depreciation_remainder_handling])
     true
   end
