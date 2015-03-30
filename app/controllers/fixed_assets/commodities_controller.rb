@@ -210,6 +210,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       @commodity.deactivated_at = params[:deactivated_at]
       @commodity.amount_sold    = params[:amount_sold]
       @commodity.profit_account = current_company.accounts.find_by(tilino: params[:profit_account])
+      @commodity.sales_account = current_company.accounts.find_by(tilino: params[:sales_account])
       @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
     end
 end
