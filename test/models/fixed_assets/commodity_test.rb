@@ -151,6 +151,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount_sold: @commodity.amount,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S',
     }
     @commodity.attributes = salesparams
@@ -167,9 +168,12 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     validparams = {
       amount_sold: 9800,
       deactivated_at: Date.today,
-      profit_account: '100',
+      profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'S'
     }
+    assert @commodity.can_be_sold?(validparams)
+
     # Invalid status
     @commodity.status = ''
     refute @commodity.can_be_sold?(validparams)
@@ -179,6 +183,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount_sold: 9800,
       deactivated_at: Date.today,
       profit_account: '0',
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'S'
     }
     @commodity.status = 'A'
@@ -189,6 +194,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount_sold: 9800,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'K'
     }
     refute @commodity.can_be_sold?(invalidparams)
@@ -198,6 +204,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount_sold: 9800,
       deactivated_at: @commodity.company.current_fiscal_year.first - 1,
       profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'S'
     }
     refute @commodity.can_be_sold?(invalidparams)
@@ -211,6 +218,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       amount_sold: -1,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'S'
     }
     refute @commodity.can_be_sold?(invalidparams)

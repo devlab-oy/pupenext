@@ -284,6 +284,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       amount_sold: @commodity.amount,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
       depreciation_remainder_handling: 'S',
     }
 
@@ -299,6 +300,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
       sales_amount: 9800,
       sales_date: Date.today,
       profit_account: 0,
+      sales_account: accounts(:account_110).tilino,
       depreciation_handling: 'S'
     }
     post :confirm_sale, params
