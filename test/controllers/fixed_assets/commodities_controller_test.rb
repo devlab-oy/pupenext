@@ -308,4 +308,17 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     @commodity.reload
     assert_equal 'A', @commodity.status
   end
+
+  test 'should generate rows' do
+     params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+
+    post :generate_rows, params
+    assert_response :found
+    assert assigns(:commodity).commodity_rows
+    assert assigns(:commodity).voucher.rows
+  end
 end
