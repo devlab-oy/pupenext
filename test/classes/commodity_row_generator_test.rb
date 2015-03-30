@@ -492,10 +492,15 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       amount_sold: 9800,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S',
     }
     @commodity.attributes = salesparams
+    @commodity.activated_at = Date.today.beginning_of_year
     @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+    @commodity.reload
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
     @commodity.reload
@@ -507,8 +512,21 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal salesparams[:profit_account].id, @commodity.profit_account.id
     # Sets btl total to negative amount(100%)
     assert_equal @commodity.amount * -1, @commodity.commodity_rows.sum(:amount)
-    assert_equal @commodity.amount - @commodity.amount_sold, @commodity.voucher.rows.last.summa
-    assert_equal salesparams[:profit_account].tilino, @commodity.voucher.rows.last.tilino
-    assert_equal salesparams[:amount_sold], @commodity.voucher.rows.fourth.summa
+
+    # Viimeiset 3 kirjausta pitäisi olla myyntikirjaukset
+    salesrows = @commodity.voucher.rows.last(3)
+
+    # Myyntivoitto/tappio / profit_account
+    assert_equal @commodity.amount - @commodity.amount_sold, salesrows.last.summa
+    assert_equal salesparams[:profit_account].tilino, salesrows.last.tilino
+
+    # Myyntisumma / sales_account
+    assert_equal salesparams[:amount_sold], salesrows.second.summa
+    assert_equal salesparams[:sales_account].tilino, salesrows.second.tilino
+
+    # SUMU-tilin nollaus / fixed_assets_account
+    resetting_amount = @commodity.amount + @commodity.fixed_assets_rows.sum(:summa) - salesrows.first.summa
+    assert_equal resetting_amount.to_s, salesrows.first.summa.to_s
+    assert_equal @commodity.fixed_assets_account, salesrows.first.tilino
   end
 end
