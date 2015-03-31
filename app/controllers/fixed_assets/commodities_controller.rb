@@ -110,13 +110,14 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   def confirm_sale
     commodity_sales_params
-    if @commodity.can_be_sold?
-      @commodity.save_by current_user
+
+    if @commodity.can_be_sold? && @commodity.save_by(current_user)
       options = {
         commodity_id: @commodity.id,
         user_id: current_user.id
       }
       CommodityRowGenerator.new(options).sell
+
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
     else
       flash.now[:notice] = 'Virheelliset parametrit'
