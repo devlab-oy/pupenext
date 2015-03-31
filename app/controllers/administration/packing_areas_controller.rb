@@ -1,79 +1,68 @@
 class Administration::PackingAreasController < AdministrationController
+
+  before_action :find_packing_area, only: [:show, :edit, :update]
   before_action :find_printers, only: [:new, :show, :create, :edit, :update]
   before_action :find_storages, only: [:new, :show, :create, :edit, :update]
-  helper_method :get_storage
 
   def index
-    @packing_areas = current_company.packing_areas.search_like(search_params).order(order_params)
+    @packing_areas = current_user.company.packing_areas
   end
 
   def show
-     render :edit
+     render 'edit'
   end
 
   def edit
   end
 
   def new
-    @packing_area = current_company.packing_areas.build
+    @packing_area = current_user.company.packing_areas.build
     @packing_area.varasto = nil
     @packing_area.prio = nil
     @packing_area.pakkaamon_prio = nil
   end
 
   def create
-    @packing_area = current_company.packing_areas.build(packing_area_params)
+    @packing_area = current_user.company.packing_areas.build
+    @packing_area.attributes = packing_area_params
+    @packing_area.muuttaja = current_user.kuka
+    @packing_area.laatija = current_user.kuka
 
-    if @packing_area.save_by current_user
-      redirect_to packing_areas_path, notice: t("Pakkaamo luotiin onnistuneesti")
+    if @packing_area.save
+      redirect_to packing_areas_path, notice: 'Packing area was successfully created.'
     else
-      render action: :new
+      render action: 'new'
     end
   end
 
   def update
-    if @packing_area.update_by(packing_area_params, current_user)
-      redirect_to packing_areas_path, notice: t("Pakkaamo päivitettiin onnistuneesti")
+    @packing_area.attributes = packing_area_params
+    @packing_area.muuttaja = current_user.kuka
+
+    if @packing_area.save
+      redirect_to packing_areas_path, notice: 'Packing area was successfully updated.'
     else
-      render action: :edit
+      render action: 'edit'
     end
   end
 
   def destroy
-    current_company.packing_areas.destroy(params[:id])
-    redirect_to packing_areas_path, notice: t("Pakkaamo poistettiin onnistuneesti")
+    PackingArea.destroy(params[:id])
+    redirect_to packing_areas_path, notice: 'Packing area was successfully deleted.'
   end
 
   private
 
-    def get_storage(storage_id)
-      current_company.storages.find_by_tunnus(storage_id).nimitys
-    end
-
-    def find_resource
-      @packing_area = current_company.packing_areas.find(params[:id])
+    def find_packing_area
+      @packing_area = current_user.company.packing_areas.find(params[:id])
     end
 
     def find_printers
-      @printers = current_company.printers.where.not(komento: "EDI").order(:kirjoitin)
+      @printers = Printers.all
     end
 
     def find_storages
-      @storages = current_company.storages.where.not(tyyppi: "P").order(:nimitys)
-    end
-
-    def searchable_columns
-      [
-        :nimi,
-        :lokero,
-        :prio,
-        :pakkaamon_prio,
-        :varasto
-      ]
-    end
-
-    def sortable_columns
-      searchable_columns
+      @storages = Storages.all
     end
 
     def packing_area_params
@@ -92,4 +81,7 @@ class Administration::PackingAreasController < AdministrationController
           :printteri7
         )
     end
+
+
+
 end
