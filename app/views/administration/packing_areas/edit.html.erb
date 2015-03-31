@@ -1,13 +1,10 @@
-<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Pakkaamo")}", packing_areas_path %>
-
+<%= link_to '« Palaa ohjelmaan: Pakkaamo', packing_areas_path %>
+<br />
 <br/>
-
-<%= render "administration/header", title: "Muokkaa pakkaamoa" %>
+<font class="head">Muokkaa Pakkaamoa</font>
+<hr />
 
 <%= render 'form' %>
-
 <br />
-
-<%= button_to t("Poista pakkaamo"), packing_area_path(@packing_area.id), confirm: t("Haluatko todella poistaa tämän tietueen?"), method: :delete if update_access? %>
-
+<%= button_to('Poista pakkaamo', packing_area_path(@packing_area.id), :confirm => 'Haluatko todella poistaa tämän tietueen?', method: "delete") %>
 
