@@ -528,5 +528,9 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     resetting_amount = @commodity.amount + @commodity.fixed_assets_rows.sum(:summa) - salesrows.first.summa
     assert_equal resetting_amount, salesrows.first.summa
     assert_equal @commodity.fixed_assets_account, salesrows.first.tilino
+
+    assert_raises(ArgumentError) do
+      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
+    end
   end
 end
