@@ -1,4 +1,4 @@
-class PackingAreasController < ApplicationController
+class Administration::PackingAreasController < AdministrationController
 
   before_action :find_packing_area, only: [:show, :edit, :update]
   before_action :find_printers, only: [:new, :show, :create, :edit, :update]
