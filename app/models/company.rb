@@ -15,6 +15,7 @@ class Company < ActiveRecord::Base
     o.has_many :cash_registers
     o.has_many :locations
     o.has_many :packing_areas
+    o.has_many :storages
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'
