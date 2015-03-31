@@ -14,19 +14,20 @@ class FixedAssets::Commodity < ActiveRecord::Base
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
-  before_validation :prevent_further_changes, if: :deactivated_before?
-
   validates :name, :description, presence: true
-  validates :planned_depreciation_type, :btl_depreciation_type, presence: true, if: :activated?
-  validates :planned_depreciation_amount, :btl_depreciation_amount,
-            numericality: { greater_than: 0 }, presence: true, if: :activated?
 
-  validate :activation_only_on_open_fiscal_year, if: :activated?
-  validate :depreciation_amount_must_follow_type, if: :activated?
-  validate :must_have_procurement_rows, if: :activated?
+  with_options if: :activated? do |o|
+    o.validates :planned_depreciation_type, :btl_depreciation_type, presence: true
+    o.validates :planned_depreciation_amount, :btl_depreciation_amount,
+                numericality: { greater_than: 0 }, presence: true
 
+    o.validate :activation_only_on_open_fiscal_year
+    o.validate :depreciation_amount_must_follow_type
+    o.validate :must_have_procurement_rows
+  end
+
+  before_save :prevent_further_changes, if: :deactivated_before?
   before_save :set_amount, :defaults
-  after_save :prevent_further_changes, if: :deactivated?
 
   def self.options_for_type
     [

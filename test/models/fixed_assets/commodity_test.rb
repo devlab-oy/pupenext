@@ -234,6 +234,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.status = 'P'
     assert @commodity.status_changed?
     @commodity.save!
-    assert @commodity.readonly?
+
+    @commodity.name = 'bob'
+    assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
   end
 end
