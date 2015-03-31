@@ -8,20 +8,25 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
   belongs_to :company
+  belongs_to :profit_account, class_name: 'Account'
+  belongs_to :sales_account, class_name: 'Account'
   has_one :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
   validates :name, :description, presence: true
-  validates :planned_depreciation_type, :btl_depreciation_type, presence: true, if: :activated?
-  validates :planned_depreciation_amount, :btl_depreciation_amount,
-            numericality: { greater_than: 0 }, presence: true, if: :activated?
 
-  validate :only_one_account_number
-  validate :activation_only_on_open_fiscal_year, if: :activated?
-  validate :depreciation_amount_must_follow_type, if: :activated?
-  validate :must_have_procurement_rows, if: :activated?
+  with_options if: :activated? do |o|
+    o.validates :planned_depreciation_type, :btl_depreciation_type, presence: true
+    o.validates :planned_depreciation_amount, :btl_depreciation_amount,
+                numericality: { greater_than: 0 }, presence: true
 
+    o.validate :activation_only_on_open_fiscal_year
+    o.validate :depreciation_amount_must_follow_type
+    o.validate :must_have_procurement_rows
+  end
+
+  before_save :prevent_further_changes, if: :deactivated_before?
   before_save :set_amount, :defaults
 
   def self.options_for_type
@@ -61,6 +66,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   def activated?
     status == 'A'
+  end
+
+  def deactivated?
+    status == 'P'
   end
 
   # Returns sum of past sumu depreciations
@@ -132,7 +141,23 @@ class FixedAssets::Commodity < ActiveRecord::Base
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date
     calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
+    if deactivated?
+      calculation = amount
+    end
     amount - calculation
+  end
+
+  def can_be_sold?
+    return false if profit_account.nil?
+    return false if sales_account.nil?
+    return false unless activated?
+    return false if amount_sold.nil?
+    return false if amount_sold < 0
+    return false if deactivated_at.nil?
+    return false if deactivated_at.to_date > Date.today
+    return false unless company.date_in_open_period?(deactivated_at)
+    return false unless ['S','E'].include?(depreciation_remainder_handling)
+    true
   end
 
   private
@@ -171,12 +196,6 @@ class FixedAssets::Commodity < ActiveRecord::Base
       end
     end
 
-    def only_one_account_number
-      if procurement_rows.map(&:tilino).uniq.count > 1
-        errors.add(:base, "Account number must be shared between all linked cost records")
-      end
-    end
-
     def viable_accounts
       # Jos tiliä ei ole valittu, otetaan kaikki EVL tilit. Muuten valittu tili.
       procurement_rows.empty? ? company.accounts.evl_accounts.select(:tilino) : procurement_rows.select(:tilino).uniq
@@ -201,10 +220,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
         .where(tilino: viable_accounts, tapvm: company.current_fiscal_year, commodity_id: nil)
     end
 
+    def prevent_further_changes
+      self.readonly!
+    end
+
     def defaults
       self.planned_depreciation_type   ||= commodity_sum_level.try(:planned_depreciation_type)
       self.planned_depreciation_amount ||= commodity_sum_level.try(:planned_depreciation_amount)
       self.btl_depreciation_type       ||= commodity_sum_level.try(:btl_depreciation_type)
       self.btl_depreciation_amount     ||= commodity_sum_level.try(:btl_depreciation_amount)
+    end
+
+    def deactivated_before?
+      deactivated? && !status_changed?
     end
 end

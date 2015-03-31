@@ -569,10 +569,13 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   end
 
   create_table "fixed_assets_commodities", force: :cascade, options: "ENGINE=myisam" do |t|
-    t.integer  "company_id",  limit: 4
+    t.integer  "company_id",        limit: 4
+    t.integer  "profit_account_id", limit: 4
+    t.integer  "sales_account_id",  limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.date     "activated_at"
+    t.date     "deactivated_at"
     t.string   "name",        limit: 255
     t.string   "description", limit: 255
     t.string   "status",      limit: 1
@@ -581,9 +584,8 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "btl_depreciation_type",        limit: 1
     t.decimal  "btl_depreciation_amount",      precision: 16, scale: 6
     t.decimal  "amount",                       precision: 16, scale: 6
-    t.integer  "cost_centre", limit: 4
-    t.integer  "target",      limit: 4
-    t.integer  "project",     limit: 4
+    t.decimal  "amount_sold",                  precision: 16, scale: 6
+    t.string   "depreciation_remainder_handling", limit: 1
     t.string   "created_by",  limit: 255
     t.string   "modified_by", limit: 255
   end

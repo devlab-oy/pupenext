@@ -88,6 +88,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
     else
       @commodity.status = ''
+      flash.now[:notice] = 'Aktivointi epäonnistui'
       render :edit
     end
   end
@@ -102,6 +103,26 @@ class FixedAssets::CommoditiesController < AdministrationController
     CommodityRowGenerator.new(options).generate_rows
 
     redirect_to edit_commodity_path(@commodity)
+  end
+
+  def sell
+  end
+
+  def confirm_sale
+    commodity_sales_params
+
+    if @commodity.can_be_sold? && @commodity.save_by(current_user)
+      options = {
+        commodity_id: @commodity.id,
+        user_id: current_user.id
+      }
+      CommodityRowGenerator.new(options).sell
+
+      redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
+    else
+      flash.now[:notice] = 'Virheelliset parametrit'
+      render :sell
+    end
   end
 
   private
@@ -184,5 +205,13 @@ class FixedAssets::CommoditiesController < AdministrationController
         flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
         false
       end
+    end
+
+    def commodity_sales_params
+      @commodity.deactivated_at = params[:deactivated_at]
+      @commodity.amount_sold    = params[:amount_sold]
+      @commodity.profit_account = current_company.accounts.find_by(tilino: params[:profit_account])
+      @commodity.sales_account = current_company.accounts.find_by(tilino: params[:sales_account])
+      @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
     end
 end

@@ -66,7 +66,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_equal params[:planned_depreciation_type], assigns(:commodity).planned_depreciation_type
 
     assert_response :found
-    assert_equal "Hyödyke päivitettiin onnistuneesti.", flash[:notice]
   end
 
   test 'should not create new commodity due to permissions' do
@@ -226,7 +225,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     post :activate, params
     @commodity.reload
-
     assert_equal '', @commodity.status
     assert_template :edit, 'Template should be edit'
   end
@@ -257,7 +255,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
     post :unlink, params
     assert_equal 0, @commodity.procurement_rows.count
-
     # Unlinking already unlinked should not work
     post :unlink, params
     assert_template :edit
@@ -272,5 +269,59 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     post :unlink, params
     assert_equal 1, @commodity.procurement_rows.count
     assert_template :edit
+  end
+
+  test 'should get sell' do
+    get :sell, commodity_id: @commodity.id
+    assert_response :success
+
+    assert_template :sell, 'Template should be sell'
+  end
+
+  test 'should sell commodity' do
+    salesparams = {
+      commodity_id: @commodity.id,
+      amount_sold: 2000,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100).tilino,
+      sales_account: accounts(:account_110).tilino,
+      depreciation_remainder_handling: 'S',
+    }
+
+    post :confirm_sale, salesparams
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+
+    @commodity.reload
+    assert_equal 'P', @commodity.status
+  end
+
+  test 'should not sell commodity' do
+    params = {
+      commodity_id: @commodity.id,
+      sales_amount: 9800,
+      sales_date: Date.today,
+      profit_account: 0,
+      sales_account: accounts(:account_110).tilino,
+      depreciation_handling: 'S'
+    }
+    post :confirm_sale, params
+
+    assert_template :_form_errors
+    assert_template :sell
+    @commodity.reload
+    assert_equal 'A', @commodity.status
+  end
+
+  test 'should generate rows' do
+     params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+
+    post :generate_rows, params
+    assert_response :found
+    assert assigns(:commodity).commodity_rows
+    assert assigns(:commodity).voucher.rows
   end
 end

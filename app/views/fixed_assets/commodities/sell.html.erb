@@ -1,0 +1,35 @@
+<%= return_link("Hyödykkeet", commodities_path) %>
+<br/><br/>
+
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<br/><br/>
+
+<%= render "administration/form_errors", resource: @commodity if @commodity.present? %>
+<%= render "administration/header", title: "Hyödykkeen myynti" %>
+<%= render "administration/notice" %>
+
+<%= form_tag(commodity_confirm_sale_path(@commodity), method: "post") do %>
+  <table>
+  <tr>
+  <th><%= label_tag :amount_sold, t('Myyntisumma') %></th>
+  <td><%= text_field_tag :amount_sold, @commodity.amount_sold %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :deactivated_at, t('Myyntipvm') %></th>
+  <td><%= date_field_tag :deactivated_at, @commodity.deactivated_at %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :sales_account, t('Myyntitili') %></th>
+  <td><%= text_field_tag :sales_account, @commodity.sales_account.try(:tilino) %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :profit_account, t('Myyntivoittotili') %></th>
+  <td><%= text_field_tag :profit_account, @commodity.profit_account.try(:tilino) %></td>
+  </tr>
+  <tr>
+  <th><%= label_tag :depreciation_remainder_handling, t('EVL käsittely') %></th>
+  <td><%= select_tag :depreciation_remainder_handling, options_for_select([[t('Suora'), 'S'], [t('Epäsuora'), 'E']]) %></td>
+  </tr>
+  <tr><td class='back'><%= submit_tag(t('Vahvista myynti')) %></td></tr>
+  </table>
+<% end %>

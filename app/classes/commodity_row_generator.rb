@@ -5,7 +5,7 @@ class CommodityRowGenerator
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
     self.company         = commodity.company
     self.activation_date = commodity.activated_at
-    self.user            = company.users.find(user_id)
+    self.user            = company.users.find_by(tunnus: user_id)
 
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
     self.fiscal_start = fi.first
@@ -23,6 +23,18 @@ class CommodityRowGenerator
     generate_commodity_rows
     generate_depreciation_difference_rows
     split_voucher_rows
+  end
+
+  def sell
+    raise ArgumentError unless commodity.can_be_sold?
+    amend_future_rows
+    create_planned_sales_row
+    create_sales_row
+    create_sales_profit_row
+    create_btl_remainder_rows
+
+    commodity.status = 'P'
+    commodity.save!
   end
 
   def fixed_by_percentage(full_amount, percentage)
@@ -293,5 +305,72 @@ class CommodityRowGenerator
           project: pcu.projekti
         }
       end
+    end
+
+    def amend_future_rows
+      # Yliajaa myyntipäivän jälkeiset poistotapahtumat
+      date = commodity.deactivated_at
+      commodity.commodity_rows.where("transacted_at > ?", date).update_all(amended: true)
+      commodity.voucher.rows.where("tapvm > ?", date).find_each { |r| r.amend_by(user) }
+    end
+
+    def create_planned_sales_row
+      # SUMU-tilin nollaus
+      plannedparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount + commodity.fixed_assets_rows.sum(:summa),
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} SUMU myyntikirjaus",
+        tilino: commodity.fixed_assets_account
+      }
+      commodity.voucher.rows.create! plannedparams
+    end
+
+    def create_sales_row
+      # Myyntisumma
+      soldparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount_sold,
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} myynti",
+        tilino: commodity.sales_account.tilino
+      }
+      commodity.voucher.rows.create! soldparams
+    end
+
+    def create_sales_profit_row
+      # Myyntivoitto/tappio
+      profitparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount - commodity.amount_sold,
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} myyntivoitto/tappio",
+        tilino: commodity.profit_account.tilino
+      }
+      commodity.voucher.rows.create! profitparams
+    end
+
+    def create_btl_remainder_rows
+      case commodity.depreciation_remainder_handling
+      when 'S'
+      # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+      btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
+
+      btlparams = {
+        created_by: user.kuka,
+        modified_by: user.kuka,
+        transacted_at: commodity.deactivated_at,
+        amount: btl_dep_value * -1,
+        description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
+      }
+      when 'E'
+        raise ArgumentError.new 'Logic not yet implemented'
+      else
+        raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
+      end
+      commodity.commodity_rows.create! btlparams
     end
 end

@@ -145,5 +145,97 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
     assert_equal 6500, @commodity.bookkeeping_value
+
+    # Sold commodity bkvalue is 0
+    salesparams = {
+      amount_sold: @commodity.amount,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'S',
+    }
+    @commodity.attributes = salesparams
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).sell
+    @commodity.reload
+
+    assert_equal 'P', @commodity.status
+    assert_equal 0, @commodity.bookkeeping_value
+  end
+
+  test 'cant be sold with invalid params' do
+    validparams = {
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'S'
+    }
+    @commodity.attributes = validparams
+    assert @commodity.can_be_sold?
+
+    # Invalid status
+    @commodity.status = ''
+    refute @commodity.can_be_sold?
+
+    # Invalid profit account
+    invalidparams = {
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: nil,
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'S'
+    }
+    @commodity.status = 'A'
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
+
+    # Invalid depreciation handling
+    invalidparams = {
+      amount_sold: 9800,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'K'
+    }
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
+
+    # Invalid sales date
+    invalidparams = {
+      amount_sold: 9800,
+      deactivated_at: @commodity.company.current_fiscal_year.first - 1,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'S'
+    }
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
+
+    # Invalid sales date 2
+    @commodity.deactivated_at = Date.today+1
+    refute @commodity.can_be_sold?
+
+    # Invalid sales amount
+    invalidparams = {
+      amount_sold: -1,
+      deactivated_at: Date.today,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
+      depreciation_remainder_handling: 'S'
+    }
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
+  end
+
+  test 'deactivation prevents further changes' do
+    # Commodity in status P turns readonly
+    @commodity.status = 'P'
+    assert @commodity.status_changed?
+    @commodity.save!
+
+    @commodity.name = 'bob'
+    assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
   end
 end
