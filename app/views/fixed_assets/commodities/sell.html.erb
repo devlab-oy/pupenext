@@ -12,19 +12,19 @@
   <table>
   <tr>
   <th><%= label_tag :amount_sold, t('Myyntisumma') %></th>
-  <td><%= text_field_tag :amount_sold, '' %></td>
+  <td><%= text_field_tag :amount_sold, @commodity.amount_sold %></td>
   </tr>
   <tr>
   <th><%= label_tag :deactivated_at, t('Myyntipvm') %></th>
-  <td><%= date_field_tag :deactivated_at, '' %></td>
+  <td><%= date_field_tag :deactivated_at, @commodity.deactivated_at %></td>
   </tr>
   <tr>
   <th><%= label_tag :sales_account, t('Myyntitili') %></th>
-  <td><%= @commodity.fixed_assets_account %></td>
+  <td><%= text_field_tag :sales_account, @commodity.sales_account.try(:tilino) %></td>
   </tr>
   <tr>
   <th><%= label_tag :profit_account, t('Myyntivoittotili') %></th>
-  <td><%= text_field_tag :profit_account, '' %></td>
+  <td><%= text_field_tag :profit_account, @commodity.profit_account.try(:tilino) %></td>
   </tr>
   <tr>
   <th><%= label_tag :depreciation_remainder_handling, t('EVL käsittely') %></th>
