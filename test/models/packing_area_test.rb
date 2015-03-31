@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PackingAreaTest < ActiveSupport::TestCase
-
   def setup
     @q = packing_areas(:first)
   end
@@ -69,7 +68,4 @@ class PackingAreaTest < ActiveSupport::TestCase
     @q.printteri7 = ''
     refute @q.valid?
   end
-
-
-
 end
