@@ -168,60 +168,65 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     validparams = {
       amount_sold: 9800,
       deactivated_at: Date.today,
-      profit_account: accounts(:account_100).tilino,
-      sales_account: accounts(:account_110).tilino,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
-    assert @commodity.can_be_sold?(validparams)
+    @commodity.attributes = validparams
+    assert @commodity.can_be_sold?
 
     # Invalid status
     @commodity.status = ''
-    refute @commodity.can_be_sold?(validparams)
+    refute @commodity.can_be_sold?
 
     # Invalid profit account
     invalidparams = {
       amount_sold: 9800,
       deactivated_at: Date.today,
-      profit_account: '0',
-      sales_account: accounts(:account_110).tilino,
+      profit_account: nil,
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
     @commodity.status = 'A'
-    refute @commodity.can_be_sold?(invalidparams)
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
 
     # Invalid depreciation handling
     invalidparams = {
       amount_sold: 9800,
       deactivated_at: Date.today,
-      profit_account: accounts(:account_100).tilino,
-      sales_account: accounts(:account_110).tilino,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'K'
     }
-    refute @commodity.can_be_sold?(invalidparams)
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
 
     # Invalid sales date
     invalidparams = {
       amount_sold: 9800,
       deactivated_at: @commodity.company.current_fiscal_year.first - 1,
-      profit_account: accounts(:account_100).tilino,
-      sales_account: accounts(:account_110).tilino,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
-    refute @commodity.can_be_sold?(invalidparams)
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
 
     # Invalid sales date 2
-    invalidparams[:deactivated_at] = Date.today+1
-    refute @commodity.can_be_sold?(invalidparams)
+    @commodity.deactivated_at = Date.today+1
+    refute @commodity.can_be_sold?
 
     # Invalid sales amount
     invalidparams = {
       amount_sold: -1,
       deactivated_at: Date.today,
-      profit_account: accounts(:account_100).tilino,
-      sales_account: accounts(:account_110).tilino,
+      profit_account: accounts(:account_100),
+      sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
-    refute @commodity.can_be_sold?(invalidparams)
+    @commodity.attributes = invalidparams
+    refute @commodity.can_be_sold?
   end
 
   test 'deactivation prevents further changes' do

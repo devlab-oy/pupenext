@@ -281,7 +281,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   test 'should sell commodity' do
     salesparams = {
       commodity_id: @commodity.id,
-      amount_sold: @commodity.amount,
+      amount_sold: 2000,
       deactivated_at: Date.today,
       profit_account: accounts(:account_100).tilino,
       sales_account: accounts(:account_110).tilino,
@@ -290,6 +290,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
     post :confirm_sale, salesparams
     assert_redirected_to edit_commodity_path assigns(:commodity)
+
     @commodity.reload
     assert_equal 'P', @commodity.status
   end
