@@ -1,13 +1,10 @@
 require 'test_helper'
 
-class Administration::PackingAreasControllerTest < ActionController::TestCase
-  def setup
-    login users(:joe)
-    @packing_area = packing_areas(:first)
-  end
+class PackingAreasControllerTest < ActionController::TestCase
 
-  test "should be valid" do
-    assert @packing_area.valid?
+  def setup
+    cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
+    @packing_area = packing_areas(:first)
   end
 
   test "should get index" do
@@ -26,14 +23,11 @@ class Administration::PackingAreasControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    cookies[:pupesoft_session] = users(:bob).session
     get :new
     assert_response :success
   end
 
   test "should create" do
-    cookies[:pupesoft_session] = users(:bob).session
-
     request = {
       nimi: 'Kissa',
       lokero: '10',
@@ -57,7 +51,6 @@ class Administration::PackingAreasControllerTest < ActionController::TestCase
   end
 
 test "should not create" do
-    cookies[:pupesoft_session] = users(:bob).session
 
     request = {
       nimi: 'Kissa',
@@ -82,7 +75,6 @@ test "should not create" do
   end
 
   test "should update" do
-    cookies[:pupesoft_session] = users(:bob).session
 
     request = {
       nimi: 'Koira',
@@ -93,18 +85,12 @@ test "should not create" do
     assert_redirected_to packing_areas_path
   end
 
-  test "should not update" do
-    cookies[:pupesoft_session] = users(:bob).session
-
-    patch :update, id: @packing_area.id, packing_area: { nimi: '' }
-    assert_template "edit", "Template should be edit"
-  end
-
   test "should destroy" do
-    cookies[:pupesoft_session] = users(:bob).session
 
     assert_difference('PackingArea.count', -1) do
       post :destroy, id: @packing_area.id
     end
+
   end
+
 end
