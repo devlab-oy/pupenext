@@ -109,8 +109,8 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def confirm_sale
-    if @commodity.can_be_sold?(params)
-      commodity_sales_params
+    commodity_sales_params
+    if @commodity.can_be_sold?
       @commodity.save_by current_user
       options = {
         commodity_id: @commodity.id,

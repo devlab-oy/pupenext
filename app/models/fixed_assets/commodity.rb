@@ -146,16 +146,16 @@ class FixedAssets::Commodity < ActiveRecord::Base
     amount - calculation
   end
 
-  def can_be_sold?(params)
-    required_values = [:amount_sold, :deactivated_at, :profit_account, :sales_account, :depreciation_remainder_handling]
-    return false if required_values.any? { |value| params[value].nil? }
+  def can_be_sold?
+    return false if profit_account.nil?
+    return false if sales_account.nil?
     return false unless activated?
-    return false if params[:amount_sold].to_d < 0
-    return false unless company.date_in_open_period?(params[:deactivated_at])
-    return false if params[:deactivated_at].to_date > Date.today
-    return false if company.accounts.find_by(tilino: params[:profit_account]).nil?
-    return false if company.accounts.find_by(tilino: params[:sales_account]).nil?
-    return false unless ['S','E'].include?(params[:depreciation_remainder_handling])
+    return false if amount_sold.nil?
+    return false if amount_sold < 0
+    return false if deactivated_at.nil?
+    return false if deactivated_at.to_date > Date.today
+    return false unless company.date_in_open_period?(deactivated_at)
+    return false unless ['S','E'].include?(depreciation_remainder_handling)
     true
   end
 
