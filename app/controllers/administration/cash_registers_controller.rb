@@ -54,11 +54,11 @@ private
     end
 
     def get_qualifiers
-      @qualifiers = Qualifier.all
+      @qualifiers = Qualifier.all.order(:nimi)
     end
 
     def get_locations
-      @locations = Location.all
+      @locations = Location.all.order(:nimi)
     end
 
     def check_kassa_account
