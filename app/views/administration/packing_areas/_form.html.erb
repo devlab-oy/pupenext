@@ -1,21 +1,7 @@
 <%= form_for(@packing_area) do |f| %>
-
-  <% if @packing_area.errors.any? %>
-
-    <div id="error_explanation">
-      <h2><%= pluralize(@packing_area.errors.count, "error") %> prohibited this Packing area from being saved:</h2>
-
-      <ul>
-      <% @packing_area.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-
-  <% end %>
+  <%= render "administration/form_errors", resource: @packing_area %>
 
   <table>
-
     <tr>
       <th><%= f.label :nimi %></th>
       <td><%= f.text_field :nimi %></td>
@@ -94,36 +80,31 @@
 
 
   <% if @packing_area.persisted? %>
-
     <tr>
-      <th>Laatija</th>
+      <th><%= t("Laatija") %></th>
       <td><%= @packing_area.laatija %></td>
     </tr>
-
     <tr>
-      <th><%= f.label :luotiaika %></th>
-      <td><%= @packing_area.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      <th><%= t("Luontiaika") %></th>
+      <td><%= @packing_area.luontiaika %></td>
     </tr>
-
     <tr>
-      <th>Muutospvm</th>
-      <td><%= @packing_area.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      <th><%= t("Muutospvm") %></th>
+      <td><%= @packing_area.muutospvm %></td>
     </tr>
-
     <tr>
-      <th>Muuttaja</th>
+      <th><%= t("Muuttaja") %></th>
       <td><%= @packing_area.muuttaja %></td>
     </tr>
-
-
-
   <% end %>
 
   </table>
-  <br />
-  <div class="actions">
-    <% text = @packing_area.persisted? ? 'Päivitä pakkaamo' : 'Perusta pakkaamo' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
-  </div>
 
+  <% if update_access? %>
+    <br/>
+    <div class="actions">
+      <% text = @packing_area.persisted? ? "Tallenna" : "Lisää" %>
+      <%= f.submit t(text), disable_with: t("Tallentaa") + '...' %>
+    </div>
+  <% end %>
 <% end %>
