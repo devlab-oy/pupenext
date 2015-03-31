@@ -26,59 +26,11 @@ class CommodityRowGenerator
   end
 
   def sell
-    # Yliajaa myyntipäivän jälkeiset poistotapahtumat
     amend_future_rows
-
-    # SUMU-tilin nollaus
-    plannedparams = {
-      laatija: user.kuka,
-      tapvm: commodity.deactivated_at,
-      summa: commodity.amount + commodity.fixed_assets_rows.sum(:summa),
-      yhtio: company.yhtio,
-      selite: "Hyödykkeen #{commodity.id} SUMU myyntikirjaus",
-      tilino: commodity.fixed_assets_account
-    }
-    commodity.voucher.rows.create! plannedparams
-
-    # Myyntisumma
-    soldparams = {
-      laatija: user.kuka,
-      tapvm: commodity.deactivated_at,
-      summa: commodity.amount_sold,
-      yhtio: company.yhtio,
-      selite: "Hyödykkeen #{commodity.id} myynti",
-      tilino: commodity.sales_account.tilino
-    }
-    commodity.voucher.rows.create! soldparams
-
-    # Myyntivoitto/tappio
-    profitparams = {
-      laatija: user.kuka,
-      tapvm: commodity.deactivated_at,
-      summa: commodity.amount - commodity.amount_sold,
-      yhtio: company.yhtio,
-      selite: "Hyödykkeen #{commodity.id} myyntivoitto/tappio",
-      tilino: commodity.profit_account.tilino
-    }
-    commodity.voucher.rows.create! profitparams
-    case commodity.depreciation_remainder_handling
-    when 'S'
-    # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
-    btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
-
-    btlparams = {
-      created_by: user.kuka,
-      modified_by: user.kuka,
-      transacted_at: commodity.deactivated_at,
-      amount: btl_dep_value * -1,
-      description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
-    }
-    when 'E'
-      raise ArgumentError.new 'Logic not yet implemented'
-    else
-      raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
-    end
-    commodity.commodity_rows.create! btlparams
+    create_planned_sales_row
+    create_sales_row
+    create_sales_profit_row
+    create_btl_remainder_rows
 
     commodity.status = 'P'
     commodity.save!
@@ -355,7 +307,68 @@ class CommodityRowGenerator
     end
 
     def amend_future_rows
-    commodity.commodity_rows.where("transacted_at > ?", commodity.deactivated_at).update_all(amended: true)
-    commodity.voucher.rows.where("tapvm > ?", commodity.deactivated_at).update_all(korjattu: "X", korjausaika: Time.now)
-  end
+      # Yliajaa myyntipäivän jälkeiset poistotapahtumat
+      commodity.commodity_rows.where("transacted_at > ?", commodity.deactivated_at).update_all(amended: true)
+      commodity.voucher.rows.where("tapvm > ?", commodity.deactivated_at).update_all(korjattu: "X", korjausaika: Time.now)
+    end
+
+    def create_planned_sales_row
+      # SUMU-tilin nollaus
+      plannedparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount + commodity.fixed_assets_rows.sum(:summa),
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} SUMU myyntikirjaus",
+        tilino: commodity.fixed_assets_account
+      }
+      commodity.voucher.rows.create! plannedparams
+    end
+
+    def create_sales_row
+      # Myyntisumma
+      soldparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount_sold,
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} myynti",
+        tilino: commodity.sales_account.tilino
+      }
+      commodity.voucher.rows.create! soldparams
+    end
+
+    def create_sales_profit_row
+      # Myyntivoitto/tappio
+      profitparams = {
+        laatija: user.kuka,
+        tapvm: commodity.deactivated_at,
+        summa: commodity.amount - commodity.amount_sold,
+        yhtio: company.yhtio,
+        selite: "Hyödykkeen #{commodity.id} myyntivoitto/tappio",
+        tilino: commodity.profit_account.tilino
+      }
+      commodity.voucher.rows.create! profitparams
+    end
+
+    def create_btl_remainder_rows
+      case commodity.depreciation_remainder_handling
+      when 'S'
+      # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+      btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
+
+      btlparams = {
+        created_by: user.kuka,
+        modified_by: user.kuka,
+        transacted_at: commodity.deactivated_at,
+        amount: btl_dep_value * -1,
+        description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
+      }
+      when 'E'
+        raise ArgumentError.new 'Logic not yet implemented'
+      else
+        raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
+      end
+      commodity.commodity_rows.create! btlparams
+    end
 end
