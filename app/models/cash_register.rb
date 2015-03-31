@@ -4,7 +4,7 @@ class CashRegister < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :nimi, presence: true
+  validates :nimi, presence: true, uniqueness: true
   validates :kassa, presence: true
   validates :pankkikortti, presence: true
   validates :luottokortti, presence: true
