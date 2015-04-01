@@ -93,6 +93,13 @@ test "should not create" do
     assert_redirected_to packing_areas_path
   end
 
+  test "should not update" do
+    cookies[:pupesoft_session] = users(:bob).session
+
+    patch :update, id: @packing_area.id, packing_area: { nimi: '' }
+    assert_template "edit", "Template should be edit"
+  end
+
   test "should destroy" do
     cookies[:pupesoft_session] = users(:bob).session
 
