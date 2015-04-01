@@ -59,7 +59,7 @@ class Administration::PackingAreasController < AdministrationController
     end
 
     def find_storages
-      @storages = current_company.storages.all.order(:nimitys)
+      @storages = current_company.storages.where.not(tyyppi: "P").order(:nimitys)
     end
 
     def searchable_columns
