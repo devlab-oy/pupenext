@@ -27,7 +27,7 @@ class Administration::PackingAreasController < AdministrationController
     if @packing_area.save_by current_user
       redirect_to packing_areas_path, notice: t("Pakkaamo luotiin onnistuneesti")
     else
-      render action: 'new'
+      render action: :new
     end
   end
 
@@ -35,12 +35,12 @@ class Administration::PackingAreasController < AdministrationController
     if @packing_area.update_by(packing_area_params, current_user)
       redirect_to packing_areas_path, notice: t("Pakkaamo päivitettiin onnistuneesti")
     else
-      render action: 'edit'
+      render action: :edit
     end
   end
 
   def destroy
-    PackingArea.destroy(params[:id])
+    current_company.packing_areas.destroy(params[:id])
     redirect_to packing_areas_path, notice: t("Pakkaamo poistettiin onnistuneesti")
   end
 
