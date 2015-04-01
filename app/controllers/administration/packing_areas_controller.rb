@@ -1,6 +1,7 @@
 class Administration::PackingAreasController < AdministrationController
   before_action :find_printers, only: [:new, :show, :create, :edit, :update]
   before_action :find_storages, only: [:new, :show, :create, :edit, :update]
+  helper_method :get_storage
 
   def index
     @packing_areas = current_company.packing_areas.search_like(search_params).order(order_params)
@@ -44,6 +45,10 @@ class Administration::PackingAreasController < AdministrationController
   end
 
   private
+
+    def get_storage(storage_id)
+      current_company.storages.find_by_tunnus(storage_id).nimitys
+    end
 
     def find_resource
       @packing_area = current_company.packing_areas.find(params[:id])
