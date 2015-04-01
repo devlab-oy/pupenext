@@ -68,4 +68,9 @@ class PackingAreaTest < ActiveSupport::TestCase
     @q.printteri7 = ''
     refute @q.valid?
   end
+
+  test "should get duplicate cell" do
+    @q.lokero = "4-5"
+    refute @q.valid?, @q.errors.full_messages
+  end
 end
