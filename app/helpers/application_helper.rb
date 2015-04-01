@@ -20,6 +20,7 @@ module ApplicationHelper
   end
 
   private
+
     def user_agent_include?(value)
       request.user_agent.downcase.include? value.to_s.downcase
     end

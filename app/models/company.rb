@@ -8,6 +8,10 @@ class Company < ActiveRecord::Base
     o.has_many :keywords
     o.has_many :printers
     o.has_many :users
+    o.has_many :terms_of_payments
+    o.has_many :factorings
+    o.has_many :bank_details
+    o.has_many :customers
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'

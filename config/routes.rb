@@ -22,6 +22,7 @@ Pupesoft::Application.routes.draw do
     resources :accounts
     resources :currencies, except: :destroy
     resources :fiscal_years, except: :destroy
+    resources :terms_of_payments, except: :destroy
     resources :printers
     resources :sum_levels
   end

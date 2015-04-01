@@ -55,5 +55,4 @@ class ApplicationController < ActionController::Base
       access << path.second unless path.empty?
       access
     end
-
 end
