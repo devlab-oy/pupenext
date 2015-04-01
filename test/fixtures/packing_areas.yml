@@ -2,6 +2,7 @@ first:
   yhtio: acme
   nimi: Dynimite
   lokero: 4-4
+  varasto: <%= ActiveRecord::FixtureSet.identify(:veikkola) %>
   prio: 9
   pakkaamon_prio: 6
   luontiaika: <%= Time.now %>
