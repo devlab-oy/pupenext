@@ -1,9 +1,6 @@
-<%= link_to '« Palaa ohjelmaan: Pakkaamo', packing_areas_path %>
-<br />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Pakkaamo")}", packing_areas_path %>
+
 <br/>
-<font class="head">Uusi Pakkaamo</font>
-<hr />
 
-
-
-<%= render 'form' %>
+<%= render "administration/header", title: "Uusi pakkaamo" %>
+<%= render "form" %>
