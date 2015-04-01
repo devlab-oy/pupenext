@@ -55,7 +55,7 @@ class Administration::PackingAreasController < AdministrationController
     end
 
     def find_printers
-      @printers = current_company.printers.all.order(:kirjoitin)
+      @printers = current_company.printers.where.not(komento: "EDI").order(:kirjoitin)
     end
 
     def find_storages
