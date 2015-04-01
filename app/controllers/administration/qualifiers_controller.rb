@@ -1,4 +1,4 @@
-class QualifiersController < ApplicationController
+class Administration::QualifiersController < AdministrationController
 
   before_action :find_qualifier, only: [:show, :edit, :update]
   before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
