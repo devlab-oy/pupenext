@@ -1,0 +1,2 @@
+class BalanceStatementsReport
+end
