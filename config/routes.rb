@@ -27,6 +27,12 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
   end
 
+  scope :reports, controller: :reports do
+    get 'depreciations_balance_sheet'
+    get 'depreciation'
+    get 'balance_statements'
+  end
+
   root to: 'home#index'
   get '/test', to: 'home#test'
 
