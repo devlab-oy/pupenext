@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Head::VoucherTest < ActiveSupport::TestCase
+  fixtures %w(heads companies head/voucher_rows)
+
   setup do
     @voucher = heads(:vo_one)
   end

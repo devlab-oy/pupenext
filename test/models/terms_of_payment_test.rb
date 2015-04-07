@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TermsOfPaymentTest < ActiveSupport::TestCase
+  fixtures %w(terms_of_payments customers bank_details factorings)
 
   def setup
     @top = terms_of_payments(:sixty_days_net)

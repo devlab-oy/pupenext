@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Head::SalesInvoiceTest < ActiveSupport::TestCase
+  fixtures %w(heads)
+
   setup do
     @invoice = heads(:si_one)
   end

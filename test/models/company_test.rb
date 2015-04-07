@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class CompanyTest < ActiveSupport::TestCase
+  fixtures :all
+
   setup do
     @acme = companies(:acme)
   end

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  fixtures %w(users)
+
   setup do
     @joe = users(:joe)
     @bob = users(:bob)
@@ -19,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 10, @joe.permissions.count
+    assert_equal 11, @joe.permissions.count
   end
 
   test "user has update permissions" do

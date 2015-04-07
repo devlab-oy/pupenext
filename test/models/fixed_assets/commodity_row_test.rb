@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
+  fixtures %w(fixed_assets/commodity_rows heads head/voucher_rows)
+
   setup do
     @one = fixed_assets_commodity_rows(:one)
     @two = fixed_assets_commodity_rows(:two)

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class DictionaryTest < ActiveSupport::TestCase
+  fixtures %w(dictionaries)
 
   def setup
     @hello = dictionaries(:hello)
