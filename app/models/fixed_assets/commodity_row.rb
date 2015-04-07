@@ -11,7 +11,7 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
 
   def depreciation_difference
     # Tämän EVL-poiston saman kuukauden SUMU-poisto
-    sumu = commodity.fixed_assets_rows.find_by_tapvm(transacted_at)
+    sumu = commodity.voucher.rows.where(tilino: commodity.fixed_assets_account).find_by_tapvm(transacted_at)
     sumu.summa - amount
   end
 

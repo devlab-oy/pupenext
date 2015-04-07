@@ -11,7 +11,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     terms_of_payments
   )
 
-  setup do
+  def setup
     @top = terms_of_payments(:sixty_days_net)
     @cust = customers(:stubborn_customer)
   end

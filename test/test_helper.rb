@@ -24,9 +24,8 @@ end
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
-  self.use_transactional_fixtures = false
 
-  fixtures %w(users companies permissions dictionaries keywords parameters)
+  self.use_transactional_fixtures = false
 
   setup do
     RequestStore.clear!
@@ -37,6 +36,10 @@ class ActiveSupport::TestCase
     RequestStore.clear!
     Current.company = nil
   end
+
+  self.use_transactional_fixtures = false
+
+  fixtures %w(users companies permissions dictionaries keywords parameters)
 end
 
 # Add login/logout method for controller tests
@@ -117,4 +120,6 @@ module ActiveRecord
       cached_fixtures(connection, fixture_set_names)
     end
   end
+
+  fixtures %w(users companies permissions dictionaries keywords parameters)
 end

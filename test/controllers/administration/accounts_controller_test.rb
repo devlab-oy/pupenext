@@ -3,7 +3,7 @@ require 'test_helper'
 class Administration::AccountsControllerTest < ActionController::TestCase
   fixtures %w(accounts qualifiers sum_levels)
 
-  setup do
+  def setup
     login users(:joe)
     @account = accounts(:account_100)
   end

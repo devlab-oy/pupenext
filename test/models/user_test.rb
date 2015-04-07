@@ -26,6 +26,10 @@ class UserTest < ActiveSupport::TestCase
     assert @joe.files.count > 0
   end
 
+  test "user has permissions" do
+    assert_equal 11, @joe.permissions.count
+  end
+
   test "user has update permissions" do
     assert_equal 0, @joe.permissions.update_permissions.count
   end
