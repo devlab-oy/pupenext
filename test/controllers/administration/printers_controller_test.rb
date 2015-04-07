@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class Administration::PrintersControllerTest < ActionController::TestCase
+  fixtures %w(printers)
 
   def setup
     login users(:bob)

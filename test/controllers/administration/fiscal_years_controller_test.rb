@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Administration::FiscalYearsControllerTest < ActionController::TestCase
+  fixtures %w(fiscal_years)
+
   setup do
     @fiscal_year = fiscal_years(:one)
     login users(:joe)

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
+
   setup do
     login users(:bob)
   end

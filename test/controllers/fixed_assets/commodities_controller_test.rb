@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
+  fixtures %w(fixed_assets/commodities
+              fixed_assets/commodity_rows
+              companies
+              accounts
+              heads
+              head/voucher_rows
+              fiscal_years
+              sum_levels)
+
   setup do
     login users(:bob)
     @commodity = fixed_assets_commodities(:commodity_one)

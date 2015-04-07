@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Administration::AccountsControllerTest < ActionController::TestCase
+  fixtures %w(accounts)
+
   def setup
     login users(:joe)
     @account = accounts(:account_100)

@@ -4,6 +4,8 @@ require 'test_helper'
 class AdministrationControllerTest < ActionController::TestCase
   tests Administration::SumLevelsController
 
+  fixtures %w(sum_levels)
+
   def setup
     login users(:joe)
     @sum_level = sum_levels(:external)
