@@ -19,7 +19,7 @@ SimpleCov.start 'rails'
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
-  fixtures :all
+  fixtures %w(users permissions dictionaries keywords parameters)
   self.use_transactional_fixtures = false
 end
 
