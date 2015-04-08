@@ -19,11 +19,12 @@ SimpleCov.start 'rails'
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
-  fixtures %w(users permissions dictionaries keywords parameters)
   self.use_transactional_fixtures = false
+  fixtures %w(users companies permissions dictionaries keywords parameters)
 end
 
 # Add login/logout method for controller tests
 class ActionController::TestCase
   include LoginHelper
+  fixtures %w(users companies permissions dictionaries keywords parameters)
 end
