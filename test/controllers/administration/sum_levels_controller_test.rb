@@ -50,19 +50,20 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     assert_redirected_to sum_levels_path
   end
 
-  test "doesn't create with invalid params" do
+  test "doesnt create with invalid params" do
+    request = {
+      tyyppi: 'U',
+      summattava_taso: '',
+      taso: '',
+      nimi: 'TILIKAUDEN TULOS2221',
+      oletusarvo: '',
+      jakaja: '',
+      kumulatiivinen: '',
+      kayttotarkoitus: '',
+      kerroin: ''
+    }
+
     assert_no_difference("SumLevel.count") do
-      request = {
-        tyyppi: 'U',
-        summattava_taso: '',
-        taso: '',
-        nimi: 'TILIKAUDEN TULOS2221',
-        oletusarvo: '',
-        jakaja: '',
-        kumulatiivinen: '',
-        kayttotarkoitus: '',
-        kerroin: '',
-      }
       post :create, sum_level: request
     end
 
