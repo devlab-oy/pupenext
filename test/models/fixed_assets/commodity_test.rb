@@ -3,7 +3,6 @@ require 'test_helper'
 class FixedAssets::CommodityTest < ActiveSupport::TestCase
   fixtures %w(fixed_assets/commodities
               fixed_assets/commodity_rows
-              companies
               accounts
               heads
               head/voucher_rows
