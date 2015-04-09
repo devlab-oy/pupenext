@@ -26,5 +26,4 @@ end
 # Add login/logout method for controller tests
 class ActionController::TestCase
   include LoginHelper
-  fixtures %w(users companies permissions dictionaries keywords parameters)
 end
