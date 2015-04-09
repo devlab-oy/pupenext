@@ -11,8 +11,8 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should get depreciation report' do
-    get :depreciation
+  test 'should get depreciation difference report' do
+    get :depreciation_difference
     assert_response :success
   end
 
