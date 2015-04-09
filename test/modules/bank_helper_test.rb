@@ -13,6 +13,9 @@ class BankHelperTest < ActiveSupport::TestCase
     assert_nil check_sepa("Kala")
     assert_nil check_sepa(:Kala)
     assert_nil check_sepa("Finland")
+    assert_nil check_sepa('')
+    assert_nil check_sepa(0)
+    assert_nil check_sepa(nil)
   end
 
   test "valid_iban? returns true for correct IBANs" do
@@ -29,6 +32,9 @@ class BankHelperTest < ActiveSupport::TestCase
     refute valid_iban?("Kala1")
     refute valid_iban?("CH93007620116238529578")
     refute valid_iban?("LV80BANK000045195001")
+    refute valid_iban?("")
+    refute valid_iban?(0)
+    refute valid_iban?(nil)
   end
 
   test "valid_bic? returns true for valid BICs" do
@@ -44,6 +50,9 @@ class BankHelperTest < ActiveSupport::TestCase
     refute valid_bic?("BNORPHMMM")
     refute valid_bic?("BSMLKLXXXX")
     refute valid_bic?("UNCRITM")
+    refute valid_bic?("")
+    refute valid_bic?(0)
+    refute valid_bic?(nil)
   end
 
   test "valid_account_number? returns true for valid account numbers" do
@@ -60,6 +69,9 @@ class BankHelperTest < ActiveSupport::TestCase
     refute valid_account_number?("123")
     refute valid_account_number?("9a8s7df98a7sdf")
     refute valid_account_number?("22999-27377")
+    refute valid_account_number?("")
+    refute valid_account_number?(0)
+    refute valid_account_number?(nil)
   end
 
   test "valid_luhn? returns true for valid luhns?" do
@@ -72,6 +84,9 @@ class BankHelperTest < ActiveSupport::TestCase
     refute valid_luhn?("79927398710")
     refute valid_luhn?("123456")
     refute valid_luhn?("abs123")
+    refute valid_luhn?("")
+    refute valid_luhn?(0)
+    refute valid_luhn?(nil)
   end
 
   test "pad_account_number pads account number properly" do
@@ -85,6 +100,9 @@ class BankHelperTest < ActiveSupport::TestCase
   test "pad_account returns value back if length is not between 6 and 14" do
     assert_equal "12345", pad_account_number(12345)
     assert_equal "123456789012345", pad_account_number("123456789012345")
+    assert_equal "0", pad_account_number(0)
+    assert_equal "", pad_account_number(nil)
+    assert_equal "", pad_account_number("")
   end
 
   test "create_iban creates valid Finnish IBANs with valid account numbers" do
