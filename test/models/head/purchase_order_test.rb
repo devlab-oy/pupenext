@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Head::PurchaseOrderTest < ActiveSupport::TestCase
-  fixtures %w(heads)
+  fixtures %w(heads head/voucher_rows)
 
   setup do
     @order = heads(:po_one)

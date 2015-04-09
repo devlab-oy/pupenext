@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
-  fixtures %w(accounts qualifiers)
+  fixtures %w(accounts qualifiers sum_levels)
 
   def setup
     @account = accounts(:account_100)
