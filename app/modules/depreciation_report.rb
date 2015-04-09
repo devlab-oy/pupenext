@@ -1,2 +1,0 @@
-class DepreciationReport
-end

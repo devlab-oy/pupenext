@@ -29,7 +29,7 @@ Pupesoft::Application.routes.draw do
 
   scope :reports, controller: :reports do
     get 'depreciations_balance_sheet'
-    get 'depreciation'
+    get 'depreciation_difference'
     get 'balance_statements'
   end
 
