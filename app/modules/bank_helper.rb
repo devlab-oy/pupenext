@@ -94,11 +94,12 @@ module BankHelper
   end
 
   def pad_account_number(value)
-
     # Convert to string
-    account_number = value.to_s
+    value = value.to_s
+
     # Return value back if only letters
     return value if value =~ /\A[a-zA-Z]+\z/
+
     # Remove non-digits
     value.gsub!(/\D/, '')
 
@@ -106,10 +107,10 @@ module BankHelper
     return value unless value.length.between?(6, 14)
 
     # How much do we have to pad
-    zeroes = 14 - account_number.length
+    zeroes = 14 - value.length
 
     # Bank identifier
-    bank = account_number[0]
+    bank = value[0]
 
     case bank
     when '4', '5'
@@ -118,7 +119,7 @@ module BankHelper
       position = 6
     end
 
-    account_number.insert(position, "0" * zeroes)
+    value.insert(position, "0" * zeroes)
   end
 
   def create_iban(value)
