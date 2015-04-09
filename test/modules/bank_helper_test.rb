@@ -85,7 +85,6 @@ class BankHelperTest < ActiveSupport::TestCase
     refute valid_luhn?("123456")
     refute valid_luhn?("abs123")
     refute valid_luhn?("")
-    refute valid_luhn?(0)
     refute valid_luhn?(nil)
   end
 

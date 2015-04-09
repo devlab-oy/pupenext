@@ -1,6 +1,8 @@
 module BankHelper
 
   def check_sepa(country)
+    return nil unless country.respond_to?(:to_sym)
+
     country = country.to_sym
     # Returns IBAN length for any SEPA country by country code
 
@@ -28,7 +30,7 @@ module BankHelper
   end
 
   def valid_iban?(value)
-    return false unless value.present?
+    return false unless value.respond_to?(:upcase)
 
     # Validation bypass if value contains only letters
     return true if value =~ /\A[a-zA-Z]+\z/
