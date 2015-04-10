@@ -1,0 +1,20 @@
+<table>
+  <tr>
+  <th><%= t('Tosite')%></th>
+  <th><%= t('Hankittu')%></th>
+  <th><%= t('Selite') + t('Toimittaja') %></th>
+  <th><%= t('Hankintahinta') %></th>
+  <th><%= t('Tilikauden poistot') %></th>
+  <th><%= t('Kertynyt poisto') %></th>
+  <th><%= t('Menojäännös') %></th>
+  </tr>
+
+  <% @report.accounts.each do |acc| %>
+    <tr>
+    <td colspan='7'><%= t('Tili') %>
+    <%= acc.tilino + ' = ' + acc.nimi %>
+    <%= t('Poistoaika (kk)') + ': ' + acc.commodity.planned_depreciation_amount.to_i.to_s %>
+    </td>
+    </tr>
+  <% end %>
+</table>
