@@ -1,6 +1,6 @@
 <%= render "administration/header", title: "Sanakirja" %>
 
-<%= form_tag dictionaries_path do %>
+<%= form_tag dictionaries_path, method: :get do %>
   <table>
     <tr>
       <th><%= t("Valitse käännettävät kielet") %></th>
@@ -25,7 +25,7 @@
     <tr>
       <th><%= label_tag t("Millä kielellä etsitään"), nil, for: "search_language" %></th>
       <td>
-        <%= select_tag "search[language]", options_for_select(Dictionary.allowed_languages) %>
+        <%= select_tag "search[language]", options_for_select(Dictionary.all_languages) %>
       </td>
     </tr>
     <tr>
@@ -35,6 +35,30 @@
     <tr>
       <th><%= label_tag t("Tarkka haku"), nil, for: "search_strict" %></th>
       <td><%= check_box_tag "search[strict]", true %></td>
+      <td class="back">
+        <%= submit_tag t("Hae") %>
+      </td>
     </tr>
   </table>
 <% end %>
+
+<table>
+  <thead>
+  <tr>
+    <th><%= Dictionary.default_language[1] %></th>
+    <% languages.each do |language| %>
+      <th><%= language %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @dictionaries.each do |dictionary| %>
+    <tr>
+      <td><%= dictionary.send(Dictionary.default_language[1]) %></td>
+      <% languages.each do |language| %>
+        <td><%= dictionary.send(language) %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
