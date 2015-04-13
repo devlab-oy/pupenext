@@ -3,19 +3,15 @@ class Administration::DictionariesController < ApplicationController
 
   def index
     if languages.empty?
-      @dictionaries = current_company.dictionaries.none
+      @dictionaries = Dictionary.none
     elsif strict_search
-      @dictionaries = current_company
-                        .dictionaries
-                        .where(search_language => keywords)
+      @dictionaries = Dictionary.where(search_language => keywords)
     elsif search_language && keywords
-      @dictionaries = current_company
-                        .dictionaries
-                        .where_like(search_language, keywords)
+      @dictionaries = Dictionary.where_like(search_language, keywords)
     elsif !valid_search_language
-      @dictionaries = current_company.dictionaries.none
+      @dictionaries = Dictionary.none
     else
-      @dictionaries = current_company.dictionaries
+      @dictionaries = Dictionary.all
     end
   end
 
@@ -36,7 +32,9 @@ class Administration::DictionariesController < ApplicationController
     end
 
     def keywords
-      params[:search][:keyword] if params[:search]
+      return nil unless params[:search] && params[:search][:keyword].present?
+
+      params[:search][:keyword]
     end
 
     def strict_search
