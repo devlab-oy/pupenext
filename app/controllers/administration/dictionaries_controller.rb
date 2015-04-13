@@ -1,13 +1,16 @@
 class Administration::DictionariesController < ApplicationController
   helper_method :languages
+  helper_method :search_language
+  helper_method :strict_search?
+  helper_method :keyword
 
   def index
     if languages.empty?
       @dictionaries = Dictionary.none
-    elsif strict_search
-      @dictionaries = Dictionary.where(search_language => keywords)
-    elsif search_language && keywords
-      @dictionaries = Dictionary.where_like(search_language, keywords)
+    elsif strict_search?
+      @dictionaries = Dictionary.where(search_language => keyword)
+    elsif search_language && keyword
+      @dictionaries = Dictionary.where_like(search_language, keyword)
     elsif !valid_search_language
       @dictionaries = Dictionary.none
     else
@@ -31,14 +34,14 @@ class Administration::DictionariesController < ApplicationController
       end
     end
 
-    def keywords
+    def keyword
       return nil unless params[:search] && params[:search][:keyword].present?
 
       params[:search][:keyword]
     end
 
-    def strict_search
-      params[:search] && params[:search][:strict] && search_language && keywords
+    def strict_search?
+      params[:search] && params[:search][:strict] && search_language && keyword
     end
 
     def valid_search_language
