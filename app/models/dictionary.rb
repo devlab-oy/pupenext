@@ -47,6 +47,6 @@ class Dictionary < ActiveRecord::Base
   end
 
   def self.all_languages
-    allowed_languages | [default_language]
+    [default_language] | allowed_languages
   end
 end
