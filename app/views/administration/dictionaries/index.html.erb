@@ -1,0 +1,28 @@
+<%= render "administration/header", title: "Sanakirja" %>
+
+<%= form_tag dictionaries_path do %>
+  <table>
+    <tr>
+      <th><%= t("Valitse käännettävät kielet") %></th>
+      <td>
+        <table>
+          <% Dictionary.allowed_languages.each do |language| %>
+            <tr>
+              <td>
+                <%= label_tag language[0], nil, for: "checkbox_#{language[1]}" %>
+              </td>
+              <td>
+                <%= check_box_tag("languages[]",
+                                  language[1],
+                                  false,
+                                  id: "checkbox_#{language[1]}") %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    <tr>
+    </tr>
+  </table>
+<% end %>
