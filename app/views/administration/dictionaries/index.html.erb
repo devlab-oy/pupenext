@@ -23,6 +23,10 @@
       </td>
     </tr>
     <tr>
+      <th><%= t("Millä kielellä etsitään") %></th>
+      <td>
+        <%= select_tag "search[language]", options_for_select(Dictionary.allowed_languages) %>
+      </td>
     </tr>
   </table>
 <% end %>
