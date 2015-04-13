@@ -1,5 +1,6 @@
 class Dictionary < ActiveRecord::Base
   include Searchable
+  extend Translatable
 
   # Map old database schema table to class
   self.table_name = :sanakirja
@@ -27,5 +28,17 @@ class Dictionary < ActiveRecord::Base
 
     # Return the string if we don't have translation in correct languate
     t_string.present? ? t_string : string
+  end
+
+  def self.allowed_languages
+    [
+      [t("Englanti"), "en"],
+      [t("Ruotsi"), "se"],
+      [t("Viro"), "fi"],
+      [t("Saksa"), "de"],
+      [t("Tanska"), "dk"],
+      [t("Norja"), "no"],
+      [t("Venäjä"), "ru"]
+    ]
   end
 end

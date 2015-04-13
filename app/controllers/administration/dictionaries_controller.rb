@@ -20,10 +20,6 @@ class Administration::DictionariesController < ApplicationController
     def languages
       return [] unless params[:languages]
 
-      params[:languages].select { |l| l.in? allowed_languages }
-    end
-
-    def allowed_languages
-      %w(fi se no en de dk ru ee)
+      params[:languages].select { |l| l.in? Dictionary.allowed_languages.to_h.values }
     end
 end
