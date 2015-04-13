@@ -14,7 +14,7 @@
               <td>
                 <%= check_box_tag("languages[]",
                                   language[1],
-                                  false,
+                                  language[1].in?(languages),
                                   id: "checkbox_#{language[1]}") %>
               </td>
             </tr>
@@ -25,16 +25,17 @@
     <tr>
       <th><%= label_tag t("Millä kielellä etsitään"), nil, for: "search_language" %></th>
       <td>
-        <%= select_tag "search[language]", options_for_select(Dictionary.all_languages) %>
+        <%= select_tag("search[language]",
+                       options_for_select(Dictionary.all_languages, search_language)) %>
       </td>
     </tr>
     <tr>
       <th><%= label_tag t("Hakusana"), nil, for: "search_keyword" %></th>
-      <td><%= text_area_tag "search[keyword]", nil, rows: 5, cols: 25 %></td>
+      <td><%= text_area_tag "search[keyword]", keyword, rows: 5, cols: 25 %></td>
     </tr>
     <tr>
       <th><%= label_tag t("Tarkka haku"), nil, for: "search_strict" %></th>
-      <td><%= check_box_tag "search[strict]", true %></td>
+      <td><%= check_box_tag "search[strict]", true, strict_search? %></td>
       <td class="back">
         <%= submit_tag t("Hae") %>
       </td>
