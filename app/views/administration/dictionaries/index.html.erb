@@ -23,10 +23,14 @@
       </td>
     </tr>
     <tr>
-      <th><%= t("Millä kielellä etsitään") %></th>
+      <th><%= label_tag t("Millä kielellä etsitään"), nil, for: "search_language" %></th>
       <td>
         <%= select_tag "search[language]", options_for_select(Dictionary.allowed_languages) %>
       </td>
+    </tr>
+    <tr>
+      <th><%= label_tag t("Hakusana"), nil, for: "search_keyword" %></th>
+      <td><%= text_area_tag "search[keyword]", nil, rows: 5, cols: 25 %></td>
     </tr>
   </table>
 <% end %>
