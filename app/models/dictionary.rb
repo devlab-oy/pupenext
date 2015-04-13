@@ -34,11 +34,19 @@ class Dictionary < ActiveRecord::Base
     [
       [t("Englanti"), "en"],
       [t("Ruotsi"), "se"],
-      [t("Viro"), "fi"],
+      [t("Viro"), "ee"],
       [t("Saksa"), "de"],
       [t("Tanska"), "dk"],
       [t("Norja"), "no"],
       [t("Venäjä"), "ru"]
     ]
+  end
+
+  def self.default_language
+    [t("Suomi"), "fi"]
+  end
+
+  def self.all_languages
+    allowed_languages | [default_language]
   end
 end
