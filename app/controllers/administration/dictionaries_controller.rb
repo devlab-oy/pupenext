@@ -2,6 +2,10 @@ class Administration::DictionariesController < ApplicationController
   def index
     if languages.empty?
       @dictionaries = current_company.dictionaries.none
+    elsif params[:search] && params[:search][:strict]
+      @dictionaries = current_company
+                        .dictionaries
+                        .where(params[:search][:language] => params[:search][:keyword])
     elsif params[:search]
       @dictionaries = current_company
                         .dictionaries

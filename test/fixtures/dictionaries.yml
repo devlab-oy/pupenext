@@ -9,3 +9,13 @@ hello:
   muuttaja: joe
   laatija: joe
   yhtio: acme
+
+new_car:
+  fi: Uusi auto
+  en: New car
+  aikaleima: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+  yhtio: acme
