@@ -62,6 +62,7 @@ module SaveByExtension
           taric_veroperusteet
           tiliointi
           valuu_historia
+          sanakirja
         }.include? self.class.table_name
     end
 end
