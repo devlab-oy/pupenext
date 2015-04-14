@@ -18,6 +18,16 @@ class Administration::DictionariesController < ApplicationController
     end
   end
 
+  def create
+    @dictionaries = Dictionary.find(params[:dictionaries].keys)
+
+    @dictionaries.each do |dictionary|
+      dictionary.update_by dictionaries_params[dictionary.tunnus.to_s], current_user
+    end
+
+    render :index
+  end
+
   private
 
     def languages
@@ -41,7 +51,10 @@ class Administration::DictionariesController < ApplicationController
     end
 
     def strict_search?
-      params[:search] && params[:search][:strict] && search_language && keyword
+      params[:search] &&
+        params[:search][:strict] == "true" &&
+        search_language.present? &&
+        keyword.present?
     end
 
     def valid_search_language
@@ -50,5 +63,9 @@ class Administration::DictionariesController < ApplicationController
       params[:search] &&
         params[:search][:language] &&
         params[:search][:language].in?(Dictionary.all_languages.to_h.values)
+    end
+
+    def dictionaries_params
+      params.require(:dictionaries).permit!
     end
 end

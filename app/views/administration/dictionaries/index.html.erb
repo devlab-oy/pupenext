@@ -43,23 +43,42 @@
   </table>
 <% end %>
 
-<table>
-  <thead>
-  <tr>
-    <th><%= Dictionary.default_language[1] %></th>
-    <% languages.each do |language| %>
-      <th><%= language %></th>
-    <% end %>
-  </tr>
-  </thead>
-  <tbody>
-  <% @dictionaries.each do |dictionary| %>
+<%= form_tag dictionaries_path do %>
+  <% languages.each do |language| %>
+    <%= hidden_field_tag "languages[]", language %>
+  <% end %>
+
+  <%= hidden_field_tag "search[language]", search_language %>
+  <%= hidden_field_tag "search[keyword]", keyword %>
+  <%= hidden_field_tag "search[strict]", strict_search? %>
+
+  <table>
+    <thead>
     <tr>
-      <td><%= dictionary.send(Dictionary.default_language[1]) %></td>
+      <th><%= Dictionary.default_language[1] %></th>
       <% languages.each do |language| %>
-        <td><%= dictionary.send(language) %></td>
+        <th><%= language %></th>
       <% end %>
     </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <% @dictionaries.each do |dictionary| %>
+      <%= fields_for "dictionaries[]", dictionary do |f| %>
+        <tr>
+          <td><%= dictionary.send(Dictionary.default_language[1]) %></td>
+          <% languages.each do |language| %>
+            <td>
+              <%= f.text_field(language) %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+    <tr>
+      <td class="back">
+        <%= submit_tag t("Päivitä") %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+<% end %>

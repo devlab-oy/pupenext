@@ -3,6 +3,10 @@ require "test_helper"
 class Administration::DictionariesControllerTest < ActionController::TestCase
   setup do
     login users(:joe)
+
+    @hello = dictionaries(:hello)
+    @car = dictionaries(:car)
+    @new_car = dictionaries(:new_car)
   end
 
   test "index doesn't return anything unless at least one language is specified" do
@@ -55,9 +59,32 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
   end
 
   test "index returns translations matching strict search criteria" do
-    get :index, { languages: [:en], search: { language: "fi", keyword: "Auto", strict: true } }
+    get :index, { languages: [:en], search: { language: "fi", keyword: "Auto", strict: "true" } }
 
     assert_response :success
     assert_equal 1, assigns(:dictionaries).count
+  end
+
+  test "dictionaries can be updated with correct values" do
+    dictionaries = {
+      @hello.id.to_s => {
+        en: "Fish",
+        se: "Fisk"
+      },
+      @car.id.to_s => {
+        en: "Cat",
+        se: "Kat"
+      }
+    }
+
+    post :create, dictionaries: dictionaries
+
+    assert_response :success
+
+    assert_equal "Fish", @hello.reload.en
+    assert_equal "Fisk", @hello.reload.se
+
+    assert_equal "Cat", @car.reload.en
+    assert_equal "Kat", @car.reload.se
   end
 end
