@@ -18,21 +18,19 @@ class Administration::DictionariesController < ApplicationController
       @dictionaries = Dictionary.all
     end
 
-    if params[:untranslated] && params[:untranslated] == "true"
-      conditions = languages.map { |language| "#{language} = ''" }
-      conditions = conditions.join(" OR ")
-      @dictionaries = @dictionaries.where(conditions)
-    end
+    filter_translated
 
     @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
   end
 
-  def create
-    @dictionaries = Dictionary.find(params[:dictionaries].keys)
+  def bulk_update
+    @dictionaries = Dictionary.where(tunnus: params[:dictionaries].keys)
 
     @dictionaries.each do |dictionary|
       dictionary.update_by dictionaries_params[dictionary.tunnus.to_s], current_user
     end
+
+    filter_translated
 
     render :index
   end
@@ -80,5 +78,13 @@ class Administration::DictionariesController < ApplicationController
 
     def dictionaries_params
       params.require(:dictionaries).permit!
+    end
+
+    def filter_translated
+      if params[:untranslated] && params[:untranslated] == "true"
+        conditions = languages.map { |language| "#{language} = ''" }
+        conditions = conditions.join(" OR ")
+        @dictionaries = @dictionaries.where(conditions)
+      end
     end
 end

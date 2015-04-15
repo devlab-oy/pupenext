@@ -52,13 +52,14 @@
 <% end %>
 
 <% unless @dictionaries.empty? %>
-  <%= form_tag dictionaries_path do %>
+  <%= form_tag bulk_update_dictionaries_path, method: :patch do %>
     <% languages.each do |language| %>
       <%= hidden_field_tag "languages[]", language %>
     <% end %>
     <%= hidden_field_tag "search[language]", search_language %>
     <%= hidden_field_tag "search[keyword]", keyword %>
     <%= hidden_field_tag "search[strict]", strict_search? %>
+    <%= hidden_field_tag "untranslated", params[:untranslated] %>
     <table>
       <thead>
       <tr>

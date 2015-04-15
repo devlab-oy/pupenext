@@ -92,7 +92,7 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
       }
     }
 
-    post :create, dictionaries: dictionaries
+    patch :bulk_update, dictionaries: dictionaries
 
     assert_response :success
 
@@ -108,5 +108,18 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_equal 1, assigns(:dictionaries).count
+  end
+
+  test "translated dictionaries are filtered out after update" do
+    dictionaries = {
+      @hello.id.to_s => {
+        se: "Fisk"
+      }
+    }
+
+    patch :bulk_update, { languages: [:se], untranslated: "true", dictionaries: dictionaries }
+
+    assert_response :success
+    assert_equal 0, assigns(:dictionaries).count
   end
 end
