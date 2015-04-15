@@ -9,11 +9,19 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
     @new_car = dictionaries(:new_car)
   end
 
-  test "index doesn't return anything unless at least one language is specified" do
+  test "index doesn't return anything when accessed without searching" do
     get :index
 
     assert_response :success
     assert_equal 0, assigns(:dictionaries).count
+  end
+
+  test "index doesn't return anything and notifies when no language is specified when searching" do
+    get :index, { commit: "Hae" }
+
+    assert_response :success
+    assert_equal 0, assigns(:dictionaries).count
+    assert_equal "Valitse käännettävä kieli", flash[:alert]
   end
 
   test "index doesn't return anything if an empty languages array is specified" do
