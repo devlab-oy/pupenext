@@ -5,16 +5,23 @@ class Administration::DictionariesController < ApplicationController
   helper_method :keyword
 
   def index
-    if languages.empty?
+    if languages.empty? || !valid_search_language
       @dictionaries = Dictionary.none
-    elsif strict_search?
+      return
+    end
+
+    if strict_search?
       @dictionaries = Dictionary.where(search_language => keyword)
     elsif search_language && keyword
       @dictionaries = Dictionary.where_like(search_language, keyword)
-    elsif !valid_search_language
-      @dictionaries = Dictionary.none
     else
       @dictionaries = Dictionary.all
+    end
+
+    if params[:untranslated] && params[:untranslated] == "true"
+      conditions = languages.map { |language| "#{language} = ''" }
+      conditions = conditions.join(" OR ")
+      @dictionaries = @dictionaries.where(conditions)
     end
   end
 

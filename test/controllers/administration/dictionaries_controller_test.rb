@@ -87,4 +87,11 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
     assert_equal "Cat", @car.reload.en
     assert_equal "Kat", @car.reload.se
   end
+
+  test "shows only untranslated rows when untranslated is selected" do
+    get :index, { languages: [:se, :no], untranslated: "true" }
+
+    assert_response :success
+    assert_equal 1, assigns(:dictionaries).count
+  end
 end
