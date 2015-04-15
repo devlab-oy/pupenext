@@ -23,6 +23,19 @@ module Searchable
       where(self.arel_table[column].matches "%#{search_term}%")
     end
 
+    def search_or(column, values)
+      result = self.all
+      conditions = []
+
+      values.each do |value|
+        conditions << "#{column} LIKE '%#{value}%'"
+      end
+
+      conditions = conditions.join(" OR ")
+
+      result.where(conditions)
+    end
+
     private
 
       def exact_search(value)
