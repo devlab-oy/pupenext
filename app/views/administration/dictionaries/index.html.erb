@@ -82,6 +82,11 @@
         <% end %>
       <% end %>
       <tr>
+        <th colspan="<%= languages.count + 1 %>">
+          <%= "#{t("Yhteensä")} #{@dictionaries.count} #{t("riviä")}" %>
+        </th>
+      </tr>
+      <tr>
         <td class="back">
           <%= submit_tag t("Päivitä") %>
         </td>
