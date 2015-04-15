@@ -33,6 +33,8 @@ class Administration::DictionariesController < ApplicationController
 
     filter_translated
 
+    @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
+
     render :index
   end
 
