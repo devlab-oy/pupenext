@@ -24,11 +24,11 @@
     </tr>
     <tr>
       <th><%= t("Näytä kaikki lauseet") %></th>
-      <td><%= radio_button_tag "untranslated", false %></td>
+      <td><%= radio_button_tag "untranslated", false, !untranslated? %></td>
     </tr>
     <tr>
       <th><%= t("Näytä vain kääntämättömät lauseet") %></th>
-      <td><%= radio_button_tag "untranslated", true, true %></td>
+      <td><%= radio_button_tag "untranslated", true, untranslated? %></td>
     </tr>
     <tr>
       <th><%= label_tag t("Millä kielellä etsitään"), nil, for: "search_language" %></th>

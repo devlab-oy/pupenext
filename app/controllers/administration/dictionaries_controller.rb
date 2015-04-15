@@ -3,6 +3,7 @@ class Administration::DictionariesController < ApplicationController
   helper_method :search_language
   helper_method :strict_search?
   helper_method :keyword
+  helper_method :untranslated?
 
   def index
     if languages.empty? || !valid_search_language
@@ -86,5 +87,9 @@ class Administration::DictionariesController < ApplicationController
         conditions = conditions.join(" OR ")
         @dictionaries = @dictionaries.where(conditions)
       end
+    end
+
+    def untranslated?
+      !params[:untranslated] || (params[:untranslated] && params[:untranslated] == "true")
     end
 end
