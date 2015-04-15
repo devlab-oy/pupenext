@@ -23,6 +23,8 @@ class Administration::DictionariesController < ApplicationController
       conditions = conditions.join(" OR ")
       @dictionaries = @dictionaries.where(conditions)
     end
+
+    @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
   end
 
   def create
