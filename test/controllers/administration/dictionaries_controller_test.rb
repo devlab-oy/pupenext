@@ -51,6 +51,13 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:dictionaries).count
   end
 
+  test "index returns translations with multiple search keywords" do
+    get :index, { languages: [:en], search: { language: "fi", keyword: "auto\nmaailma" } }
+
+    assert_response :success
+    assert_equal 3, assigns(:dictionaries).count
+  end
+
   test "index doesn't return anything with an invalid search language" do
     get :index, { languages: [:en], search: { language: "kala", keyword: "car" } }
 
