@@ -4,9 +4,9 @@ class OptionalDateValidator < ActiveModel::EachValidator
     return if date.nil?
     return if date == ''
 
-    begin
-      DateTime.parse(value.to_s)
-    rescue
+    if DatetimeUtils.is_valid?(value)
+      DatetimeUtils.parse(value)
+    else
       record.errors[attribute] << (options[:message] || "is not a valid date")
     end
   end
