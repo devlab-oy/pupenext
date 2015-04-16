@@ -60,7 +60,7 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
   end
 
   test "index returns translations with multiple search keywords" do
-    get :index, { languages: [:en], search: { language: "fi", keyword: "auto\nmaailma" } }
+    get :index, { languages: [:en], search: { language: "fi", keyword: "auto\r\nmaailma " } }
 
     assert_response :success
     assert_equal 3, assigns(:dictionaries).count

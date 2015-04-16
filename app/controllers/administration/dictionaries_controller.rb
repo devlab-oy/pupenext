@@ -67,7 +67,7 @@ class Administration::DictionariesController < ApplicationController
     end
 
     def keywords
-      keyword.split("\n")
+      keyword.split("\n").map {|kword| kword.strip}
     end
 
     def strict_search?
