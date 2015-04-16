@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :authorize
   before_action :set_locale
   before_action :access_control
+  before_action :set_current_company
+  after_action :unset_current_company
 
   helper_method :current_user
   helper_method :current_company
@@ -54,5 +56,13 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
+    end
+
+    def set_current_company
+
+    end
+
+    def unset_current_company
+
     end
 end
