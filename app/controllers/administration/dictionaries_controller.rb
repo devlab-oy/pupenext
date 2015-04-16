@@ -27,13 +27,19 @@ class Administration::DictionariesController < ApplicationController
   def bulk_update
     @dictionaries = Dictionary.where(tunnus: params[:dictionaries].keys)
 
+    save_success = true
+
     @dictionaries.each do |dictionary|
-      dictionary.update_by dictionaries_params[dictionary.tunnus.to_s], current_user
+      unless dictionary.update_by dictionaries_params[dictionary.tunnus.to_s], current_user
+        save_success = false
+      end
     end
 
     filter_translated
 
     @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
+
+    flash.now[:notice] = "Sanakirja päivitetty" if save_success
 
     render :index
   end

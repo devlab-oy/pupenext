@@ -101,6 +101,8 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
 
     assert_equal "Cat", @car.reload.en
     assert_equal "Kat", @car.reload.se
+
+    assert_equal "Sanakirja päivitetty", flash[:notice]
   end
 
   test "shows only untranslated rows when untranslated is selected" do
