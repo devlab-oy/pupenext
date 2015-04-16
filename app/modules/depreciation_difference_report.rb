@@ -18,6 +18,6 @@ class DepreciationDifferenceReport
   end
 
   def opening_balance(account)
-    current_company.voucher_rows.where(tilino: account.tilino, selite: 'Avaava tase').first.summa
+    current_company.voucher_rows.where(tilino: account.tilino, selite: 'Avaava tase').first.try(:summa)
   end
 end
