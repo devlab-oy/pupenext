@@ -140,3 +140,13 @@ table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[ty
   padding: 1px;
 }
 
+.translations-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.translations-table input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}

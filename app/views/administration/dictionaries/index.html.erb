@@ -60,7 +60,7 @@
     <%= hidden_field_tag "search[keyword]", keyword %>
     <%= hidden_field_tag "search[strict]", strict_search? %>
     <%= hidden_field_tag "untranslated", params[:untranslated] %>
-    <table>
+    <table class="translations-table">
       <thead>
       <tr>
         <th><%= Dictionary.default_language[1] %></th>

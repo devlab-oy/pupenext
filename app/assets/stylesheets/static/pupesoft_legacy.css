@@ -46,3 +46,13 @@ table.indexvas td {
 .monivalintadiv {
   display: inline-block;
 }
+
+.translations-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.translations-table input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
