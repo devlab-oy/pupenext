@@ -1,5 +1,6 @@
 commodity_one:
   company: acme
+  voucher_id: <%= ActiveRecord::FixtureSet.identify(:vo_one) %>
   name: This is a commodity!
   description: Commodity described
   created_by: joe
