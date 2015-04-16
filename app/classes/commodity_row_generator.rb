@@ -176,8 +176,7 @@ class CommodityRowGenerator
       voucher_params = {
         nimi: "Poistoerätosite hyödykkeelle #{commodity.name}",
         laatija: commodity.created_by,
-        muuttaja: commodity.modified_by,
-        commodity_id: commodity.id
+        muuttaja: commodity.modified_by
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)

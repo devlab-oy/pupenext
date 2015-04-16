@@ -572,6 +572,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "company_id",        limit: 4
     t.integer  "profit_account_id", limit: 4
     t.integer  "sales_account_id",  limit: 4
+    t.integer  "voucher_id",        limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.date     "activated_at"
@@ -1244,7 +1245,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "label",                            limit: 4,                              default: 0,          null: false
     t.integer  "tunnusnippu",                      limit: 4,                              default: 0,          null: false
     t.integer  "vanhatunnus",                      limit: 4,                              default: 0,          null: false
-    t.integer  "commodity_id",                     limit: 4
   end
 
   add_index "lasku", ["nimi"], name: "asiakasnimi", type: :fulltext
