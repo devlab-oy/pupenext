@@ -27,13 +27,13 @@
       <tr class="aktiivi">
         <td>
           <% if update_access? %>
-            <%= link_to fiscal_year.tilikausi_alku, edit_fiscal_year_path(fiscal_year.id) %>
+            <%= link_to l(fiscal_year.tilikausi_alku, format: :short), edit_fiscal_year_path(fiscal_year.id) %>
           <% else %>
-            <%= fiscal_year.tilikausi_alku %>
+            <%= l fiscal_year.tilikausi_alku, format: :short %>
           <% end %>
         </td>
         <td>
-          <%= fiscal_year.tilikausi_loppu %>
+          <%= l fiscal_year.tilikausi_loppu, format: :short %>
         </td>
       </tr>
     <% end %>
