@@ -108,7 +108,6 @@ so_one:
 vo_one:
   yhtio: acme
   tila: X
-  commodity_id: <%= ActiveRecord::FixtureSet.identify(:commodity_one) %>
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
