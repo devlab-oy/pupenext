@@ -3,12 +3,16 @@
 
   <table>
     <tr>
-      <th><%= f.label :tilikausi_alku, t('Alku') %></th>
+      <th><%= f.label :tilikausi_alku, t('Alkupäivämäärä') %></th>
       <td><%= f.text_field :tilikausi_alku %></td>
     </tr>
     <tr>
-      <th><%= f.label :tilikausi_loppu, t('Loppu') %></th>
+      <th><%= f.label :tilikausi_loppu, t('Loppupäivämäärä') %></th>
       <td><%= f.text_field :tilikausi_loppu %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :avaava_tase, t('Avaava tase') %></th>
+      <td><%= f.text_field :avaava_tase %></td>
     </tr>
     <tr>
       <th><%= t('Laatija') %></th>
@@ -28,10 +32,11 @@
     </tr>
   </table>
 
-  <br />
+  <br/>
 
   <div class="actions">
-    <% text = @fiscal_year.persisted? ? t('Tallenna') : t('Lisää') %>
+    <% text = @fiscal_year.persisted? ? t('Päivitä') : t('Lisää') %>
+    <% text = "#{text} #{t('tilikausi')}" %>
     <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
   </div>
 <% end %>
