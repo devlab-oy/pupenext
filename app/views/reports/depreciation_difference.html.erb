@@ -1,0 +1,28 @@
+<table>
+  <tr>
+  <th><%= t('Sumu-Evl alkusaldo')%></th>
+  <th><%= t('Lisäykset') + t('Vähennykset')%></th>
+  <th><%= t('Max % / Tod %') + t('Evl-poisto') %></th>
+  <th><%= t('Sumu-poisto') %></th>
+  <th><%= t('Poistoeron poiskirjaus') + t('Tk.poistoero') %></th>
+  <th><%= t('Sumu-Evl menojäännös') %></th>
+  <th><%= t('Kertynyt poistoero') %></th>
+  </tr>
+
+  <% @report.accounts.each do |acc| %>
+    <tr>
+    <td colspan='7'><%= t('Tili') %>
+      <%= acc.tilino + ' = ' + acc.nimi %>
+    </td>
+    </tr>
+    <tr>
+    <td><%= @report.opening_balance(acc) %></td>
+    <td><%= @report.commodity_ids %></td>
+    <td><%= @report.commodity_accounts %></td>
+    <td><%=  %></td>
+    <td><%=  %></td>
+    <td><%=  %></td>
+    <td><%=  %></td>
+    </tr>
+  <% end %>
+</table>

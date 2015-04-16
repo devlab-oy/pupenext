@@ -1,7 +1,7 @@
 class BalanceStatementsReport
-  def initialize(company_id)
-    current_company = Company.find_by(tunnus: company_id)
+  attr_accessor :current_company
 
-    @sumlevels = current_company.sum_level_commodities
+  def initialize(company_id)
+    self.current_company = Company.find_by(tunnus: company_id)
   end
 end
