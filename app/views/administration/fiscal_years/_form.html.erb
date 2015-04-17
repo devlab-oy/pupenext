@@ -1,14 +1,14 @@
-<%= form_for(@fiscal_year) do |f| %>
+<%= form_for(@fiscal_year, builder: PupenextFormBuilder) do |f| %>
   <%= render "administration/form_errors", resource: @fiscal_year %>
 
   <table>
     <tr>
       <th><%= f.label :tilikausi_alku, t('Alkupäivämäärä') %></th>
-      <td><%= f.text_field :tilikausi_alku %></td>
+      <td><%= f.pupenext_date_field :tilikausi_alku %></td>
     </tr>
     <tr>
       <th><%= f.label :tilikausi_loppu, t('Loppupäivämäärä') %></th>
-      <td><%= f.text_field :tilikausi_loppu %></td>
+      <td><%= f.date_select :tilikausi_loppu %></td>
     </tr>
     <tr>
       <th><%= f.label :avaava_tase, t('Avaava tase') %></th>
