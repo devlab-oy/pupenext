@@ -124,4 +124,50 @@ class Administration::DictionariesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 0, assigns(:dictionaries).count
   end
+
+  test "Translations for all languages can be updated" do
+    languages = {
+      se: "Ruotsi",
+      no: "Norja",
+      en: "Englanti",
+      de: "Saksa",
+      dk: "Tanska",
+      ru: "Venäjä",
+      ee: "Viro"
+    }
+
+    dictionaries = {
+      @new_car.id.to_s => languages
+    }
+
+    patch :bulk_update, dictionaries: dictionaries
+
+    languages.each do |key, value|
+      dictionary = @new_car.reload
+      assert_equal value, dictionary.send(key)
+    end
+  end
+
+  test "Other than translations cannot be updated" do
+    old_values = {
+      kysytty: @car.kysytty,
+      synkronoi: @car.synkronoi
+    }
+
+    params = {
+      kysytty: 123,
+      synkronoi: "U"
+    }
+
+    dictionaries = {
+      @car.id.to_s => params
+    }
+
+    patch :bulk_update, dictionaries: dictionaries
+
+    old_values.each do |key, value|
+      dictionary = @car.reload
+      assert_equal value, dictionary.send(key)
+    end
+  end
 end

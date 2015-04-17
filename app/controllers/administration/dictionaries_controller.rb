@@ -30,7 +30,9 @@ class Administration::DictionariesController < ApplicationController
     save_success = true
 
     @dictionaries.each do |dictionary|
-      unless dictionary.update_by dictionaries_params[dictionary.tunnus.to_s], current_user
+      dictionary.attributes = dictionaries_params[dictionary.tunnus.to_s]
+
+      if dictionary.changed? && !dictionary.save_by(current_user)
         save_success = false
       end
     end
@@ -67,7 +69,7 @@ class Administration::DictionariesController < ApplicationController
     end
 
     def keywords
-      keyword.split("\n").map {|kword| kword.strip}
+      keyword.split("\n").map { |kword| kword.strip }
     end
 
     def strict_search?
@@ -86,7 +88,13 @@ class Administration::DictionariesController < ApplicationController
     end
 
     def dictionaries_params
-      params.require(:dictionaries).permit!
+      permitted = {}
+
+      params[:dictionaries].keys.each do |tunnus|
+        permitted[tunnus] = Dictionary.allowed_languages.to_h.values
+      end
+
+      params.require(:dictionaries).permit(permitted)
     end
 
     def filter_translated
