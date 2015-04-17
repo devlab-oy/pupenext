@@ -45,4 +45,10 @@ class SearchableTest < ActiveSupport::TestCase
 
     assert_equal 1, DummyClass.search_like(params).count
   end
+
+  test 'should be able to search with db date' do
+    params = { tilikausi_alku: '2012-01-01' }
+
+    assert_equal 1, DummyClass.search_like(params).count
+  end
 end
