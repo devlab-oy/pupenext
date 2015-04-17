@@ -20,7 +20,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 8, @joe.permissions.count
+    assert_equal 9, @joe.permissions.count
   end
 
   test "user has update permissions" do
