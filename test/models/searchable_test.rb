@@ -40,12 +40,6 @@ class SearchableTest < ActiveSupport::TestCase
     assert_equal 0, DummyClass.search_like(params).count
   end
 
-  test 'should be able to search with localized date' do
-    params = { tilikausi_alku: '1.1.2012' }
-
-    assert_equal 1, DummyClass.search_like(params).count
-  end
-
   test 'should be able to search with db date' do
     params = { tilikausi_alku: '2012-01-01' }
 
