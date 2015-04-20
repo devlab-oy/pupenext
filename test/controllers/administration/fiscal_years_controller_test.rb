@@ -30,7 +30,7 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
       post :create, fiscal_year: params
     end
 
-    assert_redirected_to fiscal_year_path(assigns(:fiscal_year))
+    assert_redirected_to fiscal_years_path
   end
 
   test "should show fiscal_year" do
@@ -52,6 +52,6 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     }
 
     patch :update, id: @fiscal_year, fiscal_year: params
-    assert_redirected_to fiscal_year_path(assigns(:fiscal_year))
+    assert_redirected_to fiscal_years_path
   end
 end
