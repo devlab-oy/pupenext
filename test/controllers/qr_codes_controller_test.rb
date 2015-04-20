@@ -22,4 +22,17 @@ class QrCodesControllerTest < ActionController::TestCase
     assert_equal "jpg", json[:filename].split(".").last
     assert File.exists?(json[:filename])
   end
+
+  test "accessing generate with size generates qr code of that size" do
+    test_string = "A proper test string"
+    get :generate, { string: test_string }
+
+    size1 = File.size(json[:filename])
+
+    get :generate, { string: test_string, size: 10 }
+
+    size2 = File.size(json[:filename])
+
+    assert_not_equal size1, size2
+  end
 end

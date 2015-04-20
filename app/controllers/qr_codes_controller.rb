@@ -3,6 +3,7 @@ class QrCodesController < ApplicationController
     options = {}
 
     options[:format] = params[:format] if params[:format]
+    options[:size] = params[:size] if params[:size]
 
     filename = QrCode.generate(params[:string], options)
 
