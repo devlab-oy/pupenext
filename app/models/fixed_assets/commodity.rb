@@ -10,7 +10,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   belongs_to :company
   belongs_to :profit_account, class_name: 'Account'
   belongs_to :sales_account, class_name: 'Account'
-  has_one :voucher, class_name: 'Head::Voucher'
+  belongs_to :voucher, class_name: 'Head::Voucher'
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 
@@ -56,12 +56,12 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Sopivat ostolaskut
   def linkable_invoices
-    company.purchase_invoices_paid.where(tunnus: linkable_head_ids, commodity_id: nil)
+    company.purchase_invoices_paid.where(tunnus: linkable_head_ids)
   end
 
   # Sopivat tositteet
   def linkable_vouchers
-    company.vouchers.where(tunnus: linkable_head_ids, commodity_id: nil)
+    company.vouchers.where(tunnus: linkable_head_ids)
   end
 
   def activated?
@@ -216,8 +216,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
     end
 
     def linkable_head_ids
-      company.voucher_rows.select(:ltunnus)
+      ids = company.voucher_rows
         .where(tilino: viable_accounts, tapvm: company.current_fiscal_year, commodity_id: nil)
+        .pluck(:ltunnus)
+      ids.delete(voucher_id)
+      ids
     end
 
     def prevent_further_changes
