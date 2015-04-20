@@ -14,4 +14,12 @@ class QrCodesControllerTest < ActionController::TestCase
     assert_response :success
     assert File.exists?(json[:filename])
   end
+
+  test "accessing generate with format jpg generates jpg image" do
+    get :generate, { string: "Lorem ipsum", format: "jpg" }
+
+    assert_response :success
+    assert_equal "jpg", json[:filename].split(".").last
+    assert File.exists?(json[:filename])
+  end
 end
