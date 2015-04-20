@@ -5,8 +5,8 @@ module PupenextDateField
     inputs = []
     options.each do |key, option|
       # @object.send(method).send(key) calls .day .month and .year on date
-      option[:value] = @object.send(method).send(key) if @object.send(method).is_a?(Date)
-      inputs << @template.text_field_tag(option[:name], method, { value: option[:value], size: option[:size] })
+      option[:html_options][:value] = @object.send(method).send(key) if @object.send(method).is_a?(Date)
+      inputs << @template.number_field_tag(option[:name], method, option[:html_options])
     end
 
     inputs.join(' ').html_safe
@@ -24,19 +24,31 @@ module PupenextDateField
     def default_values(method)
       {
         day:   {
-          value: '',
-          name:  pupenext_date_field_name(method.try(:to_s), :day),
-          size:  3
+          name:         pupenext_date_field_name(method.try(:to_s), :day),
+          html_options: {
+            value: '',
+            size:  3,
+            min:   1,
+            max:   31
+          },
         },
         month: {
-          value: '',
-          name:  pupenext_date_field_name(method.try(:to_s), :month),
-          size:  3
+          name:         pupenext_date_field_name(method.try(:to_s), :month),
+          html_options: {
+            value: '',
+            size:  3,
+            min:   1,
+            max:   12
+          },
         },
         year:  {
-          value: '',
-          name:  pupenext_date_field_name(method.try(:to_s), :year),
-          size:  5
+          name:         pupenext_date_field_name(method.try(:to_s), :year),
+          html_options: {
+            value: '',
+            size:  5,
+            min:   1,
+            max:   9999
+          },
         },
       }
     end
