@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class QualifiersControllerTest < ActionController::TestCase
+class Administration::QualifiersControllerTest < ActionController::TestCase
 
   def setup
-    cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
-    @qualifier = qualifiers(:first)
+    login users(:bob)
+    @qualifier = qualifiers(:project_in_use)
   end
 
   test "should get index" do
@@ -26,7 +26,7 @@ class QualifiersControllerTest < ActionController::TestCase
     request = {
       nimi: 'Kissa',
       koodi: '10',
-      tyyppi: 'K'
+      tyyppi: "K"
     }
 
     assert_difference('Qualifier.count', 1) do

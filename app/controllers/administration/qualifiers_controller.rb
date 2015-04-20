@@ -4,52 +4,50 @@ class Administration::QualifiersController < AdministrationController
   before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
 
   def index
-    @qualifiers = current_user.company.qualifiers
+    @qualifiers = current_company.qualifiers
   end
 
   def show
-    render 'edit'
+    render :edit
   end
 
   def edit
   end
 
   def new
-    @qualifier = current_user.company.qualifiers.build
+    @qualifier = current_company.qualifiers.build
   end
 
   def create
-    @qualifier = current_user.company.qualifiers.build
-    @qualifier.attributes = qualifier_params
-    @qualifier.muuttaja = current_user.kuka
-    @qualifier.laatija = current_user.kuka
+    @qualifier = current_company.qualifiers.build(qualifier_params)
 
-    if @qualifier.save
-      redirect_to qualifiers_path, notice: 'Qualifier was successfully created.'
+    if @qualifier.save_by current_user
+      redirect_to qualifiers_path, notice: t("Tarkenne luotiin onnistuneesti")
     else
-      render action: 'new'
+      render action: :new
     end
   end
 
   def update
-    @qualifier.attributes = qualifier_params
-    @qualifier.muuttaja = current_user.kuka
-
-    if @qualifier.save
-      redirect_to qualifiers_path, notice: 'Qualifier was successfully updated.'
+    if @qualifier.update_by(qualifier_params, current_user)
+      redirect_to qualifiers_path, notice: t("Tarkenne päivitettiin onnistuneesti")
     else
-      render action: 'edit'
+      render action: :edit
     end
   end
 
   private
 
+    def find_resource
+      @qualifier = current_company.qualifiers.find(params[:id])
+    end
+
     def find_isa_options
-      @isa_options = current_user.company.qualifiers
+      @isa_options = current_company.qualifiers
     end
 
     def find_qualifier
-      @qualifier = current_user.company.qualifiers.find(params[:id])
+      @qualifier = current_company.qualifiers.find(params[:id])
     end
 
     def qualifier_params
@@ -61,7 +59,4 @@ class Administration::QualifiersController < AdministrationController
           :isa_tarkenne
         )
     end
-
-
-
 end

@@ -19,7 +19,7 @@
     <tr>
       <th><%= f.label :tyyppi %></th>
       <td>
-        <% options = options_for_select(@qualifier.types, f.object.kaytossa) %>
+        <% options = options_for_select(Qualifier.type_options, f.object.kaytossa) %>
         <%= select_tag 'qualifier[tyyppi]', options, include_blank: false %>
       </td>
     </tr>
@@ -43,7 +43,7 @@
     <tr>
       <th><%= f.label :kaytossa %></th>
       <td>
-        <% options = options_for_select(@qualifier.in_use, f.object.kaytossa) %>
+        <% options = options_for_select(Qualifier.kaytossa_options, f.object.kaytossa) %>
         <%= select_tag 'qualifier[kaytossa]', options, include_blank: false %>
       </td>
     </tr>

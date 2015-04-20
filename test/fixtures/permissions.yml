@@ -8,6 +8,7 @@
     customers
     fiscal_years
     terms_of_payments
+    qualifiers
     printers
     sum_levels
     cash_registers

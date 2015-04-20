@@ -25,6 +25,11 @@ class Qualifier < BaseModel
     }
   end
 
+  def self.type_options
+    names = qualifiers.map { |_, m| m.model_name }
+    names.reverse
+  end
+
   # This functions purpose is to return the child class name.
   # Aka. it should allways return .constantize
   # This function is called from   persistence.rb function: instantiate
@@ -51,7 +56,7 @@ class Qualifier < BaseModel
     {
       in_use_char => 'Kyllä',
       not_in_use_char => 'Ei',
-    }
+    }.invert
   end
 
   def deactivate!
