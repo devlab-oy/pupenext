@@ -4,7 +4,7 @@ class PupenextFormBuilder < ActionView::Helpers::FormBuilder
 
     inputs = []
     options.each do |key, option|
-      # This calls .day .month and .year on date
+      # @object.send(method).send(key) calls .day .month and .year on date
       option[:value] = @object.send(method).send(key) if @object.send(method).is_a?(Date)
       inputs << @template.text_field_tag(option[:name], method, { value: option[:value], size: option[:size] })
     end
