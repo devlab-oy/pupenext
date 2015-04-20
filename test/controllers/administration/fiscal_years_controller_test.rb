@@ -22,7 +22,7 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku: '2000-01-01',
+      tilikausi_alku:  '2000-01-01',
       tilikausi_loppu: '2000-12-31'
     }
 
@@ -31,6 +31,23 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to fiscal_years_path
+  end
+
+  test 'should no create' do
+    login users(:bob)
+
+    params = {
+      tilikausi_alku:  '2000-01-41',
+      tilikausi_loppu: '2000-12-51'
+    }
+
+    assert_no_difference('FiscalYear.count') do
+      post :create, fiscal_year: params
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:fiscal_year)
+    assert_template :edit
   end
 
   test "should show fiscal_year" do
@@ -47,7 +64,7 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku: @fiscal_year.tilikausi_alku,
+      tilikausi_alku:  @fiscal_year.tilikausi_alku,
       tilikausi_loppu: @fiscal_year.tilikausi_loppu
     }
 
