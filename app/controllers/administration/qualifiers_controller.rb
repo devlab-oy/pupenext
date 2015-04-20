@@ -15,7 +15,7 @@ class Administration::QualifiersController < AdministrationController
   end
 
   def new
-    @qualifier = current_company.qualifiers.build
+    @qualifier = current_company.cost_centers.build
   end
 
   def create

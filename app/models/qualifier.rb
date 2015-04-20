@@ -1,5 +1,7 @@
 class Qualifier < BaseModel
-  validates :nimi, presence: true
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+
+  validates :nimi, :koodi, presence: true
   validate :deactivated
 
   self.table_name = :kustannuspaikka
@@ -38,6 +40,20 @@ class Qualifier < BaseModel
   # type_name = "S", type_name = "U" ...
   def self.find_sti_class(tyyppi_value)
     child_class tyyppi_value
+  end
+
+  # This method is originally defined in inheritance.rb:183 and needs to be overridden, so that
+  # rails knows how to initialize a proper subclass because the subclass name is different than the
+  # value in the inheritance column.
+  def self.subclass_from_attributes(attrs)
+    subclass_name = attrs.with_indifferent_access[inheritance_column]
+    subclass_name = child_class(subclass_name).to_s
+
+    if subclass_name.present? && subclass_name != self.name
+      return subclass_name.safe_constantize
+    end
+
+    nil
   end
 
   def nimitys
