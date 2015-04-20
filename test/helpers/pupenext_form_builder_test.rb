@@ -24,14 +24,14 @@ class PupenextFormBuilderTest < ActiveSupport::TestCase
   end
 
   def expected_html_without_values
-    '<input type="text" name="fiscal_year[tilikausi_alku(3i)]" id="fiscal_year_tilikausi_alku_3i_" value="" size="3" /> ' +
-      '<input type="text" name="fiscal_year[tilikausi_alku(2i)]" id="fiscal_year_tilikausi_alku_2i_" value="" size="3" /> ' +
-      '<input type="text" name="fiscal_year[tilikausi_alku(1i)]" id="fiscal_year_tilikausi_alku_1i_" value="" size="5" />'
+    '<input type="number" name="fiscal_year[tilikausi_alku(3i)]" id="fiscal_year_tilikausi_alku_3i_" value="" size="3" min="1" max="31" /> ' +
+      '<input type="number" name="fiscal_year[tilikausi_alku(2i)]" id="fiscal_year_tilikausi_alku_2i_" value="" size="3" min="1" max="12" /> ' +
+      '<input type="number" name="fiscal_year[tilikausi_alku(1i)]" id="fiscal_year_tilikausi_alku_1i_" value="" size="5" min="1" max="9999" />'
   end
 
   def expected_html_with_values
-    '<input type="text" name="fiscal_year[tilikausi_alku(3i)]" id="fiscal_year_tilikausi_alku_3i_" value="1" size="3" /> ' +
-      '<input type="text" name="fiscal_year[tilikausi_alku(2i)]" id="fiscal_year_tilikausi_alku_2i_" value="1" size="3" /> ' +
-      '<input type="text" name="fiscal_year[tilikausi_alku(1i)]" id="fiscal_year_tilikausi_alku_1i_" value="2015" size="5" />'
+    '<input type="number" name="fiscal_year[tilikausi_alku(3i)]" id="fiscal_year_tilikausi_alku_3i_" value="1" size="3" min="1" max="31" /> ' +
+      '<input type="number" name="fiscal_year[tilikausi_alku(2i)]" id="fiscal_year_tilikausi_alku_2i_" value="1" size="3" min="1" max="12" /> ' +
+      '<input type="number" name="fiscal_year[tilikausi_alku(1i)]" id="fiscal_year_tilikausi_alku_1i_" value="2015" size="5" min="1" max="9999" />'
   end
 end
