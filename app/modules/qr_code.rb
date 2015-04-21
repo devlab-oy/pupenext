@@ -12,11 +12,13 @@ module QrCode
 
       system("qrencode", *arguments)
 
-      arguments = %W(#{path}.png)
-      arguments += %W(-resize x#{height}) if height
-      arguments << "#{path}.#{format}"
+      if height || format != "png"
+        arguments = %W(#{path}.png)
+        arguments += %W(-resize x#{height}) if height
+        arguments << "#{path}.#{format}"
 
-      system("convert", *arguments)
+        system("convert", *arguments)
+      end
 
       "#{path}.#{format}"
     end
