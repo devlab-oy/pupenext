@@ -21,4 +21,12 @@ class QrCodeTest < ActiveSupport::TestCase
 
     assert_not_equal File.size(file1), File.size(file2)
   end
+
+  test "generate takes an optional height as a parameter" do
+    test_string = "I am a testing string"
+    file1 = QrCode.generate(test_string)
+    file2 = QrCode.generate(test_string, height: 100)
+
+    assert_not_equal File.size(file1), File.size(file2)
+  end
 end

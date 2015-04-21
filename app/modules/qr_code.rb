@@ -3,14 +3,22 @@ module QrCode
     def generate(string, options = {})
       path = options[:path] ? options[:path] : "/tmp/qr-code-#{SecureRandom.uuid}"
       format = options[:format] ? options[:format] : "png"
-      size = options[:size] ? options[:size] : 3
+      size = options[:size] ? options[:size] : false
+      height = options[:height] ? options[:height] : false
 
-      if format == "png"
-        "#{path}.png" if %x(qrencode -o #{path}.png -s #{size} "#{string}")
-      else
-        %x(qrencode -o #{path}.png -s #{size} "#{string}")
-        "#{path}.jpg" if %x(convert #{path}.png #{path}.jpg)
-      end
+      command = "qrencode -o #{path}.png"
+      command << " -s #{size}" if size
+      command << " '#{string}'"
+
+      %x(#{command})
+
+      command = "convert #{path}.png"
+      command << " -resize x#{height}" if height
+      command << " #{path}.#{format}"
+
+      %x(#{command})
+
+      "#{path}.#{format}"
     end
   end
 end

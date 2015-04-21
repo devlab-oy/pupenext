@@ -35,4 +35,17 @@ class QrCodesControllerTest < ActionController::TestCase
 
     assert_not_equal size1, size2
   end
+
+  test "accessing generate with height generates qr code of that height" do
+    test_string = "A proper test string"
+    get :generate, { string: test_string }
+
+    size1 = File.size(json[:filename])
+
+    get :generate, { string: test_string, height: 225 }
+
+    size2 = File.size(json[:filename])
+
+    assert_not_equal size1, size2
+  end
 end
