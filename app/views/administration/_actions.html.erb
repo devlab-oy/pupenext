@@ -7,8 +7,12 @@
 %>
 
 
-<div class="actions">
-  <% text = resource.persisted? ? t('Päivitä') : t('Lisää') %>
-  <% text = "#{text} #{resource_name}" %>
-  <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-</div>
+<% if update_access? %>
+  <br/>
+
+  <div class="actions">
+    <% text = resource.persisted? ? t('Päivitä') : t('Lisää') %>
+    <% text = "#{text} #{resource_name}" %>
+    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+  </div>
+<% end %>
