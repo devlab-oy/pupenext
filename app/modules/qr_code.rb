@@ -6,17 +6,17 @@ module QrCode
       size = options[:size] ? options[:size] : false
       height = options[:height] ? options[:height] : false
 
-      command = "qrencode -o #{path}.png"
-      command << " -s #{size}" if size
-      command << " '#{string}'"
+      arguments = %W(-o #{path}.png)
+      arguments += %W(-s #{size}) if size
+      arguments << string
 
-      %x(#{command})
+      system("qrencode", *arguments)
 
-      command = "convert #{path}.png"
-      command << " -resize x#{height}" if height
-      command << " #{path}.#{format}"
+      arguments = %W(#{path}.png)
+      arguments += %W(-resize x#{height}) if height
+      arguments << "#{path}.#{format}"
 
-      %x(#{command})
+      system("convert", *arguments)
 
       "#{path}.#{format}"
     end
