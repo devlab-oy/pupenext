@@ -11,20 +11,16 @@
       <td><%= f.pupenext_date_field :tilikausi_loppu %></td>
     </tr>
     <tr>
-      <th><%= f.label :avaava_tase, t('Avaava tase') %></th>
-      <td><%= f.text_field :avaava_tase %></td>
-    </tr>
-    <tr>
       <th><%= t('Laatija') %></th>
       <td><%= @fiscal_year.laatija %></td>
     </tr>
     <tr>
       <th><%= t('Luontiaika') %></th>
-      <td><%= @fiscal_year.luontiaika %></td>
+      <td><%= l @fiscal_year.luontiaika %></td>
     </tr>
     <tr>
       <th><%= t('Muutospvm') %></th>
-      <td><%= @fiscal_year.muutospvm %></td>
+      <td><%= l @fiscal_year.muutospvm %></td>
     </tr>
     <tr>
       <th><%= t('Muuttaja') %></th>
