@@ -10,7 +10,7 @@
       <th><%= f.label :tilikausi_loppu, t('Loppupäivämäärä') %></th>
       <td><%= f.pupenext_date_field :tilikausi_loppu %></td>
     </tr>
-    <%= render 'administration/resource_timestamps_and_users', resource: @fiscal_year if @fiscal_year.persisted? %>
+    <%= render 'administration/resource_timestamps_and_users', resource: @fiscal_year %>
   </table>
 
   <br/>
