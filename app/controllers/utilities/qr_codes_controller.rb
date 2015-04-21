@@ -1,4 +1,4 @@
-class QrCodesController < ApplicationController
+class Utilities::QrCodesController < ApplicationController
   def generate
     options = {}
 

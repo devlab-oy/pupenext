@@ -1,7 +1,7 @@
 require "test_helper"
 require "json_helper"
 
-class QrCodesControllerTest < ActionController::TestCase
+class Utilities::QrCodesControllerTest < ActionController::TestCase
   include JsonHelper
 
   setup do
