@@ -6,8 +6,8 @@ class FiscalYear < ActiveRecord::Base
   self.table_name = :tilikaudet
   self.primary_key = :tunnus
 
-  validates :tilikausi_alku, presence: true, date: true
-  validates :tilikausi_loppu, presence: true, date: true
+  validates :tilikausi_alku, allow_blank: false, date: true
+  validates :tilikausi_loppu, allow_blank: false, date: true
 
   def period
     tilikausi_alku..tilikausi_loppu
