@@ -14,10 +14,22 @@
 <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
 <table>
   <tr>
-    <th><%= Qualifier.human_attribute_name(:nimi) %></th>
-    <th><%= Qualifier.human_attribute_name(:koodi) %></th>
-    <th><%= Qualifier.human_attribute_name(:tyyppi) %></th>
-    <th><%= Qualifier.human_attribute_name(:tunnus) %></th>
+    <th>
+      <%= sortable "nimi" %>
+      <br />
+      <%= text_field_tag :nimi, params[:nimi] %>
+    </th>
+    <th>
+      <%= sortable "koodi" %>
+      <br />
+      <%= text_field_tag :koodi, params[:koodi] %>
+    </th>
+    <th>
+      <%= sortable "tyyppi" %>
+      <br />
+      <%= text_field_tag :tyyppi, params[:tyyppi] %>
+    </th>
+    <th class="back"><%= submit_tag t("Etsi") %></th>
   </tr>
 
   <% @qualifiers.each do |q| %>
@@ -25,7 +37,7 @@
       <td><%= link_to q.nimi, edit_qualifier_path(q.id) %></td>
       <td><%= q.koodi %></td>
       <td><%= q.tyyppi %></td>
-      <td><%= q.tunnus %></td>
+      <td class="back"></td>
     </tr>
   <% end %>
 </table>

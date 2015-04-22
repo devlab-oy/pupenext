@@ -5,7 +5,7 @@ class Administration::QualifiersController < AdministrationController
   before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
 
   def index
-    q = current_company.qualifiers
+    q = current_company.qualifiers.search_like(search_params).order(order_params)
 
     if showing_not_used?
       @qualifiers = q.not_in_use
@@ -69,5 +69,17 @@ class Administration::QualifiersController < AdministrationController
           :kaytossa,
           :isa_tarkenne
         )
+    end
+
+    def searchable_columns
+      [
+        :nimi,
+        :koodi,
+        :tyyppi,
+      ]
+    end
+
+    def sortable_columns
+      searchable_columns
     end
 end
