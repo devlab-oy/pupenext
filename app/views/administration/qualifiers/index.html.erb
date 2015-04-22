@@ -34,7 +34,13 @@
 
   <% @qualifiers.each do |q| %>
     <tr>
-      <td><%= link_to q.nimi, edit_qualifier_path(q.id) %></td>
+      <td>
+        <% if update_access? %>
+          <%= link_to q.nimi, edit_qualifier_path(q.id) %>
+        <% else %>
+          <%= q.nimi %>
+        <% end %>
+      </td>
       <td><%= q.koodi %></td>
       <td><%= q.tyyppi %></td>
       <td class="back"></td>
