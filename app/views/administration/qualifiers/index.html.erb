@@ -1,8 +1,17 @@
-<font class="head">Tarkenteet</font>
-<hr />
-<%= link_to "<button>Uusi tarkenne</button>".html_safe, new_qualifier_path %>
+<%= render "administration/header", title: "Tarkenteet" %>
+
+<%= button_to t("Uusi tarkenne"), new_qualifier_path, method: :get if update_access? %>
+
+<% if showing_not_used? %>
+  <%= button_to t("Näytä aktiivit"), qualifiers_path, method: :get %>
+<% else %>
+  <%= button_to t("Näytä poistetut"), qualifiers_path, method: :get, params: { not_used: :yes } %>
+<% end %>
+
 <br /><br />
 
+<%= form_tag qualifiers_path, method: :get do %>
+<%= hidden_field_tag :not_used, :yes if showing_not_used? %>
 <table>
   <tr>
     <th><%= Qualifier.human_attribute_name(:nimi) %></th>
@@ -20,7 +29,8 @@
     </tr>
   <% end %>
 </table>
+<% end %>
 
 <br />
 
-<%= link_to "<button>Uusi tarkenne</button>".html_safe, new_qualifier_path %>
+<%= button_to t("Uusi tarkenne"), new_qualifier_path, method: :get if update_access? %>

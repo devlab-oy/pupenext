@@ -8,8 +8,8 @@ class Qualifier < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  default_scope { where(kaytossa: in_use_char) }
-  scope :not_in_use, -> { unscoped.where(kaytossa: not_in_use_char) }
+  scope :in_use, -> { where(kaytossa: in_use_char) }
+  scope :not_in_use, -> { where(kaytossa: not_in_use_char) }
 
   def self.child_class(tyyppi_value)
     qualifiers[tyyppi_value.try(:to_sym)]
@@ -28,8 +28,7 @@ class Qualifier < BaseModel
   end
 
   def self.type_options
-    names = qualifiers.map { |_, m| m.model_name }
-    names.reverse
+    qualifiers.map { |v, m| [m.human_readable_type, v] }
   end
 
   # This functions purpose is to return the child class name.

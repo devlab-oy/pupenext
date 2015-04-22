@@ -1,7 +1,6 @@
-<%= link_to '« Palaa ohjelmaan: Tarkenteet', qualifiers_path %>
-<br />
-<br/>
-<font class="head">Muokkaa tarkennetta</font>
-<hr />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Tarkenteet")}", qualifiers_path %>
 
+<br />
+
+<%= render "administration/header", title: "Muokkaa maksuehtoa" %>
 <%= render 'form' %>

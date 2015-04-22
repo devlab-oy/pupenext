@@ -19,7 +19,7 @@
     <tr>
       <th><%= f.label :tyyppi %></th>
       <td>
-        <% options = options_for_select(Qualifier.type_options, f.object.kaytossa) %>
+        <% options = options_for_select(Qualifier.type_options, f.object.tyyppi) %>
         <%= select_tag 'qualifier[tyyppi]', options, include_blank: false %>
       </td>
     </tr>
@@ -57,12 +57,12 @@
 
     <tr>
       <th><%= f.label :luotiaika %></th>
-      <td><%= @qualifier.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      <td><%= @qualifier.luontiaika %></td>
     </tr>
 
     <tr>
       <th>Muutospvm</th>
-      <td><%= @qualifier.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      <td><%= @qualifier.muutospvm %></td>
     </tr>
 
     <tr>
