@@ -1,9 +1,6 @@
-<%= link_to '« Palaa ohjelmaan: Tarkenteet', qualifiers_path %>
-<br />
+<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Tarkenteet")}", qualifiers_path %>
+
 <br/>
-<font class="head">Uusi tarkenne</font>
-<hr />
 
+<%= render "administration/header", title: "Uusi tarkenne" %>
 <%= render 'form' %>
-
-
