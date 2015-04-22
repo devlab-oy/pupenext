@@ -476,8 +476,9 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",   limit: 50,                           default: "",  null: false
   end
 
-  add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, using: :btree
-  add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
+  # Specified key was too long; max key length is 1000 bytes
+  #add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, using: :btree
+  #add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
   create_table "dynaaminen_puu", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "yhtio",             limit: 5,   default: "", null: false
