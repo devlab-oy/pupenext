@@ -15,6 +15,10 @@ module ApplicationHelper
     user_agent_include? "windows"
   end
 
+  def return_link(text, path)
+    link_to "« #{t("Palaa ohjelmaan")}: #{t(text)}", path
+  end
+
   private
 
     def user_agent_include?(value)

@@ -3,6 +3,8 @@ class Account < ActiveRecord::Base
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
+  has_one :commodity, class_name: 'FixedAssets::Commodity'
+
   with_options primary_key: :tunnus do |o|
     o.belongs_to :project,     class_name: 'Qualifier::Project',    foreign_key: :projekti
     o.belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde
@@ -10,10 +12,11 @@ class Account < ActiveRecord::Base
   end
 
   with_options primary_key: :taso do |o|
-    o.belongs_to :internal, class_name: 'SumLevel::Internal', foreign_key: :sisainen_taso
-    o.belongs_to :external, class_name: 'SumLevel::External', foreign_key: :ulkoinen_taso
-    o.belongs_to :vat,      class_name: 'SumLevel::Vat',      foreign_key: :alv_taso
-    o.belongs_to :profit,   class_name: 'SumLevel::Profit',   foreign_key: :tulosseuranta_taso
+    o.belongs_to :internal,  class_name: 'SumLevel::Internal',  foreign_key: :sisainen_taso
+    o.belongs_to :external,  class_name: 'SumLevel::External',  foreign_key: :ulkoinen_taso
+    o.belongs_to :vat,       class_name: 'SumLevel::Vat',       foreign_key: :alv_taso
+    o.belongs_to :profit,    class_name: 'SumLevel::Profit',    foreign_key: :tulosseuranta_taso
+    o.belongs_to :commodity, class_name: 'SumLevel::Commodity', foreign_key: :evl_taso
   end
 
   validates :tilino, presence: true, uniqueness: { scope: [:yhtio] }
@@ -27,6 +30,10 @@ class Account < ActiveRecord::Base
   # Map old database schema table to Account class
   self.table_name = :tili
   self.primary_key = :tunnus
+
+  def self.evl_accounts
+    where.not(evl_taso: '')
+  end
 
   def toimijaliitos_options
     [

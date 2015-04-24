@@ -2,7 +2,7 @@ class Administration::CurrenciesController < AdministrationController
   # GET /currencies
   def index
     @currencies = current_company
-      .currency
+      .currencies
       .search_like(search_params)
       .order(order_params)
   end
@@ -14,12 +14,12 @@ class Administration::CurrenciesController < AdministrationController
 
   # GET /currencies/new
   def new
-    @currency = current_company.currency.build
+    @currency = current_company.currencies.build
   end
 
   # POST /currencies
   def create
-    @currency = current_company.currency.build
+    @currency = current_company.currencies.build
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
@@ -45,7 +45,7 @@ class Administration::CurrenciesController < AdministrationController
   private
 
     def find_resource
-      @currency = current_company.currency.find(params[:id])
+      @currency = current_company.currencies.find(params[:id])
     end
 
     def currency_params

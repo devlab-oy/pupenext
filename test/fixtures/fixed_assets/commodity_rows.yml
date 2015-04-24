@@ -1,0 +1,11 @@
+one:
+  commodity: commodity_one
+  locked: true
+  amount: 1001
+  transacted_at: <%= Date.today %>
+
+two:
+  commodity: commodity_one
+  locked: false
+  amount: 0
+  transacted_at: <%= Date.today %>

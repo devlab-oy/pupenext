@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-
-  def setup
+  setup do
     @joe = users(:joe)
     @bob = users(:bob)
   end
@@ -20,7 +19,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user has permissions" do
-    assert_equal 8, @joe.permissions.count
+    assert_equal 10, @joe.permissions.count
   end
 
   test "user has update permissions" do
@@ -73,5 +72,4 @@ class UserTest < ActiveSupport::TestCase
     @joe.kayttoliittyma = 'C'
     assert @joe.classic_ui?, "company set nothing, joe set classic, should be classic"
   end
-
 end

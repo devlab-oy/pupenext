@@ -1,0 +1,21 @@
+<%= render "administration/header", title: "Liitetyt hankintakustannukset" %>
+
+<table>
+  <tr>
+    <th><%= t('Tili') %></th>
+    <th><%= t('Summa') %></th>
+    <th><%= t('Pvm') %></th>
+    <th><%= t('Selite') %></th>
+  </tr>
+  <% @commodity.procurement_rows.each do |procrow| %>
+    <tr>
+    <td><%= procrow.tilino  %></td>
+    <td><%= procrow.summa %></td>
+    <td><%= procrow.tapvm %></td>
+    <td><%= procrow.selite %></td>
+    <td class='back'>
+      <%= button_to t('Poista'), commodity_unlink_path(@commodity, { voucher_row_id: procrow.tunnus }), method: :post unless @commodity.deactivated? %>
+    </td>
+    </tr>
+  <% end %>
+</table>

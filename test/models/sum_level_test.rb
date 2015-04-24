@@ -9,6 +9,7 @@ class SumLevelTest < ActiveSupport::TestCase
     @external2 = sum_levels(:external2)
     @vat = sum_levels(:vat)
     @profit = sum_levels(:profit)
+    @commodity = sum_levels(:commodity)
   end
 
   test "fixtures should be valid" do
@@ -16,6 +17,7 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @external.valid?, @external.errors.full_messages
     assert @vat.valid?, @vat.errors.full_messages
     assert @profit.valid?, @profit.errors.full_messages
+    assert @commodity.valid?, @commodity.errors.full_messages
   end
 
   test "should return sum level name" do
@@ -231,6 +233,7 @@ class SumLevelTest < ActiveSupport::TestCase
       U: "SumLevel::External",
       A: "SumLevel::Vat",
       B: "SumLevel::Profit",
+      E: "SumLevel::Commodity"
     }.each do |tyyppi, class_name|
       sum_level = SumLevel.new(tyyppi: tyyppi.to_s)
 
@@ -244,5 +247,11 @@ class SumLevelTest < ActiveSupport::TestCase
 
   test "subclass_from_attributes returns nil if subclass can't be found with the provided tyyppi" do
     assert_equal nil, SumLevel.subclass_from_attributes({ tyyppi: "M" })
+  end
+
+  test "SumLevel::Commodity should have multiple accounts" do
+    assert_not_nil @commodity.poistovasta_account.tilino
+    assert_not_nil @commodity.poistoero_account.tilino
+    assert_not_nil @commodity.poistoerovasta_account.tilino
   end
 end
