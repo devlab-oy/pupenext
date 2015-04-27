@@ -568,6 +568,46 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "muuttaja",       limit: 50,    default: "", null: false
   end
 
+  create_table "fixed_assets_commodities", force: :cascade, options: "ENGINE=myisam" do |t|
+    t.integer  "company_id",        limit: 4
+    t.integer  "profit_account_id", limit: 4
+    t.integer  "sales_account_id",  limit: 4
+    t.integer  "voucher_id",        limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.date     "activated_at"
+    t.date     "deactivated_at"
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 255
+    t.string   "status",      limit: 1
+    t.string   "planned_depreciation_type",    limit: 1
+    t.decimal  "planned_depreciation_amount",  precision: 16, scale: 6
+    t.string   "btl_depreciation_type",        limit: 1
+    t.decimal  "btl_depreciation_amount",      precision: 16, scale: 6
+    t.decimal  "amount",                       precision: 16, scale: 6
+    t.decimal  "amount_sold",                  precision: 16, scale: 6
+    t.string   "depreciation_remainder_handling", limit: 1
+    t.string   "created_by",  limit: 255
+    t.string   "modified_by", limit: 255
+  end
+
+  add_index "fixed_assets_commodities", ["company_id"], name: "index_fixed_assets_commodities_on_company_id", using: :btree
+
+  create_table "fixed_assets_commodity_rows", force: :cascade, options: "ENGINE=myisam" do |t|
+    t.integer  "commodity_id", limit: 4
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.date     "transacted_at"
+    t.decimal  "amount",       precision: 16, scale: 6
+    t.string   "description",  limit: 255
+    t.boolean  "amended",      limit: 1, default: false, null: false
+    t.boolean  "locked",       limit: 1, default: false, null: false
+    t.string   "created_by",   limit: 255
+    t.string   "modified_by",  limit: 255
+  end
+
+  add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
+
   create_table "git_paivitykset", force: :cascade, options: "ENGINE=myisam" do |t|
     t.string   "hash", limit: 50, default: "", null: false
     t.string   "ip",   limit: 15,              null: false
@@ -915,6 +955,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "asema",                         limit: 150,                            default: "",  null: false
     t.string   "dynaaminen_kassamyynti",        limit: 1,                              default: "",  null: false
     t.string   "maksupaate_kassamyynti",        limit: 1,                              default: "",  null: false
+    t.string   "maksupaate_ip",                 limit: 60,                             default: "",  null: false
     t.integer  "toimipaikka",                   limit: 4,                              default: 0,   null: false
     t.string   "eposti",                        limit: 50,                             default: "",  null: false
     t.string   "puhno",                         limit: 30,                             default: "",  null: false
@@ -1317,6 +1358,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "tunnusnippu_tarjous",                      limit: 4,                             default: 0,   null: false
     t.integer  "projekti",                                 limit: 4,                             default: 0,   null: false
     t.string   "rivihintoja_ei_nayteta",                   limit: 1,                             default: "",  null: false
+    t.string   "yllapito_kuukausihinnoittelu",             limit: 1
     t.string   "konttiviite",                              limit: 35,                            default: "",  null: false
     t.integer  "konttimaara",                              limit: 4,                             default: 0,   null: false
     t.string   "konttityyppi",                             limit: 35,                            default: "",  null: false
@@ -2005,6 +2047,13 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.decimal  "jakaja",                      precision: 12, scale: 2, default: 0.0, null: false
     t.string   "kumulatiivinen",  limit: 1,                            default: "",  null: false
     t.string   "kayttotarkoitus", limit: 1,                            default: "",  null: false
+    t.string   "poisto_vastatili",    limit: 6,                        default: "",  null: false
+    t.string   "poistoero_tili",      limit: 6,                        default: "",  null: false
+    t.string   "poistoero_vastatili", limit: 6,                        default: "",  null: false
+    t.string   "planned_depreciation_type",   limit: 1,                default: "",  null: false
+    t.decimal  "planned_depreciation_amount", precision: 16, scale: 6, default: 0.0, null: false
+    t.string   "btl_depreciation_type",       limit: 1,                default: "",  null: false
+    t.decimal  "btl_depreciation_amount",     precision: 16, scale: 6, default: 0.0, null: false
     t.string   "laatija",         limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                         null: false
     t.datetime "muutospvm",                                                          null: false
@@ -2161,6 +2210,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "sisainen_taso",       limit: 20,                          default: "", null: false
     t.string   "ulkoinen_taso",       limit: 20,                          default: "", null: false
     t.string   "alv_taso",            limit: 20,                          default: "", null: false
+    t.string   "evl_taso",            limit: 20,                          default: "", null: false
     t.string   "tulosseuranta_taso",  limit: 20,                          default: "", null: false
     t.string   "nimi",                limit: 100,                         default: "", null: false
     t.integer  "kustp",               limit: 4,                           default: 0,  null: false
@@ -2211,6 +2261,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "korjattu",         limit: 50,                             default: "",  null: false
     t.datetime "korjausaika",                                                           null: false
     t.integer  "tosite",           limit: 4,                              default: 0,   null: false
+    t.integer  "commodity_id",     limit: 4
     t.integer  "aputunnus",        limit: 4,                              default: 0,   null: false
     t.integer  "tapahtumatunnus",  limit: 4,                              default: 0,   null: false
   end

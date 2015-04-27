@@ -1,0 +1,14 @@
+commodity_one:
+  company: acme
+  voucher_id: <%= ActiveRecord::FixtureSet.identify(:vo_one) %>
+  name: This is a commodity!
+  description: Commodity described
+  created_by: joe
+  modified_by: joe
+  amount: 10000
+  status: A
+  activated_at: <%= Date.today.change(month: 7, day: 1) %>
+  planned_depreciation_type: P
+  planned_depreciation_amount: 35
+  btl_depreciation_type: B
+  btl_depreciation_amount: 40

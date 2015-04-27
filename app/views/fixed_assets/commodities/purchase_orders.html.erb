@@ -1,0 +1,69 @@
+<%= return_link("Hyödykkeet", commodities_path) %>
+<br /><br />
+
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<br /><br />
+
+<%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
+<%= render "administration/header", title: "Hyödykkeen ostolaskut" %>
+<%= render "administration/notice" %>
+
+<table>
+  <tr>
+    <th>
+      <%= sortable 'tunnus' %>
+      <br />
+      <%= text_field_tag :tunnus, params[:tunnus] %>
+    </th>
+    <th>
+      <%= sortable 'ytunnus' %>
+      <br />
+      <%= text_field_tag :ytunnus, params[:ytunnus] %>
+    </th>
+    <th>
+      <%= sortable 'nimi' %>
+      <br />
+      <%= text_field_tag :nimi, params[:nimi] %>
+    </th>
+    <th>
+      <%= sortable 'viesti' %>
+      <br />
+      <%= text_field_tag :viesti, params[:viesti] %>
+    </th>
+    <th>
+      <%= sortable 'summa' %>
+      <br />
+      <%= text_field_tag :summa, params[:summa] %>
+    </th>
+    <th class="back"><%= submit_tag t('Etsi') %></th>
+  </tr>
+
+  <% @purchase_orders.each do |po| %>
+    <tr>
+      <td><%= po.tunnus %></td>
+      <td><%= po.ytunnus %></td>
+      <td><%= po.nimi %></td>
+      <td><%= po.viesti %></td>
+      <td><%= po.summa %></td>
+    </tr>
+    <tr>
+    <th>Tunnus</th>
+    <th>Summa</th>
+    <th>Tili</th>
+    </tr>
+
+    <% po.rows.each do |acc| %>
+     <% if acc.commodity_id.present? %>
+      <% next %>
+    <% end %>
+      <tr>
+        <td><%= acc.tunnus  %></td>
+        <td><%= acc.summa  %></td>
+        <td><%= acc.tilino %></td>
+        <td class="back">
+          <%= button_to t('Lisää'), commodity_link_order_path(@commodity, { voucher_row_id: acc.tunnus }), method: :post %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

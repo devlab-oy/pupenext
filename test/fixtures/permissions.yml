@@ -1,13 +1,15 @@
 # list of permissions to create
 <% permississions = %w{
     test
-    customers
-    currencies
-    companies
-    sum_levels
     accounts
+    commodities
+    companies
+    currencies
+    customers
+    fiscal_years
     terms_of_payments
     printers
+    sum_levels
     qr_codes
   }
 %>

@@ -25,7 +25,7 @@ sixty_days_net:
   muutospvm: <%= Date.today %>
   muuttaja: 'joe'
 
-ninty_days_net:
+ninety_days_net:
   yhtio: acme
   teksti: 90 pv netto
   rel_pvm: 90

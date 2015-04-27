@@ -1,0 +1,66 @@
+<%= return_link("Hyödykkeet", commodities_path) %>
+<br/><br/>
+
+<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<br/><br/>
+
+<%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
+<%= render "administration/header", title: "Hyödykkeen tositteet" %>
+<%= render "administration/notice" %>
+
+<table>
+<tr>
+  <th>
+    <%= sortable 'tunnus' %>
+    <br/>
+    <%= text_field_tag :tunnus, params[:tunnus] %>
+  </th>
+  <th>
+    <%= sortable 'ytunnus' %>
+    <br/>
+    <%= text_field_tag :ytunnus, params[:ytunnus] %>
+  </th>
+  <th>
+    <%= sortable 'nimi' %>
+    <br/>
+    <%= text_field_tag :nimi, params[:nimi] %>
+  </th>
+  <th>
+    <%= sortable 'viesti' %>
+    <br/>
+    <%= text_field_tag :viesti, params[:viesti] %>
+  </th>
+  <th class="back"><%= submit_tag t('Etsi') %></th>
+</tr>
+
+<% @vouchers.each do |vou| %>
+  <tr>
+    <td><%= vou.tunnus %></td>
+    <td><%= vou.ytunnus %></td>
+    <td><%= vou.nimi %></td>
+    <td><%= vou.viesti %></td>
+  </tr>
+  <tr>
+    <th>Tunnus</th>
+    <th>Selite</th>
+    <th>Summa</th>
+    <th>Tili</th>
+  </tr>
+  <% vou.rows.each do |vourow| %>
+    <% if vourow.commodity_id.present? %>
+      <% next %>
+    <% end %>
+    <tr>
+    <td><%= vourow.tunnus  %></td>
+    <td><%= vourow.selite.html_safe rescue 0 %></td>
+    <td><%= vourow.summa  %></td>
+    <td><%= vourow.tilino %></td>
+    <td class='back'>
+      <%= button_to t('Lisää'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
+    </td>
+    </tr>
+    <% end %>
+<% end %>
+
+</table>
+<br/><br/>

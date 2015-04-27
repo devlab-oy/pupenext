@@ -40,7 +40,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top_third.kaytossa = 'E'
     refute @top_third.valid?, "This terms of payment is used by a undelivered sales order"
 
-    @top_fourth = terms_of_payments(:ninty_days_net)
+    @top_fourth = terms_of_payments(:ninety_days_net)
     @top_fourth.kaytossa = 'E'
     refute @top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
   end
