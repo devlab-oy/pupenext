@@ -2,8 +2,6 @@
    # Locals
    #
    # f
-   # resource
-   # resource_name
 %>
 
 
@@ -11,8 +9,8 @@
   <br/>
 
   <div class="actions">
-    <% text = resource.persisted? ? t('Päivitä') : t('Lisää') %>
-    <% text = "#{text} #{resource_name}" %>
-    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
+    <% text = f.object.persisted? ? t('Päivitä') : t('Lisää') %>
+    <% text = "#{text} #{f.object.class.model_name.human}" %>
+    <%= f.submit text, disable_with: t('Tallentaa') + '...' %>
   </div>
 <% end %>
