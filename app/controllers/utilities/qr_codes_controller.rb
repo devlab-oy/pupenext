@@ -10,4 +10,12 @@ class Utilities::QrCodesController < ApplicationController
 
     render json: { filename: filename }
   end
+
+  def read_access?
+    @read_access ||= current_user.can_read?("tulosta_tuotetarrat.php", classic: true)
+  end
+
+  def update_access?
+    @update_access ||= current_user.can_update?("tulosta_tuotetarrat.php", classic: true)
+  end
 end

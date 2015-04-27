@@ -10,8 +10,13 @@
     terms_of_payments
     printers
     sum_levels
-    qr_codes
   }
+%>
+
+# list of permissions to pupesoft classic
+<% classic_permissions = %w{
+     tulosta_tuotetarrat.php
+   }
 %>
 
 <% permississions.each do |p| %>
@@ -33,6 +38,32 @@ bob_<%= p %>_update:
   user: bob
   kuka: bob
   nimi: pupenext/<%= p %>
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+<% end %>
+
+<% classic_permissions.each do |p| %>
+# create read permissions to joe
+joe_<%= p %>_read:
+  yhtio: acme
+  user: joe
+  kuka: joe
+  nimi: <%= p %>
+  paivitys: 0
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+# create update permissions to bob
+bob_<%= p %>_update:
+  yhtio: acme
+  user: bob
+  kuka: bob
+  nimi: <%= p %>
   paivitys: 1
   muuttaja: joe
   laatija: joe
