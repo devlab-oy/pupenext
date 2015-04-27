@@ -214,5 +214,8 @@ fi:
       sum_level:
         one: Taso
         other: Tasot
+      terms_of_payment:
+        one: Maksuehto
+        other: Maksuehdot
     errors:
       <<: *errors
