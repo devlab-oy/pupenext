@@ -10,6 +10,7 @@ module DatetimeUtils
     return false unless parts.count == 3
 
     begin
+      parts.map! { |part| part.to_i }
       Date.new parts[0], parts[1], parts[2]
     rescue
       return false
