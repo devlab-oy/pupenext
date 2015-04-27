@@ -15,4 +15,9 @@ class DatetimeUtilsTest < ActiveSupport::TestCase
     assert DatetimeUtils.is_db_date?('2003-02-01')
     refute DatetimeUtils.is_db_date?('1.1.2003')
   end
+
+  test 'is valid' do
+    assert DatetimeUtils.is_valid?('2003-02-01')
+    refute DatetimeUtils.is_valid?('2003-02-42')
+  end
 end
