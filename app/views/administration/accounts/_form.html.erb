@@ -136,37 +136,8 @@
     </tr>
 
 
-    <% if account.persisted? %>
-
-      <tr>
-        <th><%= f.label :laatija %></th>
-        <td><%= account.laatija %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :luontiaika %></th>
-        <td><%= account.luontiaika.try(:to_formatted_s, :db) %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muutospvm %></th>
-        <td><%= account.muutospvm.try(:to_formatted_s, :db) %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muuttaja %></th>
-        <td><%= account.muuttaja %></td>
-      </tr>
-
-    <% end %>
+    <%= render 'administration/resource_timestamps_and_users', resource: account %>
   </table>
 
-  <% if update_access? %>
-    <br/>
-
-    <div class="actions">
-      <% text = account.persisted? ? t('Päivitä tili') : t('Lisää') %>
-      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-    </div>
-  <% end %>
+  <%= render 'administration/actions', f: f, resource: account, resource_name: t('tili') %>
 <% end %>

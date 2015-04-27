@@ -102,31 +102,8 @@
         </td>
       </tr>
     <% end %>
-
-    <tr>
-      <th><%= t('Laatija') %></th>
-      <td><%= @sum_level.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= t('Luontiaika') %></th>
-      <td><%= @sum_level.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muutospvm') %></th>
-      <td><%= @sum_level.muutospvm %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muuttaja') %></th>
-      <td><%= @sum_level.muuttaja %></td>
-    </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @sum_level %>
   </table>
 
-  <% if update_access? %>
-    <br/>
-
-    <div class="actions">
-      <% text = @sum_level.persisted? ? 'Tallenna' : 'Lisää' %>
-      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-    </div>
-  <% end %>
+  <%= render 'administration/actions', f: f, resource: @sum_level, resource_name: t('taso') %>
 <% end %>
