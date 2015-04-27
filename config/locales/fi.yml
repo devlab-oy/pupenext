@@ -211,5 +211,8 @@ fi:
       printer:
         one: Kirjoitin
         other: Kirjoittimet
+      sum_level:
+        one: Taso
+        other: Tasot
     errors:
       <<: *errors
