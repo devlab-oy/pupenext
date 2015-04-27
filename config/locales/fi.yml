@@ -208,5 +208,8 @@ fi:
       fiscal_year:
         one: Tilikausi
         other: Tilikaudet
+      printer:
+        one: Kirjoitin
+        other: Kirjoittimet
     errors:
       <<: *errors
