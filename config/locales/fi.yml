@@ -202,6 +202,9 @@ fi:
       account:
         one: Tili
         other: Tilit
+      currency:
+        one: Valuutta
+        other: Valuutat
       fiscal_year:
         one: Tilikausi
         other: Tilikaudet
