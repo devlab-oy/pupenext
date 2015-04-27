@@ -12,6 +12,7 @@ class FiscalYear < ActiveRecord::Base
 
   validate :times_start_before_end
 
+  # FIXME
   # For future reference: avaava_tase is a relationship column to lasku
   # This means FiscalYear has one lasku
   # Avaava tase functionality is not implemented yet.
