@@ -198,5 +198,12 @@ fi:
     errors:
       <<: *errors
   activerecord:
+    models:
+      account:
+        one: Tili
+        other: Tilit
+      fiscal_year:
+        one: Tilikausi
+        other: Tilikaudet
     errors:
       <<: *errors
