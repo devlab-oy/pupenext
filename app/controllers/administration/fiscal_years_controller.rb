@@ -1,5 +1,4 @@
 class Administration::FiscalYearsController < AdministrationController
-  # GET /fiscal_years
   def index
     @fiscal_years = current_company
       .fiscal_years
@@ -7,21 +6,17 @@ class Administration::FiscalYearsController < AdministrationController
       .order(order_params)
   end
 
-  # GET /fiscal_years/1
   def show
     render :edit
   end
 
-  # GET /fiscal_years/new
   def new
     @fiscal_year = current_company.fiscal_years.build
   end
 
-  # GET /fiscal_years/1/edit
   def edit
   end
 
-  # POST /fiscal_years
   def create
     @fiscal_year = current_company.fiscal_years.build(fiscal_year_params)
 
@@ -32,7 +27,6 @@ class Administration::FiscalYearsController < AdministrationController
     end
   end
 
-  # PATCH/PUT /fiscal_years/1
   def update
     if @fiscal_year.update_by(fiscal_year_params, current_user)
       redirect_to fiscal_years_path, notice: 'Tilikausi päivitettiin onnistuneesti.'
