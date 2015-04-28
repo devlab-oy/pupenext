@@ -7,10 +7,8 @@ class FiscalYear < ActiveRecord::Base
   self.table_name  = :tilikaudet
   self.primary_key = :tunnus
 
-  validates :tilikausi_alku, allow_blank: false, date: true
+  validates :tilikausi_alku, allow_blank: false, date: true, date: { before: :tilikausi_loppu }
   validates :tilikausi_loppu, allow_blank: false, date: true
-
-  validate :times_start_before_end
 
   # FIXME
   # For future reference: avaava_tase is a relationship column to lasku
@@ -20,11 +18,4 @@ class FiscalYear < ActiveRecord::Base
   def period
     tilikausi_alku..tilikausi_loppu
   end
-
-  private
-
-    def times_start_before_end
-      return if tilikausi_alku.nil? || tilikausi_loppu.nil?
-      errors.add(:tilikausi_alku, t('Tilikauden loppu on ennen alkua')) if tilikausi_loppu < tilikausi_alku
-    end
 end
