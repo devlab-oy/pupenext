@@ -71,4 +71,16 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     patch :update, id: @fiscal_year, fiscal_year: params
     assert_redirected_to fiscal_years_path
   end
+
+  test 'should not update' do
+    login users(:bob)
+
+    params = {
+      tilikausi_alku:  @fiscal_year.tilikausi_alku,
+      tilikausi_loppu: ''
+    }
+
+    patch :update, id: @fiscal_year, fiscal_year: params
+    assert_template :edit
+  end
 end
