@@ -14,6 +14,7 @@ class Carrier < ActiveRecord::Base
   end
 
   def neutraali=(value)
-    write_attribute(:neutraali, value ? "o" : "")
+    val = value.to_i ? "o" : ""
+    write_attribute(:neutraali, val)
   end
 end
