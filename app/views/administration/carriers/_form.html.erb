@@ -1,0 +1,34 @@
+<%= render "administration/form_errors", resource: @carrier %>
+
+<%= form_for(@carrier) do |f| %>
+
+  <table>
+    <tr>
+      <th><%= f.label :koodi %></th>
+      <td><%= f.text_field :koodi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jalleenmyyjanro %></th>
+      <td><%= f.text_field :jalleenmyyjanro %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :neutraali %></th>
+      <td><%= f.check_box :neutraali %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pakkauksen_sarman_minimimitta %></th>
+      <td><%= f.text_field :pakkauksen_sarman_minimimitta %></td>
+    </tr>
+  </table>
+
+  <br/>
+
+  <div class="actions">
+    <% text = @carrier.persisted? ? t("Tallenna") : t("Lisää") %>
+    <%= f.submit text, data: { disable_with: t("Tallentaa") + '...' } %>
+  </div>
+<% end %>

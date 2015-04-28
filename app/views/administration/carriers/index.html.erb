@@ -38,7 +38,7 @@
 
 <% @carriers.each do |carrier| %>
   <tr>
-    <td><%= link_to carrier.koodi, edit_terms_of_payment_path(carrier.id) %></td>
+    <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
     <td><%= carrier.nimi %></td>
     <td><%= carrier.jalleenmyyjanro unless carrier.jalleenmyyjanro.zero? %></td>
     <td><%= carrier.neutraali %></td>

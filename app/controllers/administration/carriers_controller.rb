@@ -3,6 +3,17 @@ class Administration::CarriersController < AdministrationController
     @carriers = current_company.carriers.search_like(search_params).order(order_params)
   end
 
+  def show
+    render :edit
+  end
+
+  def edit
+  end
+
+  def new
+    @carrier = current_company.carriers.build
+  end
+
   private
 
     def carrier_params
