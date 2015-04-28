@@ -21,4 +21,9 @@ class CarrierTest < ActiveSupport::TestCase
     @carrier.pakkauksen_sarman_minimimitta = "k"
     assert_equal 0, @carrier.pakkauksen_sarman_minimimitta.to_i
   end
+
+  test 'should be neutral' do
+    @carrier.neutraali = "1"
+    assert_equal true, @carrier.neutraali
+  end
 end
