@@ -20,10 +20,10 @@ class MonitoringController < ApplicationController
   private
 
     def monitoring_access_control
-      render text: t("KÃ¤yttÃ¶oikeudet puuttuu!"), status: :forbidden unless from_devlab?
+      render text: t("KŠyttšoikeudet puuttuu!"), status: :forbidden unless from_devlab?
     end
 
     def from_devlab?
-      request.remote_ip == "82.181.128.118" || Rails.env.test?
+      request.remote_ip == "82.181.96.80" || Rails.env.test?
     end
 end
