@@ -5,11 +5,15 @@ module ActiveRecordExtension
     validates :yhtio, presence: true,    unless: :table_does_not_have_company?
     validates :muuttaja, presence: true, unless: :table_does_not_have_company?
     validates :laatija, presence: true,  unless: :table_does_not_have_company?
-    before_save :set_legacy_timestamps
+    before_save :set_legacy_timestamps,  unless: :table_does_not_have_company?
+
+    before_validation do |record|
+      record.company = Company.current if !table_does_not_have_company? && Company.current
+    end
   end
 
   def self.default_scope
-    where(company: Company.current) if Company.current
+    where(company: Company.current) if !table_does_not_have_company? && Company.current
   end
 
   def save_by(user)
