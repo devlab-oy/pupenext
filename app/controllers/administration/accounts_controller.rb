@@ -85,10 +85,11 @@ class Administration::AccountsController < AdministrationController
 
     def fetch_options_for_selects
       @levels = {
-        internal: SumLevel::Internal.all,
-        external: SumLevel::External.all,
-        vat:      SumLevel::Vat.all,
-        profit:   SumLevel::Profit.all
+        internal:  SumLevel::Internal.all,
+        external:  SumLevel::External.all,
+        vat:       SumLevel::Vat.all,
+        profit:    SumLevel::Profit.all,
+        commodity: SumLevel::Commodity.all,
       }
 
       @qualifiers = {
