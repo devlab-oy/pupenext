@@ -10,8 +10,6 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   test 'test current company' do
-    assert_nil Company.current
-
     get :index
 
     assigns(:accounts).each do |account|
