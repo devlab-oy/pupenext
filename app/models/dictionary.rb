@@ -7,6 +7,9 @@ class Dictionary < ActiveRecord::Base
   self.primary_key = :tunnus
 
   def self.translate(string, language = 'fi')
+    RequestStore.store[:translated_words] ||= []
+    RequestStore.store[:translated_words] << string
+
     language.downcase!
 
     # Return the string if we ask for a Finnish word
