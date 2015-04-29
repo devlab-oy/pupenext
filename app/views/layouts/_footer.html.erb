@@ -1,0 +1,8 @@
+<div class="info">
+  <%= link_to t("Sanakirja"),
+              controller: "administration/dictionaries",
+              "search[keyword]" => RequestStore.store[:translated_words].try(:join, "\n"),
+              "languages[]" => current_user.translation_language,
+              "search[language]" => "fi",
+              "search[strict]" => "true" %>
+</div>

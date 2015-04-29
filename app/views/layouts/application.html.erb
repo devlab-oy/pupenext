@@ -23,9 +23,8 @@
 
 <%= yield %>
 
-<% if current_user.can_update? '/dictionary' %>
-  <br /><br />
-  <a style="cursor:pointer" onclick="sanakirjaform.submit()"><font class="info">Sanakirja</font></a>
+<% if current_user.can_update? "/dictionaries" %>
+  <%= render "layouts/footer" %>
 <% end %>
 
 </body>
