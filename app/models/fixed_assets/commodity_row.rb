@@ -1,5 +1,4 @@
 class FixedAssets::CommodityRow < ActiveRecord::Base
-  include CurrentCompany
 
   belongs_to :commodity
 
