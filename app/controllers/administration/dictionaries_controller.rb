@@ -14,7 +14,7 @@ class Administration::DictionariesController < ApplicationController
     if strict_search?
       @dictionaries = Dictionary.where(search_language => keywords)
     elsif search_language && keywords.present?
-      @dictionaries = Dictionary.search_or(search_language, keywords)
+      @dictionaries = Dictionary.search_like({ search_language => keywords }, joiner: :or)
     else
       @dictionaries = Dictionary.all
     end
