@@ -7,8 +7,8 @@ module ActiveRecordExtension
     validates :laatija, presence: true,  unless: :table_does_not_have_company?
     before_save :set_legacy_timestamps,  unless: :table_does_not_have_company?
 
-    before_validation do |record|
-      record.company = Company.current if !table_does_not_have_company? && Company.current
+    after_initialize do |record|
+      record.company = Company.current if !table_does_not_have_company? && Company.current && record.class != Company
     end
   end
 
