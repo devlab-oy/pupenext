@@ -7,6 +7,7 @@ gem 'jquery-rails'
 gem 'mysql2'
 gem 'turbolinks'
 gem 'dotenv-rails'
+gem 'request_store'
 
 gem 'resque'
 gem 'resque-web', require: 'resque_web'
