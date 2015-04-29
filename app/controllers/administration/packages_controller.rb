@@ -1,4 +1,4 @@
-class PackagesController < ApplicationController
+class Administration::PackagesController < ApplicationController
 
   before_action :find_package, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
   before_action :find_keyword_languages, only: [:new_keyword, :edit_keyword, :create_keyword, :update_keyword]
@@ -133,7 +133,7 @@ private
     end
 
     def find_carrier_options
-      carriers = current_user.company.carriers
+      carriers = current_company.carriers
       @carrier_options = Hash.new
       carriers.each do |c|
         @carrier_options[c.koodi] = c.koodi

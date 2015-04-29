@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class PackagesControllerTest < ActionController::TestCase
+class Administration::PackagesControllerTest < ActionController::TestCase
 
   def setup
-    cookies[:pupesoft_session] = "IAOZQQAXYYDWMDBSWOEFSVBBI"
+    login users(:joe)
     @package = packages(:first)
     @keyword = keywords(:first)
     @package_code = package_codes(:first)
