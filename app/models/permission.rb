@@ -1,5 +1,6 @@
 class Permission < ActiveRecord::Base
   belongs_to :user
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   scope :update_permissions, -> { where(paivitys: 1) }
 
