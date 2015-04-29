@@ -1,4 +1,4 @@
-class Permission < ActiveRecord::Base
+class Permission < BaseModel
   belongs_to :user
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 

@@ -1,4 +1,4 @@
-class Head::VoucherRow < ActiveRecord::Base
+class Head::VoucherRow < BaseModel
   with_options foreign_key: :ltunnus, primary_key: :tunnus do |o|
     o.belongs_to :purchase_invoice, class_name: 'Head::PurchaseInvoice'
     o.belongs_to :purchase_order,   class_name: 'Head::PurchaseOrder'

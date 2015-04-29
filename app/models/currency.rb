@@ -1,4 +1,4 @@
-class Currency < ActiveRecord::Base
+class Currency < BaseModel
   include AttributeSanitator
   include Searchable
 

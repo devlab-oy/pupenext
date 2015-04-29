@@ -1,4 +1,4 @@
-class FiscalYear < ActiveRecord::Base
+class FiscalYear < BaseModel
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
