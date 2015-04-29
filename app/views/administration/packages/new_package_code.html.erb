@@ -1,11 +1,10 @@
-<%= link_to '« Palaa ohjelmaan: Muokkaa pakkausta', edit_package_path(@package) %>
+<%= link_to '« Palaa ohjelmaan: Muokkaa pakkausta', package_path(params[:id]) %>
 <br />
 <br />
 <font class="head">Lisää pakkauskoodi</font>
 <hr />
 
-<%= form_for(@pc,
-    url: { action: :create_package_code, id: @package.id }, html: { method: :post }) do |f| %>
+<%= form_for(@pc, url: {action: :create_package_code}, html: {method: :post}) do |f| %>
   <table>
     <tr>
       <td class='back'>

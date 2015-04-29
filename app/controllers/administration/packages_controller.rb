@@ -1,5 +1,6 @@
-class Administration::PackagesController < AdministrationController
-  before_action :find_resource, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
+class Administration::PackagesController < ApplicationController
+
+  before_action :find_package, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
   before_action :find_keyword_languages, only: [:new_keyword, :edit_keyword, :create_keyword, :update_keyword]
   before_action :find_carrier_options, only: [:show, :edit, :new_package_code, :edit_package_code, :create_package_code, :update_package_code]
 
@@ -23,26 +24,28 @@ class Administration::PackagesController < AdministrationController
     @package.attributes = package_params
 
     if @package.save_by current_user
-      redirect_to packages_path, notice: t("Pakkaus luotiin onnistuneesti")
+      redirect_to packages_path, notice: 'Package was successfully created.'
     else
-      render :edit
+      render :new
     end
   end
 
   def update
     if @package.update_by(package_params, current_user)
-      redirect_to packages_path, notice: t("Pakkaus päivitettiin onnistuneesti")
+      redirect_to packages_path, notice: 'Package was successfully updated.'
     else
       render :edit
     end
   end
+
+
 
   def edit_keyword
     @kw = @package.keywords.find(params[:keyword_id])
   end
 
   def update_keyword
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = current_user.company.packages.find(params[:id])
     @kw = @package.keywords.find(params[:keyword_id])
 
     if @kw.update_by(keyword_params, current_user)
@@ -57,7 +60,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_keyword
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = current_user.company.packages.find(params[:id])
     @kw = @package.keywords.build
     @kw.attributes = keyword_params
 
@@ -77,7 +80,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def update_package_code
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = current_user.company.packages.find(params[:id])
     @pc = @package.package_codes.find(params[:package_code_id])
 
     if @pc.update_by(package_code_params, current_user)
@@ -92,7 +95,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_package_code
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = current_user.company.packages.find(params[:id])
     @pc = @package.package_codes.build
     @pc.attributes = package_code_params
 
@@ -106,10 +109,13 @@ class Administration::PackagesController < AdministrationController
     end
   end
 
+
+
+
 private
 
-    def find_resource
-      @package = current_company.packages.find(params[:id] || params[:package_id])
+    def find_package
+      @package = current_user.company.packages.find(params[:id])
     end
 
     def find_keyword_languages
@@ -160,7 +166,6 @@ private
           :pakkauskuvaus,
           :pakkausveloitus_tuotenumero,
           :erikoispakkaus,
-          :rahtivapaa_veloitus,
           :korkeus,
           :leveys,
           :syvyys,
@@ -173,4 +178,5 @@ private
           :puukotuskerroin
         )
     end
+
 end
