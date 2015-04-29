@@ -76,4 +76,14 @@ class Administration::CarriersControllerTest < ActionController::TestCase
     patch :update, id: @carrier.id, carrier: params
     assert_template "edit", "Template should be edit"
   end
+
+  test "should delete carrier" do
+    login users(:bob)
+
+    assert_difference("Carrier.count", -1) do
+      delete :destroy, id: @carrier.id
+    end
+
+    assert_redirected_to carriers_path
+  end
 end
