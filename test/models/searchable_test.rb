@@ -71,4 +71,17 @@ class SearchableTest < ActiveSupport::TestCase
     args = { maa: %w(RU), nimi: %w(Kala) }
     assert_equal 0, DummyClass.search_like(args, options).count
   end
+
+  test "search like with or works correctly with strict search" do
+    options = { joiner: :or, strict: true }
+
+    args = { nimi: ["Acme Corporation", "Estonian"] }
+    assert_equal 1, DummyClass.search_like(args, options).count
+
+    args = { nimi: ["Acme Corporation", "Estonian Corporation"] }
+    assert_equal 2, DummyClass.search_like(args, options).count
+
+    args = { nimi: %w(Acme Corporation) }
+    assert_equal 0, DummyClass.search_like(args, options).count
+  end
 end

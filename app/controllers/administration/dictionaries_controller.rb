@@ -99,9 +99,12 @@ class Administration::DictionariesController < ApplicationController
 
     def filter_translated
       if params[:untranslated] && params[:untranslated] == "true"
-        conditions = languages.map { |language| "#{language} = ''" }
-        conditions = conditions.join(" OR ")
-        @dictionaries = @dictionaries.where(conditions)
+        conditions = languages.inject({}) do |conditions, language|
+          conditions[language] = [""]
+          conditions
+        end
+
+        @dictionaries = @dictionaries.search_like(conditions, joiner: :or, strict: true)
       end
     end
 

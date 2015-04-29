@@ -11,6 +11,8 @@ module Searchable
         joiner = :and
       end
 
+      strict = options[:strict]
+
       result = self.all
 
       if joiner == :and
@@ -28,8 +30,13 @@ module Searchable
 
         args.each do |column, valuess|
           valuess.each do |value|
-            conditions << "#{column} LIKE ?"
-            values << "%#{value}%"
+            if strict
+              conditions << "#{column} = ?"
+              values << "#{value}"
+            else
+              conditions << "#{column} LIKE ?"
+              values << "%#{value}%"
+            end
           end
         end
 
