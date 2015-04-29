@@ -18,11 +18,6 @@
       <%= text_field_tag :nimi, params[:nimi] %>
     </th>
     <th>
-      <%= sortable "jalleenmyyjanro" %>
-      <br />
-      <%= text_field_tag :jalleenmyyjanro, params[:jalleenmyyjanro] %>
-    </th>
-    <th>
       <%= sortable "neutraali" %>
       <br />
       <%= text_field_tag :neutraali, params[:neutraali] %>
@@ -40,7 +35,6 @@
   <tr>
     <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
     <td><%= carrier.nimi %></td>
-    <td><%= carrier.jalleenmyyjanro unless carrier.jalleenmyyjanro.zero? %></td>
     <td><%= carrier.neutraali %></td>
     <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
     <td class="back"></td>

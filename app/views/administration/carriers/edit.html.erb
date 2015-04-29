@@ -4,3 +4,12 @@
 
 <%= render "administration/header", title: "Muokkaa rahdinkuljettajaa" %>
 <%= render 'form' %>
+
+<% if @carrier.persisted? && update_access? %>
+  <br/>
+
+  <%= button_to(t("Poista rahdinkuljettaja"),
+                carrier_path(@carrier.id),
+                data: { confirm: t("Haluatko todella poistaa tämän tietueen?") },
+                method: "delete") %>
+<% end %>

@@ -32,13 +32,17 @@ class Administration::CarriersController < AdministrationController
     end
   end
 
+  def destroy
+    @carrier.destroy
+    redirect_to carriers_path, notice: t("Rahdinkuljettaja poistettiin onnistuneesti")
+  end
+
   private
 
     def carrier_params
       params.require(:carrier).permit(
         :koodi,
         :nimi,
-        :jalleenmyyjanro,
         :neutraali,
         :pakkauksen_sarman_minimimitta
       )
@@ -52,7 +56,6 @@ class Administration::CarriersController < AdministrationController
       [
         :koodi,
         :nimi,
-        :jalleenmyyjanro,
         :neutraali,
         :pakkauksen_sarman_minimimitta
       ]
