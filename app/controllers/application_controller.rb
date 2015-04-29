@@ -59,10 +59,10 @@ class ApplicationController < ActionController::Base
     end
 
     def set_current_company
-
+      Company.current = current_company
     end
 
     def unset_current_company
-
+      Company.current = nil
     end
 end
