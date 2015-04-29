@@ -8,6 +8,10 @@ module ActiveRecordExtension
     before_save :set_legacy_timestamps
   end
 
+  def self.default_scope
+    where(company: Company.current) if Company.current
+  end
+
   def save_by(user)
     raise ArgumentError, "Should pass User -class"  unless user.kind_of? User
 
