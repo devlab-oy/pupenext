@@ -1,4 +1,9 @@
-<% if notice %>
-  <%= t(notice) %>
+<% flash.each do |key, value| %>
+  <% if key == "alert" %>
+    <span class="error"><%= t(value) %></span>
+  <% else %>
+    <span><%= t(value) %></span>
+  <% end %>
+
   <br/><br/>
 <% end %>
