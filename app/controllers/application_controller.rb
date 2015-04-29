@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authorize
+  before_action :set_current_company
   before_action :set_locale
   before_action :access_control
-  before_action :set_current_company
   after_action :unset_current_company
 
   helper_method :current_user
