@@ -68,4 +68,9 @@ class UserTest < ActiveSupport::TestCase
     @joe.kayttoliittyma = 'C'
     assert @joe.classic_ui?, "company set nothing, joe set classic, should be classic"
   end
+
+  test "has correct translation language" do
+    assert_equal "en", @joe.translation_language
+    assert_equal "en", @bob.translation_language
+  end
 end

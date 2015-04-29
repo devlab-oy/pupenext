@@ -20,4 +20,16 @@ class User < BaseModel
   def classic_ui?
     kayttoliittyma == 'C' || (kayttoliittyma.blank? && company.classic_ui?)
   end
+
+  def translation_language
+    if kieli.downcase.in? %w(en se de dk ee)
+      kieli.downcase
+    else
+      "en"
+    end
+  end
+
+  # Map old database schema table to User class
+  self.table_name = :kuka
+  self.primary_key = :tunnus
 end
