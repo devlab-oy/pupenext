@@ -5,6 +5,8 @@ class Administration::DictionariesController < ApplicationController
   helper_method :keyword
   helper_method :untranslated?
 
+  skip_before_filter :verify_authenticity_token, only: :index
+
   def index
     if languages.empty? || !valid_search_language
       flash.now[:alert] = "Valitse käännettävä kieli" if params[:commit]
