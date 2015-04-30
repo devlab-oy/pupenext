@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   before_action :set_current_company
   before_action :set_locale
   before_action :access_control
-  after_action :unset_current_company
 
   helper_method :current_user
   helper_method :current_company
@@ -60,9 +59,5 @@ class ApplicationController < ActionController::Base
 
     def set_current_company
       Company.current = current_company
-    end
-
-    def unset_current_company
-      Company.current = nil
     end
 end

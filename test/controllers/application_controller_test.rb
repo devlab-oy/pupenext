@@ -15,7 +15,5 @@ class ApplicationControllerTest < ActionController::TestCase
     assigns(:accounts).each do |account|
       assert_equal @user.company.id, account.company.id
     end
-
-    assert_nil Company.current
   end
 end
