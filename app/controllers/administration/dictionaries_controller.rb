@@ -8,6 +8,7 @@ class Administration::DictionariesController < ApplicationController
   def index
     if languages.empty? || !valid_search_language
       flash.now[:alert] = "Valitse käännettävä kieli" if params[:commit]
+
       return @dictionaries = Dictionary.none
     end
 
