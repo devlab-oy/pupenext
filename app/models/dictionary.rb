@@ -52,4 +52,10 @@ class Dictionary < ActiveRecord::Base
   def self.all_languages
     [default_language] | allowed_languages
   end
+
+  def self.translated_words(format = false)
+    translated_words = RequestStore.store[:translated_words]
+
+    translated_words.try(:join, "\n") if format == :to_s
+  end
 end
