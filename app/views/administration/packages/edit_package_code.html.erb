@@ -4,7 +4,10 @@
 <font class="head">Muokkaa kieliversiota</font>
 <hr />
 
-<%= form_for(@pc, url: {action: "update_package_code"}, html: {method: "post"}) do |f| %>
+<%= form_for(
+  @pc,
+  url: {action: "update_package_code", package_code_id: @pc.id},
+  html: {method: "post"}) do |f| %>
     <table>
       <tr>
         <td class='back'>
