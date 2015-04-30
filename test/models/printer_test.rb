@@ -34,7 +34,7 @@ class PrinterTest < ActiveSupport::TestCase
     @printer2.komento = @printer1.komento
     refute @printer2.valid?
 
-    @printer2.yhtio = "kala"
+    @printer2.yhtio = 'esto'
     assert @printer2.valid?
   end
 
