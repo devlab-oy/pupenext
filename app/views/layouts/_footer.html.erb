@@ -1,8 +1,10 @@
 <div class="dictionary">
-  <%= link_to t("Sanakirja"),
-              dictionaries_path("search[keyword]" => Dictionary.translated_words(:to_s),
-                                "languages[]" => current_user.translation_language,
-                                "search[language]" => "fi",
-                                "search[strict]" => "true"),
-              class: "info" %>
+  <%= form_tag dictionaries_path, id: "dictionary_form" do %>
+    <%= hidden_field_tag "search[keyword]", Dictionary.translated_words(:to_s) %>
+    <%= hidden_field_tag "languages[]", current_user.translation_language %>
+    <%= hidden_field_tag "search[language]", "fi" %>
+    <%= hidden_field_tag "search[strict]", "true" %>
+
+    <%= link_to t("Sanakirja"), nil, class: :info, id: :dictionary_submit %>
+  <% end %>
 </div>

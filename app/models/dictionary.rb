@@ -54,8 +54,7 @@ class Dictionary < ActiveRecord::Base
   end
 
   def self.translated_words(format = false)
-    translated_words = RequestStore.store[:translated_words]
-
+    translated_words = RequestStore.store[:translated_words].try(:uniq)
     translated_words.try(:join, "\n") if format == :to_s
   end
 end

@@ -26,8 +26,9 @@ Pupesoft::Application.routes.draw do
     resources :printers
     resources :sum_levels
     resources :cash_registers
-    resources :dictionaries do
+    resources :dictionaries, only: :index do
       collection { patch :bulk_update }
+      collection { post :index }
     end
   end
 
