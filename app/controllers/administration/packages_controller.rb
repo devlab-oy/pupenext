@@ -1,5 +1,4 @@
 class Administration::PackagesController < AdministrationController
-
   before_action :find_resource, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
   before_action :find_keyword_languages, only: [:new_keyword, :edit_keyword, :create_keyword, :update_keyword]
   before_action :find_carrier_options, only: [:show, :edit, :new_package_code, :edit_package_code, :create_package_code, :update_package_code]
@@ -24,28 +23,26 @@ class Administration::PackagesController < AdministrationController
     @package.attributes = package_params
 
     if @package.save_by current_user
-      redirect_to packages_path, notice: 'Package was successfully created.'
-    else
-      render :new
-    end
-  end
-
-  def update
-    if @package.update_by(package_params, current_user)
-      redirect_to packages_path, notice: 'Package was successfully updated.'
+      redirect_to packages_path, notice: t("Pakkaus luotiin onnistuneesti")
     else
       render :edit
     end
   end
 
-
+  def update
+    if @package.update_by(package_params, current_user)
+      redirect_to packages_path, notice: t("Pakkaus päivitettiin onnistuneesti")
+    else
+      render :edit
+    end
+  end
 
   def edit_keyword
     @kw = @package.keywords.find(params[:keyword_id])
   end
 
   def update_keyword
-    @package = current_user.company.packages.find(params[:id])
+    @package = current_user.company.packages.find(params[:id] || params[:package_id])
     @kw = @package.keywords.find(params[:keyword_id])
 
     if @kw.update_by(keyword_params, current_user)
@@ -80,7 +77,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def update_package_code
-    @package = current_user.company.packages.find(params[:id])
+    @package = current_user.company.packages.find(params[:id] || params[:package_id])
     @pc = @package.package_codes.find(params[:package_code_id])
 
     if @pc.update_by(package_code_params, current_user)
@@ -108,9 +105,6 @@ class Administration::PackagesController < AdministrationController
       render :new_package_code
     end
   end
-
-
-
 
 private
 
@@ -178,5 +172,4 @@ private
           :puukotuskerroin
         )
     end
-
 end
