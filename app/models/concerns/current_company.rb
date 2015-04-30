@@ -3,7 +3,7 @@ module CurrentCompany
 
   included do
     after_initialize do |record|
-      record.company = Company.current if Company.current
+      record.company ||= Company.current if Company.current
     end
   end
 
