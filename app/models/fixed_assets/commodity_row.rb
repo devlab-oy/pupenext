@@ -1,5 +1,4 @@
 class FixedAssets::CommodityRow < ActiveRecord::Base
-
   belongs_to :commodity
 
   default_scope { where(amended: false) }
