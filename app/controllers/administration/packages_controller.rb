@@ -1,6 +1,6 @@
-class Administration::PackagesController < ApplicationController
+class Administration::PackagesController < AdministrationController
 
-  before_action :find_package, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
+  before_action :find_resource, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
   before_action :find_keyword_languages, only: [:new_keyword, :edit_keyword, :create_keyword, :update_keyword]
   before_action :find_carrier_options, only: [:show, :edit, :new_package_code, :edit_package_code, :create_package_code, :update_package_code]
 
@@ -114,8 +114,8 @@ class Administration::PackagesController < ApplicationController
 
 private
 
-    def find_package
-      @package = current_user.company.packages.find(params[:id])
+    def find_resource
+      @package = current_company.packages.find(params[:id] || params[:package_id])
     end
 
     def find_keyword_languages
