@@ -25,6 +25,10 @@ class ActiveSupport::TestCase
   setup do
     RequestStore.clear!
   end
+
+  teardown do
+    RequestStore.clear!
+  end
 end
 
 # Add login/logout method for controller tests
