@@ -1,17 +1,6 @@
 <%= form_for(@package) do |f| %>
 
-  <% if @package.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@package.errors.count, "error") %> prohibited this package from being saved:</h2>
-
-      <ul>
-      <% @package.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-
-  <% end %>
+  <%= render "administration/form_errors", resource: @package %>
 
   <table>
     <tr><td class='back'>
@@ -130,7 +119,7 @@
   <% if @package.keywords.present? or @package.id != nil %>
       <font class="head">AVAINSANAN KIELIVERSIOT</font>
       <hr />
-    <%= link_to "<button>Uusi avainsanan kieliversio</button>".html_safe, {controller: :packages, action: :new_keyword, id: @package.id} %>
+    <%= button_to "Uusi avainsanan kieliversio".html_safe, package_new_keyword_path(@package.id) %>
     <br />
     <br />
   <% end %>
@@ -150,7 +139,7 @@
 
         <% @package.keywords.each do |k| %>
         <tr>
-         <td><%= link_to k.kieli, {controller: :packages, action: :edit_keyword, id: @package.id, keyword_id: k.id } %></td>
+         <td><%= link_to k.kieli, package_edit_keyword_path(package_id: @package.id, keyword_id: k.id) %></td>
           <td><%= k.laji %></td>
           <td><%= k.selite %></td>
           <td><%= k.selitetark %></td>
@@ -171,7 +160,7 @@
   <% if @package.package_codes.present? or @package.id != nil %>
       <font class="head">Pakkauskoodit</font>
       <hr />
-    <%= link_to "<button>Uusi pakkauskoodi</button>".html_safe, {controller: :packages, action: :new_package_code, id: @package.id} %>
+    <%= button_to "Uusi pakkauskoodi".html_safe, package_new_package_code_path(@package.id) %>
     <br />
     <br />
   <% end %>
@@ -185,7 +174,7 @@
 
         <% @package.package_codes.each do |p| %>
         <tr>
-          <td><%= link_to p.koodi, {controller: :packages, action: :edit_package_code, id: @package.id, package_code_id: p.id } %></td>
+          <td><%= link_to p.koodi, package_edit_package_code_path(package_id: @package.id, package_code_id: p.id) %></td>
           <td><%= p.rahdinkuljettaja %></td>
         </tr>
         <% end %>
