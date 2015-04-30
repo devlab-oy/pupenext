@@ -8,16 +8,11 @@ class ApplicationController < ActionController::Base
   before_action :access_control
 
   helper_method :current_user
-  helper_method :current_company
   helper_method :update_access?
   helper_method :t
 
   def current_user
     @current_user ||= User.find_by_session(cookies[:pupesoft_session])
-  end
-
-  def current_company
-    @current_company ||= current_user.company
   end
 
   def read_access?
