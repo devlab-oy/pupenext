@@ -42,16 +42,6 @@ Pupesoft::Application.routes.draw do
     get 'qr_codes/generate'
   end
 
-  get 'packages/:id/edit_keyword/:keyword_id', to: 'packages#edit_keyword'
-  get 'packages/:id/new_keyword/', to: 'packages#new_keyword'
-  post 'update_keyword/:keyword_id/:id', to: 'packages#update_keyword'
-  post 'create_keyword/:id', to: 'packages#create_keyword'
-
-  get 'packages/:id/edit_package_code/:package_code_id', to: 'packages#edit_package_code'
-  get 'packages/:id/new_package_code/', to: 'packages#new_package_code'
-  post 'update_package_code/:package_code_id/:id', to: 'packages#update_package_code'
-  post 'create_package_code/:id', to: 'packages#create_package_code'
-
   root to: 'home#index'
   get '/test', to: 'home#test'
 
