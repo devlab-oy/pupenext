@@ -66,4 +66,12 @@ class Company < ActiveRecord::Base
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
+
+  def self.current=(company)
+    RequestStore.store[:current_company] = company
+  end
+
+  def self.current
+    RequestStore.store[:current_company]
+  end
 end

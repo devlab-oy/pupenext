@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < BaseModel
   has_one :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :permissions
 
