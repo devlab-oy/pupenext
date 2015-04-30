@@ -150,3 +150,7 @@ table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[ty
   box-sizing: border-box;
   margin: 0;
 }
+
+.dictionary {
+  margin-top: 20px;
+}

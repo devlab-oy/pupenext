@@ -56,3 +56,7 @@ table.indexvas td {
   width: 100%;
   box-sizing: border-box;
 }
+
+.dictionary {
+  margin-top: 20px;
+}
