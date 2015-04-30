@@ -20,11 +20,15 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
+    login users(:bob)
+
     get :new
     assert_response :success
   end
 
   test "should create" do
+    login users(:bob)
+
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: '10'
@@ -38,16 +42,17 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should not create" do
+    login users(:bob)
+
     request = {
       pakkaus: 'Kissa',
-      pakkauskuvaus: nil
     }
 
     assert_no_difference('Package.count') do
       post :create, package: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_template :edit
   end
 
   test "should get edit" do
@@ -56,6 +61,8 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should update" do
+    login users(:bob)
+
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: 'xxx'
@@ -66,22 +73,24 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should not update" do
+    login users(:bob)
+
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: nil
     }
 
     patch :update, id: @package.id, package: request
-    assert_template "edit", "Template should be edit"
+    assert_template :edit, "Template should be edit"
   end
 
   test "should get edit_keyword" do
-    get :edit_keyword, id: @package.id, keyword_id: @keyword.id
+    get :edit_keyword, package_id: @package.id, keyword_id: @keyword.id
     assert_response :success
   end
 
   test "should get edit package_code" do
-    get :edit_package_code, id: @package.id, package_code_id: @package_code.id
+    get :edit_package_code, package_id: @package.id, package_code_id: @package_code.id
     assert_response :success
   end
 
@@ -90,8 +99,8 @@ class Administration::PackagesControllerTest < ActionController::TestCase
       selitetark: 'Kissa'
     }
 
-    post :update_keyword, id: @package.id, keyword_id:  @keyword.id, package_keyword: request
-    assert_redirected_to package_path
+    post :update_keyword, package_id: @package.id, keyword_id:  @keyword.id, package_keyword: request
+    assert_redirected_to package_path(@package)
   end
 
   test "should not update keyword" do
@@ -99,7 +108,7 @@ class Administration::PackagesControllerTest < ActionController::TestCase
       selitetark: nil
     }
 
-    post :update_keyword, id: @package.id, keyword_id:  @keyword.id, package_keyword: request
+    post :update_keyword, package_id: @package.id, keyword_id:  @keyword.id, package_keyword: request
     assert_template :edit_keyword, "Template should be edit_keyword"
   end
 
@@ -108,8 +117,8 @@ class Administration::PackagesControllerTest < ActionController::TestCase
       koodi: 'Kissa'
     }
 
-    post :update_package_code, id: @package.id, package_code_id:  @package_code.id, package_code: request
-    assert_redirected_to package_path
+    post :update_package_code, package_id: @package.id, package_code_id:  @package_code.id, package_code: request
+    assert_redirected_to package_path(@package)
   end
 
   test "should not update package code" do
@@ -117,12 +126,13 @@ class Administration::PackagesControllerTest < ActionController::TestCase
       koodi: nil
     }
 
-    post :update_package_code, id: @package.id, package_code_id:  @package_code.id, package_code: request
+    post :update_package_code, package_id: @package.id, package_code_id:  @package_code.id, package_code: request
     assert_template :edit_package_code, "Template should be edit_package_code"
   end
 
-
   test "should get new keyword" do
+    login users(:bob)
+
     get :new_keyword, id: @package.id
     assert_response :success
   end
