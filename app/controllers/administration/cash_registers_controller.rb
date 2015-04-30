@@ -11,7 +11,7 @@ class Administration::CashRegistersController < AdministrationController
   before_action :check_kateisotto_account, only: [:create, :update]
 
   def index
-    @cash_registers = current_company.cash_registers
+    @cash_registers = CashRegister
     .search_like(search_params)
     .order(order_params)
   end
@@ -24,11 +24,11 @@ class Administration::CashRegistersController < AdministrationController
   end
 
   def new
-    @cash_register = current_company.cash_registers.build
+    @cash_register = CashRegister.new
   end
 
   def create
-    @cash_register = current_company.cash_registers.build(cash_register_params)
+    @cash_register = CashRegister.new(cash_register_params)
 
     @cash_register.kustp = 0 if @cash_register.kustp.nil?
 
@@ -50,7 +50,7 @@ class Administration::CashRegistersController < AdministrationController
 private
 
     def find_resource
-      @cash_register = current_company.cash_registers.find(params[:id])
+      @cash_register = CashRegister.find(params[:id])
     end
 
     def get_qualifiers
