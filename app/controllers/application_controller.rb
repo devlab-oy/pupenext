@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authorize
+  before_action :set_current_company
   before_action :set_locale
   before_action :access_control
 
@@ -54,5 +55,9 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
+    end
+
+    def set_current_company
+      Company.current = current_company
     end
 end

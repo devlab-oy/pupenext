@@ -1,4 +1,4 @@
-class Keyword < ActiveRecord::Base
+class Keyword < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   def self.vat_percents

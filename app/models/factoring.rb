@@ -1,4 +1,4 @@
-class Factoring < ActiveRecord::Base
+class Factoring < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   self.table_name = :factoring
