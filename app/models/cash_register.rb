@@ -18,7 +18,6 @@ class CashRegister < BaseModel
   validate :check_kassaerotus
   validate :check_kateisotto
 
-  # Map old database schema table to CashRegister class
   self.table_name  = :kassalipas
   self.primary_key = :tunnus
 
