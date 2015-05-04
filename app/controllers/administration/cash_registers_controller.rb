@@ -33,7 +33,7 @@ class Administration::CashRegistersController < AdministrationController
     @cash_register.kustp = 0 if @cash_register.kustp.nil?
 
     if @cash_register.save_by current_user
-      redirect_to cash_registers_path, notice: t("Kassalipas luotiin onnistuneesti")
+      redirect_to cash_registers_path, notice: "Kassalipas luotiin onnistuneesti"
     else
       render :new
     end
@@ -41,7 +41,7 @@ class Administration::CashRegistersController < AdministrationController
 
   def update
     if @cash_register.update_by(cash_register_params, current_user)
-      redirect_to cash_registers_path, notice: t("Kassalipas päivitettiin onnistuneesti")
+      redirect_to cash_registers_path, notice: "Kassalipas päivitettiin onnistuneesti"
     else
       render :edit
     end
