@@ -7,12 +7,12 @@ class User < BaseModel
     locales.include?(kieli) ? kieli : 'fi'
   end
 
-  def can_read?(resource)
-    permissions.read_access(resource).present?
+  def can_read?(resource, options = {})
+    permissions.read_access(resource, options).present?
   end
 
-  def can_update?(resource)
-    permissions.update_access(resource).present?
+  def can_update?(resource, options = {})
+    permissions.update_access(resource, options).present?
   end
 
   def classic_ui?

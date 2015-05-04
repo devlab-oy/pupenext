@@ -27,6 +27,10 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
   end
 
+  scope module: :utilities do
+    get 'qr_codes/generate'
+  end
+
   root to: 'home#index'
 
   mount ResqueWeb::Engine => "/resque"
