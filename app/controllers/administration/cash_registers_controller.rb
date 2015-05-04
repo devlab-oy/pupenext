@@ -30,8 +30,6 @@ class Administration::CashRegistersController < AdministrationController
   def create
     @cash_register = CashRegister.new(cash_register_params)
 
-    @cash_register.kustp = 0 if @cash_register.kustp.nil?
-
     if @cash_register.save_by current_user
       redirect_to cash_registers_path, notice: "Kassalipas luotiin onnistuneesti"
     else

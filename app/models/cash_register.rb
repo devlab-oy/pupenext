@@ -21,6 +21,8 @@ class CashRegister < BaseModel
   self.table_name  = :kassalipas
   self.primary_key = :tunnus
 
+  before_save :defaults
+
   private
 
     def check_kassa
@@ -58,4 +60,8 @@ class CashRegister < BaseModel
       company.accounts.find_by_tilino(account).present?
     end
 
+    def defaults
+      self.kustp       ||= 0
+      self.toimipaikka ||= 0
+    end
 end
