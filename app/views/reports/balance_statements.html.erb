@@ -1,1 +1,17 @@
 <%= render "administration/header", title: t("Tilinpäätöksen liitetiedot") %>
+
+<table>
+  <tr>
+    <th colspan= '100%'><%= t('Tiliryhmittäin')%></th>
+  </tr>
+  <!-- Käydään läpi kaikki EVL-tasot -->
+  <% @report.current_company.sum_level_commodities.each do |slc| %>
+    <tr>
+      <td><%= slc.taso %></td>
+      <td><%= slc.nimi %></td>
+    </tr>
+    <tr>
+      <td><%= @report.vouchers_by_sumlevel(slc) %></td>
+    </tr>
+  <% end %>
+</table>
