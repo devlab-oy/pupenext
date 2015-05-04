@@ -87,7 +87,7 @@ private
 
     def get_accounts(type)
       search = params[:cash_register][type]
-      Account.by_name(search) if search.present?
+      Account.where_like('nimi', search) if search.present?
     end
 
     def searchable_columns
