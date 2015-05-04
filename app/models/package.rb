@@ -1,4 +1,4 @@
-class Package < ActiveRecord::Base
+class Package < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   has_many :keywords, foreign_key: :perhe, primary_key: :tunnus, class_name: 'PackageKeyword'
@@ -9,11 +9,6 @@ class Package < ActiveRecord::Base
 
   self.table_name  = :pakkaus
   self.primary_key = :tunnus
-
-  def luontiaika
-    luontiaika = read_attribute(:luontiaika)
-    luontiaika.blank? ? Time.new(1970) : luontiaika
-  end
 
   def ei_kylla_options
     [
