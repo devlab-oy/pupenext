@@ -1,4 +1,4 @@
-class Package < ActiveRecord::Base
+class Package < BaseModel
   include Translatable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
