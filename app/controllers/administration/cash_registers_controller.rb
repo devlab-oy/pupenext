@@ -17,7 +17,7 @@ class Administration::CashRegistersController < AdministrationController
   end
 
   def show
-     render 'edit'
+     render :edit
   end
 
   def edit
