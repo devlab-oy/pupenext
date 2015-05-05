@@ -1,4 +1,4 @@
-class CashRegister < BaseModel
+class CashRegister < ActiveRecord::Base
   include Searchable
   include Translatable
 
