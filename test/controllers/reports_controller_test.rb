@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
+  fixtures %w(fixed_assets/commodities
+              fixed_assets/commodity_rows
+              accounts
+              heads
+              head/voucher_rows
+              fiscal_years
+              sum_levels)
 
   setup do
     login users(:bob)

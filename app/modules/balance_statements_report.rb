@@ -43,7 +43,6 @@ class BalanceStatementsReport
       # evl poistot yhteensa
       thislevel[:kert_evl_after] = hydyt.map { |h| h.accumulated_evl_at(fiscal_end) }.sum
 
-
       # poistamaton osa
       thislevel[:poistamaton_osa] = hydyt.map { |h| h.bookkeeping_value(fiscal_end) }.sum
     end
