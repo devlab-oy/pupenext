@@ -100,15 +100,12 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "accounts project needs to be in use" do
-    project_not_in_use = Qualifier::Project.not_in_use.first
-    @account.project = project_not_in_use
+    @account.project = Qualifier::Project.not_in_use.first
 
-    #account needs to be saved. Project_not_in_use goes to db
-    #After we reload @account.project = nil because Qualifier has default_scope
     @account.save
     @account.reload
 
-    assert_nil @account.project
+    assert "E", @account.project.kaytossa
   end
 
   test "kustp, kohde and projekti default to 0" do

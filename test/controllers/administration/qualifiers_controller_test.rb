@@ -12,6 +12,11 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get index with not in use" do
+    get :index, not_used: true
+    assert_response :success
+  end
+
   test "should get show" do
     get :show, id: @qualifier.id
     assert_response :success
