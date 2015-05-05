@@ -21,14 +21,6 @@ class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
   fixtures :all
   self.use_transactional_fixtures = false
-
-  setup do
-    RequestStore.clear!
-  end
-
-  teardown do
-    RequestStore.clear!
-  end
 end
 
 # Add login/logout method for controller tests

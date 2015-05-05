@@ -1,12 +1,13 @@
 class Administration::SumLevelsController < AdministrationController
   def index
-    @sum_levels = SumLevel.all
+    @sum_levels = current_company
+      .sum_levels
       .search_like(search_params)
       .order(order_params)
   end
 
   def new
-    @sum_level = SumLevel::Internal.new
+    @sum_level = current_company.sum_level_internals.build
   end
 
   def show
@@ -14,7 +15,7 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def create
-    @sum_level = SumLevel.new(sum_level_params)
+    @sum_level = current_company.sum_levels.build(sum_level_params)
 
     if params[:commit] && @sum_level.save_by(current_user)
       redirect_to sum_levels_path, notice: 'Taso luotiin onnistuneesti'
@@ -46,7 +47,7 @@ class Administration::SumLevelsController < AdministrationController
   private
 
     def find_resource
-      @sum_level = SumLevel.find params[:id]
+      @sum_level = current_company.sum_levels.find params[:id]
     end
 
     def sum_level_params

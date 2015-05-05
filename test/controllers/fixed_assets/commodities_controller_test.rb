@@ -40,7 +40,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     }
 
     assert_difference('FixedAssets::Commodity.count') do
-      post :create, fixed_assets_commodity: params
+      patch :create, fixed_assets_commodity: params
     end
 
     assert_response :found

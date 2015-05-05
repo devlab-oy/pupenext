@@ -1,4 +1,4 @@
-class TermsOfPayment < BaseModel
+class TermsOfPayment < ActiveRecord::Base
   include AttributeSanitator
   include Searchable
   include Translatable

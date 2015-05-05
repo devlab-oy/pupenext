@@ -1,20 +1,26 @@
 class Administration::CurrenciesController < AdministrationController
+  # GET /currencies
   def index
-    @currencies = Currency
+    @currencies = current_company
+      .currencies
       .search_like(search_params)
       .order(order_params)
   end
 
+  # GET /currencies/1
   def show
     render :edit
   end
 
+  # GET /currencies/new
   def new
-    @currency = Currency.new
+    @currency = current_company.currencies.build
   end
 
+  # POST /currencies
   def create
-    @currency = Currency.new(currency_params)
+    @currency = current_company.currencies.build
+    @currency.attributes = currency_params
 
     if @currency.save_by current_user
       redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
@@ -23,9 +29,11 @@ class Administration::CurrenciesController < AdministrationController
     end
   end
 
+  # GET /currencies/1/edit
   def edit
   end
 
+  # PATCH/PUT /currencies/1
   def update
     if @currency.update_by(currency_params, current_user)
       redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
@@ -37,7 +45,7 @@ class Administration::CurrenciesController < AdministrationController
   private
 
     def find_resource
-      @currency = Currency.find(params[:id])
+      @currency = current_company.currencies.find(params[:id])
     end
 
     def currency_params

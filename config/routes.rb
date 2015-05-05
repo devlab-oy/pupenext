@@ -32,6 +32,7 @@ Pupesoft::Application.routes.draw do
   end
 
   root to: 'home#index'
+  get '/test', to: 'home#test'
 
   mount ResqueWeb::Engine => "/resque"
 end
