@@ -25,6 +25,7 @@ Pupesoft::Application.routes.draw do
     resources :terms_of_payments, except: :destroy
     resources :printers
     resources :sum_levels
+    resources :cash_registers
   end
 
   scope module: :utilities do

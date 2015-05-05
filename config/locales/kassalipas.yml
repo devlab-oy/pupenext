@@ -1,0 +1,34 @@
+# select distinct concat(substring(selite from 7), ': \'', trim(selitetark), '\'') yaml
+# from avainsana
+# where laji = 'mysqlalias'
+# and selite like 'yhtio.%'
+# order by yaml;
+
+# select distinct concat(substring(selite from 7), ': \'', (select
+# sanakirja.se
+# from sanakirja
+# where sanakirja.fi = BINARY avainsana.selitetark
+# order by muutospvm desc
+# limit 1), '\'') yaml
+# from avainsana
+# where laji = 'mysqlalias'
+# and selite like 'yhtio.%'
+# order by yaml;
+
+fi:
+  activerecord:
+    attributes:
+      cash_register:
+        nimi: 'Nimi'
+        kustp: 'Kustannuspaikka'
+        toimipaikka: 'Toimipaikka'
+        kassa: 'Kassa'
+        pankkikortti: 'Pankkikortti'
+        luottokortti: 'Luottokortti'
+        kateistilitys: 'Käteistilitys'
+        kassaerotus: 'Kassaerotus'
+        kateisotto: 'Käteisotto'
+        luontiaika: 'Luontiaika'
+        laatija: 'Laatija'
+        muuttaja: 'Muuttaja'
+        muutospvm: 'Muutospvmx'
