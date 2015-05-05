@@ -4,14 +4,62 @@
   <tr>
     <th colspan= '100%'><%= t('Tiliryhmittäin')%></th>
   </tr>
-  <!-- Käydään läpi kaikki EVL-tasot -->
-  <% @report.current_company.sum_level_commodities.each do |slc| %>
+
+  <% @data.each do |d, v| %>
     <tr>
-      <td><%= slc.taso %></td>
-      <td><%= slc.nimi %></td>
+      <td><%= d %>
+      <td><%= v[:nimi] %></td>
     </tr>
     <tr>
-      <td><%= @report.vouchers_by_sumlevel(slc) %></td>
+      <td><%= t('Hankintameno') %></td>
+      <td><%= v[:hankintameno] %></td>
     </tr>
+    <tr>
+      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= v[:kert_sumupoisto_before].to_s %></td>
+    </tr>
+    <tr>
+      <td><%= t('Sumupoisto') %></td>
+      <td><%= v[:sumupoisto].to_s %></td>
+    </tr>
+    <tr>
+      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= v[:kert_sumupoisto_after].to_s %></td>
+    </tr>
+    <tr>
+      <td><%= t('Kert.poistoero') %></td>
+      <td><%= v[:kert_poistoero_before] %></td>
+    </tr>
+    <tr>
+      <td><%= t('Poistoero') %></td>
+      <td><%= v[:kert_poistoero] %></td>
+    </tr>
+    <tr>
+      <td><%= t('Kert.poistoero') %></td>
+      <td><%= v[:kert_poistoero_after] %></td>
+    </tr>
+    <tr><td></td></tr>
+    <tr>
+      <td><%= t('Hankintameno') %></td>
+      <td><%= v[:hankintameno] %></td>
+    </tr>
+    <tr>
+      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= v[:kert_sumupoisto_after].to_s %></td>
+    </tr>
+    <tr>
+      <td><%= t('Kert.poistoero') %></td>
+      <td><%= v[:kert_poistoero_after] %></td>
+    </tr>
+    <tr>
+      <td><%= t('Evl-menojäännös') %></td>
+      <td><%= v[:kert_evl_after] %></td>
+    </tr>
+    <tr>
+      <td><%= t('Poistamaton osa') %></td>
+      <td><%= v[:poistamaton_osa] %></td>
+    </tr>
+    <tr><td></td></tr>
+
   <% end %>
 </table>

@@ -12,5 +12,6 @@ class ReportsController < ApplicationController
   def balance_statements
     # Tilinpäätöksen liitetiedot
     @report = BalanceStatementsReport.new(current_company)
+    @data = @report.data
   end
 end

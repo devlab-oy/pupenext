@@ -160,6 +160,18 @@ class FixedAssets::Commodity < BaseModel
     true
   end
 
+  def accumulated_depreciation_at(date)
+    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_difference_at(date)
+    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_evl_at(date)
+    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+  end
+
   private
 
     def important_values_changed?

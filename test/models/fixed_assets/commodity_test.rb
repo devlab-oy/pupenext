@@ -246,4 +246,25 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.name = 'bob'
     assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
   end
+
+  test 'calculates accumulated depreciation at given date' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    future_date = @commodity.activated_at.advance(months: 2)
+    assert_equal 1176.48, @commodity.accumulated_depreciation_at(future_date)
+  end
+
+  test 'calculates accumulated depreciation difference at given date' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    future_date = @commodity.activated_at.advance(months: 2)
+    assert_equal 111.52, @commodity.accumulated_difference_at(future_date)
+  end
+
+  test 'calculates accumulated evl at given date' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    future_date = @commodity.activated_at.advance(months: 2)
+    assert_equal -1288, @commodity.accumulated_evl_at(future_date)
+  end
 end
