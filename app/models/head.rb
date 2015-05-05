@@ -1,4 +1,4 @@
-class Head < BaseModel
+class Head < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :terms_of_payment, foreign_key: :maksuehto, primary_key: :tunnus
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus

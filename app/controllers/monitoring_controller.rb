@@ -20,7 +20,7 @@ class MonitoringController < ApplicationController
   private
 
     def monitoring_access_control
-      render text: t("KÃ¤yttÃ¶oikeudet puuttuu!"), status: :forbidden unless from_devlab?
+      render text: t("KŠyttšoikeudet puuttuu!"), status: :forbidden unless from_devlab?
     end
 
     def from_devlab?

@@ -1,4 +1,4 @@
-class Printer < BaseModel
+class Printer < ActiveRecord::Base
   include Searchable
   extend Translatable
 
