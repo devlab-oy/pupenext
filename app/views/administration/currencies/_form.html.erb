@@ -20,30 +20,8 @@
         <td><%= f.text_field :intrastat_kurssi %></td>
       </tr>
     <% end %>
-    <tr>
-      <th><%= t('Laatija') %></th>
-      <td><%= @currency.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= t('Luontiaika') %></th>
-      <td><%= @currency.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muutospvm') %></th>
-      <td><%= @currency.muutospvm %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muuttaja') %></th>
-      <td><%= @currency.muuttaja %></td>
-    </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @currency %>
   </table>
 
-  <% if update_access? %>
-    <br/>
-
-    <div class="actions">
-      <% text = @currency.persisted? ? 'Tallenna' : 'Lisää' %>
-      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-    </div>
-  <% end %>
+  <%= render 'administration/actions', f: f %>
 <% end %>

@@ -1,6 +1,5 @@
-<%= render "administration/form_errors", resource: @terms_of_payment %>
-
 <%= form_for(@terms_of_payment) do |f| %>
+  <%= render "administration/form_errors", resource: @terms_of_payment %>
 
   <table>
     <tr>
@@ -84,28 +83,7 @@
       <th><%= f.label :jarjestys %></th>
       <td><%= f.text_field :jarjestys %></td>
     </tr>
-    <tr>
-      <th><%= f.label :laatija %></th>
-      <td><%= @terms_of_payment.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :luontiaika %></th>
-      <td><%= @terms_of_payment.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :muuttaja %></th>
-      <td><%= @terms_of_payment.muuttaja %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :muutospvm %></th>
-      <td><%= @terms_of_payment.muutospvm %></td>
-    </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @terms_of_payment %>
   </table>
-
-  <br/>
-
-  <div class="actions">
-    <% text = @terms_of_payment.persisted? ? t('Tallenna') : t('Lisää') %>
-    <%= f.submit text, data: { disable_with: t('Tallentaa') + '...' } %>
-  </div>
+  <%= render 'administration/actions', f: f %>
 <% end %>

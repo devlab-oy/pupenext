@@ -11,6 +11,8 @@ gem 'dotenv-rails'
 gem 'resque'
 gem 'resque-web', require: 'resque_web'
 
+gem 'date_validator'
+
 group :assets do
   gem 'uglifier'
 end
