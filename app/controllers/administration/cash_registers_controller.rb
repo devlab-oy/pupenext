@@ -11,24 +11,25 @@ class Administration::CashRegistersController < AdministrationController
   before_action :check_kateisotto_account, only: [:create, :update]
 
   def index
-    @cash_registers = CashRegister
+    @cash_registers = current_company
+    .cash_registers
     .search_like(search_params)
     .order(order_params)
   end
 
   def show
-     render :edit
+    render :edit
   end
 
   def edit
   end
 
   def new
-    @cash_register = CashRegister.new
+    @cash_register = current_company.cash_registers.build
   end
 
   def create
-    @cash_register = CashRegister.new(cash_register_params)
+    @cash_register = current_company.cash_registers.build(cash_register_params)
 
     if @cash_register.save_by current_user
       redirect_to cash_registers_path, notice: "Kassalipas luotiin onnistuneesti"
@@ -45,18 +46,18 @@ class Administration::CashRegistersController < AdministrationController
     end
   end
 
-private
+  private
 
     def find_resource
-      @cash_register = CashRegister.find(params[:id])
+      @cash_register = current_company.cash_registers.find(params[:id])
     end
 
     def get_qualifiers
-      @qualifiers = Qualifier.all.order(:nimi)
+      @qualifiers = current_company.qualifiers.order(:nimi)
     end
 
     def get_locations
-      @locations = Location.all.order(:nimi)
+      @locations = current_company.locations.order(:nimi)
     end
 
     def check_kassa_account
@@ -107,17 +108,16 @@ private
     end
 
     def cash_register_params
-        params.require(:cash_register).permit(
-          :nimi,
-          :kustp,
-          :toimipaikka,
-          :kassa,
-          :pankkikortti,
-          :luottokortti,
-          :kateistilitys,
-          :kassaerotus,
-          :kateisotto
-        )
+      params.require(:cash_register).permit(
+        :nimi,
+        :kustp,
+        :toimipaikka,
+        :kassa,
+        :pankkikortti,
+        :luottokortti,
+        :kateistilitys,
+        :kassaerotus,
+        :kateisotto
+      )
     end
-
 end
