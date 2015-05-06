@@ -86,8 +86,8 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
     get :index, params
     assert_response :success
     assert_not_nil assigns(:terms_of_payments)
-    assert_select 'a' do |elements|
-      assert_select elements, 'a', "Näytä aktiivit"
+    assert_select "input" do |elements|
+      assert_select elements, "input", { type: "submit", value: "Näytä aktiivit" }
     end
   end
 
