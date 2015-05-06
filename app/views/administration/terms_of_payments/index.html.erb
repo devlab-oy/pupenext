@@ -1,12 +1,12 @@
 <%= render "administration/header", title: "Maksuehdot" %>
 
 <%= button_to t('Uusi maksuehto'), new_terms_of_payment_path, method: :get if update_access? %>
-<br/><br/>
 
 <% if showing_not_used? %>
-  <%= link_to t('Näytä aktiivit') %>
+  <%= button_to t('Näytä aktiivit'), terms_of_payments_path, method: :get %>
 <% else %>
-  <%= link_to t('Näytä poistetut'), { not_used: :yes } %>
+  <%= button_to t('Näytä poistetut'), terms_of_payments_path,
+                params: { not_used: :yes }, method: :get %>
 <% end %>
 
 <br/><br/>
@@ -56,9 +56,9 @@
       <tr>
         <td><%= link_to top.teksti, edit_terms_of_payment_path(top.id) %></td>
         <td><%= top.rel_pvm %></td>
-        <td><%= top.abs_pvm %></td>
+        <td><%= l top.abs_pvm unless top.abs_pvm.nil? %></td>
         <td><%= top.kassa_relpvm %></td>
-        <td><%= top.kassa_abspvm %></td>
+        <td><%= l top.kassa_abspvm unless top.kassa_abspvm.nil? %></td>
         <td><%= top.kassa_alepros %></td>
         <td><%= top.jarjestys %></td>
         <td class="back"></td>
