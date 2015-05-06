@@ -2,14 +2,15 @@ class Administration::AccountsController < AdministrationController
   before_action :fetch_options_for_selects, only: [:new, :edit, :show]
 
   def index
-    @accounts = Account
-    .includes(:internal, :external, :vat)
-    .search_like(search_params)
-    .order(order_params)
+    @accounts = current_company
+      .accounts
+      .includes(:internal, :external, :vat)
+      .search_like(search_params)
+      .order(order_params)
   end
 
   def new
-    @account = Account.new
+    @account = current_company.accounts.build
   end
 
   def show
@@ -17,7 +18,7 @@ class Administration::AccountsController < AdministrationController
   end
 
   def create
-    @account = Account.new(account_params)
+    @account = current_company.accounts.build(account_params)
 
     if @account.save_by current_user
       redirect_to accounts_path, notice: 'Uusi tili perustettu'
@@ -47,7 +48,7 @@ class Administration::AccountsController < AdministrationController
   private
 
     def find_resource
-      @account = Account.find params[:id]
+      @account = current_company.accounts.find params[:id]
     end
 
     def account_params
@@ -85,21 +86,22 @@ class Administration::AccountsController < AdministrationController
 
     def fetch_options_for_selects
       @levels = {
-        internal:  SumLevel::Internal.all,
-        external:  SumLevel::External.all,
-        vat:       SumLevel::Vat.all,
-        profit:    SumLevel::Profit.all,
-        commodity: SumLevel::Commodity.all,
+        internal: current_company.sum_level_internals,
+        external: current_company.sum_level_externals,
+        vat: current_company.sum_level_vats,
+        profit: current_company.sum_level_profits,
+        commodity: current_company.sum_level_commodities
       }
 
       @qualifiers = {
-        cost_center: Qualifier::CostCenter.all.order("koodi+0, koodi, nimi"),
-        target:      Qualifier::Target.all.order("koodi+0, koodi, nimi"),
-        project:     Qualifier::Project.all.order("koodi+0, koodi, nimi")
+        cost_center: current_company.cost_centers.order("koodi+0, koodi, nimi"),
+        target: current_company.targets.order("koodi+0, koodi, nimi"),
+        project: current_company.projects.order("koodi+0, koodi, nimi")
       }
 
-      @oletus_alv_options = Keyword
-      .vat_percents
-      .order("selite+0, laji, jarjestys, selite")
+      @oletus_alv_options = current_company
+        .keywords
+        .vat_percents
+        .order("selite+0, laji, jarjestys, selite")
     end
 end

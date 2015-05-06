@@ -1,0 +1,15 @@
+first:
+  yhtio: acme
+  nimi: nimi
+  kustp: 12
+  toimipaikka: 12
+  kassa: 110
+  pankkikortti: 120
+  luottokortti: 130
+  kateistilitys: 140
+  kassaerotus: 150
+  kateisotto: 160
+  luontiaika: <%= Time.now %>
+  muuttaja: joe
+  muutospvm: <%= Time.now %>
+  laatija: joe

@@ -1,4 +1,4 @@
-class FixedAssets::Commodity < BaseModel
+class FixedAssets::Commodity < ActiveRecord::Base
   include Searchable
 
   # commodity = hyödyke

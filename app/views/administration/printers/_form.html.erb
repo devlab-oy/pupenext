@@ -66,36 +66,8 @@
       <th><%= f.label :jarjestys, t("Järjestys") %></th>
       <td><%= f.number_field :jarjestys %></td>
     </tr>
-
-    <% if printer.persisted? %>
-      <tr>
-        <th><%= f.label :laatija, t("Laatija") %></th>
-        <td><%= printer.laatija %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :luontiaika, t("Luontiaika") %></th>
-        <td><%= printer.luontiaika.try(:to_formatted_s, :db) %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muutospvm, t("Muutospvm") %></th>
-        <td><%= printer.muutospvm.try(:to_formatted_s, :db) %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muuttaja, t("Muuttaja") %></th>
-        <td><%= printer.muuttaja %></td>
-      </tr>
-    <% end %>
+    <%= render 'administration/resource_timestamps_and_users', resource: printer %>
   </table>
 
-  <% if update_access? %>
-    <br/>
-
-    <div class="actions">
-      <% text = printer.persisted? ? t('Päivitä kirjoitin') : t('Lisää') %>
-      <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-    </div>
-  <% end %>
+  <%= render 'administration/actions', f: f %>
 <% end %>

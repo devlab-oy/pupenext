@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class HomeControllerTest < ActionController::TestCase
+
   setup do
     # Bob has access to /test, Max does not.
     login users(:bob)
@@ -17,4 +18,23 @@ class HomeControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+
+  test "success if we have access" do
+    get :test
+    assert_response :success
+  end
+
+  test "success if we have access even with parameters" do
+    params = { foo: :bar, bar: :baz }
+    get :test, params
+    assert :success
+  end
+
+  test "access denied if no permissions" do
+    login users(:max)
+
+    get :test
+    assert_response :forbidden
+  end
+
 end

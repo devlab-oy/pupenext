@@ -1,0 +1,18 @@
+<% if resource.persisted? %>
+  <tr>
+    <th><%= t('Laatija') %></th>
+    <td><%= resource.laatija %></td>
+  </tr>
+  <tr>
+    <th><%= t('Luontiaika') %></th>
+    <td><%= l resource.luontiaika unless resource.luontiaika.nil? %></td>
+  </tr>
+  <tr>
+    <th><%= t('Muutospvm') %></th>
+    <td><%= l resource.muutospvm unless resource.luontiaika.nil? %></td>
+  </tr>
+  <tr>
+    <th><%= t('Muuttaja') %></th>
+    <td><%= resource.muuttaja %></td>
+  </tr>
+<% end %>

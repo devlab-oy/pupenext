@@ -1,5 +1,4 @@
-class Dictionary < BaseModel
-  # Map old database schema table to class
+class Dictionary < ActiveRecord::Base
   self.table_name = :sanakirja
   self.primary_key = :tunnus
 

@@ -1,4 +1,4 @@
-class Account < BaseModel
+class Account < ActiveRecord::Base
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
@@ -33,6 +33,10 @@ class Account < BaseModel
 
   def self.evl_accounts
     where.not(evl_taso: '')
+  end
+
+  def tilino_nimi
+    "#{tilino} #{nimi}"
   end
 
   def toimijaliitos_options

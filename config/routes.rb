@@ -25,6 +25,11 @@ Pupesoft::Application.routes.draw do
     resources :terms_of_payments, except: :destroy
     resources :printers
     resources :sum_levels
+    resources :cash_registers
+  end
+
+  scope module: :utilities do
+    get 'qr_codes/generate'
   end
 
   scope :reports, controller: :reports do
@@ -34,6 +39,7 @@ Pupesoft::Application.routes.draw do
   end
 
   root to: 'home#index'
+  get '/test', to: 'home#test'
 
   mount ResqueWeb::Engine => "/resque"
 end

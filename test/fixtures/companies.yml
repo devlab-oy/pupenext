@@ -17,8 +17,8 @@ estonian:
   yhtio: esto
   nimi: Estonian Corporation
   maa: EE
-  tilikausi_alku: <%= Date.today %>
-  tilikausi_loppu: <%= Date.today+365 %>
+  tilikausi_alku: '2012-01-01'
+  tilikausi_loppu: '2012-12-31'
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
