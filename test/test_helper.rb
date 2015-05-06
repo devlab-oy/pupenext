@@ -22,14 +22,6 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   fixtures %w(users companies permissions dictionaries keywords parameters)
-
-  setup do
-    RequestStore.clear!
-  end
-
-  teardown do
-    RequestStore.clear!
-  end
 end
 
 # Add login/logout method for controller tests
