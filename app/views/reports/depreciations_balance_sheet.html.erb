@@ -1,21 +1,41 @@
 <%= render "administration/header", title: t("Tase-erittely SUMU poistoin") %>
+<%= @report.data.inspect %>
 <table>
   <tr>
-  <th><%= t('Tosite')%></th>
-  <th><%= t('Hankittu')%></th>
-  <th><%= t('Selite') + t('Toimittaja') %></th>
-  <th><%= t('Hankintahinta') %></th>
-  <th><%= t('Tilikauden poistot') %></th>
-  <th><%= t('Kertynyt poisto') %></th>
-  <th><%= t('Menojäännös') %></th>
+    <th><%= t('Tosite')%></th>
+    <th><%= t('Hankintahinta') %></th>
+    <th><%= t('Tilikauden poistot') %></th>
+    <th><%= t('Kertynyt poisto') %></th>
+    <th><%= t('Menojäännös') %></th>
   </tr>
-
-  <% @report.accounts.each do |acc| %>
+  <!-- Kaikki tilit loop -->
+  <% @report.data.each do |f, v| %>
     <tr>
-    <td colspan='7'><%= t('Tili') %>
-    <%= acc.tilino + ' = ' + acc.nimi %>
-    <%= t('Poistoaika (kk)') + ': ' + acc.commodity.planned_depreciation_amount.to_i.to_s %>
-    </td>
+      <td><%= f %> = <%= v[:nimi] %></td>
     </tr>
+    <tr>
+      <td align='right'><%= t('Poistoaika') %> <%= "#{v[:poistoaika]}" + t('kk')  %></td>
+    </tr>
+    <!-- Kaikki tilikaudet loop -->
+    <% v[:tilikaudet].each do |tk, v| %>
+      <tr>
+        <td><%= t('Tilikausi')%></td>
+        <td colspan='100%'><%= v[:tilikausi] %></td>
+      </tr>
+      <tr>
+        <td><%= t('Tilikausi yht.') %></td>
+        <td><%= v[:hankinnat] %></td>
+        <td><%= v[:tilikausi_after] %></td>
+      </tr>
+    <% end %>
+    <tr><td colspan='100%' height='30'></td></tr>
   <% end %>
+  <tr>
+    <td><%= t('Käytössä yhteensä') %></td>
+    <td><%= %></td>
+  </tr>
+  <tr>
+    <td><%= t('Yhteensä om. laji') %></td>
+    <td><%= %></td>
+  </tr>
 </table>
