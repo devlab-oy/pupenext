@@ -2,7 +2,7 @@ class Currency < ActiveRecord::Base
   include AttributeSanitator
   include Searchable
 
-  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   before_validation :name_to_uppercase
   validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
