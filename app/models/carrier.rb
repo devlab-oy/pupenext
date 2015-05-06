@@ -8,13 +8,4 @@ class Carrier < ActiveRecord::Base
 
   self.table_name = :rahdinkuljettajat
   self.primary_key = :tunnus
-
-  def neutraali
-    read_attribute(:neutraali) == "o"
-  end
-
-  def neutraali=(value)
-    val = value.to_i ? "o" : ""
-    write_attribute(:neutraali, val)
-  end
 end

@@ -3,45 +3,48 @@
 <%= button_to t("Uusi rahdinkuljettaja"), new_carrier_path, method: :get if update_access? %>
 <br /><br />
 
-<table>
-
 <%= form_tag carriers_path, method: :get do %>
-  <tr>
-    <th>
-      <%= sortable "koodi" %>
-      <br />
-      <%= text_field_tag :koodi, params[:koodi] %>
-    </th>
-    <th>
-      <%= sortable "nimi" %>
-      <br />
-      <%= text_field_tag :nimi, params[:nimi] %>
-    </th>
-    <th>
-      <%= sortable "neutraali" %>
-      <br />
-      <%= text_field_tag :neutraali, params[:neutraali] %>
-    </th>
-    <th>
-      <%= sortable "pakkauksen_sarman_minimimitta" %>
-      <br />
-      <%= text_field_tag :pakkauksen_sarman_minimimitta, params[:pakkauksen_sarman_minimimitta] %>
-    </th>
-    <th class="back"><%= submit_tag t("Etsi") %></th>
-  </tr>
+
+  <table>
+    <tr>
+      <th>
+        <%= sortable "koodi" %>
+        <br />
+        <%= text_field_tag :koodi, params[:koodi] %>
+      </th>
+      <th>
+        <%= sortable "nimi" %>
+        <br />
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+      <th>
+        <%= sortable "neutraali" %>
+        <br />
+        <%= select_tag :neutraali,
+            options_for_select([ [t("Ei"), false], [t("Kyllä"), true] ], params[:neutraali]),
+            include_blank: true %>
+      </th>
+      <th>
+        <%= sortable "pakkauksen_sarman_minimimitta" %>
+        <br />
+        <%= text_field_tag :pakkauksen_sarman_minimimitta, params[:pakkauksen_sarman_minimimitta] %>
+      </th>
+      <th class="back"><%= submit_tag t("Etsi") %></th>
+    </tr>
+
+  <% @carriers.each do |carrier| %>
+    <tr>
+      <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
+      <td><%= carrier.nimi %></td>
+      <td><%= carrier.neutraali ? t("Kyllä") : "" %></td>
+      <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
+      <td class="back"></td>
+    </tr>
+  <% end %>
+
+  </table>
 <% end %>
 
-<% @carriers.each do |carrier| %>
-  <tr>
-    <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
-    <td><%= carrier.nimi %></td>
-    <td><%= carrier.neutraali %></td>
-    <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
-    <td class="back"></td>
-  </tr>
-<% end %>
-
-</table>
 <br/>
 
 <%= button_to t("Uusi rahdinkuljettaja"), new_carrier_path, method: :get if update_access? %>
