@@ -40,7 +40,7 @@ class Administration::CashRegistersControllerTest < ActionController::TestCase
       kateisotto: ''
     }
 
-    assert_difference('CashRegister.count', 1) do
+    assert_difference('CashRegister.unscoped.count', 1) do
       post :create, cash_register: request
     end
 
@@ -59,7 +59,7 @@ test "should not create" do
       kassaerotus: 190
     }
 
-    assert_no_difference('CashRegister.count') do
+    assert_no_difference('CashRegister.unscoped.count') do
       post :create, cash_register: request
     end
 
