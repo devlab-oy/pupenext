@@ -18,7 +18,7 @@ class ReportsControllerTest < ActionController::TestCase
     get :depreciations_balance_sheet
     assert_response :success
     assigns(:report)
-    assert_not_nil assigns(:data)
+    assert_not_nil assigns(:report).data
     assert_equal example.class, assigns(:report).class
   end
 
@@ -35,7 +35,7 @@ class ReportsControllerTest < ActionController::TestCase
     get :balance_statements
     assert_response :success
     assigns(:report)
-    assert_not_nil assigns(:data)
+    assert_not_nil assigns(:report).data
     assert_equal example.class, assigns(:report).class
   end
 end
