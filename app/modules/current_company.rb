@@ -5,7 +5,11 @@ module CurrentCompany
     after_initialize do |record|
       record.company ||= Company.current
     end
+  end
 
-    default_scope { where(company: Company.current) } if Company.current
+  module ClassMethods
+    def default_scope
+      -> { where(yhtio: Company.current.yhtio) } if Company.current
+    end
   end
 end
