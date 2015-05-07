@@ -72,7 +72,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
   test "should create" do
     login users(:bob)
 
-    assert_difference('Account.count', 1) do
+    assert_difference('Account.unscoped.count', 1) do
       request = {
         tilino: 1212,
         nimi: 'xxx',
