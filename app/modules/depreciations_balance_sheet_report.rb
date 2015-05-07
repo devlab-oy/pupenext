@@ -35,21 +35,20 @@ class DepreciationsBalanceSheetReport
         #resu2 = resu[:tilikaudet] = {}
         tkausitiedot = resu[:tilikaudet]["#{fisk.id}#{acc.tilino}"] = {}
 
-        tkausitiedot[:tilikausi] = "#{fiscal_start} - #{fiscal_end}"
+        tkausitiedot[:tilikausi] = "#{I18n.l fiscal_start} - #{I18n.l fiscal_end}"
         # Tapahtumat tilikauden aikana yhteensa
 
         # tilikaud.hankinnat
         tkausitiedot[:hankinnat] = sum_by_fy_acc([fiscal_start..fiscal_end], acc.tilino)
 
-        #tkausitiedot[:tilikausi_after] = current_company.voucher_row.where(tilino: acc.commodity.)
+        # tilikaud.poistot
+        tkausitiedot[:tilikauden_poistot] = depreciations_between(fiscal_start, fiscal_end, acc.tilino)
 
-        # tilikaud.poisto
-        # sum tiliointi.summa where pvm = fisk and commodity_id = nil and tilino = acc.taso.poistotili
+        # kertynyt poisto
+        tkausitiedot[:kertynyt_poisto] = bkvalue_at_end(fiscal_end, acc.tilino)
 
-        # kertynyt poisto where pvm < fiscal_end
-
-        # menojaannos
-
+        # menojaannos -- paljonko poistettavaa??
+        tkausitiedot[:menojaannos] = tkausitiedot[:hankinnat].to_d - tkausitiedot[:kertynyt_poisto].to_d
       end
 
     end
@@ -61,11 +60,17 @@ class DepreciationsBalanceSheetReport
 
     def sum_by_fy_acc(fy, acctnmbr)
       all = current_company.commodities.where(activated_at: fy).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
-      current_company.commodities.where(id: all).sum(:amount).to_s
+      current_company.commodities.where(id: all).sum(:amount)#.to_s
     end
 
-  # def accounts
-  #   current_company.accounts.evl_accounts
-  # end
+    def depreciations_between(date1, date2, acctnmbr)
+      all = current_company.commodities.where(activated_at: [date1..date2]).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
+      current_company.commodities.where(id: all).map { |x| x.depreciation_between(date1, date2) }.sum#.to_s
+    end
+
+    def bkvalue_at_end(date, acctnmbr)
+      all = current_company.commodities.where('activated_at <= ? ', date).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
+      current_company.commodities.where(id: all).map { |x| x.bookkeeping_value(date) }.sum#.to_s
+    end
 end
 
