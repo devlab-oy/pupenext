@@ -38,7 +38,7 @@ class TermsOfPayment < BaseModel
   end
 
   def factoring_options
-    company.factorings.select(:factoringyhtio).uniq.map(&:factoringyhtio)
+    company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
   end
 
   def bank_details_options
