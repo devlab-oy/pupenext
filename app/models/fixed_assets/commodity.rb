@@ -172,6 +172,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
     commodity_rows.where("transacted_at <= ?", date).sum(:amount)
   end
 
+  def depreciation_between(date1, date2)
+     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def difference_between(date1, date2)
+    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def evl_between(date1, date2)
+    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
+  end
+
   private
 
     def important_values_changed?

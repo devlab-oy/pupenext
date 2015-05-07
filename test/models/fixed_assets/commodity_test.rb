@@ -267,4 +267,28 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     future_date = @commodity.activated_at.advance(months: 2)
     assert_equal -1288, @commodity.accumulated_evl_at(future_date)
   end
+
+  test 'calculate depreciation between given dates' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    date1 = @commodity.activated_at.advance(months: 2)
+    date2 = @commodity.activated_at.advance(months: 6)
+    assert_equal 2323.52, @commodity.depreciation_between(date1, date2)
+  end
+
+  test 'calculate difference between given dates' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    date1 = @commodity.activated_at.advance(months: 2)
+    date2 = @commodity.activated_at.advance(months: 6)
+    assert_equal 388.48, @commodity.difference_between(date1, date2)
+  end
+
+  test 'calculate evl between given dates' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    @commodity.reload
+    date1 = @commodity.activated_at.advance(months: 2)
+    date2 = @commodity.activated_at.advance(months: 6)
+    assert_equal -2712.0, @commodity.evl_between(date1, date2)
+  end
 end
