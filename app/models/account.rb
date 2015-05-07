@@ -1,4 +1,4 @@
-class Account < ActiveRecord::Base
+class Account < BaseModel
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio

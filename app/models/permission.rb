@@ -1,4 +1,4 @@
-class Permission < ActiveRecord::Base
+class Permission < BaseModel
   belongs_to :user
 
   scope :update_permissions, -> { where(paivitys: 1) }

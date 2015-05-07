@@ -1,4 +1,4 @@
-class FiscalYear < ActiveRecord::Base
+class FiscalYear < BaseModel
   include Searchable
   include Translatable
 

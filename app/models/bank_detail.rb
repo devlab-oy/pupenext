@@ -1,4 +1,4 @@
-class BankDetail < ActiveRecord::Base
+class BankDetail < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   self.table_name = :pankkiyhteystiedot
