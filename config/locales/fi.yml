@@ -217,5 +217,8 @@ fi:
       terms_of_payment:
         one: Maksuehto
         other: Maksuehdot
+      qualifier:
+        one: Tarkenne
+        other: Tarkenteet
     errors:
       <<: *errors
