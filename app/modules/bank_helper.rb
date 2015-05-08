@@ -126,7 +126,7 @@ module BankHelper
 
   def create_iban(value)
     # Creates IBAN number from Finnish account number
-    return false unless valid_account_number?(value)
+    return value unless valid_account_number?(value)
 
     # Return value back if only letters
     return value if value =~ /\A[a-zA-Z]+\z/

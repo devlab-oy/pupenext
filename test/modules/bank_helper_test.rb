@@ -112,4 +112,8 @@ class BankHelperTest < ActiveSupport::TestCase
   test "create_iban returns the string back if it only contains letters" do
     assert_equal "Kulutustili", create_iban("Kulutustili")
   end
+
+  test "create_iban returns the string back if it is not a valid account number" do
+    assert_equal 123, create_iban(123)
+  end
 end
