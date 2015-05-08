@@ -20,7 +20,10 @@ class BankAccount < ActiveRecord::Base
   belongs_to :default_project, foreign_key: :oletus_projekti, class_name: "Qualifier::Project"
 
   validates :nimi, presence: true
-  validates :iban, presence: true, uniqueness: { scope: :company }
+  validates :iban,
+            presence: true,
+            uniqueness: { scope: :company,
+                          message: "on käytössä, eli pankkitili löytyy jo järjestelmästä" }
   validates :default_liquidity_account, presence: true
   validates :default_expense_account, presence: true
   validates :default_clearing_account, presence: true

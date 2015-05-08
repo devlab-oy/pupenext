@@ -13,6 +13,8 @@ class BankAccountTest < ActiveSupport::TestCase
   test "duplicate accounts should fail" do
     two = @ba.dup
     refute two.valid?, two.errors.full_messages
+    assert_includes two.errors.full_messages,
+                    "IBAN on käytössä, eli pankkitili löytyy jo järjestelmästä"
   end
 
   test "should validate iban" do
