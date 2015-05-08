@@ -98,17 +98,17 @@ class AccountTest < ActiveSupport::TestCase
     assert other_account.valid?, "different company, same tilino ok"
   end
 
-  # test "accounts project needs to be in use" do
-  #   project_not_in_use = Qualifier::Project.not_in_use.first
-  #   @account.project = project_not_in_use
-  #
-  #   #account needs to be saved. Project_not_in_use goes to db
-  #   #After we reload @account.project = nil because Qualifier has default_scope
-  #   @account.save
-  #   @account.reload
-  #
-  #   assert_nil @account.project
-  # end
+  test "accounts project needs to be in use" do
+    project_not_in_use = Qualifier::Project.not_in_use.first
+    @account.project = project_not_in_use
+
+    #account needs to be saved. Project_not_in_use goes to db
+    #After we reload @account.project = nil because Qualifier has default_scope
+    @account.save
+    @account.reload
+
+    assert_nil @account.project
+  end
 
   test "kustp, kohde and projekti default to 0" do
     @account.project, @account.cost_center, @account.target = nil
