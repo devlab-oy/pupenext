@@ -29,6 +29,14 @@ class FixedAssets::Commodity < ActiveRecord::Base
   before_save :prevent_further_changes, if: :deactivated_before?
   before_save :set_amount, :defaults
 
+  after_initialize do |record|
+    record.company ||= Company.current if Company.current
+  end
+
+  def default_scope
+    -> { where(company: Company.current) } if Company.current
+  end
+
   def self.options_for_type
     [
       ['Valitse',''],
