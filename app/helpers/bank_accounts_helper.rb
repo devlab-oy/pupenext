@@ -1,6 +1,6 @@
 module BankAccountsHelper
   def currency_options
-    current_company.currencies.order(:jarjestys)
+    current_company.currencies.order(:jarjestys).pluck(:nimi)
   end
 
   def hyvaksyja_options

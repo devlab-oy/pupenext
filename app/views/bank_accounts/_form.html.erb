@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <th><%= f.label :valkoodi, t("Valuutta") %></th>
-      <td><%= f.collection_select(:valkoodi, currency_options, :tunnus, :nimi) %></td>
+      <td><%= f.select :valkoodi, currency_options %></td>
     </tr>
     <tr>
       <th><%= f.label :factoring, t("Factoring") %></th>
