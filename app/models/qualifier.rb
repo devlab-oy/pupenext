@@ -14,6 +14,7 @@ class Qualifier < BaseModel
   def self.default_scope
     where(kaytossa: in_use_char)
   end
+
   def self.child_class(tyyppi_value)
     qualifiers[tyyppi_value.try(:to_sym)]
   end
