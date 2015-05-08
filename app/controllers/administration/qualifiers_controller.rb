@@ -50,7 +50,7 @@ class Administration::QualifiersController < AdministrationController
     end
 
     def find_isa_options
-      @isa_options = current_company.qualifiers
+      @isa_options = current_company.qualifiers.in_use.code_name_order
     end
 
     def find_qualifier

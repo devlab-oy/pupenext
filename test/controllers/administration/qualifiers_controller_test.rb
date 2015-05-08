@@ -31,7 +31,7 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
     request = {
       nimi: 'Kissa',
       koodi: '10',
-      tyyppi: "K"
+      tyyppi: Qualifier::Project.sti_name
     }
 
     assert_difference('Qualifier.count', 1) do
@@ -70,6 +70,20 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
 
     patch :update, id: @qualifier.id, qualifier: request
     assert_redirected_to qualifiers_path
+  end
+
+  test "isatarkenne is mandatory in cost center" do
+
+    request = {
+      tyyppi: Qualifier::CostCenter.sti_name,
+      nimi: 'Koira',
+      koodi: 'J',
+      isa_tarkenne: ""
+    }
+
+    patch :update, id: @qualifier.id, qualifier: request
+
+    assert_template "edit", "Template should be edit"
   end
 
   test "should not update" do
