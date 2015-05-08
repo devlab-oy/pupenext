@@ -208,6 +208,9 @@ fi:
       fiscal_year:
         one: Tilikausi
         other: Tilikaudet
+      packing_area:
+        one: Pakkaamo
+        other: Pakkaamot
       printer:
         one: Kirjoitin
         other: Kirjoittimet
