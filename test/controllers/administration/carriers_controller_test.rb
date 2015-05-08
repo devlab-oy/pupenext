@@ -38,7 +38,7 @@ class Administration::CarriersControllerTest < ActionController::TestCase
         nimi: "Kiitolinja",
         koodi: "KIITO",
         jalleenmyyjanro: 123456789,
-        neutraali: "o",
+        neutraali: true,
         pakkauksen_sarman_minimimitta: 1.0
       }
 

@@ -23,7 +23,6 @@ class CarrierTest < ActiveSupport::TestCase
   end
 
   test 'should be neutral' do
-    @carrier.neutraali = "1"
     assert_equal true, @carrier.neutraali
   end
 end
