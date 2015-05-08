@@ -25,86 +25,69 @@
     <tr>
       <th><%= f.label :varasto %></th>
       <td>
-        <%= collection_select(:packing_area, :varasto, @storages, :tunnus, :nimitys, include_blank: false, selected: @packing_area.varasto, prompt: true  ) %>
+        <%= collection_select(:packing_area, :varasto, @storages, :tunnus, :nimitys,
+            include_blank: false, prompt: true  ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri0 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri0, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri0, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri0, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri1 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri1, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri1, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri1, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri2 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri2, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri2, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri2, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri3 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri3, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri3, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri3, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri4 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri4, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri4, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri4, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri6 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri6, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri6, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri6, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :printteri7 %></th>
       <td>
-        <%= collection_select(:packing_area, :printteri7, @printers, :tunnus, :kirjoitin, include_blank: false, selected: @packing_area.printteri7, prompt: true ) %>
+        <%= collection_select(:packing_area, :printteri7, @printers, :tunnus, :kirjoitin,
+            include_blank: false, prompt: true ) %>
       </td>
     </tr>
 
-
-  <% if @packing_area.persisted? %>
-    <tr>
-      <th><%= t("Laatija") %></th>
-      <td><%= @packing_area.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= t("Luontiaika") %></th>
-      <td><%= @packing_area.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= t("Muutospvm") %></th>
-      <td><%= @packing_area.muutospvm %></td>
-    </tr>
-    <tr>
-      <th><%= t("Muuttaja") %></th>
-      <td><%= @packing_area.muuttaja %></td>
-    </tr>
-  <% end %>
-
+    <%= render 'administration/resource_timestamps_and_users', resource: @packing_area %>
   </table>
 
-  <% if update_access? %>
-    <br/>
-    <div class="actions">
-      <% text = @packing_area.persisted? ? "Tallenna" : "Lisää" %>
-      <%= f.submit t(text), disable_with: t("Tallentaa") + '...' %>
-    </div>
-  <% end %>
+  <%= render 'administration/actions', f: f %>
 <% end %>

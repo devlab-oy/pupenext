@@ -8,6 +8,7 @@
 
 <br />
 
-<%= button_to t("Poista pakkaamo"), packing_area_path(@packing_area.id), confirm: t("Haluatko todella poistaa tämän tietueen?"), method: :delete if update_access? %>
+<%= button_to t("Poista pakkaamo"), packing_area_path(@packing_area.id),
+    confirm: t("Haluatko todella poistaa tämän tietueen?"), method: :delete if update_access? %>
 
 
