@@ -1,18 +1,6 @@
+<%= render "administration/form_errors", resource: @qualifier %>
+
 <%= form_for(@qualifier) do |f| %>
-
-  <% if @qualifier.errors.any? %>
-
-    <div id="error_explanation">
-      <h2><%= pluralize(@qualifier.errors.count, "error") %> prohibited this qualifier from being saved:</h2>
-
-      <ul>
-      <% @qualifier.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-
-  <% end %>
 
   <table>
 
@@ -48,35 +36,10 @@
       </td>
     </tr>
 
-  <% if @qualifier.persisted? %>
-
-    <tr>
-      <th>Laatija</th>
-      <td><%= @qualifier.laatija %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :luotiaika %></th>
-      <td><%= @qualifier.luontiaika %></td>
-    </tr>
-
-    <tr>
-      <th>Muutospvm</th>
-      <td><%= @qualifier.muutospvm %></td>
-    </tr>
-
-    <tr>
-      <th>Muuttaja</th>
-      <td><%= @qualifier.muuttaja %></td>
-    </tr>
-
-  <% end %>
+  <%= render 'administration/resource_timestamps_and_users', resource: @qualifier %>
 
   </table>
-  <br />
-  <div class="actions">
-    <% text = @qualifier.persisted? ? 'Päivitä tarkenne' : 'Perusta tarkenne' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
-  </div>
+
+  <%= render 'administration/actions', f: f %>
 
 <% end %>
