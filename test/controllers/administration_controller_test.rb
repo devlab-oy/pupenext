@@ -36,7 +36,7 @@ class AdministrationControllerTest < ActionController::TestCase
   end
 
   test "should not create resource with no access" do
-    assert_no_difference('SumLevel.unscoped.count') do
+    assert_no_difference('SumLevel.count') do
       #With valid request
       request = {
         tyyppi: 'U',
@@ -76,7 +76,7 @@ class AdministrationControllerTest < ActionController::TestCase
   end
 
   test "should not destroy resource" do
-    assert_no_difference('SumLevel.unscoped.count') do
+    assert_no_difference('SumLevel.count') do
       delete :destroy, id: @sum_level.id
     end
 
