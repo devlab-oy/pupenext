@@ -73,6 +73,15 @@
     </tr>
 
     <tr>
+      <th><%= f.label :rahtivapaa_veloitus %></th>
+      <td>
+        <% options = options_for_select(
+          @package.rahtivapaa_veloitus_options, f.object.rahtivapaa_veloitus) %>
+        <%= select_tag 'package[rahtivapaa_veloitus]', options, include_blank: false %>
+      </td>
+    </tr>
+
+    <tr>
       <th><%= f.label :puukotuskerroin %></th>
       <td><%= f.text_field :puukotuskerroin %></td>
     </tr>

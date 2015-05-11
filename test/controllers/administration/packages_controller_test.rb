@@ -186,5 +186,4 @@ class Administration::PackagesControllerTest < ActionController::TestCase
 
     assert_template :new_package_code, "Template should be new package code"
   end
-
 end

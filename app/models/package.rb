@@ -1,4 +1,6 @@
 class Package < ActiveRecord::Base
+  include Translatable
+
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   has_many :keywords, foreign_key: :perhe, primary_key: :tunnus, class_name: 'PackageKeyword'
@@ -12,8 +14,15 @@ class Package < ActiveRecord::Base
 
   def on_off_options
     [
-      ["Ei", "0"],
-      ["Kyllä", "K"]
+      [t("Ei"), ""],
+      [t("Kyllä"), "K"]
+    ]
+  end
+
+  def rahtivapaa_veloitus_options
+    [
+      [t("Tehdään lavaveloitus, vaikka tilaus olisi merkitty rahtivapaaksi"), ""],
+      [t("Ei tehdä lavaveloitusta, jos tilaus on merkitty rahtivapaaksi"), "E"]
     ]
   end
 end

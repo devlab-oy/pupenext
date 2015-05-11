@@ -1572,6 +1572,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.integer  "kayttoprosentti",             limit: 1,                           default: 100, null: false
     t.string   "yksin_eraan",                 limit: 1,                           default: "",  null: false
     t.decimal  "puukotuskerroin",                        precision: 4,  scale: 3, default: 0.0, null: false
+    t.string   "rahtivapaa_veloitus",         limit: 1,                           default: "",  null: false
     t.integer  "jarjestys",                   limit: 4,                           default: 0,   null: false
     t.string   "laatija",                     limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                                    null: false
