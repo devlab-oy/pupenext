@@ -2,6 +2,10 @@ first:
   yhtio: acme
   pakkaus: pakkaus
   pakkauskuvaus: kuvaus
+  leveys: 10
+  korkeus: 10
+  syvyys: 10
+  paino: 10
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   laatija: xx
