@@ -133,12 +133,12 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   test "should get new keyword" do
     login users(:bob)
 
-    get :new_keyword, id: @package.id
+    get :new_keyword, package_id: @package.id
     assert_response :success
   end
 
   test "should get new package code" do
-    get :new_package_code, id: @package.id
+    get :new_package_code, package_id: @package.id
     assert_response :success
   end
 
