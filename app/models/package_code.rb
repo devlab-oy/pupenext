@@ -1,4 +1,4 @@
-class PackageCode < BaseModel
+class PackageCode < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :koodi, presence: true

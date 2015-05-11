@@ -1,4 +1,4 @@
-class Package < BaseModel
+class Package < ActiveRecord::Base
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   has_many :keywords, foreign_key: :perhe, primary_key: :tunnus, class_name: 'PackageKeyword'
