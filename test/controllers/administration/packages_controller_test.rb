@@ -31,7 +31,11 @@ class Administration::PackagesControllerTest < ActionController::TestCase
 
     request = {
       pakkaus: 'Kissa',
-      pakkauskuvaus: '10'
+      pakkauskuvaus: '10',
+      leveys: 10,
+      korkeus: 10,
+      syvyys: 10,
+      paino: 10
     }
 
     assert_difference('Package.count', 1) do
@@ -65,7 +69,11 @@ class Administration::PackagesControllerTest < ActionController::TestCase
 
     request = {
       pakkaus: 'Kissa',
-      pakkauskuvaus: 'xxx'
+      pakkauskuvaus: 'xxx',
+      leveys: 10,
+      korkeus: 10,
+      syvyys: 10,
+      paino: 10
     }
 
     patch :update, id: @package.id, package: request
