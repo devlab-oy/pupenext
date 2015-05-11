@@ -50,6 +50,7 @@ class Administration::PackagesControllerTest < ActionController::TestCase
 
     request = {
       pakkaus: 'Kissa',
+      kayttoprosentti: 0
     }
 
     assert_no_difference('Package.count') do
