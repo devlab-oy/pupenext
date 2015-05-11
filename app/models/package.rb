@@ -8,9 +8,15 @@ class Package < ActiveRecord::Base
 
   validates :pakkaus, presence: true
   validates :pakkauskuvaus, presence: true
+  validates :leveys, :korkeus, :syvyys, :paino, numericality: { greater_than: 0 },
+            presence: true, if: :dimensions_are_mandatory?
 
   self.table_name  = :pakkaus
   self.primary_key = :tunnus
+
+  def dimensions_are_mandatory?
+    company.parameter.varastopaikkojen_maarittely == "M"
+  end
 
   def on_off_options
     [

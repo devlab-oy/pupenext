@@ -20,4 +20,26 @@ class PackageTest < ActiveSupport::TestCase
     refute @p.valid?
   end
 
+  test "dimensions check if parameter is triggered" do
+    @p.leveys = ''
+    refute @p.valid?
+
+    @p.leveys = 0
+    refute @p.valid?
+
+    @p.leveys = 10
+    @p.korkeus = 10
+    @p.syvyys = 10
+    @p.paino = 10
+    assert @p.valid?
+
+    @p.korkeus = ''
+    refute @p.valid?
+
+    @p.syvyys = ''
+    refute @p.valid?
+
+    @p.paino = ''
+    refute @p.valid?
+  end
 end
