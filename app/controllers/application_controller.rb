@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_company
-    Company.current = current_user.company
+    Current.company = current_user.company
   end
 
   def read_access?

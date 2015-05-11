@@ -2,12 +2,16 @@ module CurrentCompany
   extend ActiveSupport::Concern
 
   included do
-    validates :yhtio, presence: true
-
     after_initialize do |record|
-      record.company ||= Company.current
+      record.company ||= Current.company
     end
 
-    default_scope -> { where(yhtio: Company.current.yhtio) }
+    if name.constantize == FixedAssets::Commodity
+      validates :company, presence: true
+      default_scope -> { where(company: Current.company) }
+    else
+      validates :yhtio, presence: true
+      default_scope -> { where(yhtio: Current.company.yhtio) }
+    end
   end
 end
