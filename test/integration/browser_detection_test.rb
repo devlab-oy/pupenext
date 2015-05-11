@@ -12,7 +12,6 @@ class BrowserDetectionTest < ActionDispatch::IntegrationTest
     { "Firefox" => "pupesoft_mozilla.css",
       "Trident Windows" => "pupesoft_ms_ie.css",
       "Chrome Windows" => "pupesoft_ms_chrome.css" }.each do |browser, css_file|
-
       get "/accounts", {}, { "User-Agent" => browser }
 
       assert_includes(response.body, css_file)

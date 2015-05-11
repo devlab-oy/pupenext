@@ -8,10 +8,16 @@ module CurrentCompany
 
     if name.constantize == FixedAssets::Commodity
       validates :company, presence: true
-      default_scope -> { where(company: Current.company) }
+      default_scope -> do
+        raise CurrentCompanyNil if Current.company.nil?
+        where(company: Current.company)
+      end
     else
       validates :yhtio, presence: true
-      default_scope -> { where(yhtio: Current.company.yhtio) }
+      default_scope -> do
+        raise CurrentCompanyNil if Current.company.nil?
+        where(yhtio: Current.company.yhtio)
+      end
     end
   end
 end
