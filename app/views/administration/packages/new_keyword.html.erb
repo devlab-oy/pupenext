@@ -4,7 +4,8 @@
 <font class="head">Lisää KIELIVERSIO</font>
 <hr />
 
-<%= form_for(@kw, url: {action: "create_keyword"}, html: {method: "post"}) do |f| %>
+<%= form_for(@kw,
+    url: {action: "create_keyword", id: @package.id}, html: {method: "post"}) do |f| %>
   <table>
     <tr>
       <td class='back'>
