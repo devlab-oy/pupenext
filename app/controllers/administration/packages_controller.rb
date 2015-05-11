@@ -57,7 +57,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_keyword
-    @package = current_user.company.packages.find(params[:id])
+    @package = current_user.company.packages.find(params[:id] || params[:package_id])
     @kw = @package.keywords.build
     @kw.attributes = keyword_params
 
@@ -92,7 +92,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_package_code
-    @package = current_user.company.packages.find(params[:id])
+    @package = current_user.company.packages.find(params[:id] || params[:package_id])
     @pc = @package.package_codes.build
     @pc.attributes = package_code_params
 
