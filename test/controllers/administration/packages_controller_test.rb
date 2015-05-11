@@ -148,10 +148,9 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     }
 
     assert_difference('Keyword.count', 1) do
-      post :create_keyword,  id: @package.id, package_keyword: request
+      post :create_keyword,  package_id: @package.id, package_keyword: request
     end
   end
-
 
   test "should create package code" do
     request = {
@@ -159,7 +158,7 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     }
 
     assert_difference('PackageCode.count', 1) do
-      post :create_package_code, id: @package.id, package_code: request
+      post :create_package_code, package_id: @package.id, package_code: request
     end
   end
 
@@ -170,7 +169,7 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     }
 
     assert_no_difference('Keyword.count') do
-      post :create_keyword, id: @package.id, package_keyword: request
+      post :create_keyword, package_id: @package.id, package_keyword: request
     end
 
     assert_template :new_keyword, "Template should be new keyword"
@@ -182,7 +181,7 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     }
 
     assert_no_difference('PackageCode.count') do
-      post :create_package_code, id: @package.id, package_code: request
+      post :create_package_code, package_id: @package.id, package_code: request
     end
 
     assert_template :new_package_code, "Template should be new package code"
