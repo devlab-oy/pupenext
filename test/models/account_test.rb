@@ -92,6 +92,7 @@ class AccountTest < ActiveSupport::TestCase
 
     other_account = @account.dup
     other_account.company = companies(:estonian)
+    Company.current = companies(:estonian)
     other_account.sisainen_taso = nil
     other_account.alv_taso = nil
     other_account.tulosseuranta_taso = nil
