@@ -24,7 +24,7 @@ class Administration::DictionariesController < ApplicationController
 
     filter_translated
 
-    @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
+    @dictionaries = @dictionaries.created_order
   end
 
   def bulk_update
@@ -42,7 +42,7 @@ class Administration::DictionariesController < ApplicationController
 
     filter_translated
 
-    @dictionaries = @dictionaries.order({ luontiaika: :desc }, :fi)
+    @dictionaries = @dictionaries.created_order
 
     flash.now[:notice] = "Sanakirja päivitetty" if save_success
 

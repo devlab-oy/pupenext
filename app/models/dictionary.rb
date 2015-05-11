@@ -6,6 +6,8 @@ class Dictionary < ActiveRecord::Base
   self.table_name = :sanakirja
   self.primary_key = :tunnus
 
+  scope :created_order, -> { order({ luontiaika: :desc }, :fi) }
+
   def self.translate(string, language = 'fi')
     RequestStore.store[:translated_words] ||= []
     RequestStore.store[:translated_words] << string
