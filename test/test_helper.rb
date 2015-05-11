@@ -24,10 +24,12 @@ class ActiveSupport::TestCase
 
   setup do
     RequestStore.clear!
+    Company.current = companies(:acme)
   end
 
   teardown do
     RequestStore.clear!
+    Company.current = nil
   end
 end
 
@@ -37,9 +39,12 @@ class ActionController::TestCase
 
   setup do
     RequestStore.clear!
+    Company.current = companies(:acme)
   end
 
   teardown do
     RequestStore.clear!
+    Company.current = nil
   end
 end
+

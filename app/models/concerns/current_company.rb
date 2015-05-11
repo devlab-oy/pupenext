@@ -11,7 +11,7 @@ module CurrentCompany
 
   module ClassMethods
     def default_scope
-      -> { where(yhtio: Company.current.yhtio) } if Company.current
+      -> { where(yhtio: Company.current.yhtio) }
     end
   end
 end
