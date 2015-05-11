@@ -31,12 +31,10 @@ class FixedAssets::Commodity < ActiveRecord::Base
   before_save :set_amount, :defaults
 
   after_initialize do |record|
-    record.company ||= Company.current if Company.current
+    record.company ||= Company.current
   end
 
-  def default_scope
-    -> { where(company: Company.current) } if Company.current
-  end
+  default_scope -> { where(company: Company.current) }
 
   def self.options_for_type
     [
