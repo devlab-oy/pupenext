@@ -24,7 +24,7 @@
     <tr>
       <th><%= f.label :erikoispakkaus %></th>
       <td>
-        <% options = options_for_select(@package.ei_kylla_options, f.object.erikoispakkaus) %>
+        <% options = options_for_select(@package.on_off_options, f.object.erikoispakkaus) %>
         <%= select_tag 'package[erikoispakkaus]', options, include_blank: false %>
       </td>
     </tr>
@@ -67,7 +67,7 @@
     <tr>
       <th><%= f.label :yksin_eraan %></th>
       <td>
-        <% options = options_for_select(@package.ei_kylla_options, f.object.yksin_eraan) %>
+        <% options = options_for_select(@package.on_off_options, f.object.yksin_eraan) %>
         <%= select_tag 'package[yksin_eraan]', options, include_blank: false %>
       </td>
     </tr>

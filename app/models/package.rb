@@ -10,7 +10,7 @@ class Package < ActiveRecord::Base
   self.table_name  = :pakkaus
   self.primary_key = :tunnus
 
-  def ei_kylla_options
+  def on_off_options
     [
       ["Ei", "0"],
       ["Kyllä", "K"]
