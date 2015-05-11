@@ -4,7 +4,8 @@
 <font class="head">Lisää pakkauskoodi</font>
 <hr />
 
-<%= form_for(@pc, url: {action: :create_package_code}, html: {method: :post}) do |f| %>
+<%= form_for(@pc,
+    url: { action: :create_package_code, id: @package.id }, html: { method: :post }) do |f| %>
   <table>
     <tr>
       <td class='back'>
