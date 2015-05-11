@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
       I18n.locale = current_user.locale || I18n.default_locale
     end
 
-    private
+  private
 
     def request_path
       # return first resource from request, our access control is based on it
