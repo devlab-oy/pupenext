@@ -10,7 +10,7 @@ class Head::VoucherRow < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
-  # default_scope { where(korjattu: '') }
+  default_scope { where(korjattu: '') }
   scope :locked, -> { where(lukko: 'X') }
   scope :unlocked, -> { where(lukko: '') }
 
@@ -24,10 +24,6 @@ class Head::VoucherRow < BaseModel
 
   self.table_name = :tiliointi
   self.primary_key = :tunnus
-
-  def self.default_scope
-    where(korjattu: '')
-  end
 
   def account
     company.accounts.find_by(tilino: tilino)
