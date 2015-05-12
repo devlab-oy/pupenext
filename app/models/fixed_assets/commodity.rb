@@ -1,7 +1,5 @@
-class FixedAssets::Commodity < ActiveRecord::Base
+class FixedAssets::Commodity < BaseModel
   include Searchable
-  include SaveByExtension
-  include CurrentCompany
 
   # commodity = hyödyke
   # .voucher = tosite, jolle kirjataan SUMU-poistot
