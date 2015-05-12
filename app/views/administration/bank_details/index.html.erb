@@ -2,6 +2,8 @@
 
 <%= button_to t("Uusi pankkiyhteystieto"), new_bank_detail_path, method: :get if update_access? %>
 
+<br/><br/>
+
 <%= form_tag bank_details_path, method: :get do %>
   <table>
     <thead>
@@ -11,7 +13,7 @@
         <br/>
         <%= text_field_tag :nimitys, params[:nimitys] %>
       </th>
-      <th class="back"><%= submit_tag t("Etsi") %></th>
+      <th class="back"><%= submit_tag t("Etsi"), class: "hae_btn" %></th>
     </tr>
     </thead>
     <tbody>
@@ -24,4 +26,8 @@
     <% end %>
     </tbody>
   </table>
+
+  <br/>
+
+  <%= button_to t("Uusi pankkiyhteystieto"), new_bank_detail_path, method: :get if update_access? %>
 <% end %>
