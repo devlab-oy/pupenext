@@ -78,4 +78,13 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
     assert_template :edit
     assert_equal old_name, @one.reload.nimitys
   end
+
+  test "new is rendered properly" do
+    login users(:bob)
+
+    get :new
+
+    assert_response :success
+    assert assigns(:bank_detail)
+  end
 end

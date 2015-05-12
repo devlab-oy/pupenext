@@ -21,6 +21,10 @@ class Administration::BankDetailsController < AdministrationController
     end
   end
 
+  def new
+    @bank_detail = current_company.bank_details.new
+  end
+
   private
 
     def bank_detail_attributes
