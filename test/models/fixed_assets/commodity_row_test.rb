@@ -27,6 +27,10 @@ class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
   end
 
   test 'has a depreciation difference' do
+    testrow = head_voucher_rows(:one)
+    testrow.tilino = '4444'
+    testrow.save
+
     assert_equal 233, @one.depreciation_difference
     assert_equal 1234, @two.depreciation_difference
   end

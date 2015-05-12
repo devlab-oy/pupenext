@@ -24,6 +24,7 @@ class DepreciationsBalanceSheetReport
       poistoaika = acc.commodity.planned_depreciation_type == 'T' ? acc.commodity.planned_depreciation_amount.to_i : 0
       resu[:poistoaika] = poistoaika
 
+      # Kerataan koko tilikauden totalit
       resu[:hankinnat_yht] = 0
       resu[:tilikauden_poistot_yht] = 0
       resu[:kertynyt_poisto_yht] = 0
@@ -35,7 +36,6 @@ class DepreciationsBalanceSheetReport
 
         fiscal_start = fisk.tilikausi_alku
         fiscal_end = fisk.tilikausi_loppu
-
 
         #resu2 = resu[:tilikaudet] = {}
         tkausitiedot = resu[:tilikaudet]["#{fisk.id}#{acc.tilino}"] = {}
