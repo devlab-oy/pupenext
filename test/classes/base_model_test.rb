@@ -7,5 +7,11 @@ class BaseModelTest < ActiveSupport::TestCase
       Account.first
     end
   end
-end
 
+  test 'should raise exception without current company in modern scope' do
+    assert_raise CurrentCompanyNil do
+      Current.company = nil
+      FixedAssets::Commodity.first
+    end
+  end
+end
