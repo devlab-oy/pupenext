@@ -43,4 +43,16 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
       assert_equal value, BankDetail.last.send(attribute), "Attribute #{attribute} did not get set"
     end
   end
+
+  test "bank details cannot be created with invalid attributes" do
+    login users(:bob)
+
+    params = { pankkinimi1: "Bank 1" }
+
+    assert_no_difference("BankDetail.count") do
+      post :create, bank_detail: params
+
+      assert_template :new
+    end
+  end
 end
