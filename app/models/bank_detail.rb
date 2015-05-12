@@ -1,4 +1,6 @@
 class BankDetail < BaseModel
+  include Searchable
+
   validates :nimitys, presence: true
   validates :viite, inclusion: { in: %w(SE) }, allow_blank: true
 
