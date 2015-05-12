@@ -30,14 +30,13 @@
         <td><%= v[:menojaannos] %></td>
       </tr>
     <% end %>
+    <tr>
+      <td><%= t('Yhteensä tili') %></td>
+      <td><%= v[:hankinnat_yht] %></td>
+      <td><%= v[:tilikauden_poistot_yht] %></td>
+      <td><%= v[:kertynyt_poisto_yht] %></td>
+      <td><%= v[:menojaannos_yht] %></td>
+    </tr>
     <tr><td colspan='100%' height='30'></td></tr>
   <% end %>
-  <tr>
-    <td><%= t('Käytössä yhteensä') %></td>
-    <td><%= %></td>
-  </tr>
-  <tr>
-    <td><%= t('Yhteensä om. laji') %></td>
-    <td><%= %></td>
-  </tr>
 </table>
