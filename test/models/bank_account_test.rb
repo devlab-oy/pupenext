@@ -100,4 +100,12 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal @ba.reload.oletus_projekti, 0
   end
 
+  test "presence of default_clearing_account is only checked if one is not present for company" do
+    @ba.oletus_selvittelytili = ""
+    refute @ba.valid?
+
+    @ba.company.update(selvittelytili: 130)
+    assert @ba.valid?, @ba.errors.full_messages
+  end
+
 end

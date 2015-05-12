@@ -26,7 +26,8 @@ class BankAccount < ActiveRecord::Base
                           message: "on käytössä, eli pankkitili löytyy jo järjestelmästä" }
   validates :default_liquidity_account, presence: true
   validates :default_expense_account, presence: true
-  validates :default_clearing_account, presence: true
+  validates :default_clearing_account,
+            presence: true, unless: ->(b) { b.company.selvittelytili.present? }
 
   validate :check_iban
   validate :check_bic
