@@ -1,6 +1,6 @@
 class Administration::BankDetailsController < AdministrationController
   def index
-    @bank_details = current_company.bank_details
+    @bank_details = current_company.bank_details.search_like(search_params).order(order_params)
   end
 
   def create
