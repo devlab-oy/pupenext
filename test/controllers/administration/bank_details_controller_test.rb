@@ -29,7 +29,7 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
       pankkitili3: "123456",
       pankkiiban3: "FI123456",
       pankkiswift3: "ABCDEFG",
-      viite: "FI"
+      viite: "SE"
     }
 
     assert_difference("BankDetail.count", 1) do
