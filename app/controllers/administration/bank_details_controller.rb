@@ -34,4 +34,12 @@ class Administration::BankDetailsController < AdministrationController
     def find_resource
       @bank_detail = current_company.bank_details.find(params[:id])
     end
+
+    def sortable_columns
+      [:nimitys]
+    end
+
+    def searchable_columns
+      sortable_columns
+    end
 end
