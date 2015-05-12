@@ -108,4 +108,10 @@ class BankAccountTest < ActiveSupport::TestCase
     assert @ba.valid?, @ba.errors.full_messages
   end
 
+  test "empty IBAN and BIC are allowed if both are empty" do
+    @ba.iban, @ba.bic = ""
+
+    assert @ba.valid?, @ba.errors.full_messages
+  end
+
 end

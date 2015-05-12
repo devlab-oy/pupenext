@@ -20,17 +20,20 @@ class BankAccount < ActiveRecord::Base
   belongs_to :default_project, foreign_key: :oletus_projekti, class_name: "Qualifier::Project"
 
   validates :nimi, presence: true
-  validates :iban,
-            presence: true,
-            uniqueness: { scope: :company,
-                          message: "on käytössä, eli pankkitili löytyy jo järjestelmästä" }
   validates :default_liquidity_account, presence: true
   validates :default_expense_account, presence: true
   validates :default_clearing_account,
             presence: true, unless: ->(b) { b.company.selvittelytili.present? }
 
-  validate :check_iban
-  validate :check_bic
+  with_options unless: ->(b) { b.iban.blank? && b.bic.blank? } do |o|
+    o.validates :iban,
+                presence: true,
+                uniqueness: { scope: :company,
+                              message: "on käytössä, eli pankkitili löytyy jo järjestelmästä" }
+    o.validates :bic, presence: true
+    o.validate :check_iban
+    o.validate :check_bic
+  end
 
   before_validation :fix_numbers
   before_save :defaults
@@ -89,6 +92,8 @@ class BankAccount < ActiveRecord::Base
       self.oletus_kustp ||= 0
       self.oletus_kohde ||= 0
       self.oletus_projekti ||= 0
+      self.iban ||= ""
+      self.bic ||= ""
     end
 
 end
