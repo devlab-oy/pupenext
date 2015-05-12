@@ -7,12 +7,22 @@ module CurrentCompany
     end
 
     if name.constantize == FixedAssets::Commodity
+      modern_scope
+    else
+      legacy_scope
+    end
+  end
+
+  module ClassMethods
+    def modern_scope
       validates :company, presence: true
       default_scope -> do
         raise CurrentCompanyNil if Current.company.nil?
         where(company: Current.company)
       end
-    else
+    end
+
+    def legacy_scope
       validates :yhtio, presence: true
       default_scope -> do
         raise CurrentCompanyNil if Current.company.nil?
