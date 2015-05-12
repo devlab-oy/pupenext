@@ -5,11 +5,11 @@
   </tr>
   <tr>
     <th><%= t('Luontiaika') %></th>
-    <td><%= l resource.luontiaika unless resource.luontiaika.nil? %></td>
+    <td><%= l resource.luontiaika if resource.luontiaika %></td>
   </tr>
   <tr>
     <th><%= t('Muutospvm') %></th>
-    <td><%= l resource.muutospvm unless resource.luontiaika.nil? %></td>
+    <td><%= l resource.muutospvm if resource.muutospvm %></td>
   </tr>
   <tr>
     <th><%= t('Muuttaja') %></th>

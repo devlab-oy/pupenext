@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_one :company, foreign_key: :yhtio, primary_key: :yhtio
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   has_many :permissions
 
   def locale
