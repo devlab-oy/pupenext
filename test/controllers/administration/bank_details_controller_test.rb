@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Administration::BankDetailsControllerTest < ActionController::TestCase
   setup do
+    @one = bank_details(:one)
     login users(:joe)
   end
 
@@ -54,5 +55,16 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
 
       assert_template :new
     end
+  end
+
+  test "bank details can be updated with valid attributes" do
+    login users(:bob)
+
+    new_name = "New name"
+
+    patch :update, id: @one.id, bank_detail: { nimitys: new_name }
+
+    assert_redirected_to bank_details_url
+    assert_equal new_name, @one.reload.nimitys
   end
 end

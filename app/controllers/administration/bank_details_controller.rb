@@ -13,6 +13,14 @@ class Administration::BankDetailsController < AdministrationController
     end
   end
 
+  def update
+    if @bank_detail.update_by(bank_detail_attributes, current_user)
+      redirect_to bank_details_url
+    else
+      render :edit
+    end
+  end
+
   private
 
     def bank_detail_attributes
@@ -21,5 +29,9 @@ class Administration::BankDetailsController < AdministrationController
         .permit(:nimitys, :pankkinimi1, :pankkitili1, :pankkiiban1, :pankkiswift1, :pankkinimi2,
                 :pankkitili2, :pankkiiban2, :pankkiswift2, :pankkinimi3, :pankkitili3, :pankkiiban3,
                 :pankkiswift3, :viite)
+    end
+
+    def find_resource
+      @bank_detail = current_company.bank_details.find(params[:id])
     end
 end
