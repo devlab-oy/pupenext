@@ -26,7 +26,7 @@ Pupesoft::Application.routes.draw do
     resources :printers
     resources :sum_levels
     resources :cash_registers
-    resources :bank_details, only: :index
+    resources :bank_details, only: [:index, :create]
   end
 
   scope module: :utilities do
