@@ -251,7 +251,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
     @commodity.reload
     future_date = @commodity.activated_at.advance(months: 2)
-    assert_equal 1176.48, @commodity.accumulated_depreciation_at(future_date)
+    assert_equal -1176.48, @commodity.accumulated_depreciation_at(future_date)
   end
 
   test 'calculates accumulated depreciation difference at given date' do
@@ -271,9 +271,10 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'calculate depreciation between given dates' do
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
     @commodity.reload
+
     date1 = @commodity.activated_at.advance(months: 2)
     date2 = @commodity.activated_at.advance(months: 6)
-    assert_equal 2323.52, @commodity.depreciation_between(date1, date2)
+    assert_equal -2323.52, @commodity.depreciation_between(date1, date2)
   end
 
   test 'calculate difference between given dates' do

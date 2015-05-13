@@ -139,12 +139,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    range = company.current_fiscal_year.first..end_date
-    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
-    if deactivated?
+    start_date = activated_at || company.current_fiscal_year.first
+    calculation = voucher.present? ? fixed_assets_rows.where(tapvm: start_date..end_date).sum(:summa) : 0
+
+    if !activated?
       calculation = amount
     end
-    amount - calculation
+
+    if calculation > 0
+      amount - calculation
+    else
+      amount + calculation
+    end
   end
 
   def can_be_sold?
@@ -161,7 +167,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def accumulated_depreciation_at(date)
-    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+    fixed_assets_rows.where("tapvm <= ?", date).sum(:summa)
   end
 
   def accumulated_difference_at(date)
@@ -173,7 +179,7 @@ class FixedAssets::Commodity < ActiveRecord::Base
   end
 
   def depreciation_between(date1, date2)
-     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+    fixed_assets_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
   def difference_between(date1, date2)

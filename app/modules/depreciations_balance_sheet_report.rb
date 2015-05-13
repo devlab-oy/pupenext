@@ -72,7 +72,7 @@ class DepreciationsBalanceSheetReport
     end
 
     def depreciations_between(date1, date2, acctnmbr)
-      all = current_company.commodities.where(activated_at: [date1..date2]).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
+      all = current_company.commodities.where(status: 'A').map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
       current_company.commodities.where(id: all).map { |x| x.depreciation_between(date1, date2) }.sum
     end
 
