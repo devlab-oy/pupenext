@@ -75,9 +75,6 @@ class BankAccount < ActiveRecord::Base
         # Try to create iban in case user has entered old account number
         self.iban = create_iban(iban)
       end
-
-      # NOTE Remove this after column no longer present in the database
-      self.tilino = iban
     end
 
     def check_iban
