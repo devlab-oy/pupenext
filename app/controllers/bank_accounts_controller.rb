@@ -80,7 +80,7 @@ class BankAccountsController < ApplicationController
     end
 
     def searchable_columns
-      [:nimi, :tilino, :maksulimitti, :oletus_kulutili, :oletus_rahatili, :oletus_selvittelytili]
+      [:nimi, :iban, :maksulimitti, :oletus_kulutili, :oletus_rahatili, :oletus_selvittelytili]
     end
 
     def sortable_columns
