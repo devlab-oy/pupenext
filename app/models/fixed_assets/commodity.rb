@@ -7,6 +7,9 @@ class FixedAssets::Commodity < BaseModel
   # .commodity_rows = rivejä, jolla kirjataan EVL poistot
   # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
+  # belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio is defined in current company concenr
+  # This doesnt create double assosiation because assosiations are merged together by key and
+  # the last one is preserved
   belongs_to :company
   belongs_to :profit_account, class_name: 'Account'
   belongs_to :sales_account, class_name: 'Account'

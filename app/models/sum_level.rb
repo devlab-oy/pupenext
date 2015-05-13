@@ -1,8 +1,6 @@
 class SumLevel < BaseModel
   include Searchable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   self.table_name = :taso
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi

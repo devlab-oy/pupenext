@@ -7,7 +7,6 @@ class Head::VoucherRow < BaseModel
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   default_scope { where(korjattu: '') }

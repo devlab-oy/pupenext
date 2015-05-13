@@ -2,8 +2,6 @@ class Printer < BaseModel
   include Searchable
   extend Translatable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :kirjoitin, presence: true
   validates :komento, presence: true, uniqueness: { scope: :company }, format: { without: /["'<>\\;]/ }
   validates :mediatyyppi, inclusion: { in: proc { mediatyyppi_types.to_h.values } }, allow_blank: true

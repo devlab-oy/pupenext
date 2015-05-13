@@ -1,10 +1,7 @@
 class Qualifier < BaseModel
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :nimi, presence: true
   validate :deactivated
 
-  # Map old database schema table to Qualifier class
   self.table_name = :kustannuspaikka
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi

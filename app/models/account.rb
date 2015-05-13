@@ -1,8 +1,6 @@
 class Account < BaseModel
   include Searchable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   has_one :commodity, class_name: 'FixedAssets::Commodity'
 
   with_options primary_key: :tunnus do |o|
@@ -27,7 +25,6 @@ class Account < BaseModel
 
   before_save :defaults
 
-  # Map old database schema table to Account class
   self.table_name = :tili
   self.primary_key = :tunnus
 

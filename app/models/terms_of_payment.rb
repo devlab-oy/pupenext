@@ -3,7 +3,6 @@ class TermsOfPayment < BaseModel
   include Searchable
   include Translatable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }

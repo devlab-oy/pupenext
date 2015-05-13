@@ -9,6 +9,8 @@ module CurrentCompany
       end
     end
 
+    belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+
     validates :company, presence: true
   end
 end
