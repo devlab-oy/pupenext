@@ -160,6 +160,7 @@ private
           :pakkauskuvaus,
           :pakkausveloitus_tuotenumero,
           :erikoispakkaus,
+          :rahtivapaa_veloitus,
           :korkeus,
           :leveys,
           :syvyys,
