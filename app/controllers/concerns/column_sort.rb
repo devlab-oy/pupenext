@@ -40,7 +40,7 @@ module ColumnSort
 
     # Sort options for sortable method
     def sort_options(column)
-      direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
+      direction = (column.to_s == sort_column && sort_direction == "asc") ? "desc" : "asc"
 
       options = {
         sort: column,
