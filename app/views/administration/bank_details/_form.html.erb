@@ -1,0 +1,70 @@
+<%= form_for bank_detail do |f| %>
+  <%= render "administration/form_errors", resource: bank_detail %>
+
+  <table>
+    <tbody>
+    <tr>
+      <th><%= f.label :nimitys, t("Nimitys") %></th>
+      <td><%= f.text_field :nimitys %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkinimi1, "#{t("Pankkiyhteystieto")} 1 #{t("Pankki")}" %></th>
+      <td><%= f.text_field :pankkinimi1 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkitili1, "#{t("Pankkiyhteystieto")} 1 #{t("Tilinumero")}" %></th>
+      <td><%= f.text_field :pankkitili1 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiiban1, "#{t("Pankkiyhteystieto")} 1 #{t("IBAN")}" %></th>
+      <td><%= f.text_field :pankkiiban1 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiswift1, "#{t("Pankkiyhteystieto")} 1 Swift / BIC" %></th>
+      <td><%= f.text_field :pankkiswift1 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkinimi2, "#{t("Pankkiyhteystieto")} 2 #{t("Pankki")}" %></th>
+      <td><%= f.text_field :pankkinimi2 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkitili2, "#{t("Pankkiyhteystieto")} 2 #{t("Tilinumero")}" %></th>
+      <td><%= f.text_field :pankkitili2 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiiban2, "#{t("Pankkiyhteystieto")} 2 #{t("IBAN")}" %></th>
+      <td><%= f.text_field :pankkiiban2 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiswift2, "#{t("Pankkiyhteystieto")} 2 Swift / BIC" %></th>
+      <td><%= f.text_field :pankkiswift2 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkinimi3, "#{t("Pankkiyhteystieto")} 3 #{t("Pankki")}" %></th>
+      <td><%= f.text_field :pankkinimi3 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkitili3, "#{t("Pankkiyhteystieto")} 3 #{t("Tilinumero")}" %></th>
+      <td><%= f.text_field :pankkitili3 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiiban3, "#{t("Pankkiyhteystieto")} 3 #{t("IBAN")}" %></th>
+      <td><%= f.text_field :pankkiiban3 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pankkiswift3, "#{t("Pankkiyhteystieto")} 3 Swift / BIC" %></th>
+      <td><%= f.text_field :pankkiswift3 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :viite, t("Viitenumeron laskenta") %></th>
+      <td>
+        <%= f.select :viite, BankDetail.viite_options %>
+      </td>
+    </tr>
+
+    <%= render "administration/resource_timestamps_and_users", resource: bank_detail %>
+    </tbody>
+  </table>
+
+  <%= render "administration/actions", f: f %>
+<% end %>
