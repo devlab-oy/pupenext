@@ -1,8 +1,7 @@
 class Administration::FiscalYearsController < AdministrationController
   # GET /fiscal_years
   def index
-    @fiscal_years = current_company
-      .fiscal_years
+    @fiscal_years = FiscalYear
       .search_like(search_params)
       .order(order_params)
   end
@@ -14,7 +13,7 @@ class Administration::FiscalYearsController < AdministrationController
 
   # GET /fiscal_years/new
   def new
-    @fiscal_year = current_company.fiscal_years.build
+    @fiscal_year = FiscalYear.new
   end
 
   # GET /fiscal_years/1/edit
@@ -23,7 +22,7 @@ class Administration::FiscalYearsController < AdministrationController
 
   # POST /fiscal_years
   def create
-    @fiscal_year = current_company.fiscal_years.build(fiscal_year_params)
+    @fiscal_year = FiscalYear.new(fiscal_year_params)
 
     if @fiscal_year.save_by(current_user)
       redirect_to fiscal_years_path, notice: 'Tilikausi luotiin onnistuneesti.'
@@ -43,7 +42,7 @@ class Administration::FiscalYearsController < AdministrationController
 
   private
     def find_resource
-      @fiscal_year = current_company.fiscal_years.find(params[:id])
+      @fiscal_year = FiscalYear.find(params[:id])
     end
 
     def fiscal_year_params

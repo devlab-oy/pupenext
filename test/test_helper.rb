@@ -21,9 +21,30 @@ class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
   fixtures :all
   self.use_transactional_fixtures = false
+
+  setup do
+    RequestStore.clear!
+    Current.company = companies(:acme)
+  end
+
+  teardown do
+    RequestStore.clear!
+    Current.company = nil
+  end
 end
 
 # Add login/logout method for controller tests
 class ActionController::TestCase
   include LoginHelper
+
+  setup do
+    RequestStore.clear!
+    Current.company = companies(:acme)
+  end
+
+  teardown do
+    RequestStore.clear!
+    Current.company = nil
+  end
 end
+

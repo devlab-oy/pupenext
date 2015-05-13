@@ -1,8 +1,6 @@
-class FiscalYear < ActiveRecord::Base
+class FiscalYear < BaseModel
   include Searchable
   include Translatable
-
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   self.table_name  = :tilikaudet
   self.primary_key = :tunnus

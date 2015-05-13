@@ -1,4 +1,6 @@
 class FixedAssets::CommodityRow < ActiveRecord::Base
+  include SaveByExtension
+
   belongs_to :commodity
 
   default_scope { where(amended: false) }
