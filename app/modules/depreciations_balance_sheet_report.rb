@@ -27,7 +27,7 @@ class DepreciationsBalanceSheetReport
       # Kerataan koko tilikauden totalit
       resu[:hankinnat_yht] = 0
       resu[:tilikauden_poistot_yht] = 0
-      resu[:kertynyt_poisto_yht] = 0
+      #resu[:kertynyt_poisto_yht] = 0
       resu[:menojaannos_yht] = 0
 
       resu[:tilikaudet] = {}
@@ -52,11 +52,12 @@ class DepreciationsBalanceSheetReport
         resu[:tilikauden_poistot_yht] += tkausitiedot[:tilikauden_poistot]
 
         # kertynyt poisto
-        tkausitiedot[:kertynyt_poisto] = bkvalue_at_end(fiscal_end, acc.tilino)
-        resu[:kertynyt_poisto_yht] += tkausitiedot[:kertynyt_poisto]
-        # menojaannos -- paljonko poistettavaa??
-        tkausitiedot[:menojaannos] = tkausitiedot[:hankinnat].to_d - tkausitiedot[:kertynyt_poisto].to_d
-        resu[:menojaannos_yht] += tkausitiedot[:menojaannos]
+        # tkausitiedot[:kertynyt_poisto] = bkvalue_at_end(fiscal_end, acc.tilino)
+        # resu[:kertynyt_poisto_yht] += tkausitiedot[:kertynyt_poisto]
+
+        # menojaannos -- ((tilikauden hankinnat + aikaisemmat poistamattomat) - tilikauden poistot)
+        tkausitiedot[:menojaannos] = residue_at(fiscal_start, acc.tilino) - tkausitiedot[:tilikauden_poistot] #((tkausitiedot[:hankinnat].to_d + bkvalue_at_end(fiscal_start, acc.tilino)) - tkausitiedot[:tilikauden_poistot])
+        resu[:menojaannos_yht] = tkausitiedot[:menojaannos]
       end
 
     end
@@ -76,9 +77,11 @@ class DepreciationsBalanceSheetReport
       current_company.commodities.where(id: all).map { |x| x.depreciation_between(date1, date2) }.sum
     end
 
-    def bkvalue_at_end(date, acctnmbr)
-      all = current_company.commodities.where('activated_at <= ? ', date).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
-      current_company.commodities.where(id: all).map { |x| x.bookkeeping_value(date) }.sum
+    def residue_at(date, acctnmbr)
+      all = current_company.commodities.where(status: 'A').where('activated_at <= ?', date).map { |x| x.id if x.fixed_assets_account == acctnmbr}.compact
+      sum1 = current_company.commodities.where(id: all).map { |x| x.bookkeeping_value(date) }.sum
+      sum2 = current_company.commodities.where(id: all).map { |x| x.accumulated_depreciation_at(date) }.sum
+      sum1 - sum2
     end
 end
 
