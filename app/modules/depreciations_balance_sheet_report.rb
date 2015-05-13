@@ -57,6 +57,7 @@ class DepreciationsBalanceSheetReport
 
         # menojaannos -- ((tilikauden hankinnat + aikaisemmat poistamattomat) - tilikauden poistot)
         tkausitiedot[:menojaannos] = residue_at(fiscal_start, acc.tilino) - tkausitiedot[:tilikauden_poistot]
+
         resu[:menojaannos_yht] = tkausitiedot[:menojaannos]
       end
 
