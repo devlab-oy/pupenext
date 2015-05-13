@@ -89,7 +89,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Käyttöomaisuus-rivit
   def fixed_assets_rows
-    voucher.rows.where(tilino: fixed_assets_account)
+    if voucher
+      voucher.rows.where(tilino: fixed_assets_account)
+    else
+      Head::VoucherRow.none
+    end
   end
 
   # Poisto-tili (tuloslaskelma)
@@ -109,7 +113,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistoero-rivit
   def depreciation_difference_rows
-    voucher.rows.where(tilino: depreciation_difference_account)
+    if voucher
+      voucher.rows.where(tilino: depreciation_difference_account)
+    else
+      Head::VoucherRow.none
+    end
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
