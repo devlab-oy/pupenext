@@ -1842,7 +1842,6 @@ ActiveRecord::Schema.define(version: 20150102091914) do
   end
 
   create_table "sanakirja", primary_key: "tunnus", force: :cascade, options: "ENGINE=myisam" do |t|
-    t.string   "yhtio",      limit: 5,     default: "", null: false
     t.text     "fi",         limit: 65535
     t.text     "se",         limit: 65535
     t.text     "no",         limit: 65535
