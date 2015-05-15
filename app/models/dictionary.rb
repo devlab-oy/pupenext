@@ -1,4 +1,5 @@
 class Dictionary < ActiveRecord::Base
+  include SaveByExtension
   include Searchable
   extend Translatable
 
