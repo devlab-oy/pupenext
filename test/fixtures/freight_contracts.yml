@@ -1,0 +1,15 @@
+one:
+  yhtio: acme
+  toimitustapa: lento
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
+
+two:
+  yhtio: acme
+  toimitustapa: laiva
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
