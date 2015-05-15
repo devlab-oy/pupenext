@@ -1,10 +1,7 @@
-class BankAccount < ActiveRecord::Base
-
+class BankAccount < BaseModel
   include Searchable
   include BankHelper
   extend Translatable
-
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   with_options class_name: "Account", primary_key: :tilino do |o|
     o.belongs_to :default_liquidity_account, ->(b) { where(yhtio: b.yhtio) },

@@ -1,21 +1,12 @@
-class BankAccountsController < ApplicationController
-
-  before_action :find_account, only: [:show, :edit, :update]
+class Administration::BankAccountsController < AdministrationController
   helper_method :showing_unused
   helper_method :show_account_name
 
   def index
     if showing_unused
-      @bank_accounts = current_company
-                         .bank_accounts
-                         .search_like(search_params)
-                         .order(order_params)
+      @bank_accounts = BankAccount.search_like(search_params).order(order_params)
     else
-      @bank_accounts = current_company
-                         .bank_accounts
-                         .in_use
-                         .search_like(search_params)
-                         .order(order_params)
+      @bank_accounts = BankAccount.in_use.search_like(search_params).order(order_params)
     end
   end
 
@@ -23,7 +14,7 @@ class BankAccountsController < ApplicationController
   end
 
   def create
-    @bank_account = current_company.bank_accounts.build(bank_account_params)
+    @bank_account = BankAccount.new(bank_account_params)
 
     if @bank_account.save_by current_user
       redirect_to bank_accounts_path, notice: "Uusi pankkitili perustettu"
@@ -41,21 +32,21 @@ class BankAccountsController < ApplicationController
   end
 
   def new
-    @bank_account = current_company.bank_accounts.build
+    @bank_account = BankAccount.new
   end
 
   private
 
     def show_account_name(value)
-      current_company.accounts.find_by_tilino(value).try(:nimi)
+      Account.find_by_tilino(value).try(:nimi)
     end
 
     def showing_unused
       params[:not_used] == "yes"
     end
 
-    def find_account
-      @bank_account = current_user.company.bank_accounts.unscoped.find(params[:id])
+    def find_resource
+      @bank_account = BankAccount.find params[:id]
     end
 
     def bank_account_params
