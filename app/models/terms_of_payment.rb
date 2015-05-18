@@ -67,7 +67,7 @@ class TermsOfPayment < BaseModel
     end
 
     def check_relations
-      check_if_in_use company.customers, "asiakkaalla"
+      check_if_in_use company.customers.active, "asiakkaalla"
       check_if_in_use company.sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
       check_if_in_use company.sales_order_drafts, "kesken olevalla myyntitilauksella"
     end
