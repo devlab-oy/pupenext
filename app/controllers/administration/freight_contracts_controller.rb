@@ -10,7 +10,7 @@ class Administration::FreightContractsController < AdministrationController
   private
 
     def sortable_columns
-      [:asiakas, :toimitustapa, :rahtisopimus, :selite]
+      ["asiakas.nimi", :toimitustapa, :rahtisopimus, :selite]
     end
 
     def searchable_columns
