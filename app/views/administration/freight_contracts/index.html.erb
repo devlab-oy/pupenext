@@ -1,0 +1,51 @@
+<%= render "administration/header", title: "Rahtisopimukset" %>
+
+<br/><br/>
+
+<%= form_tag freight_contracts_path, method: :get do %>
+  <table>
+    <thead>
+    <tr>
+      <th>
+        <%= sortable :asiakas %><br/>
+        <%= text_field_tag :asiakas, params[:asiakas] %>
+      </th>
+      <th>
+        <%= sortable :ytunnus %><br/>
+        <%= text_field_tag :ytunnus, params[:ytunnus] %>
+      </th>
+      <th>
+        <%= sortable :toimitustapa %><br/>
+        <%= text_field_tag :toimitustapa, params[:toimitustapa] %>
+      </th>
+      <th>
+        <%= sortable :rahtisopimus %><br/>
+        <%= text_field_tag :rahtisopimus, params[:rahtisopimus] %>
+      </th>
+      <th>
+        <%= sortable :selite %><br/>
+        <%= text_field_tag :selite, params[:selite] %>
+      </th>
+      <th class="back">
+        <%= submit_tag t("Etsi"), class: "hae_btn" %>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @freight_contracts.each do |freight_contract| %>
+      <tr class="aktiivi">
+        <td>
+          <%= link_to(freight_contract) do %>
+            <%= freight_contract.customer.try(:tunnus) %><br/>
+            <%= freight_contract.customer.try(:nimi) %>
+          <% end %>
+        </td>
+        <td><%= freight_contract.ytunnus %></td>
+        <td><%= freight_contract.toimitustapa %></td>
+        <td><%= freight_contract.rahtisopimus %></td>
+        <td><%= freight_contract.selite %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
