@@ -7,12 +7,14 @@ class TermsOfPayment < BaseModel
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
-  validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
+  validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) },
+            allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: true, allow_blank: true
   validates :kassa_alepros, numericality: true
   validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
   validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
-  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
+  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true },
+            allow_blank: true
   validates :teksti, length: { within: 1..40 }
 
   validate :check_relations, if: :not_in_use?
@@ -74,5 +76,7 @@ class TermsOfPayment < BaseModel
 
     def defaults
       self.pankkiyhteystiedot ||= 0
+      self.rel_pvm ||= 0
+      self.kassa_relpvm ||= 0
     end
 end
