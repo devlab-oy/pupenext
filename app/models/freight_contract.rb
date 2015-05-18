@@ -1,6 +1,9 @@
 class FreightContract < BaseModel
   belongs_to :customer, foreign_key: :asiakas, primary_key: :tunnus
 
+  scope :ordered, -> { order :ytunnus, :toimitustapa }
+  scope :limited, -> { limit 350 }
+
   validates :rahtisopimus, presence: true
   validates :customer, presence: true
 
