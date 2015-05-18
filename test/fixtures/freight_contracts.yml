@@ -1,6 +1,8 @@
 one:
   yhtio: acme
   toimitustapa: lento
+  rahtisopimus: 123456789
+  customer: stubborn_customer
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   laatija: bob
@@ -9,6 +11,8 @@ one:
 two:
   yhtio: acme
   toimitustapa: laiva
+  rahtisopimus: 234567890
+  customer: stubborn_customer
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   laatija: bob
