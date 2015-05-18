@@ -1,6 +1,8 @@
-class User < ActiveRecord::Base
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+class User < BaseModel
   has_many :permissions
+
+  self.table_name = :kuka
+  self.primary_key = :tunnus
 
   def locale
     locales = %w(fi se en de ee)
@@ -18,8 +20,4 @@ class User < ActiveRecord::Base
   def classic_ui?
     kayttoliittyma == 'C' || (kayttoliittyma.blank? && company.classic_ui?)
   end
-
-  # Map old database schema table to User class
-  self.table_name = :kuka
-  self.primary_key = :tunnus
 end

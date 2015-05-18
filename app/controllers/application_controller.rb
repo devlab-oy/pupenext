@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authorize
+  before_action :set_current_company
   before_action :set_locale
   before_action :access_control
 
@@ -13,11 +14,11 @@ class ApplicationController < ActionController::Base
   helper_method :t
 
   def current_user
-    @current_user ||= User.find_by_session(cookies[:pupesoft_session])
+    @current_user ||= User.unscoped.find_by_session(cookies[:pupesoft_session])
   end
 
-  def current_company
-    @current_company ||= current_user.company
+  def set_current_company
+    Current.company = current_user.company
   end
 
   def read_access?

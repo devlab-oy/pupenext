@@ -3,8 +3,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
   # GET /terms_of_payments
   def index
-    top = current_company
-      .terms_of_payments
+    top = TermsOfPayment
       .search_like(search_params)
       .order(order_params)
 
@@ -22,7 +21,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
   # GET /terms_of_payments/new
   def new
-    @terms_of_payment = current_company.terms_of_payments.build
+    @terms_of_payment = TermsOfPayment.new
   end
 
   # GET /terms_of_payments/1/edit
@@ -31,7 +30,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
   # POST /terms_of_payments
   def create
-    @terms_of_payment = current_company.terms_of_payments.build(terms_of_payment_params)
+    @terms_of_payment = TermsOfPayment.new(terms_of_payment_params)
 
     if @terms_of_payment.save_by current_user
       redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
@@ -73,7 +72,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     end
 
     def find_resource
-      @terms_of_payment = current_user.company.terms_of_payments.find(params[:id])
+      @terms_of_payment = TermsOfPayment.find(params[:id])
     end
 
     def showing_not_used?

@@ -1,8 +1,6 @@
-class Printer < ActiveRecord::Base
+class Printer < BaseModel
   include Searchable
   extend Translatable
-
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :kirjoitin, presence: true
   validates :komento, presence: true, uniqueness: { scope: :company }, format: { without: /["'<>\\;]/ }

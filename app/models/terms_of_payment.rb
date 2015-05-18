@@ -1,9 +1,8 @@
-class TermsOfPayment < ActiveRecord::Base
+class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
   include Translatable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
@@ -38,7 +37,7 @@ class TermsOfPayment < ActiveRecord::Base
   end
 
   def factoring_options
-    company.factorings.select(:factoringyhtio).uniq.map(&:factoringyhtio)
+    company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
   end
 
   def bank_details_options

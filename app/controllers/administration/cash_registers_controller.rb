@@ -11,8 +11,7 @@ class Administration::CashRegistersController < AdministrationController
   before_action :check_kateisotto_account, only: [:create, :update]
 
   def index
-    @cash_registers = current_company
-    .cash_registers
+    @cash_registers = CashRegister
     .search_like(search_params)
     .order(order_params)
   end
@@ -25,11 +24,11 @@ class Administration::CashRegistersController < AdministrationController
   end
 
   def new
-    @cash_register = current_company.cash_registers.build
+    @cash_register = CashRegister.new
   end
 
   def create
-    @cash_register = current_company.cash_registers.build(cash_register_params)
+    @cash_register = CashRegister.new(cash_register_params)
 
     if @cash_register.save_by current_user
       redirect_to cash_registers_path, notice: "Kassalipas luotiin onnistuneesti"
@@ -49,15 +48,15 @@ class Administration::CashRegistersController < AdministrationController
   private
 
     def find_resource
-      @cash_register = current_company.cash_registers.find(params[:id])
+      @cash_register = CashRegister.find(params[:id])
     end
 
     def get_qualifiers
-      @qualifiers = current_company.qualifiers.order(:nimi)
+      @qualifiers = Qualifier.all.order(:nimi)
     end
 
     def get_locations
-      @locations = current_company.locations.order(:nimi)
+      @locations = Location.all.order(:nimi)
     end
 
     def check_kassa_account

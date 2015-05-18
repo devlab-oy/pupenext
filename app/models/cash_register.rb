@@ -1,8 +1,6 @@
-class CashRegister < ActiveRecord::Base
+class CashRegister < BaseModel
   include Searchable
   include Translatable
-
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, presence: true, uniqueness: true
   validates :kassa, presence: true

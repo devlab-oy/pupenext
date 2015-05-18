@@ -81,7 +81,7 @@ select {
   padding: 8px 35px 8px 4px;
   border-style: solid;
   border-width: 1px;
-  background-image: url('../pics/facelift/dropdown_arrow.png');
+  background-image: url('../../../pics/facelift/dropdown_arrow.png');
   background-repeat: no-repeat;
   background-position: right;
 }
@@ -104,28 +104,28 @@ button, input[type=submit], input[type=button] {
 }
 
 input[type=submit].lisaa_btn {
-  background-image: url('../pics/facelift/submit_add.png');
+  background-image: url('../../../pics/facelift/submit_add.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].hae_btn {
-  background-image: url('../pics/facelift/submit_mglass.png');
+  background-image: url('../../../pics/facelift/submit_mglass.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].tallenna_btn {
-  background-image: url('../pics/facelift/submit_rightarrow.png');
+  background-image: url('../../../pics/facelift/submit_rightarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].poista_btn {
-  background-image: url('../pics/facelift/submit_leftarrow.png');
+  background-image: url('../../../pics/facelift/submit_leftarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;

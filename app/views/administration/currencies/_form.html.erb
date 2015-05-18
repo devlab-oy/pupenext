@@ -14,7 +14,7 @@
       <th><%= f.label :kurssi, t('Valuuttakurssi') %></th>
       <td><%= f.text_field :kurssi %></td>
     </tr>
-    <% if @current_company.maa == "EE" %>
+    <% if Current.company.maa == "EE" %>
       <tr>
         <th><%= f.label :intrastat_kurssi, t('Intrastat-kurssi') %></th>
         <td><%= f.text_field :intrastat_kurssi %></td>
