@@ -1,4 +1,6 @@
 class FreightContract < BaseModel
+  include Searchable
+
   belongs_to :customer, foreign_key: :asiakas, primary_key: :tunnus
 
   scope :ordered, -> { order :ytunnus, :toimitustapa }
