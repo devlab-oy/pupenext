@@ -7,7 +7,6 @@ class FreightContract < BaseModel
   scope :limited, -> { limit 350 }
 
   validates :rahtisopimus, presence: true
-  validates :customer, presence: true
 
   self.table_name = :rahtisopimukset
   self.primary_key = :tunnus
