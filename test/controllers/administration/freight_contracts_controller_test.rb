@@ -11,4 +11,11 @@ class Administration::FreightContractsControllerTest < ActionController::TestCas
     assert_response :success
     assert_equal 350, assigns(:freight_contracts).size
   end
+
+  test "index returns all freight contracts if set so in params" do
+    get :index, limit: :off
+
+    assert_response :success
+    assert_equal 351, assigns(:freight_contracts).size
+  end
 end

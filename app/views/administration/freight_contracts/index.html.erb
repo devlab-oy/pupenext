@@ -1,5 +1,7 @@
 <%= render "administration/header", title: "Rahtisopimukset" %>
 
+<%= button_to t("Näytä kaikki"), {}, params: { limit: :off }, method: :get %>
+
 <br/><br/>
 
 <%= form_tag freight_contracts_path, method: :get do %>
