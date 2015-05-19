@@ -8,7 +8,7 @@
     <tr>
       <th>
         <%= sortable "asiakas.nimi", "asiakas" %><br/>
-        <%= text_field_tag :asiakas, params[:asiakas] %>
+        <%= text_field_tag "asiakas.nimi", params["asiakas.nimi"] %>
       </th>
       <th>
         <%= sortable :ytunnus %><br/>
@@ -35,12 +35,7 @@
     <% @freight_contracts.each do |freight_contract| %>
       <tr class="aktiivi">
         <td>
-          <% if freight_contract.asiakas != 0 %>
-            <%= link_to(freight_contract) do %>
-              <%= freight_contract.customer.try(:tunnus) %><br/>
-              <%= freight_contract.customer.try(:nimi) %>
-            <% end %>
-          <% end %>
+          <%= link_to(customer_text(freight_contract.customer_name), freight_contract) %>
         </td>
         <td><%= freight_contract.ytunnus %></td>
         <td><%= freight_contract.toimitustapa %></td>
