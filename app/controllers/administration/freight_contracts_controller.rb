@@ -1,7 +1,7 @@
 class Administration::FreightContractsController < AdministrationController
   def index
     @freight_contracts = FreightContract
-                           .includes(:customer)
+                           .with_customer
                            .limited
                            .search_like(search_params)
                            .order(order_params)
