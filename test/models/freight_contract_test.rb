@@ -14,8 +14,4 @@ class FreightContractTest < ActiveSupport::TestCase
   test "ordered scope works" do
     assert_equal 351, FreightContract.ordered.count
   end
-
-  test "limited scope works" do
-    assert_equal 350, FreightContract.limited.count
-  end
 end
