@@ -20,7 +20,17 @@ module Searchable
     end
 
     def where_like(column, search_term)
-      where(self.arel_table[column].matches "%#{search_term}%")
+      table_column = column.split(".")
+
+      if table_column.length > 1
+        relation_table = Arel::Table.new table_column.first
+        column = table_column.second
+
+        where(relation_table[column].matches("%#{search_term}%"))
+      else
+        where(self.arel_table[column].matches "%#{search_term}%")
+      end
+
     end
 
     private
