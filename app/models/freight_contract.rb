@@ -12,7 +12,9 @@ class FreightContract < BaseModel
     def with_customer
       joins("LEFT JOIN asiakas ON asiakas.yhtio = rahtisopimukset.yhtio
              AND asiakas.tunnus = rahtisopimukset.asiakas")
-        .select("rahtisopimukset.*, asiakas.nimi AS customer_name, asiakas.tunnus AS customer_id")
+        .select("rahtisopimukset.*",
+                "asiakas.nimi AS customer_name",
+                "asiakas.tunnus AS customer_id")
     end
   end
 
