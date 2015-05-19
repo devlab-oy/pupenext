@@ -2,9 +2,9 @@
 freight_contract_<%= number %>:
   yhtio: acme
   <% if number.odd? %>
-  toimitustapa: lento
+  toimitustapa: Lentokoneella
   <% else %>
-  toimitustapa: laiva
+  toimitustapa: Laivalla
   <% end %>
   rahtisopimus: <%= number %>
   customer: stubborn_customer

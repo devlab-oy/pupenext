@@ -2,10 +2,12 @@ class FreightContract < BaseModel
   include Searchable
 
   belongs_to :customer, foreign_key: :asiakas, primary_key: :tunnus
+  belongs_to :delivery_method, foreign_key: :toimitustapa, primary_key: :selite
 
   scope :ordered, -> { order :ytunnus, :toimitustapa }
 
   validates :rahtisopimus, presence: true
+  validates :delivery_method, presence: true
 
   class << self
     def with_customer

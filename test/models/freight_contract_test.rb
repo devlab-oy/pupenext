@@ -14,4 +14,18 @@ class FreightContractTest < ActiveSupport::TestCase
   test "ordered scope works" do
     assert_equal 351, FreightContract.ordered.count
   end
+
+  test "delivery method saved to freight contract must exist" do
+    customer = customers(:stubborn_customer)
+
+    freight_contract = FreightContract.new(toimitustapa: "Kissa",
+                                           asiakas: customer.tunnus,
+                                           ytunnus: customer.ytunnus,
+                                           rahtisopimus: "13579",
+                                           selite: "kala",
+                                           muumaksaja: "Muumipeikko"
+    )
+
+    refute freight_contract.valid?
+  end
 end
