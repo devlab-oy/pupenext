@@ -9,6 +9,6 @@ class Administration::FreightContractsControllerTest < ActionController::TestCas
     get :index
 
     assert_response :success
-    assert_equal 350, assigns(:freight_contracts).count
+    assert_equal 350, assigns(:freight_contracts).size
   end
 end
