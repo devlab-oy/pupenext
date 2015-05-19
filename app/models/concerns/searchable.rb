@@ -20,7 +20,7 @@ module Searchable
     end
 
     def where_like(column, search_term)
-      table_column = column.split(".")
+      table_column = column.to_s.split(".")
 
       if table_column.length > 1
         relation_table = Arel::Table.new table_column.first
