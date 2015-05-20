@@ -1,6 +1,6 @@
 require 'test_helper'
 
-# Create dummy class for testing Searchable conceren using yhtio -table
+# Create dummy class for testing Searchable concern using yhtio -table
 class DummyClass < ActiveRecord::Base
   include Searchable
   self.table_name = :yhtio
@@ -38,5 +38,11 @@ class SearchableTest < ActiveSupport::TestCase
 
     params = { nimi: 'acm', muuttaja: 'johanna' }
     assert_equal 0, DummyClass.search_like(params).count
+  end
+
+  test 'should be able to search with db date' do
+    params = { tilikausi_alku: '2012-01-01' }
+
+    assert_equal 1, DummyClass.search_like(params).count
   end
 end

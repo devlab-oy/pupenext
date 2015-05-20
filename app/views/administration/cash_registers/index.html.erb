@@ -1,0 +1,87 @@
+<%= render "administration/header", title: "Kassalippaat" %>
+
+<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>
+
+<br /><br />
+
+<%= form_tag cash_registers_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= sortable "nimi" %>
+        <br />
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable "kustp" %>
+        <br />
+        <%= text_field_tag :kustp, params[:kustp] %>
+      </th>
+
+      <th>
+        <%= sortable "kassa" %>
+        <br />
+        <%= text_field_tag :kassa, params[:kassa] %>
+      </th>
+
+      <th>
+        <%= sortable "pankkikortti" %>
+        <br />
+        <%= text_field_tag :pankkikortti, params[:pankkikortti] %>
+      </th>
+
+      <th>
+        <%= sortable "luottokortti" %>
+        <br />
+        <%= text_field_tag :luottokortti, params[:luottokortti] %>
+      </th>
+
+      <th>
+        <%= sortable "kateistilitys" %>
+        <br />
+        <%= text_field_tag :kateistilitys, params[:kateistilitys] %>
+      </th>
+
+      <th>
+        <%= sortable "kassaerotus" %>
+        <br />
+        <%= text_field_tag :kassaerotus, params[:kassaerotus] %>
+      </th>
+
+      <th>
+        <%= sortable "kateisotto" %>
+        <br />
+        <%= text_field_tag :kateisotto, params[:kateisotto] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t("Etsi") %>
+      </th>
+    </tr>
+
+    <% @cash_registers.each do |p| %>
+      <tr class="aktiivi">
+        <td>
+          <% if update_access? %>
+            <%= link_to p.nimi, edit_cash_register_path(p.id) %>
+          <% else %>
+            <%= p.nimi %>
+          <% end %>
+        </td>
+        <td><%= p.kustp %></td>
+        <td><%= p.kassa %></td>
+        <td><%= p.pankkikortti %></td>
+        <td><%= p.luottokortti %></td>
+        <td><%= p.kateistilitys %></td>
+        <td><%= p.kassaerotus %></td>
+        <td><%= p.kateisotto %></td>
+        <td class="back"></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br />
+
+<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>

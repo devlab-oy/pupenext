@@ -6,7 +6,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities
   def index
-    @commodities = current_company.commodities
+    @commodities = FixedAssets::Commodity
       .search_like(search_params)
       .order(order_params)
   end
@@ -18,7 +18,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities/new
   def new
-    @commodity = current_company.commodities.build
+    @commodity = FixedAssets::Commodity.new
   end
 
   # PATCH /commodities/1
@@ -36,7 +36,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities
   def create
-    @commodity = current_company.commodities.build(commodity_create_params)
+    @commodity = FixedAssets::Commodity.new(commodity_create_params)
 
     if @commodity.save_by current_user
       redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
@@ -164,11 +164,11 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def find_resource
-      @commodity = current_company.commodities.find(params[:commodity_id] || params[:id])
+      @commodity = FixedAssets::Commodity.find(params[:commodity_id] || params[:id])
     end
 
     def find_voucher_row
-      @voucher_row = current_company.voucher_rows.find(params[:voucher_row_id])
+      @voucher_row = Head::VoucherRow.find(params[:voucher_row_id])
     end
 
     def linkable_vouchers
@@ -210,8 +210,8 @@ class FixedAssets::CommoditiesController < AdministrationController
     def commodity_sales_params
       @commodity.deactivated_at = params[:deactivated_at]
       @commodity.amount_sold    = params[:amount_sold]
-      @commodity.profit_account = current_company.accounts.find_by(tilino: params[:profit_account])
-      @commodity.sales_account = current_company.accounts.find_by(tilino: params[:sales_account])
+      @commodity.profit_account = Account.find_by(tilino: params[:profit_account])
+      @commodity.sales_account = Account.find_by(tilino: params[:sales_account])
       @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
     end
 end

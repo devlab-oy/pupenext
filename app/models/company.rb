@@ -12,6 +12,8 @@ class Company < ActiveRecord::Base
     o.has_many :factorings
     o.has_many :bank_details
     o.has_many :customers
+    o.has_many :cash_registers
+    o.has_many :locations
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'
@@ -32,6 +34,7 @@ class Company < ActiveRecord::Base
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
     o.has_many :voucher_rows,                          class_name: 'Head::VoucherRow'
 
+    o.has_many :qualifiers
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     o.has_many :projects,     class_name: 'Qualifier::Project'
     o.has_many :targets,      class_name: 'Qualifier::Target'
@@ -40,7 +43,6 @@ class Company < ActiveRecord::Base
   has_many :commodities, class_name: 'FixedAssets::Commodity'
   has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
 
-  # Map old database schema table to Company class
   self.table_name = :yhtio
   self.primary_key = :tunnus
 

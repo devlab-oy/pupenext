@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+
   setup do
     @joe = users(:joe)
     @bob = users(:bob)
@@ -16,10 +17,6 @@ class UserTest < ActiveSupport::TestCase
 
   test "user has a company" do
     assert_not_nil @joe.company
-  end
-
-  test "user has permissions" do
-    assert_equal 10, @joe.permissions.count
   end
 
   test "user has update permissions" do

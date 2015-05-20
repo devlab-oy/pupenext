@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class CommodityRowGeneratorTest < ActiveSupport::TestCase
+  fixtures %w(fixed_assets/commodities
+              fixed_assets/commodity_rows
+              accounts
+              heads
+              head/voucher_rows
+              fiscal_years
+              sum_levels)
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
@@ -71,7 +78,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, result.count
     assert_equal 5000, result.sum
   end
-
 
   test 'should calculate deprecated amount' do
     assert_equal 2345.0, @commodity.deprecated_sumu_amount

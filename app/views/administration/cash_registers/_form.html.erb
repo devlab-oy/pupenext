@@ -1,0 +1,121 @@
+<%= render "administration/form_errors", resource: @cash_register %>
+
+<%= form_for(@cash_register) do |f| %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kustp %></th>
+      <td>
+        <%= f.collection_select(:kustp, @qualifiers, :tunnus, :nimi,
+          { include_blank: t("Ei kustannuspaikkaa"), selected: @cash_register.kustp }
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :toimipaikka %></th>
+      <td>
+        <%= f.collection_select(:toimipaikka, @locations, :tunnus, :nimi,
+          { include_blank: t("Ei toimipaikkaa"), selected: @cash_register.toimipaikka }
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kassa %></th>
+      <td>
+    <% if @kassa_accounts.present? %>
+      <%= f.collection_select(:kassa, @kassa_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :kassa %>  <%= account_name f.object.kassa %>
+    <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :pankkikortti %></th>
+      <td>
+    <% if @pankkikortti_accounts.present? %>
+      <%= f.collection_select(:pankkikortti, @pankkikortti_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :pankkikortti %>
+      <%= account_name f.object.pankkikortti %>
+    <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :luottokortti %></th>
+      <td>
+    <% if @luottokortti_accounts.present? %>
+      <%= f.collection_select(:luottokortti, @luottokortti_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :luottokortti %>
+      <%= account_name f.object.luottokortti %>
+    <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kateistilitys %></th>
+      <td>
+    <% if @kateistilitys_accounts.present? %>
+      <%= f.collection_select(:kateistilitys, @kateistilitys_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :kateistilitys %>
+      <%= account_name f.object.kateistilitys %>
+    <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kassaerotus %></th>
+      <td>
+    <% if @kassaerotus_accounts.present? %>
+      <%= f.collection_select(:kassaerotus, @kassaerotus_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :kassaerotus %>
+      <%= account_name f.object.kassaerotus %>
+    <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kateisotto %></th>
+      <td>
+    <% if @kateisotto_accounts.present? %>
+      <%= f.collection_select(:kateisotto, @kateisotto_accounts, :tilino, :tilino_nimi,
+        { include_blank: t("Ei valintaa") }
+      ) %>
+    <% else %>
+      <%= f.text_field :kateisotto %>
+      <%= account_name f.object.kateisotto %>
+    <% end %>
+      </td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @cash_register %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>
+
+

@@ -1,4 +1,6 @@
 class FixedAssets::CommodityRow < ActiveRecord::Base
+  include SaveByExtension
+
   belongs_to :commodity
 
   default_scope { where(amended: false) }
@@ -11,7 +13,7 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
 
   def depreciation_difference
     # Tämän EVL-poiston saman kuukauden SUMU-poisto
-    sumu = commodity.voucher.rows.find_by_tapvm(transacted_at)
+    sumu = commodity.fixed_assets_rows.find_by_tapvm(transacted_at)
     sumu.summa - amount
   end
 

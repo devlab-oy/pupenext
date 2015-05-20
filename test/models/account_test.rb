@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
+  fixtures %w(accounts qualifiers sum_levels)
+
   def setup
     @account = accounts(:account_100)
     @project =  qualifiers(:project_in_use)
@@ -92,6 +94,7 @@ class AccountTest < ActiveSupport::TestCase
 
     other_account = @account.dup
     other_account.company = companies(:estonian)
+    Current.company = companies(:estonian)
     other_account.sisainen_taso = nil
     other_account.alv_taso = nil
     other_account.tulosseuranta_taso = nil

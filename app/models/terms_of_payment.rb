@@ -1,15 +1,14 @@
-class TermsOfPayment < ActiveRecord::Base
+class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
   include Translatable
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
-  validates :kassa_abspvm, :abs_pvm, optional_date: true
+  validates :kassa_abspvm, :abs_pvm, date: true, allow_blank: true
   validates :kassa_alepros, numericality: true
   validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
   validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
@@ -38,7 +37,7 @@ class TermsOfPayment < ActiveRecord::Base
   end
 
   def factoring_options
-    company.factorings.select(:factoringyhtio).uniq.map(&:factoringyhtio)
+    company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
   end
 
   def bank_details_options

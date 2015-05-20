@@ -3,35 +3,16 @@
 
   <table>
     <tr>
-      <th><%= f.label :tilikausi_alku, t('Alku') %></th>
-      <td><%= f.text_field :tilikausi_alku %></td>
+      <th><%= f.label :tilikausi_alku, t('Alkupäivämäärä') %></th>
+      <td><%= f.pupenext_date_field :tilikausi_alku %></td>
     </tr>
     <tr>
-      <th><%= f.label :tilikausi_loppu, t('Loppu') %></th>
-      <td><%= f.text_field :tilikausi_loppu %></td>
+      <th><%= f.label :tilikausi_loppu, t('Loppupäivämäärä') %></th>
+      <td><%= f.pupenext_date_field :tilikausi_loppu %></td>
     </tr>
-    <tr>
-      <th><%= t('Laatija') %></th>
-      <td><%= @fiscal_year.laatija %></td>
-    </tr>
-    <tr>
-      <th><%= t('Luontiaika') %></th>
-      <td><%= @fiscal_year.luontiaika %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muutospvm') %></th>
-      <td><%= @fiscal_year.muutospvm %></td>
-    </tr>
-    <tr>
-      <th><%= t('Muuttaja') %></th>
-      <td><%= @fiscal_year.muuttaja %></td>
-    </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @fiscal_year %>
   </table>
 
-  <br />
+  <%= render 'administration/actions', f: f %>
 
-  <div class="actions">
-    <% text = @fiscal_year.persisted? ? t('Tallenna') : t('Lisää') %>
-    <%= f.submit t(text), disable_with: t('Tallentaa') + '...' %>
-  </div>
 <% end %>

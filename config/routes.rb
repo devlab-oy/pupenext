@@ -25,6 +25,17 @@ Pupesoft::Application.routes.draw do
     resources :terms_of_payments, except: :destroy
     resources :printers
     resources :sum_levels
+    resources :cash_registers
+  end
+
+  scope module: :utilities do
+    get 'qr_codes/generate'
+  end
+
+  scope :reports, controller: :reports do
+    get 'depreciations_balance_sheet'
+    get 'depreciation_difference'
+    get 'balance_statements'
   end
 
   root to: 'home#index'

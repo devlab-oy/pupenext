@@ -1,4 +1,4 @@
-class FixedAssets::Commodity < ActiveRecord::Base
+class FixedAssets::Commodity < BaseModel
   include Searchable
 
   # commodity = hyödyke
@@ -7,6 +7,9 @@ class FixedAssets::Commodity < ActiveRecord::Base
   # .commodity_rows = rivejä, jolla kirjataan EVL poistot
   # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
+  # belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio is defined in current company concenr
+  # This doesnt create double assosiation because assosiations are merged together by key and
+  # the last one is preserved
   belongs_to :company
   belongs_to :profit_account, class_name: 'Account'
   belongs_to :sales_account, class_name: 'Account'
@@ -89,7 +92,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Käyttöomaisuus-rivit
   def fixed_assets_rows
-    voucher.rows.where(tilino: fixed_assets_account)
+    if voucher
+      voucher.rows.where(tilino: fixed_assets_account)
+    else
+      Head::VoucherRow.none
+    end
   end
 
   # Poisto-tili (tuloslaskelma)
@@ -109,7 +116,11 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Poistoero-rivit
   def depreciation_difference_rows
-    voucher.rows.where(tilino: depreciation_difference_account)
+    if voucher
+      voucher.rows.where(tilino: depreciation_difference_account)
+    else
+      Head::VoucherRow.none
+    end
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
@@ -139,12 +150,18 @@ class FixedAssets::Commodity < ActiveRecord::Base
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    range = company.current_fiscal_year.first..end_date
-    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
-    if deactivated?
+    start_date = activated_at.present? ?  activated_at : company.current_fiscal_year.first
+    calculation = voucher.present? ? fixed_assets_rows.where(tapvm: start_date.to_date..end_date.to_date).sum(:summa) : 0
+
+    if !activated?
       calculation = amount
     end
-    amount - calculation
+
+    if calculation > 0
+      amount - calculation
+    else
+      amount + calculation
+    end
   end
 
   def can_be_sold?
@@ -158,6 +175,30 @@ class FixedAssets::Commodity < ActiveRecord::Base
     return false unless company.date_in_open_period?(deactivated_at)
     return false unless ['S','E'].include?(depreciation_remainder_handling)
     true
+  end
+
+  def accumulated_depreciation_at(date)
+    fixed_assets_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_difference_at(date)
+    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_evl_at(date)
+    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+  end
+
+  def depreciation_between(date1, date2)
+    fixed_assets_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def difference_between(date1, date2)
+    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def evl_between(date1, date2)
+    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end
 
   private

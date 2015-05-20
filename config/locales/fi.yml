@@ -34,7 +34,7 @@ fi:
     - perjantai
     - lauantai
     formats:
-      default: ! '%e. %Bta %Y'
+      default: ! '%d.%m.%Y'
       long: ! '%A %e. %Bta %Y'
       short: ! '%e.%m.%Y'
     month_names:
@@ -189,8 +189,8 @@ fi:
   time:
     am: aamupäivä
     formats:
-      default: ! '%A %e. %Bta %Y %H:%M:%S %z'
-      long: ! '%e. %Bta %Y %H.%M'
+      default: ! '%d.%m.%Y %H:%M:%S'
+      long: ! '%A %e. %Bta %Y %H:%M:%S %z'
       short: ! '%e.%m. %H.%M'
     pm: iltapäivä
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
@@ -198,5 +198,24 @@ fi:
     errors:
       <<: *errors
   activerecord:
+    models:
+      account:
+        one: Tili
+        other: Tilit
+      currency:
+        one: Valuutta
+        other: Valuutat
+      fiscal_year:
+        one: Tilikausi
+        other: Tilikaudet
+      printer:
+        one: Kirjoitin
+        other: Kirjoittimet
+      sum_level:
+        one: Taso
+        other: Tasot
+      terms_of_payment:
+        one: Maksuehto
+        other: Maksuehdot
     errors:
       <<: *errors
