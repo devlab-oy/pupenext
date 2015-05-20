@@ -1,29 +1,27 @@
 <%= render "administration/header", title: t("Poistoeroraportti") %>
 <table>
   <tr>
-  <th><%= t('Sumu-Evl alkusaldo')%></th>
-  <th><%= t('Lisäykset') + t('Vähennykset')%></th>
-  <th><%= t('Max % / Tod %') + t('Evl-poisto') %></th>
+  <th><%= t('Lisäykset') %></th>
+  <th><%= t('Evl-poisto') %></th>
   <th><%= t('Sumu-poisto') %></th>
-  <th><%= t('Poistoeron poiskirjaus') + t('Tk.poistoero') %></th>
+  <th><%= t('Tilikauden poistoero') %></th>
   <th><%= t('Sumu-Evl menojäännös') %></th>
   <th><%= t('Kertynyt poistoero') %></th>
   </tr>
 
-  <% @report.accounts.each do |acc| %>
+  <% @report.data.each do |k, dat| %>
     <tr>
-    <td colspan='7'><%= t('Tili') %>
-      <%= acc.tilino + ' = ' + acc.nimi %>
-    </td>
+      <td colspan='7'><%= t('Tili') %>
+        <%= "#{k} #{dat[:nimi]}" %>
+      </td>
     </tr>
     <tr>
-    <td><%= @report.opening_balance(acc) %></td>
-    <td><%= @report.commodity_ids %></td>
-    <td><%= @report.commodity_accounts %></td>
-    <td><%=  %></td>
-    <td><%=  %></td>
-    <td><%=  %></td>
-    <td><%=  %></td>
+    <td><%= dat[:lisaykset] %></td>
+    <td><%= dat[:evl_poistot] %></td>
+    <td><%= dat[:sumu_poistot] %></td>
+    <td><%= dat[:poistoero] %></td>
+    <td><%= dat[:menojaannos] %></td>
+    <td><%= dat[:kum_poistoero] %></td>
     </tr>
   <% end %>
 </table>
