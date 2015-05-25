@@ -1,0 +1,17 @@
+<%= form_for freight_contract do |f| %>
+  <%= render "administration/form_errors", resource: freight_contract %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :toimitustapa %></th>
+      <td><%= f.collection_select :toimitustapa, DeliveryMethod.all, :selite, :selite %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :asiakas %></th>
+      <td><%= f.text_field :asiakas %></td>
+    </tr>
+
+  </table>
+<% end %>
