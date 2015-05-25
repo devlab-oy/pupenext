@@ -20,6 +20,10 @@ class Administration::FreightContractsController < AdministrationController
     end
   end
 
+  def new
+    @freight_contract = FreightContract.new
+  end
+
   private
 
     def sortable_columns

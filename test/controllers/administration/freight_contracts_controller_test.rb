@@ -56,4 +56,13 @@ class Administration::FreightContractsControllerTest < ActionController::TestCas
       post :create, freight_contract: freight_contract
     end
   end
+
+  test "new action works" do
+    login users(:bob)
+
+    get :new
+
+    assert_response :success
+    assert_template :new
+  end
 end
