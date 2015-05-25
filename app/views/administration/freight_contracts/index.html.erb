@@ -1,5 +1,6 @@
 <%= render "administration/header", title: "Rahtisopimukset" %>
 
+<%= button_to t("Uusi rahtisopimus"), new_freight_contract_path, method: :get if update_access? %>
 <%= button_to t("Näytä kaikki"), {}, params: { limit: :off }, method: :get %>
 
 <br/><br/>
