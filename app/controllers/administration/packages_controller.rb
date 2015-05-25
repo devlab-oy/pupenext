@@ -4,7 +4,7 @@ class Administration::PackagesController < AdministrationController
   before_action :find_carrier_options, only: [:show, :edit, :new_package_code, :edit_package_code, :create_package_code, :update_package_code]
 
   def index
-    @packages = current_user.company.packages
+    @packages = Package.all
   end
 
   def show
@@ -15,11 +15,11 @@ class Administration::PackagesController < AdministrationController
   end
 
   def new
-    @package = current_user.company.packages.build
+    @package = Package.new
   end
 
   def create
-    @package = current_user.company.packages.build
+    @package = Package.new
     @package.attributes = package_params
 
     if @package.save_by current_user
@@ -42,7 +42,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def update_keyword
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = Package.find(params[:id] || params[:package_id])
     @kw = @package.keywords.find(params[:keyword_id])
 
     if @kw.update_by(keyword_params, current_user)
@@ -57,7 +57,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_keyword
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = Package.find(params[:id] || params[:package_id])
     @kw = @package.keywords.build
     @kw.attributes = keyword_params
 
@@ -77,7 +77,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def update_package_code
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = Package.find(params[:id] || params[:package_id])
     @pc = @package.package_codes.find(params[:package_code_id])
 
     if @pc.update_by(package_code_params, current_user)
@@ -92,7 +92,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def create_package_code
-    @package = current_user.company.packages.find(params[:id] || params[:package_id])
+    @package = Package.find(params[:id] || params[:package_id])
     @pc = @package.package_codes.build
     @pc.attributes = package_code_params
 
@@ -109,7 +109,7 @@ class Administration::PackagesController < AdministrationController
 private
 
     def find_resource
-      @package = current_company.packages.find(params[:id] || params[:package_id])
+      @package = Package.find(params[:id] || params[:package_id])
     end
 
     def find_keyword_languages
@@ -127,7 +127,7 @@ private
     end
 
     def find_carrier_options
-      carriers = current_company.carriers
+      carriers = Carrier.all
       @carrier_options = Hash.new
       carriers.each do |c|
         @carrier_options[c.koodi] = c.koodi
