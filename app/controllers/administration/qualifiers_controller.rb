@@ -5,7 +5,7 @@ class Administration::QualifiersController < AdministrationController
   before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
 
   def index
-    q = current_company.qualifiers.search_like(search_params).order(order_params)
+    q = Qualifier.search_like(search_params).order(order_params)
 
     if showing_not_used?
       @qualifiers = q.not_in_use
@@ -22,11 +22,11 @@ class Administration::QualifiersController < AdministrationController
   end
 
   def new
-    @qualifier = current_company.cost_centers.build
+    @qualifier = Qualifier::CostCenter.new
   end
 
   def create
-    @qualifier = current_company.qualifiers.build(qualifier_params)
+    @qualifier = Qualifier.new(qualifier_params)
 
     if @qualifier.save_by current_user
       redirect_to qualifiers_path, notice: t("Tarkenne luotiin onnistuneesti")
@@ -46,15 +46,15 @@ class Administration::QualifiersController < AdministrationController
   private
 
     def find_resource
-      @qualifier = current_company.qualifiers.find(params[:id])
+      @qualifier = Qualifier.find(params[:id])
     end
 
     def find_isa_options
-      @isa_options = current_company.qualifiers.in_use.code_name_order
+      @isa_options = Qualifier.in_use.code_name_order
     end
 
     def find_qualifier
-      @qualifier = current_company.qualifiers.find(params[:id])
+      @qualifier = Qualifier.find(params[:id])
     end
 
     def showing_not_used?
