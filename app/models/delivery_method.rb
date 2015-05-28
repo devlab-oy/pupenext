@@ -140,6 +140,52 @@ class DeliveryMethod < BaseModel
     ].reject {|i,_| i.empty?}
   end
 
+  def special_packaging_prohibition_options
+    [
+      [t("Toimitustavalla saa toimittaa erikoispakkauksia"), ""],
+      [t("Toimitustavalla ei saa toimittaa erikoispakkauksia"), "K"]
+    ]
+  end
+
+  def packing_area_prohibition_options
+    [
+      [t("Toimitustavan tilaukset varaavat pakkaamolokeron"), "0"],
+      [t("Toimitustavan tilaukaset eivät varaa pakkaamolokeroa"), "1"]
+    ]
+  end
+
+  def waybill_specification_options
+    [
+      [t("Toimitustavalle ei tulosteta rahtikirjaerittelyä"), ""],
+      [t("Toimitustavalle tulostetaan rahtikirjaerittely"), "t"],
+      [t("Toimitustavalle tulostetaan rahtikirjaerittely per asiakas"), "k"]
+    ]
+  end
+
+  def new_packaging_information_options
+    [
+      [t("Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta"), ""],
+      [t("Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta"), "K"]
+    ]
+  end
+
+  def permitted_packaging_options
+    []
+  end
+
+  def transportation_insurance_type_options
+    [
+      [t("Yhtiön oletus"), ""],
+      [t("Ei kuljetusvakuutusta"), "E"],
+      [t("Valuuttamääräinen kuljetusvakuutus lisätään"), "A"],
+      [t("Prosentuaalinen kuljetusvakuutus lisätään"), "B"],
+      [t("Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
+        asiakashintaa ja alennusta"), "F"],
+      [t("Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
+        asiakasalennusta"), "G"]
+    ]
+  end
+
   def official_legend_options
     {
       "Ei valintaa": "",
