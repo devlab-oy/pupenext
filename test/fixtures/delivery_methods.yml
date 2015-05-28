@@ -1,0 +1,21 @@
+kaukokiito:
+  yhtio: acme
+  selite: Kaukokiito
+  tulostustapa: H
+  rahtikirja: rahtikirja_pdf.inc
+  rahdinkuljettaja: Kaukokiito
+  laatija: 'joe'
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: 'joe'
+
+kiitolinja:
+  yhtio: acme
+  selite: Kiitolinja
+  tulostustapa: H
+  rahtikirja: rahtikirja_pdf.inc
+  rahdinkuljettaja: Kiitolinja
+  laatija: 'joe'
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: 'joe'
