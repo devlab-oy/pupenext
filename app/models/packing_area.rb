@@ -1,4 +1,4 @@
-class PackingArea < ActiveRecord::Base
+class PackingArea < BaseModel
   include Searchable
   include Translatable
 

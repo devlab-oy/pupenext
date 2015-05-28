@@ -1,4 +1,4 @@
-class Printers < ActiveRecord::Base
+class Printers < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   # Map old database schema table to Qualifier class

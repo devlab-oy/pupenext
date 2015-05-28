@@ -4,7 +4,7 @@ class Administration::PackingAreasController < AdministrationController
   helper_method :get_storage
 
   def index
-    @packing_areas = current_company.packing_areas.search_like(search_params).order(order_params)
+    @packing_areas = PackingArea.search_like(search_params).order(order_params)
   end
 
   def show
@@ -15,14 +15,14 @@ class Administration::PackingAreasController < AdministrationController
   end
 
   def new
-    @packing_area = current_company.packing_areas.build
+    @packing_area = PackingArea.new
     @packing_area.varasto = nil
     @packing_area.prio = nil
     @packing_area.pakkaamon_prio = nil
   end
 
   def create
-    @packing_area = current_company.packing_areas.build(packing_area_params)
+    @packing_area = PackingArea.new(packing_area_params)
 
     if @packing_area.save_by current_user
       redirect_to packing_areas_path, notice: t("Pakkaamo luotiin onnistuneesti")
@@ -47,19 +47,19 @@ class Administration::PackingAreasController < AdministrationController
   private
 
     def get_storage(storage_id)
-      current_company.storages.find_by_tunnus(storage_id).nimitys
+      Storage.find_by_tunnus(storage_id).nimitys
     end
 
     def find_resource
-      @packing_area = current_company.packing_areas.find(params[:id])
+      @packing_area = PackingArea.find(params[:id])
     end
 
     def find_printers
-      @printers = current_company.printers.where.not(komento: "EDI").order(:kirjoitin)
+      @printers = Printer.where.not(komento: "EDI").order(:kirjoitin)
     end
 
     def find_storages
-      @storages = current_company.storages.where.not(tyyppi: "P").order(:nimitys)
+      @storages = Storage.where.not(tyyppi: "P").order(:nimitys)
     end
 
     def searchable_columns
