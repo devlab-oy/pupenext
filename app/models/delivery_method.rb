@@ -4,6 +4,9 @@ class DeliveryMethod < BaseModel
   validates :tulostustapa, inclusion: { in: %w(H E K L X) }
   validates :selite, uniqueness: true
 
+  scope :permit_adr, -> { where(vak_kielto: '') }
+  scope :shipment, -> { where(nouto: '') }
+
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
 
@@ -37,7 +40,7 @@ class DeliveryMethod < BaseModel
       [t("Erätulostus"), "E"],
       [t("Hetitulostus"), "H"],
       [t("Koonti-hetitulostus"), "K"],
-      [t("Koonti-erätulostus"), "L"]
+      [t("Koonti-erätulostus"), "L"],
       [t("Rahtikirjansyöttö ja -tulostus ohitetaan"), "X"]
     ]
   end
@@ -65,14 +68,15 @@ class DeliveryMethod < BaseModel
   end
 
   def waybill_options
-    company.keywords.waybills.map { |i| i.selitetark, i.selite }
+    company.keywords.waybills.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def label_options
-    options = []
-    options << [t("Normaali"), ""]
-    options << [t("Intrade"), "intrade"]
-    options << [t("Tiivistetty"), "tiivistetty"]
+    options = [
+      [t("Normaali"), ""],
+      [t("Intrade"), "intrade"],
+      [t("Tiivistetty"), "tiivistetty"]
+    ]
 
     if company.parameter.kerayserat == "K"
       options << [t("Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa"), "oslap_mg"]
@@ -82,7 +86,7 @@ class DeliveryMethod < BaseModel
   end
 
   def mode_of_transport_options
-    company.keywords.mode_of_transports.map { |i| i.selitetark, i.selite }
+    company.keywords.mode_of_transports.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def inland_mode_of_transport_options
@@ -90,15 +94,15 @@ class DeliveryMethod < BaseModel
   end
 
   def nature_of_transaction_options
-    company.keywords.nature_of_transactions.map { |i| i.selitetark, i.selite }
+    company.keywords.nature_of_transactions.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def exit_code_options
-    company.keywords.customs.map { |i| "#{i.selite} #{i.selitetark}", i.selite }
+    company.keywords.customs.map { |i| [ "#{i.selite} #{i.selitetark}", i.selite ] }
   end
 
   def sorting_point_options
-    company.keywords.sorting_points.map { |i| i.selitetark, i.selite }
+    company.keywords.sorting_points.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def container_options
@@ -113,6 +117,27 @@ class DeliveryMethod < BaseModel
       [t("Toimitustavalla saa toimittaa jälkivaatimuksia"), ""],
       [t("Toimitustavalla ei saa toimittaa jälkivaatimuksia"), "o"]
     ]
+  end
+
+  def adr_options(text)
+    DeliveryMethod.permit_adr.shipment.map do |i|
+      [ "#{text} #{i.selite}", i.selite ]
+    end
+  end
+
+  def adr_prohibition_options
+    [
+      [t("Toimitustavalla saa toimittaa VAK-tuotteita"), ""],
+      [t("Toimitustavalla ei saa toimittaa VAK-tuotteita"), "K"],
+      adr_options(t("VAK-tuotteet toimitetaan toimitustavalla"))
+    ].reject {|i,_| i.empty?}
+  end
+
+  def alternative_adr_delivery_method_options
+    [
+      [t("VAK-tuotteita ei siirretä omalle tilaukselleen"), ""],
+      adr_options(t("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla"))
+    ].reject {|i,_| i.empty?}
   end
 
   def official_legend_options
