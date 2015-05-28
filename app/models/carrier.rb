@@ -1,4 +1,4 @@
-class Carrier < ActiveRecord::Base
+class Carrier < BaseModel
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
