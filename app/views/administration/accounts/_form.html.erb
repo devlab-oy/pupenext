@@ -129,9 +129,9 @@
       <td>
         <%= f.collection_select(:oletus_alv,
                                 oletus_alv_options,
-                                :selite,
-                                :option_value,
-                                include_blank: t('Ei oletusta'), selected: account.oletus_alv.to_i) %>
+                                :vat_percent,
+                                :vat_percent_text,
+                                include_blank: t('Ei oletusta')) %>
       </td>
     </tr>
 
