@@ -6,6 +6,7 @@ development:
   username:  <%= ENV["PUPESOFT_DEVELOPMENT_USERNAME"] %>
   password:  <%= ENV["PUPESOFT_DEVELOPMENT_PASSWORD"] %>
   host:      <%= ENV["PUPESOFT_DEVELOPMENT_HOSTNAME"] %>
+  port:      <%= ENV["PUPESOFT_DEVELOPMENT_DATABASE_PORT"] || '3306' %>
 
 # create database pupesoft_test;
 # grant all privileges on pupesoft_test.* to 'user'@'localhost' identified by 'password';
@@ -19,6 +20,7 @@ test:
   username:  <%= ENV["PUPESOFT_TEST_USERNAME"] %>
   password:  <%= ENV["PUPESOFT_TEST_PASSWORD"] %>
   host:      <%= ENV["PUPESOFT_TEST_HOSTNAME"] %>
+  port:      <%= ENV["PUPESOFT_TEST_DATABASE_PORT"] || '3306' %>
 
 production:
   adapter:   mysql2
@@ -28,3 +30,4 @@ production:
   username:  <%= ENV["PUPESOFT_PRODUCTION_USERNAME"] %>
   password:  <%= ENV["PUPESOFT_PRODUCTION_PASSWORD"] %>
   host:      <%= ENV["PUPESOFT_PRODUCTION_HOSTNAME"] %>
+  port:      <%= ENV["PUPESOFT_PRODUCTION_DATABASE_PORT"] || '3306' %>
