@@ -12,12 +12,10 @@ class DepreciationDifferenceReport
 
     fiscal = current_company.current_fiscal_year
 
+    # Loopataan jokainen tili
     accounts.each do |acc|
-      # Loopataan jokainen tili
 
-      # acc.tilino
       resu = result[acc.tilino] = {}
-
 
       resu[:nimi] = acc.nimi
 
