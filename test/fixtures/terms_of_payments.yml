@@ -5,25 +5,11 @@ sixty_days_net:
   abs_pvm: <%= Date.today %>
   kassa_relpvm: 150
   kassa_abspvm: <%= Date.today %>
-  kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: ''
   jarjestys: 1
-  laatija: 'joe'
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: 'joe'
+  muuttaja: joe
 
 ninety_days_net:
   yhtio: acme
@@ -33,24 +19,11 @@ ninety_days_net:
   kassa_relpvm: 15
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: ''
   jarjestys: 1
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
 
 seventy_days_net:
   yhtio: acme
@@ -60,24 +33,11 @@ seventy_days_net:
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: ''
   jarjestys: 1
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
 
 eighty_days_net:
   yhtio: acme
@@ -87,24 +47,11 @@ eighty_days_net:
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: ''
   jarjestys: 1
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
 
 hundred_days_net:
   yhtio: acme
@@ -114,24 +61,11 @@ hundred_days_net:
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: ''
   jarjestys: 1
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
 
 not_in_use_net:
   yhtio: acme
@@ -141,21 +75,9 @@ not_in_use_net:
   kassa_relpvm: 14
   kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  osamaksuehto1: 0
-  osamaksuehto2: 0
-  summanjakoprososa2: 0.0000
-  jv: ''
-  kateinen: ''
-  suoraveloitus: ''
-  factoring: ''
-  pankkiyhteystiedot:
-  itsetulostus: ''
-  jaksotettu: ''
-  erapvmkasin: ''
-  sallitut_maat: ''
-  kaytossa: 'E'
+  kaytossa: E
   jarjestys: 1
-  laatija: ''
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: ''
+  muuttaja: joe
