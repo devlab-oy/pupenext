@@ -26,7 +26,8 @@ class Head < BaseModel
       Q: Head::PurchaseInvoice::Waiting,
       O: Head::PurchaseOrder,
       U: Head::SalesInvoice,
-      N: Head::SalesOrder,
+      N: Head::SalesOrderDraft,
+      L: Head::SalesOrder,
       X: Head::Voucher,
     }
   end
