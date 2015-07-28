@@ -81,7 +81,7 @@ si_one:
 # Myyntitilaus
 so_one:
   yhtio: acme
-  tila: N
+  tila: L
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
