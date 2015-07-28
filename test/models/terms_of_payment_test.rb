@@ -32,17 +32,17 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top.kaytossa = 'E'
     refute @top.valid?, "This terms of payment is used by a customer"
 
-    @top_hundred = terms_of_payments(:hundred_days_net)
-    @top_hundred.kaytossa = 'E'
-    refute @top_hundred.valid?, "This terms of payment is used by an unfinished sales order"
+    top_hundred = terms_of_payments(:hundred_days_net)
+    top_hundred.kaytossa = 'E'
+    refute top_hundred.valid?, "This terms of payment is used by an unfinished sales order"
 
-    @top_third = terms_of_payments(:eighty_days_net)
-    @top_third.kaytossa = 'E'
-    refute @top_third.valid?, "This terms of payment is used by a undelivered sales order"
+    top_third = terms_of_payments(:eighty_days_net)
+    top_third.kaytossa = 'E'
+    refute top_third.valid?, "This terms of payment is used by a undelivered sales order"
 
-    @top_fourth = terms_of_payments(:ninety_days_net)
-    @top_fourth.kaytossa = 'E'
-    refute @top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
+    top_fourth = terms_of_payments(:ninety_days_net)
+    top_fourth.kaytossa = 'E'
+    refute top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
   end
 
   test 'should get five used and 1 not in use terms of payments' do
@@ -66,7 +66,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   test 'should search by like' do
     assert_equal 1, TermsOfPayment.search_like(kassa_relpvm: '@15').count
 
-    params = { laatija: 'jo', osamaksuehto1: '0', teksti: '60' }
+    params = { laatija: 'jo', teksti: '60' }
     assert_equal 1, TermsOfPayment.search_like(params).count
   end
 

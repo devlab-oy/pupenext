@@ -1,15 +1,13 @@
-class Head::SalesOrder < Head
-  validates :tila, inclusion: { in: ['L'] }
-
-  scope :not_delivered, -> { where(alatila: %w(A C)) }
+class Head::SalesOrderDraft < Head
+  validates :tila, inclusion: { in: ['N'] }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
-    "L"
+    "N"
   end
 
   def self.human_readable_type
-    "Myyntitilaus"
+    "Myyntitilaus kesken"
   end
 
   # Rails figures out paths from the model name. User model has users_path etc.
