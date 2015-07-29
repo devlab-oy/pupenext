@@ -8,7 +8,7 @@ class TermsOfPayment < BaseModel
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
-  validates :kassa_abspvm, :abs_pvm, date: true, allow_blank: true
+  validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
   validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
   validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true

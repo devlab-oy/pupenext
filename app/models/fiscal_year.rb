@@ -5,8 +5,8 @@ class FiscalYear < BaseModel
   self.table_name  = :tilikaudet
   self.primary_key = :tunnus
 
-  validates :tilikausi_alku, allow_blank: false, date: { before: :tilikausi_loppu }
-  validates :tilikausi_loppu, allow_blank: false, date: true
+  validates :tilikausi_alku, date: { before: :tilikausi_loppu }
+  validates :tilikausi_loppu, date: true
 
   # FIXME
   # For future reference: avaava_tase is a relationship column to lasku
