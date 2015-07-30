@@ -31,6 +31,9 @@ class SplittableDatesTest < ActiveSupport::TestCase
     assert @dummy.valid?
     assert_equal '2014-01-01', @dummy.tilikausi_alku.to_s
 
+    @dummy.tilikausi_alku = { "day" => 31, "month" => 2, "year" => 2015 }
+    refute @dummy.valid?
+
     @dummy.tilikausi_alku = { "day" => 10, "month" => 10, "year" => 2015 }
     assert @dummy.valid?
     assert_equal '2015-10-10', @dummy.tilikausi_alku.to_s
