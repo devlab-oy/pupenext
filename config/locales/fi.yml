@@ -122,6 +122,12 @@ fi:
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+      not_a_date: ei ole oikeellinen päivämäärä
+      after: tulee olla suurempi kuin %{date}
+      after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
+      before: tulee olla pienempi kuin %{date}
+      before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
+      equal_to: tulee olla %{date}
     template:
       body: ! 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
