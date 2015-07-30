@@ -8,7 +8,7 @@ module SplittableDates
           defaults = { year: 0, month: 0, day: 0 }
 
           if value.is_a?(Hash)
-            value = defaults.merge(value)
+            value = defaults.merge(value.symbolize_keys)
             value = [value[:year], value[:month], value[:day]].join '-'
           end
 

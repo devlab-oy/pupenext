@@ -29,6 +29,11 @@ class SplittableDatesTest < ActiveSupport::TestCase
 
     @dummy.tilikausi_alku = { day: 1, month: 1, year: 2014 }
     assert @dummy.valid?
+    assert_equal '2014-01-01', @dummy.tilikausi_alku.to_s
+
+    @dummy.tilikausi_alku = { "day" => 10, "month" => 10, "year" => 2015 }
+    assert @dummy.valid?
+    assert_equal '2015-10-10', @dummy.tilikausi_alku.to_s
   end
 
   test "should fail hash unless all keys are found" do
