@@ -16,4 +16,20 @@ class FiscalYear < BaseModel
   def period
     tilikausi_alku..tilikausi_loppu
   end
+
+  def tilikausi_alku=(value)
+    if value.is_a? Hash
+      value = [value[:year], value[:month], value[:day]].join '-'
+    end
+
+    write_attribute(:tilikausi_alku, value)
+  end
+
+  def tilikausi_loppu=(value)
+    if value.is_a? Hash
+      value = [value[:year], value[:month], value[:day]].join '-'
+    end
+
+    write_attribute(:tilikausi_loppu, value)
+  end
 end

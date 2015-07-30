@@ -23,11 +23,9 @@ class FiscalYearTest < ActiveSupport::TestCase
     fiscal_year.laatija = @user
     fiscal_year.muuttaja = @user
     fiscal_year.company = @company
-
     refute fiscal_year.valid?
 
     fiscal_year.tilikausi_loppu = Date.today + 1
-
     assert fiscal_year.valid?
   end
 
@@ -37,15 +35,40 @@ class FiscalYearTest < ActiveSupport::TestCase
     fiscal_year.laatija = @user
     fiscal_year.muuttaja = @user
     fiscal_year.company = @company
-
     refute fiscal_year.valid?
 
     fiscal_year.tilikausi_loppu = Date.today - 1
-
     refute fiscal_year.valid?
 
     fiscal_year.tilikausi_loppu = Date.today + 1
-
     assert fiscal_year.valid?
+  end
+
+  test "should be able to set date as string" do
+    @one.tilikausi_alku = '2014-02-31'
+    refute @one.valid?
+
+    @one.tilikausi_alku = '2014-01-01'
+    assert @one.valid?
+
+    @one.tilikausi_loppu = '2014-12-32'
+    refute @one.valid?
+
+    @one.tilikausi_loppu = '2014-12-31'
+    assert @one.valid?
+  end
+
+  test "should be able to set date as a hash" do
+    @one.tilikausi_alku = { day: 31, month: 2, year: 2014}
+    refute @one.valid?
+
+    @one.tilikausi_alku = { day: 1, month: 1, year: 2014}
+    assert @one.valid?
+
+    @one.tilikausi_loppu = { day: 32, month: 12, year: 2014}
+    refute @one.valid?
+
+    @one.tilikausi_loppu = { day: 31, month: 12, year: 2014}
+    assert @one.valid?
   end
 end
