@@ -1,35 +1,14 @@
 acme_account:
-  yhtio: acme
-  kaytossa: ''
-  nimi: 'AcmeAccount'
-  iban: FI5542345670000081
-  bic: DABAFIHH
-  valkoodi: 'EUR'
-  factoring: ''
-  asiakastunnus: ''
-  maksulimitti: 0
-  tilinylitys: ''
-  hyvak: ''
-  oletus_kulutili: 1234
-  oletus_kustp: ''
-  oletus_kohde: ''
-  oletus_projekti: ''
-  oletus_rahatili: 1235
-  oletus_selvittelytili: 1236
-  pankkitarkenne: ''
-  asiakastarkenne: ''
-  pankki: ''
-  asiakas: ''
-  generointiavain: ''
-  salattukerta: ''
-  siemen: ''
-  kertaavain: ''
-  sasukupolvi: ''
-  kasukupolvi: ''
-  siirtoavain: ''
-  kayttoavain: ''
-  nro: ''
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  yhtio:                 acme
+  nimi:                  AcmeAccount
+  iban:                  FI5542345670000081
+  bic:                   DABAFIHH
+  valkoodi:              EUR
+  maksulimitti:          0
+  oletus_kulutili:       100
+  oletus_rahatili:       110
+  oletus_selvittelytili: 120
+  laatija:               joe
+  luontiaika:            <%= Date.today %>
+  muutospvm:             <%= Date.today %>
+  muuttaja:              joe
