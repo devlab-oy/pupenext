@@ -1,13 +1,14 @@
 require 'test_helper'
 
-class BankAccountsControllerTest < ActionController::TestCase
+class Administration::BankAccountsControllerTest < ActionController::TestCase
 
   def setup
-    cookies[:pupesoft_session] = users(:joe).session
+    login users(:joe)
+
     @ba = bank_accounts(:acme_account)
-    @acc1 = accounts(:acc1)
-    @acc2 = accounts(:acc2)
-    @acc3 = accounts(:acc3)
+    @acc1 = accounts(:account_200)
+    @acc2 = accounts(:account_210)
+    @acc3 = accounts(:account_220)
   end
 
   test "should get index" do
@@ -17,6 +18,8 @@ class BankAccountsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
+    login users(:bob)
+
     get :new
     assert_response :success
     assert_template :new
