@@ -2,6 +2,7 @@
 <% permississions = %w{
     test
     accounts
+    bank_accounts
     commodities
     companies
     currencies
