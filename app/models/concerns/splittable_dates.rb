@@ -5,9 +5,10 @@ module SplittableDates
     def splittable_dates(*columns)
       columns.each do |column|
         define_method("#{column}=") do |value|
-          keys = [:year, :month, :day]
+          defaults = { year: 0, month: 0, day: 0 }
 
-          if value.is_a?(Hash) && keys.all? { |key| value.key? key }
+          if value.is_a?(Hash)
+            value = defaults.merge(value)
             value = [value[:year], value[:month], value[:day]].join '-'
           end
 
