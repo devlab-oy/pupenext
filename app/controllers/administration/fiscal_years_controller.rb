@@ -47,19 +47,19 @@ class Administration::FiscalYearsController < AdministrationController
 
     def fiscal_year_params
       params.require(:fiscal_year).permit(
-        :tilikausi_alku,
-        :tilikausi_loppu
+        tilikausi_alku:  [:day, :month, :year],
+        tilikausi_loppu: [:day, :month, :year]
       )
     end
 
     def searchable_columns
+      []
+    end
+
+    def sortable_columns
       [
         :tilikausi_alku,
         :tilikausi_loppu
       ]
-    end
-
-    def sortable_columns
-      searchable_columns
     end
 end

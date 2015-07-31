@@ -8,7 +8,12 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   end
 
   test 'all fixtures should be valid' do
-    assert @top.valid?, @top.errors.full_messages.inspect
+    assert terms_of_payments(:eighty_days_net).valid?
+    assert terms_of_payments(:hundred_days_net).valid?
+    assert terms_of_payments(:ninety_days_net).valid?
+    assert terms_of_payments(:not_in_use_net).valid?
+    assert terms_of_payments(:seventy_days_net).valid?
+    assert terms_of_payments(:sixty_days_net).valid?
   end
 
   test 'should be valid date' do

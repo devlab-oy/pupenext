@@ -2,23 +2,24 @@
   <%= render "administration/form_errors", resource: @sum_level %>
 
   <table>
+
     <tr>
       <th><%= f.label :tyyppi, t('Tyyppi') %></th>
       <td>
-        <% sum_level_types = SumLevel.sum_levels.map { |_, sum_level| %>
-          <% [sum_level.human_readable_type, sum_level.sti_name] %>
-        <% } %>
-        <%= f.select :tyyppi, sum_level_types, {}, { onchange: "submit()" } %>
+        <%= f.select :tyyppi, @sum_level_types, {}, { onchange: "submit()" } %>
       </td>
     </tr>
+
     <tr>
       <th><%= f.label :summattava_taso, t('Summattava taso') %></th>
       <td><%= f.text_field :summattava_taso %></td>
     </tr>
+
     <tr>
       <th><%= f.label :taso, t('Tasokoodi') %></th>
       <td><%= f.text_field :taso %></td>
     </tr>
+
     <tr>
       <th><%= f.label :nimi, t('Nimi') %></th>
       <td><%= f.text_field :nimi %></td>
@@ -29,14 +30,17 @@
         <th><%= f.label :oletusarvo, t('Oletusarvo') %></th>
         <td><%= f.text_field :oletusarvo %></td>
       </tr>
+
       <tr>
         <th><%= f.label :kerroin, t('Kerroin') %></th>
         <td><%= f.text_field :kerroin %></td>
       </tr>
+
       <tr>
         <th><%= f.label :jakaja, t('Jakaja') %></th>
         <td><%= f.text_field :jakaja %></td>
       </tr>
+
       <tr>
         <th><%= f.label :kumulatiivinen, t('Kumulatiivinen') %></th>
         <td>
@@ -61,49 +65,58 @@
           <%= f.text_field :poisto_vastatili %>
         </td>
       </tr>
+
       <tr>
         <th><%= f.label :poistoero_tili, t('Poistoero tili') %></th>
         <td>
           <%= f.text_field :poistoero_tili %>
         </td>
       </tr>
+
       <tr>
         <th><%= f.label :poistoero_vastatili, t('Poistoero vastatili') %></th>
         <td>
           <%= f.text_field :poistoero_vastatili %>
         </td>
       </tr>
+
       <tr>
         <th><%= f.label :planned_depreciation_type, t('SUMU poistotyyppi') %></th>
         <td>
           <%= f.select :planned_depreciation_type, FixedAssets::Commodity.options_for_type, {}, { onchange: "submit()" } %>
         </td>
       </tr>
-      <% sumuhelper = @sum_level.planned_depreciation_type == 'T' ? t('Kuukaudet') : t('Prosentti') %>
+
       <tr>
         <th><%= f.label :planned_depreciation_amount, t('SUMU poistomäärä') %></th>
         <td>
           <%= f.text_field :planned_depreciation_amount %>
-          <%= sumuhelper %>
+          <%= @sum_level.planned_depreciation_type == 'T' ? t('Kuukaudet') : t('Prosentti') %>
         </td>
+
       </tr>
+
       <tr>
         <th><%= f.label :btl_depreciation_type, t('EVL poistotyyppi') %></th>
         <td>
           <%= f.select :btl_depreciation_type, FixedAssets::Commodity.options_for_type, {}, { onchange: "submit()" } %>
         </td>
       </tr>
-      <% evlhelper = @sum_level.btl_depreciation_type == 'T' ? t('Kuukaudet') : t('Prosentti') %>
+
       <tr>
         <th><%= f.label :btl_depreciation_amount, t('EVL poistomäärä') %></th>
         <td>
           <%= f.text_field :btl_depreciation_amount %>
-          <%= evlhelper %>
+          <%= @sum_level.btl_depreciation_type == 'T' ? t('Kuukaudet') : t('Prosentti') %> %>
         </td>
       </tr>
+
     <% end %>
+
     <%= render 'administration/resource_timestamps_and_users', resource: @sum_level %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>
+
 <% end %>

@@ -1,18 +1,20 @@
 <% if resource.persisted? %>
   <tr>
-    <th><%= t('Laatija') %></th>
-    <td><%= resource.laatija %></td>
+    <th>
+      <%= label_tag :laatija, t('Laatija') %>
+    </th>
+    <td>
+      <%= resource.laatija %>
+      <%="- #{l(resource.luontiaika)}" if resource.luontiaika %>
+    </td>
   </tr>
   <tr>
-    <th><%= t('Luontiaika') %></th>
-    <td><%= l resource.luontiaika if resource.luontiaika %></td>
-  </tr>
-  <tr>
-    <th><%= t('Muutospvm') %></th>
-    <td><%= l resource.muutospvm if resource.muutospvm %></td>
-  </tr>
-  <tr>
-    <th><%= t('Muuttaja') %></th>
-    <td><%= resource.muuttaja %></td>
+    <th>
+      <%= label_tag :muuttaja, t('Muuttaja') %>
+    </th>
+    <td>
+      <%= resource.muuttaja %>
+      <%="- #{l(resource.muutospvm)}" if resource.muutospvm %>
+    </td>
   </tr>
 <% end %>
