@@ -3,6 +3,7 @@
 <%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
 
 <br/><br/>
+
 <%= form_tag fiscal_years_path, method: :get do %>
   <table>
     <tr>
@@ -25,16 +26,17 @@
           <% if update_access? %>
             <%= link_to l(fiscal_year.tilikausi_alku, format: :short), edit_fiscal_year_path(fiscal_year.id) %>
           <% else %>
-            <%= l fiscal_year.tilikausi_alku, format: :short %>
+            <%=l fiscal_year.tilikausi_alku, format: :short %>
           <% end %>
         </td>
         <td>
-          <%= l fiscal_year.tilikausi_loppu, format: :short %>
+          <%=l fiscal_year.tilikausi_loppu, format: :short %>
         </td>
       </tr>
     <% end %>
   </table>
 <% end %>
+
 <br/>
 
 <%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>

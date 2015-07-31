@@ -66,8 +66,11 @@
       <th><%= f.label :jarjestys, t("Järjestys") %></th>
       <td><%= f.number_field :jarjestys %></td>
     </tr>
+
     <%= render 'administration/resource_timestamps_and_users', resource: printer %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>
+
 <% end %>
