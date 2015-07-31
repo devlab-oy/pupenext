@@ -53,13 +53,13 @@ class Administration::FiscalYearsController < AdministrationController
     end
 
     def searchable_columns
+      []
+    end
+
+    def sortable_columns
       [
         :tilikausi_alku,
         :tilikausi_loppu
       ]
-    end
-
-    def sortable_columns
-      searchable_columns
     end
 end
