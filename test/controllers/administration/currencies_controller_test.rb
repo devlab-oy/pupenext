@@ -77,22 +77,24 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
   end
 
-  test 'should not see intrastat-field' do
+  test 'users not from estonia should not see intrastat-field' do
     login users(:bob)
     currency = currencies(:eur)
     request = {id: currency.id}
 
     get :show, request
-    assert_select "table tr", 7, "User is not from Estonia and should see only 7 table rows"
+    assert_select 'label[for=currency_intrastat_kurssi]', { count: 0 }, 'no intrastat label'
+    assert_select 'input[id=currency_intrastat_kurssi]', { count: 0 }, 'no intrastat input'
   end
 
-  test 'should see intrastat-field' do
+  test 'user from estonia should see intrastat-field' do
     login users(:max)
     currency = currencies(:eur_ee)
     request = {id: currency.id}
 
     get :show, request
-    assert_select "table tr", 8, "User is from Estonia and should see 8 table rows"
+    assert_select 'label[for=currency_intrastat_kurssi]', { count: 1 }, 'must have intrastat label'
+    assert_select 'input[id=currency_intrastat_kurssi]', { count: 1 }, 'must have intrastat input'
   end
 
   test 'should update estonian currency' do
