@@ -223,5 +223,9 @@ fi:
       terms_of_payment:
         one: Maksuehto
         other: Maksuehdot
+      cash_register:
+        one: Kassalipas
+        other: Kassalippaat
+
     errors:
       <<: *errors
