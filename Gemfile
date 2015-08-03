@@ -29,5 +29,6 @@ end
 group :test, :development do
   gem 'rake'
   gem 'minitest'
-  gem "codeclimate-test-reporter"
+  gem 'codeclimate-test-reporter'
+  gem 'i18n-tasks'
 end
