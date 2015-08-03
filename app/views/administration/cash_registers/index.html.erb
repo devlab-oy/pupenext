@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>
 
 <br /><br />
 
@@ -84,4 +84,4 @@
 
 <br />
 
-<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>

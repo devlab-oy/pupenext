@@ -1,4 +1,4 @@
-<%= return_link("Kirjoittimet", printers_path) %>
+<%= return_link(Printer.model_name.human(count: 2), printers_path) %>
 
 <br/>
 
@@ -8,8 +8,8 @@
 <% if @printer.persisted? && update_access? %>
   <br/>
 
-  <%= button_to(t("Poista kirjoitin"),
+  <%= button_to(t('.button_remove'),
                 printer_path(@printer.id),
-                data: { confirm: t("Haluatko todella poistaa tämän tietueen?") },
+                data: { confirm: t('.confirm_remove') },
                 method: "delete") %>
 <% end %>

@@ -1,24 +1,37 @@
 <%= render "administration/header", text: t('.header') %>
 
 <table>
-<tr><th><%= t('Tilikauden SUMU poistot') %></th></tr>
-<tr><th><%= t('Poistoerät yhteensä') %></th><td><%= @commodity.depreciation_rows.sum(:summa) %></td></tr>
-<tr><th><%= t('Poistoero yhteensä') %></th><td><%= @commodity.depreciation_difference_rows.sum(:summa) %></td></tr>
+  <tr>
+    <th>
+      <%= t('depreciation_rows_amount') %>
+    </th>
+    <td>
+      <%= @commodity.depreciation_rows.sum(:summa) %>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      <%= t('depreciation_difference_amount') %>
+    </th>
+    <td>
+      <%= @commodity.depreciation_difference_rows.sum(:summa) %>
+    </td>
+  </tr>
 </table>
 
 <br/>
 
-<input type=button value=<%=t('Näytä/piilota') %> onclick="showHide('sumu_rows');">
+<input type=button value=<%=t('.button_show_hide') %> onclick="showHide('sumu_rows');">
 
 <div id='sumu_rows' style="display: none;">
   <br/><br/>
 
   <table>
     <tr>
-      <th><%= t('Tili') %></th>
-      <th><%= t('Summa') %></th>
-      <th><%= t('Pvm') %></th>
-      <th><%= t('Selite') %></th>
+      <th><%= Voucher.human_attribute_name(:tilino) %></th>
+      <th><%= Voucher.human_attribute_name(:summa) %></th>
+      <th><%= Voucher.human_attribute_name(:tapvm) %></th>
+      <th><%= Voucher.human_attribute_name(:selite) %></th>
     </tr>
     <% @commodity.voucher.rows.each do |vourow| %>
       <tr>

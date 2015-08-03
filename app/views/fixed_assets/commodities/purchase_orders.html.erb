@@ -1,7 +1,7 @@
-<%= return_link("Hyödykkeet", commodities_path) %>
+<%= return_link(FixedAssets::Commodity.model_name.human(count: 2), commodities_path) %>
 <br /><br />
 
-<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
+<%= return_link(FixedAssets::Commodity.model_name, edit_commodity_path(@commodity)) %>
 <br /><br />
 
 <%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
@@ -35,7 +35,7 @@
       <br />
       <%= text_field_tag :summa, params[:summa] %>
     </th>
-    <th class="back"><%= submit_tag t('Etsi') %></th>
+    <th class="back"><%= submit_tag t('.button_search') %></th>
   </tr>
 
   <% @purchase_orders.each do |po| %>
@@ -46,6 +46,7 @@
       <td><%= po.viesti %></td>
       <td><%= po.summa %></td>
     </tr>
+
     <tr>
     <th>Tunnus</th>
     <th>Summa</th>
@@ -61,7 +62,7 @@
         <td><%= acc.summa  %></td>
         <td><%= acc.tilino %></td>
         <td class="back">
-          <%= button_to t('Lisää'), commodity_link_order_path(@commodity, { voucher_row_id: acc.tunnus }), method: :post %>
+          <%= button_to t('.button_add'), commodity_link_order_path(@commodity, { voucher_row_id: acc.tunnus }), method: :post %>
         </td>
       </tr>
     <% end %>

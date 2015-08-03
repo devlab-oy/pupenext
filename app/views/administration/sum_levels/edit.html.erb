@@ -1,4 +1,4 @@
-<%= return_link("Tilikartan rakenne", sum_levels_path) %>
+<%= return_link(SumLevel.model_name.human(count: 2), sum_levels_path) %>
 
 <br/>
 
@@ -8,8 +8,8 @@
 <% if @sum_level.persisted? %>
   <br/>
 
-  <%= button_to(t('Poista taso'),
+  <%= button_to(t('.button_remove'),
                 sum_level_path(@sum_level),
-                data: { confirm: t('Haluatko todella poistaa tämän tietueen?') },
+                data: { confirm: t('.confirm_remove') },
                 method: "delete") %>
 <% end %>

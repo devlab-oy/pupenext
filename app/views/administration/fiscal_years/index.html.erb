@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>
 
 <br/><br/>
 
@@ -16,7 +16,7 @@
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -39,4 +39,4 @@
 
 <br/>
 
-<%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>

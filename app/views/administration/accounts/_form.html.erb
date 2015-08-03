@@ -15,7 +15,7 @@
             levels[:internal],
             :taso,
             :sum_level_name,
-            include_blank: t('Ei tasoa'), selected: account.sisainen_taso) %>
+            include_blank: t('.no_sum_level'), selected: account.sisainen_taso) %>
       </td>
     </tr>
 
@@ -26,7 +26,7 @@
             levels[:external],
             :taso,
             :sum_level_name,
-            include_blank: t('Ei tasoa'), selected: account.ulkoinen_taso) %>
+            include_blank: t('.no_sum_level'), selected: account.ulkoinen_taso) %>
       </td>
     </tr>
 
@@ -37,7 +37,7 @@
             levels[:vat],
             :taso,
             :sum_level_name,
-            include_blank: t('Ei tasoa'), selected: account.alv_taso) %>
+            include_blank: t('.no_sum_level'), selected: account.alv_taso) %>
       </td>
     </tr>
 
@@ -48,7 +48,7 @@
             levels[:profit],
             :taso,
             :sum_level_name,
-            include_blank: t('Ei tasoa'), selected: account.tulosseuranta_taso) %>
+            include_blank: t('.no_sum_level'), selected: account.tulosseuranta_taso) %>
       </td>
     </tr>
 
@@ -59,7 +59,7 @@
             levels[:commodity],
             :taso,
             :sum_level_name,
-            include_blank: t('Ei tasoa'), selected: account.evl_taso) %>
+            include_blank: t('.no_sum_level'), selected: account.evl_taso) %>
       </td>
     </tr>
 
@@ -75,31 +75,31 @@
             qualifiers[:cost_center],
             :tunnus,
             :nimitys,
-            include_blank: t("Ei kustannuspaikkaa"),
+            include_blank: t(".no_cost_center"),
             selected: account.kustp) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :kohde, t('Oletuskohde') %></th>
+      <th><%= f.label :kohde %></th>
       <td>
         <%= f.collection_select(:kohde,
             qualifiers[:target],
             :tunnus,
             :nimitys,
-            include_blank: t("Ei kohdetta"),
+            include_blank: t(".no_target"),
             selected: account.kohde) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :projekti, t('Oletusprojekti') %></th>
+      <th><%= f.label :projekti %></th>
       <td>
         <%= f.collection_select(:projekti,
             qualifiers[:project],
             :tunnus,
             :nimitys,
-            include_blank: t("Ei projektia"),
+            include_blank: t(".no_project"),
             selected: account.projekti) %>
       </td>
     </tr>
@@ -112,7 +112,7 @@
     </tr>
 
     <tr>
-      <th><%= f.label :tiliointi_tarkistus, t("Pakolliset kentät") %></th>
+      <th><%= f.label :tiliointi_tarkistus %></th>
       <td>
         <%= f.select(:tiliointi_tarkistus, account.tiliointi_tarkistus_options) %>
       </td>
@@ -132,7 +132,7 @@
             oletus_alv_options,
             :vat_percent,
             :vat_percent_text,
-            include_blank: t('Ei oletusta')) %>
+            include_blank: t('.no_vat')) %>
       </td>
     </tr>
 

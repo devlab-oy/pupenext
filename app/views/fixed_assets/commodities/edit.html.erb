@@ -1,4 +1,4 @@
-<%= return_link("Hyödykkeet", commodities_path) %>
+<%= return_link(FixedAssets::Commodity.model_name.human(count: 2), commodities_path) %>
 
 <br /><br />
 
@@ -6,20 +6,20 @@
 <%= render "administration/notice" %>
 
 <% if update_access? && !@commodity.deactivated? %>
-  <%= button_to t('Liitä ostolaskun tiliöinti'), commodity_purchase_orders_path(@commodity), method: :get %>
-  <%= button_to t('Liitä tositteen tiliöinti'), commodity_vouchers_path(@commodity), method: :get %>
+  <%= button_to t('.button_add_invoice_rows'), commodity_purchase_orders_path(@commodity), method: :get %>
+  <%= button_to t('.button_add_voucher_rows'), commodity_vouchers_path(@commodity), method: :get %>
 
   <% if @commodity.activated? %>
     <br/><br/>
     <%= form_tag(commodity_generate_rows_path(@commodity), method: "post") do %>
-      <%= label_tag :selected_fiscal_year, t('Valitse tilikausi') + ':' %>
+      <%= label_tag :selected_fiscal_year %>
       <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
-      <%= submit_tag(t('Luo poistoerät')) %>
+      <%= submit_tag(t('.button_create')) %>
     <% end %>
     <br/><br/>
-    <%= button_to t('Myy hyödyke'), commodity_sell_path(@commodity), method: :get %>
+    <%= button_to t('.button_sell'), commodity_sell_path(@commodity), method: :get %>
   <% elsif @commodity.activated_at.present? %>
-    <%= button_to t('Aktivoi hyödyke'), commodity_activate_path(@commodity), method: :post %>
+    <%= button_to t('.button_activate'), commodity_activate_path(@commodity), method: :post %>
   <% end %>
 
   <br/><br/>

@@ -1,11 +1,11 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi maksuehto'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>
 
 <% if showing_not_used? %>
-  <%= button_to t('Näytä aktiivit'), terms_of_payments_path, method: :get %>
+  <%= button_to t('.button_show_active'), terms_of_payments_path, method: :get %>
 <% else %>
-  <%= button_to t('Näytä poistetut'), terms_of_payments_path,
+  <%= button_to t('.button_show_removed'), terms_of_payments_path,
                 params: { not_used: :yes }, method: :get %>
 <% end %>
 
@@ -68,4 +68,4 @@
 <% end %>
 <br/>
 
-<%= button_to t('Uusi maksuehto'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>

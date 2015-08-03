@@ -1,7 +1,7 @@
 <% if resource.persisted? %>
   <tr>
     <th>
-      <%= label_tag :laatija, t('Laatija') %>
+      <%= label_tag :laatija, resource.class.human_attribute_name(:laatija) %>
     </th>
     <td>
       <%= resource.laatija %>
@@ -10,7 +10,7 @@
   </tr>
   <tr>
     <th>
-      <%= label_tag :muuttaja, t('Muuttaja') %>
+      <%= label_tag :muuttaja, resource.class.human_attribute_name(:muuttaja) %>
     </th>
     <td>
       <%= resource.muuttaja %>
