@@ -1,7 +1,6 @@
 class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
-  include Translatable
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
 

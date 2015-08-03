@@ -1,6 +1,5 @@
 class FiscalYear < BaseModel
   include Searchable
-  include Translatable
   include SplittableDates
 
   self.table_name  = :tilikaudet

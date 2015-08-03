@@ -1,6 +1,5 @@
 class Printer < BaseModel
   include Searchable
-  extend Translatable
 
   validates :kirjoitin, presence: true
   validates :komento, presence: true, uniqueness: { scope: :company }, format: { without: /["'<>\\;]/ }
