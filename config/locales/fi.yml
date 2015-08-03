@@ -226,6 +226,9 @@ fi:
       cash_register:
         one: Kassalipas
         other: Kassalippaat
+      bank_account:
+        one: Pankkitili
+        other: Pankkitilit
 
     errors:
       <<: *errors
