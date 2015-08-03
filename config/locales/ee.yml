@@ -1,0 +1,57 @@
+---
+ee:
+  activerecord:
+    attributes:
+      company:
+        alv: Km
+        email: E-posti aadress
+        factoringsaamiset: Faktrooringu müügi laekumised
+        fax: Faks
+        jarjestys: Järjekord
+        kassa: Sularaha müük
+        kassaale: Ostude allahindlused
+        kieli: Keel
+        konserni: Kontsern
+        konsernimyyntisaamiset: Kontserni müügi laekumised
+        konserniostovelat: Kontserni ostuvõlad
+        konsernisaamiset: Vaikimisi konto kontserni laekumised
+        konsernivelat: Vaikimisi konto kontserni võlad
+        kotipaikka: Asukoht
+        kuluprosentti: Kuluprotsent
+        laskutus_maa: Arveldusaadressi maa
+        laskutus_nimi: Maksja nimi
+        laskutus_osoite: Maksja aadress
+        laskutus_postino: Maksja postiindeks
+        laskutus_postitp: Maksja linn
+        luottokortti: Sularahamüügi krediitkaardimakset
+        luottotappiot: Müügi krediidikahjumid
+        maa: Riik
+        muutkulut: Ostude vaikimisi kulukonto
+        myynninkassaale: Müügi allahindlused
+        myynninvaluuttaero: Müügi valuutakursi vahed
+        myynti: Müük
+        myynti_eu: "Ühendatud müük"
+        myynti_kohde: Müügi vaikimisi objekt
+        myynti_kustp: Müügi vaikimisi kulukoht
+        myynti_marginaali: Müük, kasutatud kaubad
+        myynti_projekti: Müügi vaikimisi projekt
+        myyntisaamiset: Laekumised müügist
+        nimi: Nimi
+        osoite: Aadress
+        osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
+        ostovelat: Ostuvõlad
+        ovttunnus: OVT-tunnus
+        pankkikortti: Sularahamüügi pangakaardimaksed
+        postino: Postiindeks
+        postitp: Linn
+        puhelin: Telefon
+        pyoristys: Ostu- ja müügiarvete ümardamise vahed
+        raaka_ainevarasto: Tooraineladu
+        raaka_ainevarastonmuutos: Toorainelao muutus
+        selvittelytili: Rahakonto kliiringkonto ebamäärastele tehingutele
+        valkoodi: Valuuta
+        valuuttaero: Ostude valuutakursside vahed
+        varasto: Kaubad/ladu
+        varastonmuutos: Lao muutus
+        varastonmuutos_valmistuksesta: Tootmise varude muutus
+        ytunnus: KMKR Nr.

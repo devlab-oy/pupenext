@@ -1,7 +1,183 @@
-# Finnish translations from:
-# https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/fi.yml
-
+---
 fi:
+  activerecord:
+    attributes:
+      account:
+        alv_taso: Alv taso
+        kustp: Oletuskustannuspaikka
+        sisainen_nimi: Sisäinen nimi
+        sisainen_taso: Sisäinen taso
+        tasokoodi_a: ALV-laskelman verotaso
+        tasokoodi_b: Tulosseurantataso
+        tasokoodi_e: EVL-taso
+        tasokoodi_s: Tasokoodi (sisäinen tuloslaskelma)
+        tasokoodi_u: Tasokoodi (ulkoinen tuloslaskelma / tase)
+        tilino: Tilinumero
+        ulkoinen_nimi: Ulkoinen nimi
+        ulkoinen_taso: Ulkoinen taso
+      accounting/fixed_assets/commodity:
+        evl_poistotyyppi: EVL Poistotyyppi
+        kayttoonottopvm: Käyttöönottopvm
+      cash_register:
+        kassa: Kassa
+        kassaerotus: Kassaerotus
+        kateisotto: Käteisotto
+        kateistilitys: Käteistilitys
+        kustp: Kustannuspaikka
+        laatija: Laatija
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvmx
+        muuttaja: Muuttaja
+        nimi: Nimi
+        pankkikortti: Pankkikortti
+        toimipaikka: Toimipaikka
+      company:
+        alv: Arvonlisävero
+        email: Sähköpostiosoite
+        factoringsaamiset: Factoringmyyntisaamiset
+        fax: Fax
+        int_koodi: Intrastat Int-koodi
+        intrastat_sarjanro: Intrastat-sarjanro
+        jarjestys: Järjestys
+        karhuerapvm: Maskumuistusten maskuaika (pva)
+        kassa: Käteismyynti
+        kassaale: Ostojen alennukset
+        kassaerotus: Käteismyynnin kassan täsmäytyserot
+        kateistilitys: Kassa käteistilitykset
+        kieli: Kieli
+        konserni: Konserni
+        konsernimyyntisaamiset: Konsernimyyntisaamiset
+        konserniostovelat: Konserniostovelat
+        konsernisaamiset: Oletustili Konsernisaamiset
+        konsernivelat: Oletustili Konsernivelat
+        kotipaikka: Kotipaikka
+        kotitullauslupa: Kotitullauslupa
+        kuluprosentti: Kuluprosentti
+        laskutus_maa: Laskutusosoitteen maa
+        laskutus_nimi: Laskutusosoitteen nimi
+        laskutus_osoite: Laskutusosoitteen osoite
+        laskutus_postino: Laskutusosoitteen postinumero
+        laskutus_postitp: Laskutusosoitteen postitoimipaikka
+        luottokortti: Käteismyynti luottokorttimaksut
+        luottotappiot: Myynnin luottotappiot
+        maa: Maa
+        matkalla_olevat: Matkalla olevat vaihto-omaisuuslaskut
+        muutkulut: Ostojen oletuskulutili
+        myynninkassaale: Myynnin alennukset
+        myynninvaluuttaero: Myynnin valuuttakurssierot
+        myynti: Myynti
+        myynti_ei_eu: Myynti yhteisön ulkopuolelle
+        myynti_eu: Yhteisömyynti
+        myynti_kaanteinen: Myynti, käänteinen ALV
+        myynti_kohde: Myynnin oletuskohde
+        myynti_kustp: Myynnin oletuskustannuspaikka
+        myynti_marginaali: Myynti, käytetyt tavarat
+        myynti_projekti: Myynnin oletusprojekti
+        myyntireskontrakausi_alku: Myyntireskontrakauden alkupäivä
+        myyntireskontrakausi_loppu: Myyntireskontrakauden loppupäivä
+        myyntisaamiset: Myyntisaamiset
+        nimi: Nimi
+        osoite: Osoite
+        osto_marginaali: Osto, käytetyt tavarat (myynnin yhteydessä)
+        ostoreskontrakausi_alku: Ostoreskontrakauden alkupäivä
+        ostoreskontrakausi_loppu: Ostoreskontrakauden loppupäivä
+        ostovelat: Ostovelat
+        ovttunnus: OVT-tunnus
+        pankkiiban1: Pankkiyhteystieto 1 IBAN
+        pankkiiban2: Pankkiyhteystieto 2 IBAN
+        pankkiiban3: Pankkiyhteystieto 3 IBAN
+        pankkikortti: Käteismyynti pankkikorttimaksut
+        pankkinimi1: Pankkiyhteystieto 1 pankki
+        pankkinimi2: Pankkiyhteystieto 2 pankki
+        pankkinimi3: Pankkiyhteystieto 3 pankki
+        pankkiswift1: Pankkiyhteystieto 1 SWIFT / BIC
+        pankkiswift2: Pankkiyhteystieto 2 SWIFT / BIC
+        pankkiswift3: Pankkiyhteystieto 3 SWIFT / BIC
+        pankkitili1: Pankkiyhteystieto 1 tilinumero
+        pankkitili2: Pankkiyhteystieto 2 tilinumero
+        pankkitili3: Pankkiyhteystieto 3 tilinumero
+        postino: Postinumero
+        postitp: Postitoimipaikka
+        puhelin: Puhelin
+        pyoristys: Ostolaskujen ja myyntilaskujen pyöristyserot
+        raaka_ainevarasto: Raaka-ainevarasto
+        raaka_ainevarastonmuutos: Raaka-ainevarastonmuutos
+        selvittelytili: Rahatilien selvittelytili epäselville suorituksille
+        siirtosaamiset: Siirtosaamiset-tili ostolaskun jaksotukseen
+        siirtovelka: Siirtovelka-tili myyntilaskun jaksotukseen
+        tilastotullikamari: Tilastotullikamari
+        tilikauden_tulos: Tilikauden tulos
+        tilikausi_alku: Kirjanpitokauden alkupäivä
+        tilikausi_loppu: Kirjanpitokauden loppupäivä
+        tilino_triang: Myynti kolmikantakauppa
+        tulli_lisattava_era: SAD-lomakkeen lisättävä erä
+        tulli_vahennettava_era: SAD-lomakkeen vähennettävä erä
+        tullikamari: Tullikamari
+        tullin_asiaknro: Tullin asiakasnumero
+        tullin_lupanro: Tullin lupanumero
+        tullipaate: Tullipääte
+        valkoodi: Valuutta
+        valuuttaero: Ostojen valuuttakurssierot
+        varasto: Tavarat/varasto
+        varastonmuutos: Varastonmuutos
+        varastonmuutos_epakurantti: Epäkuranttipoistojen varastonmuutos
+        varastonmuutos_inventointi: Inventointien varastonmuutos
+        varastonmuutos_rahti: Rahtikulujen varastonmuutos
+        varastonmuutos_valmistuksesta: Valmistuksen varastonmuutos
+        viivastyskorko: Viivästyskorkoprosentti
+        www: WWW
+        ytunnus: Y-tunnus
+      printer:
+        ip: Ip
+        jarjestys: Järjestys
+        kirjoitin: Kirjoitin
+        komento: Komento
+        mediatyyppi: Mediatyyppi
+        mediatyyppi_types:
+          A4: A4
+          A5: A5
+          LS149X104: Lämpösiirto 149X104mm
+          LS59X40: Lämpösiirto 59X40mm
+          LSN149X104: Lämpösiirto/nauha 149X104mm
+          LSN59X40: Lämpösiirto/nauha 59X40mm
+          kuittitulostin: Kuittitulostin
+        merkisto: Merkistö
+        merkisto_types:
+          '1': 7 Bit
+          '2': DOS
+          '3': ANSI
+          '4': UTF8
+          '5': Scandic off
+        nimi: Nimi
+        osoite: Osoite
+        postino: Postino
+        postitp: Postitp
+        puhelin: Puhelin
+        unifaun_nimi: Unifaun nimi
+        yhteyshenkilo: Yhteyshenkilö
+    models:
+      account:
+        one: Tili
+        other: Tilit
+      cash_register:
+        one: Kassalipas
+        other: Kassalippaat
+      currency:
+        one: Valuutta
+        other: Valuutat
+      fiscal_year:
+        one: Tilikausi
+        other: Tilikaudet
+      printer:
+        one: Kirjoitin
+        other: Kirjoittimet
+      sum_level:
+        one: Taso
+        other: Tasot
+      terms_of_payment:
+        one: Maksuehto
+        other: Maksuehdot
   date:
     abbr_day_names:
     - su
@@ -12,7 +188,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -34,11 +210,11 @@ fi:
     - perjantai
     - lauantai
     formats:
-      default: ! '%d.%m.%Y'
-      long: ! '%A %e. %Bta %Y'
-      short: ! '%e.%m.%Y'
+      default: "%-d.%-m.%Y"
+      long: "%A %e. %Bta %Y"
+      short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -81,16 +257,16 @@ fi:
         other: yli %{count} vuotta
       x_days:
         one: päivä
-        other: ! '%{count} päivää'
+        other: "%{count} päivää"
       x_minutes:
         one: minuutti
-        other: ! '%{count} minuuttia'
+        other: "%{count} minuuttia"
       x_months:
         one: kuukausi
-        other: ! '%{count} kuukautta'
+        other: "%{count} kuukautta"
       x_seconds:
         one: sekunti
-        other: ! '%{count} sekuntia'
+        other: "%{count} sekuntia"
     prompts:
       day: päivä
       hour: tunti
@@ -98,14 +274,18 @@ fi:
       month: kuukausi
       second: sekunti
       year: vuosi
-  errors: &errors
-    format: ! '%{attribute} %{message}'
+  errors:
+    format: "%{attribute} %{message}"
     messages:
       accepted: täytyy olla hyväksytty
+      after: tulee olla suurempi kuin %{date}
+      after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
+      before: tulee olla pienempi kuin %{date}
+      before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
       blank: ei voi olla sisällötön
       confirmation: ei vastaa varmennusta
       empty: ei voi olla tyhjä
-      equal_to: täytyy olla yhtä suuri kuin %{count}
+      equal_to: tulee olla %{date}
       even: täytyy olla parillinen
       exclusion: on varattu
       greater_than: täytyy olla suurempi kuin %{count}
@@ -114,25 +294,20 @@ fi:
       invalid: on kelvoton
       less_than: täytyy olla pienempi kuin %{count}
       less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}
+      not_a_date: ei ole oikeellinen päivämäärä
       not_a_number: ei ole luku
       not_an_integer: ei ole kokonaisluku
       odd: täytyy olla pariton
-      record_invalid: ! 'Validointi epäonnistui: %{errors}'
+      record_invalid: 'Validointi epäonnistui: %{errors}'
       taken: on jo käytössä
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
-      not_a_date: ei ole oikeellinen päivämäärä
-      after: tulee olla suurempi kuin %{date}
-      after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
-      before: tulee olla pienempi kuin %{date}
-      before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
-      equal_to: tulee olla %{date}
     template:
-      body: ! 'Seuraavat kentät aiheuttivat ongelmia:'
+      body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
         one: Virhe syötteessä esti mallin %{model} tallentamisen
-        other: ! '%{count} virhettä esti mallin %{model} tallentamisen'
+        other: "%{count} virhettä esti mallin %{model} tallentamisen"
   helpers:
     select:
       prompt: Valitse
@@ -143,28 +318,28 @@ fi:
   number:
     currency:
       format:
-        delimiter: .
-        format: ! '%n %u'
+        delimiter: "."
+        format: "%n %u"
         precision: 2
-        separator: ! ','
+        separator: ","
         significant: false
         strip_insignificant_zeros: false
-        unit: €
+        unit: "€"
     format:
-      delimiter: .
+      delimiter: "."
       precision: 3
-      separator: ! ','
+      separator: ","
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: ! '%n %u'
+        format: "%n %u"
         units:
-          thousand: tuhatta
-          million: miljoonaa
           billion: miljardia
-          trillion: biljoonaa
+          million: miljoonaa
           quadrillion: tuhatta biljoonaa
+          thousand: tuhatta
+          trillion: biljoonaa
           unit: ''
       format:
         delimiter: ''
@@ -172,15 +347,15 @@ fi:
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: ! '%n %u'
+        format: "%n %u"
         units:
           byte:
             one: tavu
             other: tavua
-          gb: GB
-          kb: kB
-          mb: MB
-          tb: TB
+          gb: Gt
+          kb: kt
+          mb: Mt
+          tb: Tt
     percentage:
       format:
         delimiter: ''
@@ -189,43 +364,13 @@ fi:
         delimiter: ''
   support:
     array:
-      last_word_connector: ! ' ja '
-      two_words_connector: ! ' ja '
-      words_connector: ! ', '
+      last_word_connector: " ja "
+      two_words_connector: " ja "
+      words_connector: ", "
   time:
     am: aamupäivä
     formats:
-      default: ! '%d.%m.%Y %H:%M:%S'
-      long: ! '%A %e. %Bta %Y %H:%M:%S %z'
-      short: ! '%e.%m. %H.%M'
+      default: "%A %e. %Bta %Y %H:%M:%S %z"
+      long: "%e. %Bta %Y %H.%M"
+      short: "%e.%m. %H.%M"
     pm: iltapäivä
-  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
-  activemodel:
-    errors:
-      <<: *errors
-  activerecord:
-    models:
-      account:
-        one: Tili
-        other: Tilit
-      currency:
-        one: Valuutta
-        other: Valuutat
-      fiscal_year:
-        one: Tilikausi
-        other: Tilikaudet
-      printer:
-        one: Kirjoitin
-        other: Kirjoittimet
-      sum_level:
-        one: Taso
-        other: Tasot
-      terms_of_payment:
-        one: Maksuehto
-        other: Maksuehdot
-      cash_register:
-        one: Kassalipas
-        other: Kassalippaat
-
-    errors:
-      <<: *errors

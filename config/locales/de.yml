@@ -1,0 +1,62 @@
+---
+de:
+  activerecord:
+    attributes:
+      company:
+        alv: Umsatzsteuer
+        email: E-Mailadresse
+        factoringsaamiset: Factoringforderungen aus Lieferungen und Leistungen
+        fax: Fax
+        jarjestys: Sortierung
+        kassa: Barverkauf
+        kassaale: Rabatte der Einkäufe
+        kassaerotus: "Übereinstimmungsdifferenzen der Barverkaufskasse"
+        kateistilitys: Kasse Barabrechnungen
+        kieli: Sprache
+        konserni: Konzern
+        konsernimyyntisaamiset: Konzernforderungen aus Lieferungen und Leistungen
+        konserniostovelat: Konzernverbindlichkeiten aus Lieferungen und Leistungen
+        konsernisaamiset: Standardkonto Konzernforderungen
+        konsernivelat: Standardkonto Konzernverbindlichkeiten
+        kotipaikka: Sitz
+        kuluprosentti: Kostenprozent
+        laskutus_maa: Land der Rechnungsadresse
+        laskutus_nimi: Name der Rechnungsadresse
+        laskutus_osoite: Straße und Hausnummer der Rechnungsadresse
+        laskutus_postino: Postleitzahl der Rechnungsadresse
+        laskutus_postitp: Poststelle der Rechnungsadresse
+        luottokortti: Barverkauf Kreditkartenzahlungen
+        luottotappiot: Verkaufskreditverluste
+        maa: Land
+        matkalla_olevat: Umlaufvermögensrechnungen, die unterwegs sind
+        myynninkassaale: Rabatte des Verkaufs
+        myynninvaluuttaero: Währungskursdifferenzen des Verkaufs
+        myynti: Verkauf
+        myynti_ei_eu: Verkauf außerhalb der Gemeinschaft
+        myynti_eu: Gemeinschaftsverkauf
+        myynti_kohde: Standardziel des Verkaufs
+        myynti_kustp: Standardkostenstelle des Verkaufs
+        myynti_marginaali: Verkauf, Gebrauchtwaren
+        myynti_projekti: Standardprojekt des Verkaufs
+        myyntisaamiset: Forderungen aus Lieferungen und Leistungen
+        nimi: Name
+        osoite: Adresse
+        osto_marginaali: Einkauf, Gebrauchtwaren (in Verbindung mit Verkauf)
+        ostovelat: Verbindlichkeiten aus Lieferungen und Leistungen
+        ovttunnus: EDI-Kennzeichen
+        pankkikortti: Barverkauf Bankkartenzahlungen
+        postino: Postleitzahl
+        postitp: Poststelle
+        puhelin: Telefon
+        pyoristys: Rundungsdifferenzen der Einkaufsrechnungen und Verkaufsrechnungen
+        raaka_ainevarasto: Rohstofflager
+        raaka_ainevarastonmuutos: Rohstofflageränderung
+        selvittelytili: Clearingkonto der Geldkonten für unklare Zahlungen
+        siirtosaamiset: ARAP-Konto für die Periodisierung der Einkaufsrechnung
+        siirtovelka: PRAP-Konto für die Periodisierung der Verkaufsrechnung
+        valkoodi: Währung
+        valuuttaero: Währungskursdifferenzen der Einkäufe
+        varasto: Waren/Lager
+        varastonmuutos: Lageränderung
+        varastonmuutos_valmistuksesta: Lageränderung der Fertigung
+        ytunnus: Steuernummer

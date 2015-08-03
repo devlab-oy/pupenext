@@ -1,0 +1,20 @@
+se:
+  activerecord:
+    attributes:
+      company:
+        alv: 'Moms'
+        fax: 'Fax'
+        jarjestys: 'Ordning'
+        kieli: 'Språk'
+        konserni: 'Koncern'
+        kotipaikka: 'Hemplats'
+        kuluprosentti: 'Kostprocent'
+        maa: 'Land'
+        myynti: 'Försäljning'
+        myyntisaamiset: 'Försäljningsfordringar'
+        nimi: 'Namn'
+        osoite: 'Adress'
+        postino: 'Postnummer'
+        puhelin: 'Tel.'
+        valkoodi: 'valuta'
+        ytunnus: 'Org.Nr'
