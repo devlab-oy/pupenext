@@ -31,7 +31,7 @@ class Administration::CashRegistersController < AdministrationController
     @cash_register = CashRegister.new(cash_register_params)
 
     if @cash_register.save_by current_user
-      redirect_to cash_registers_path, notice: "Kassalipas luotiin onnistuneesti"
+      redirect_to cash_registers_path, notice: t('.create_success')
     else
       render :new
     end
@@ -39,7 +39,7 @@ class Administration::CashRegistersController < AdministrationController
 
   def update
     if @cash_register.update_by(cash_register_params, current_user)
-      redirect_to cash_registers_path, notice: "Kassalipas päivitettiin onnistuneesti"
+      redirect_to cash_registers_path, notice: t('.update_success')
     else
       render :edit
     end

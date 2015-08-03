@@ -33,11 +33,11 @@ class ApplicationController < ActionController::Base
   protected
 
     def authorize
-      render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
+      render text: t('.unauthorized'), status: :unauthorized unless current_user
     end
 
     def access_control
-      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless read_access?
+      render text: t('.forbidden'), status: :forbidden unless read_access?
     end
 
     def set_locale

@@ -20,7 +20,7 @@ class Administration::AccountsController < AdministrationController
     @account = Account.new(account_params)
 
     if @account.save_by current_user
-      redirect_to accounts_path, notice: 'Uusi tili perustettu'
+      redirect_to accounts_path, notice: t('.create_success')
     else
       fetch_options_for_selects
       render :new
@@ -32,7 +32,7 @@ class Administration::AccountsController < AdministrationController
 
   def update
     if @account.update_by account_params, current_user
-      redirect_to accounts_path, notice: 'Tili päivitettiin onnistuneesti'
+      redirect_to accounts_path, notice: t('.update_success')
     else
       fetch_options_for_selects
       render :edit
@@ -41,7 +41,7 @@ class Administration::AccountsController < AdministrationController
 
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice: "Tili poistettiin onnistuneesti"
+    redirect_to accounts_path, notice: t('.destroy_success')
   end
 
   private

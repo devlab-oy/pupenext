@@ -33,7 +33,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     @terms_of_payment = TermsOfPayment.new(terms_of_payment_params)
 
     if @terms_of_payment.save_by current_user
-      redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
+      redirect_to terms_of_payments_path, notice: t('.create_success')
     else
       render :new
     end
@@ -42,7 +42,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
   # PATCH/PUT /terms_of_payments/1
   def update
     if @terms_of_payment.update_by(terms_of_payment_params, current_user)
-      redirect_to terms_of_payments_path, notice: t('Maksuehto päivitettiin onnistuneesti')
+      redirect_to terms_of_payments_path, notice: t('.update_success')
     else
       render :edit
     end
