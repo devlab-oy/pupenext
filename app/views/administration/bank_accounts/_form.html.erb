@@ -1,4 +1,4 @@
-<%= form_for(@bank_account) do |f| %>
+<%= form_for @bank_account do |f| %>
   <%= render "administration/form_errors", resource: @bank_account %>
 
   <table>
@@ -40,8 +40,13 @@
     </tr>
     <tr>
       <th><%= f.label :hyvak, t("Oletushyväksyjä") %></th>
-      <td><%= f.collection_select(:hyvak, hyvaksyja_options, :kuka, :nimi,
-                                  include_blank: t("Ei kukaan")) %></td>
+      <td>
+        <%= f.collection_select(:hyvak,
+            hyvaksyja_options,
+            :kuka,
+            :nimi,
+            include_blank: t("Ei kukaan")) %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kulutili, t("Oletuskulutili") %></th>
@@ -52,18 +57,33 @@
     </tr>
     <tr>
       <th><%= f.label :oletus_kustp, t("Oletuskusannuspaikka") %></th>
-      <td><%= f.collection_select(:oletus_kustp, kustannuspaikka_options, :tunnus, :nimi,
-                                  include_blank: t("Ei kustannuspaikkaa")) %></td>
+      <td>
+        <%= f.collection_select(:oletus_kustp,
+            kustannuspaikka_options,
+            :tunnus,
+            :nimi,
+            include_blank: t("Ei kustannuspaikkaa")) %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kohde, t("Oletuskohde") %></th>
-      <td><%= f.collection_select(:oletus_kohde, kohde_options, :tunnus, :nimi,
-                                  include_blank: t("Ei kohdetta")) %></td>
+      <td>
+        <%= f.collection_select(:oletus_kohde,
+            kohde_options,
+            :tunnus,
+            :nimi,
+            include_blank: t("Ei kohdetta")) %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_projekti, t("Oletusprojekti") %></th>
-      <td><%= f.collection_select(:oletus_projekti, projekti_options, :tunnus, :nimi,
-                                  include_blank: t("Ei projektia")) %></td>
+      <td>
+        <%= f.collection_select(:oletus_projekti,
+            projekti_options,
+            :tunnus,
+            :nimi,
+            include_blank: t("Ei projektia")) %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
@@ -79,35 +99,16 @@
         <%= show_account_name(f.object.oletus_selvittelytili) %>
       </td>
     </tr>
-    <% if @bank_account.persisted? %>
-      <tr>
-        <th><%= f.label :laatija, t("Laatija") %></th>
-        <td><%= @bank_account.laatija %></td>
-      </tr>
 
-      <tr>
-        <th><%= f.label :luontiaika, t("Luontiaika") %></th>
-        <td><%= @bank_account.luontiaika.try(:to_formatted_s, :db) %></td>
-      </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @bank_account %>
 
-      <tr>
-        <th><%= f.label :muutospvm, t("Muutospvm") %></th>
-        <td><%= @bank_account.muutospvm.try(:to_formatted_s, :db) %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muuttaja, t("Muuttaja") %></th>
-        <td><%= @bank_account.muuttaja %></td>
-      </tr>
-    <% end %>
   </table>
 
   <% if update_access? %>
     <br/>
 
     <div class="actions">
-      <% text = @bank_account.persisted? ? t("Päivitä yrityksen pankkitili") : t("Perusta yrityksen pankkitili") %>
-      <%= f.submit t(text), disable_with: t("Tallentaa") + "..." %>
+      <%= f.submit disable_with: t("Tallentaa") + "..." %>
     </div>
   <% end %>
 <% end %>
