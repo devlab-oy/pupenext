@@ -1,4 +1,4 @@
-<%= render "administration/header", title: "Tilikartan rakenne" %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
 

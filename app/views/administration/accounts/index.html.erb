@@ -1,4 +1,4 @@
-<%= render "administration/header", title: "Tilikartta" %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= button_to t('Uusi tili'), new_account_path, method: :get if update_access? %>
 

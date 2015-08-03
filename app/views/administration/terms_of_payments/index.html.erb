@@ -1,4 +1,4 @@
-<%= render "administration/header", title: "Maksuehdot" %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= button_to t('Uusi maksuehto'), new_terms_of_payment_path, method: :get if update_access? %>
 

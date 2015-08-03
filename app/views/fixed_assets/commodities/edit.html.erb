@@ -2,7 +2,7 @@
 
 <br /><br />
 
-<%= render "administration/header", title: "Muokkaa hyödykettä" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render "administration/notice" %>
 
 <% if update_access? && !@commodity.deactivated? %>

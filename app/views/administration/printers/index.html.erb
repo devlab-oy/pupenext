@@ -1,4 +1,4 @@
-<%= render "administration/header", title: "Kirjoittimet" %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= button_to t('Uusi kirjoitin'), new_printer_path, method: :get if update_access? %>
 

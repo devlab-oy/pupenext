@@ -2,7 +2,7 @@
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa kirjoitinta" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render 'form', printer: @printer %>
 
 <% if @printer.persisted? && update_access? %>

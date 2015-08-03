@@ -1,4 +1,4 @@
-<%= render "administration/header", title: "Yrityksen tilikaudet" %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
 

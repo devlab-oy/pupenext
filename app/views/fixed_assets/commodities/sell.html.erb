@@ -5,7 +5,7 @@
 <br/><br/>
 
 <%= render "administration/form_errors", resource: @commodity if @commodity.present? %>
-<%= render "administration/header", title: "Hyödykkeen myynti" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render "administration/notice" %>
 
 <%= form_tag(commodity_confirm_sale_path(@commodity), method: "post") do %>
