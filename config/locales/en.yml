@@ -30,17 +30,6 @@ en:
         puhelin: Phone
         unifaun_nimi: Unifaun name
         yhteyshenkilo: Contact person
-    company:
-      alv: VAT
-      kotipaikka: Domicile
-      maa: Country
-      myynti: Sales
-      myyntisaamiset: Accounts receivable
-      nimi: Name
-      osoite: Address
-      puhelin: Telephone
-      valkoodi: Currency
-      ytunnus: VAT number
     models:
       printer: Printer
   date:
