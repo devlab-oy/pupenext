@@ -425,9 +425,9 @@ fi:
       before: tulee olla pienempi kuin %{date}
       before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
       blank: ei voi olla sisällötön
-      confirmation: ei vastaa varmennusta
+      confirmation: ei vastaa varmennusta %{attribute}
       empty: ei voi olla tyhjä
-      equal_to: tulee olla %{date}
+      equal_to: tulee olla yhtäsuuri kuin %{count}
       even: täytyy olla parillinen
       exclusion: on varattu
       greater_than: täytyy olla suurempi kuin %{count}
