@@ -561,7 +561,7 @@ fi:
   number:
     currency:
       format:
-        delimiter: "."
+        delimiter: " "
         format: "%n %u"
         precision: 2
         separator: ","
@@ -583,9 +583,7 @@ fi:
           quadrillion: tuhatta biljoonaa
           thousand: tuhatta
           trillion: biljoonaa
-          unit: ''
       format:
-        delimiter: ''
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -601,10 +599,7 @@ fi:
           tb: Tt
     percentage:
       format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
+        format: "%n %"
   shared:
     link_return_to: Palaa ohjelmaan
   support:
