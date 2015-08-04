@@ -157,6 +157,11 @@ fi:
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
     models:
+      qualifier:
+        one: Tarkenne
+        other: Tarkenteet
+        errors:
+          accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
       account:
         one: Tili
         other: Tilikartta
