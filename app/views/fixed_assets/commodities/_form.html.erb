@@ -67,9 +67,22 @@
       <th><%= f.label :btl_depreciation_amount %></th>
       <td><%= f.text_field :btl_depreciation_amount, value: @commodity.btl_depreciation_amount %></td>
     </tr>
-
-    <%= render 'administration/resource_timestamps_and_users', resource: @commodity %>
-
+    <tr>
+      <th><%= t('Laatija') %></th>
+      <td><%= @commodity.created_by %></td>
+    </tr>
+    <tr>
+      <th><%= t('Luontipäivä') %></th>
+      <td><%= @commodity.created_at %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muuttaja') %></th>
+      <td><%= @commodity.modified_by %></td>
+    </tr>
+    <tr>
+      <th><%= t('Muutospäivä') %></th>
+      <td><%= @commodity.updated_at %></td>
+    </tr>
   </table>
 
   <br/>
