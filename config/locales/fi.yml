@@ -163,6 +163,13 @@ fi:
       cash_register:
         one: Kassalipas
         other: Kassalippaat
+        errors:
+          kassa_missing: Kassatili puuttuu tai sitä ei löydy
+          kassaerotus_missing: Kassaerotustili puuttuu tai sitä ei löydy
+          kateisotto_missing: Käteisotto puuttuu tai sitä ei löydy
+          kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
+          luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
+          pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
       currency:
         one: Valuutta
         other: Valuutat
