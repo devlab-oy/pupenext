@@ -16,7 +16,7 @@
             @qualifiers,
             :tunnus,
             :nimi,
-            include_blank: t('.no_select'),
+            include_blank: t('administration.cash_registers.edit.no_select'),
             selected: @cash_register.kustp
         %>
       </td>
@@ -29,7 +29,7 @@
             @locations,
             :tunnus,
             :nimi,
-            include_blank: t('.no_select'),
+            include_blank: t('administration.cash_registers.edit.no_select'),
             selected: @cash_register.toimipaikka
         %>
       </td>
@@ -43,7 +43,7 @@
               @kassa_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :kassa %>  <%= account_name f.object.kassa %>
@@ -59,7 +59,7 @@
               @pankkikortti_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :pankkikortti %>
@@ -76,7 +76,7 @@
               @luottokortti_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :luottokortti %>
@@ -93,7 +93,7 @@
               @kateistilitys_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :kateistilitys %>
@@ -110,7 +110,7 @@
               @kassaerotus_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :kassaerotus %>
@@ -127,7 +127,7 @@
               @kateisotto_accounts,
               :tilino,
               :tilino_nimi,
-              include_blank: t('.no_select')
+              include_blank: t('administration.cash_registers.edit.no_select')
           %>
         <% else %>
           <%= f.text_field :kateisotto %>
