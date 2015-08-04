@@ -204,7 +204,23 @@ fi:
         normal: Ei valintaa
         turnover: Liikevaihto
         purchases: Ostot, Aineet, tarvikkeet ja tavarat
-
+    printers:
+      merkisto_options:
+        charset_default: Ei valintaa
+        charset_7bit: 7 Bit
+        charset_dos: DOS
+        charset_ansi: ANSI
+        charset_utf8: UTF8
+        charset_scandic_off: Scandic off
+      mediatyyppi_options:
+        media_default: Ei valintaa
+        media_a4: A5
+        media_a5: A5
+        media_thermal1: Lämpösiirto/nauha 149X104mm
+        media_thermal2: Lämpösiirto/nauha 59X40mm
+        media_thermal3: Lämpösiirto 149X104mm
+        media_thermal4: Lämpösiirto 59X40mm
+        media_receipt: 'kuittitulostin'
   date:
     abbr_day_names:
     - su
