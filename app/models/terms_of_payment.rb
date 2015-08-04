@@ -12,7 +12,7 @@ class TermsOfPayment < BaseModel
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
   validates :teksti, length: { within: 1..40 }
 
-  validate :check_relations, if: :not_in_use?
+  validate :check_relations, if: :inactive?
 
   float_columns :kassa_alepros
 
@@ -44,25 +44,19 @@ class TermsOfPayment < BaseModel
     company.bank_details.map { |i| [ i.nimitys, i.id ] }
   end
 
-  def not_in_use?
-    kaytossa.inactive?
-  end
-
   private
 
-    def check_if_in_use(obj, msg)
-      count = obj.where(maksuehto: tunnus).count
-
-      if count > 0
-        msg_pre = t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
-        errors.add(:base, "#{msg_pre} #{count} #{t(msg)}")
-      end
-    end
-
     def check_relations
-      check_if_in_use company.customers, "asiakkaalla"
-      check_if_in_use company.sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
-      check_if_in_use company.sales_order_drafts, "kesken olevalla myyntitilauksella"
+      root = 'activerecord.models.terms_of_payment.errors'
+
+      count = company.customers.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_customers", count: count)) unless count.zero?
+
+      count = company.sales_orders.not_delivered.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_sales_orders", count: count)) unless count.zero?
+
+      count = company.sales_order_drafts.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_sales_order_drafts", count: count)) unless count.zero?
     end
 
     def defaults

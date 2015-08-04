@@ -48,6 +48,9 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     top_fourth = terms_of_payments(:ninety_days_net)
     top_fourth.kaytossa = 'E'
     refute top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
+
+    message = I18n.t 'activerecord.models.terms_of_payment.errors.in_use_sales_orders', count: 1
+    assert_equal message, top_fourth.errors.full_messages.first
   end
 
   test 'should get five used and 1 not in use terms of payments' do
