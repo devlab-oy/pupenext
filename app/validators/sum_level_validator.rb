@@ -1,6 +1,7 @@
 class SumLevelValidator < ActiveModel::Validator
   def validate(record)
-    record.errors[:taso] << 'should begin with 1, 2 or 3' unless begins_with_1_2_3? record.taso
+    error = I18n.t 'activerecord.models.sum_level.errors.begin_with_error'
+    record.errors[:taso] << error unless begins_with_1_2_3? record.taso
   end
 
   def begins_with_1_2_3?(value)

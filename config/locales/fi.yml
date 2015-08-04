@@ -173,6 +173,8 @@ fi:
         one: Kirjoitin
         other: Kirjoittimet
       sum_level:
+        errors:
+          begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
         one: Taso
         other: Tasot
       terms_of_payment:
@@ -202,7 +204,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -228,7 +230,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
