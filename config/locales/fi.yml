@@ -157,30 +157,14 @@ fi:
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
     models:
-      account:
-        one: Tili
-        other: Tilikartta
-      cash_register:
-        one: Kassalipas
-        other: Kassalippaat
-      currency:
-        one: Valuutta
-        other: Valuutat
-      fiscal_year:
-        one: Tilikausi
-        other: Tilikaudet
-      printer:
-        one: Kirjoitin
-        other: Kirjoittimet
-      qualifier:
-        one: Tarkenne
-        other: Tarkenteet
-      sum_level:
-        one: Taso
-        other: Tasot
-      terms_of_payment:
-        one: Maksuehto
-        other: Maksuehdot
+      account: Tili
+      cash_register: Kassalipas
+      currency: Valuutta
+      fiscal_year: Tilikausi
+      printer: Kirjoitin
+      qualifier: Tarkenne
+      sum_level: Taso
+      terms_of_payment: Maksuehto
   administration:
     accounts:
       create:
