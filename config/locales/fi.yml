@@ -178,6 +178,13 @@ fi:
       terms_of_payment:
         one: Maksuehto
         other: Maksuehdot
+  administration:
+    terms_of_payments:
+      cash_options:
+        cash: Käteismaksuehto, käteinen pyöristetään
+        credit_card: Käteismaksuehto, luottokortti ei pyöristetä
+        debit_card: Käteismaksuehto, pankkikortti ei pyöristetä
+        not_cash: Tämä ei ole käteismaksuehto
   date:
     abbr_day_names:
     - su
@@ -188,7 +195,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -214,7 +221,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

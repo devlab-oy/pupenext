@@ -89,4 +89,34 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top.save
     assert_equal 0, @top.pankkiyhteystiedot, 'nil is saved as zero'
   end
+
+  test 'cash options' do
+    options = { "cash" => "p", "debit_card" => "n", "credit_card" => "o", "not_cash" => "" }
+    assert_equal options, TermsOfPayment.kateinens # LOL!
+
+    @top = terms_of_payments(:sixty_days_net)
+    assert_equal "not_cash", @top.kateinen
+    assert_equal "", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, :cash) # can be used with enum names
+    assert_equal "cash", @top.reload.kateinen
+    assert_equal "p", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, :not_cash) # can be used with enum names
+    assert_equal "not_cash", @top.reload.kateinen
+    assert_equal "", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, 'o') # can be used with actual values
+    assert_equal "credit_card", @top.reload.kateinen
+    assert_equal "o", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, 'n') # can be used with actual values
+    assert_equal "debit_card", @top.reload.kateinen
+    assert_equal "n", @top.read_attribute_before_type_cast('kateinen')
+
+    # Allows only correct values
+    assert_raises(ArgumentError) { @top.kateinen = 'x' }
+    assert_raises(ArgumentError) { @top.kateinen = 'kissa' }
+    assert_raises(ArgumentError) { @top.kateinen = 1 }
+  end
 end

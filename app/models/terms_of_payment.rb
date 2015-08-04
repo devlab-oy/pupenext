@@ -9,7 +9,6 @@ class TermsOfPayment < BaseModel
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
-  validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
   validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
   validates :teksti, length: { within: 1..40 }
@@ -26,14 +25,12 @@ class TermsOfPayment < BaseModel
   self.table_name = :maksuehto
   self.primary_key = :tunnus
 
-  def cash_options
-    [
-      [t("Tämä ei ole käteismaksuehto"), ""],
-      [t("Käteismaksuehto, pankkikortti ei pyöristetä"), "n"],
-      [t("Käteismaksuehto, luottokortti ei pyöristetä"), "o"],
-      [t("Käteismaksuehto, käteinen pyöristetään"), "p"]
-    ]
-  end
+  enum kateinen: {
+    not_cash: '',
+    debit_card: 'n',
+    credit_card: 'o',
+    cash: 'p'
+  }
 
   def factoring_options
     company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
