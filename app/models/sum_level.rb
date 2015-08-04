@@ -8,7 +8,7 @@ class SumLevel < BaseModel
   validates :taso, presence: true
   validates :nimi, presence: true
   validates :tyyppi, inclusion: { in: proc { SumLevel.sum_levels.keys.collect(&:to_s) } }
-  validates :taso, uniqueness: { scope: [:yhtio, :tyyppi], message: "is already defined for this type" }
+  validates :taso, uniqueness: { scope: [:yhtio, :tyyppi] }
   validates_presence_of :poisto_vastatili, :poistoero_tili, :poistoero_vastatili,
     :if => lambda {tyyppi == 'E'}
   validate :does_not_contain_char
