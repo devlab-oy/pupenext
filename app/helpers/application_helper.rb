@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def return_link(text, path)
-    link_to "« #{t(".link_return_to")}: #{text}", path
+    link_to "« #{t("shared.link_return_to")}: #{text}", path
   end
 
   def enable_pickadate
