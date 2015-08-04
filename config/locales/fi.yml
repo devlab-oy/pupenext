@@ -157,17 +157,10 @@ fi:
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
     models:
-      qualifier:
-        one: Tarkenne
-        other: Tarkenteet
-        errors:
-          accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
       account:
         one: Tili
         other: Tilikartta
       cash_register:
-        one: Kassalipas
-        other: Kassalippaat
         errors:
           kassa_missing: Kassatili puuttuu tai sitä ei löydy
           kassaerotus_missing: Kassaerotustili puuttuu tai sitä ei löydy
@@ -175,6 +168,8 @@ fi:
           kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
           luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
           pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
+        one: Kassalipas
+        other: Kassalippaat
       currency:
         one: Valuutta
         other: Valuutat
@@ -184,6 +179,11 @@ fi:
       printer:
         one: Kirjoitin
         other: Kirjoittimet
+      qualifier:
+        errors:
+          accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
+        one: Tarkenne
+        other: Tarkenteet
       sum_level:
         errors:
           begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
@@ -200,21 +200,46 @@ fi:
         other: Maksuehdot
   administration:
     accounts:
+      manuaali_esto_options:
+        editing_disabled: Tiliöinnin manuaalinen lisäys/muokkaus estetty
+        editing_enabled: Tiliöinti muokattavissa
       tiliointi_tarkistus_options:
-        no_mandatory_fields: Ei pakollisia kenttiä
         mandatory_cs: Pakollisia kenttiä tiliöinnissä on kustannuspaikka
-        mandatory_cs_target: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde
         mandatory_cs_project: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, projekti
+        mandatory_cs_target: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde
         mandatory_cs_target_project: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde ja projekti
+        mandatory_project: Pakollisia kenttiä tiliöinnissä on projekti
         mandatory_target: Pakollisia kenttiä tiliöinnissä on kohde
         mandatory_target_project: Pakollisia kenttiä tiliöinnissä on kohde, projekti
-        mandatory_project: Pakollisia kenttiä tiliöinnissä on projekti
-      manuaali_esto_options:
-        editing_enabled: Tiliöinti muokattavissa
-        editing_disabled: Tiliöinnin manuaalinen lisäys/muokkaus estetty
+        no_mandatory_fields: Ei pakollisia kenttiä
       toimijaliitos_options:
         relation_not_required: Ei liitospakkoa
         relation_required: Muistiotositteelle on liitettävä asiakas tai toimittaja
+    printers:
+      mediatyyppi_options:
+        media_a4: A5
+        media_a5: A5
+        media_default: Ei valintaa
+        media_receipt: kuittitulostin
+        media_thermal1: Lämpösiirto/nauha 149X104mm
+        media_thermal2: Lämpösiirto/nauha 59X40mm
+        media_thermal3: Lämpösiirto 149X104mm
+        media_thermal4: Lämpösiirto 59X40mm
+      merkisto_options:
+        charset_7bit: 7 Bit
+        charset_ansi: ANSI
+        charset_default: Ei valintaa
+        charset_dos: DOS
+        charset_scandic_off: Scandic off
+        charset_utf8: UTF8
+    sum_levels:
+      kayttotarkoitus_options:
+        normal: Ei valintaa
+        purchases: Ostot, Aineet, tarvikkeet ja tavarat
+        turnover: Liikevaihto
+      kumulatiivinen_options:
+        cumulative: Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta
+        not_cumulative: Ei
     terms_of_payments:
       cash_options:
         cash: Käteismaksuehto, käteinen pyöristetään
@@ -224,31 +249,6 @@ fi:
       in_use_options:
         active: Käytössä
         inactive: Poistettu / Ei käytössä
-    sum_levels:
-      kumulatiivinen_options:
-        not_cumulative: Ei
-        cumulative: Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta
-      kayttotarkoitus_options:
-        normal: Ei valintaa
-        turnover: Liikevaihto
-        purchases: Ostot, Aineet, tarvikkeet ja tavarat
-    printers:
-      merkisto_options:
-        charset_default: Ei valintaa
-        charset_7bit: 7 Bit
-        charset_dos: DOS
-        charset_ansi: ANSI
-        charset_utf8: UTF8
-        charset_scandic_off: Scandic off
-      mediatyyppi_options:
-        media_default: Ei valintaa
-        media_a4: A5
-        media_a5: A5
-        media_thermal1: Lämpösiirto/nauha 149X104mm
-        media_thermal2: Lämpösiirto/nauha 59X40mm
-        media_thermal3: Lämpösiirto 149X104mm
-        media_thermal4: Lämpösiirto 59X40mm
-        media_receipt: 'kuittitulostin'
   date:
     abbr_day_names:
     - su
@@ -259,7 +259,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -285,7 +285,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
