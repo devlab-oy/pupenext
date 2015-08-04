@@ -8,8 +8,6 @@ class SumLevel < BaseModel
   validates :taso, presence: true
   validates :nimi, presence: true
   validates :tyyppi, inclusion: { in: proc { SumLevel.sum_levels.keys.collect(&:to_s) } }
-  validates :kumulatiivinen, inclusion: { in: proc { SumLevel.kumulatiivinen_options.keys } }
-  validates :kayttotarkoitus, inclusion: { in: proc { SumLevel.kayttotarkoitus_options.keys } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi], message: "is already defined for this type" }
   validates_presence_of :poisto_vastatili, :poistoero_tili, :poistoero_vastatili,
     :if => lambda {tyyppi == 'E'}
@@ -17,6 +15,17 @@ class SumLevel < BaseModel
   validate :summattava_tasos_in_db_and_correct_type
 
   before_save :defaults
+
+  enum kumulatiivinen: {
+    not_cumulative: '',
+    cumulative: 'X'
+  }
+
+  enum kayttotarkoitus: {
+    normal: '',
+    turnover: 'M',
+    purchases: 'O'
+  }
 
   def sum_level_name
     "#{taso} #{nimi}"
@@ -27,21 +36,6 @@ class SumLevel < BaseModel
     summattava_taso.delete!(' ')
 
     write_attribute(:summattava_taso, summattava_taso)
-  end
-
-  def self.kumulatiivinen_options
-    {
-      '' => 'Ei',
-      'X' => 'Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta',
-    }
-  end
-
-  def self.kayttotarkoitus_options
-    {
-      '' => 'Ei valintaa',
-      'M' => 'Liikevaihto',
-      'O' => 'Ostot, Aineet, tarvikkeet ja tavarat',
-    }
   end
 
   def self.child_class(tyyppi_value)

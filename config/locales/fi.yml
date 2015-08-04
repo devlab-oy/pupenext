@@ -194,6 +194,15 @@ fi:
       in_use_options:
         active: Käytössä
         inactive: Poistettu / Ei käytössä
+    sum_levels:
+      kumulatiivinen_options:
+        not_cumulative: Ei
+        cumulative: Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta
+      kayttotarkoitus_options:
+        normal: Ei valintaa
+        turnover: Liikevaihto
+        purchases: Ostot, Aineet, tarvikkeet ja tavarat
+
   date:
     abbr_day_names:
     - su

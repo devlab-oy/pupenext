@@ -44,7 +44,7 @@
       <tr>
         <th><%= f.label :kumulatiivinen %></th>
         <td>
-          <%= f.select :kumulatiivinen, SumLevel.kumulatiivinen_options.invert %>
+          <%= f.select :kumulatiivinen, kumulatiivinen_options %>
         </td>
       </tr>
     <% end %>
@@ -53,7 +53,7 @@
       <tr>
         <th><%= f.label :kayttotarkoitus %></th>
         <td>
-          <%= f.select :kayttotarkoitus, SumLevel.kayttotarkoitus_options.invert %>
+          <%= f.select :kayttotarkoitus, kayttotarkoitus_options %>
         </td>
       </tr>
     <% end %>
