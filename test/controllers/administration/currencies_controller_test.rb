@@ -56,7 +56,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal "Valuutta luotiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.create.create_success'
+    assert_equal message, flash[:notice]
   end
 
   test 'should not create new currency' do
@@ -64,7 +65,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     assert_no_difference('Currency.count') do
       post :create, currency: {nimi: 'FOO_BAR'}
-      assert_template 'new', 'Template should be new'
+      assert_template 'edit', 'Template should be edit'
     end
   end
 
@@ -74,7 +75,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     patch :update, id: currency.id, currency: {nimi: 'TES'}
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.update.update_success'
+    assert_equal message, flash[:notice]
   end
 
   test 'users not from estonia should not see intrastat-field' do
@@ -103,7 +105,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     patch :update, id: currency.id, currency: {nimi: 'TES', intrastat_kurssi: 1.5}
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.update.update_success'
+    assert_equal message, flash[:notice]
   end
 
   test 'should not update currency' do
