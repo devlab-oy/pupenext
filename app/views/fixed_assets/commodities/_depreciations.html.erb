@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>
-      <%= t('depreciation_rows_amount') %>
+      <%= t('.depreciation_rows_amount') %>
     </th>
     <td>
       <%= @commodity.depreciation_rows.sum(:summa) %>
@@ -11,7 +11,7 @@
   </tr>
   <tr>
     <th>
-      <%= t('depreciation_difference_amount') %>
+      <%= t('.depreciation_difference_amount') %>
     </th>
     <td>
       <%= @commodity.depreciation_difference_rows.sum(:summa) %>
