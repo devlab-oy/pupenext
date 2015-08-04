@@ -28,10 +28,10 @@
 
   <table>
     <tr>
-      <th><%= Voucher.human_attribute_name(:tilino) %></th>
-      <th><%= Voucher.human_attribute_name(:summa) %></th>
-      <th><%= Voucher.human_attribute_name(:tapvm) %></th>
-      <th><%= Voucher.human_attribute_name(:selite) %></th>
+      <th><%= Head::Voucher.human_attribute_name(:tilino) %></th>
+      <th><%= Head::Voucher.human_attribute_name(:summa) %></th>
+      <th><%= Head::Voucher.human_attribute_name(:tapvm) %></th>
+      <th><%= Head::Voucher.human_attribute_name(:selite) %></th>
     </tr>
     <% @commodity.voucher.rows.each do |vourow| %>
       <tr>
