@@ -14,6 +14,7 @@ class Administration::FiscalYearsController < AdministrationController
   # GET /fiscal_years/new
   def new
     @fiscal_year = FiscalYear.new
+    render :edit
   end
 
   # GET /fiscal_years/1/edit

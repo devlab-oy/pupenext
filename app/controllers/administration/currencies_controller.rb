@@ -14,6 +14,7 @@ class Administration::CurrenciesController < AdministrationController
   # GET /currencies/new
   def new
     @currency = Currency.new
+    render :edit
   end
 
   # POST /currencies
@@ -24,7 +25,7 @@ class Administration::CurrenciesController < AdministrationController
     if @currency.save_by current_user
       redirect_to currencies_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 

@@ -22,6 +22,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
   # GET /terms_of_payments/new
   def new
     @terms_of_payment = TermsOfPayment.new
+    render :edit
   end
 
   # GET /terms_of_payments/1/edit
@@ -35,7 +36,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     if @terms_of_payment.save_by current_user
       redirect_to terms_of_payments_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 

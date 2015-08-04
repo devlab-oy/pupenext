@@ -14,6 +14,7 @@ class Administration::PrintersController < AdministrationController
   # GET /printers/new
   def new
     @printer = Printer.new
+    render :edit
   end
 
   # POST /printers
@@ -23,7 +24,7 @@ class Administration::PrintersController < AdministrationController
     if @printer.save_by current_user
       redirect_to printers_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 

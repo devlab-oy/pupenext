@@ -9,6 +9,7 @@ class Administration::SumLevelsController < AdministrationController
 
   def new
     @sum_level = SumLevel::Internal.new
+    render :edit
   end
 
   def show

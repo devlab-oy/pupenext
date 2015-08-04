@@ -10,6 +10,7 @@ class Administration::AccountsController < AdministrationController
 
   def new
     @account = Account.new
+    render :edit
   end
 
   def show
@@ -23,7 +24,7 @@ class Administration::AccountsController < AdministrationController
       redirect_to accounts_path, notice: t('.create_success')
     else
       fetch_options_for_selects
-      render :new
+      render :edit
     end
   end
 

@@ -25,6 +25,7 @@ class Administration::CashRegistersController < AdministrationController
 
   def new
     @cash_register = CashRegister.new
+    render :edit
   end
 
   def create
@@ -33,7 +34,7 @@ class Administration::CashRegistersController < AdministrationController
     if @cash_register.save_by current_user
       redirect_to cash_registers_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 
