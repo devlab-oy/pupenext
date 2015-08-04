@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
     def set_locale
       I18n.locale = params_locale ||
-                    current_user.locale ||
+                    users_locale ||
                     I18n.default_locale
     end
 
@@ -55,6 +55,17 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
+    end
+
+    def users_locale
+      case current_user.locale
+      when "se"
+        "sv"
+      when "ee"
+        "et"
+      else
+        current_user.locale
+      end
     end
 
     def params_locale
