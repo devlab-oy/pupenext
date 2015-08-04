@@ -61,19 +61,19 @@ class Account < BaseModel
 
     def sum_level_presence
       if sisainen_taso.present? && company.sum_level_internals.find_by(taso: sisainen_taso).blank?
-        errors.add :sisainen_taso, "must be correct if present"
+        errors.add :sisainen_taso, I18n.t('errors.messages.invalid')
       end
 
       if ulkoinen_taso.present? && company.sum_level_externals.find_by(taso: ulkoinen_taso).blank?
-        errors.add :ulkoinen_taso, "must be correct"
+        errors.add :ulkoinen_taso, I18n.t('errors.messages.invalid')
       end
 
       if alv_taso.present? && company.sum_level_vats.find_by(taso: alv_taso).blank?
-        errors.add :alv_taso, "must be correct if present"
+        errors.add :alv_taso, I18n.t('errors.messages.invalid')
       end
 
       if tulosseuranta_taso.present? && company.sum_level_profits.find_by(taso: tulosseuranta_taso).blank?
-        errors.add :tulosseuranta_taso, "must be correct if present"
+        errors.add :tulosseuranta_taso, I18n.t('errors.messages.invalid')
       end
     end
 
