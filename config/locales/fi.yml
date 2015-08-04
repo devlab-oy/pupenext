@@ -185,6 +185,9 @@ fi:
         credit_card: Käteismaksuehto, luottokortti ei pyöristetä
         debit_card: Käteismaksuehto, pankkikortti ei pyöristetä
         not_cash: Tämä ei ole käteismaksuehto
+      in_use_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
   date:
     abbr_day_names:
     - su
@@ -195,7 +198,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -221,7 +224,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu

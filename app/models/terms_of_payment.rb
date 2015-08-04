@@ -9,7 +9,6 @@ class TermsOfPayment < BaseModel
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
-  validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
   validates :teksti, length: { within: 1..40 }
 
@@ -32,6 +31,11 @@ class TermsOfPayment < BaseModel
     cash: 'p'
   }
 
+  enum kaytossa: {
+    active: '',
+    inactive: 'E'
+  }
+
   def factoring_options
     company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
   end
@@ -40,15 +44,8 @@ class TermsOfPayment < BaseModel
     company.bank_details.map { |i| [ i.nimitys, i.id ] }
   end
 
-  def in_use_options
-    [
-      [t("Käytössä"), ""],
-      [t("Poistettu / Ei käytössä"), "E"]
-    ]
-  end
-
   def not_in_use?
-    kaytossa == 'E'
+    kaytossa.inactive?
   end
 
   private

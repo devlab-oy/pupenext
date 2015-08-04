@@ -90,7 +90,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal 0, @top.pankkiyhteystiedot, 'nil is saved as zero'
   end
 
-  test 'cash options' do
+  test 'kateinen attribute enums' do
     options = { "cash" => "p", "debit_card" => "n", "credit_card" => "o", "not_cash" => "" }
     assert_equal options, TermsOfPayment.kateinens # LOL!
 
@@ -118,5 +118,12 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_raises(ArgumentError) { @top.kateinen = 'x' }
     assert_raises(ArgumentError) { @top.kateinen = 'kissa' }
     assert_raises(ArgumentError) { @top.kateinen = 1 }
+  end
+
+  test 'kaytossa attribute enums' do
+    options = { "active" => "", "inactive" => "E" }
+    assert_equal options, TermsOfPayment.kaytossas # LOL!
+
+    # no need to test enums more here, since we have tested them in "kateinen" enums test
   end
 end
