@@ -35,3 +35,6 @@ ignore_unused:
 - 'activerecord.{attributes,models}.*'
 - '{date,time,datetime,errors,helpers,number,support}.*'
 - 'administration.terms_of_payments.{cash_options,in_use_options}.*'
+- 'administration.accounts.{manuaali_esto_options,tiliointi_tarkistus_options,toimijaliitos_options}.*'
+- 'administration.printers.{mediatyyppi_options,merkisto_options}.*'
+- 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
