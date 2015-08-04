@@ -47,7 +47,7 @@ class TermsOfPayment < BaseModel
   private
 
     def check_relations
-      root = 'activerecord.models.terms_of_payment.errors'
+      root = 'errors.terms_of_payment'
 
       count = company.customers.where(maksuehto: tunnus).count
       errors.add(:base, I18n.t("#{root}.in_use_customers", count: count)) unless count.zero?

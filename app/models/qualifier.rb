@@ -63,7 +63,7 @@ class Qualifier < BaseModel
   end
 
   def deactivated
-    msg = I18n.t 'activerecord.models.qualifier.errors.accounts_found'
+    msg = I18n.t 'errors.qualifier.accounts_found'
     if kaytossa == 'E'
       # accounts is defined in child models
       errors.add(:kaytossa, msg) if accounts.count > 0

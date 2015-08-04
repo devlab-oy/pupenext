@@ -161,13 +161,6 @@ fi:
         one: Tili
         other: Tilikartta
       cash_register:
-        errors:
-          kassa_missing: Kassatili puuttuu tai sitä ei löydy
-          kassaerotus_missing: Kassaerotustili puuttuu tai sitä ei löydy
-          kateisotto_missing: Käteisotto puuttuu tai sitä ei löydy
-          kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
-          luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
-          pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
         one: Kassalipas
         other: Kassalippaat
       currency:
@@ -180,22 +173,12 @@ fi:
         one: Kirjoitin
         other: Kirjoittimet
       qualifier:
-        errors:
-          accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
         one: Tarkenne
         other: Tarkenteet
       sum_level:
-        errors:
-          begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
-          invalid_char: Ei saa sisältää Ö -kirjainta
-          not_same_type: Tasojen tulee olla olla saman tyyppisiä
         one: Taso
         other: Tasot
       terms_of_payment:
-        errors:
-          in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
-          in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
-          in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
         one: Maksuehto
         other: Maksuehdot
   administration:
@@ -363,7 +346,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -389,7 +372,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -488,6 +471,23 @@ fi:
       header:
         one: Virhe syötteessä esti mallin %{model} tallentamisen
         other: "%{count} virhettä esti mallin %{model} tallentamisen"
+    cash_register:
+      kassa_missing: Kassatili puuttuu tai sitä ei löydy
+      kassaerotus_missing: Kassaerotustili puuttuu tai sitä ei löydy
+      kateisotto_missing: Käteisotto puuttuu tai sitä ei löydy
+      kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
+      luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
+      pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
+    qualifier:
+      accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
+    sum_level:
+      begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
+      invalid_char: Ei saa sisältää Ö -kirjainta
+      not_same_type: Tasojen tulee olla olla saman tyyppisiä
+    terms_of_payment:
+      in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
+      in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
   fixed_assets:
     commodities:
       activate:

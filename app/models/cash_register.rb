@@ -23,33 +23,33 @@ class CashRegister < BaseModel
   private
 
     def check_kassa
-      msg = I18n.t('activerecord.models.cash_register.errors.kassa_missing')
+      msg = I18n.t('errors.cash_register.kassa_missing')
       errors.add(:kassa, msg) unless check_account(kassa)
     end
 
     def check_pankkikortti
-      msg = I18n.t('activerecord.models.cash_register.errors.pankkikortti_missing')
+      msg = I18n.t('errors.cash_register.pankkikortti_missing')
       errors.add(:pankkikortti, msg) unless check_account(pankkikortti)
     end
 
     def check_luottokortti
-      msg = I18n.t('activerecord.models.cash_register.errors.luottokortti_missing')
+      msg = I18n.t('errors.cash_register.luottokortti_missing')
       errors.add(:luottokortti, msg) unless check_account(luottokortti)
     end
 
     def check_kateistilitys
-      msg = I18n.t('activerecord.models.cash_register.errors.kateistilitys_missing')
+      msg = I18n.t('errors.cash_register.kateistilitys_missing')
       errors.add(:kateistilitys, msg) unless check_account(kateistilitys)
     end
 
     def check_kassaerotus
-      msg = I18n.t('activerecord.models.cash_register.errors.kassaerotus_missing')
+      msg = I18n.t('errors.cash_register.kassaerotus_missing')
       errors.add(:kassaerotus, msg) unless check_account(kassaerotus)
     end
 
     def check_kateisotto
       return true unless kateisotto.present?
-      msg = I18n.t('activerecord.models.cash_register.errors.kateisotto_missing')
+      msg = I18n.t('errors.cash_register.kateisotto_missing')
       errors.add(:kateisotto, msg) unless check_account(kateisotto)
     end
 

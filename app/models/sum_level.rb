@@ -83,7 +83,7 @@ class SumLevel < BaseModel
   private
 
     def does_not_contain_char
-      error = I18n.t 'activerecord.models.sum_level.errors.invalid_char'
+      error = I18n.t 'errors.sum_level.invalid_char'
       errors.add :taso, error if taso.to_s.include? "Ö"
     end
 
@@ -94,7 +94,7 @@ class SumLevel < BaseModel
       existing_tasos = klass.where(taso: summattavat_tasot)
 
       same_count = (existing_tasos.count == summattavat_tasot.count)
-      error = I18n.t 'activerecord.models.sum_level.errors.not_same_type'
+      error = I18n.t 'errors.sum_level.not_same_type'
       errors.add :summattava_taso, error unless same_count
     end
 
