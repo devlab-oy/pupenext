@@ -2,7 +2,7 @@
 
 <br/>
 
-<%= render "administration/header", text: t('.header') %>
+<%= render "administration/header", text: t('administration.accounts.edit.header') %>
 <%= render 'form', account: @account,
                    levels: @levels,
                    qualifiers: @qualifiers,
@@ -11,8 +11,8 @@
 <% if @account.persisted? && update_access? %>
   <br/>
 
-  <%= button_to(t('.button_remove'),
+  <%= button_to(t('administration.accounts.edit.button_remove'),
                 account_path(@account.id),
-                data: { confirm: t('.confirm_remove') },
+                data: { confirm: t('administration.accounts.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>
