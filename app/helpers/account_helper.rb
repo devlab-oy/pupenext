@@ -7,20 +7,20 @@ module AccountHelper
   end
 
   def toimijaliitos_options
-    Account.toimijaliitos.map do |key, value|
-      [ t("#{ROOT}.toimijaliitos_options.#{key}"), value ]
+    Account.toimijaliitos.map do |key,_|
+      [ t("#{ROOT}.toimijaliitos_options.#{key}"), key ]
     end
   end
 
   def tiliointi_tarkistus_options
-    Account.tiliointi_tarkistus.map do |key, value|
-      [ t("#{ROOT}.tiliointi_tarkistus_options.#{key}"), value ]
+    Account.tiliointi_tarkistus.map do |key,_|
+      [ t("#{ROOT}.tiliointi_tarkistus_options.#{key}"), key ]
     end
   end
 
   def manuaali_esto_options
-    Account.manuaali_estos.map do |key, value|
-      [ t("#{ROOT}.manuaali_esto_options.#{key}"), value ]
+    Account.manuaali_estos.map do |key,_|
+      [ t("#{ROOT}.manuaali_esto_options.#{key}"), key ]
     end
   end
 end

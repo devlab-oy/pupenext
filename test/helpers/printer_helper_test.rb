@@ -6,6 +6,7 @@ class PrinterHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.printers.merkisto_options.charset_default', :fi
     assert_equal text, merkisto_options.first.first
+    assert_equal 'charset_default', merkisto_options.first.second
   end
 
   test "returns translated mediatyyppi options valid for collection" do
@@ -13,5 +14,6 @@ class PrinterHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.printers.mediatyyppi_options.media_default', :fi
     assert_equal text, mediatyyppi_options.first.first
+    assert_equal 'media_default', mediatyyppi_options.first.second
   end
 end

@@ -6,6 +6,7 @@ class SumLevelHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.sum_levels.kumulatiivinen_options.not_cumulative', :fi
     assert_equal text, kumulatiivinen_options.first.first
+    assert_equal 'not_cumulative', kumulatiivinen_options.first.second
   end
 
   test "returns translated kayttotarkoitus options valid for collection" do
@@ -13,5 +14,6 @@ class SumLevelHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.sum_levels.kayttotarkoitus_options.normal', :fi
     assert_equal text, kayttotarkoitus_options.first.first
+    assert_equal 'normal', kayttotarkoitus_options.first.second
   end
 end

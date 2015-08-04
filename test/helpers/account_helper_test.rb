@@ -14,6 +14,7 @@ class AccountHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.accounts.toimijaliitos_options.relation_not_required', :fi
     assert_equal text, toimijaliitos_options.first.first
+    assert_equal 'relation_not_required', toimijaliitos_options.first.second
   end
 
   test "returns translated tiliointi_tarkistus options valid for collection" do
@@ -21,6 +22,7 @@ class AccountHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.accounts.tiliointi_tarkistus_options.no_mandatory_fields', :fi
     assert_equal text, tiliointi_tarkistus_options.first.first
+    assert_equal 'no_mandatory_fields', tiliointi_tarkistus_options.first.second
   end
 
   test "returns translated manuaali_esto options valid for collection" do
@@ -28,5 +30,6 @@ class AccountHelperTest < ActionView::TestCase
 
     text = I18n.t 'administration.accounts.manuaali_esto_options.editing_enabled', :fi
     assert_equal text, manuaali_esto_options.first.first
+    assert_equal 'editing_enabled', manuaali_esto_options.first.second
   end
 end
