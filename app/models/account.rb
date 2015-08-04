@@ -28,39 +28,33 @@ class Account < BaseModel
   self.table_name = :tili
   self.primary_key = :tunnus
 
+  enum toimijaliitos: {
+    relation_not_required: '',
+    relation_required: 'A'
+  }
+
+  enum tiliointi_tarkistus: {
+    no_mandatory_fields: 0,
+    mandatory_cs: 1,
+    mandatory_cs_target: 2,
+    mandatory_cs_project: 3,
+    mandatory_cs_target_project: 4,
+    mandatory_target: 5,
+    mandatory_target_project: 6,
+    mandatory_project: 7
+  }
+
+  enum manuaali_esto: {
+    editing_enabled: '',
+    editing_disabled: 'X'
+  }
+
   def self.evl_accounts
     where.not(evl_taso: '')
   end
 
   def tilino_nimi
     "#{tilino} #{nimi}"
-  end
-
-  def toimijaliitos_options
-    [
-      ["Ei liitospakkoa", ""],
-      ["Muistiotositteelle on liitettävä asiakas tai toimittaja", "A"]
-    ]
-  end
-
-  def tiliointi_tarkistus_options
-    [
-      ["Ei pakollisia kenttiä", "0"],
-      ["Pakollisia kenttiä tiliöinnissä on kustannuspaikka", "1"],
-      ["Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde", "2"],
-      ["Pakollisia kenttiä tiliöinnissä on kustannuspaikka, projekti", "3"],
-      ["Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde ja projekti", "4"],
-      ["Pakollisia kenttiä tiliöinnissä on kohde", "5"],
-      ["Pakollisia kenttiä tiliöinnissä on kohde, projekti", "6"],
-      ["Pakollisia kenttiä tiliöinnissä on", "7"]
-    ]
-  end
-
-  def manuaali_esto_options
-    [
-      ["Tiliöinti muokattavissa", ""],
-      ["Tiliöinnin manuaalinen lisäys/muokkaus estetty", "X"]
-    ]
   end
 
   private
