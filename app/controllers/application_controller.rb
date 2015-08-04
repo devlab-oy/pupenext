@@ -63,6 +63,8 @@ class ApplicationController < ActionController::Base
         "sv"
       when "ee"
         "et"
+      when "dk"
+        "da"
       else
         current_user.locale
       end
