@@ -175,6 +175,8 @@ fi:
       sum_level:
         errors:
           begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
+          invalid_char: Ei saa sisältää Ö -kirjainta
+          not_same_type: Tasojen tulee olla olla saman tyyppisiä
         one: Taso
         other: Tasot
       terms_of_payment:
