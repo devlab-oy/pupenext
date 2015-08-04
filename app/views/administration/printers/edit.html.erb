@@ -2,7 +2,7 @@
 
 <br/>
 
-<%= render "administration/header", text: t('.header') %>
+<%= render "administration/header", text: t('administration.printers.edit.header') %>
 <%= render 'form', printer: @printer %>
 
 <% if @printer.persisted? && update_access? %>
@@ -10,6 +10,6 @@
 
   <%= button_to(t('.button_remove'),
                 printer_path(@printer.id),
-                data: { confirm: t('.confirm_remove') },
+                data: { confirm: t('administration.printers.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>

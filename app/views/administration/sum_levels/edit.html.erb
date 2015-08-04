@@ -1,8 +1,8 @@
-<%= return_link(SumLevel.model_name.human(count: 2), sum_levels_path) %>
+<%= return_link(t('administration.sum_levels.index.header'), sum_levels_path) %>
 
 <br/>
 
-<%= render "administration/header", text: t('.header') %>
+<%= render "administration/header", text: t('administration.sum_levels.edit.header') %>
 <%= render 'form' %>
 
 <% if @sum_level.persisted? %>
@@ -10,6 +10,6 @@
 
   <%= button_to(t('.button_remove'),
                 sum_level_path(@sum_level),
-                data: { confirm: t('.confirm_remove') },
+                data: { confirm: t('administration.sum_levels.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>
