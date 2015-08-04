@@ -363,7 +363,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -389,7 +389,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -473,7 +473,12 @@ fi:
       not_a_number: ei ole luku
       not_an_integer: ei ole kokonaisluku
       odd: täytyy olla pariton
+      other_than: pitää olla erisuuri kuin %{count}
+      present: pitää olla tyhjä
       record_invalid: 'Validointi epäonnistui: %{errors}'
+      restrict_dependent_destroy:
+        one: Ei voida poistaa, koska riippuvainen %{record} on olemassa.
+        other: Ei voida poistaa, koska riippuvaiset %{record} ovat olemassa.
       taken: on jo käytössä
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
