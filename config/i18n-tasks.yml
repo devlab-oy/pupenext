@@ -34,3 +34,4 @@ ignore_missing:
 ignore_unused:
 - 'activerecord.{attributes,models}.*'
 - '{date,time,datetime,errors,helpers,number,support}.*'
+- 'administration.terms_of_payments.{cash_options,in_use_options}.*'
