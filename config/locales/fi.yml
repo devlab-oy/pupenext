@@ -3,18 +3,20 @@ fi:
   activerecord:
     attributes:
       account:
-        alv_taso: Alv taso
+        alv_taso: ALV-laskelman verotaso
+        kohde: Oletuskohde
         kustp: Oletuskustannuspaikka
-        sisainen_nimi: Sisäinen nimi
-        sisainen_taso: Sisäinen taso
-        tasokoodi_a: ALV-laskelman verotaso
-        tasokoodi_b: Tulosseurantataso
-        tasokoodi_e: EVL-taso
-        tasokoodi_s: Tasokoodi (sisäinen tuloslaskelma)
-        tasokoodi_u: Tasokoodi (ulkoinen tuloslaskelma / tase)
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutosaika
+        muuttaja: Muuttaja
+        nimi: Nimi
+        projekti: Oletusprojekti
+        sisainen_taso: Tasokoodi (Sisäinen tuloslaskelma)
         tilino: Tilinumero
-        ulkoinen_nimi: Ulkoinen nimi
-        ulkoinen_taso: Ulkoinen taso
+        tiliointi_tarkistus: Pakolliset kentät
+        toimijaliitos: Toimijalitos
+        ulkoinen_taso: Tasokoodi (Ulkoinen tuloslaskelma / Tase)
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
@@ -23,11 +25,11 @@ fi:
         kassaerotus: Kassaerotus
         kateisotto: Käteisotto
         kateistilitys: Käteistilitys
-        kustp: Kustannuspaikka
+        kustp: Kustannuspaikka (Kirjanpito)
         laatija: Laatija
         luontiaika: Luontiaika
         luottokortti: Luottokortti
-        muutospvm: Muutospvmx
+        muutospvm: Muutospvm
         muuttaja: Muuttaja
         nimi: Nimi
         pankkikortti: Pankkikortti
@@ -40,7 +42,7 @@ fi:
         int_koodi: Intrastat Int-koodi
         intrastat_sarjanro: Intrastat-sarjanro
         jarjestys: Järjestys
-        karhuerapvm: Maskumuistusten maskuaika (pva)
+        karhuerapvm: Maksumuistusten maksuaika (pva)
         kassa: Käteismyynti
         kassaale: Ostojen alennukset
         kassaerotus: Käteismyynnin kassan täsmäytyserot
@@ -72,7 +74,7 @@ fi:
         myynti_kaanteinen: Myynti, käänteinen ALV
         myynti_kohde: Myynnin oletuskohde
         myynti_kustp: Myynnin oletuskustannuspaikka
-        myynti_marginaali: Myynti, käytetyt tavarat
+        myynti_marginaali: Myynti käytetyt tavarat
         myynti_projekti: Myynnin oletusprojekti
         myyntireskontrakausi_alku: Myyntireskontrakauden alkupäivä
         myyntireskontrakausi_loppu: Myyntireskontrakauden loppupäivä
@@ -330,7 +332,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -356,7 +358,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
