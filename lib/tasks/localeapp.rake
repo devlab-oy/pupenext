@@ -3,12 +3,8 @@ namespace :translations do
   task pull: :environment do
     Localeapp::CLI::Pull.new.execute
 
-    locales = Dir[Rails.root.join('config', 'locales', '*')].map do |file|
-      File.basename file, ".yml"
-    end.join ' '
-
     # Normalize files
-    %x(bundle exec i18n-tasks normalize #{locales})
+    %x(bundle exec i18n-tasks normalize)
   end
 
   desc "Push all translations to Localeapp"
@@ -47,10 +43,10 @@ namespace :translations do
 
       # Write translations to yaml file
       File.open(file, 'w') { |f| f.write(hash.to_yaml) }
-
-      # Normalize file
-      %x(bundle exec i18n-tasks normalize #{locale})
     end
+
+    # Normalize file
+    %x(bundle exec i18n-tasks normalize)
   end
 
   def file_locale(file)
