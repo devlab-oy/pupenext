@@ -206,7 +206,7 @@ et:
     - R
     - L
     abbr_month_names:
-    - 
+    -
     - jaan.
     - veebr.
     - märts
@@ -232,7 +232,7 @@ et:
       long: "%d. %B %Y"
       short: "%d.%m.%y"
     month_names:
-    - 
+    -
     - jaanuar
     - veebruar
     - märts
@@ -297,7 +297,7 @@ et:
     messages:
       accepted: peab olema heaks kiidetud
       blank: on täitmata
-      confirmation: ei vasta kinnitusele
+      confirmation: ei vasta kinnitusele %{attribute}
       empty: on tühi
       equal_to: peab olema võrdne arvuga %{count}
       even: peab olema paarisarv

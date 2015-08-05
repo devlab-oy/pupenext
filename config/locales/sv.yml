@@ -115,7 +115,7 @@ sv:
     - fre
     - lör
     abbr_month_names:
-    - 
+    -
     - jan
     - feb
     - mar
@@ -141,7 +141,7 @@ sv:
       long: "%e %B %Y"
       short: "%e %b"
     month_names:
-    - 
+    -
     - januari
     - februari
     - mars
@@ -206,9 +206,9 @@ sv:
     messages:
       accepted: måste vara accepterad
       blank: måste anges
-      confirmation: stämmer inte överens
+      confirmation: stämmer inte överens %{attribute}
       empty: får ej vara tom
-      equal_to: måste vara samma som
+      equal_to: måste vara samma som %{count}
       even: måste vara jämnt
       exclusion: "är reserverat"
       greater_than: måste vara större än %{count}
