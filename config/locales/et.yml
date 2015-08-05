@@ -3,14 +3,20 @@ et:
   activerecord:
     attributes:
       account:
+        kustp: Vaikimisi kulukoht
+        tasokoodi_a: KM-arvestamise maksutase
         tilino: Kontonumber
       accounting/fixed_assets/commodity:
         kayttoonottopvm: Kasutuselevotu kuupäev
       cash_register:
         kassa: Kassa
+        kassaerotus: Kassa vahe
+        kateisotto: Sularaha võtmine
+        kateistilitys: Sularaha arvestus
         kustp: Finantseerimiskoht
         laatija: Laadija
         luontiaika: Koostamise aeg
+        luottokortti: Krediitkaart
         muuttaja: Muutja
         nimi: Nimi
         pankkikortti: Pangakaart
@@ -20,9 +26,13 @@ et:
         email: E-posti aadress
         factoringsaamiset: Faktrooringu müügi laekumised
         fax: Faks
+        int_koodi: Intrastat Int-koodi
+        intrastat_sarjanro: Intrastat-seerianr
         jarjestys: Järjekord
+        karhuerapvm: Makse meeldetuletuste maksetähtaeg (pv)
         kassa: Sularaha müük
         kassaale: Ostude allahindlused
+        kateistilitys: Kassa sularahamaksed
         kieli: Keel
         konserni: Kontsern
         konsernimyyntisaamiset: Kontserni müügi laekumised
@@ -30,6 +40,7 @@ et:
         konsernisaamiset: Vaikimisi konto kontserni laekumised
         konsernivelat: Vaikimisi konto kontserni võlad
         kotipaikka: Asukoht
+        kotitullauslupa: Kohapeal toimuva tollimise luba
         kuluprosentti: Kuluprotsent
         laskutus_maa: Arveldusaadressi maa
         laskutus_nimi: Maksja nimi
@@ -39,22 +50,40 @@ et:
         luottokortti: Sularahamüügi krediitkaardimakset
         luottotappiot: Müügi krediidikahjumid
         maa: Riik
+        matkalla_olevat: Teel olevad kaubaarved
         muutkulut: Ostude vaikimisi kulukonto
         myynninkassaale: Müügi allahindlused
         myynninvaluuttaero: Müügi valuutakursi vahed
         myynti: Müük
         myynti_eu: "Ühendatud müük"
+        myynti_kaanteinen: Müük, pöördkäibemaks
         myynti_kohde: Müügi vaikimisi objekt
         myynti_kustp: Müügi vaikimisi kulukoht
         myynti_marginaali: Müük, kasutatud kaubad
         myynti_projekti: Müügi vaikimisi projekt
+        myyntireskontrakausi_alku: Müügireskontra perioodi alguskuupäev
+        myyntireskontrakausi_loppu: Müügireskontra perioodi lõppkuupäev
         myyntisaamiset: Laekumised müügist
         nimi: Nimi
         osoite: Aadress
         osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
+        ostoreskontrakausi_alku: Ostureskontra perioodi alguskuupäev
+        ostoreskontrakausi_loppu: Ostureskontra perioodi lõppkuupäev
         ostovelat: Ostuvõlad
         ovttunnus: OVT-tunnus
+        pankkiiban1: Pangaandmed 1 IBAN
+        pankkiiban2: Pangaandmed 2 IBAN
+        pankkiiban3: Pangaandmed 3 IBAN
         pankkikortti: Sularahamüügi pangakaardimaksed
+        pankkinimi1: Pangaandmed 1 pank
+        pankkinimi2: Pangaandmed 2 pank
+        pankkinimi3: Pangaandmed 3 pank
+        pankkiswift1: Pangaandmed 1 SWIFT / BIC
+        pankkiswift2: Pangaandmed 2 SWIFT / BIC
+        pankkiswift3: Pangaandmed 3 SWIFT / BIC
+        pankkitili1: Pangaandmed 1 kontonumber
+        pankkitili2: Pangaandmed 2 kontonumber
+        pankkitili3: Pangaandmed 3 kontonumber
         postino: Postiindeks
         postitp: Linn
         puhelin: Telefon
@@ -62,11 +91,25 @@ et:
         raaka_ainevarasto: Tooraineladu
         raaka_ainevarastonmuutos: Toorainelao muutus
         selvittelytili: Rahakonto kliiringkonto ebamäärastele tehingutele
+        tilastotullikamari: Statistikaameti tolliosakond
+        tilikauden_tulos: Aruandeaasta kasum
+        tilikausi_alku: Raamatupidamise perioodi alguskuupäev
+        tilikausi_loppu: Raamatupidamise perioodi lõppkuupäev
+        tulli_lisattava_era: SAD-ankeedi lisatav partii
+        tulli_vahennettava_era: SAD-ankeedi vähendav partii
+        tullikamari: Tolliosakond
+        tullin_asiaknro: Tolli kliendinumber
+        tullin_lupanro: Tolli loa number
+        tullipaate: Tolliterminal
         valkoodi: Valuuta
         valuuttaero: Ostude valuutakursside vahed
         varasto: Kaubad/ladu
         varastonmuutos: Lao muutus
+        varastonmuutos_epakurantti: Mitteminevuse laoväärtus muutus
+        varastonmuutos_inventointi: Inventuuride saldoparandus
         varastonmuutos_valmistuksesta: Tootmise varude muutus
+        viivastyskorko: Viivise protsent
+        www: WWW
         ytunnus: KMKR Nr.
       printer:
         jarjestys: Järjekord
@@ -79,6 +122,7 @@ et:
         yhteyshenkilo: Kontaktisik
     models:
       account: Arve
+      cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
       printer: Printer
@@ -95,10 +139,15 @@ et:
         no_target: Objekt puudub
       index:
         header: Kontokaart
+      manuaali_esto_options:
+        editing_disabled: Konteeringu käsitsi lisamine/muutmine keelatud
       tiliointi_tarkistus_options:
         no_mandatory_fields: Kohustuslikud väljad puuduvad
+      toimijaliitos_options:
+        relation_not_required: Liitmine ei ole kohustuslik
     cash_registers:
       edit:
+        header: Kassa
         no_select: Pole valikut
       index:
         button_search: Otsi
@@ -113,6 +162,7 @@ et:
       edit:
         header: Aruandeperiood
       index:
+        button_new: Uus kontoperiood
         button_search: Otsi
         header: Majandusaasta
     printers:
@@ -146,6 +196,12 @@ et:
       index:
         button_new: Uus maksutingimus
         button_search: Otsi
+  datetime:
+    distance_in_words:
+      x_months:
+        one: kuu
+    prompts:
+      month: kuu
   helpers:
     select:
       prompt: Vali
