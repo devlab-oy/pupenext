@@ -8,13 +8,8 @@ class Dictionary < ActiveRecord::Base
     # Return the string if we ask for a Finnish word
     return string if language == 'fi'
 
-    # Generate a cache key for the string
-    cache_key = string.hash
-
-    # Fetch the translation (cache does not expire)
-    translation = Rails.cache.fetch("translation_#{cache_key}") do
-      where("fi = BINARY ?", string.to_s).first
-    end
+    # Fetch the translation
+    translation = fetch_translation string
 
     # Return the string if don't have it in the database
     return string if translation.nil?
@@ -25,4 +20,18 @@ class Dictionary < ActiveRecord::Base
     # Return the string if we don't have translation in correct languate
     t_string.present? ? t_string : string
   end
+
+  private
+
+    def self.fetch_translation(string)
+      # Generate a cache key for the string
+      cache_key = string.hash
+
+      # Fetch the translation (cache does not expire)
+      translation = Rails.cache.fetch("translation_#{cache_key}") do
+        where("fi = BINARY ?", string.to_s).first
+      end
+
+      translation
+    end
 end
