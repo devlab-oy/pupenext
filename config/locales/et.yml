@@ -5,6 +5,8 @@ et:
       account:
         kustp: Vaikimisi kulukoht
         tasokoodi_a: KM-arvestamise maksutase
+        tasokoodi_s: Taseme kood (Sisene kasumiaruanne)
+        tasokoodi_u: Taseme kood (Väline kasumiaruanne/Bilanss))
         tilino: Kontonumber
       accounting/fixed_assets/commodity:
         kayttoonottopvm: Kasutuselevotu kuupäev
@@ -145,6 +147,13 @@ et:
       manuaali_esto_options:
         editing_disabled: Konteeringu käsitsi lisamine/muutmine keelatud
       tiliointi_tarkistus_options:
+        mandatory_cs: kohustuslikke välju konteerimisel on kulukoht
+        mandatory_cs_project: kohustuslikke välju konteerimisel on kulukoht, projekt
+        mandatory_cs_target: kohustuslikke välju konteerimisel on kulukoht, objekt
+        mandatory_cs_target_project: kohustuslikke välju konteerimisel on kulukoht, objekt ja projekt
+        mandatory_project: kohustuslikke välju konteerimisel on projekt
+        mandatory_target: kohustuslikke välju konteerimisel on objekt
+        mandatory_target_project: kohustuslikke välju konteerimisel on objekt, projekt
         no_mandatory_fields: Kohustuslikud väljad puuduvad
       toimijaliitos_options:
         relation_not_required: Liitmine ei ole kohustuslik
