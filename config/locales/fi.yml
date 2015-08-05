@@ -1,3 +1,4 @@
+---
 fi:
   activerecord:
     attributes:
@@ -543,9 +544,6 @@ fi:
       create: Luo %{model}
       submit: Tallenna %{model}
       update: Päivitä %{model}
-  layouts:
-    application:
-      dictionary: Dictionary
   number:
     currency:
       format:

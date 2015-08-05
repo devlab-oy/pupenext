@@ -550,9 +550,6 @@ de:
       create: "%{model} erstellen"
       submit: "%{model} speichern"
       update: "%{model} aktualisieren"
-  layouts:
-    application:
-      dictionary: 
   number:
     currency:
       format:

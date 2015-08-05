@@ -544,9 +544,6 @@ sv:
       create: Skapa %{model}
       submit: Spara %{model}
       update: "Ändra %{model}"
-  layouts:
-    application:
-      dictionary: 
   number:
     currency:
       format:

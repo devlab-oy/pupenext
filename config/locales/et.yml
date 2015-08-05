@@ -542,9 +542,6 @@ et:
       create: Loo uus %{model}
       submit: Salvesta %{model}
       update: Uuenda objekti %{model}
-  layouts:
-    application:
-      dictionary: 
   number:
     currency:
       format:
