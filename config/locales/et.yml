@@ -3,20 +3,20 @@ et:
   activerecord:
     attributes:
       account:
-        alv_taso:
-        kohde:
-        kustp:
-        laatija:
-        luontiaika:
-        muutospvm:
-        muuttaja:
-        nimi:
-        projekti:
-        sisainen_taso:
-        tilino:
-        tiliointi_tarkistus:
+        alv_taso: KM-arvestamise maksutase
+        kohde: Vaikimisi objekt
+        kustp: Vaikimisi kulukoht
+        laatija: Laadija
+        luontiaika: Koostamise aeg
+        muutospvm: Aja muudatus
+        muuttaja: Muutja
+        nimi: Nimi
+        projekti: Vaikimisi projekt
+        sisainen_taso: Taseme kood (Sisene kasumiaruanne)
+        tilino: Kontonumber
+        tiliointi_tarkistus: Kohustuslikud väljad
         toimijaliitos:
-        ulkoinen_taso:
+        ulkoinen_taso: Taseme kood (Väline kasumiaruanne/Bilanss))
       accounting/fixed_assets/commodity:
         evl_poistotyyppi:
         kayttoonottopvm: Kasutuselevotu kuupäev
@@ -29,7 +29,7 @@ et:
         laatija: Laadija
         luontiaika: Koostamise aeg
         luottokortti: Krediitkaart
-        muutospvm:
+        muutospvm: Muutmise kuupäev
         muuttaja: Muutja
         nimi: Nimi
         pankkikortti: Pangakaart
