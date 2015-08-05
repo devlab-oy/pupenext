@@ -50,10 +50,9 @@ class DictionaryTest < ActiveSupport::TestCase
     t = Dictionary.translate_raw("not_in_the_database", "en")
     assert_nil t, "should return nil if string is not in database"
 
-    t = Dictionary.translate_raw("Hei maailma!")
-    assert_nil t, "return nil if no language given"
-
     t = Dictionary.translate_raw("Hei maailma!", 'fi')
     assert_nil t, "return nil if fi language given"
+
+    assert_raises (ArgumentError) { Dictionary.translate_raw("Hei maailma!") }
   end
 end

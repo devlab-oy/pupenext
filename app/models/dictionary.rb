@@ -7,7 +7,7 @@ class Dictionary < ActiveRecord::Base
     translate_raw(string, language) || string
   end
 
-  def self.translate_raw(string, language = 'fi')
+  def self.translate_raw(string, language)
     language.downcase!
 
     # Return nil if we're asking for finnish
