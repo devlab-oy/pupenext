@@ -2,6 +2,19 @@
 et:
   activerecord:
     attributes:
+      account:
+        tilino: Kontonumber
+      accounting/fixed_assets/commodity:
+        kayttoonottopvm: Kasutuselevotu kuupäev
+      cash_register:
+        kassa: Kassa
+        kustp: Finantseerimiskoht
+        laatija: Laadija
+        luontiaika: Koostamise aeg
+        muuttaja: Muutja
+        nimi: Nimi
+        pankkikortti: Pangakaart
+        toimipaikka: Asukoht
       company:
         alv: Km
         email: E-posti aadress
@@ -18,32 +31,17 @@ et:
         konsernivelat: Vaikimisi konto kontserni võlad
         kotipaikka: Asukoht
         kuluprosentti: Kuluprotsent
-        laskutus_maa: Arveldusaadressi maa
-        laskutus_nimi: Maksja nimi
-        laskutus_osoite: Maksja aadress
-        laskutus_postino: Maksja postiindeks
-        laskutus_postitp: Maksja linn
-        luottokortti: Sularahamüügi krediitkaardimakset
-        luottotappiot: Müügi krediidikahjumid
         maa: Riik
         muutkulut: Ostude vaikimisi kulukonto
         myynninkassaale: Müügi allahindlused
-        myynninvaluuttaero: Müügi valuutakursi vahed
         myynti: Müük
-        myynti_eu: "Ühendatud müük"
-        myynti_kohde: Müügi vaikimisi objekt
-        myynti_kustp: Müügi vaikimisi kulukoht
         myynti_marginaali: Müük, kasutatud kaubad
-        myynti_projekti: Müügi vaikimisi projekt
         myyntisaamiset: Laekumised müügist
         nimi: Nimi
         osoite: Aadress
-        osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
         ostovelat: Ostuvõlad
         ovttunnus: OVT-tunnus
-        pankkikortti: Sularahamüügi pangakaardimaksed
         postino: Postiindeks
-        postitp: Linn
         puhelin: Telefon
         pyoristys: Ostu- ja müügiarvete ümardamise vahed
         raaka_ainevarasto: Tooraineladu
@@ -55,3 +53,101 @@ et:
         varastonmuutos: Lao muutus
         varastonmuutos_valmistuksesta: Tootmise varude muutus
         ytunnus: KMKR Nr.
+        laskutus_maa: Arveldusaadressi maa
+        laskutus_nimi: Maksja nimi
+        laskutus_osoite: Maksja aadress
+        laskutus_postino: Maksja postiindeks
+        laskutus_postitp: Maksja linn
+        luottokortti: Sularahamüügi krediitkaardimakset
+        luottotappiot: Müügi krediidikahjumid
+        myynninvaluuttaero: Müügi valuutakursi vahed
+        myynti_eu: "Ühendatud müük"
+        myynti_kohde: Müügi vaikimisi objekt
+        myynti_kustp: Müügi vaikimisi kulukoht
+        myynti_projekti: Müügi vaikimisi projekt
+        osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
+        pankkikortti: Sularahamüügi pangakaardimaksed
+        postitp: Linn
+      printer:
+        jarjestys: Järjekord
+        kirjoitin: Printer
+        nimi: Nimi
+        osoite: Aadress
+        postino: Postinr
+        postitp: Postiaadress
+        puhelin: Telefon
+        yhteyshenkilo: Kontaktisik
+    models:
+      account: Arve
+      currency: Valuuta
+      fiscal_year: Aruandeperiood
+      printer: Printer
+      qualifier: TÃ¤psustus
+      sum_level: Tase
+      terms_of_payment: Maksutingimus
+  administration:
+    accounts:
+      edit:
+        button_remove: Kustuta konto
+        header: Arve
+        no_cost_center: Kulukoht puudub
+        no_project: Projekt puudub
+        no_target: Objekt puudub
+      index:
+        header: Kontokaart
+      tiliointi_tarkistus_options:
+        no_mandatory_fields: Kohustuslikud väljad puuduvad
+    cash_registers:
+      edit:
+        no_select: Pole valikut
+      index:
+        button_search: Otsi
+        header: Kassarakised
+    currencies:
+      edit:
+        header: Valuuta
+      index:
+        button_search: Otsi
+        header: Valuutad
+    fiscal_years:
+      edit:
+        header: Aruandeperiood
+      index:
+        button_search: Otsi
+        header: Majandusaasta
+    printers:
+      edit:
+        header: Printer
+      index:
+        button_search: Otsi
+        header: Printerid
+      mediatyyppi_options:
+        media_default: Pole valikut
+      merkisto_options:
+        charset_default: Pole valikut
+    sum_levels:
+      edit:
+        button_remove: Kustuta tase
+      index:
+        button_new: Uus tase
+        button_search: Otsi
+      kayttotarkoitus_options:
+        normal: Pole valikut
+        turnover: Kaupluse vahetus
+      kumulatiivinen_options:
+        not_cumulative: Ei
+    terms_of_payments:
+      edit:
+        header: Maksutingimus
+        no_factoring: Ei kasutata faktooringut
+      in_use_options:
+        active: Kasutusel
+        inactive: Kustutatud/Ei ole kasutusel
+      index:
+        button_new: Uus maksutingimus
+        button_search: Otsi
+  helpers:
+    select:
+      prompt: Vali
+  shared:
+    link_return_to: Tagasi programmi

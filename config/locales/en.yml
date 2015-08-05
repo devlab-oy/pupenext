@@ -2,10 +2,84 @@
 en:
   activerecord:
     attributes:
+      account:
+        tilino: 'Account #'
+      accounting/fixed_assets/commodity:
+        kayttoonottopvm: Deployment date
+      cash_register:
+        kassa: Cash register
+        kassaerotus: Cash difference
+        kustp: Cost center
+        laatija: Created by
+        luontiaika: Created
+        muuttaja: Updated by
+        nimi: Name
+        pankkikortti: Back card
+        toimipaikka: Office
+      company:
+        alv: VAT
+        email: Email
+        factoringsaamiset: Factoring receivables
+        fax: Fax
+        jarjestys: Order
+        kassa: Cash receipt
+        kassaale: Purchase discounts
+        kieli: Language
+        konserni: Group
+        konsernimyyntisaamiset: Receivables within the Group
+        konserniostovelat: Payables within the Group
+        konsernisaamiset: Default account Corporate receivables
+        konsernivelat: Default account Corporate payables
+        kotipaikka: Domicile
+        kuluprosentti: Expense %
+        laskutus_maa: Invoicing country
+        laskutus_nimi: Customer name invoicing address
+        laskutus_osoite: Address
+        laskutus_postino: Invoicing address postal code
+        laskutus_postitp: Invoicing addreaa city
+        luottokortti: Cash receipt, credit cards
+        luottotappiot: Sales credit loss
+        maa: Country
+        matkalla_olevat: Inventories invoices in transit
+        myynninkassaale: Sales discounts
+        myynninvaluuttaero: Sales exchange rate premium
+        myynti: Sales
+        myynti_ei_eu: Sales outside EU
+        myynti_eu: Community sales
+        myynti_kohde: Sales default item
+        myynti_kustp: Sales default cost senter
+        myynti_marginaali: Sales, second hand
+        myynti_projekti: Sales default project
+        myyntisaamiset: Accounts receivable
+        nimi: Name
+        osoite: Address
+        osto_marginaali: Purchase, second hand (sales related)
+        ostovelat: Accounts payable
+        ovttunnus: OVT-code
+        pankkikortti: Cash receipts, bank cards
+        postino: Postalc ode
+        postitp: City
+        puhelin: Telephone
+        pyoristys: Purchase and sales invoice mismatch
+        raaka_ainevarasto: Raw material stock
+        raaka_ainevarastonmuutos: Raw material inventory change
+        selvittelytili: Money accounts adjustment acc for unclear transactions
+        valkoodi: Currency
+        varasto: Goods/stock
+        varastonmuutos: Inventory change
+        varastonmuutos_valmistuksesta: Manufacture inventory change
+        viivastyskorko: Penalty interest rate
+        ytunnus: VAT nr
       printer:
-        ip: Ip
         jarjestys: Order
         kirjoitin: Printer
+        nimi: Name
+        osoite: Address
+        postino: Postal code
+        postitp: Post office
+        puhelin: Phone
+        yhteyshenkilo: Contact person
+        ip: Ip
         komento: Command
         mediatyyppi: Media type
         mediatyyppi_types:
@@ -23,15 +97,87 @@ en:
           '3': ANSI
           '4': UTF8
           '5': Scandic off
-        nimi: Name
-        osoite: Address
-        postino: Postal code
-        postitp: Post office
-        puhelin: Phone
         unifaun_nimi: Unifaun name
-        yhteyshenkilo: Contact person
     models:
+      account: Account
+      currency: Currency
+      fiscal_year: Fiscal year
       printer: Printer
+      qualifier: Cost, profit center, projects
+      sum_level: Level
+      terms_of_payment: Terms of payment
+  administration:
+    accounts:
+      edit:
+        button_remove: Delete account
+        header: Account
+        no_cost_center: No cost center
+        no_project: No project
+        no_target: No target
+      index:
+        header: Chart of accounts
+      tiliointi_tarkistus_options:
+        no_mandatory_fields: No mandatory fields
+      toimijaliitos_options:
+        relation_required: Memo needs a customer or a supplier
+    cash_registers:
+      edit:
+        no_select: No selection
+      index:
+        button_search: Search
+        header: Cash accounts
+    currencies:
+      edit:
+        header: Currency
+      index:
+        button_search: Search
+        header: Currencies
+    fiscal_years:
+      edit:
+        header: Fiscal year
+      index:
+        button_search: Search
+        header: Fiscal periods
+    printers:
+      edit:
+        header: Printer
+      index:
+        button_search: Search
+        header: Printers
+      mediatyyppi_options:
+        media_default: No selection
+      merkisto_options:
+        charset_default: No selection
+    sum_levels:
+      edit:
+        button_remove: Delete level
+      index:
+        button_new: New level
+        button_search: Search
+      kayttotarkoitus_options:
+        normal: No selection
+        turnover: Revenue
+      kumulatiivinen_options:
+        not_cumulative: 'No'
+    terms_of_payments:
+      edit:
+        header: Terms of payment
+        no_factoring: No factoring
+      in_use_options:
+        active: In use
+        inactive: Deleted / Not in use
+      index:
+        button_new: New payment term
+        button_search: Search
+  helpers:
+    select:
+      prompt: Please select
+    submit:
+      create: Create %{model}
+      submit: Save %{model}
+      update: Update %{model}
+  shared:
+    link_return_to: Go back to the program
   date:
     abbr_day_names:
     - Sun
@@ -42,7 +188,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -68,7 +214,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - January
     - February
     - March
@@ -168,13 +314,6 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
-  helpers:
-    select:
-      prompt: Please select
-    submit:
-      create: Create %{model}
-      submit: Save %{model}
-      update: Update %{model}
   number:
     currency:
       format:

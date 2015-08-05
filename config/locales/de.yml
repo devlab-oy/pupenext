@@ -2,6 +2,21 @@
 de:
   activerecord:
     attributes:
+      account:
+        tilino: Kontonummer
+      accounting/fixed_assets/commodity:
+        kayttoonottopvm: Inbetriebnahmedatum
+      cash_register:
+        kassa: Kasse
+        kassaerotus: Kassendifferenz
+        kateisotto: Barabhebung
+        kateistilitys: Barabrechnung
+        kustp: Kostenstelle
+        laatija: Erstellt von
+        luontiaika: Erstellt am
+        nimi: Name
+        pankkikortti: Bankkarte
+        toimipaikka: Geschäftsstelle
       company:
         alv: Umsatzsteuer
         email: E-Mailadresse
@@ -60,3 +75,83 @@ de:
         varastonmuutos: Lageränderung
         varastonmuutos_valmistuksesta: Lageränderung der Fertigung
         ytunnus: Steuernummer
+      printer:
+        jarjestys: Sortierung
+        kirjoitin: Drucker
+        nimi: Name
+        osoite: Adresse
+        postino: Postleitzahl
+        postitp: Poststelle
+        puhelin: Telefon
+        yhteyshenkilo: Kontaktperson
+    models:
+      account: Konto
+      currency: Währung
+      fiscal_year: Rechnungsjahr
+      printer: Drucker
+      qualifier: Ergänzung
+      sum_level: Ebene
+      terms_of_payment: Zahlungsbedingung
+  administration:
+    accounts:
+      edit:
+        button_remove: Konto löschen
+        header: Konto
+        no_cost_center: Keine Kostenstelle
+        no_project: Kein Projekt
+        no_target: Kein Ziel
+      index:
+        header: Kontotabelle
+    cash_registers:
+      edit:
+        no_select: Beliebig
+      index:
+        button_search: Suchen
+        header: Kassen
+    currencies:
+      edit:
+        header: Währung
+      index:
+        button_search: Suchen
+        header: Währungen
+    fiscal_years:
+      edit:
+        header: Rechnungsjahr
+      index:
+        button_search: Suchen
+    printers:
+      edit:
+        header: Drucker
+      index:
+        button_search: Suchen
+        header: Ausdrucker
+      mediatyyppi_options:
+        media_default: Beliebig
+      merkisto_options:
+        charset_default: Beliebig
+    sum_levels:
+      edit:
+        button_remove: Ebene löschen
+      index:
+        button_new: Neue Ebene
+        button_search: Suchen
+      kayttotarkoitus_options:
+        normal: Beliebig
+        turnover: Umsatz
+      kumulatiivinen_options:
+        not_cumulative: Nein
+    terms_of_payments:
+      edit:
+        header: Zahlungsbedingung
+        no_factoring: Wird nicht factoriert
+      in_use_options:
+        active: Wird benutzt
+        inactive: Gelöscht / Wird nicht benutzt
+      index:
+        button_new: Neue Zahlungsbedingung
+        button_search: Suchen
+  helpers:
+    select:
+      prompt: Auswählen
+  shared:
+    link_return_to: Zurück ins Programm

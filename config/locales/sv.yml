@@ -1,20 +1,112 @@
+---
 sv:
   activerecord:
     attributes:
+      account:
+        tilino: Kontonummer
+      accounting/fixed_assets/commodity:
+        kayttoonottopvm: Ibruktagningsdatum
+      cash_register:
+        kassa: Kassa
+        kustp: Kostnadsställe
+        laatija: Skapare
+        luontiaika: Skapad
+        nimi: Namn
+        toimipaikka: Verksamhetsställe
       company:
-        alv: 'Moms'
-        fax: 'Fax'
-        jarjestys: 'Ordning'
-        kieli: 'Språk'
-        konserni: 'Koncern'
-        kotipaikka: 'Hemplats'
-        kuluprosentti: 'Kostprocent'
-        maa: 'Land'
-        myynti: 'Försäljning'
-        myyntisaamiset: 'Försäljningsfordringar'
-        nimi: 'Namn'
-        osoite: 'Adress'
-        postino: 'Postnummer'
-        puhelin: 'Tel.'
-        valkoodi: 'valuta'
-        ytunnus: 'Org.Nr'
+        alv: Moms
+        fax: Fax
+        jarjestys: Ordning
+        kieli: Språk
+        konserni: Koncern
+        kotipaikka: Hemplats
+        kuluprosentti: Kostprocent
+        maa: Land
+        myynti: Försäljning
+        myyntisaamiset: Försäljningsfordringar
+        nimi: Namn
+        osoite: Adress
+        postino: Postnummer
+        postitp: Postanstalt
+        puhelin: Tel.
+        valkoodi: valuta
+        ytunnus: Org.Nr
+      printer:
+        jarjestys: Ordning
+        kirjoitin: Skrivare
+        nimi: Namn
+        osoite: Adress
+        postino: Post Nr
+        postitp: Postadress
+        puhelin: Tel.
+        yhteyshenkilo: Kontaktperson
+    models:
+      account: Konto
+      currency: Valuta
+      fiscal_year: Räkenskapsår
+      printer: Skrivare
+      qualifier: Specifikation
+      sum_level: Nivå
+      terms_of_payment: Betalningsvillkor
+  administration:
+    accounts:
+      edit:
+        button_remove: Radera konto
+        header: Konto
+        no_cost_center: Inget kostnadsställe
+        no_project: Inget projekt
+        no_target: Inget objekt
+      index:
+        header: Kontotabell
+    cash_registers:
+      edit:
+        no_select: Inget val
+      index:
+        button_search: Sök
+    currencies:
+      edit:
+        header: Valuta
+      index:
+        button_search: Sök
+        header: Valutor
+    fiscal_years:
+      edit:
+        header: Räkenskapsår
+      index:
+        button_search: Sök
+        header: Räkenskapsåren
+    printers:
+      edit:
+        header: Skrivare
+      index:
+        button_search: Sök
+        header: Skrivare
+      mediatyyppi_options:
+        media_default: Inget val
+      merkisto_options:
+        charset_default: Inget val
+    sum_levels:
+      edit:
+        button_remove: Radera nivå
+      index:
+        button_new: Ny nivå
+        button_search: Sök
+      kayttotarkoitus_options:
+        normal: Inget val
+        turnover: Omsättning
+      kumulatiivinen_options:
+        not_cumulative: Nej
+    terms_of_payments:
+      edit:
+        header: Betalningsvillkor
+        no_factoring: Ej factoring
+      in_use_options:
+        inactive: Borttagit / Inte i bruk
+      index:
+        button_new: Nytt betalningsvillkor
+        button_search: Sök
+  helpers:
+    select:
+      prompt: Välj
+  shared:
+    link_return_to: "Återgå till"
