@@ -26,7 +26,7 @@
       </th>
 
       <th>
-        <%= label_tag :sisainen_nimi %>
+        <%= label_tag :sisainen_nimi, SumLevel::Internal.model_name.human %>
       </th>
 
       <th>
@@ -36,7 +36,7 @@
       </th>
 
       <th>
-        <%= label_tag :ulkoinen_nimi %>
+        <%= label_tag :ulkoinen_nimi, SumLevel::External.model_name.human %>
       </th>
 
       <th>
@@ -46,7 +46,7 @@
       </th>
 
       <th>
-        <%= label_tag :alv_nimi %>
+        <%= label_tag :alv_nimi, SumLevel::Vat.model_name.human %>
       </th>
 
       <th class="back">
