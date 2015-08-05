@@ -21,6 +21,25 @@ class Dictionary < ActiveRecord::Base
     t_string.present? ? t_string : string
   end
 
+  def self.translate_raw(string, language = 'fi')
+    language.downcase!
+
+    # Return nil if we're asking for finnish
+    return if language == 'fi'
+
+    # Fetch the translation
+    translation = fetch_translation string
+
+    # Return nil if don't have it in the database
+    return if translation.nil?
+
+    # Get the translation for the given language
+    t_string = translation.send(language)
+
+    # Return nil if we don't have translation in correct languate
+    t_string.present? ? t_string : nil
+  end
+
   private
 
     def self.fetch_translation(string)
