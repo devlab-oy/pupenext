@@ -31,17 +31,32 @@ et:
         konsernivelat: Vaikimisi konto kontserni võlad
         kotipaikka: Asukoht
         kuluprosentti: Kuluprotsent
+        laskutus_maa: Arveldusaadressi maa
+        laskutus_nimi: Maksja nimi
+        laskutus_osoite: Maksja aadress
+        laskutus_postino: Maksja postiindeks
+        laskutus_postitp: Maksja linn
+        luottokortti: Sularahamüügi krediitkaardimakset
+        luottotappiot: Müügi krediidikahjumid
         maa: Riik
         muutkulut: Ostude vaikimisi kulukonto
         myynninkassaale: Müügi allahindlused
+        myynninvaluuttaero: Müügi valuutakursi vahed
         myynti: Müük
+        myynti_eu: "Ühendatud müük"
+        myynti_kohde: Müügi vaikimisi objekt
+        myynti_kustp: Müügi vaikimisi kulukoht
         myynti_marginaali: Müük, kasutatud kaubad
+        myynti_projekti: Müügi vaikimisi projekt
         myyntisaamiset: Laekumised müügist
         nimi: Nimi
         osoite: Aadress
+        osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
         ostovelat: Ostuvõlad
         ovttunnus: OVT-tunnus
+        pankkikortti: Sularahamüügi pangakaardimaksed
         postino: Postiindeks
+        postitp: Linn
         puhelin: Telefon
         pyoristys: Ostu- ja müügiarvete ümardamise vahed
         raaka_ainevarasto: Tooraineladu
@@ -53,21 +68,6 @@ et:
         varastonmuutos: Lao muutus
         varastonmuutos_valmistuksesta: Tootmise varude muutus
         ytunnus: KMKR Nr.
-        laskutus_maa: Arveldusaadressi maa
-        laskutus_nimi: Maksja nimi
-        laskutus_osoite: Maksja aadress
-        laskutus_postino: Maksja postiindeks
-        laskutus_postitp: Maksja linn
-        luottokortti: Sularahamüügi krediitkaardimakset
-        luottotappiot: Müügi krediidikahjumid
-        myynninvaluuttaero: Müügi valuutakursi vahed
-        myynti_eu: "Ühendatud müük"
-        myynti_kohde: Müügi vaikimisi objekt
-        myynti_kustp: Müügi vaikimisi kulukoht
-        myynti_projekti: Müügi vaikimisi projekt
-        osto_marginaali: Ost, kasutatud kaubad (koos müügiga)
-        pankkikortti: Sularahamüügi pangakaardimaksed
-        postitp: Linn
       printer:
         jarjestys: Järjekord
         kirjoitin: Printer

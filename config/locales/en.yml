@@ -71,15 +71,9 @@ en:
         viivastyskorko: Penalty interest rate
         ytunnus: VAT nr
       printer:
+        ip: Ip
         jarjestys: Order
         kirjoitin: Printer
-        nimi: Name
-        osoite: Address
-        postino: Postal code
-        postitp: Post office
-        puhelin: Phone
-        yhteyshenkilo: Contact person
-        ip: Ip
         komento: Command
         mediatyyppi: Media type
         mediatyyppi_types:
@@ -97,7 +91,13 @@ en:
           '3': ANSI
           '4': UTF8
           '5': Scandic off
+        nimi: Name
+        osoite: Address
+        postino: Postal code
+        postitp: Post office
+        puhelin: Phone
         unifaun_nimi: Unifaun name
+        yhteyshenkilo: Contact person
     models:
       account: Account
       currency: Currency
@@ -169,15 +169,6 @@ en:
       index:
         button_new: New payment term
         button_search: Search
-  helpers:
-    select:
-      prompt: Please select
-    submit:
-      create: Create %{model}
-      submit: Save %{model}
-      update: Update %{model}
-  shared:
-    link_return_to: Go back to the program
   date:
     abbr_day_names:
     - Sun
@@ -314,6 +305,13 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
+  helpers:
+    select:
+      prompt: Please select
+    submit:
+      create: Create %{model}
+      submit: Save %{model}
+      update: Update %{model}
   number:
     currency:
       format:
@@ -362,6 +360,8 @@ en:
     precision:
       format:
         delimiter: ''
+  shared:
+    link_return_to: Go back to the program
   support:
     array:
       last_word_connector: ", and "
