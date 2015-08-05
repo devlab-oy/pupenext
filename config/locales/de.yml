@@ -14,6 +14,8 @@ de:
         kustp: Kostenstelle
         laatija: Erstellt von
         luontiaika: Erstellt am
+        luottokortti: kreditkarte
+        muuttaja: Konverter
         nimi: Name
         pankkikortti: Bankkarte
         toimipaikka: Geschäftsstelle
@@ -34,6 +36,7 @@ de:
         konsernisaamiset: Standardkonto Konzernforderungen
         konsernivelat: Standardkonto Konzernverbindlichkeiten
         kotipaikka: Sitz
+        kotitullauslupa: heimverzollungserlaubnis
         kuluprosentti: Kostenprozent
         laskutus_maa: Land der Rechnungsadresse
         laskutus_nimi: Name der Rechnungsadresse
@@ -69,15 +72,22 @@ de:
         selvittelytili: Clearingkonto der Geldkonten für unklare Zahlungen
         siirtosaamiset: ARAP-Konto für die Periodisierung der Einkaufsrechnung
         siirtovelka: PRAP-Konto für die Periodisierung der Verkaufsrechnung
+        tilastotullikamari: statistikzollkammer
+        tullikamari: zollkammer
+        tullipaate: zollterminal
         valkoodi: Währung
         valuuttaero: Währungskursdifferenzen der Einkäufe
         varasto: Waren/Lager
         varastonmuutos: Lageränderung
         varastonmuutos_valmistuksesta: Lageränderung der Fertigung
+        www: www
         ytunnus: Steuernummer
       printer:
+        ip: ip
         jarjestys: Sortierung
         kirjoitin: Drucker
+        komento: befehl
+        merkisto: zeichensatz
         nimi: Name
         osoite: Adresse
         postino: Postleitzahl

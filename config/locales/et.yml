@@ -112,8 +112,11 @@ et:
         www: WWW
         ytunnus: KMKR Nr.
       printer:
+        ip: ip
         jarjestys: Järjekord
         kirjoitin: Printer
+        komento: käsklus
+        merkisto: märgistik
         nimi: Nimi
         osoite: Aadress
         postino: Postinr
@@ -206,7 +209,7 @@ et:
     - R
     - L
     abbr_month_names:
-    -
+    - 
     - jaan.
     - veebr.
     - märts
@@ -232,7 +235,7 @@ et:
       long: "%d. %B %Y"
       short: "%d.%m.%y"
     month_names:
-    -
+    - 
     - jaanuar
     - veebruar
     - märts

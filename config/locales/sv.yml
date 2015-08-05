@@ -11,6 +11,7 @@ sv:
         kustp: Kostnadsställe
         laatija: Skapare
         luontiaika: Skapad
+        muuttaja: omvandlare
         nimi: Namn
         toimipaikka: Verksamhetsställe
       company:
@@ -19,21 +20,33 @@ sv:
         jarjestys: Ordning
         kieli: Språk
         konserni: Koncern
+        konsernimyyntisaamiset: koncernförsäljningsfordringar
+        konserniostovelat: koncernköpskulder
         kotipaikka: Hemplats
+        kotitullauslupa: hemförtullningstillstånd
         kuluprosentti: Kostprocent
         maa: Land
         myynti: Försäljning
         myyntisaamiset: Försäljningsfordringar
         nimi: Namn
         osoite: Adress
+        ostovelat: leverantörsskulder
         postino: Postnummer
         postitp: Postanstalt
         puhelin: Tel.
+        tilastotullikamari: statistiktullkammare
+        tullikamari: tullkammare
+        tullipaate: tullterminal
         valkoodi: valuta
+        varastonmuutos: Lagerförändring
+        www: web
         ytunnus: Org.Nr
       printer:
+        ip: ip
         jarjestys: Ordning
         kirjoitin: Skrivare
+        komento: kommando
+        merkisto: charset
         nimi: Namn
         osoite: Adress
         postino: Post Nr
@@ -101,6 +114,7 @@ sv:
         header: Betalningsvillkor
         no_factoring: Ej factoring
       in_use_options:
+        active: i bruk
         inactive: Borttagit / Inte i bruk
       index:
         button_new: Nytt betalningsvillkor
@@ -115,7 +129,7 @@ sv:
     - fre
     - lör
     abbr_month_names:
-    -
+    - 
     - jan
     - feb
     - mar
@@ -141,7 +155,7 @@ sv:
       long: "%e %B %Y"
       short: "%e %b"
     month_names:
-    -
+    - 
     - januari
     - februari
     - mars

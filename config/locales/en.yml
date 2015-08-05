@@ -3,15 +3,19 @@ en:
   activerecord:
     attributes:
       account:
+        sisainen_taso: internal level
         tilino: 'Account #'
+        ulkoinen_taso: external level
       accounting/fixed_assets/commodity:
         kayttoonottopvm: Deployment date
       cash_register:
         kassa: Cash register
         kassaerotus: Cash difference
+        kateistilitys: cash payment
         kustp: Cost center
         laatija: Created by
         luontiaika: Created
+        luottokortti: credit card
         muuttaja: Updated by
         nimi: Name
         pankkikortti: Back card
@@ -64,11 +68,13 @@ en:
         raaka_ainevarasto: Raw material stock
         raaka_ainevarastonmuutos: Raw material inventory change
         selvittelytili: Money accounts adjustment acc for unclear transactions
+        tullikamari: customhouse
         valkoodi: Currency
         varasto: Goods/stock
         varastonmuutos: Inventory change
         varastonmuutos_valmistuksesta: Manufacture inventory change
         viivastyskorko: Penalty interest rate
+        www: www
         ytunnus: VAT nr
       printer:
         ip: Ip
@@ -117,6 +123,13 @@ en:
       index:
         header: Chart of accounts
       tiliointi_tarkistus_options:
+        mandatory_cs: mandatory field in posting is cost center
+        mandatory_cs_project: mandatory field in posting is cost center, project
+        mandatory_cs_target: mandatory fields in posting are cost center, object
+        mandatory_cs_target_project: mandatory fields in posting are cost center, object and project
+        mandatory_project: mandatory field in posting is project
+        mandatory_target: target is compulsory field in posting
+        mandatory_target_project: target, project is compulsory field in posting
         no_mandatory_fields: No mandatory fields
       toimijaliitos_options:
         relation_required: Memo needs a customer or a supplier
