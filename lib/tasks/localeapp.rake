@@ -55,10 +55,10 @@ namespace :translations do
       if value.is_a? Hash
         new_value = translate_hash value, locale
       else
-        new_value = Dictionary.translate value, locale
+        new_value = Dictionary.translate_raw value, locale
       end
 
-      translated_hash[key] = new_value
+      translated_hash[key] = new_value unless new_value.nil? || new_value.empty?
     end
 
     translated_hash
