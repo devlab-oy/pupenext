@@ -3,22 +3,8 @@ class Dictionary < ActiveRecord::Base
   self.primary_key = :tunnus
 
   def self.translate(string, language = 'fi')
-    language.downcase!
-
-    # Return the string if we ask for a Finnish word
-    return string if language == 'fi'
-
-    # Fetch the translation
-    translation = fetch_translation string
-
-    # Return the string if don't have it in the database
-    return string if translation.nil?
-
-    # Get the translation for the given language
-    t_string = translation.send(language)
-
-    # Return the string if we don't have translation in correct languate
-    t_string.present? ? t_string : string
+    # Return the string if don't have the translation
+    translate_raw(string, language) || string
   end
 
   def self.translate_raw(string, language = 'fi')
