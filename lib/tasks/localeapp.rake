@@ -34,7 +34,9 @@ namespace :translations do
 
       # Merge new translations to old hash, don't overwrite existing translations
       old_hash = YAML.load_file file
-      hash = new_hash.deep_merge(old_hash)
+      hash = new_hash.deep_merge(old_hash) do |key, new_value, old_value|
+        old_value.nil? ? new_value : old_value
+      end
 
       # Write translations to yaml file
       File.open(file, 'w') { |f| f.write(hash.to_yaml) }
