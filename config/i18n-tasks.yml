@@ -1,7 +1,6 @@
 # i18n-tasks finds and manages missing and unused translations
 # https://github.com/glebm/i18n-tasks
 base_locale: fi
-locales: fi
 
 # Read and write locale data
 data:
