@@ -3,131 +3,131 @@ sv:
   activerecord:
     attributes:
       account:
-        alv_taso: 
-        kohde: 
-        kustp: 
+        alv_taso: Momsbaserade skattenivå
+        kohde: Standardplats
+        kustp: Standardkostnadsställe
         laatija: Skapare
         luontiaika: Skapad
-        muutospvm: 
-        muuttaja: 
+        muutospvm: Förändring i tid
+        muuttaja: Omvandlare
         nimi: Namn
-        projekti: 
-        sisainen_taso: 
+        projekti: Standard Projekt
+        sisainen_taso: Nivå kod (intern resultaträkning)
         tilino: Kontonummer
-        tiliointi_tarkistus: 
-        toimijaliitos: 
-        ulkoinen_taso: 
+        tiliointi_tarkistus: Obligatoriska Fält
+        toimijaliitos: Toimijalitos
+        ulkoinen_taso: Nivå kod (Extern resultaträkning / balansräkning)
       accounting/fixed_assets/commodity:
-        evl_poistotyyppi: 
+        evl_poistotyyppi: EVL Avskrivningar Typ
         kayttoonottopvm: Ibruktagningsdatum
       cash_register:
         kassa: Kassa
-        kassaerotus: 
-        kateisotto: 
-        kateistilitys: 
+        kassaerotus: Kontant Skillnad
+        kateisotto: Käteisotto
+        kateistilitys: Käteistilitys
         kustp: Kostnadsställe
         laatija: Skapare
         luontiaika: Skapad
-        luottokortti: 
+        luottokortti: Kreditkort
         muutospvm: "ändringsdatum"
         muuttaja: omvandlare
         nimi: Namn
-        pankkikortti: 
+        pankkikortti: Kontokort
         toimipaikka: Verksamhetsställe
       company:
         alv: Moms
-        email: 
-        factoringsaamiset: 
+        email: E-postadress
+        factoringsaamiset: Factoringmyyntisaamiset
         fax: Fax
-        int_koodi: 
-        intrastat_sarjanro: 
+        int_koodi: Intrastat Int kod
+        intrastat_sarjanro: Intrastat Seriell
         jarjestys: Ordning
-        karhuerapvm: 
-        kassa: 
-        kassaale: 
-        kassaerotus: 
-        kateistilitys: 
+        karhuerapvm: Maksumuistusten betalning (PVA)
+        kassa: För kontanter
+        kassaale: Rabatter på inköp
+        kassaerotus: Cash försäljning kontanter täsmäytyserot
+        kateistilitys: Kontant käteistilitykset
         kieli: Språk
         konserni: Koncern
         konsernimyyntisaamiset: koncernförsäljningsfordringar
         konserniostovelat: koncernköpskulder
-        konsernisaamiset: 
-        konsernivelat: 
+        konsernisaamiset: Standardkonto Koncernen Tillgångar
+        konsernivelat: Standard kontogrupp Skulder
         kotipaikka: Hemplats
         kotitullauslupa: hemförtullningstillstånd
         kuluprosentti: Kostprocent
-        laskutus_maa: 
-        laskutus_nimi: 
-        laskutus_osoite: 
-        laskutus_postino: 
-        laskutus_postitp: 
-        luottokortti: 
-        luottotappiot: 
+        laskutus_maa: Faktureringsadress mars
+        laskutus_nimi: Faktureringsadress Namn
+        laskutus_osoite: Fakturerings Adress Adress
+        laskutus_postino: Faktureringsadress postnummer
+        laskutus_postitp: Faktureringsadress Ort
+        luottokortti: För kontanter kreditkortsbetalningar
+        luottotappiot: Sälja offs
         maa: Land
-        matkalla_olevat: 
-        muutkulut: 
-        myynninkassaale: 
-        myynninvaluuttaero: 
+        matkalla_olevat: I transit varulager räkningar
+        muutkulut: Förvärv standardutgiftskonto
+        myynninkassaale: Försäljnings rabatter
+        myynninvaluuttaero: Valutakursdifferenser
         myynti: Försäljning
-        myynti_ei_eu: 
-        myynti_eu: 
-        myynti_kaanteinen: 
-        myynti_kohde: 
-        myynti_kustp: 
-        myynti_marginaali: 
-        myynti_projekti: 
-        myyntireskontrakausi_alku: 
-        myyntireskontrakausi_loppu: 
+        myynti_ei_eu: Försäljningen utanför gemenskapen
+        myynti_eu: Gemenskaps Försäljning
+        myynti_kaanteinen: Försäljning, omvänd moms
+        myynti_kohde: Sälja standarddestination
+        myynti_kustp: Att sälja en standardkostnadsställe
+        myynti_marginaali: Försäljningen av begagnade varor
+        myynti_projekti: Säljer standard projektet
+        myyntireskontrakausi_alku: Myyntireskontrakauden början av dagen
+        myyntireskontrakausi_loppu: Myyntireskontrakauden resten av dagen
         myyntisaamiset: Försäljningsfordringar
         nimi: Namn
         osoite: Adress
-        osto_marginaali: 
-        ostoreskontrakausi_alku: 
-        ostoreskontrakausi_loppu: 
+        osto_marginaali: Inköp, begagnade varor (försäljningstillfället)
+        ostoreskontrakausi_alku: Ostoreskontrakauden början av dagen
+        ostoreskontrakausi_loppu: Ostoreskontrakauden resten av dagen
         ostovelat: leverantörsskulder
-        ovttunnus: 
-        pankkiiban1: 
-        pankkiiban2: 
-        pankkiiban3: 
-        pankkikortti: 
-        pankkinimi1: 
-        pankkinimi2: 
-        pankkinimi3: 
-        pankkiswift1: 
-        pankkiswift2: 
-        pankkiswift3: 
-        pankkitili1: 
-        pankkitili2: 
-        pankkitili3: 
+        ovttunnus: EDI-kod
+        pankkiiban1: Den bankkontakt en IBAN
+        pankkiiban2: Den bankkontakt 2 IBAN
+        pankkiiban3: Den bankkontakt 3 IBAN
+        pankkikortti: Betalkort för kontantbetalningar
+        pankkinimi1: Banken kontakta banken 1
+        pankkinimi2: Banken kontakta banken 2
+        pankkinimi3: Banken kontakta banken 3
+        pankkiswift1: Banken kontakt en SWIFT / BIC
+        pankkiswift2: Banken kontakt 2 SWIFT / BIC
+        pankkiswift3: Banken kontakt 3 SWIFT / BIC
+        pankkitili1: Bank kontakta en kontonummer
+        pankkitili2: Det bankkontonummer 2 Kontakt
+        pankkitili3: Det bankkontonummer, kontaktinformation 3
         postino: Postnummer
         postitp: Postanstalt
         puhelin: Tel.
-        pyoristys: 
-        raaka_ainevarasto: 
-        raaka_ainevarastonmuutos: 
-        selvittelytili: 
-        siirtosaamiset: 
-        siirtovelka: 
+        pyoristys: Köp fakturor och fakturor på avrundningsdifferenser
+        raaka_ainevarasto: Råvaru lagring
+        raaka_ainevarastonmuutos: Råvaru inventarieförändring
+        selvittelytili: Pengar konton avvecklingskonto i att göra vaga
+        siirtosaamiset: Förutbetalda kostnader och upplupna konto inkomster fakturan periodicitet
+        siirtovelka: Upplupna skulder hänsyn till fakturan periodicitet
         tilastotullikamari: statistiktullkammare
-        tilikauden_tulos: 
-        tilikausi_alku: 
-        tilikausi_loppu: 
-        tilino_triang: 
-        tulli_lisattava_era: 
-        tulli_vahennettava_era: 
+        tilikauden_tulos: Periodens resultat
+        tilikausi_alku: Räkenskapsperiod startdatum
+        tilikausi_loppu: Räkenskapsperiod slutdatum
+        tilino_triang: Försäljningen triangelhandel
+        tulli_lisattava_era: SAD tillagda produkter
+        tulli_vahennettava_era: SAD reduceras genom inbetalning
         tullikamari: tullkammare
-        tullin_asiaknro: 
-        tullin_lupanro: 
+        tullin_asiaknro: Tullens kundnummer
+        tullin_lupanro: Tulltillståndsnummer
         tullipaate: tullterminal
         valkoodi: valuta
-        valuuttaero: 
-        varasto: 
+        valuuttaero: Inköp av valutakursdifferenser
+        varasto: Vara / lager
         varastonmuutos: Lagerförändring
-        varastonmuutos_epakurantti: 
-        varastonmuutos_inventointi: 
-        varastonmuutos_rahti: 
-        varastonmuutos_valmistuksesta: 
-        viivastyskorko: 
+        varastonmuutos_epakurantti: Epäkuranttipoistojen inventarieförändring
+        varastonmuutos_inventointi: Varulager inventarieförändring
+        varastonmuutos_rahti: Inventarieförändringsrapporter Fraktkostnad
+        varastonmuutos_valmistuksesta: Tillverkning av inventarieförändring
+        viivastyskorko: Dröjsmålsräntan
         www: web
         ytunnus: Org.Nr
       printer:
@@ -135,32 +135,32 @@ sv:
         jarjestys: Ordning
         kirjoitin: Skrivare
         komento: kommando
-        mediatyyppi: 
+        mediatyyppi: Typ Media
         mediatyyppi_types:
-          A4: 
-          A5: 
-          LS149X104: 
-          LS59X40: 
-          LSN149X104: 
-          LSN59X40: 
-          kuittitulostin: 
+          A4: A4
+          A5: A5
+          LS149X104: Termotransfer 149X104mm
+          LS59X40: Termotransfer 59X40mm
+          LSN149X104: Termotransfer / tejp 149X104mm
+          LSN59X40: Termotransfer / tejp 59X40mm
+          kuittitulostin: Kvittoskrivare
         merkisto: charset
         merkisto_types:
-          '1': 
-          '2': 
-          '3': 
-          '4': 
-          '5': 
+          '1': 7 Bit
+          '2': DOS
+          '3': ANSI
+          '4': UTF8
+          '5': Scandic bort
         nimi: Namn
         osoite: Adress
         postino: Post Nr
         postitp: Postadress
         puhelin: Tel.
-        unifaun_nimi: 
+        unifaun_nimi: Unifaun Namn
         yhteyshenkilo: Kontaktperson
     models:
       account: Konto
-      cash_register: 
+      cash_register: Strongbox
       currency: Valuta
       fiscal_year: Räkenskapsår
       printer: Skrivare
@@ -170,158 +170,158 @@ sv:
   administration:
     accounts:
       create:
-        create_success: 
+        create_success: Nytt konto skapat
       destroy:
-        destroy_success: 
+        destroy_success: Konto tagits bort
       edit:
         button_remove: Radera konto
-        confirm_remove: 
+        confirm_remove: "Är du säker på att du vill radera ditt konto?"
         header: Konto
         no_cost_center: Inget kostnadsställe
         no_project: Inget projekt
-        no_sum_level: 
+        no_sum_level: Inte ange
         no_target: Inget objekt
-        no_vat: 
+        no_vat: Inget standardskatt
       index:
         button_new: Nytt konto
         button_search: Sök
         header: Kontotabell
       manuaali_esto_options:
-        editing_disabled: 
-        editing_enabled: 
+        editing_disabled: Manuellt Lägg till / Redigera inlägg inaktiv
+        editing_enabled: Posta anpassnings
       tiliointi_tarkistus_options:
-        mandatory_cs: 
-        mandatory_cs_project: 
-        mandatory_cs_target: 
-        mandatory_cs_target_project: 
-        mandatory_project: 
-        mandatory_target: 
-        mandatory_target_project: 
-        no_mandatory_fields: 
+        mandatory_cs: Obligatoriska fält är kostnadsställe inlägg
+        mandatory_cs_project: Obligatoriska fält inlägg är ett kostnadsställe, projekt
+        mandatory_cs_target: Obligatoriska fält inlägg är ett kostnadsställe, målet
+        mandatory_cs_target_project: Obligatoriska fält inlägg är ett kostnadsställe och projektmålet
+        mandatory_project: Obligatoriska fält inlägg har ett projekt
+        mandatory_target: Obligatoriska fält inlägg är målet
+        mandatory_target_project: Obligatoriska fält inläggen är en destination projekt
+        no_mandatory_fields: Inga obligatoriska fält
       toimijaliitos_options:
-        relation_not_required: 
-        relation_required: 
+        relation_not_required: Ingen förbindelse tvång
+        relation_required: Muistiotositteelle åtföljas av kunden eller leverantören
       update:
-        update_success: 
+        update_success: Konto uppdaterats
     actions:
-      button_saving: 
+      button_saving: Sparar ...
     cash_registers:
       create:
-        create_success: 
+        create_success: Cash Magazine grundades framgångsrikt
       edit:
-        header: 
+        header: Strongbox
         no_select: Inget val
       index:
-        button_new: 
+        button_new: Nytt kassalåda
         button_search: Sök
-        header: 
+        header: "-Boxes"
       update:
-        update_success: 
+        update_success: Cash Magazine uppdaterats
     currencies:
       create:
-        create_success: 
+        create_success: Valuta har skapats
       edit:
         header: Valuta
       index:
-        button_new: 
+        button_new: Ny valuta
         button_search: Sök
         header: Valutor
       update:
-        update_success: 
+        update_success: Valuta har uppdaterats
     fiscal_years:
       create:
-        create_success: 
+        create_success: Räkenskapsårets etablerade framgångsrikt
       edit:
         header: Räkenskapsår
       index:
-        button_new: 
+        button_new: Nya räkenskapsåret
         button_search: Sök
         header: Räkenskapsåren
       update:
-        update_success: 
+        update_success: Räkenskapsåret har uppdaterats
     printers:
       create:
-        create_success: 
+        create_success: Skrivaren inrättades framgångsrikt
       destroy:
-        destroy_success: 
+        destroy_success: Skrivaren har tagits bort
       edit:
-        button_remove: 
-        confirm_remove: 
+        button_remove: Ta bort skrivaren
+        confirm_remove: "Är du säker på att du vill ta bort den här skrivaren?"
         header: Skrivare
       index:
-        button_new: 
+        button_new: Den nya skrivaren
         button_search: Sök
         header: Skrivare
       mediatyyppi_options:
-        media_a4: 
-        media_a5: 
+        media_a4: A5
+        media_a5: A5
         media_default: Inget val
-        media_receipt: 
-        media_thermal1: 
-        media_thermal2: 
-        media_thermal3: 
-        media_thermal4: 
+        media_receipt: Kvittoskrivare
+        media_thermal1: Termotransfer / tejp 149X104mm
+        media_thermal2: Termotransfer / tejp 59X40mm
+        media_thermal3: Termotransfer 149X104mm
+        media_thermal4: Termotransfer 59X40mm
       merkisto_options:
-        charset_7bit: 
-        charset_ansi: 
+        charset_7bit: 7 Bit
+        charset_ansi: ANSI
         charset_default: Inget val
-        charset_dos: 
-        charset_scandic_off: 
-        charset_utf8: 
+        charset_dos: DOS
+        charset_scandic_off: Scandic bort
+        charset_utf8: UTF8
       update:
-        update_success: 
+        update_success: Skrivare uppdaterats
     sum_levels:
       create:
-        create_success: 
+        create_success: Nivå etablerade framgångsrikt
       destroy:
-        destroy_success: 
+        destroy_success: Nivå tagits bort
       edit:
         button_remove: Radera nivå
-        confirm_remove: 
-        header: 
+        confirm_remove: "Är du säker på att du vill ta bort den här nivån?"
+        header: Nivån på kontoplan
       index:
         button_new: Ny nivå
         button_search: Sök
-        header: 
+        header: Kontonivåer
       kayttotarkoitus_options:
         normal: Inget val
-        purchases: 
+        purchases: Inköp, material, förnödenheter och varor
         turnover: Omsättning
       kumulatiivinen_options:
-        cumulative: 
+        cumulative: Ja omvandlingsspårning denna nivå beräknas från början av budgetåret
         not_cumulative: Nej
       update:
-        update_success: 
+        update_success: Nivå uppdaterats
     terms_of_payments:
       cash_options:
-        cash: 
-        credit_card: 
-        debit_card: 
-        not_cash: 
+        cash: Käteismaksuehto, avrundat till kontanter
+        credit_card: Käteismaksuehto, kommer ditt kreditkort inte avrundas
+        debit_card: Käteismaksuehto ska banken inte avrundas
+        not_cash: Detta är inte käteismaksuehto
       create:
-        create_success: 
+        create_success: Betalningsvillkor har skapats
       edit:
         header: Betalningsvillkor
         no_factoring: Ej factoring
-        use_company_defaults: 
+        use_company_defaults: Besök bolagets antaganden
       in_use_options:
         active: i bruk
         inactive: Borttagit / Inte i bruk
       index:
         button_new: Nytt betalningsvillkor
         button_search: Sök
-        button_show_active: 
-        button_show_removed: 
-        header: 
+        button_show_active: Visa betalningsvillkor aktiva
+        button_show_removed: Visa borttagna betalningsvillkor
+        header: Maksuedot
       update:
-        update_success: 
+        update_success: Betalningsvillkor uppdaterats
     update_access:
-      forbidden: 
+      forbidden: Du är inte tillåtet att uppdatera denna post!
   application:
     access_control:
-      forbidden: 
+      forbidden: "Åtkomst nekad!"
     authorize:
-      unauthorized: 
+      unauthorized: Logga in!
   date:
     abbr_day_names:
     - sön
@@ -420,19 +420,19 @@ sv:
       year: "År"
   errors:
     cash_register:
-      kassa_missing: 
-      kassaerotus_missing: 
-      kateisotto_missing: 
-      kateistilitys_missing: 
-      luottokortti_missing: 
-      pankkikortti_missing: 
+      kassa_missing: Kontot saknas eller kan inte hittas
+      kassaerotus_missing: Cash Skillnad konto saknas eller kan inte hittas
+      kateisotto_missing: Käteisotto saknas eller kan inte hittas
+      kateistilitys_missing: Käteistilitystili saknas eller kan inte hittas
+      luottokortti_missing: Kreditkort konto saknas eller inte hittas
+      pankkikortti_missing: Bankkort konto saknas eller inte hittas
     format: "%{attribute} %{message}"
     messages:
       accepted: måste vara accepterad
-      after: 
-      after_or_equal_to: 
-      before: 
-      before_or_equal_to: 
+      after: bör vara större än %{date}
+      after_or_equal_to: skall vara större än eller lika med %{date}
+      before: måste vara mindre än %{date}
+      before_or_equal_to: måste vara mindre än eller lika med %{date}
       blank: måste anges
       confirmation: stämmer inte överens %{attribute}
       empty: får ej vara tom
@@ -445,7 +445,7 @@ sv:
       invalid: har fel format
       less_than: måste vara mindre än %{count}
       less_than_or_equal_to: måste vara mindre än eller lika med %{count}
-      not_a_date: 
+      not_a_date: "är inte en exakt datum"
       not_a_number: "är inte ett nummer"
       not_an_integer: måste vara ett heltal
       odd: måste vara udda
@@ -460,82 +460,82 @@ sv:
       too_short: "är för kort (minimum är %{count} tecken)"
       wrong_length: har fel längd (ska vara %{count} tecken)
     qualifier:
-      accounts_found: 
+      accounts_found: Du kan inte ta bort eftersom det finns ett kostnadskonton
     sum_level:
-      begin_with_error: 
-      invalid_char: 
-      not_same_type: 
+      begin_with_error: Nivå måste börja med 1, 2 eller 3
+      invalid_char: Ta inte med bokstaven Z
+      not_same_type: Nivåerna måste vara att ha samma typ
     template:
       body: 'Det var problem med följande fält:'
       header:
         one: Ett fel förhindrade denna %{model} från att sparas
         other: "%{count} fel förhindrade denna %{model} från att sparas"
     terms_of_payment:
-      in_use_customers: 
-      in_use_sales_order_drafts: 
-      in_use_sales_orders: 
+      in_use_customers: 'OBS: Betalningsvillkor kan inte tas bort eftersom den används %{count} kund'
+      in_use_sales_order_drafts: 'OBS: Betalningsvillkor kan inte tas bort eftersom det används %{count} ofullständiga kundorder'
+      in_use_sales_orders: 'OBS: Betalningsvillkor kan inte tas bort eftersom det används %{count} olevererade kundorder'
   fixed_assets:
     commodities:
       activate:
-        activation_failure: 
-        activation_success: 
+        activation_failure: Aktivering fel
+        activation_success: Aktivering Framgång
       commodity_rows:
         button_show_hide: Visa / Dölj
-        commodity_row_amount: 
-        header: 
+        commodity_row_amount: Råvaru rad mängd
+        header: Header
       confirm_sale:
-        sale_failure: 
-        sale_success: 
+        sale_failure: Försäljning misslyckande
+        sale_success: Försäljning Framgång
       create:
-        create_success: 
+        create_success: Skapa framgång
       depreciations:
         button_show_hide: Visa / Dölj
-        depreciation_difference_amount: 
-        depreciation_rows_amount: 
-        header: 
+        depreciation_difference_amount: Avskrivningsskillnad belopp
+        depreciation_rows_amount: Avskrivnings rader belopp
+        header: Header
       edit:
-        button_activate: 
-        button_add_invoice_rows: 
-        button_add_voucher_rows: 
-        button_create: 
-        button_sell: 
-        header: 
+        button_activate: Knapp activate
+        button_add_invoice_rows: Knapp lägga fakturarader
+        button_add_voucher_rows: Knapp lägg till rader till en kupong
+        button_create: Knappen Skapa
+        button_sell: Knapp säljer
+        header: Header
       form:
-        bookkeeping_value: 
-        bookkeeping_value_now: 
+        bookkeeping_value: Bokföring värde
+        bookkeeping_value_now: Bokföring värde nu
       index:
-        button_new: 
-        button_search: 
-        header: 
+        button_new: Knapp Ny
+        button_search: Knapp sökning
+        header: Header
       link_order:
-        link_order_success: 
+        link_order_success: Länk för framgång
       link_voucher:
-        link_voucher_success: 
+        link_voucher_success: Länk kupong på framgång
       link_voucher_row:
-        cannot_link_row: 
-        row_already_linked: 
+        cannot_link_row: Det går inte att länka rad
+        row_already_linked: Rad Redan länkade
       new:
-        header: 
+        header: Header
       procurement_rows:
-        button_remove: 
-        header: 
+        button_remove: Knapp ta bort
+        header: Header
       purchase_orders:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Knapp add
+        button_search: Knapp sökning
+        header: Header
       sell:
-        confirm_sale: 
-        header: 
+        confirm_sale: Bekräfta försäljning
+        header: Header
       unlink:
-        unlink_success: 
+        unlink_success: Bort länken framgång
       unlink_voucher_row:
-        cannot_unlink: 
+        cannot_unlink: Det går inte att ta bort länken
       update:
-        update_success: 
+        update_success: Uppdatera framgång
       vouchers:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Knapp add
+        button_search: Knapp sökning
+        header: Header
   helpers:
     select:
       prompt: Välj
@@ -591,9 +591,9 @@ sv:
       two_words_connector: " och "
       words_connector: ", "
   time:
-    am: 
+    am: morgon
     formats:
       default: "%a, %e %b %Y %H:%M:%S %z"
       long: "%e %B %Y %H:%M"
       short: "%e %b %H:%M"
-    pm: 
+    pm: eftermiddag

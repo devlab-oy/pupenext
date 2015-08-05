@@ -3,27 +3,27 @@ en:
   activerecord:
     attributes:
       account:
-        alv_taso: 
-        kohde: 
-        kustp: 
+        alv_taso: VAT-based tax level
+        kohde: Default Location
+        kustp: Default Cost Center
         laatija: Created by
         luontiaika: Created
         muutospvm: Time of change
         muuttaja: Updated by
         nimi: Name
-        projekti: 
-        sisainen_taso: 
+        projekti: Default Project
+        sisainen_taso: Level Code (internal income statement)
         tilino: 'Account #'
-        tiliointi_tarkistus: 
-        toimijaliitos: 
-        ulkoinen_taso: 
+        tiliointi_tarkistus: Required Fields
+        toimijaliitos: Toimijalitos
+        ulkoinen_taso: Level Code (External income statement / balance sheet)
       accounting/fixed_assets/commodity:
-        evl_poistotyyppi: 
+        evl_poistotyyppi: EVL Depreciation Type
         kayttoonottopvm: Deployment date
       cash_register:
         kassa: Cash register
         kassaerotus: Cash difference
-        kateisotto: 
+        kateisotto: Käteisotto
         kateistilitys: cash payment
         kustp: Cost center
         laatija: Created by
@@ -39,14 +39,14 @@ en:
         email: Email
         factoringsaamiset: Factoring receivables
         fax: Fax
-        int_koodi: 
-        intrastat_sarjanro: 
+        int_koodi: Intrastat Int code
+        intrastat_sarjanro: Intrastat Serial
         jarjestys: Order
-        karhuerapvm: 
+        karhuerapvm: Maksumuistusten of payment (PVA)
         kassa: Cash receipt
         kassaale: Purchase discounts
-        kassaerotus: 
-        kateistilitys: 
+        kassaerotus: Cash sales cash täsmäytyserot
+        kateistilitys: Cash käteistilitykset
         kieli: Language
         konserni: Group
         konsernimyyntisaamiset: Receivables within the Group
@@ -54,7 +54,7 @@ en:
         konsernisaamiset: Default account Corporate receivables
         konsernivelat: Default account Corporate payables
         kotipaikka: Domicile
-        kotitullauslupa: 
+        kotitullauslupa: Local clearance Authorization
         kuluprosentti: Expense %
         laskutus_maa: Invoicing country
         laskutus_nimi: Customer name invoicing address
@@ -65,40 +65,40 @@ en:
         luottotappiot: Sales credit loss
         maa: Country
         matkalla_olevat: Inventories invoices in transit
-        muutkulut: 
+        muutkulut: Acquisitions default expense account
         myynninkassaale: Sales discounts
         myynninvaluuttaero: Sales exchange rate premium
         myynti: Sales
         myynti_ei_eu: Sales outside EU
         myynti_eu: Community sales
-        myynti_kaanteinen: 
+        myynti_kaanteinen: Sales, reverse VAT
         myynti_kohde: Sales default item
         myynti_kustp: Sales default cost senter
         myynti_marginaali: Sales, second hand
         myynti_projekti: Sales default project
-        myyntireskontrakausi_alku: 
-        myyntireskontrakausi_loppu: 
+        myyntireskontrakausi_alku: Myyntireskontrakauden the beginning of the day
+        myyntireskontrakausi_loppu: Myyntireskontrakauden rest of the day
         myyntisaamiset: Accounts receivable
         nimi: Name
         osoite: Address
         osto_marginaali: Purchase, second hand (sales related)
-        ostoreskontrakausi_alku: 
-        ostoreskontrakausi_loppu: 
+        ostoreskontrakausi_alku: Ostoreskontrakauden the beginning of the day
+        ostoreskontrakausi_loppu: Ostoreskontrakauden rest of the day
         ostovelat: Accounts payable
         ovttunnus: OVT-code
-        pankkiiban1: 
-        pankkiiban2: 
-        pankkiiban3: 
+        pankkiiban1: The bank contact 1 IBAN
+        pankkiiban2: The bank contact 2 IBAN
+        pankkiiban3: The bank contact 3 IBAN
         pankkikortti: Cash receipts, bank cards
-        pankkinimi1: 
-        pankkinimi2: 
-        pankkinimi3: 
-        pankkiswift1: 
-        pankkiswift2: 
-        pankkiswift3: 
-        pankkitili1: 
-        pankkitili2: 
-        pankkitili3: 
+        pankkinimi1: The bank contact the bank 1
+        pankkinimi2: The bank contact the bank 2
+        pankkinimi3: The bank contact the bank 3
+        pankkiswift1: The bank contact one SWIFT / BIC
+        pankkiswift2: The bank contact 2 SWIFT / BIC
+        pankkiswift3: The bank contact 3 SWIFT / BIC
+        pankkitili1: The bank contact one account number
+        pankkitili2: The bank account number 2 Contact
+        pankkitili3: The bank account number, contact information 3
         postino: Postalc ode
         postitp: City
         puhelin: Telephone
@@ -106,26 +106,26 @@ en:
         raaka_ainevarasto: Raw material stock
         raaka_ainevarastonmuutos: Raw material inventory change
         selvittelytili: Money accounts adjustment acc for unclear transactions
-        siirtosaamiset: 
-        siirtovelka: 
-        tilastotullikamari: 
-        tilikauden_tulos: 
-        tilikausi_alku: 
-        tilikausi_loppu: 
-        tilino_triang: 
-        tulli_lisattava_era: 
-        tulli_vahennettava_era: 
+        siirtosaamiset: Prepayments and accrued income account of the purchase invoice periodicity
+        siirtovelka: Accrued liabilities account of the sales invoice periodicity
+        tilastotullikamari: Statistics Tullikamari
+        tilikauden_tulos: Profit for the period
+        tilikausi_alku: Accounting period start date
+        tilikausi_loppu: Accounting period end date
+        tilino_triang: Sales triangular trade
+        tulli_lisattava_era: SAD added item
+        tulli_vahennettava_era: SAD reduced by installment
         tullikamari: customhouse
-        tullin_asiaknro: 
-        tullin_lupanro: 
-        tullipaate: 
+        tullin_asiaknro: Customs' customer number
+        tullin_lupanro: Customs authorization number
+        tullipaate: Customs Terminal
         valkoodi: Currency
-        valuuttaero: 
+        valuuttaero: Purchases of foreign exchange differences
         varasto: Goods/stock
         varastonmuutos: Inventory change
-        varastonmuutos_epakurantti: 
-        varastonmuutos_inventointi: 
-        varastonmuutos_rahti: 
+        varastonmuutos_epakurantti: Epäkuranttipoistojen inventory change
+        varastonmuutos_inventointi: Inventories inventory change
+        varastonmuutos_rahti: Freight costs inventory change
         varastonmuutos_valmistuksesta: Manufacture inventory change
         viivastyskorko: Penalty interest rate
         www: www
@@ -170,25 +170,25 @@ en:
   administration:
     accounts:
       create:
-        create_success: 
+        create_success: New account created
       destroy:
-        destroy_success: 
+        destroy_success: Account removed successfully
       edit:
         button_remove: Delete account
-        confirm_remove: 
+        confirm_remove: Are you sure you want to delete your account?
         header: Account
         no_cost_center: No cost center
         no_project: No project
-        no_sum_level: 
+        no_sum_level: Does not specify
         no_target: No target
-        no_vat: 
+        no_vat: No default tax
       index:
         button_new: New account
         button_search: Search
         header: Chart of accounts
       manuaali_esto_options:
-        editing_disabled: 
-        editing_enabled: 
+        editing_disabled: Manually Add / Edit the posting disabled
+        editing_enabled: Posting customizable
       tiliointi_tarkistus_options:
         mandatory_cs: mandatory field in posting is cost center
         mandatory_cs_project: mandatory field in posting is cost center, project
@@ -199,15 +199,15 @@ en:
         mandatory_target_project: target, project is compulsory field in posting
         no_mandatory_fields: No mandatory fields
       toimijaliitos_options:
-        relation_not_required: 
+        relation_not_required: No connection compulsion
         relation_required: Memo needs a customer or a supplier
       update:
-        update_success: 
+        update_success: Account updated successfully
     actions:
-      button_saving: 
+      button_saving: Saving ...
     cash_registers:
       create:
-        create_success: 
+        create_success: Cash Magazine was established successfully
       edit:
         header: Kassa
         no_select: No selection
@@ -216,112 +216,112 @@ en:
         button_search: Search
         header: Cash accounts
       update:
-        update_success: 
+        update_success: Cash Magazine updated successfully
     currencies:
       create:
-        create_success: 
+        create_success: Currency was created successfully
       edit:
         header: Currency
       index:
-        button_new: 
+        button_new: New currency
         button_search: Search
         header: Currencies
       update:
-        update_success: 
+        update_success: Currency successfully updated
     fiscal_years:
       create:
-        create_success: 
+        create_success: Fiscal Year established successfully
       edit:
         header: Fiscal year
       index:
-        button_new: 
+        button_new: New Financial Year
         button_search: Search
         header: Fiscal periods
       update:
-        update_success: 
+        update_success: Fiscal year successfully updated
     printers:
       create:
-        create_success: 
+        create_success: The printer was set up successfully
       destroy:
-        destroy_success: 
+        destroy_success: The printer was successfully removed
       edit:
-        button_remove: 
-        confirm_remove: 
+        button_remove: Remove the printer
+        confirm_remove: Are you sure you want to remove this printer?
         header: Printer
       index:
-        button_new: 
+        button_new: The new printer
         button_search: Search
         header: Printers
       mediatyyppi_options:
-        media_a4: 
-        media_a5: 
+        media_a4: A5
+        media_a5: A5
         media_default: No selection
-        media_receipt: 
-        media_thermal1: 
-        media_thermal2: 
-        media_thermal3: 
-        media_thermal4: 
+        media_receipt: Receipt Printer
+        media_thermal1: Thermal Transfer / tape 149X104mm
+        media_thermal2: Thermal Transfer / tape 59X40mm
+        media_thermal3: Thermal Transfer 149X104mm
+        media_thermal4: Thermal Transfer 59X40mm
       merkisto_options:
-        charset_7bit: 
-        charset_ansi: 
+        charset_7bit: 7 Bit
+        charset_ansi: ANSI
         charset_default: No selection
-        charset_dos: 
-        charset_scandic_off: 
-        charset_utf8: 
+        charset_dos: DOS
+        charset_scandic_off: Scandic off
+        charset_utf8: UTF8
       update:
-        update_success: 
+        update_success: Printer updated successfully
     sum_levels:
       create:
-        create_success: 
+        create_success: Level established successfully
       destroy:
-        destroy_success: 
+        destroy_success: Level removed successfully
       edit:
         button_remove: Delete level
-        confirm_remove: 
-        header: 
+        confirm_remove: Are you sure you want to delete this level?
+        header: The level of chart of accounts
       index:
         button_new: New level
         button_search: Search
-        header: 
+        header: Chart of accounts Levels
       kayttotarkoitus_options:
         normal: No selection
-        purchases: 
+        purchases: Purchasing, Materials, supplies and goods
         turnover: Revenue
       kumulatiivinen_options:
-        cumulative: 
+        cumulative: Yes Conversion tracking this level is calculated from the beginning of the financial year
         not_cumulative: 'No'
       update:
-        update_success: 
+        update_success: Level updated successfully
     terms_of_payments:
       cash_options:
-        cash: 
-        credit_card: 
-        debit_card: 
-        not_cash: 
+        cash: Käteismaksuehto, rounded to the cash
+        credit_card: Käteismaksuehto, your credit card will not be rounded
+        debit_card: Käteismaksuehto, the bank shall not be rounded
+        not_cash: This is not käteismaksuehto
       create:
-        create_success: 
+        create_success: Terms of payment was successfully created
       edit:
         header: Terms of payment
         no_factoring: No factoring
-        use_company_defaults: 
+        use_company_defaults: Visit the company's assumptions
       in_use_options:
         active: In use
         inactive: Deleted / Not in use
       index:
         button_new: New payment term
         button_search: Search
-        button_show_active: 
-        button_show_removed: 
-        header: 
+        button_show_active: View active payment terms
+        button_show_removed: Show deleted terms of payment
+        header: Maksuedot
       update:
-        update_success: 
+        update_success: Payment terms updated successfully
     update_access:
-      forbidden: 
+      forbidden: You are not allowed to update this record!
   application:
     access_control:
-      forbidden: 
+      forbidden: Access denied!
     authorize:
-      unauthorized: 
+      unauthorized: Log in!
   date:
     abbr_day_names:
     - Sun
@@ -420,19 +420,19 @@ en:
       year: Year
   errors:
     cash_register:
-      kassa_missing: 
-      kassaerotus_missing: 
-      kateisotto_missing: 
-      kateistilitys_missing: 
-      luottokortti_missing: 
-      pankkikortti_missing: 
+      kassa_missing: Cash Account is missing or can not be found
+      kassaerotus_missing: Cash Difference Account is missing or can not be found
+      kateisotto_missing: Käteisotto missing or can not be found
+      kateistilitys_missing: Käteistilitystili missing or can not be found
+      luottokortti_missing: Credit card account is missing or not found
+      pankkikortti_missing: Bank card account is missing or not found
     format: "%{attribute} %{message}"
     messages:
       accepted: must be accepted
-      after: 
-      after_or_equal_to: 
-      before: 
-      before_or_equal_to: 
+      after: should be greater than %{date}
+      after_or_equal_to: should be greater than or equal to %{date}
+      before: must be less than %{date}
+      before_or_equal_to: must be less than or equal to %{date}
       blank: can't be blank
       confirmation: doesn't match %{attribute}
       empty: can't be empty
@@ -445,7 +445,7 @@ en:
       invalid: is invalid
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
-      not_a_date: 
+      not_a_date: is not an accurate date
       not_a_number: is not a number
       not_an_integer: must be an integer
       odd: must be odd
@@ -466,82 +466,82 @@ en:
         one: is the wrong length (should be 1 character)
         other: is the wrong length (should be %{count} characters)
     qualifier:
-      accounts_found: 
+      accounts_found: You can not take off because there is a cost accounts
     sum_level:
-      begin_with_error: 
-      invalid_char: 
-      not_same_type: 
+      begin_with_error: Level must start by 1, 2 or 3
+      invalid_char: Do not include the letter Z
+      not_same_type: Levels must be to have the same type
     template:
       body: 'There were problems with the following fields:'
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
     terms_of_payment:
-      in_use_customers: 
-      in_use_sales_order_drafts: 
-      in_use_sales_orders: 
+      in_use_customers: 'NOTE: Payment terms can not be removed because it is in use %{count} customer'
+      in_use_sales_order_drafts: 'NOTE: Payment terms can not be removed because it is in use %{count} incomplete sales orders'
+      in_use_sales_orders: 'NOTE: Payment terms can not be removed because it is in use %{count} undelivered sales orders'
   fixed_assets:
     commodities:
       activate:
-        activation_failure: 
-        activation_success: 
+        activation_failure: Activation failure
+        activation_success: Activation Success
       commodity_rows:
         button_show_hide: Display/Hide
-        commodity_row_amount: 
-        header: 
+        commodity_row_amount: Commodity row amount
+        header: Header
       confirm_sale:
-        sale_failure: 
-        sale_success: 
+        sale_failure: Sale failure
+        sale_success: Sale Success
       create:
-        create_success: 
+        create_success: Create success
       depreciations:
         button_show_hide: Display/Hide
-        depreciation_difference_amount: 
-        depreciation_rows_amount: 
-        header: 
+        depreciation_difference_amount: Depreciation difference amount
+        depreciation_rows_amount: Depreciation rows amount
+        header: Header
       edit:
-        button_activate: 
-        button_add_invoice_rows: 
-        button_add_voucher_rows: 
-        button_create: 
-        button_sell: 
-        header: 
+        button_activate: Button activate
+        button_add_invoice_rows: Button add invoice rows
+        button_add_voucher_rows: Button add rows into a voucher
+        button_create: Button create
+        button_sell: Button sell
+        header: Header
       form:
-        bookkeeping_value: 
-        bookkeeping_value_now: 
+        bookkeeping_value: Bookkeeping value
+        bookkeeping_value_now: Bookkeeping value now
       index:
-        button_new: 
-        button_search: 
-        header: 
+        button_new: Button New
+        button_search: Button search
+        header: Header
       link_order:
-        link_order_success: 
+        link_order_success: Link order success
       link_voucher:
-        link_voucher_success: 
+        link_voucher_success: Link voucher of success
       link_voucher_row:
-        cannot_link_row: 
-        row_already_linked: 
+        cannot_link_row: Can not link row
+        row_already_linked: Row Already linked
       new:
-        header: 
+        header: Header
       procurement_rows:
-        button_remove: 
-        header: 
+        button_remove: Button remove
+        header: Header
       purchase_orders:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Button add
+        button_search: Button search
+        header: Header
       sell:
-        confirm_sale: 
-        header: 
+        confirm_sale: Confirm sale
+        header: Header
       unlink:
-        unlink_success: 
+        unlink_success: Unlink success
       unlink_voucher_row:
-        cannot_unlink: 
+        cannot_unlink: Can not unlink
       update:
-        update_success: 
+        update_success: Update success
       vouchers:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Button add
+        button_search: Button search
+        header: Header
   helpers:
     select:
       prompt: Please select

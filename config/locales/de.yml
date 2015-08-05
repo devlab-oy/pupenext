@@ -3,22 +3,22 @@ de:
   activerecord:
     attributes:
       account:
-        alv_taso: 
-        kohde: 
-        kustp: 
+        alv_taso: MwSt-Steuerebene
+        kohde: Default Location
+        kustp: Standardkostenstelle
         laatija: Erstellt von
         luontiaika: Erstellt am
         muutospvm: "Änderungszeit"
-        muuttaja: 
+        muuttaja: Konverter
         nimi: Name
-        projekti: 
-        sisainen_taso: 
+        projekti: Standardprojekt
+        sisainen_taso: Level-Code (interner Gewinn- und Verlustrechnung)
         tilino: Kontonummer
-        tiliointi_tarkistus: 
-        toimijaliitos: 
-        ulkoinen_taso: 
+        tiliointi_tarkistus: Benötigte Felder
+        toimijaliitos: Toimijalitos
+        ulkoinen_taso: Level-Code (External Gewinn- und Verlustrechnung / Bilanz)
       accounting/fixed_assets/commodity:
-        evl_poistotyyppi: 
+        evl_poistotyyppi: EVL Abschreibungen Type
         kayttoonottopvm: Inbetriebnahmedatum
       cash_register:
         kassa: Kasse
@@ -39,10 +39,10 @@ de:
         email: E-Mailadresse
         factoringsaamiset: Factoringforderungen aus Lieferungen und Leistungen
         fax: Fax
-        int_koodi: 
-        intrastat_sarjanro: 
+        int_koodi: Intrastat Int Code
+        intrastat_sarjanro: Intrastat Serien
         jarjestys: Sortierung
-        karhuerapvm: 
+        karhuerapvm: Maksumuistusten Zahlungs (PVA)
         kassa: Barverkauf
         kassaale: Rabatte der Einkäufe
         kassaerotus: "Übereinstimmungsdifferenzen der Barverkaufskasse"
@@ -65,40 +65,40 @@ de:
         luottotappiot: Verkaufskreditverluste
         maa: Land
         matkalla_olevat: Umlaufvermögensrechnungen, die unterwegs sind
-        muutkulut: 
+        muutkulut: Acquisitions Standardaufwandskonto
         myynninkassaale: Rabatte des Verkaufs
         myynninvaluuttaero: Währungskursdifferenzen des Verkaufs
         myynti: Verkauf
         myynti_ei_eu: Verkauf außerhalb der Gemeinschaft
         myynti_eu: Gemeinschaftsverkauf
-        myynti_kaanteinen: 
+        myynti_kaanteinen: Sales, Rückwärts MwSt
         myynti_kohde: Standardziel des Verkaufs
         myynti_kustp: Standardkostenstelle des Verkaufs
         myynti_marginaali: Verkauf, Gebrauchtwaren
         myynti_projekti: Standardprojekt des Verkaufs
-        myyntireskontrakausi_alku: 
-        myyntireskontrakausi_loppu: 
+        myyntireskontrakausi_alku: Myyntireskontrakauden den Beginn des Tages
+        myyntireskontrakausi_loppu: Myyntireskontrakauden Rest des Tages
         myyntisaamiset: Forderungen aus Lieferungen und Leistungen
         nimi: Name
         osoite: Adresse
         osto_marginaali: Einkauf, Gebrauchtwaren (in Verbindung mit Verkauf)
-        ostoreskontrakausi_alku: 
-        ostoreskontrakausi_loppu: 
+        ostoreskontrakausi_alku: Ostoreskontrakauden Beginn des Tages
+        ostoreskontrakausi_loppu: Ostoreskontrakauden Rest des Tages
         ostovelat: Verbindlichkeiten aus Lieferungen und Leistungen
         ovttunnus: EDI-Kennzeichen
-        pankkiiban1: 
-        pankkiiban2: 
-        pankkiiban3: 
+        pankkiiban1: Die Bankverbindung IBAN 1
+        pankkiiban2: Die Bank Kontakt 2 IBAN
+        pankkiiban3: Die Bank Kontakt 3 IBAN
         pankkikortti: Barverkauf Bankkartenzahlungen
-        pankkinimi1: 
-        pankkinimi2: 
-        pankkinimi3: 
-        pankkiswift1: 
-        pankkiswift2: 
-        pankkiswift3: 
-        pankkitili1: 
-        pankkitili2: 
-        pankkitili3: 
+        pankkinimi1: Die Bankverbindung die Bank 1
+        pankkinimi2: Die Bankverbindung die Bank 2
+        pankkinimi3: Die Bankverbindung die Bank 3
+        pankkiswift1: Die Bank berühren SWIFT / BIC
+        pankkiswift2: Die Bank Kontakt 2 SWIFT / BIC
+        pankkiswift3: Die Bank Kontakt 3 SWIFT / BIC
+        pankkitili1: Die Bankverbindung eine Kontonummer
+        pankkitili2: Die Kontonummer 2 Kontakt
+        pankkitili3: Die Kontonummer, Kontaktinformationen 3
         postino: Postleitzahl
         postitp: Poststelle
         puhelin: Telefon
@@ -109,25 +109,25 @@ de:
         siirtosaamiset: ARAP-Konto für die Periodisierung der Einkaufsrechnung
         siirtovelka: PRAP-Konto für die Periodisierung der Verkaufsrechnung
         tilastotullikamari: statistikzollkammer
-        tilikauden_tulos: 
-        tilikausi_alku: 
-        tilikausi_loppu: 
-        tilino_triang: 
-        tulli_lisattava_era: 
-        tulli_vahennettava_era: 
+        tilikauden_tulos: Periodenergebnis
+        tilikausi_alku: Rechnungsperiode Beginndatum
+        tilikausi_loppu: Abrechnungszeitraum Enddatum
+        tilino_triang: Sales Dreieckshandel
+        tulli_lisattava_era: SAD hinzugefügt Artikel
+        tulli_vahennettava_era: Raten SAD reduziert
         tullikamari: zollkammer
-        tullin_asiaknro: 
-        tullin_lupanro: 
+        tullin_asiaknro: Customs 'Kundennummer
+        tullin_lupanro: Bewilligungsnummer
         tullipaate: zollterminal
         valkoodi: Währung
         valuuttaero: Währungskursdifferenzen der Einkäufe
         varasto: Waren/Lager
         varastonmuutos: Lageränderung
-        varastonmuutos_epakurantti: 
-        varastonmuutos_inventointi: 
-        varastonmuutos_rahti: 
+        varastonmuutos_epakurantti: Epäkuranttipoistojen Bestandsänderung
+        varastonmuutos_inventointi: Vorräte Bestandsänderung
+        varastonmuutos_rahti: Frachtkosten Bestandsänderung
         varastonmuutos_valmistuksesta: Lageränderung der Fertigung
-        viivastyskorko: 
+        viivastyskorko: Der Strafzins
         www: www
         ytunnus: Steuernummer
       printer:
@@ -135,32 +135,32 @@ de:
         jarjestys: Sortierung
         kirjoitin: Drucker
         komento: befehl
-        mediatyyppi: 
+        mediatyyppi: Medientyp
         mediatyyppi_types:
-          A4: 
-          A5: 
-          LS149X104: 
-          LS59X40: 
-          LSN149X104: 
-          LSN59X40: 
-          kuittitulostin: 
+          A4: A4
+          A5: A5
+          LS149X104: Thermotransfer 149X104mm
+          LS59X40: Thermotransfer 59X40mm
+          LSN149X104: Thermotransfer / Tape 149X104mm
+          LSN59X40: Thermotransfer / Tape 59X40mm
+          kuittitulostin: Belegdrucker
         merkisto: zeichensatz
         merkisto_types:
-          '1': 
-          '2': 
-          '3': 
-          '4': 
-          '5': 
+          '1': 7 Bit
+          '2': DOS
+          '3': ANSI
+          '4': UTF8
+          '5': Scandic off
         nimi: Name
         osoite: Adresse
         postino: Postleitzahl
         postitp: Poststelle
         puhelin: Telefon
-        unifaun_nimi: 
+        unifaun_nimi: Unifaun Namen
         yhteyshenkilo: Kontaktperson
     models:
       account: Konto
-      cash_register: 
+      cash_register: Geldschrank
       currency: Währung
       fiscal_year: Rechnungsjahr
       printer: Drucker
@@ -170,158 +170,158 @@ de:
   administration:
     accounts:
       create:
-        create_success: 
+        create_success: New Account erstellt
       destroy:
-        destroy_success: 
+        destroy_success: Konto erfolgreich entfernt
       edit:
         button_remove: Konto löschen
-        confirm_remove: 
+        confirm_remove: Sind Sie sicher, dass Sie Ihren Account löschen?
         header: Konto
         no_cost_center: Keine Kostenstelle
         no_project: Kein Projekt
-        no_sum_level: 
+        no_sum_level: Ist nicht festgelegt
         no_target: Kein Ziel
-        no_vat: 
+        no_vat: Kein Standard Steuer
       index:
         button_new: Neues Konto
         button_search: Suchen
         header: Kontotabelle
       manuaali_esto_options:
-        editing_disabled: 
-        editing_enabled: 
+        editing_disabled: Manuelles Hinzufügen / Bearbeiten Sie die Beiträge sind nicht
+        editing_enabled: Veröffentlichung anpassbare
       tiliointi_tarkistus_options:
-        mandatory_cs: 
-        mandatory_cs_project: 
-        mandatory_cs_target: 
-        mandatory_cs_target_project: 
-        mandatory_project: 
-        mandatory_target: 
-        mandatory_target_project: 
-        no_mandatory_fields: 
+        mandatory_cs: Erforderliche Felder sind Kostenstelle Buchungen
+        mandatory_cs_project: Erforderliche Felder Buchungen ist eine Kostenstelle, Projekt
+        mandatory_cs_target: Erforderliche Felder Buchungen wird eine Kostenstelle, die Ziel-
+        mandatory_cs_target_project: Erforderliche Felder Buchungen ist eine Kostenstelle und Projektziel
+        mandatory_project: Erforderliche Felder Postings habe ein Projekt,
+        mandatory_target: Erforderliche Felder Buchungen ist das Ziel
+        mandatory_target_project: Erforderliche Felder Buchungen ist ein Zielprojekt
+        no_mandatory_fields: Keine Pflichtfelder
       toimijaliitos_options:
-        relation_not_required: 
-        relation_required: 
+        relation_not_required: Keine Verbindung Zwang
+        relation_required: Muistiotositteelle durch den Kunden oder Lieferanten begleitet werden
       update:
-        update_success: 
+        update_success: Konto erfolgreich aktualisiert
     actions:
-      button_saving: 
+      button_saving: Saving ...
     cash_registers:
       create:
-        create_success: 
+        create_success: Cash Magazine wurde erfolgreich etabliert
       edit:
-        header: 
+        header: Geldschrank
         no_select: Beliebig
       index:
         button_new: Neue Kasse
         button_search: Suchen
         header: Kassen
       update:
-        update_success: 
+        update_success: Cash Magazine erfolgreich aktualisiert
     currencies:
       create:
-        create_success: 
+        create_success: Währungs erfolgreich erstellt
       edit:
         header: Währung
       index:
-        button_new: 
+        button_new: Neue Währung
         button_search: Suchen
         header: Währungen
       update:
-        update_success: 
+        update_success: Währungs erfolgreich aktualisiert
     fiscal_years:
       create:
-        create_success: 
+        create_success: Geschäftsjahr erfolgreich etabliert
       edit:
         header: Rechnungsjahr
       index:
-        button_new: 
+        button_new: Neue Geschäftsjahr
         button_search: Suchen
-        header: 
+        header: Haushaltsjahre
       update:
-        update_success: 
+        update_success: Geschäftsjahr erfolgreich aktualisiert
     printers:
       create:
-        create_success: 
+        create_success: Der Drucker wurde erfolgreich eingerichtet
       destroy:
-        destroy_success: 
+        destroy_success: Der Drucker wurde erfolgreich entfernt
       edit:
-        button_remove: 
-        confirm_remove: 
+        button_remove: Nehmen Sie den Drucker
+        confirm_remove: Sind Sie sicher, Sie wollen diesen Drucker zu entfernen?
         header: Drucker
       index:
-        button_new: 
+        button_new: Der neue Drucker
         button_search: Suchen
         header: Ausdrucker
       mediatyyppi_options:
-        media_a4: 
-        media_a5: 
+        media_a4: A5
+        media_a5: A5
         media_default: Beliebig
-        media_receipt: 
-        media_thermal1: 
-        media_thermal2: 
-        media_thermal3: 
-        media_thermal4: 
+        media_receipt: Belegdrucker
+        media_thermal1: Thermotransfer / Tape 149X104mm
+        media_thermal2: Thermotransfer / Tape 59X40mm
+        media_thermal3: Thermotransfer 149X104mm
+        media_thermal4: Thermotransfer 59X40mm
       merkisto_options:
-        charset_7bit: 
-        charset_ansi: 
+        charset_7bit: 7 Bit
+        charset_ansi: ANSI
         charset_default: Beliebig
-        charset_dos: 
-        charset_scandic_off: 
-        charset_utf8: 
+        charset_dos: DOS
+        charset_scandic_off: Scandic off
+        charset_utf8: UTF8
       update:
-        update_success: 
+        update_success: Drucker erfolgreich aktualisiert
     sum_levels:
       create:
-        create_success: 
+        create_success: Level erfolgreich etabliert
       destroy:
-        destroy_success: 
+        destroy_success: Level erfolgreich entfernt
       edit:
         button_remove: Ebene löschen
-        confirm_remove: 
-        header: 
+        confirm_remove: Sind Sie sicher, dass Sie möchten, um dieses Niveau zu löschen?
+        header: Die Höhe der Kontenplan
       index:
         button_new: Neue Ebene
         button_search: Suchen
-        header: 
+        header: Konten Levels
       kayttotarkoitus_options:
         normal: Beliebig
-        purchases: 
+        purchases: Einkauf, Materialwirtschaft, Versorgungsmaterialien und Waren
         turnover: Umsatz
       kumulatiivinen_options:
-        cumulative: 
+        cumulative: Ja Conversion Tracking dieses Niveau von Anfang des Geschäftsjahres
         not_cumulative: Nein
       update:
-        update_success: 
+        update_success: Level erfolgreich aktualisiert
     terms_of_payments:
       cash_options:
-        cash: 
-        credit_card: 
-        debit_card: 
-        not_cash: 
+        cash: Käteismaksuehto, gerundet auf den Cash
+        credit_card: Käteismaksuehto, wird Ihre Kreditkarte nicht gerundet werden
+        debit_card: Käteismaksuehto ist das Kreditinstitut nicht gerundet werden
+        not_cash: Dies ist nicht käteismaksuehto
       create:
-        create_success: 
+        create_success: Zahlungsbedingungen erfolgreich erstellt wurde
       edit:
         header: Zahlungsbedingung
         no_factoring: Wird nicht factoriert
-        use_company_defaults: 
+        use_company_defaults: Besuchen Annahmen des Unternehmens
       in_use_options:
         active: Wird benutzt
         inactive: Gelöscht / Wird nicht benutzt
       index:
         button_new: Neue Zahlungsbedingung
         button_search: Suchen
-        button_show_active: 
-        button_show_removed: 
-        header: 
+        button_show_active: Aktive Zahlungsbedingungen
+        button_show_removed: Show gelöscht Zahlungsbedingungen
+        header: Maksuedot
       update:
-        update_success: 
+        update_success: Zahlungsbedingungen erfolgreich aktualisiert
     update_access:
-      forbidden: 
+      forbidden: Sie sind nicht berechtigt, diesen Rekord zu aktualisieren!
   application:
     access_control:
-      forbidden: 
+      forbidden: Zugriff verweigert!
     authorize:
-      unauthorized: 
+      unauthorized: Einloggen!
   date:
     abbr_day_names:
     - So
@@ -420,19 +420,19 @@ de:
       year: Jahr //all are in singular now
   errors:
     cash_register:
-      kassa_missing: 
-      kassaerotus_missing: 
-      kateisotto_missing: 
-      kateistilitys_missing: 
-      luottokortti_missing: 
-      pankkikortti_missing: 
+      kassa_missing: Geldkonto ist nicht vorhanden oder kann nicht gefunden werden
+      kassaerotus_missing: Cash Differenzenkonto ist nicht vorhanden oder kann nicht gefunden werden
+      kateisotto_missing: Käteisotto fehlt oder kann nicht gefunden werden
+      kateistilitys_missing: Käteistilitystili fehlt oder kann nicht gefunden werden
+      luottokortti_missing: Kreditkartenkonto ist nicht vorhanden oder wurde nicht gefunden
+      pankkikortti_missing: Bankkartenkonto ist nicht vorhanden oder wurde nicht gefunden
     format: "%{attribute} %{message}"
     messages:
       accepted: muss akzeptiert werden
-      after: 
-      after_or_equal_to: 
-      before: 
-      before_or_equal_to: 
+      after: sollte größer sein %{date}
+      after_or_equal_to: sollte grßer als oder gleich sein %{date}
+      before: muss weniger als %{date} sein
+      before_or_equal_to: muß kleiner oder gleich sein %{date}
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
       empty: muss ausgefüllt werden
@@ -445,7 +445,7 @@ de:
       invalid: ist nicht gültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      not_a_date: 
+      not_a_date: keine genaue Datum
       not_a_number: ist keine Zahl
       not_an_integer: muss ganzzahlig sein
       odd: muss ungerade sein
@@ -466,82 +466,82 @@ de:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     qualifier:
-      accounts_found: 
+      accounts_found: Sie können nicht weg, weil es eine Kostenkonten
     sum_level:
-      begin_with_error: 
-      invalid_char: 
-      not_same_type: 
+      begin_with_error: Ebene muss durch 1, 2 oder 3 beginnen
+      invalid_char: Enthalten Sie nicht den Buchstaben Z
+      not_same_type: Ebenen müssen, um die gleiche Art haben
     template:
       body: 'Bitte überprüfen Sie die folgenden Felder:'
       header:
         one: 'Konnte %{model} nicht speichern: ein Fehler.'
         other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
     terms_of_payment:
-      in_use_customers: 
-      in_use_sales_order_drafts: 
-      in_use_sales_orders: 
+      in_use_customers: 'HINWEIS: Zahlungsbedingungen kann nicht entfernt werden, da es bei der Verwendung %{count} Kunde'
+      in_use_sales_order_drafts: 'HINWEIS: Zahlungsbedingungen kann nicht entfernt werden, da es bei der Verwendung %{count} unvollständige Kundenaufträge ist'
+      in_use_sales_orders: 'HINWEIS: Zahlungsbedingungen kann nicht entfernt werden, da es bei der Verwendung %{count} nicht gelieferte Aufträge ist'
   fixed_assets:
     commodities:
       activate:
-        activation_failure: 
-        activation_success: 
+        activation_failure: Aktivierungsfehler
+        activation_success: Aktivierung Success
       commodity_rows:
         button_show_hide: Anzeigen / Verstecken
-        commodity_row_amount: 
-        header: 
+        commodity_row_amount: Commodity Zeile Menge
+        header: Kopfzeile
       confirm_sale:
-        sale_failure: 
-        sale_success: 
+        sale_failure: Sale Ausfall
+        sale_success: Sale Success
       create:
-        create_success: 
+        create_success: Erfolg zu schaffen
       depreciations:
         button_show_hide: Anzeigen / Verstecken
-        depreciation_difference_amount: 
-        depreciation_rows_amount: 
-        header: 
+        depreciation_difference_amount: Abschreibungen Differenzbetrag
+        depreciation_rows_amount: Abschreibungen Reihen Menge
+        header: Kopfzeile
       edit:
-        button_activate: 
-        button_add_invoice_rows: 
-        button_add_voucher_rows: 
-        button_create: 
-        button_sell: 
-        header: 
+        button_activate: Schaltfläche Aktivieren
+        button_add_invoice_rows: Schaltfläche Hinzufügen Rechnung Reihen
+        button_add_voucher_rows: Button Zeilen hinzufügen in einen Gutschein
+        button_create: Button erstellen
+        button_sell: Button sell
+        header: Kopfzeile
       form:
-        bookkeeping_value: 
-        bookkeeping_value_now: 
+        bookkeeping_value: Buchhaltungswert
+        bookkeeping_value_now: Buchhaltung Wert jetzt
       index:
-        button_new: 
-        button_search: 
-        header: 
+        button_new: Button New
+        button_search: Button Suche
+        header: Kopfzeile
       link_order:
-        link_order_success: 
+        link_order_success: Link, um Erfolg
       link_voucher:
-        link_voucher_success: 
+        link_voucher_success: Link Gutschein im Wert von Erfolg
       link_voucher_row:
-        cannot_link_row: 
-        row_already_linked: 
+        cannot_link_row: Kann Zeile nicht verlinken
+        row_already_linked: Row bereits verknüpft
       new:
-        header: 
+        header: Kopfzeile
       procurement_rows:
-        button_remove: 
-        header: 
+        button_remove: Schaltfläche Entfernen
+        header: Kopfzeile
       purchase_orders:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Schaltfläche Hinzufügen
+        button_search: Button Suche
+        header: Kopfzeile
       sell:
-        confirm_sale: 
-        header: 
+        confirm_sale: Verkauf bestätigen
+        header: Kopfzeile
       unlink:
-        unlink_success: 
+        unlink_success: Unlink Erfolg
       unlink_voucher_row:
-        cannot_unlink: 
+        cannot_unlink: Kann nicht aufheben
       update:
-        update_success: 
+        update_success: Erfolg Update
       vouchers:
-        button_add: 
-        button_search: 
-        header: 
+        button_add: Schaltfläche Hinzufügen
+        button_search: Button Suche
+        header: Kopfzeile
   helpers:
     select:
       prompt: Bitte wählen
