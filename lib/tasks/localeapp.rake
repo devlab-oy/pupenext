@@ -40,6 +40,9 @@ namespace :translations do
 
       # Write translations to yaml file
       File.open(file, 'w') { |f| f.write(hash.to_yaml) }
+
+      # Normalize file
+      %x(bundle exec i18n-tasks normalize #{locale})
     end
   end
 
