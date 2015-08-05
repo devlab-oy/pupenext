@@ -2,6 +2,13 @@ namespace :translations do
   desc "Pull all translations from Localeapp"
   task pull: :environment do
     Localeapp::CLI::Pull.new.execute
+
+    locales = Dir[Rails.root.join('config', 'locales', '*')].map do |file|
+      File.basename file, ".yml"
+    end.join ' '
+
+    # Normalize files
+    %x(bundle exec i18n-tasks normalize #{locales})
   end
 
   desc "Push all translations to Localeapp"
