@@ -183,8 +183,8 @@ en:
         no_target: No target
         no_vat: 
       index:
-        button_new: 
-        button_search: 
+        button_new: New account
+        button_search: Search
         header: Chart of accounts
       manuaali_esto_options:
         editing_disabled: 
@@ -212,7 +212,7 @@ en:
         header: Kassa
         no_select: No selection
       index:
-        button_new: 
+        button_new: New cash account
         button_search: Search
         header: Cash accounts
       update:
@@ -486,7 +486,7 @@ en:
         activation_failure: 
         activation_success: 
       commodity_rows:
-        button_show_hide: 
+        button_show_hide: Display/Hide
         commodity_row_amount: 
         header: 
       confirm_sale:
@@ -497,7 +497,7 @@ en:
       create_form:
         button_saving: 
       depreciations:
-        button_show_hide: 
+        button_show_hide: Display/Hide
         depreciation_difference_amount: 
         depreciation_rows_amount: 
         header: 

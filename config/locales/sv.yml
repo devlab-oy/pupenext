@@ -183,8 +183,8 @@ sv:
         no_target: Inget objekt
         no_vat: 
       index:
-        button_new: 
-        button_search: 
+        button_new: Nytt konto
+        button_search: Sök
         header: Kontotabell
       manuaali_esto_options:
         editing_disabled: 
@@ -480,7 +480,7 @@ sv:
         activation_failure: 
         activation_success: 
       commodity_rows:
-        button_show_hide: 
+        button_show_hide: Visa / Dölj
         commodity_row_amount: 
         header: 
       confirm_sale:
@@ -491,7 +491,7 @@ sv:
       create_form:
         button_saving: 
       depreciations:
-        button_show_hide: 
+        button_show_hide: Visa / Dölj
         depreciation_difference_amount: 
         depreciation_rows_amount: 
         header: 

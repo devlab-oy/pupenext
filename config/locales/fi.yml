@@ -183,8 +183,8 @@ fi:
         no_target: Ei kohdetta
         no_vat: Ei oletusveroa
       index:
-        button_new: Perusta uusi tili
-        button_search: Etsi tiliä
+        button_new: Uusi tili
+        button_search: Etsi
         header: Tilikartta
       manuaali_esto_options:
         editing_disabled: Tiliöinnin manuaalinen lisäys/muokkaus estetty
@@ -212,7 +212,7 @@ fi:
         header: Kassalipas
         no_select: Ei valintaa
       index:
-        button_new: Perusta uusi kassalipas
+        button_new: Uusi kassalipas
         button_search: Etsi
         header: Kassalippaat
       update:
@@ -480,7 +480,7 @@ fi:
         activation_failure: Activation failure
         activation_success: Activation success
       commodity_rows:
-        button_show_hide: Button show hide
+        button_show_hide: Näytä / Piilota
         commodity_row_amount: Commodity row amount
         header: Header
       confirm_sale:
@@ -489,9 +489,9 @@ fi:
       create:
         create_success: Create success
       create_form:
-        button_saving: Button saving
+        button_saving: Tallentaa...
       depreciations:
-        button_show_hide: Button show hide
+        button_show_hide: Näytä / Piilota
         depreciation_difference_amount: Depreciation difference amount
         depreciation_rows_amount: Depreciation rows amount
         header: Header
