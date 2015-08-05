@@ -494,8 +494,6 @@ de:
         sale_success: 
       create:
         create_success: 
-      create_form:
-        button_saving: 
       depreciations:
         button_show_hide: Anzeigen / Verstecken
         depreciation_difference_amount: 
@@ -511,7 +509,6 @@ de:
       form:
         bookkeeping_value: 
         bookkeeping_value_now: 
-        button_saving: 
       index:
         button_new: 
         button_search: 

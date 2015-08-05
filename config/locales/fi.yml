@@ -332,7 +332,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -358,7 +358,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -488,8 +488,6 @@ fi:
         sale_success: Sale success
       create:
         create_success: Create success
-      create_form:
-        button_saving: Tallentaa...
       depreciations:
         button_show_hide: Näytä / Piilota
         depreciation_difference_amount: Depreciation difference amount
@@ -505,7 +503,6 @@ fi:
       form:
         bookkeeping_value: Bookkeeping value
         bookkeeping_value_now: Bookkeeping value now
-        button_saving: Button saving
       index:
         button_new: Button new
         button_search: Button search
