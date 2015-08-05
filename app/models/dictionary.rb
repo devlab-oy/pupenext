@@ -13,7 +13,7 @@ class Dictionary < ActiveRecord::Base
 
     # Fetch the translation (cache does not expire)
     translation = Rails.cache.fetch("translation_#{cache_key}") do
-      where("fi = BINARY ?", string).first
+      where("fi = BINARY ?", string.to_s).first
     end
 
     # Return the string if don't have it in the database
