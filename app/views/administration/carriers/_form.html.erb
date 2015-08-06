@@ -21,10 +21,6 @@
     </tr>
   </table>
 
-  <br/>
+  <%= render 'administration/actions', f: f %>
 
-  <div class="actions">
-    <% text = @carrier.persisted? ? t("Tallenna") : t("Lisää") %>
-    <%= f.submit text, data: { disable_with: t("Tallentaa") + '...' } %>
-  </div>
 <% end %>

@@ -1,15 +1,6 @@
-<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Rahdinkuljettajat")}", carriers_path %>
+<%= return_link t('administration.carriers.index.header'), carriers_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa rahdinkuljettajaa" %>
+<%= render "administration/header", text: t('administration.carriers.edit.header') %>
 <%= render 'form' %>
-
-<% if @carrier.persisted? && update_access? %>
-  <br/>
-
-  <%= button_to(t("Poista rahdinkuljettaja"),
-                carrier_path(@carrier.id),
-                data: { confirm: t("Haluatko todella poistaa tämän tietueen?") },
-                method: "delete") %>
-<% end %>

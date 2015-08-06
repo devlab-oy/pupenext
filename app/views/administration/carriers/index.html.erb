@@ -1,6 +1,7 @@
-<%= render "administration/header", title: "Rahdinkuljettajat" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi rahdinkuljettaja"), new_carrier_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_carrier_path, method: :get if update_access? %>
+
 <br /><br />
 
 <%= form_tag carriers_path, method: :get do %>
@@ -21,7 +22,7 @@
         <%= sortable "neutraali" %>
         <br />
         <%= select_tag :neutraali,
-            options_for_select([ [t("Ei"), false], [t("Kyllä"), true] ], params[:neutraali]),
+            options_for_select(neutraali_options, params[:neutraali]),
             include_blank: true %>
       </th>
       <th>
@@ -29,14 +30,16 @@
         <br />
         <%= text_field_tag :pakkauksen_sarman_minimimitta, params[:pakkauksen_sarman_minimimitta] %>
       </th>
-      <th class="back"><%= submit_tag t("Etsi") %></th>
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
     </tr>
 
   <% @carriers.each do |carrier| %>
     <tr>
       <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
       <td><%= carrier.nimi %></td>
-      <td><%= carrier.neutraali ? t("Kyllä") : "" %></td>
+      <td><%= carrier.neutraali ? t("administration.carriers.neutraali_options.true") : "" %></td>
       <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
       <td class="back"></td>
     </tr>
@@ -47,4 +50,4 @@
 
 <br/>
 
-<%= button_to t("Uusi rahdinkuljettaja"), new_carrier_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_carrier_path, method: :get if update_access? %>
