@@ -205,6 +205,12 @@ en:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Search
+      neutraali_options:
+        'false': 'No'
+        'true': 'Yes'
     cash_registers:
       create:
         create_success: 

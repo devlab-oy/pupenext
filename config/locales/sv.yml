@@ -205,6 +205,12 @@ sv:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Sök
+      neutraali_options:
+        'false': Nej
+        'true': Ja
     cash_registers:
       create:
         create_success: 
