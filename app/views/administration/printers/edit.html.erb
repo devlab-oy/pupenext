@@ -1,15 +1,15 @@
-<%= return_link("Kirjoittimet", printers_path) %>
+<%= return_link t('administration.printers.index.header'), printers_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa kirjoitinta" %>
+<%= render "administration/header", text: t('administration.printers.edit.header') %>
 <%= render 'form', printer: @printer %>
 
 <% if @printer.persisted? && update_access? %>
   <br/>
 
-  <%= button_to(t("Poista kirjoitin"),
+  <%= button_to(t('.button_remove'),
                 printer_path(@printer.id),
-                data: { confirm: t("Haluatko todella poistaa tämän tietueen?") },
+                data: { confirm: t('administration.printers.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>

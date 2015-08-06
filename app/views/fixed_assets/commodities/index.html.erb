@@ -1,7 +1,7 @@
-<%= render "administration/header", title: "Hyödykkeet" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render "administration/notice" %>
 
-<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_commodity_path, method: :get if update_access? %>
 
 <br/><br/>
 
@@ -19,7 +19,7 @@
       <br/>
       <%= text_field_tag :description, params[:description] %>
     </th>
-    <th class="back"><%= submit_tag t('Etsi') %></th>
+    <th class="back"><%= submit_tag t('.button_search') %></th>
   </tr>
 <% end %>
 
@@ -40,4 +40,4 @@
 
 <br/>
 
-<%= button_to t('Uusi hyödyke'), new_commodity_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_commodity_path, method: :get if update_access? %>

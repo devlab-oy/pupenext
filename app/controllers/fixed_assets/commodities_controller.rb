@@ -24,7 +24,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   # PATCH /commodities/1
   def update
     if @commodity.update_by(commodity_params, current_user)
-      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke päivitettiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: t('.update_success')
     else
       render :edit
     end
@@ -39,7 +39,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     @commodity = FixedAssets::Commodity.new(commodity_create_params)
 
     if @commodity.save_by current_user
-      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke luotiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: t('.create_success')
     else
       render :new
     end
@@ -52,7 +52,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   # POST /commodities/1/link_order
   def link_order
     if link_voucher_row
-      redirect_to commodity_purchase_orders_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+      redirect_to commodity_purchase_orders_path, notice: t('.link_order_success')
     else
       render :purchase_orders
     end
@@ -65,7 +65,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   # POST /commodities/1/link_voucher
   def link_voucher
     if link_voucher_row
-      redirect_to commodity_vouchers_path, notice: 'Tiliöintirivi liitettiin onnistuneesti.'
+      redirect_to commodity_vouchers_path, notice: t('.link_voucher_success')
     else
       render :vouchers
     end
@@ -74,7 +74,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   # POST /commodities/1/unlink
   def unlink
     if unlink_voucher_row
-      redirect_to edit_commodity_path(@commodity), notice: 'Tiliöintivi poistettu hyödykkeeltä.'
+      redirect_to edit_commodity_path(@commodity), notice: t('.unlink_success')
     else
       render :edit
     end
@@ -85,10 +85,10 @@ class FixedAssets::CommoditiesController < AdministrationController
     @commodity.status = 'A'
 
     if @commodity.save_by current_user
-      redirect_to edit_commodity_path(@commodity), notice: 'Hyödyke aktivoitiin onnistuneesti.'
+      redirect_to edit_commodity_path(@commodity), notice: t('.activation_success')
     else
       @commodity.status = ''
-      flash.now[:notice] = 'Aktivointi epäonnistui'
+      flash.now[:notice] = t('.activation_failure')
       render :edit
     end
   end
@@ -118,9 +118,9 @@ class FixedAssets::CommoditiesController < AdministrationController
       }
       CommodityRowGenerator.new(options).sell
 
-      redirect_to edit_commodity_path(@commodity), notice: 'Hyödykkeen myynti onnistui.'
+      redirect_to edit_commodity_path(@commodity), notice: t('.sale_success')
     else
-      flash.now[:notice] = 'Virheelliset parametrit'
+      flash.now[:notice] = t('.sale_failure')
       render :sell
     end
   end
@@ -183,7 +183,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       if @voucher_row.commodity_id.blank?
         @voucher_row.commodity_id = @commodity.id
       else
-        flash.now[:notice] = 'Tämä rivi on jo lisätty hyödykkeelle.'
+        flash.now[:notice] = t('.row_already_linked')
         return false
       end
 
@@ -191,7 +191,7 @@ class FixedAssets::CommoditiesController < AdministrationController
         @voucher_row.save_by current_user
         @commodity.save_by current_user
       else
-        flash.now[:notice] = 'Et voi lisätä tätä riviä.'
+        flash.now[:notice] = t('.cannot_link_row')
         false
       end
     end
@@ -202,7 +202,7 @@ class FixedAssets::CommoditiesController < AdministrationController
         @voucher_row.save_by current_user
         @commodity.save_by current_user
       else
-        flash.now[:notice] = 'Et voi poistaa tätä riviä hyödykkeeltä.'
+        flash.now[:notice] = t('.cannot_unlink')
         false
       end
     end

@@ -3,71 +3,74 @@
 
   <table>
     <tr>
-      <th><%= f.label :kirjoitin, t("Kirjoitin") %></th>
+      <th><%= f.label :kirjoitin %></th>
       <td><%= f.text_field :kirjoitin %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :komento, t("Komento") %></th>
+      <th><%= f.label :komento %></th>
       <td><%= f.text_field :komento %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :unifaun_nimi, t("Unifaun nimi") %></th>
+      <th><%= f.label :unifaun_nimi %></th>
       <td><%= f.text_field :unifaun_nimi %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :merkisto, t("Merkistö") %></th>
-      <td><%= f.select :merkisto, Printer.merkisto_types %></td>
+      <th><%= f.label :merkisto %></th>
+      <td><%= f.select :merkisto, merkisto_options %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :mediatyyppi, t("Mediatyyppi") %></th>
-      <td><%= f.select :mediatyyppi, Printer.mediatyyppi_types %></td>
+      <th><%= f.label :mediatyyppi %></th>
+      <td><%= f.select :mediatyyppi, mediatyyppi_options %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :nimi, t("Nimi") %></th>
+      <th><%= f.label :nimi %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :osoite, t("Osoite") %></th>
+      <th><%= f.label :osoite %></th>
       <td><%= f.text_field :osoite %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :postino, t("Postino") %></th>
+      <th><%= f.label :postino %></th>
       <td><%= f.text_field :postino %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :postitp, t("Postitp") %></th>
+      <th><%= f.label :postitp %></th>
       <td><%= f.text_field :postitp, size: 10, maxlength: 10 %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :puhelin, t("Puhelin") %></th>
+      <th><%= f.label :puhelin %></th>
       <td><%= f.telephone_field :puhelin %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :yhteyshenkilo, t("Yhteyshenkilö") %></th>
+      <th><%= f.label :yhteyshenkilo %></th>
       <td><%= f.text_field :yhteyshenkilo %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :ip, t("Ip") %></th>
+      <th><%= f.label :ip %></th>
       <td><%= f.text_field :ip %></td>
     </tr>
 
     <tr>
-      <th><%= f.label :jarjestys, t("Järjestys") %></th>
+      <th><%= f.label :jarjestys %></th>
       <td><%= f.number_field :jarjestys %></td>
     </tr>
+
     <%= render 'administration/resource_timestamps_and_users', resource: printer %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>
+
 <% end %>

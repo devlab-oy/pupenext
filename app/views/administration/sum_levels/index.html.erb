@@ -1,6 +1,6 @@
-<%= render "administration/header", title: "Tilikartan rakenne" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
 
 <br/><br/>
 <%= form_tag sum_levels_path, method: :get do %>
@@ -55,7 +55,7 @@
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -101,4 +101,4 @@
 <% end %>
 <br/>
 
-<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>

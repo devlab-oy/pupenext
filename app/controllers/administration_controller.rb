@@ -5,6 +5,6 @@ class AdministrationController < ApplicationController
   before_action :find_resource, only: [:show, :edit, :update, :destroy]
 
   def update_access
-    render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless update_access?
+    render text: t('.forbidden'), status: :forbidden unless update_access?
   end
 end
