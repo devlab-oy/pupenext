@@ -25,14 +25,14 @@ class Administration::PrintersControllerTest < ActionController::TestCase
     get :new
     assert_response :success
 
-    assert_template 'new', 'Template should be new'
+    assert_template 'edit', 'Template should be edit'
   end
 
   test 'should create new printer' do
-    params = { merkisto: 1, mediatyyppi: "A4", nimi: "Testinimi", komento: "lpr -P testitulostin",
+    params = { merkisto: 'charset_7bit', mediatyyppi: "media_a4", nimi: "Testinimi",
                kirjoitin: "Testitulostin", unifaun_nimi: "kala", osoite: "Testitie 6",
                postino: "00100", postitp: "Turku", puhelin: "555 111 222",
-               yhteyshenkilo: "Testiukko", jarjestys: 1 }
+               yhteyshenkilo: "Testiukko", jarjestys: 1, komento: "lpr -P testitulostin" }
 
     assert_difference('Printer.count', 1) do
       post :create, printer: params
@@ -49,7 +49,7 @@ class Administration::PrintersControllerTest < ActionController::TestCase
   test 'does not create a new printer with invalid parameters' do
     assert_no_difference('Printer.count') do
       post :create, printer: { kirjoitin: "" }
-      assert_template 'new', 'Template should be new'
+      assert_template 'edit', 'Template should be edit'
     end
   end
 

@@ -14,6 +14,7 @@ class Administration::FiscalYearsController < AdministrationController
   # GET /fiscal_years/new
   def new
     @fiscal_year = FiscalYear.new
+    render :edit
   end
 
   # GET /fiscal_years/1/edit
@@ -25,7 +26,7 @@ class Administration::FiscalYearsController < AdministrationController
     @fiscal_year = FiscalYear.new(fiscal_year_params)
 
     if @fiscal_year.save_by(current_user)
-      redirect_to fiscal_years_path, notice: 'Tilikausi luotiin onnistuneesti.'
+      redirect_to fiscal_years_path, notice: t('.create_success')
     else
       render :edit
     end
@@ -34,7 +35,7 @@ class Administration::FiscalYearsController < AdministrationController
   # PATCH/PUT /fiscal_years/1
   def update
     if @fiscal_year.update_by(fiscal_year_params, current_user)
-      redirect_to fiscal_years_path, notice: 'Tilikausi päivitettiin onnistuneesti.'
+      redirect_to fiscal_years_path, notice: t('.update_success')
     else
       render :edit
     end

@@ -63,7 +63,7 @@ test "should not create" do
       post :create, cash_register: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_template "edit", "Template should be edit"
   end
 
   test "should update" do

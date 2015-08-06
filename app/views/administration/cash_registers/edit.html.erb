@@ -1,6 +1,6 @@
-<%= return_link("Kassalippaat", cash_registers_path) %>
+<%= return_link t('administration.cash_registers.index.header'), cash_registers_path %>
 
 <br />
 
-<%= render "administration/header", title: "Muokkaa kassalipasta" %>
+<%= render "administration/header", text: t('administration.cash_registers.edit.header') %>
 <%= render "form" %>

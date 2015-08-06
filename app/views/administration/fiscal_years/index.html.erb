@@ -1,6 +1,6 @@
-<%= render "administration/header", title: "Yrityksen tilikaudet" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>
 
 <br/><br/>
 
@@ -16,7 +16,7 @@
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -24,13 +24,13 @@
       <tr class="aktiivi">
         <td>
           <% if update_access? %>
-            <%= link_to l(fiscal_year.tilikausi_alku, format: :short), edit_fiscal_year_path(fiscal_year.id) %>
+            <%= link_to l(fiscal_year.tilikausi_alku), edit_fiscal_year_path(fiscal_year.id) %>
           <% else %>
-            <%=l fiscal_year.tilikausi_alku, format: :short %>
+            <%=l fiscal_year.tilikausi_alku %>
           <% end %>
         </td>
         <td>
-          <%=l fiscal_year.tilikausi_loppu, format: :short %>
+          <%=l fiscal_year.tilikausi_loppu %>
         </td>
       </tr>
     <% end %>
@@ -39,4 +39,4 @@
 
 <br/>
 
-<%= button_to t('Uusi tilikausi'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>

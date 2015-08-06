@@ -1,6 +1,6 @@
-<%= return_link("Yrityksen tilikaudet", fiscal_years_path) %>
+<%= return_link t('administration.fiscal_years.index.header'), fiscal_years_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa tilikautta" %>
+<%= render "administration/header", text: t('administration.fiscal_years.edit.header') %>
 <%= render 'form' %>

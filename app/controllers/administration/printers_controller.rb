@@ -14,6 +14,7 @@ class Administration::PrintersController < AdministrationController
   # GET /printers/new
   def new
     @printer = Printer.new
+    render :edit
   end
 
   # POST /printers
@@ -21,9 +22,9 @@ class Administration::PrintersController < AdministrationController
     @printer = Printer.new(printer_params)
 
     if @printer.save_by current_user
-      redirect_to printers_path, notice: "Kirjoitin luotiin onnistuneesti"
+      redirect_to printers_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 
@@ -34,7 +35,7 @@ class Administration::PrintersController < AdministrationController
   # PATCH/PUT /printers/1
   def update
     if @printer.update_by(printer_params, current_user)
-      redirect_to printers_path, notice: "Kirjoitin päivitettiin onnistuneesti"
+      redirect_to printers_path, notice: t('.update_success')
     else
       render :edit
     end
@@ -42,7 +43,7 @@ class Administration::PrintersController < AdministrationController
 
   def destroy
     @printer.destroy
-    redirect_to printers_path, notice: "Kirjoitin poistettiin onnistuneesti"
+    redirect_to printers_path, notice: t('.destroy_success')
   end
 
   private
