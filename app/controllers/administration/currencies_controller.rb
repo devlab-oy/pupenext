@@ -14,6 +14,7 @@ class Administration::CurrenciesController < AdministrationController
   # GET /currencies/new
   def new
     @currency = Currency.new
+    render :edit
   end
 
   # POST /currencies
@@ -22,9 +23,9 @@ class Administration::CurrenciesController < AdministrationController
     @currency.attributes = currency_params
 
     if @currency.save_by current_user
-      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
+      redirect_to currencies_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 
@@ -35,7 +36,7 @@ class Administration::CurrenciesController < AdministrationController
   # PATCH/PUT /currencies/1
   def update
     if @currency.update_by(currency_params, current_user)
-      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
+      redirect_to currencies_path, notice: t('.update_success')
     else
       render :edit
     end

@@ -58,7 +58,7 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
       params = { not_existing_column: true }
 
       post :create, terms_of_payment: params
-      assert_template "new", "Template should be new"
+      assert_template "edit", "Template should be edit"
     end
   end
 
