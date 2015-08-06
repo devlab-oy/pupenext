@@ -1,4 +1,6 @@
 class Administration::SumLevelsController < AdministrationController
+  before_action :set_types
+
   def index
     @sum_levels = SumLevel
       .search_like(search_params)
@@ -7,6 +9,7 @@ class Administration::SumLevelsController < AdministrationController
 
   def new
     @sum_level = SumLevel::Internal.new
+    render :edit
   end
 
   def show
@@ -17,7 +20,7 @@ class Administration::SumLevelsController < AdministrationController
     @sum_level = SumLevel.new(sum_level_params)
 
     if params[:commit] && @sum_level.save_by(current_user)
-      redirect_to sum_levels_path, notice: 'Taso luotiin onnistuneesti'
+      redirect_to sum_levels_path, notice: t('.create_success')
     else
       render :edit
     end
@@ -31,7 +34,7 @@ class Administration::SumLevelsController < AdministrationController
     # pressed). Otherwise submits triggered i.e. from select updates would also result in
     # redirection.
     if params[:commit] && @sum_level.update_by(sum_level_params, current_user)
-      redirect_to sum_levels_path, notice: 'Taso päivitettiin onnistuneesti'
+      redirect_to sum_levels_path, notice: t('.update_success')
     else
       @sum_level.assign_attributes(sum_level_params)
       render :edit
@@ -40,13 +43,19 @@ class Administration::SumLevelsController < AdministrationController
 
   def destroy
     @sum_level.destroy
-    redirect_to sum_levels_path, notice: 'Taso poistettiin onnistuneesti'
+    redirect_to sum_levels_path, notice: t('.destroy_success')
   end
 
   private
 
     def find_resource
       @sum_level = SumLevel.find params[:id]
+    end
+
+    def set_types
+      @sum_level_types = SumLevel.sum_levels.map do |_, sum_level|
+        [sum_level.human_readable_type, sum_level.sti_name]
+      end
     end
 
     def sum_level_params

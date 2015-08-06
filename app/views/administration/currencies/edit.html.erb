@@ -1,6 +1,6 @@
-<%= return_link("Valuutat", currencies_path) %>
+<%= return_link t('administration.currencies.index.header'), currencies_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa valuuttaa" %>
+<%= render "administration/header", text: t('administration.currencies.edit.header') %>
 <%= render 'form' %>
