@@ -167,6 +167,7 @@ fi:
       qualifier: Tarkenne
       sum_level: Taso
       terms_of_payment: Maksuehto
+      freight_contract: Rahtisopimus
   administration:
     accounts:
       create:
