@@ -205,6 +205,16 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    carriers:
+      edit:
+        header: Rahdinkuljettaja
+      index:
+        button_new: Uusi rahdinkuljettaja
+        button_search: Etsi
+        header: Rahdinkuljettajat
+      neutraali_options:
+        'false': 'Ei'
+        'true': 'Kyllä'
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -332,7 +342,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -358,7 +368,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
