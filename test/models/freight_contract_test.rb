@@ -16,16 +16,7 @@ class FreightContractTest < ActiveSupport::TestCase
   end
 
   test "delivery method saved to freight contract must exist" do
-    customer = customers(:stubborn_customer)
-
-    freight_contract = FreightContract.new(toimitustapa: "Kissa",
-                                           asiakas: customer.tunnus,
-                                           ytunnus: customer.ytunnus,
-                                           rahtisopimus: "13579",
-                                           selite: "kala",
-                                           muumaksaja: "Muumipeikko"
-    )
-
-    refute freight_contract.valid?
+    @one.toimitustapa = 'Kissa'
+    assert @one.valid?
   end
 end
