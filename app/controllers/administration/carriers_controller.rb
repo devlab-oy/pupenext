@@ -12,6 +12,7 @@ class Administration::CarriersController < AdministrationController
 
   def new
     @carrier = Carrier.new
+    render :edit
   end
 
   def create
@@ -20,7 +21,7 @@ class Administration::CarriersController < AdministrationController
     if @carrier.save_by current_user
       redirect_to carriers_path, notice: t("Rahdinkuljettaja luotiin onnistuneesti")
     else
-      render :new
+      render :edit
     end
   end
 
