@@ -1,11 +1,8 @@
 class Printer < BaseModel
   include Searchable
-  extend Translatable
 
   validates :kirjoitin, presence: true
   validates :komento, presence: true, uniqueness: { scope: :company }, format: { without: /["'<>\\;]/ }
-  validates :mediatyyppi, inclusion: { in: proc { mediatyyppi_types.to_h.values } }, allow_blank: true
-  validates :merkisto, inclusion: { in: proc { merkisto_types.to_h.values } }, allow_blank: true
 
   before_validation do |printer|
     printer.komento.strip
@@ -18,29 +15,25 @@ class Printer < BaseModel
   self.primary_key = :tunnus
   self.record_timestamps = false
 
-  def self.merkisto_types
-    [
-      [t("Ei valintaa"), 0],
-      ["7 Bit", 1],
-      ["DOS", 2],
-      ["ANSI", 3],
-      ["UTF8", 4],
-      ["Scandic off", 5]
-    ]
-  end
+  enum merkisto: {
+    charset_default: 0,
+    charset_7bit: 1,
+    charset_dos: 2,
+    charset_ansi: 3,
+    charset_utf8: 4,
+    charset_scandic_off: 5
+  }
 
-  def self.mediatyyppi_types
-    [
-      [t("Ei valintaa"), ""],
-      %w(A4 A4),
-      %w(A5 A5),
-      ["#{t("Lämpösiirto/nauha")} 149X104mm", "LSN149X104"],
-      ["#{t("Lämpösiirto/nauha")} 59X40mm", "LSN59X40"],
-      ["#{t("Lämpösiirto")} 149X104mm", "LS149X104"],
-      ["#{t("Lämpösiirto")} 59X40mm", "LS59X40"],
-      [t("Kuittitulostin"), "kuittitulostin"]
-    ]
-  end
+  enum mediatyyppi: {
+    media_default: '',
+    media_a4: 'A4',
+    media_a5: 'A5',
+    media_thermal1: 'LSN149X104',
+    media_thermal2: 'LSN59X40',
+    media_thermal3: 'LS149X104',
+    media_thermal4: 'LS59X40',
+    media_receipt: 'kuittitulostin'
+  }
 
   private
 

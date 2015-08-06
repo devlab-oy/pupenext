@@ -169,64 +169,20 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "kumulatiivinen should be empty string or X" do
-    @internal.kumulatiivinen = "A"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = "1"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = true
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = false
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = 1
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = 0
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = nil
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = "X"
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = ""
-    assert @internal.valid?, @internal.errors.full_messages
+    values = {
+      "not_cumulative" => "",
+      "cumulative"     => "X"
+    }
+    assert_equal values, @internal.class.kumulatiivinens
   end
 
-  test "kayttotarkoitus should be empty string, M or O" do
-    @internal.kayttotarkoitus = "A"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "1"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = true
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = false
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = 1
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = 0
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = nil
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = ""
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "M"
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "O"
-    assert @internal.valid?, @internal.errors.full_messages
+  test "kayttotarkoitus should be empty or M or O" do
+    values = {
+      "normal"    => "",
+      "turnover"  => "M",
+      "purchases" => "O"
+    }
+    assert_equal values, @internal.class.kayttotarkoitus
   end
 
   test "initializing new SumLevel with tyyppi sets class correctly" do

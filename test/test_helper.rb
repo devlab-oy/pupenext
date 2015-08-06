@@ -17,6 +17,10 @@ end
 
 SimpleCov.start 'rails'
 
+def assets_file(name)
+  File.read(Rails.root.join('test', 'assets', name)).chomp
+end
+
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
   self.use_transactional_fixtures = false

@@ -94,7 +94,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
       post :create, account: request
     end
 
-    assert_template :new
+    assert_template :edit
   end
 
   test "should get edit" do
