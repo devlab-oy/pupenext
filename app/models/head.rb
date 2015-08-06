@@ -2,9 +2,6 @@ class Head < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto, primary_key: :tunnus
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
-  scope :not_delivered, -> { where(tila: 'L', alatila: %w(A C)) }
-  scope :not_finished, -> { where(tila: 'N') }
-
   self.table_name = :lasku
   self.primary_key = :tunnus
   self.inheritance_column = :tila
@@ -26,7 +23,8 @@ class Head < BaseModel
       Q: Head::PurchaseInvoice::Waiting,
       O: Head::PurchaseOrder,
       U: Head::SalesInvoice,
-      N: Head::SalesOrder,
+      N: Head::SalesOrderDraft,
+      L: Head::SalesOrder,
       X: Head::Voucher,
     }
   end

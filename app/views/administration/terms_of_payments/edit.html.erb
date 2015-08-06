@@ -1,6 +1,6 @@
-<%= return_link("Maksuehdot", terms_of_payments_path) %>
+<%= return_link t('administration.terms_of_payments.index.header'), terms_of_payments_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa maksuehtoa" %>
+<%= render "administration/header", text: t('administration.terms_of_payments.edit.header') %>
 <%= render 'form' %>

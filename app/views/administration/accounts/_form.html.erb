@@ -1,4 +1,5 @@
 <%= form_for(@account) do |f| %>
+
   <%= render "administration/form_errors", resource: @account %>
 
   <table>
@@ -8,57 +9,57 @@
     </tr>
 
     <tr>
-      <th><%= f.label :tasokoodi_s %></th>
+      <th><%= f.label :sisainen_taso %></th>
       <td>
         <%= f.collection_select(:sisainen_taso,
-                                levels[:internal],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.sisainen_taso) %>
+            levels[:internal],
+            :taso,
+            :sum_level_name,
+            include_blank: t('administration.accounts.edit.no_sum_level'), selected: account.sisainen_taso) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :tasokoodi_u %></th>
+      <th><%= f.label :ulkoinen_taso %></th>
       <td>
         <%= f.collection_select(:ulkoinen_taso,
-                                levels[:external],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.ulkoinen_taso) %>
+            levels[:external],
+            :taso,
+            :sum_level_name,
+            include_blank: t('administration.accounts.edit.no_sum_level'), selected: account.ulkoinen_taso) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :tasokoodi_a %></th>
+      <th><%= f.label :alv_taso %></th>
       <td>
         <%= f.collection_select(:alv_taso,
-                                levels[:vat],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.alv_taso) %>
+            levels[:vat],
+            :taso,
+            :sum_level_name,
+            include_blank: t('administration.accounts.edit.no_sum_level'), selected: account.alv_taso) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :tasokoodi_b %></th>
+      <th><%= f.label :tulosseuranta_taso %></th>
       <td>
         <%= f.collection_select(:tulosseuranta_taso,
-                                levels[:profit],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.tulosseuranta_taso) %>
+            levels[:profit],
+            :taso,
+            :sum_level_name,
+            include_blank: t('administration.accounts.edit.no_sum_level'), selected: account.tulosseuranta_taso) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :tasokoodi_e %></th>
+      <th><%= f.label :evl_taso %></th>
       <td>
         <%= f.collection_select(:evl_taso,
-                                levels[:commodity],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.evl_taso) %>
+            levels[:commodity],
+            :taso,
+            :sum_level_name,
+            include_blank: t('administration.accounts.edit.no_sum_level'), selected: account.evl_taso) %>
       </td>
     </tr>
 
@@ -71,56 +72,56 @@
       <th><%= f.label :kustp %></th>
       <td>
         <%= f.collection_select(:kustp,
-                                qualifiers[:cost_center],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei kustannuspaikkaa"),
-                                selected: account.kustp) %>
+            qualifiers[:cost_center],
+            :tunnus,
+            :nimitys,
+            include_blank: t('administration.accounts.edit.no_cost_center'),
+            selected: account.kustp) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :kohde, t('Oletuskohde') %></th>
+      <th><%= f.label :kohde %></th>
       <td>
         <%= f.collection_select(:kohde,
-                                qualifiers[:target],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei kohdetta"),
-                                selected: account.kohde) %>
+            qualifiers[:target],
+            :tunnus,
+            :nimitys,
+            include_blank: t('administration.accounts.edit.no_target'),
+            selected: account.kohde) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :projekti, t('Oletusprojekti') %></th>
+      <th><%= f.label :projekti %></th>
       <td>
         <%= f.collection_select(:projekti,
-                                qualifiers[:project],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei projektia"),
-                                selected: account.projekti) %>
+            qualifiers[:project],
+            :tunnus,
+            :nimitys,
+            include_blank: t('administration.accounts.edit.no_project'),
+            selected: account.projekti) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :toimijaliitos %></th>
       <td>
-        <%= f.select(:toimijaliitos, account.toimijaliitos_options) %>
+        <%= f.select(:toimijaliitos, toimijaliitos_options) %>
       </td>
     </tr>
 
     <tr>
-      <th><%= f.label :tiliointi_tarkistus, t("Pakolliset kentät") %></th>
+      <th><%= f.label :tiliointi_tarkistus %></th>
       <td>
-        <%= f.select(:tiliointi_tarkistus, account.tiliointi_tarkistus_options) %>
+        <%= f.select(:tiliointi_tarkistus, tiliointi_tarkistus_options) %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :manuaali_esto %></th>
       <td>
-        <%= f.select(:manuaali_esto, account.manuaali_esto_options) %>
+        <%= f.select(:manuaali_esto, manuaali_esto_options) %>
       </td>
     </tr>
 
@@ -128,16 +129,17 @@
       <th><%= f.label :oletus_alv %></th>
       <td>
         <%= f.collection_select(:oletus_alv,
-                                oletus_alv_options,
-                                :selite,
-                                :option_value,
-                                include_blank: t('Ei oletusta'), selected: account.oletus_alv.to_i) %>
+            oletus_alv_options,
+            :vat_percent,
+            :vat_percent_text,
+            include_blank: t('administration.accounts.edit.no_vat')) %>
       </td>
     </tr>
 
-
     <%= render 'administration/resource_timestamps_and_users', resource: account %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>
+
 <% end %>

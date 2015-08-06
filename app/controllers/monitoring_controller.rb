@@ -1,9 +1,10 @@
 class MonitoringController < ApplicationController
   include ResqueMonitor
 
-  skip_before_action :authorize
-  skip_before_action :set_locale
   skip_before_action :access_control
+  skip_before_action :authorize
+  skip_before_action :set_current_company
+  skip_before_action :set_locale
 
   before_action :monitoring_access_control
 
@@ -20,7 +21,7 @@ class MonitoringController < ApplicationController
   private
 
     def monitoring_access_control
-      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless from_devlab?
+      render text: "Käyttöoikeudet puuttuu!", status: :forbidden unless from_devlab?
     end
 
     def from_devlab?
