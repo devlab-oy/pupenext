@@ -3,24 +3,26 @@
 
   <table>
     <tr>
-      <th><%= f.label :nimi, t('Valuutta') %></th>
+      <th><%= f.label :nimi %></th>
       <td><%= f.text_field :nimi %></td>
     </tr>
     <tr>
-      <th><%= f.label :jarjestys, t('Järjestys') %></th>
+      <th><%= f.label :jarjestys %></th>
       <td><%= f.text_field :jarjestys %></td>
     </tr>
     <tr>
-      <th><%= f.label :kurssi, t('Valuuttakurssi') %></th>
+      <th><%= f.label :kurssi %></th>
       <td><%= f.text_field :kurssi %></td>
     </tr>
     <% if Current.company.maa == "EE" %>
       <tr>
-        <th><%= f.label :intrastat_kurssi, t('Intrastat-kurssi') %></th>
+        <th><%= f.label :intrastat_kurssi %></th>
         <td><%= f.text_field :intrastat_kurssi %></td>
       </tr>
     <% end %>
+
     <%= render 'administration/resource_timestamps_and_users', resource: @currency %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>

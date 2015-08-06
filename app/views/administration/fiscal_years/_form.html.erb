@@ -3,11 +3,11 @@
 
   <table>
     <tr>
-      <th><%= f.label :tilikausi_alku, t('Alkupäivämäärä') %></th>
+      <th><%= f.label :tilikausi_alku %></th>
       <td><%= f.pupenext_date_field :tilikausi_alku %></td>
     </tr>
     <tr>
-      <th><%= f.label :tilikausi_loppu, t('Loppupäivämäärä') %></th>
+      <th><%= f.label :tilikausi_loppu %></th>
       <td><%= f.pupenext_date_field :tilikausi_loppu %></td>
     </tr>
     <%= render 'administration/resource_timestamps_and_users', resource: @fiscal_year %>

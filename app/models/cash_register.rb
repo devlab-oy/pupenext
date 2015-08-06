@@ -1,6 +1,5 @@
 class CashRegister < BaseModel
   include Searchable
-  include Translatable
 
   validates :nimi, presence: true, uniqueness: true
   validates :kassa, presence: true
@@ -24,33 +23,33 @@ class CashRegister < BaseModel
   private
 
     def check_kassa
-      msg = t("Kassatili puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.kassa_missing')
       errors.add(:kassa, msg) unless check_account(kassa)
     end
 
     def check_pankkikortti
-      msg = t("Pankkikorttitili puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.pankkikortti_missing')
       errors.add(:pankkikortti, msg) unless check_account(pankkikortti)
     end
 
     def check_luottokortti
-      msg = t("Luottokorttitili puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.luottokortti_missing')
       errors.add(:luottokortti, msg) unless check_account(luottokortti)
     end
 
     def check_kateistilitys
-      msg = t("Kateistilitystili puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.kateistilitys_missing')
       errors.add(:kateistilitys, msg) unless check_account(kateistilitys)
     end
 
     def check_kassaerotus
-      msg = t("Kassaerotustili puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.kassaerotus_missing')
       errors.add(:kassaerotus, msg) unless check_account(kassaerotus)
     end
 
     def check_kateisotto
       return true unless kateisotto.present?
-      msg = t("Kateisotto puuttuu tai sitä ei löydy")
+      msg = I18n.t('errors.cash_register.kateisotto_missing')
       errors.add(:kateisotto, msg) unless check_account(kateisotto)
     end
 
