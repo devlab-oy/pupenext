@@ -9,7 +9,7 @@ class TermsOfPayment < BaseModel
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
-  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
+  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }, allow_blank: true
   validates :teksti, length: { within: 1..40 }
 
   validate :check_relations, if: :inactive?
@@ -61,5 +61,7 @@ class TermsOfPayment < BaseModel
 
     def defaults
       self.pankkiyhteystiedot ||= 0
+      self.rel_pvm ||= 0
+      self.kassa_relpvm ||= 0
     end
 end
