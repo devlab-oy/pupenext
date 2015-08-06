@@ -17,6 +17,6 @@ class FreightContractTest < ActiveSupport::TestCase
 
   test "delivery method saved to freight contract must exist" do
     @one.toimitustapa = 'Kissa'
-    assert @one.valid?
+    refute @one.valid?
   end
 end
