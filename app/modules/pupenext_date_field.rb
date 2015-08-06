@@ -1,55 +1,45 @@
 module PupenextDateField
-  def pupenext_date_field(method)
-    options = default_values method
+  def pupenext_date_field(fieldname, options = {})
+    @fieldname = fieldname
 
-    inputs = []
-    options.each do |key, option|
-      # @object.send(method).send(key) calls .day .month and .year on date
-      option[:html_options][:value] = @object.send(method).send(key) if @object.send(method).is_a?(Date)
-      inputs << @template.number_field_tag(option[:name], method, option[:html_options])
+    inputs = default_options.map do |option|
+      html_options = option[:html_options].merge(options)
+
+      @template.text_field_tag(option[:name], fieldname, html_options)
     end
 
-    inputs.join(' ').html_safe
+    inputs.join.html_safe
   end
 
   private
 
-    def pupenext_date_field_name(field_name, type)
-      prefix     = @object_name.to_s
-      field_name += "(#{ActionView::Helpers::DateTimeSelector::POSITION[type]}i)"
-
-      "#{prefix}[#{field_name}]"
-    end
-
-    def default_values(method)
-      {
-        day:   {
-          name:         pupenext_date_field_name(method.try(:to_s), :day),
+    def default_options
+      prefix = @object_name.to_s
+      [
+        {
+          name: "#{prefix}[#{@fieldname}[day]]",
           html_options: {
-            value: '',
-            size:  3,
-            min:   1,
-            max:   31
+            value: @object.send(@fieldname).try(:day),
+            size: 3,
+            pattern: "[0-9]*"
           },
         },
-        month: {
-          name:         pupenext_date_field_name(method.try(:to_s), :month),
+        {
+          name: "#{prefix}[#{@fieldname}[month]]",
           html_options: {
-            value: '',
-            size:  3,
-            min:   1,
-            max:   12
+            value: @object.send(@fieldname).try(:month),
+            size: 3,
+            pattern: "[0-9]*"
           },
         },
-        year:  {
-          name:         pupenext_date_field_name(method.try(:to_s), :year),
+        {
+          name: "#{prefix}[#{@fieldname}[year]]",
           html_options: {
-            value: '',
-            size:  5,
-            min:   1,
-            max:   9999
+            value: @object.send(@fieldname).try(:year),
+            size: 5,
+            pattern: "[0-9]*"
           },
         },
-      }
+      ]
     end
 end

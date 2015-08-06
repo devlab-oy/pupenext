@@ -1,11 +1,11 @@
-<%= return_link("Hyödykkeet", commodities_path) %>
-<br/><br/>
+<%= return_link(FixedAssets::Commodity.model_name.human(count: 2), commodities_path) %>
+<br /><br />
 
-<%= return_link("Muokkaa hyödykettä", edit_commodity_path(@commodity)) %>
-<br/><br/>
+<%= return_link(FixedAssets::Commodity.model_name, edit_commodity_path(@commodity)) %>
+<br /><br />
 
 <%= render "administration/form_errors", resource: @linkable_row if @linkable_row.present? %>
-<%= render "administration/header", title: "Hyödykkeen tositteet" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render "administration/notice" %>
 
 <table>
@@ -30,7 +30,7 @@
     <br/>
     <%= text_field_tag :viesti, params[:viesti] %>
   </th>
-  <th class="back"><%= submit_tag t('Etsi') %></th>
+  <th class="back"><%= submit_tag t('.button_search') %></th>
 </tr>
 
 <% @vouchers.each do |vou| %>
@@ -56,7 +56,7 @@
     <td><%= vourow.summa  %></td>
     <td><%= vourow.tilino %></td>
     <td class='back'>
-      <%= button_to t('Lisää'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
+      <%= button_to t('.button_add'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
     </td>
     </tr>
     <% end %>

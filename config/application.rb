@@ -24,5 +24,7 @@ module Pupesoft
     config.time_zone = 'Helsinki'
 
     config.cache_store = :memory_store
+
+    config.action_view.default_form_builder = 'PupenextFormBuilder'
   end
 end
