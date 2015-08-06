@@ -7,7 +7,11 @@ class Keyword < BaseModel
   self.table_name = :avainsana
   self.primary_key = :tunnus
 
-  def option_value
+  def vat_percent_text
     "#{selite} %"
+  end
+
+  def vat_percent
+    BigDecimal selite
   end
 end
