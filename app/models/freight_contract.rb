@@ -9,16 +9,14 @@ class FreightContract < BaseModel
   validates :rahtisopimus, presence: true
   validates :delivery_method, presence: true
 
-  class << self
-    def with_customer
-      joins("LEFT JOIN asiakas ON asiakas.yhtio = rahtisopimukset.yhtio
-             AND asiakas.tunnus = rahtisopimukset.asiakas")
-        .select("rahtisopimukset.*",
-                "asiakas.nimi AS customer_name",
-                "asiakas.tunnus AS customer_id")
-    end
-  end
-
   self.table_name = :rahtisopimukset
   self.primary_key = :tunnus
+
+  def self.with_customer
+    joins("LEFT JOIN asiakas ON asiakas.yhtio = rahtisopimukset.yhtio
+           AND asiakas.tunnus = rahtisopimukset.asiakas")
+      .select("rahtisopimukset.*",
+              "asiakas.nimi AS customer_name",
+              "asiakas.tunnus AS customer_id")
+  end
 end

@@ -35,11 +35,13 @@ class Administration::FreightContractsController < AdministrationController
     end
 
     def freight_contract_params
-      params.require(:freight_contract).permit(:toimitustapa,
-                                               :asiakas,
-                                               :ytunnus,
-                                               :rahtisopimus,
-                                               :selite,
-                                               :muumaksaja)
+      params.require(:freight_contract).permit(
+        :toimitustapa,
+        :asiakas,
+        :ytunnus,
+        :rahtisopimus,
+        :selite,
+        :muumaksaja
+      )
     end
 end
