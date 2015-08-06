@@ -1,7 +1,7 @@
-<%= render "administration/header", title: "Rahtisopimukset" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi rahtisopimus"), new_freight_contract_path, method: :get if update_access? %>
-<%= button_to t("Näytä kaikki"), {}, params: { limit: :off }, method: :get %>
+<%= button_to t('.button_new'), new_freight_contract_path, method: :get if update_access? %>
+<%= button_to t('.button_show_all'), {}, params: { limit: :off }, method: :get %>
 
 <br/><br/>
 
@@ -30,7 +30,7 @@
         <%= text_field_tag :selite, params[:selite] %>
       </th>
       <th class="back">
-        <%= submit_tag t("Etsi"), class: "hae_btn" %>
+        <%= submit_tag t('.button_search'), class: "hae_btn" %>
       </th>
     </tr>
     </thead>
