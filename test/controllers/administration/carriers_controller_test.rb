@@ -55,7 +55,7 @@ class Administration::CarriersControllerTest < ActionController::TestCase
       params = { not_existing_column: true }
 
       post :create, carrier: params
-      assert_template "new", "Template should be new"
+      assert_template "edit", "Template should be edit"
     end
   end
 
