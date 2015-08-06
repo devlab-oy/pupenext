@@ -5,8 +5,7 @@ hit:
   jalleenmyyjanro: 123456789
   neutraali: true
   pakkauksen_sarman_minimimitta: 1.0
-  laatija: 'joe'
+  laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
-  muuttaja: 'joe'
-
+  muuttaja: joe
