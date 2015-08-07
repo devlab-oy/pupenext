@@ -39,7 +39,7 @@
     <tr>
       <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
       <td><%= carrier.nimi %></td>
-      <td><%= carrier.neutraali ? t("administration.carriers.neutraali_options.true") : "" %></td>
+      <td><%= carrier.neutral? ? t("administration.carriers.neutraali_options.true") : "" %></td>
       <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
       <td class="back"></td>
     </tr>
