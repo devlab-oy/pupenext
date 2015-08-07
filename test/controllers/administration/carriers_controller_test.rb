@@ -3,7 +3,7 @@ require 'test_helper'
 class Administration::CarriersControllerTest < ActionController::TestCase
   def setup
     login users(:joe)
-    @carrier = carrier(:hit)
+    @carrier = carriers(:hit)
   end
 
   test 'should get index' do
@@ -38,7 +38,7 @@ class Administration::CarriersControllerTest < ActionController::TestCase
         nimi: "Kiitolinja",
         koodi: "KIITO",
         jalleenmyyjanro: 123456789,
-        neutraali: true,
+        neutraali: 'neutral',
         pakkauksen_sarman_minimimitta: 1.0
       }
 
