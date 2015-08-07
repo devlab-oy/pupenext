@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CarrierTest < ActiveSupport::TestCase
   def setup
-    @carrier = carrier(:hit)
+    @carrier = carriers(:hit)
   end
 
   test 'all fixtures should be valid' do
