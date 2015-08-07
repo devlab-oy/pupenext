@@ -23,12 +23,12 @@ class CarrierTest < ActiveSupport::TestCase
   end
 
   test 'should be neutral' do
-    assert_equal false, Carrier.new.neutraali
+    @carrier.update_attribute(:neutraali, :neutral)
+    assert @carrier.reload.neutral?
+    refute @carrier.not_neutral?
 
-    @carrier.update_attribute(:neutraali, true)
-    assert_equal true, @carrier.reload.neutraali
-
-    @carrier.update_attribute(:neutraali, false)
-    assert_equal false, @carrier.reload.neutraali
+    @carrier.update_attribute(:neutraali, :not_neutral)
+    refute @carrier.reload.neutral?
+    assert @carrier.not_neutral?
   end
 end

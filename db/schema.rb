@@ -1727,7 +1727,7 @@ ActiveRecord::Schema.define(version: 20150102091914) do
     t.string   "koodi",                         limit: 50,                         default: "",  null: false
     t.string   "nimi",                          limit: 50,                         default: "",  null: false
     t.integer  "jalleenmyyjanro",               limit: 4,                          default: 0,   null: false
-    t.boolean   "neutraali",                     limit: 1,                         default: false, null: false
+    t.string   "neutraali",                     limit: 1,                          default: "",  null: false
     t.decimal  "pakkauksen_sarman_minimimitta",            precision: 5, scale: 2, default: 0.0, null: false
     t.string   "laatija",                       limit: 50,                         default: "",  null: false
     t.datetime "luontiaika",                                                                     null: false
