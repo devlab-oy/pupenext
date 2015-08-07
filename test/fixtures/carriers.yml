@@ -3,7 +3,6 @@ hit:
   koodi: HIT
   nimi: HIT
   jalleenmyyjanro: 123456789
-  neutraali: true
   pakkauksen_sarman_minimimitta: 1.0
   laatija: joe
   luontiaika: <%= Date.today %>
