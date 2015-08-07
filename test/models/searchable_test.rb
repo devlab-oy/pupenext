@@ -8,7 +8,7 @@ end
 
 class DumberClass < ActiveRecord::Base
   include Searchable
-  self.table_name = :rahdinkuljettajat
+  self.table_name = :yhtion_parametrit
 end
 
 class SearchableTest < ActiveSupport::TestCase
@@ -55,21 +55,21 @@ class SearchableTest < ActiveSupport::TestCase
     count = DumberClass.all.count
 
     # Mark all false
-    DumberClass.update_all(neutraali: false)
+    DumberClass.update_all(lapsituotteen_poiston_esto: false)
 
-    params = { neutraali: 'false' }
+    params = { lapsituotteen_poiston_esto: 'false' }
     assert_equal count, DumberClass.search_like(params).count
 
-    params = { neutraali: 'true' }
+    params = { lapsituotteen_poiston_esto: 'true' }
     assert_equal 0, DumberClass.search_like(params).count
 
     # Mark all true
-    DumberClass.update_all(neutraali: true)
+    DumberClass.update_all(lapsituotteen_poiston_esto: true)
 
-    params = { neutraali: 'false' }
+    params = { lapsituotteen_poiston_esto: 'false' }
     assert_equal 0, DumberClass.search_like(params).count
 
-    params = { neutraali: 'true' }
+    params = { lapsituotteen_poiston_esto: 'true' }
     assert_equal count, DumberClass.search_like(params).count
   end
 end
