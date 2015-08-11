@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150811111106) do
+ActiveRecord::Schema.define(version: 20150811124537) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 20150811111106) do
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                              default: "",  null: false
     t.string   "vienti",                           limit: 1,                              default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                              default: "",  null: false
-    t.string   "koontilaskut_yhdistetaan",         limit: 1,                                            null: false
+    t.string   "koontilaskut_yhdistetaan",         limit: 1,                              default: "",  null: false
     t.string   "luokka",                           limit: 50,                             default: "",  null: false
     t.string   "jtkielto",                         limit: 1,                              default: "",  null: false
     t.integer  "jtrivit",                          limit: 4,                              default: 0,   null: false
@@ -2086,9 +2086,9 @@ ActiveRecord::Schema.define(version: 20150811111106) do
     t.string   "poisto_vastatili",            limit: 6,                            default: "",  null: false
     t.string   "poistoero_tili",              limit: 6,                            default: "",  null: false
     t.string   "poistoero_vastatili",         limit: 6,                            default: "",  null: false
-    t.string   "planned_depreciation_type",   limit: 1,                                          null: false
+    t.string   "planned_depreciation_type",   limit: 1,                            default: "",  null: false
     t.decimal  "planned_depreciation_amount",             precision: 16, scale: 6, default: 0.0, null: false
-    t.string   "btl_depreciation_type",       limit: 1,                                          null: false
+    t.string   "btl_depreciation_type",       limit: 1,                            default: "",  null: false
     t.decimal  "btl_depreciation_amount",                 precision: 16, scale: 6, default: 0.0, null: false
     t.string   "laatija",                     limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                                     null: false
