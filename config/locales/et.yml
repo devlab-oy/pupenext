@@ -20,6 +20,15 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      carrier:
+        koodi: Kood
+        luontiaika: Koostamise aeg
+        luottokortti: 
+        muutospvm: Muutmise kuupäev
+        muuttaja: Muutja
+        neutraali: 
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: Kassa vahe

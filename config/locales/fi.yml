@@ -20,6 +20,15 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      carrier:
+        koodi: Koodi
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvm
+        muuttaja: Muuttaja
+        neutraali: Neutraali
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: Pakkauksen särmän minimimitta
       cash_register:
         kassa: Kassa
         kassaerotus: Kassaerotus
@@ -343,7 +352,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -369,7 +378,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

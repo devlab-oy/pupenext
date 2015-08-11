@@ -20,6 +20,15 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      carrier:
+        koodi: 
+        luontiaika: Erstellt am
+        luottokortti: 
+        muutospvm: "Änderungsdatum"
+        muuttaja: 
+        neutraali: 
+        nimi: Name
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kasse
         kassaerotus: Kassendifferenz
