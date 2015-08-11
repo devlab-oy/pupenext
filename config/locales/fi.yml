@@ -160,6 +160,7 @@ fi:
         yhteyshenkilo: Yhteyshenkilö
     models:
       account: Tili
+      carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi

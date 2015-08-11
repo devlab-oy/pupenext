@@ -160,6 +160,7 @@ sv:
         yhteyshenkilo: Kontaktperson
     models:
       account: Konto
+      carrier:
       cash_register:
       currency: Valuta
       fiscal_year: Räkenskapsår
