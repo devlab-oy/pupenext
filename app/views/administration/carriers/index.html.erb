@@ -33,11 +33,21 @@
 
   <% @carriers.each do |carrier| %>
     <tr>
-      <td><%= link_to carrier.koodi, edit_carrier_path(carrier.id) %></td>
-      <td><%= carrier.nimi %></td>
-      <td><%= carrier.neutral? ? t("administration.carriers.neutraali_options.true") : "" %></td>
-      <td><%= carrier.pakkauksen_sarman_minimimitta %></td>
-      <td class="back"></td>
+      <td>
+        <%= link_to carrier.koodi, edit_carrier_path(carrier.id) %>
+      </td>
+      <td>
+        <%= carrier.nimi %>
+      </td>
+      <td>
+        <%= t("administration.carriers.neutraali_options.neutral") if carrier.neutral? %>
+        <%= t("administration.carriers.neutraali_options.not_neutral") if carrier.not_neutral? %>
+      </td>
+      <td>
+        <%= carrier.pakkauksen_sarman_minimimitta %>
+      </td>
+      <td class="back">
+      </td>
     </tr>
   <% end %>
 

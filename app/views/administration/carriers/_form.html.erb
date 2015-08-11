@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <th><%= f.label :neutraali %></th>
-      <td><%= f.check_box :neutraali, {}, 'neutral', 'not_neutral' %></td>
+      <td><%= f.select :neutraali, neutraali_options %></td>
     </tr>
     <tr>
       <th><%= f.label :pakkauksen_sarman_minimimitta %></th>
