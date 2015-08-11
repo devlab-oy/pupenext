@@ -213,8 +213,8 @@ fi:
         button_search: Etsi
         header: Rahdinkuljettajat
       neutraali_options:
-        'false': 'Ei'
-        'true': 'Kyllä'
+        neutral: Kyllä
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
