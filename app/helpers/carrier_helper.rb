@@ -1,5 +1,5 @@
 module CarrierHelper
-  ROOT = 'administration.carriers.'
+  ROOT = 'administration.carriers'
 
   def neutraali_options
     Carrier.neutraalis.map do |key,_|
