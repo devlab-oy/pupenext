@@ -2,7 +2,6 @@ hit:
   yhtio: acme
   koodi: HIT
   nimi: HIT
-  jalleenmyyjanro: 123456789
   pakkauksen_sarman_minimimitta: 1.0
   laatija: joe
   luontiaika: <%= Date.today %>
