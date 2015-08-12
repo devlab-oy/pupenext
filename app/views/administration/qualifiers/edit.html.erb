@@ -1,6 +1,6 @@
-<%= link_to "« #{t("Palaa ohjelmaan")}: #{t("Tarkenteet")}", qualifiers_path %>
+<%= return_link t('administration.qualifiers.index.header'), qualifiers_path %>
 
 <br />
 
-<%= render "administration/header", title: "Muokkaa tarkennetta" %>
+<%= render "administration/header", text: t('administration.qualifiers.edit.header') %>
 <%= render 'form' %>

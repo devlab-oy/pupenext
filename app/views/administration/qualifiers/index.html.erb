@@ -1,11 +1,11 @@
-<%= render "administration/header", title: "Tarkenteet" %>
+<%= render "administration/header", text: t('administration.qualifiers.index.header') %>
 
-<%= button_to t("Uusi tarkenne"), new_qualifier_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
 
 <% if showing_not_used? %>
-  <%= button_to t("Näytä aktiivit"), qualifiers_path, method: :get %>
+  <%= button_to t('.button_show_active'), qualifiers_path, method: :get %>
 <% else %>
-  <%= button_to t("Näytä poistetut"), qualifiers_path, method: :get, params: { not_used: :yes } %>
+  <%= button_to t('.button_show_removed'), qualifiers_path, method: :get, params: { not_used: :yes } %>
 <% end %>
 
 <br /><br />
@@ -29,7 +29,7 @@
       <br />
       <%= text_field_tag :tyyppi, params[:tyyppi] %>
     </th>
-    <th class="back"><%= submit_tag t("Etsi") %></th>
+    <th class="back"><%= submit_tag t('.button_search') %></th>
   </tr>
 
   <% @qualifiers.each do |q| %>
@@ -51,4 +51,4 @@
 
 <br />
 
-<%= button_to t("Uusi tarkenne"), new_qualifier_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
