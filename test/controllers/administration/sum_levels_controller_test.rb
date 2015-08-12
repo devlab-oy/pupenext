@@ -38,8 +38,8 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
           nimi: 'TILIKAUDEN TULOS2221',
           oletusarvo: '',
           jakaja: '',
-          kumulatiivinen: '',
-          kayttotarkoitus: '',
+          kumulatiivinen: 'not_cumulative',
+          kayttotarkoitus: 'normal',
           kerroin: ''
         },
         commit: "joo"
@@ -50,7 +50,7 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     assert_redirected_to sum_levels_path
   end
 
-  test "doesnt create with invalid params" do
+  test "does not create with invalid params" do
     request = {
       tyyppi: 'U',
       summattava_taso: '',

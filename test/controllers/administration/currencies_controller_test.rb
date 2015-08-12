@@ -58,7 +58,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to currencies_path
-    assert_equal "Valuutta luotiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.create.create_success'
+    assert_equal message, flash[:notice]
   end
 
   test 'should not create new currency' do
@@ -66,7 +67,7 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     assert_no_difference('Currency.count') do
       post :create, currency: {nimi: 'FOO_BAR'}
-      assert_template 'new', 'Template should be new'
+      assert_template 'edit', 'Template should be edit'
     end
   end
 
@@ -76,25 +77,28 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     patch :update, id: currency.id, currency: {nimi: 'TES'}
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.update.update_success'
+    assert_equal message, flash[:notice]
   end
 
-  test 'should not see intrastat-field' do
+  test 'users not from estonia should not see intrastat-field' do
     login users(:bob)
     currency = currencies(:eur)
     request = {id: currency.id}
 
     get :show, request
-    assert_select "table tr", 7, "User is not from Estonia and should see only 7 table rows"
+    assert_select 'label[for=currency_intrastat_kurssi]', { count: 0 }, 'no intrastat label'
+    assert_select 'input[id=currency_intrastat_kurssi]', { count: 0 }, 'no intrastat input'
   end
 
-  test 'should see intrastat-field' do
+  test 'user from estonia should see intrastat-field' do
     login users(:max)
     currency = currencies(:eur_ee)
     request = {id: currency.id}
 
     get :show, request
-    assert_select "table tr", 8, "User is from Estonia and should see 8 table rows"
+    assert_select 'label[for=currency_intrastat_kurssi]', { count: 1 }, 'must have intrastat label'
+    assert_select 'input[id=currency_intrastat_kurssi]', { count: 1 }, 'must have intrastat input'
   end
 
   test 'should update estonian currency' do
@@ -103,7 +107,8 @@ class Administration::CurrenciesControllerTest < ActionController::TestCase
 
     patch :update, id: currency.id, currency: {nimi: 'TES', intrastat_kurssi: 1.5}
     assert_redirected_to currencies_path, response.body
-    assert_equal "Valuutta päivitettiin onnistuneesti.", flash[:notice]
+    message = I18n.t 'administration.currencies.update.update_success'
+    assert_equal message, flash[:notice]
   end
 
   test 'should not update currency' do

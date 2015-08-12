@@ -1,17 +1,18 @@
 <% if resource.errors.any? %>
-<div id="error_explanation">
-  <span class="message">
-    <%= pluralize(resource.errors.count, t("virhe esti tallentumisen"), t("virhettä esti tallentumisen")) %>:
-  </span>
+  <div id="error_explanation">
+    <span class="message">
+      <%=t 'errors.template.header', count: resource.errors.count, model: resource.class %><br>
+      <%=t 'errors.template.body', count: resource.errors.size %>
+    </span>
 
-  <div class="error">
-    <ul>
-    <% resource.errors.full_messages.each do |msg| %>
-      <li>
-        <%= t(msg) %>
-      </li>
-    <% end %>
-    </ul>
+    <div class="error">
+      <ul>
+        <% resource.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
 <% end %>

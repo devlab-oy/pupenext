@@ -9,7 +9,12 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   end
 
   test 'all fixtures should be valid' do
-    assert @top.valid?, @top.errors.full_messages.inspect
+    assert terms_of_payments(:eighty_days_net).valid?
+    assert terms_of_payments(:hundred_days_net).valid?
+    assert terms_of_payments(:ninety_days_net).valid?
+    assert terms_of_payments(:not_in_use_net).valid?
+    assert terms_of_payments(:seventy_days_net).valid?
+    assert terms_of_payments(:sixty_days_net).valid?
   end
 
   test 'should be valid date' do
@@ -33,17 +38,20 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top.kaytossa = 'E'
     refute @top.valid?, "This terms of payment is used by a customer"
 
-    @top_hundred = terms_of_payments(:hundred_days_net)
-    @top_hundred.kaytossa = 'E'
-    refute @top_hundred.valid?, "This terms of payment is used by an unfinished sales order"
+    top_hundred = terms_of_payments(:hundred_days_net)
+    top_hundred.kaytossa = 'E'
+    refute top_hundred.valid?, "This terms of payment is used by an unfinished sales order"
 
-    @top_third = terms_of_payments(:eighty_days_net)
-    @top_third.kaytossa = 'E'
-    refute @top_third.valid?, "This terms of payment is used by a undelivered sales order"
+    top_third = terms_of_payments(:eighty_days_net)
+    top_third.kaytossa = 'E'
+    refute top_third.valid?, "This terms of payment is used by a undelivered sales order"
 
-    @top_fourth = terms_of_payments(:ninety_days_net)
-    @top_fourth.kaytossa = 'E'
-    refute @top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
+    top_fourth = terms_of_payments(:ninety_days_net)
+    top_fourth.kaytossa = 'E'
+    refute top_fourth.valid?, "This terms of payment is used by a undelivered sales order"
+
+    message = I18n.t 'errors.terms_of_payment.in_use_sales_orders', count: 1
+    assert_equal message, top_fourth.errors.full_messages.first
   end
 
   test 'should get five used and 1 not in use terms of payments' do
@@ -67,7 +75,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   test 'should search by like' do
     assert_equal 1, TermsOfPayment.search_like(kassa_relpvm: '@15').count
 
-    params = { laatija: 'jo', osamaksuehto1: '0', teksti: '60' }
+    params = { laatija: 'jo', teksti: '60' }
     assert_equal 1, TermsOfPayment.search_like(params).count
   end
 
@@ -84,5 +92,42 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     @top.reload.pankkiyhteystiedot = nil
     @top.save
     assert_equal 0, @top.pankkiyhteystiedot, 'nil is saved as zero'
+  end
+
+  test 'kateinen attribute enums' do
+    options = { "cash" => "p", "debit_card" => "n", "credit_card" => "o", "not_cash" => "" }
+    assert_equal options, TermsOfPayment.kateinens # LOL!
+
+    @top = terms_of_payments(:sixty_days_net)
+    assert_equal "not_cash", @top.kateinen
+    assert_equal "", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, :cash) # can be used with enum names
+    assert_equal "cash", @top.reload.kateinen
+    assert_equal "p", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, :not_cash) # can be used with enum names
+    assert_equal "not_cash", @top.reload.kateinen
+    assert_equal "", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, 'o') # can be used with actual values
+    assert_equal "credit_card", @top.reload.kateinen
+    assert_equal "o", @top.read_attribute_before_type_cast('kateinen')
+
+    @top.update_attribute(:kateinen, 'n') # can be used with actual values
+    assert_equal "debit_card", @top.reload.kateinen
+    assert_equal "n", @top.read_attribute_before_type_cast('kateinen')
+
+    # Allows only correct values
+    assert_raises(ArgumentError) { @top.kateinen = 'x' }
+    assert_raises(ArgumentError) { @top.kateinen = 'kissa' }
+    assert_raises(ArgumentError) { @top.kateinen = 1 }
+  end
+
+  test 'kaytossa attribute enums' do
+    options = { "active" => "", "inactive" => "E" }
+    assert_equal options, TermsOfPayment.kaytossas # LOL!
+
+    # no need to test enums more here, since we have tested them in "kateinen" enums test
   end
 end
