@@ -53,7 +53,7 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
       post :create, qualifier: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_template "edit", "Template should be edit"
   end
 
   test "should get edit" do

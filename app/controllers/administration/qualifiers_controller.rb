@@ -23,6 +23,7 @@ class Administration::QualifiersController < AdministrationController
 
   def new
     @qualifier = Qualifier::CostCenter.new
+    render :edit
   end
 
   def create
@@ -31,7 +32,7 @@ class Administration::QualifiersController < AdministrationController
     if @qualifier.save_by current_user
       redirect_to qualifiers_path, notice: t('.create_success')
     else
-      render action: :new
+      render :edit
     end
   end
 
@@ -39,7 +40,7 @@ class Administration::QualifiersController < AdministrationController
     if @qualifier.update_by(qualifier_params, current_user)
       redirect_to qualifiers_path, notice: t('.update_success')
     else
-      render action: :edit
+      render :edit
     end
   end
 
