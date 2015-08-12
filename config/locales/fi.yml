@@ -276,6 +276,22 @@ fi:
         charset_utf8: UTF8
       update:
         update_success: Kirjoitin päivitettiin onnistuneesti
+    qualifiers:
+      create:
+        create_success: Tarkenne luotiin onnistuneesti
+      edit:
+        header: Muokkaa tarkennetta
+      index:
+        button_new: Uusi tarkenne
+        button_search: Etsi
+        button_show_active: Näytä aktiiviset
+        button_show_removed: Näytä poistetut
+        header: Tilikartan tarkenteet
+      kaytossa_options:
+        in_use: Kyllä
+        not_in_use: Ei
+      update:
+        update_success: Tarkenne päivitettiin onnistuneesti
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
