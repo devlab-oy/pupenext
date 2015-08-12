@@ -31,8 +31,7 @@
     <tr>
       <th><%= f.label :kaytossa %></th>
       <td>
-        <% options = options_for_select(Qualifier.kaytossa_options, f.object.kaytossa) %>
-        <%= select_tag 'qualifier[kaytossa]', options, include_blank: false %>
+        <%= f.select :kaytossa, kaytossa_options %>
       </td>
     </tr>
 
