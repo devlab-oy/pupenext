@@ -11,9 +11,14 @@ class Qualifier < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  scope :in_use, -> { where(kaytossa: in_use_char) }
-  scope :not_in_use, -> { where(kaytossa: not_in_use_char) }
+  scope :in_use, -> { where(kaytossa: :in_use) }
+  scope :not_in_use, -> { where(kaytossa: :not_in_use) }
   scope :code_name_order, -> { order("koodi+0, nimi") }
+
+  enum kaytossa: {
+    not_in_use: 'E',
+    in_use: 'o'
+  }
 
   def is_cost_center?
     tyyppi == "K"
@@ -67,34 +72,12 @@ class Qualifier < BaseModel
     "#{koodi} #{nimi}"
   end
 
-  def self.not_in_use_char
-    "E"
-  end
+  private
 
-  def self.in_use_char
-    "o"
-  end
-
-  def self.kaytossa_options
-    {
-      in_use_char => 'Kyllä',
-      not_in_use_char => 'Ei',
-    }.invert
-  end
-
-  def deactivate!
-    self.kaytossa = Qualifier.not_in_use_char
-  end
-
-  def activate!
-    self.kaytossa = Qualifier.in_use_char
-  end
-
-  def deactivated
-    msg = I18n.t 'errors.qualifier.accounts_found'
-    if kaytossa == 'E'
-      # accounts is defined in child models
-      errors.add(:kaytossa, msg) if accounts.count > 0
+    def deactivated
+      if not_in_use?
+        msg = I18n.t 'errors.qualifier.accounts_found'
+        errors.add(:kaytossa, msg) if accounts.count > 0
+      end
     end
-  end
 end
