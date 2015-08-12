@@ -352,7 +352,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -378,7 +378,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -453,7 +453,7 @@ fi:
       after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
       before: tulee olla pienempi kuin %{date}
       before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
-      blank: ei voi olla sisällötön
+      blank: ei voi olla tyhjä
       confirmation: ei vastaa varmennusta %{attribute}
       empty: ei voi olla tyhjä
       equal_to: tulee olla yhtäsuuri kuin %{count}
@@ -488,8 +488,8 @@ fi:
     template:
       body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
-        one: Virhe syötteessä esti mallin %{model} tallentamisen
-        other: "%{count} virhettä esti mallin %{model} tallentamisen"
+        one: Virhe syötteessä esti %{model} tietueen tallentamisen
+        other: "%{count} virhettä esti %{model} tietueen tallentamisen"
     terms_of_payment:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
