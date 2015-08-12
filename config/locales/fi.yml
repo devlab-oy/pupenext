@@ -158,6 +158,12 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      qualifier:
+        isa_tarkenne: Isätarkenne
+        koodi: Koodi
+        nimi: Nimi
+        tunnus: Tunnus
+        tyyppi: Tyyppi
     models:
       account: Tili
       cash_register: Kassalipas
@@ -332,7 +338,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -358,7 +364,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
