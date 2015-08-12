@@ -488,7 +488,7 @@ fi:
     template:
       body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
-        one: Virhe syötteessä esti %{model} tietueen tallentamisen
+        one: Yksi virhe esti %{model} tietueen tallentamisen
         other: "%{count} virhettä esti %{model} tietueen tallentamisen"
     terms_of_payment:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
