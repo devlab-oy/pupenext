@@ -16,8 +16,8 @@ class Qualifier < BaseModel
   scope :code_name_order, -> { order("koodi+0, nimi") }
 
   enum kaytossa: {
-    not_in_use: 'E',
-    in_use: 'o'
+    in_use: 'o',
+    not_in_use: 'E'
   }
 
   def is_cost_center?
