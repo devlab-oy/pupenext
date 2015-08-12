@@ -29,7 +29,7 @@ class Administration::QualifiersController < AdministrationController
     @qualifier = Qualifier.new(qualifier_params)
 
     if @qualifier.save_by current_user
-      redirect_to qualifiers_path, notice: t("Tarkenne luotiin onnistuneesti")
+      redirect_to qualifiers_path, notice: t('.create_success')
     else
       render action: :new
     end
@@ -37,7 +37,7 @@ class Administration::QualifiersController < AdministrationController
 
   def update
     if @qualifier.update_by(qualifier_params, current_user)
-      redirect_to qualifiers_path, notice: t("Tarkenne päivitettiin onnistuneesti")
+      redirect_to qualifiers_path, notice: t('.update_success')
     else
       render action: :edit
     end
