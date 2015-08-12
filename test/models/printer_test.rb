@@ -44,13 +44,29 @@ class PrinterTest < ActiveSupport::TestCase
   end
 
   test 'merkisto' do
-    @printer1.merkisto = 100
-    refute @printer1.valid?
+    merkistot = {
+      "charset_default"     => 0,
+      "charset_7bit"        => 1,
+      "charset_dos"         => 2,
+      "charset_ansi"        => 3,
+      "charset_utf8"        => 4,
+      "charset_scandic_off" => 5
+    }
+    assert_equal merkistot, @printer1.class.merkistos
   end
 
   test 'mediatyyppi' do
-    @printer1.mediatyyppi = 'invalid'
-    refute @printer1.valid?
+    mediatyyppit = {
+      "media_default"  => "",
+      "media_a4"       => "A4",
+      "media_a5"       => "A5",
+      "media_thermal1" => "LSN149X104",
+      "media_thermal2" => "LSN59X40",
+      "media_thermal3" => "LS149X104",
+      "media_thermal4" => "LS59X40",
+      "media_receipt"  => "kuittitulostin"
+    }
+    assert_equal mediatyyppit, @printer1.class.mediatyyppis
   end
 
 end

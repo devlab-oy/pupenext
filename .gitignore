@@ -29,3 +29,6 @@
 
 # Ignore public assets
 /public/assets
+
+# Ignore localeapp log
+log/localeapp.yml

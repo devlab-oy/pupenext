@@ -122,12 +122,4 @@ class AccountTest < ActiveSupport::TestCase
     company = companies(:acme)
     assert_equal 2, company.accounts.evl_accounts.count
   end
-
-  test "toimijaliitos and manuaali_esto default to empty strings" do
-    @account.toimijaliitos, @account.manuaali_esto = nil
-    @account.save
-
-    assert_equal "", @account.reload.toimijaliitos
-    assert_equal "", @account.reload.toimijaliitos
-  end
 end

@@ -34,4 +34,25 @@ class DictionaryTest < ActiveSupport::TestCase
     assert_equal "Hei maailma!", t, "return string if no language given"
   end
 
+  test "translate raw returns nil if translations are not found" do
+    t = Dictionary.translate_raw("Hei maailma!", "en")
+    assert_equal "Hello world!", t, "should translate to english when found"
+
+    t = Dictionary.translate_raw("HEI MAAILMA!", "en")
+    assert_nil t, "translate should be case sensitive, return nil on not found"
+
+    t = Dictionary.translate_raw("Hei maailma!", "se")
+    assert_nil t, "should return nil if translation is nil"
+
+    t = Dictionary.translate_raw("Hei maailma!", "ru")
+    assert_nil t, "should return nil if translation is empty"
+
+    t = Dictionary.translate_raw("not_in_the_database", "en")
+    assert_nil t, "should return nil if string is not in database"
+
+    t = Dictionary.translate_raw("Hei maailma!", 'fi')
+    assert_nil t, "return nil if fi language given"
+
+    assert_raises (ArgumentError) { Dictionary.translate_raw("Hei maailma!") }
+  end
 end
