@@ -1,6 +1,5 @@
 class Administration::QualifiersController < AdministrationController
   helper_method :showing_not_used?
-  before_action :find_isa_options
 
   def index
     q = Qualifier.search_like(search_params).order(order_params)
@@ -46,10 +45,6 @@ class Administration::QualifiersController < AdministrationController
 
     def find_resource
       @qualifier = Qualifier.find(params[:id])
-    end
-
-    def find_isa_options
-      @isa_options = Qualifier.in_use.code_name_order
     end
 
     def showing_not_used?

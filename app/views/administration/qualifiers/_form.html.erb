@@ -7,15 +7,14 @@
     <tr>
       <th><%= f.label :tyyppi %></th>
       <td>
-        <% options = options_for_select(type_options, f.object.tyyppi) %>
-        <%= select_tag 'qualifier[tyyppi]', options, include_blank: false %>
+        <%= f.select :tyyppi, tyyppi_options %>
       </td>
     </tr>
 
     <tr>
       <th><%= f.label :isa_tarkenne %></th>
       <td>
-        <%= collection_select(:qualifier, :isa_tarkenne, @isa_options, :tunnus, :nimitys, include_blank: true, selected: @qualifier.isa_tarkenne ) %>
+        <%= f.select :isa_tarkenne, isa_tarkenne_options, include_blank: true %>
       </td>
     </tr>
 
