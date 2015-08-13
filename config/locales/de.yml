@@ -139,6 +139,17 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      packing_area:
+        lokero: Fach
+        nimi: Name
+        printteri0: Auswahlliste
+        printteri1: Versandpapier
+        printteri2: Artikeletiketten
+        printteri3: Adressetikett
+        printteri4: Frachtbrief A5
+        printteri6: Frachtbrief A4
+        prio: Prio
+        varasto: Lager
       printer:
         ip: ip
         jarjestys: Sortierung
@@ -173,6 +184,7 @@ de:
       cash_register: 
       currency: Währung
       fiscal_year: Rechnungsjahr
+      packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
       sum_level: Ebene
@@ -255,6 +267,13 @@ de:
         header: 
       update:
         update_success: 
+    packing_areas:
+      edit:
+        header: Packraum/Verpackungsabteilung
+      index:
+        button_new: Neue(r) Packraum-/Verpackungsabteilung
+        button_search: Suchen
+        header: Packräume/Verpackungsabteilungen
     printers:
       create:
         create_success: 

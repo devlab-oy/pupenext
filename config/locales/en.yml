@@ -139,6 +139,11 @@ en:
         viivastyskorko: Penalty interest rate
         www: www
         ytunnus: VAT nr
+      packing_area:
+        nimi: Name
+        printteri1: Dispatch note
+        printteri3: Address label
+        varasto: Storage
       printer:
         ip: Ip
         jarjestys: Order
@@ -255,6 +260,9 @@ en:
         header: Fiscal periods
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Search
     printers:
       create:
         create_success: 
