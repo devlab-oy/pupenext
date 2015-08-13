@@ -1,5 +1,6 @@
-<%= form_for(@terms_of_payment) do |f| %>
-  <%= render "administration/form_errors", resource: @terms_of_payment %>
+<%= render "administration/form_errors", resource: @terms_of_payment %>
+
+<%= form_for @terms_of_payment do |f| %>
 
   <table>
     <tr>

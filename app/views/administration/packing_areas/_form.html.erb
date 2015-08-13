@@ -1,6 +1,6 @@
-<%= form_for @packing_area do |f| %>
+<%= render "administration/form_errors", resource: @packing_area %>
 
-  <%= render "administration/form_errors", resource: @packing_area %>
+<%= form_for @packing_area do |f| %>
 
   <table>
     <tr>
