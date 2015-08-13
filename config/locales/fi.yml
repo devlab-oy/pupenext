@@ -139,6 +139,19 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      packing_area:
+        lokero: Lokero
+        nimi: Nimi
+        pakkaamon_prio: Pakkaamon prio
+        printteri0: Keräyslista
+        printteri1: Lähete
+        printteri2: Tuotetarrat
+        printteri3: Osoitelappu
+        printteri4: Rahtikirja A5
+        printteri6: Rahtikirja A4
+        printteri7: JV-Lasku/-Kuitti
+        prio: Prio
+        varasto: Varasto
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -173,11 +186,11 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi
+      packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
       sum_level: Taso
       terms_of_payment: Maksuehto
-      packing_area: Pakkaamo
   administration:
     accounts:
       create:
@@ -353,7 +366,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -379,7 +392,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
