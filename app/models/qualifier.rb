@@ -4,7 +4,6 @@ class Qualifier < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, :koodi, presence: true
-  validates :isa_tarkenne, presence: true, if: :is_cost_center?
   validate :deactivated
 
   self.table_name = :kustannuspaikka
@@ -17,10 +16,6 @@ class Qualifier < BaseModel
     in_use: 'o',
     not_in_use: 'E'
   }
-
-  def is_cost_center?
-    tyyppi == "K"
-  end
 
   def self.child_class(tyyppi_value)
     qualifiers[tyyppi_value.try(:to_sym)]
