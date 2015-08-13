@@ -19,7 +19,6 @@ class PackingArea < BaseModel
 
   validate :duplicate_cell, if: :lokero_changed?
 
-  # Map old database schema table to Qualifier class
   self.table_name  = :pakkaamo
   self.primary_key = :tunnus
 
