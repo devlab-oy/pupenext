@@ -4,6 +4,7 @@ class Qualifier < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, presence: true
+  validates :tyyppi, inclusion: { in: proc { Qualifier.qualifiers.keys.map(&:to_s) } }
   validate :deactivation_allowed
 
   self.table_name = :kustannuspaikka
