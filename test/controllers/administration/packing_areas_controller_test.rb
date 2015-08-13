@@ -78,7 +78,7 @@ test "should not create" do
       post :create, packing_area: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_template "edit", "Template should be edit"
   end
 
   test "should update" do
