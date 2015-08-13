@@ -1,12 +1,13 @@
 require 'test_helper'
 
 class PackingAreaTest < ActiveSupport::TestCase
-  def setup
+  setup do
     @q = packing_areas(:first)
   end
 
   test "assert fixtures are valid" do
-    assert @q.valid?
+    assert packing_areas(:first).valid?
+    assert packing_areas(:second).valid?
   end
 
   test "name cant be empty" do
