@@ -12,6 +12,7 @@ class Administration::PackingAreasController < AdministrationController
 
   def new
     @packing_area = PackingArea.new
+    render :edit
   end
 
   def create
