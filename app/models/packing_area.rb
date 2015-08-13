@@ -26,7 +26,7 @@ class PackingArea < BaseModel
   private
 
     def lokero_already_exists?
-      company.packing_areas.where(varasto: varasto, lokero: lokero).count > 0
+      warehouse.packing_areas.where(lokero: lokero).count > 0
     end
 
     def duplicate_cell
