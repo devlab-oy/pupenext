@@ -1,8 +1,6 @@
 class Qualifier::CostCenter < Qualifier
   has_many :accounts, foreign_key: :kustp
 
-  validates :isa_tarkenne, presence: true
-
   def self.human_readable_type
     "Kustannuspaikka"
   end
