@@ -3,7 +3,7 @@ class Qualifier < BaseModel
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :nimi, :koodi, presence: true
+  validates :nimi, presence: true
   validate :deactivated
 
   self.table_name = :kustannuspaikka
