@@ -1,6 +1,5 @@
 class PackingArea < BaseModel
   include Searchable
-  include Translatable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
