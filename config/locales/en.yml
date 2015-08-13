@@ -172,6 +172,9 @@ en:
         puhelin: Phone
         unifaun_nimi: Unifaun name
         yhteyshenkilo: Contact person
+      qualifier:
+        nimi: Name
+        tyyppi: Type
     models:
       account: Account
       carrier: 
@@ -294,6 +297,13 @@ en:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Search
+        button_show_removed: Show removed
+      kaytossa_options:
+        in_use: 'Yes'
+        not_in_use: 'No'
     sum_levels:
       create:
         create_success: 

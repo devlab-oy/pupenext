@@ -1,13 +1,22 @@
 class Qualifier < BaseModel
+  include Searchable
+
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+
   validates :nimi, presence: true
-  validate :deactivated
+  validates :tyyppi, inclusion: { in: proc { Qualifier.qualifiers.keys.map(&:to_s) } }
+  validate :deactivation_allowed
 
   self.table_name = :kustannuspaikka
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  default_scope { where(kaytossa: in_use_char) }
-  scope :not_in_use, -> { unscoped.where(kaytossa: not_in_use_char) }
+  scope :code_name_order, -> { order("koodi+0, nimi") }
+
+  enum kaytossa: {
+    in_use: 'o',
+    not_in_use: 'E'
+  }
 
   def self.child_class(tyyppi_value)
     qualifiers[tyyppi_value.try(:to_sym)]
@@ -35,38 +44,28 @@ class Qualifier < BaseModel
     child_class tyyppi_value
   end
 
+  # This method is originally defined in inheritance.rb:183 and needs to be overridden, so that
+  # rails knows how to initialize a proper subclass because the subclass name is different than the
+  # value in the inheritance column.
+  def self.subclass_from_attributes(attrs)
+    subclass_name = attrs.with_indifferent_access[inheritance_column]
+    subclass_name = child_class(subclass_name).to_s
+
+    if subclass_name.present? && subclass_name != self.name
+      return subclass_name.safe_constantize
+    end
+
+    nil
+  end
+
   def nimitys
     "#{koodi} #{nimi}"
   end
 
-  def self.not_in_use_char
-    "E"
-  end
+  private
 
-  def self.in_use_char
-    "o"
-  end
-
-  def self.kaytossa_options
-    {
-      in_use_char => 'Kyllä',
-      not_in_use_char => 'Ei',
-    }
-  end
-
-  def deactivate!
-    self.kaytossa = Qualifier.not_in_use_char
-  end
-
-  def activate!
-    self.kaytossa = Qualifier.in_use_char
-  end
-
-  def deactivated
-    msg = I18n.t 'errors.qualifier.accounts_found'
-    if kaytossa == 'E'
-      # accounts is defined in child models
-      errors.add(:kaytossa, msg) if accounts.count > 0
+    def deactivation_allowed
+      msg = I18n.t 'errors.qualifier.accounts_found'
+      errors.add(:kaytossa, msg) if not_in_use? && accounts.count > 0
     end
-  end
 end
