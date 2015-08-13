@@ -11,8 +11,6 @@ class Qualifier < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  scope :in_use, -> { where(kaytossa: :in_use) }
-  scope :not_in_use, -> { where(kaytossa: :not_in_use) }
   scope :code_name_order, -> { order("koodi+0, nimi") }
 
   enum kaytossa: {
