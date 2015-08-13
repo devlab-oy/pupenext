@@ -2,7 +2,7 @@ first:
   yhtio: acme
   nimi: Dynimite
   lokero: 4-4
-  varasto: <%= ActiveRecord::FixtureSet.identify(:veikkola) %>
+  warehouse: veikkola
   prio: 9
   pakkaamon_prio: 6
   luontiaika: <%= Time.now %>
@@ -14,14 +14,14 @@ first:
   printteri4: 11
   printteri6: 11
   printteri7: 11
-  laatija: 'joe'
-  muuttaja: 'joe'
+  laatija: joe
+  muuttaja: joe
 
 second:
   yhtio: acme
   nimi: Rubbish
   lokero: 4-5
-  varasto: <%= ActiveRecord::FixtureSet.identify(:veikkola) %>
+  warehouse: veikkola
   prio: 9
   pakkaamon_prio: 6
   luontiaika: <%= Time.now %>
@@ -33,5 +33,5 @@ second:
   printteri4: 11
   printteri6: 11
   printteri7: 11
-  laatija: 'joe'
-  muuttaja: 'joe'
+  laatija: joe
+  muuttaja: joe

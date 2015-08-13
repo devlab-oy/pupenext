@@ -10,6 +10,10 @@ class PackingAreaTest < ActiveSupport::TestCase
     assert packing_areas(:second).valid?
   end
 
+  test "relations" do
+    assert_equal Warehouse, @q.warehouse.class
+  end
+
   test "name cant be empty" do
     @q.nimi = ''
     refute @q.valid?

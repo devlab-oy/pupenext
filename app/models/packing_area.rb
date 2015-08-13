@@ -2,6 +2,7 @@ class PackingArea < BaseModel
   include Searchable
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
+  belongs_to :warehouse, foreign_key: :varasto, primary_key: :tunnus
 
   validates :nimi, presence: true
   validates :lokero, presence: true
