@@ -6,4 +6,10 @@ module QualifierHelper
       [ t("#{ROOT}.kaytossa_options.#{key}"), key ]
     end
   end
+
+  def type_options
+    Qualifier.qualifiers.map do |v, m|
+      [ m.human_readable_type, v ]
+    end
+  end
 end

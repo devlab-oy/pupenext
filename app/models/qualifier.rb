@@ -33,10 +33,6 @@ class Qualifier < BaseModel
     }
   end
 
-  def self.type_options
-    qualifiers.map { |v, m| [m.human_readable_type, v] }
-  end
-
   # This functions purpose is to return the child class name.
   # Aka. it should allways return .constantize
   # This function is called from   persistence.rb function: instantiate

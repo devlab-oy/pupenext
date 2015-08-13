@@ -7,7 +7,7 @@
     <tr>
       <th><%= f.label :tyyppi %></th>
       <td>
-        <% options = options_for_select(Qualifier.type_options, f.object.tyyppi) %>
+        <% options = options_for_select(type_options, f.object.tyyppi) %>
         <%= select_tag 'qualifier[tyyppi]', options, include_blank: false %>
       </td>
     </tr>
