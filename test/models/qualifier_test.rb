@@ -1,8 +1,16 @@
 require 'test_helper'
 
 class QualifierTest < ActiveSupport::TestCase
-  def setup
+  setup do
     @project_with_account = qualifiers(:project_in_use)
+  end
+
+  test "all fixtures are valid" do
+    assert qualifiers(:project_in_use).valid?
+    assert qualifiers(:target_in_use).valid?
+    assert qualifiers(:cost_center_in_use).valid?
+    assert qualifiers(:project_not_in_use).valid?
+    assert qualifiers(:project_in_use_without_account).valid?
   end
 
   test "nimi should be present" do
