@@ -5,7 +5,7 @@ class PackingArea < BaseModel
   belongs_to :warehouse, foreign_key: :varasto, primary_key: :tunnus
 
   validates :nimi, presence: true
-  validates :lokero, presence: true
+  validates :lokero, length: { minimum: 1, maximum: 5 }
   validates :prio, presence: true, numericality: { only_integer: true }
   validates :pakkaamon_prio, presence: true, numericality: { only_integer: true }
   validates :varasto, presence: true
