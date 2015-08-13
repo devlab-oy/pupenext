@@ -29,8 +29,7 @@ class PackingArea < BaseModel
     end
 
     def duplicate_cell
-      if !varasto_changed? && lokero_already_exists?
-        errors.add(:base, t("Päällekkäisiä lokeroita samassa varastossa"))
-      end
+      msg = I18n.t 'errors.picking_area.duplicate_cells'
+      errors.add(:base, msg) if !varasto_changed? && lokero_already_exists?
     end
 end
