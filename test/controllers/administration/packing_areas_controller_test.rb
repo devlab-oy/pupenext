@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Administration::PackingAreasControllerTest < ActionController::TestCase
-  def setup
+  setup do
     login users(:joe)
     @packing_area = packing_areas(:first)
   end
@@ -26,13 +26,13 @@ class Administration::PackingAreasControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
     get :new
     assert_response :success
   end
 
   test "should create" do
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
 
     request = {
       nimi: 'Kissa',
@@ -56,8 +56,8 @@ class Administration::PackingAreasControllerTest < ActionController::TestCase
     assert_redirected_to packing_areas_path, response.body
   end
 
-test "should not create" do
-    cookies[:pupesoft_session] = users(:bob).session
+  test "should not create" do
+    login users(:bob)
 
     request = {
       nimi: 'Kissa',
@@ -82,7 +82,7 @@ test "should not create" do
   end
 
   test "should update" do
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
 
     request = {
       nimi: 'Koira',
@@ -94,14 +94,14 @@ test "should not create" do
   end
 
   test "should not update" do
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
 
     patch :update, id: @packing_area.id, packing_area: { nimi: '' }
     assert_template "edit", "Template should be edit"
   end
 
   test "should destroy" do
-    cookies[:pupesoft_session] = users(:bob).session
+    login users(:bob)
 
     assert_difference('PackingArea.count', -1) do
       post :destroy, id: @packing_area.id
