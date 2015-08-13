@@ -75,5 +75,10 @@ class QualifierTest < ActiveSupport::TestCase
 
     @project_with_account.tyyppi = 'not_valid'
     refute @project_with_account.valid?
+
+    Qualifier.qualifiers.each do |q|
+      @project_with_account.tyyppi = q.first
+      assert @project_with_account.valid?
+    end
   end
 end
