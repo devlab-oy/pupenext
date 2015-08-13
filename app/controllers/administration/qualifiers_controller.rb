@@ -21,7 +21,7 @@ class Administration::QualifiersController < AdministrationController
   end
 
   def new
-    @qualifier = Qualifier::CostCenter.new
+    @qualifier = Qualifier.new
     render :edit
   end
 
