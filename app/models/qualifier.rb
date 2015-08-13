@@ -4,7 +4,7 @@ class Qualifier < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, presence: true
-  validate :deactivated
+  validate :deactivation_allowed
 
   self.table_name = :kustannuspaikka
   self.primary_key = :tunnus
@@ -63,10 +63,8 @@ class Qualifier < BaseModel
 
   private
 
-    def deactivated
-      if not_in_use?
-        msg = I18n.t 'errors.qualifier.accounts_found'
-        errors.add(:kaytossa, msg) if accounts.count > 0
-      end
+    def deactivation_allowed
+      msg = I18n.t 'errors.qualifier.accounts_found'
+      errors.add(:kaytossa, msg) if not_in_use? && accounts.count > 0
     end
 end
