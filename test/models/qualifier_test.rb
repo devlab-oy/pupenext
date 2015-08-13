@@ -54,4 +54,18 @@ class QualifierTest < ActiveSupport::TestCase
   test "default_child_instance works" do
     assert_equal Qualifier::Project, Qualifier.default_child_instance
   end
+
+  test "creates correct model based on tyyppi" do
+    klass = Qualifier.new tyyppi: 'P'
+    assert_equal Qualifier::Project, klass.class
+
+    klass = Qualifier.new tyyppi: 'O'
+    assert_equal Qualifier::Target, klass.class
+
+    klass = Qualifier.new tyyppi: 'K'
+    assert_equal Qualifier::CostCenter, klass.class
+
+    @project_with_account.tyyppi = 'not_valid'
+    refute @project_with_account.valid?
+  end
 end
