@@ -273,6 +273,21 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    packing_areas:
+      create:
+        create_success: Pakkaamo lisätty onnistuneesti
+      destroy:
+        destroy_success: Pakkaamo poistettu onnistuneesti
+      edit:
+        button_remove: Poista pakkaamo
+        confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
+        header: Pakkaamo
+      index:
+        button_new: Uusi pakkaamo
+        button_search: Etsi
+        header: Pakkaamot
+      update:
+        update_success: Update success
     printers:
       create:
         create_success: Kirjoitin perustettiin onnistuneesti
@@ -366,7 +381,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -392,7 +407,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -493,6 +508,8 @@ fi:
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+    packing_area:
+      duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
     qualifier:
       accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
     sum_level:
