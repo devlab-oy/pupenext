@@ -1,6 +1,7 @@
-<%= render "administration/header", title: "Pakkaamo" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi pakkaamo"), new_packing_area_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_packing_area_path, method: :get if update_access? %>
+
 <br /><br />
 
 <table>
@@ -32,7 +33,9 @@
       <br />
       <%= text_field_tag :pakkaamon_prio, params[:pakkaamon_prio] %>
     </th>
-    <th class="back"><%= submit_tag t("Etsi") %></th>
+    <th class="back">
+      <%= submit_tag t('.button_search') %>
+    </th>
   </tr>
   <% end %>
 
@@ -46,7 +49,7 @@
         <% end %>
       </td>
       <td><%= p.lokero %></td>
-      <td><%= get_storage p.varasto %></td>
+      <td><%= p.varasto %></td>
       <td><%= p.prio %></td>
       <td><%= p.pakkaamon_prio %></td>
       <td class="back"></td>
@@ -56,4 +59,4 @@
 
 <br />
 
-<%= button_to t("Uusi pakkaamo"), new_packing_area_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_packing_area_path, method: :get if update_access? %>
