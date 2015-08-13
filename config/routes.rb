@@ -26,6 +26,7 @@ Pupesoft::Application.routes.draw do
     resources :printers
     resources :sum_levels
     resources :cash_registers
+    resources :carriers
   end
 
   scope module: :utilities do

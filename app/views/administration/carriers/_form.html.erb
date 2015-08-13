@@ -1,0 +1,26 @@
+<%= render "administration/form_errors", resource: @carrier %>
+
+<%= form_for(@carrier) do |f| %>
+
+  <table>
+    <tr>
+      <th><%= f.label :koodi %></th>
+      <td><%= f.text_field :koodi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :neutraali %></th>
+      <td><%= f.select :neutraali, neutraali_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :pakkauksen_sarman_minimimitta %></th>
+      <td><%= f.text_field :pakkauksen_sarman_minimimitta %></td>
+    </tr>
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>
