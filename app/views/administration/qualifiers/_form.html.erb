@@ -1,0 +1,38 @@
+<%= render "administration/form_errors", resource: @qualifier %>
+
+<%= form_for(@qualifier) do |f| %>
+
+  <table>
+
+    <tr>
+      <th><%= f.label :tyyppi %></th>
+      <td><%= f.select :tyyppi, tyyppi_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :koodi %></th>
+      <td><%= f.text_field :koodi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :isa_tarkenne %></th>
+      <td><%= f.select :isa_tarkenne, isa_tarkenne_options, include_blank: true %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :kaytossa %></th>
+      <td><%= f.select :kaytossa, kaytossa_options %></td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @qualifier %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>

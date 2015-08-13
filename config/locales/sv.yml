@@ -167,6 +167,9 @@ sv:
         puhelin: Tel.
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Namn
+        tyyppi: Typ
     models:
       account: Konto
       carrier: 
@@ -286,6 +289,13 @@ sv:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Sök
+        button_show_removed: Visa raderade
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nej
     sum_levels:
       create:
         create_success: 

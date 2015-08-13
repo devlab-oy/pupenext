@@ -1,0 +1,54 @@
+<%= render "administration/header", text: t('administration.qualifiers.index.header') %>
+
+<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
+
+<% if showing_not_used? %>
+  <%= button_to t('.button_show_active'), qualifiers_path, method: :get %>
+<% else %>
+  <%= button_to t('.button_show_removed'), qualifiers_path, method: :get, params: { not_used: :yes } %>
+<% end %>
+
+<br /><br />
+
+<%= form_tag qualifiers_path, method: :get do %>
+<%= hidden_field_tag :not_used, :yes if showing_not_used? %>
+<table>
+  <tr>
+    <th>
+      <%= sortable "nimi" %>
+      <br />
+      <%= text_field_tag :nimi, params[:nimi] %>
+    </th>
+    <th>
+      <%= sortable "koodi" %>
+      <br />
+      <%= text_field_tag :koodi, params[:koodi] %>
+    </th>
+    <th>
+      <%= sortable "tyyppi" %>
+      <br />
+      <%= text_field_tag :tyyppi, params[:tyyppi] %>
+    </th>
+    <th class="back"><%= submit_tag t('.button_search') %></th>
+  </tr>
+
+  <% @qualifiers.each do |q| %>
+    <tr>
+      <td>
+        <% if update_access? %>
+          <%= link_to q.nimi, edit_qualifier_path(q.id) %>
+        <% else %>
+          <%= q.nimi %>
+        <% end %>
+      </td>
+      <td><%= q.koodi %></td>
+      <td><%= q.class.human_readable_type %></td>
+      <td class="back"></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
+
+<br />
+
+<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>

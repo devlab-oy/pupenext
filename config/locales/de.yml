@@ -167,6 +167,10 @@ de:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Name
+        tunnus: Kennzeichen
+        tyyppi: Typ
     models:
       account: Konto
       carrier: 
@@ -286,6 +290,13 @@ de:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Suchen
+        button_show_removed: Gelöschte anzeigen
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nein
     sum_levels:
       create:
         create_success: 

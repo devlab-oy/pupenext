@@ -167,6 +167,9 @@ et:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktisik
+      qualifier:
+        nimi: Nimi
+        tyyppi: Tyyp
     models:
       account: Arve
       carrier: 
@@ -286,6 +289,13 @@ et:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Otsi
+        button_show_removed: Näita tyhistatuid
+      kaytossa_options:
+        in_use: Jah
+        not_in_use: Ei
     sum_levels:
       create:
         create_success: 
