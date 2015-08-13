@@ -27,6 +27,7 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
     resources :cash_registers
     resources :packing_areas
+    resources :carriers
   end
 
   scope module: :utilities do

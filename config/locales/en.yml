@@ -20,6 +20,15 @@ en:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Deployment date
+      carrier:
+        koodi: 
+        luontiaika: Created
+        luottokortti: 
+        muutospvm: Change date
+        muuttaja: Updated by
+        neutraali: 
+        nimi: Name
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Cash register
         kassaerotus: Cash difference
@@ -160,6 +169,7 @@ en:
         yhteyshenkilo: Contact person
     models:
       account: Account
+      carrier: 
       cash_register: Kassa
       currency: Currency
       fiscal_year: Fiscal year
@@ -205,6 +215,12 @@ en:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Search
+      neutraali_options:
+        neutral: true
+        not_neutral: false
     cash_registers:
       create:
         create_success: 
