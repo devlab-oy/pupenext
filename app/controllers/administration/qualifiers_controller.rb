@@ -1,7 +1,6 @@
 class Administration::QualifiersController < AdministrationController
   helper_method :showing_not_used?
 
-  before_action :find_qualifier, only: [:show, :edit, :update]
   before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
 
   def index
@@ -52,10 +51,6 @@ class Administration::QualifiersController < AdministrationController
 
     def find_isa_options
       @isa_options = Qualifier.in_use.code_name_order
-    end
-
-    def find_qualifier
-      @qualifier = Qualifier.find(params[:id])
     end
 
     def showing_not_used?
