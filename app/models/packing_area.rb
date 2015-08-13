@@ -29,7 +29,7 @@ class PackingArea < BaseModel
     end
 
     def duplicate_cell
-      msg = I18n.t 'errors.picking_area.duplicate_cells'
+      msg = I18n.t 'errors.packing_area.duplicate_cells'
       errors.add(:base, msg) if !varasto_changed? && lokero_already_exists?
     end
 end
