@@ -1,6 +1,6 @@
 module PackingAreaHelper
   def varasto_options
-    Warehouse.all.map do |w|
+    Warehouse.active.map do |w|
       [ w.nimitys, w.tunnus ]
     end
   end
