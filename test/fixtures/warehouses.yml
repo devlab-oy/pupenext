@@ -7,5 +7,5 @@ veikkola:
   nimitys: Veikkolan varasto
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-  laatija: 'joe'
-  muuttaja: 'joe'
+  laatija: joe
+  muuttaja: joe
