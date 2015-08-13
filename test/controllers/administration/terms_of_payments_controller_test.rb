@@ -41,6 +41,7 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
         teksti: "60 pv netto 2",
         rel_pvm: 60,
         abs_pvm: Date.today,
+        pankkiyhteystiedot: nil,
         kassa_relpvm: 14,
         kassa_abspvm: Date.today,
         jarjestys: 1

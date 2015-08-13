@@ -20,6 +20,15 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      carrier:
+        koodi: Kood
+        luontiaika: Koostamise aeg
+        luottokortti: 
+        muutospvm: Muutmise kuupäev
+        muuttaja: Muutja
+        neutraali: 
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: Kassa vahe
@@ -160,6 +169,7 @@ et:
         yhteyshenkilo: Kontaktisik
     models:
       account: Arve
+      carrier: 
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
@@ -205,6 +215,12 @@ et:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Otsi
+      neutraali_options:
+        neutral: Jah
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: 

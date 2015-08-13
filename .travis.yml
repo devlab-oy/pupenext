@@ -1,14 +1,13 @@
 language: ruby
 rvm:
-  - 2.1.5
-  - 2.2.0
+  - 2.1.6
+  - 2.2.2
 env:
   global:
     - PUPESOFT_TEST_DATABASE="pupesoft_test"
     - PUPESOFT_TEST_USERNAME="travis"
     - PUPESOFT_TEST_PASSWORD=""
     - PUPESOFT_TEST_HOSTNAME="127.0.0.1"
-    - SECRET_KEY_BASE=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     - RAILS_ENV=test
 notifications:
   email: false
