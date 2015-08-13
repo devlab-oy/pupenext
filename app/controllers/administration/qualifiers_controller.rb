@@ -1,7 +1,6 @@
 class Administration::QualifiersController < AdministrationController
   helper_method :showing_not_used?
-
-  before_action :find_isa_options, only: [:new, :show, :create, :edit, :update]
+  before_action :find_isa_options
 
   def index
     q = Qualifier.search_like(search_params).order(order_params)
@@ -58,13 +57,13 @@ class Administration::QualifiersController < AdministrationController
     end
 
     def qualifier_params
-        params.require(:qualifier).permit(
-          :nimi,
-          :koodi,
-          :tyyppi,
-          :kaytossa,
-          :isa_tarkenne
-        )
+      params.require(:qualifier).permit(
+        :nimi,
+        :koodi,
+        :tyyppi,
+        :kaytossa,
+        :isa_tarkenne
+      )
     end
 
     def searchable_columns
