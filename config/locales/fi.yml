@@ -195,6 +195,9 @@ fi:
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
+      qualifier/project: Projekti
+      qualifier/target: Kohde
+      qualifier/cost_center: Kustannuspaikka
       sum_level: Taso
       terms_of_payment: Maksuehto
   administration:
