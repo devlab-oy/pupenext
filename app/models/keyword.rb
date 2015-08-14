@@ -7,6 +7,8 @@ class Keyword < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :laji
 
+  validates :selite, presence: true
+
   def self.default_child_instance
     child_class 'PAKKAUSKV'
   end
