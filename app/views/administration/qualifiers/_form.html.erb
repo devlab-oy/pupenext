@@ -1,6 +1,6 @@
 <%= render "administration/form_errors", resource: @qualifier %>
 
-<%= form_for(@qualifier) do |f| %>
+<%= form_for @qualifier, url: qualifier_path(@qualifier) do |f| %>
 
   <table>
 

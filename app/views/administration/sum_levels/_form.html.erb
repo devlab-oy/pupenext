@@ -1,6 +1,6 @@
 <%= render "administration/form_errors", resource: @sum_level %>
 
-<%= form_for @sum_level do |f| %>
+<%= form_for @sum_level, url: sum_level_path(@sum_level) do |f| %>
 
   <table>
 
