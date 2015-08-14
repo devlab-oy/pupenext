@@ -42,10 +42,8 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
   end
 
   test "should not create" do
-
     request = {
-      nimi: 'Kissa',
-      koodi: '',
+      nimi: '',
       tyyppi: 'K'
     }
 
@@ -62,7 +60,6 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
   end
 
   test "should get update" do
-
     request = {
       nimi: 'Koira',
       koodi: 'J'
@@ -70,20 +67,6 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
 
     patch :update, id: @qualifier.id, qualifier: request
     assert_redirected_to qualifiers_path
-  end
-
-  test "isatarkenne is mandatory in cost center" do
-
-    request = {
-      tyyppi: Qualifier::CostCenter.sti_name,
-      nimi: 'Koira',
-      koodi: 'J',
-      isa_tarkenne: ""
-    }
-
-    patch :update, id: @qualifier.id, qualifier: request
-
-    assert_template "edit", "Template should be edit"
   end
 
   test "should not update" do
