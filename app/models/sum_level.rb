@@ -1,4 +1,5 @@
 class SumLevel < BaseModel
+  include PupenextSingleTableInheritance
   include Searchable
 
   self.table_name = :taso
@@ -7,7 +8,7 @@ class SumLevel < BaseModel
 
   validates :taso, presence: true
   validates :nimi, presence: true
-  validates :tyyppi, inclusion: { in: proc { SumLevel.sum_levels.keys.collect(&:to_s) } }
+  validates :tyyppi, inclusion: { in: proc { SumLevel.child_class_names.keys.map(&:to_s) } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi] }
   validates_presence_of :poisto_vastatili, :poistoero_tili, :poistoero_vastatili,
     :if => lambda {tyyppi == 'E'}
@@ -38,46 +39,18 @@ class SumLevel < BaseModel
     write_attribute(:summattava_taso, summattava_taso)
   end
 
-  def self.child_class(tyyppi_value)
-    sum_levels[tyyppi_value.try(:to_sym)]
-  end
-
   def self.default_child_instance
-    child_class :S
+    child_class 'S'
   end
 
-  def self.sum_levels
+  def self.child_class_names
     {
-      S: SumLevel::Internal,
-      U: SumLevel::External,
-      A: SumLevel::Vat,
-      B: SumLevel::Profit,
-      E: SumLevel::Commodity
+      'S' => SumLevel::Internal,
+      'U' => SumLevel::External,
+      'A' => SumLevel::Vat,
+      'B' => SumLevel::Profit,
+      'E' => SumLevel::Commodity
     }
-  end
-
-  # This functions purpose is to return the child class name.
-  # Aka. it should allways return .constantize
-  # This function is called from   persistence.rb function: instantiate
-  #                             -> inheritance.rb function: discriminate_class_for_record
-  # This is the reason we need to map the db column with correct child class in this model
-  # type_name = "S", type_name = "U" ...
-  def self.find_sti_class(taso_value)
-    child_class taso_value
-  end
-
-  # This method is originally defined in inheritance.rb:183 and needs to be overridden, so that
-  # rails knows how to initialize a proper subclass because the subclass name is different than the
-  # value in the inheritance column.
-  def self.subclass_from_attributes(attrs)
-    subclass_name = attrs.with_indifferent_access[inheritance_column]
-    subclass_name = child_class(subclass_name).to_s
-
-    if subclass_name.present? && subclass_name != self.name
-      return subclass_name.safe_constantize
-    end
-
-    nil
   end
 
   private
