@@ -8,7 +8,7 @@ module QualifierHelper
   end
 
   def tyyppi_options
-    Qualifier.qualifiers.map do |v, m|
+    Qualifier.child_class_names.map do |v, m|
       [ m.human_readable_type, v ]
     end
   end

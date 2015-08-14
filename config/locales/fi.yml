@@ -139,6 +139,19 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      packing_area:
+        lokero: Lokero
+        nimi: Nimi
+        pakkaamon_prio: Pakkaamon prio
+        printteri0: Keräyslista
+        printteri1: Lähete
+        printteri2: Tuotetarrat
+        printteri3: Osoitelappu
+        printteri4: Rahtikirja A5
+        printteri6: Rahtikirja A4
+        printteri7: JV-Lasku/-Kuitti
+        prio: Prio
+        varasto: Varasto
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -179,6 +192,7 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi
+      packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
       sum_level: Taso
@@ -265,6 +279,21 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    packing_areas:
+      create:
+        create_success: Pakkaamo lisätty onnistuneesti
+      destroy:
+        destroy_success: Pakkaamo poistettu onnistuneesti
+      edit:
+        button_remove: Poista pakkaamo
+        confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
+        header: Pakkaamo
+      index:
+        button_new: Uusi pakkaamo
+        button_search: Etsi
+        header: Pakkaamot
+      update:
+        update_success: Update success
     printers:
       create:
         create_success: Kirjoitin perustettiin onnistuneesti
@@ -501,6 +530,8 @@ fi:
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+    packing_area:
+      duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
     qualifier:
       accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
     sum_level:

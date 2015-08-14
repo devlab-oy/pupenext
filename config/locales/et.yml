@@ -139,6 +139,15 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      packing_area:
+        nimi: Nimi
+        printteri0: Komplekteerimisleht
+        printteri1: Saateleht
+        printteri2: Tootekleebised
+        printteri3: Aadressilipik
+        printteri4: Veokiri A5
+        printteri6: Veokiri A4
+        varasto: Ladu
       printer:
         ip: ip
         jarjestys: Järjekord
@@ -258,6 +267,9 @@ et:
         header: Majandusaasta
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Otsi
     printers:
       create:
         create_success: 

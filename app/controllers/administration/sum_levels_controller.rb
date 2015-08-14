@@ -1,10 +1,6 @@
 class Administration::SumLevelsController < AdministrationController
-  before_action :set_types
-
   def index
-    @sum_levels = SumLevel
-      .search_like(search_params)
-      .order(order_params)
+    @sum_levels = SumLevel.search_like(search_params).order(order_params)
   end
 
   def new
@@ -50,12 +46,6 @@ class Administration::SumLevelsController < AdministrationController
 
     def find_resource
       @sum_level = SumLevel.find params[:id]
-    end
-
-    def set_types
-      @sum_level_types = SumLevel.sum_levels.map do |_, sum_level|
-        [sum_level.human_readable_type, sum_level.sti_name]
-      end
     end
 
     def sum_level_params
