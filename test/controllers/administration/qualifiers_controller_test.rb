@@ -30,12 +30,14 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
     request = {
       nimi: 'Kissa',
       koodi: '10',
-      tyyppi: Qualifier::Project.sti_name
+      tyyppi: 'P'
     }
 
     assert_difference('Qualifier.count', 1) do
       post :create, qualifier: request
     end
+
+    assert_equal 'P', Qualifier.last.tyyppi
 
     assert_redirected_to qualifiers_path, response.body
   end
@@ -70,7 +72,7 @@ class Administration::QualifiersControllerTest < ActionController::TestCase
 
   test "should not update" do
     request = {
-      nimi: ''
+      tyyppi: 'not_valid'
     }
 
     patch :update, id: @qualifier.id, qualifier: request
