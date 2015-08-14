@@ -4,7 +4,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def show
-     render :edit
+    render :edit
   end
 
   def edit
@@ -20,7 +20,7 @@ class Administration::PackagesController < AdministrationController
     @package.attributes = package_params
 
     if @package.save_by current_user
-      redirect_to packages_path, notice: t("Pakkaus luotiin onnistuneesti")
+      redirect_to packages_path, notice: t('.create_success')
     else
       render :edit
     end
@@ -28,7 +28,7 @@ class Administration::PackagesController < AdministrationController
 
   def update
     if @package.update_by(package_params, current_user)
-      redirect_to packages_path, notice: t("Pakkaus päivitettiin onnistuneesti")
+      redirect_to packages_path, notice: t('.update_success')
     else
       render :edit
     end
