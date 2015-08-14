@@ -11,6 +11,10 @@ module PupenextSingleTableInheritance
   #   }
   # end
 
+  included do
+    validate :inheritance_column_value
+  end
+
   class_methods do
     def child_class(value)
       child_class_names[value.to_s]
@@ -40,4 +44,15 @@ module PupenextSingleTableInheritance
       nil
     end
   end
+
+  private
+
+    # Validate inheritance_column has a value defined in child_class_names
+    def inheritance_column_value
+      column = self.class.inheritance_column.to_sym
+      value = self.send column
+      allowed_values = self.class.child_class_names.keys.map
+
+      errors.add(column, I18n.t('errors.messages.inclusion')) unless allowed_values.include?(value)
+    end
 end

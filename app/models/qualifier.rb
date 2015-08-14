@@ -9,7 +9,6 @@ class Qualifier < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   validates :nimi, presence: true
-  validates :tyyppi, inclusion: { in: proc { Qualifier.child_class_names.keys.map(&:to_s) } }
   validate :deactivation_allowed
 
   scope :code_name_order, -> { order("koodi+0, nimi") }

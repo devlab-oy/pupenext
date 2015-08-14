@@ -8,7 +8,6 @@ class SumLevel < BaseModel
 
   validates :taso, presence: true
   validates :nimi, presence: true
-  validates :tyyppi, inclusion: { in: proc { SumLevel.child_class_names.keys.map(&:to_s) } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi] }
   validates :poisto_vastatili, :poistoero_tili, :poistoero_vastatili, presence: true, if: lambda { tyyppi == 'E' }
   validate :does_not_contain_char
