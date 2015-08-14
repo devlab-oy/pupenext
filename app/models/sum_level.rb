@@ -40,12 +40,6 @@ class SumLevel < BaseModel
     }
   end
 
-  # Rails figures out paths from the model name. User model has users_path etc.
-  # With STI we want to use same name for each child. Thats why we override model_name
-  def self.model_name
-    ActiveModel::Name.new SumLevel
-  end
-
   def sum_level_name
     "#{taso} #{nimi}"
   end
