@@ -5,8 +5,4 @@ class SumLevel::Vat < SumLevel
   def self.sti_name
     'A'
   end
-
-  def self.human_readable_type
-    "ALV"
-  end
 end

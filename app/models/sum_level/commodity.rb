@@ -8,10 +8,6 @@ class SumLevel::Commodity < SumLevel
     'E'
   end
 
-  def self.human_readable_type
-    'EVL'
-  end
-
   def poistovasta_account
     accounts.find_by_tilino(poisto_vastatili)
   end
@@ -23,5 +19,4 @@ class SumLevel::Commodity < SumLevel
   def poistoerovasta_account
     accounts.find_by_tilino(poistoero_vastatili)
   end
-
 end

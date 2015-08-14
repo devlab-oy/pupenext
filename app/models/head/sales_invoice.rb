@@ -5,8 +5,4 @@ class Head::SalesInvoice < Head
   def self.sti_name
     "U"
   end
-
-  def self.human_readable_type
-    "Myyntilasku"
-  end
 end

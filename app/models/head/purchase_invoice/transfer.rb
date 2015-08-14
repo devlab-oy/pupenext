@@ -5,8 +5,4 @@ class Head::PurchaseInvoice::Transfer < Head::PurchaseInvoice
   def self.sti_name
     'P'
   end
-
-  def self.human_readable_type
-    "Ostolasku lähdössä pankkiin"
-  end
 end

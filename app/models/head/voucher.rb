@@ -11,10 +11,6 @@ class Head::Voucher < Head
     "X"
   end
 
-  def self.human_readable_type
-    "Tosite"
-  end
-
   def self.find_by_account(account_no)
     joins(:rows).where(tiliointi: { tilino: account_no })
   end

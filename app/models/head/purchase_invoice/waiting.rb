@@ -5,8 +5,4 @@ class Head::PurchaseInvoice::Waiting < Head::PurchaseInvoice
   def self.sti_name
     'Q'
   end
-
-  def self.human_readable_type
-    "Ostolasku odottaa suoritusta"
-  end
 end

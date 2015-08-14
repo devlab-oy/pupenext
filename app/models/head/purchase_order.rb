@@ -5,8 +5,4 @@ class Head::PurchaseOrder < Head
   def self.sti_name
     "O"
   end
-
-  def self.human_readable_type
-    "Ostotilaus"
-  end
 end

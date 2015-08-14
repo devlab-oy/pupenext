@@ -7,8 +7,4 @@ class Head::SalesOrder < Head
   def self.sti_name
     "L"
   end
-
-  def self.human_readable_type
-    "Myyntitilaus"
-  end
 end

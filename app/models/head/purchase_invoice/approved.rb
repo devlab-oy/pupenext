@@ -5,8 +5,4 @@ class Head::PurchaseInvoice::Approved < Head::PurchaseInvoice
   def self.sti_name
     'M'
   end
-
-  def self.human_readable_type
-    "Ostolasku valmis maksatukseen"
-  end
 end

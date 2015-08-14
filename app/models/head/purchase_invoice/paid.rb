@@ -7,10 +7,6 @@ class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
     'Y'
   end
 
-  def self.human_readable_type
-    "Ostolasku maksettu"
-  end
-
   def self.find_by_account(account_no)
     joins(:rows).where(tiliointi: { tilino: account_no })
   end

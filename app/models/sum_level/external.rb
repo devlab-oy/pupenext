@@ -7,8 +7,4 @@ class SumLevel::External < SumLevel
   def self.sti_name
     "U"
   end
-
-  def self.human_readable_type
-    "Ulkoinen"
-  end
 end

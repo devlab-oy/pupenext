@@ -5,8 +5,4 @@ class Head::SalesOrderDraft < Head
   def self.sti_name
     "N"
   end
-
-  def self.human_readable_type
-    "Myyntitilaus kesken"
-  end
 end
