@@ -53,12 +53,6 @@ class QualifierTest < ActiveSupport::TestCase
     assert_equal "Kohde", Qualifier::Target.model_name.human
   end
 
-  test "model_name works" do
-    assert_equal Qualifier.model_name, Qualifier::CostCenter.model_name
-    assert_equal Qualifier.model_name, Qualifier::Project.model_name
-    assert_equal Qualifier.model_name, Qualifier::Target.model_name
-  end
-
   test "default_child_instance works" do
     assert_equal Qualifier::Project, Qualifier.default_child_instance
   end
