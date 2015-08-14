@@ -8,6 +8,7 @@
     currencies
     customers
     fiscal_years
+    packing_areas
     printers
     qualifiers
     sum_levels

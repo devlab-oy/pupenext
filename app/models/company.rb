@@ -14,6 +14,8 @@ class Company < ActiveRecord::Base
     o.has_many :customers
     o.has_many :cash_registers
     o.has_many :locations
+    o.has_many :packing_areas
+    o.has_many :warehouses
     o.has_many :carriers
 
     o.has_many :sum_levels
