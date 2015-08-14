@@ -1,0 +1,53 @@
+<h1 class="head">
+  <%= t('.title') %>
+</h1>
+
+<hr/>
+
+<%= form_tag revenue_expenditure_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= t('.period') %>
+      </th>
+      <td>
+        <% options = options_for_select([['1 kk', 1],['2 kk', 2], ['3 kk', 3], ['6 kk', 6], ['12 kk', 12]], params[:period]) %>
+        <%= select_tag :period, options %>
+      </td>
+    </tr>
+  </table>
+  <%= submit_tag t('.button_make') %>
+<% end %>
+
+<% if @data %>
+  <table>
+    <tr>
+      <th><%= t('.history_revenue') %></th>
+      <th><%= t('.history_expenditure') %></th>
+      <th><%= t('.overdue_accounts_receivable') %></th>
+      <th><%= t('.overdue_accounts_payable') %></th>
+    </tr>
+    <tr>
+      <td><%= @data[:history_salesinvoice] %></td>
+      <td><%= @data[:history_purchaseinvoice] %></td>
+      <td><%= @data[:overdue_accounts_receivable] %></td>
+      <td><%= @data[:overdue_accounts_payable] %></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th><%= t('.week') %></th>
+      <th><%= t('.revenue') %></th>
+      <th><%= t('.expenditure') %></th>
+    </tr>
+
+    <% @data[:weekly].each do |week| %>
+      <tr>
+        <td><%= week[:week] %></td>
+        <td><%= week[:sales] %></td>
+        <td><%= week[:purchases] %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

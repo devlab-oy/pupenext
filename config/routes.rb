@@ -52,10 +52,7 @@ Pupesoft::Application.routes.draw do
   end
 
   scope :reports, controller: :reports do
-    get '/', to: 'reports#index'
-    get 'depreciations_balance_sheet'
-    get 'depreciation_difference'
-    get 'balance_statements'
+    get 'revenue_expenditure'
   end
 
   root to: 'home#index'
