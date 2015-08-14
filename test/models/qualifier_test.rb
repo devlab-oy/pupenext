@@ -47,10 +47,10 @@ class QualifierTest < ActiveSupport::TestCase
     assert @project_with_account.valid?
   end
 
-  test "human_readable_type works" do
-    assert_equal "Kustannuspaikka", Qualifier::CostCenter.human_readable_type
-    assert_equal "Projekti", Qualifier::Project.human_readable_type
-    assert_equal "Kohde", Qualifier::Target.human_readable_type
+  test "models have human names" do
+    assert_equal "Kustannuspaikka", Qualifier::CostCenter.model_name.human
+    assert_equal "Projekti", Qualifier::Project.model_name.human
+    assert_equal "Kohde", Qualifier::Target.model_name.human
   end
 
   test "model_name works" do

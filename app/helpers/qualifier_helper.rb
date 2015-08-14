@@ -9,7 +9,7 @@ module QualifierHelper
 
   def tyyppi_options
     Qualifier.child_class_names.map do |v, m|
-      [ m.human_readable_type, v ]
+      [ m.model_name.human, v ]
     end
   end
 
