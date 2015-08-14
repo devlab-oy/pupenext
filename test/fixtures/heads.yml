@@ -7,6 +7,7 @@ pi_<%= i %>:
   laatija: joe
   muutospvm: <%= Time.now %>
   muuttaja: joe
+  summa: 100
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
@@ -23,6 +24,58 @@ pi_<%= i %>:
   h4time: <%= Time.now %>
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+pi_<%= i %>_history:
+  yhtio: acme
+  tila: <%= i %>
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  summa: 200
+  tapvm: <%= Time.now.weeks_ago(1) %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now.weeks_ago(1) %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+pi_<%= i %>_overdue:
+  yhtio: acme
+  tila: <%= i %>
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  summa: 300
+  tapvm: <%= Time.now.weeks_ago(1) %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now.weeks_ago(1) %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: 0000-00-00
   popvm: <%= Time.now %>
 <% end %>
 
@@ -56,10 +109,12 @@ po_one:
 si_one:
   yhtio: acme
   tila: U
+  alatila: X
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
   muuttaja: joe
+  summa: 100
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
@@ -76,6 +131,62 @@ si_one:
   h4time: <%= Time.now %>
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+# Myyntilasku historiassa
+si_one_history:
+  yhtio: acme
+  tila: U
+  alatila: X
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  summa: 100
+  tapvm: <%= Time.now.weeks_ago(1) %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now.weeks_ago(1) %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+# Erääntynyt myyntilasku
+si_one_overdue:
+  yhtio: acme
+  tila: U
+  alatila: X
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  summa: 100
+  tapvm: <%= Time.now.weeks_ago(1) %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now.weeks_ago(1) %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: 0000-00-00
   popvm: <%= Time.now %>
 
 # Myyntitilaus

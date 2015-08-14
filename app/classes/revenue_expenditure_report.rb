@@ -71,7 +71,7 @@ class RevenueExpenditureReport
     @beginning_of_week.upto(@date_end) do |date|
       weeks << "#{date.cweek} / #{date.cwyear}"
     end
-    weeks.uniq
+    weeks.uniq!
   end
 
   def sales(start, stop)
