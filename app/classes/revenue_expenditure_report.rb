@@ -1,6 +1,6 @@
 class RevenueExpenditureReport
   def initialize(period)
-    period = period.to_i
+    raise ArgumentError, "pass month as integer" unless period.is_a? Integer
 
     @date_begin = Date.today.months_ago period
     @date_end = Date.today.months_since period

@@ -4,6 +4,6 @@ class ReportsController < ApplicationController
   end
 
   def revenue_expenditure
-    @data = RevenueExpenditureReport.new(params[:period]).data if params[:period]
+    @data = RevenueExpenditureReport.new(params[:period].to_i).data if params[:period]
   end
 end
