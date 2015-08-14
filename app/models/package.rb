@@ -9,8 +9,8 @@ class Package < BaseModel
   validates :pakkaus, presence: true
   validates :pakkauskuvaus, presence: true
   validates :kayttoprosentti, numericality: { greater_than: 0 }
-  validates :leveys, :korkeus, :syvyys, :paino, numericality: { greater_than: 0 },
-            presence: true, if: :dimensions_are_mandatory?
+  validates :leveys, :korkeus, :syvyys, :paino,
+            numericality: { greater_than: 0 }, if: :dimensions_are_mandatory?
 
   enum rahtivapaa_veloitus: {
     add_rack_charge: '',
