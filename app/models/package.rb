@@ -6,9 +6,11 @@ class Package < BaseModel
 
   validates :pakkaus, presence: true
   validates :pakkauskuvaus, presence: true
-  validates :kayttoprosentti, numericality: { greater_than: 0 }
+  validates :kayttoprosentti, numericality: { greater_than: 0, less_than_or_equal_to: 100 }
   validates :leveys, :korkeus, :syvyys, :paino,
             numericality: { greater_than: 0 }, if: :dimensions_are_mandatory?
+
+  after_initialize :initial_values
 
   enum rahtivapaa_veloitus: {
     add_rack_charge: '',
@@ -31,4 +33,10 @@ class Package < BaseModel
   def dimensions_are_mandatory?
     company.parameter.varastopaikkojen_maarittely == "M"
   end
+
+  private
+
+    def initial_values
+      self.kayttoprosentti ||= 100
+    end
 end

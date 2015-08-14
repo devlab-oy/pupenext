@@ -3,43 +3,55 @@ require 'test_helper'
 class PackageTest < ActiveSupport::TestCase
 
   def setup
-    @p = packages(:first)
+    @package = packages(:first)
   end
 
   test "assert fixtures are valid" do
-    assert @p.valid?
+    assert @package.valid?
   end
 
   test "pakkaus cant be empty" do
-    @p.pakkaus = ''
-    refute @p.valid?
+    @package.pakkaus = ''
+    refute @package.valid?
   end
 
   test "pakkauskuvaus cant be empty" do
-    @p.pakkauskuvaus = ''
-    refute @p.valid?
+    @package.pakkauskuvaus = ''
+    refute @package.valid?
   end
 
   test "dimensions check if parameter is triggered" do
-    @p.leveys = ''
-    refute @p.valid?
+    @package.company.parameter.update_attribute :varastopaikkojen_maarittely, ''
 
-    @p.leveys = 0
-    refute @p.valid?
+    @package.leveys = 0
+    @package.korkeus = 0
+    @package.syvyys = 0
+    @package.paino = 0
+    assert @package.valid?
 
-    @p.leveys = 10
-    @p.korkeus = 10
-    @p.syvyys = 10
-    @p.paino = 10
-    assert @p.valid?
+    @package.company.parameter.update_attribute :varastopaikkojen_maarittely, :M
+    refute @package.valid?
 
-    @p.korkeus = ''
-    refute @p.valid?
+    @package.leveys = 10
+    @package.korkeus = 10
+    @package.syvyys = 10
+    @package.paino = 10
+    assert @package.valid?
+  end
 
-    @p.syvyys = ''
-    refute @p.valid?
+  test "kayttoprosentti set to 100" do
+    @package.kayttoprosentti = 0
+    refute @package.valid?
 
-    @p.paino = ''
-    refute @p.valid?
+    @package.kayttoprosentti = 1
+    assert @package.valid?
+
+    @package.kayttoprosentti = 101
+    refute @package.valid?
+
+    @package.kayttoprosentti = 100
+    assert @package.valid?
+
+    assert_equal 100, Package.new.kayttoprosentti
   end
 end
