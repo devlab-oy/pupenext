@@ -11,6 +11,10 @@ module Searchable
         if exact_search? value
           value = exact_search value
           result = result.where(key => value)
+        elsif value == "true"
+          result = result.where(key => true)
+        elsif value == "false"
+          result = result.where(key => false)
         else
           result = result.where_like key, value
         end

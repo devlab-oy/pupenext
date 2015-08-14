@@ -20,6 +20,15 @@ sv:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Ibruktagningsdatum
+      carrier:
+        koodi: 
+        luontiaika: Skapad
+        luottokortti: 
+        muutospvm: "ändringsdatum"
+        muuttaja: 
+        neutraali: 
+        nimi: Namn
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: 
@@ -158,8 +167,12 @@ sv:
         puhelin: Tel.
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Namn
+        tyyppi: Typ
     models:
       account: Konto
+      carrier: 
       cash_register: 
       currency: Valuta
       fiscal_year: Räkenskapsår
@@ -205,6 +218,12 @@ sv:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Sök
+      neutraali_options:
+        neutral: Ja
+        not_neutral: Nej
     cash_registers:
       create:
         create_success: 
@@ -270,6 +289,13 @@ sv:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Sök
+        button_show_removed: Visa raderade
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nej
     sum_levels:
       create:
         create_success: 
