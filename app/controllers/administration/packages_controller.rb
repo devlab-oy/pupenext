@@ -33,7 +33,7 @@ class Administration::PackagesController < AdministrationController
     end
   end
 
-private
+  private
 
     def find_resource
       @package = Package.find params[:id]
