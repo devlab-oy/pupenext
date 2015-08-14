@@ -1,8 +1,4 @@
 class Administration::PackagesController < AdministrationController
-  before_action :find_resource, only: [:show, :edit, :update, :new_keyword, :edit_keyword, :new_package_code, :edit_package_code]
-  before_action :find_keyword_languages, only: [:new_keyword, :edit_keyword, :create_keyword, :update_keyword]
-  before_action :find_carrier_options, only: [:show, :edit, :new_package_code, :edit_package_code, :create_package_code, :update_package_code]
-
   def index
     @packages = Package.all
   end
@@ -16,6 +12,7 @@ class Administration::PackagesController < AdministrationController
 
   def new
     @package = Package.new
+    render :edit
   end
 
   def create
@@ -112,65 +109,41 @@ private
       @package = Package.find(params[:id] || params[:package_id])
     end
 
-    def find_keyword_languages
-      cols = Language.column_names
-      @keyword_languages = Hash.new
-      cols.each do |col|
-        option = Country.where(koodi: col).limit(1).pluck(:nimi)
-        option = option.to_s.mb_chars.downcase
-        option.sub! '["', ''
-        option.sub! '"]', ''
-        if col.size == 2
-          @keyword_languages[option] = col
-        end
-      end
-    end
-
-    def find_carrier_options
-      carriers = Carrier.all
-      @carrier_options = Hash.new
-      carriers.each do |c|
-        @carrier_options[c.koodi] = c.koodi
-      end
-    end
-
     def keyword_params
-        params.require(:package_keyword).permit(
-          :kieli,
-          :laji,
-          :selite,
-          :selitetark,
-          :jarjestys,
-          :perhe,
-          :yhtio
-        )
+      params.require(:package_keyword).permit(
+        :jarjestys,
+        :kieli,
+        :laji,
+        :perhe,
+        :selite,
+        :selitetark,
+      )
     end
 
     def package_code_params
-        params.require(:package_code).permit(
-          :rahdinkuljettaja,
-          :koodi,
-          :yhtio
-        )
+      params.require(:package_code).permit(
+        :koodi,
+        :rahdinkuljettaja,
+      )
     end
 
     def package_params
-        params.require(:package).permit(
-          :pakkaus,
-          :pakkauskuvaus,
-          :pakkausveloitus_tuotenumero,
-          :erikoispakkaus,
-          :rahtivapaa_veloitus,
-          :korkeus,
-          :leveys,
-          :syvyys,
-          :kayttoprosentti,
-          :paino,
-          :oma_paino,
-          :minimi_paino,
-          :jarjestys,
-          :yksin_eraan,
-          :puukotuskerroin
-        )
+      params.require(:package).permit(
+        :erikoispakkaus,
+        :jarjestys,
+        :kayttoprosentti,
+        :korkeus,
+        :leveys,
+        :minimi_paino,
+        :oma_paino,
+        :paino,
+        :pakkaus,
+        :pakkauskuvaus,
+        :pakkausveloitus_tuotenumero,
+        :puukotuskerroin,
+        :rahtivapaa_veloitus,
+        :syvyys,
+        :yksin_eraan,
+      )
     end
 end
