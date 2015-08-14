@@ -12,24 +12,25 @@ class Package < BaseModel
   validates :leveys, :korkeus, :syvyys, :paino, numericality: { greater_than: 0 },
             presence: true, if: :dimensions_are_mandatory?
 
+  enum rahtivapaa_veloitus: {
+    add_rack_charge: '',
+    no_rack_charge: 'E'
+  }
+
+  enum erikoispakkaus: {
+    not_special: '',
+    special: 'K'
+  }
+
+  enum yksin_eraan: {
+    combined_parcel: '',
+    separate_parcel: 'K'
+  }
+
   self.table_name  = :pakkaus
   self.primary_key = :tunnus
 
   def dimensions_are_mandatory?
     company.parameter.varastopaikkojen_maarittely == "M"
-  end
-
-  def on_off_options
-    [
-      [t("Ei"), ""],
-      [t("Kyllä"), "K"]
-    ]
-  end
-
-  def rahtivapaa_veloitus_options
-    [
-      [t("Tehdään lavaveloitus, vaikka tilaus olisi merkitty rahtivapaaksi"), ""],
-      [t("Ei tehdä lavaveloitusta, jos tilaus on merkitty rahtivapaaksi"), "E"]
-    ]
   end
 end
