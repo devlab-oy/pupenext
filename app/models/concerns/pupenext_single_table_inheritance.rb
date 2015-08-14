@@ -1,9 +1,9 @@
 module PupenextSingleTableInheritance
   extend ActiveSupport::Concern
 
-  # To use this concern model must implement 'child_class_names' class method.
-  # This should return hash, where the key is string value stored into the database and
-  # value is the class that represents the value.
+  # To use this concern a model must implement 'child_class_names' class method.
+  # Method should return a hash, where the hash key is the string value stored to the database, and
+  # the hash value is the class that the value represents.
   #
   # def self.child_class_names
   #   {
@@ -12,13 +12,12 @@ module PupenextSingleTableInheritance
   # end
 
   class_methods do
-
     def child_class(value)
       child_class_names[value.to_s]
     end
 
     # This functions purpose is to return the child class name.
-    # Aka. it should allways return .constantize
+    # Aka. it should always return .constantize
     # This function is called from   persistence.rb function: instantiate
     #                             -> inheritance.rb function: discriminate_class_for_record
     # This is the reason we need to map the db column with correct child class in this model
@@ -28,8 +27,8 @@ module PupenextSingleTableInheritance
     end
 
     # This method is originally defined in inheritance.rb and needs to be overridden, so that
-    # rails knows how to initialize a proper subclass because the subclass name is different than the
-    # value in the inheritance column.
+    # Rails knows how to initialize a proper subclass because the subclass name is different than
+    # the value in the inheritance column.
     def subclass_from_attributes(attrs)
       subclass_name = attrs.with_indifferent_access[inheritance_column]
       subclass_name = child_class(subclass_name).to_s
