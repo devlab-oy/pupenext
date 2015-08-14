@@ -12,4 +12,10 @@ module SumLevelHelper
       [ t("#{ROOT}.kayttotarkoitus_options.#{key}"), key ]
     end
   end
+
+  def tyyppi_options
+    SumLevel.child_class_names.map do |v, m|
+      [ m.human_readable_type, v ]
+    end
+  end
 end
