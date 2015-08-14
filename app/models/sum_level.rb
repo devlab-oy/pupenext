@@ -10,8 +10,7 @@ class SumLevel < BaseModel
   validates :nimi, presence: true
   validates :tyyppi, inclusion: { in: proc { SumLevel.child_class_names.keys.map(&:to_s) } }
   validates :taso, uniqueness: { scope: [:yhtio, :tyyppi] }
-  validates_presence_of :poisto_vastatili, :poistoero_tili, :poistoero_vastatili,
-    :if => lambda {tyyppi == 'E'}
+  validates :poisto_vastatili, :poistoero_tili, :poistoero_vastatili, presence: true, if: lambda { tyyppi == 'E' }
   validate :does_not_contain_char
   validate :summattava_tasos_in_db_and_correct_type
 
@@ -28,17 +27,6 @@ class SumLevel < BaseModel
     purchases: 'O'
   }
 
-  def sum_level_name
-    "#{taso} #{nimi}"
-  end
-
-  def summattava_taso=(summattava_taso)
-    summattava_taso = '' if summattava_taso.nil?
-    summattava_taso.delete!(' ')
-
-    write_attribute(:summattava_taso, summattava_taso)
-  end
-
   def self.default_child_instance
     child_class 'S'
   end
@@ -51,6 +39,17 @@ class SumLevel < BaseModel
       'B' => SumLevel::Profit,
       'E' => SumLevel::Commodity
     }
+  end
+
+  def sum_level_name
+    "#{taso} #{nimi}"
+  end
+
+  def summattava_taso=(summattava_taso)
+    summattava_taso = '' if summattava_taso.nil?
+    summattava_taso.delete!(' ')
+
+    write_attribute(:summattava_taso, summattava_taso)
   end
 
   private
