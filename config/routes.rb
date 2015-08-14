@@ -25,16 +25,7 @@ Pupesoft::Application.routes.draw do
     resources :cash_registers
     resources :currencies, except: :destroy
     resources :fiscal_years, except: :destroy
-    resources :packages do
-      get :edit_keyword
-      get :edit_package_code
-      get :new_keyword
-      get :new_package_code
-      post :create_keyword
-      post :create_package_code
-      post :update_keyword
-      post :update_package_code
-    end
+    resources :packages
     resources :printers
     resources :qualifiers
     resources :sum_levels
