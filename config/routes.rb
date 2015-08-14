@@ -32,6 +32,10 @@ Pupesoft::Application.routes.draw do
     get 'qr_codes/generate'
   end
 
+  scope :reports, controller: :reports do
+    get 'revenue_expenditure'
+  end
+
   root to: 'home#index'
   get '/test', to: 'home#test'
 
