@@ -12,12 +12,6 @@ class SumLevel::Commodity < SumLevel
     'EVL'
   end
 
-  # Rails figures out paths from the model name. User model has users_path etc.
-  # With STI we want to use same name for each child. Thats why we override model_name
-  def self.model_name
-    SumLevel.model_name
-  end
-
   def poistovasta_account
     accounts.find_by_tilino(poisto_vastatili)
   end
