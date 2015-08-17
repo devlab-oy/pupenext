@@ -54,7 +54,7 @@ class Account < BaseModel
   end
 
   def tilino_nimi
-    "#{tilino} #{nimi}"
+    "#{tilino} - #{nimi}"
   end
 
   private
