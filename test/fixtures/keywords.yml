@@ -6,3 +6,13 @@ vat:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+foreign_vat:
+  yhtio: acme
+  selite: 5.5
+  selitetark_2: SE
+  laji: ALV
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
