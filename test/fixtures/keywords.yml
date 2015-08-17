@@ -1,6 +1,7 @@
-one:
+vat:
   yhtio: acme
   selite: 24
+  laji: ALV
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
