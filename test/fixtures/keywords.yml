@@ -1,17 +1,8 @@
-one:
+vat:
   yhtio: acme
   selite: 24
+  laji: ALV
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-
-first:
-  yhtio: acme
-  perhe: 6
-  laji: PAKKAUSKV
-  selite: xxxx
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  laatija: xx
-  muuttaja: dgd
