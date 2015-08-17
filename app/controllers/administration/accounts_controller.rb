@@ -1,6 +1,4 @@
 class Administration::AccountsController < AdministrationController
-  before_action :fetch_options_for_selects, only: [:new, :edit, :show]
-
   def index
     @accounts = Account
       .includes(:internal, :external, :vat)
@@ -82,25 +80,5 @@ class Administration::AccountsController < AdministrationController
 
     def sortable_columns
       searchable_columns
-    end
-
-    def fetch_options_for_selects
-      @levels = {
-        internal: SumLevel::Internal.all,
-        external: SumLevel::External.all,
-        vat: SumLevel::Vat.all,
-        profit: SumLevel::Profit.all,
-        commodity: SumLevel::Commodity.all
-      }
-
-      @qualifiers = {
-        cost_center: Qualifier::CostCenter.all.order("koodi+0, koodi, nimi"),
-        target: Qualifier::Target.all.order("koodi+0, koodi, nimi"),
-        project: Qualifier::Project.all.order("koodi+0, koodi, nimi")
-      }
-
-      @oletus_alv_options = Keyword
-        .vat_percents
-        .order("selite+0, laji, jarjestys, selite")
     end
 end
