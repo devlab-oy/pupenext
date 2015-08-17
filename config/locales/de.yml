@@ -188,10 +188,20 @@ de:
       cash_register: 
       currency: Währung
       fiscal_year: Rechnungsjahr
+      head/purchase_order: Kaufauftrag
+      head/sales_invoice: Verkaufsrechnung
+      head/sales_order: Auftrag
+      head/sales_order_draft: Aufrag nicht abgeschlossen
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
+      qualifier/cost_center: Kostenstelle
+      qualifier/project: Projekt
+      qualifier/target: Ziel
       sum_level: Ebene
+      sum_level/external: Extern
+      sum_level/internal: Intern
+      sum_level/vat: Umsatzsteuer
       terms_of_payment: Zahlungsbedingung
   administration:
     accounts:
