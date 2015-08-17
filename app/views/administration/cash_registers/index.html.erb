@@ -70,12 +70,12 @@
           <% end %>
         </td>
         <td><%= p.kustp %></td>
-        <td><%= p.kassa %></td>
-        <td><%= p.pankkikortti %></td>
-        <td><%= p.luottokortti %></td>
-        <td><%= p.kateistilitys %></td>
-        <td><%= p.kassaerotus %></td>
-        <td><%= p.kateisotto %></td>
+        <td><%= account_name p.kassa %></td>
+        <td><%= account_name p.pankkikortti %></td>
+        <td><%= account_name p.luottokortti %></td>
+        <td><%= account_name p.kateistilitys %></td>
+        <td><%= account_name p.kassaerotus %></td>
+        <td><%= account_name p.kateisotto %></td>
         <td class="back"></td>
       </tr>
     <% end %>
