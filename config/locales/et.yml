@@ -185,9 +185,18 @@ et:
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
+      head/purchase_order: Ostutellimus
+      head/sales_invoice: Myygiarve
+      head/sales_order: Myygitellimus
+      head/sales_order_draft: Myygitellimus pooleli
       printer: Printer
       qualifier: TÃ¤psustus
+      qualifier/cost_center: Kulukoht
+      qualifier/project: Projekt
+      qualifier/target: Objekt
       sum_level: Tase
+      sum_level/internal: Sisemine
+      sum_level/vat: Km
       terms_of_payment: Maksutingimus
   administration:
     accounts:

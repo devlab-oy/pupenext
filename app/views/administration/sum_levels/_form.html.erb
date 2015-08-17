@@ -1,13 +1,13 @@
 <%= render "administration/form_errors", resource: @sum_level %>
 
-<%= form_for @sum_level do |f| %>
+<%= form_for @sum_level, as: :sum_level do |f| %>
 
   <table>
 
     <tr>
       <th><%= f.label :tyyppi %></th>
       <td>
-        <%= f.select :tyyppi, tyyppi_options, {}, { onchange: "submit()" } %>
+        <%= f.select :tyyppi, sum_level_tyyppi_options, {}, { onchange: "submit()" } %>
       </td>
     </tr>
 

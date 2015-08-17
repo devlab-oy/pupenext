@@ -186,9 +186,18 @@ sv:
       cash_register: 
       currency: Valuta
       fiscal_year: Räkenskapsår
+      head/purchase_order: Inköpsorder
+      head/sales_invoice: Försäljningsfaktura
+      head/sales_order: Försäljningsorder
+      head/sales_order_draft: "Öppen försäljningsorder"
       printer: Skrivare
       qualifier: Specifikation
+      qualifier/cost_center: Kostnadsställe
+      qualifier/project: Projekt
+      qualifier/target: Objekt
       sum_level: Nivå
+      sum_level/internal: Intern
+      sum_level/vat: Moms
       terms_of_payment: Betalningsvillkor
   administration:
     accounts:
