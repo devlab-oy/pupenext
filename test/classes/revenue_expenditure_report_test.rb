@@ -1,6 +1,49 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
+
+  setup do
+    travel_to Date.parse '2015-08-14'
+
+    si_one = heads(:si_one)
+    si_one.erpcm = Date.today
+    si_one.tapvm = Date.today
+    si_one.mapvm = Date.today
+    si_one.save
+
+    si_one_history = heads(:si_one_history)
+    si_one_history.erpcm = Time.now.weeks_ago(1)
+    si_one_history.tapvm = Time.now.weeks_ago(1)
+    si_one_history.save
+
+    si_one_overdue = heads(:si_one_overdue)
+    si_one_overdue.erpcm = Time.now.weeks_ago(1)
+    si_one_overdue.tapvm = Time.now.weeks_ago(1)
+    si_one_overdue.save
+
+    Head::PurchaseInvoice::INVOICE_TYPES.each do |i|
+      pi_today = heads(:"pi_#{i}")
+      pi_today.erpcm = Date.today
+      pi_today.tapvm = Date.today
+      pi_today.mapvm = Date.today
+      pi_today.save
+
+      pi_history = heads(:"pi_#{i}_history")
+      pi_history.erpcm = Time.now.weeks_ago(1)
+      pi_history.tapvm = Time.now.weeks_ago(1)
+      pi_history.save
+
+      pi_history = heads(:"pi_#{i}_overdue")
+      pi_history.erpcm = Time.now.weeks_ago(1)
+      pi_history.tapvm = Time.now.weeks_ago(1)
+      pi_history.save
+    end
+  end
+
+  teardown do
+    travel_back
+  end
+
   test 'initialization with wrong values' do
     assert_raise ArgumentError do
       RevenueExpenditureReport.new(nil)
@@ -19,43 +62,38 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       overdue_accounts_payable_sum += heads(:"pi_#{i}_overdue").summa
     end
 
-    # Example:
-    # weekly = [
-    #   {
-    #     week: '33 / 2015',
-    #     sales: BigDecimal(100),
-    #     purchases: BigDecimal(500)
-    #   },
-    #   {
-    #     week: '34 / 2015',
-    #     sales: BigDecimal(0),
-    #     purchases: BigDecimal(0)
-    #   },
-    #   {
-    #     week: '35 / 2015',
-    #     sales: BigDecimal(0),
-    #     purchases: BigDecimal(0)
-    #   },
-    #   ...
-    # ]
-
-    weeks = []
-    Date.today.beginning_of_week.upto(Date.today.months_since(1)) do |date|
-      weeks << "#{date.cweek} / #{date.cwyear}"
-    end
-    weeks.uniq!
-
-    weekly = []
-    weeks.map do |week_year|
-      weekly << {
-        week: week_year,
+    weekly = [
+      {
+        week: '33 / 2015',
+        sales: BigDecimal(100),
+        purchases: BigDecimal(500)
+      },
+      {
+        week: '34 / 2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
-      }
-    end
-
-    weekly.first[:sales] = BigDecimal(100)
-    weekly.first[:purchases] = BigDecimal(500)
+      },
+      {
+        week: '35 / 2015',
+        sales: BigDecimal(0),
+        purchases: BigDecimal(0)
+      },
+      {
+        week: '36 / 2015',
+        sales: BigDecimal(0),
+        purchases: BigDecimal(0)
+      },
+      {
+        week: '37 / 2015',
+        sales: BigDecimal(0),
+        purchases: BigDecimal(0)
+      },
+      {
+        week: '38 / 2015',
+        sales: BigDecimal(0),
+        purchases: BigDecimal(0)
+      },
+    ]
 
     data = {
       history_salesinvoice: heads(:si_one_history).summa,
