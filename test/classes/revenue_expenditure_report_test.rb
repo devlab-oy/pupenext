@@ -19,38 +19,43 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       overdue_accounts_payable_sum += heads(:"pi_#{i}_overdue").summa
     end
 
-    weekly = [
-      {
-        week: '33 / 2015',
-        sales: BigDecimal(100),
-        purchases: BigDecimal(500)
-      },
-      {
-        week: '34 / 2015',
+    # Example:
+    # weekly = [
+    #   {
+    #     week: '33 / 2015',
+    #     sales: BigDecimal(100),
+    #     purchases: BigDecimal(500)
+    #   },
+    #   {
+    #     week: '34 / 2015',
+    #     sales: BigDecimal(0),
+    #     purchases: BigDecimal(0)
+    #   },
+    #   {
+    #     week: '35 / 2015',
+    #     sales: BigDecimal(0),
+    #     purchases: BigDecimal(0)
+    #   },
+    #   ...
+    # ]
+
+    weeks = []
+    Date.today.beginning_of_week.upto(Date.today.months_since(1)) do |date|
+      weeks << "#{date.cweek} / #{date.cwyear}"
+    end
+    weeks.uniq!
+
+    weekly = []
+    weeks.map do |week_year|
+      weekly << {
+        week: week_year,
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
-      },
-      {
-        week: '35 / 2015',
-        sales: BigDecimal(0),
-        purchases: BigDecimal(0)
-      },
-      {
-        week: '36 / 2015',
-        sales: BigDecimal(0),
-        purchases: BigDecimal(0)
-      },
-      {
-        week: '37 / 2015',
-        sales: BigDecimal(0),
-        purchases: BigDecimal(0)
-      },
-      {
-        week: '38 / 2015',
-        sales: BigDecimal(0),
-        purchases: BigDecimal(0)
-      },
-    ]
+      }
+    end
+
+    weekly.first[:sales] = BigDecimal(100)
+    weekly.first[:purchases] = BigDecimal(500)
 
     data = {
       history_salesinvoice: heads(:si_one_history).summa,
