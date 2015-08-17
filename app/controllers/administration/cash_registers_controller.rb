@@ -1,8 +1,6 @@
 class Administration::CashRegistersController < AdministrationController
-
   before_action :get_qualifiers, only: [:new, :show, :edit, :update, :create]
   before_action :get_locations, only: [:new, :show, :edit, :update, :create]
-
   before_action :check_kassa_account, only: [:create, :update]
   before_action :check_pankkikortti_account, only: [:create, :update]
   before_action :check_luottokortti_account, only: [:create, :update]
