@@ -1,16 +1,6 @@
 <%= render "administration/form_errors", resource: @qualifier %>
 
-<% # Since we don't want to use the 'real' url for STI models, we need this ugly hack (for now)
-  if action_name == 'edit'
-    url = qualifier_path @qualifier
-    method = :put
-  else
-    url = qualifiers_path
-    method = :post
-  end
-%>
-
-<%= form_for :qualifier, url: url, method: method do |f| %>
+<%= form_for @qualifier, as: :qualifier do |f| %>
 
   <table>
 
