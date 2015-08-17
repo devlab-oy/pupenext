@@ -1,6 +1,6 @@
-<%= form_for(@account) do |f| %>
+<%= render "administration/form_errors", resource: @account %>
 
-  <%= render "administration/form_errors", resource: @account %>
+<%= form_for @account do |f| %>
 
   <table>
     <tr>

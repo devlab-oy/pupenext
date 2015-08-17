@@ -6,6 +6,11 @@ class DummyClass < ActiveRecord::Base
   self.table_name = :yhtio
 end
 
+class DumberClass < ActiveRecord::Base
+  include Searchable
+  self.table_name = :yhtion_parametrit
+end
+
 class SearchableTest < ActiveSupport::TestCase
   test 'test where_like search' do
     assert_equal 1, DummyClass.where_like(:yhtio, 'acme').count
@@ -44,5 +49,27 @@ class SearchableTest < ActiveSupport::TestCase
     params = { tilikausi_alku: '2012-01-01' }
 
     assert_equal 1, DummyClass.search_like(params).count
+  end
+
+  test 'should be able to search with true and false' do
+    count = DumberClass.all.count
+
+    # Mark all false
+    DumberClass.update_all(lapsituotteen_poiston_esto: false)
+
+    params = { lapsituotteen_poiston_esto: 'false' }
+    assert_equal count, DumberClass.search_like(params).count
+
+    params = { lapsituotteen_poiston_esto: 'true' }
+    assert_equal 0, DumberClass.search_like(params).count
+
+    # Mark all true
+    DumberClass.update_all(lapsituotteen_poiston_esto: true)
+
+    params = { lapsituotteen_poiston_esto: 'false' }
+    assert_equal 0, DumberClass.search_like(params).count
+
+    params = { lapsituotteen_poiston_esto: 'true' }
+    assert_equal count, DumberClass.search_like(params).count
   end
 end

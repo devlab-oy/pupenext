@@ -20,6 +20,15 @@ sv:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Ibruktagningsdatum
+      carrier:
+        koodi: 
+        luontiaika: Skapad
+        luottokortti: 
+        muutospvm: "ändringsdatum"
+        muuttaja: 
+        neutraali: 
+        nimi: Namn
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: 
@@ -130,6 +139,16 @@ sv:
         viivastyskorko: 
         www: web
         ytunnus: Org.Nr
+      packing_area:
+        nimi: Namn
+        printteri0: Plocklista
+        printteri1: Följesedel
+        printteri2: Artikeletiketter
+        printteri3: adresslapp
+        printteri4: Fraktsedel A5
+        printteri6: Fraktsedel A4
+        prio: Prio
+        varasto: Lager
       printer:
         ip: ip
         jarjestys: Ordning
@@ -158,8 +177,12 @@ sv:
         puhelin: Tel.
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Namn
+        tyyppi: Typ
     models:
       account: Konto
+      carrier: 
       cash_register: 
       currency: Valuta
       fiscal_year: Räkenskapsår
@@ -205,6 +228,12 @@ sv:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Sök
+      neutraali_options:
+        neutral: Ja
+        not_neutral: Nej
     cash_registers:
       create:
         create_success: 
@@ -239,6 +268,9 @@ sv:
         header: Räkenskapsåren
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Sök
     printers:
       create:
         create_success: 
@@ -270,6 +302,13 @@ sv:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Sök
+        button_show_removed: Visa raderade
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nej
     sum_levels:
       create:
         create_success: 

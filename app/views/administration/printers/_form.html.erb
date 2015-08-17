@@ -1,5 +1,6 @@
-<%= form_for(@printer) do |f| %>
-  <%= render "administration/form_errors", resource: @printer %>
+<%= render "administration/form_errors", resource: @printer %>
+
+<%= form_for @printer do |f| %>
 
   <table>
     <tr>

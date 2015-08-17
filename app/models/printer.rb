@@ -11,6 +11,8 @@ class Printer < BaseModel
 
   before_save :defaults
 
+  default_scope -> { where.not(komento: 'EDI') }
+
   self.table_name = :kirjoittimet
   self.primary_key = :tunnus
   self.record_timestamps = false

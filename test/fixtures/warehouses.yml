@@ -1,0 +1,11 @@
+veikkola:
+  yhtio: acme
+  alkuhyllyalue: A
+  alkuhyllynro: 0
+  loppuhyllyalue: Z
+  loppuhyllynro: 99
+  nimitys: Veikkolan varasto
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: joe
+  muuttaja: joe

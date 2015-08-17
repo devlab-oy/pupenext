@@ -20,6 +20,15 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      carrier:
+        koodi: Kood
+        luontiaika: Koostamise aeg
+        luottokortti: 
+        muutospvm: Muutmise kuupäev
+        muuttaja: Muutja
+        neutraali: 
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: Kassa vahe
@@ -130,6 +139,15 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      packing_area:
+        nimi: Nimi
+        printteri0: Komplekteerimisleht
+        printteri1: Saateleht
+        printteri2: Tootekleebised
+        printteri3: Aadressilipik
+        printteri4: Veokiri A5
+        printteri6: Veokiri A4
+        varasto: Ladu
       printer:
         ip: ip
         jarjestys: Järjekord
@@ -158,8 +176,12 @@ et:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktisik
+      qualifier:
+        nimi: Nimi
+        tyyppi: Tyyp
     models:
       account: Arve
+      carrier: 
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
@@ -205,6 +227,12 @@ et:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Otsi
+      neutraali_options:
+        neutral: Jah
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: 
@@ -239,6 +267,9 @@ et:
         header: Majandusaasta
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Otsi
     printers:
       create:
         create_success: 
@@ -270,6 +301,13 @@ et:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Otsi
+        button_show_removed: Näita tyhistatuid
+      kaytossa_options:
+        in_use: Jah
+        not_in_use: Ei
     sum_levels:
       create:
         create_success: 

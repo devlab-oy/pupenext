@@ -20,6 +20,15 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      carrier:
+        koodi: 
+        luontiaika: Erstellt am
+        luottokortti: 
+        muutospvm: "Änderungsdatum"
+        muuttaja: 
+        neutraali: 
+        nimi: Name
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kasse
         kassaerotus: Kassendifferenz
@@ -130,6 +139,17 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      packing_area:
+        lokero: Fach
+        nimi: Name
+        printteri0: Auswahlliste
+        printteri1: Versandpapier
+        printteri2: Artikeletiketten
+        printteri3: Adressetikett
+        printteri4: Frachtbrief A5
+        printteri6: Frachtbrief A4
+        prio: Prio
+        varasto: Lager
       printer:
         ip: ip
         jarjestys: Sortierung
@@ -158,11 +178,17 @@ de:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Name
+        tunnus: Kennzeichen
+        tyyppi: Typ
     models:
       account: Konto
+      carrier: 
       cash_register: 
       currency: Währung
       fiscal_year: Rechnungsjahr
+      packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
       sum_level: Ebene
@@ -205,6 +231,12 @@ de:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Suchen
+      neutraali_options:
+        neutral: Ja
+        not_neutral: Nein
     cash_registers:
       create:
         create_success: 
@@ -239,6 +271,13 @@ de:
         header: 
       update:
         update_success: 
+    packing_areas:
+      edit:
+        header: Packraum/Verpackungsabteilung
+      index:
+        button_new: Neue(r) Packraum-/Verpackungsabteilung
+        button_search: Suchen
+        header: Packräume/Verpackungsabteilungen
     printers:
       create:
         create_success: 
@@ -270,6 +309,13 @@ de:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Suchen
+        button_show_removed: Gelöschte anzeigen
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nein
     sum_levels:
       create:
         create_success: 

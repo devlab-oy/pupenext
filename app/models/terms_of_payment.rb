@@ -4,7 +4,7 @@ class TermsOfPayment < BaseModel
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
 
-  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
+  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }

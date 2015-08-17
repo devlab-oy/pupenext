@@ -20,6 +20,15 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      carrier:
+        koodi: Koodi
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvm
+        muuttaja: Muuttaja
+        neutraali: Neutraali
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: Pakkauksen särmän minimimitta
       cash_register:
         kassa: Kassa
         kassaerotus: Kassaerotus
@@ -130,6 +139,19 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      packing_area:
+        lokero: Lokero
+        nimi: Nimi
+        pakkaamon_prio: Pakkaamon prio
+        printteri0: Keräyslista
+        printteri1: Lähete
+        printteri2: Tuotetarrat
+        printteri3: Osoitelappu
+        printteri4: Rahtikirja A5
+        printteri6: Rahtikirja A4
+        printteri7: JV-Lasku/-Kuitti
+        prio: Prio
+        varasto: Varasto
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -158,11 +180,19 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      qualifier:
+        isa_tarkenne: Isätarkenne
+        koodi: Koodi
+        nimi: Nimi
+        tunnus: Tunnus
+        tyyppi: Tyyppi
     models:
       account: Tili
+      carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi
+      packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
       sum_level: Taso
@@ -205,6 +235,16 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    carriers:
+      edit:
+        header: Rahdinkuljettaja
+      index:
+        button_new: Uusi rahdinkuljettaja
+        button_search: Etsi
+        header: Rahdinkuljettajat
+      neutraali_options:
+        neutral: Kyllä
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -239,6 +279,21 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    packing_areas:
+      create:
+        create_success: Pakkaamo lisätty onnistuneesti
+      destroy:
+        destroy_success: Pakkaamo poistettu onnistuneesti
+      edit:
+        button_remove: Poista pakkaamo
+        confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
+        header: Pakkaamo
+      index:
+        button_new: Uusi pakkaamo
+        button_search: Etsi
+        header: Pakkaamot
+      update:
+        update_success: Update success
     printers:
       create:
         create_success: Kirjoitin perustettiin onnistuneesti
@@ -270,6 +325,22 @@ fi:
         charset_utf8: UTF8
       update:
         update_success: Kirjoitin päivitettiin onnistuneesti
+    qualifiers:
+      create:
+        create_success: Tarkenne luotiin onnistuneesti
+      edit:
+        header: Muokkaa tarkennetta
+      index:
+        button_new: Uusi tarkenne
+        button_search: Etsi
+        button_show_active: Näytä aktiiviset
+        button_show_removed: Näytä poistetut
+        header: Tilikartan tarkenteet
+      kaytossa_options:
+        in_use: Kyllä
+        not_in_use: Ei
+      update:
+        update_success: Tarkenne päivitettiin onnistuneesti
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
@@ -445,7 +516,7 @@ fi:
       after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
       before: tulee olla pienempi kuin %{date}
       before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
-      blank: ei voi olla sisällötön
+      blank: ei voi olla tyhjä
       confirmation: ei vastaa varmennusta %{attribute}
       empty: ei voi olla tyhjä
       equal_to: tulee olla yhtäsuuri kuin %{count}
@@ -471,6 +542,8 @@ fi:
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+    packing_area:
+      duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
     qualifier:
       accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
     sum_level:
@@ -480,8 +553,8 @@ fi:
     template:
       body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
-        one: Virhe syötteessä esti mallin %{model} tallentamisen
-        other: "%{count} virhettä esti mallin %{model} tallentamisen"
+        one: Yksi virhe esti %{model} tietueen tallentamisen
+        other: "%{count} virhettä esti %{model} tietueen tallentamisen"
     terms_of_payment:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
