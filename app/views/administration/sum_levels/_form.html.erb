@@ -1,6 +1,16 @@
 <%= render "administration/form_errors", resource: @sum_level %>
 
-<%= form_for @sum_level, url: sum_level_path(@sum_level) do |f| %>
+<% # Since we don't want to use the 'real' url for STI models, we need this ugly hack (for now)
+  if action_name == 'edit'
+    url = sum_level_path @sum_level
+    method = :put
+  else
+    url = sum_levels_path
+    method = :post
+  end
+%>
+
+<%= form_for :sum_level, url: url, method: method do |f| %>
 
   <table>
 
