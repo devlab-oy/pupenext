@@ -18,4 +18,22 @@ module QualifierHelper
       [ q.nimitys, q.tunnus ]
     end
   end
+
+  def kustp_options
+    Qualifier::CostCenter.in_use.code_name_order.map do |q|
+      [ q.nimitys, q.tunnus ]
+    end
+  end
+
+  def kohde_options
+    Qualifier::Target.in_use.code_name_order.map do |q|
+      [ q.nimitys, q.tunnus ]
+    end
+  end
+
+  def projekti_options
+    Qualifier::Project.in_use.code_name_order.map do |q|
+      [ q.nimitys, q.tunnus ]
+    end
+  end
 end
