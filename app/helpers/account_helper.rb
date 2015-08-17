@@ -6,6 +6,12 @@ module AccountHelper
     a.present? ? a.nimi : ""
   end
 
+  def tili_options(search = nil)
+    Account.all.map do |a|
+      [ a.tilino_nimi, a.tunnus ]
+    end
+  end
+
   def toimijaliitos_options
     Account.toimijaliitos.map do |key,_|
       [ t("#{ROOT}.toimijaliitos_options.#{key}"), key ]
