@@ -7,7 +7,7 @@ module QualifierHelper
     end
   end
 
-  def tyyppi_options
+  def qualifier_tyyppi_options
     Qualifier.child_class_names.map do |v, m|
       [ m.model_name.human, v ]
     end
