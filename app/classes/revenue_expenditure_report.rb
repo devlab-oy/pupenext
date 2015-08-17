@@ -5,6 +5,7 @@ class RevenueExpenditureReport
     @date_begin = Date.today.months_ago period
     @date_end = Date.today.months_since period
     @beginning_of_week = Date.today.beginning_of_week
+    @previous_week = Date.today.beginning_of_week.yesterday
   end
 
   def data
@@ -21,8 +22,8 @@ class RevenueExpenditureReport
 
   def history_salesinvoice
     Head::SalesInvoice.where(alatila: :X)
-      .where(erpcm: @date_begin..@beginning_of_week)
-      .where(tapvm: @date_begin..@beginning_of_week)
+      .where(erpcm: @date_begin..@previous_week)
+      .where(tapvm: @date_begin..@previous_week)
       .where.not(mapvm: '0000-00-00').sum(:summa)
   end
 
@@ -37,8 +38,8 @@ class RevenueExpenditureReport
     statues = Head::PurchaseInvoice::INVOICE_TYPES
 
     Head.where(tila: statues)
-      .where(erpcm: @date_begin..@beginning_of_week)
-      .where(tapvm: @date_begin..@beginning_of_week)
+      .where(erpcm: @date_begin..@previous_week)
+      .where(tapvm: @date_begin..@previous_week)
       .where.not(mapvm: '0000-00-00').sum(:summa)
   end
 
