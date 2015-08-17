@@ -3,12 +3,12 @@ module AccountHelper
 
   def account_name(number)
     a = Account.find_by_tilino(number)
-    a.present? ? a.nimi : ""
+    a.try :tilino_nimi
   end
 
   def tili_options
     Account.all.map do |a|
-      [ a.tilino_nimi, a.tunnus ]
+      [ a.tilino_nimi, a.tilino ]
     end
   end
 
