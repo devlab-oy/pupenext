@@ -6,7 +6,7 @@ module AccountHelper
     a.present? ? a.nimi : ""
   end
 
-  def tili_options(search = nil)
+  def tili_options
     Account.all.map do |a|
       [ a.tilino_nimi, a.tunnus ]
     end
