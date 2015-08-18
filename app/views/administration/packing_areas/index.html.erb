@@ -4,58 +4,79 @@
 
 <br /><br />
 
-<table>
+<%= form_tag packing_areas_path, method: :get do %>
 
-  <%= form_tag packing_areas_path, method: :get do %>
-  <tr>
-    <th>
-      <%= sortable "nimi", PackingArea.human_attribute_name(:nimi) %>
-      <br />
-      <%= text_field_tag :nimi, params[:nimi] %>
-    </th>
-    <th>
-      <%= sortable "lokero", PackingArea.human_attribute_name(:lokero) %>
-      <br />
-      <%= text_field_tag :lokero, params[:lokero] %>
-    </th>
-    <th>
-      <%= sortable "varasto", PackingArea.human_attribute_name(:varasto) %>
-      <br />
-      <%= text_field_tag :varasto, params[:varasto] %>
-    </th>
-    <th>
-      <%= sortable "prio", PackingArea.human_attribute_name(:prio) %>
-      <br />
-      <%= text_field_tag :prio, params[:prio] %>
-    </th>
-    <th>
-      <%= sortable "pakkaamon_prio", PackingArea.human_attribute_name(:pakkaamon_prio) %>
-      <br />
-      <%= text_field_tag :pakkaamon_prio, params[:pakkaamon_prio] %>
-    </th>
-    <th class="back">
-      <%= submit_tag t('.button_search') %>
-    </th>
-  </tr>
-  <% end %>
-
-  <% @packing_areas.each do |p| %>
+  <table>
     <tr>
-      <td>
-        <% if update_access? %>
-          <%= link_to p.nimi, edit_packing_area_path(p.id) %>
-        <% else %>
-          <%= p.nimi %>
-        <% end %>
-      </td>
-      <td><%= p.lokero %></td>
-      <td><%= p.warehouse.nimitys %></td>
-      <td><%= p.prio %></td>
-      <td><%= p.pakkaamon_prio %></td>
-      <td class="back"></td>
+      <th>
+        <%= sortable "nimi", PackingArea.human_attribute_name(:nimi) %>
+        <br />
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable "lokero", PackingArea.human_attribute_name(:lokero) %>
+        <br />
+        <%= text_field_tag :lokero, params[:lokero] %>
+      </th>
+
+      <th>
+        <%= sortable "varasto", PackingArea.human_attribute_name(:varasto) %>
+        <br />
+        <%= text_field_tag :varasto, params[:varasto] %>
+      </th>
+
+      <th>
+        <%= sortable "prio", PackingArea.human_attribute_name(:prio) %>
+        <br />
+        <%= text_field_tag :prio, params[:prio] %>
+      </th>
+
+      <th>
+        <%= sortable "pakkaamon_prio", PackingArea.human_attribute_name(:pakkaamon_prio) %>
+        <br />
+        <%= text_field_tag :pakkaamon_prio, params[:pakkaamon_prio] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
     </tr>
-  <% end %>
-</table>
+
+    <% @packing_areas.each do |p| %>
+      <tr>
+        <td>
+          <% if update_access? %>
+            <%= link_to p.nimi, edit_packing_area_path(p.id) %>
+          <% else %>
+            <%= p.nimi %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= p.lokero %>
+        </td>
+
+        <td>
+          <%= p.warehouse.nimitys %>
+        </td>
+
+        <td>
+          <%= p.prio %>
+        </td>
+
+        <td>
+          <%= p.pakkaamon_prio %>
+        </td>
+
+        <td class="back">
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
 
 <br />
 

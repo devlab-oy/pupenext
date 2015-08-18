@@ -5,6 +5,7 @@
 <br /><br />
 
 <%= form_tag cash_registers_path, method: :get do %>
+
   <table>
     <tr>
       <th>
@@ -69,17 +70,42 @@
             <%= p.nimi %>
           <% end %>
         </td>
-        <td><%= p.kustp %></td>
-        <td><%= account_name p.kassa %></td>
-        <td><%= account_name p.pankkikortti %></td>
-        <td><%= account_name p.luottokortti %></td>
-        <td><%= account_name p.kateistilitys %></td>
-        <td><%= account_name p.kassaerotus %></td>
-        <td><%= account_name p.kateisotto %></td>
-        <td class="back"></td>
+
+        <td>
+          <%= p.kustp %>
+        </td>
+
+        <td>
+          <%= account_name p.kassa %>
+        </td>
+
+        <td>
+          <%= account_name p.pankkikortti %>
+        </td>
+
+        <td>
+          <%= account_name p.luottokortti %>
+        </td>
+
+        <td>
+          <%= account_name p.kateistilitys %>
+        </td>
+
+        <td>
+          <%= account_name p.kassaerotus %>
+        </td>
+
+        <td>
+          <%= account_name p.kateisotto %>
+        </td>
+
+        <td class="back">
+        </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
 
 <br />

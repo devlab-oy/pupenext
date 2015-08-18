@@ -5,6 +5,7 @@
 <br/><br/>
 
 <%= form_tag currencies_path, method: :get do %>
+
   <table>
     <tr>
       <th>
@@ -45,6 +46,7 @@
   </table>
 
 <% end %>
+
 <br/>
 
 <%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>

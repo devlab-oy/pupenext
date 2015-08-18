@@ -3,8 +3,11 @@
 <%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
 
 <br/><br/>
+
 <%= form_tag sum_levels_path, method: :get do %>
+
   <table>
+
     <tr>
       <th>
         <%= sortable 'taso', SumLevel.human_attribute_name(:taso) %>
@@ -98,11 +101,15 @@
           <%= sum_level.jakaja %>
         </td>
 
-        <td class="back"></td>
+        <td class="back">
+        </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
+
 <br/>
 
 <%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
