@@ -1,7 +1,7 @@
 <% (100..500).step(10) do |account| %>
 account_<%= account %>:
   yhtio: acme
-  nimi: Perustamismenot <%= account %>
+  nimi: Perustamismenot
   ulkoinen_taso: 112
   sisainen_taso: 33
   tulosseuranta_taso: 1
