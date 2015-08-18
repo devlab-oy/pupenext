@@ -13,9 +13,9 @@ module SumLevelHelper
     end
   end
 
-  def tyyppi_options
+  def sum_level_tyyppi_options
     SumLevel.child_class_names.map do |v, m|
-      [ m.human_readable_type, v ]
+      [ m.model_name.human, v ]
     end
   end
 end

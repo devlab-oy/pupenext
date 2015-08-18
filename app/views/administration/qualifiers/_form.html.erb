@@ -1,12 +1,12 @@
 <%= render "administration/form_errors", resource: @qualifier %>
 
-<%= form_for(@qualifier) do |f| %>
+<%= form_for @qualifier, as: :qualifier do |f| %>
 
   <table>
 
     <tr>
       <th><%= f.label :tyyppi %></th>
-      <td><%= f.select :tyyppi, tyyppi_options %></td>
+      <td><%= f.select :tyyppi, qualifier_tyyppi_options %></td>
     </tr>
 
     <tr>

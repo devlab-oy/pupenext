@@ -181,9 +181,15 @@ en:
       cash_register: Kassa
       currency: Currency
       fiscal_year: Fiscal year
+      head/purchase_order: Purchase order
+      head/sales_invoice: Invoice
+      head/sales_order: Order
+      head/sales_order_draft: Sales order has open issues
       printer: Printer
       qualifier: Cost, profit center, projects
+      qualifier/target: Target
       sum_level: Level
+      sum_level/vat: VAT
       terms_of_payment: Terms of payment
   administration:
     accounts:

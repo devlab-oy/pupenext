@@ -192,10 +192,28 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi
+      head/purchase_invoice/approval: Ostolasku hyväksyttävänä
+      head/purchase_invoice/approved: Ostolasku valmis maksatukseen
+      head/purchase_invoice/paid: Ostolasku maksettu
+      head/purchase_invoice/transfer: Ostolasku lähdössä pankkiin
+      head/purchase_invoice/waiting: Ostolasku odottaa suoritusta
+      head/purchase_order: Ostotilaus
+      head/sales_invoice: Myyntilasku
+      head/sales_order: Myyntitilaus
+      head/sales_order_draft: Myyntitilaus kesken
+      head/voucher: Tosite
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
+      qualifier/cost_center: Kustannuspaikka
+      qualifier/project: Projekti
+      qualifier/target: Kohde
       sum_level: Taso
+      sum_level/commodity: EVL
+      sum_level/external: Ulkoinen
+      sum_level/internal: Sisäinen
+      sum_level/profit: Tulosseuranta
+      sum_level/vat: ALV
       terms_of_payment: Maksuehto
   administration:
     accounts:
@@ -415,7 +433,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -441,7 +459,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
