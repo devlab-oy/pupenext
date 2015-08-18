@@ -8,49 +8,49 @@
   <table>
     <tr>
       <th>
-        <%= sortable "nimi" %>
+        <%= sortable "nimi", CashRegister.human_attribute_name(:nimi) %>
         <br />
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable "kustp" %>
+        <%= sortable "kustp", CashRegister.human_attribute_name(:kustp) %>
         <br />
         <%= text_field_tag :kustp, params[:kustp] %>
       </th>
 
       <th>
-        <%= sortable "kassa" %>
+        <%= sortable "kassa", CashRegister.human_attribute_name(:kassa) %>
         <br />
         <%= text_field_tag :kassa, params[:kassa] %>
       </th>
 
       <th>
-        <%= sortable "pankkikortti" %>
+        <%= sortable "pankkikortti", CashRegister.human_attribute_name(:pankkikortti) %>
         <br />
         <%= text_field_tag :pankkikortti, params[:pankkikortti] %>
       </th>
 
       <th>
-        <%= sortable "luottokortti" %>
+        <%= sortable "luottokortti", CashRegister.human_attribute_name(:luottokortti) %>
         <br />
         <%= text_field_tag :luottokortti, params[:luottokortti] %>
       </th>
 
       <th>
-        <%= sortable "kateistilitys" %>
+        <%= sortable "kateistilitys", CashRegister.human_attribute_name(:kateistilitys) %>
         <br />
         <%= text_field_tag :kateistilitys, params[:kateistilitys] %>
       </th>
 
       <th>
-        <%= sortable "kassaerotus" %>
+        <%= sortable "kassaerotus", CashRegister.human_attribute_name(:kassaerotus) %>
         <br />
         <%= text_field_tag :kassaerotus, params[:kassaerotus] %>
       </th>
 
       <th>
-        <%= sortable "kateisotto" %>
+        <%= sortable "kateisotto", CashRegister.human_attribute_name(:kateisotto) %>
         <br />
         <%= text_field_tag :kateisotto, params[:kateisotto] %>
       </th>

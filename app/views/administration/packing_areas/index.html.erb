@@ -9,27 +9,27 @@
   <%= form_tag packing_areas_path, method: :get do %>
   <tr>
     <th>
-      <%= sortable "nimi" %>
+      <%= sortable "nimi", PackingArea.human_attribute_name(:nimi) %>
       <br />
       <%= text_field_tag :nimi, params[:nimi] %>
     </th>
     <th>
-      <%= sortable "lokero" %>
+      <%= sortable "lokero", PackingArea.human_attribute_name(:lokero) %>
       <br />
       <%= text_field_tag :lokero, params[:lokero] %>
     </th>
     <th>
-      <%= sortable "varasto" %>
+      <%= sortable "varasto", PackingArea.human_attribute_name(:varasto) %>
       <br />
       <%= text_field_tag :varasto, params[:varasto] %>
     </th>
     <th>
-      <%= sortable "prio" %>
+      <%= sortable "prio", PackingArea.human_attribute_name(:prio) %>
       <br />
       <%= text_field_tag :prio, params[:prio] %>
     </th>
     <th>
-      <%= sortable "pakkaamon_prio" %>
+      <%= sortable "pakkaamon_prio", PackingArea.human_attribute_name(:pakkaamon_prio) %>
       <br />
       <%= text_field_tag :pakkaamon_prio, params[:pakkaamon_prio] %>
     </th>

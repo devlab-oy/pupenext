@@ -8,13 +8,13 @@
   <table>
     <tr>
       <th>
-        <%= sortable "kirjoitin" %>
+        <%= sortable "kirjoitin", Printer.human_attribute_name(:kirjoitin) %>
         <br/>
         <%= text_field_tag :kirjoitin, params[:kirjoitin] %>
       </th>
 
       <th>
-        <%= sortable "komento" %>
+        <%= sortable "komento", Printer.human_attribute_name(:komento) %>
         <br/>
         <%= text_field_tag :komento, params[:komento] %>
       </th>

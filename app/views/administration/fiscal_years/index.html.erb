@@ -8,11 +8,11 @@
   <table>
     <tr>
       <th>
-        <%= sortable 'tilikausi_alku' %>
+        <%= sortable 'tilikausi_alku', FiscalYear.human_attribute_name(:tilikausi_alku) %>
       </th>
 
       <th>
-        <%= sortable 'tilikausi_loppu' %>
+        <%= sortable 'tilikausi_loppu', FiscalYear.human_attribute_name(:tilikausi_loppu) %>
       </th>
 
       <th class="back">

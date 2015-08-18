@@ -15,21 +15,23 @@
 <table>
   <tr>
     <th>
-      <%= sortable "nimi" %>
+      <%= sortable "nimi", Qualifier.human_attribute_name(:nimi) %>
       <br />
       <%= text_field_tag :nimi, params[:nimi] %>
     </th>
     <th>
-      <%= sortable "koodi" %>
+      <%= sortable "koodi", Qualifier.human_attribute_name(:koodi) %>
       <br />
       <%= text_field_tag :koodi, params[:koodi] %>
     </th>
     <th>
-      <%= sortable "tyyppi" %>
+      <%= sortable "tyyppi", Qualifier.human_attribute_name(:tyyppi) %>
       <br />
       <%= text_field_tag :tyyppi, params[:tyyppi] %>
     </th>
-    <th class="back"><%= submit_tag t('.button_search') %></th>
+    <th class="back">
+      <%= submit_tag t('.button_search') %>
+    </th>
   </tr>
 
   <% @qualifiers.each do |q| %>

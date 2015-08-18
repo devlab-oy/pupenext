@@ -9,20 +9,20 @@
   <table>
     <tr>
       <th>
-        <%= sortable "koodi" %>
+        <%= sortable "koodi", Carrier.human_attribute_name(:koodi) %>
         <br />
         <%= text_field_tag :koodi, params[:koodi] %>
       </th>
       <th>
-        <%= sortable "nimi" %>
+        <%= sortable "nimi", Carrier.human_attribute_name(:nimi) %>
         <br />
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
       <th>
-        <%= sortable "neutraali" %>
+        <%= sortable "neutraali", Carrier.human_attribute_name(:neutraali) %>
       </th>
       <th>
-        <%= sortable "pakkauksen_sarman_minimimitta" %>
+        <%= sortable "pakkauksen_sarman_minimimitta", Carrier.human_attribute_name(:pakkauksen_sarman_minimimitta) %>
         <br />
         <%= text_field_tag :pakkauksen_sarman_minimimitta, params[:pakkauksen_sarman_minimimitta] %>
       </th>

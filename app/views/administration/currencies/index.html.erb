@@ -8,13 +8,13 @@
   <table>
     <tr>
       <th>
-        <%= sortable 'nimi' %>
+        <%= sortable 'nimi', Currency.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable 'kurssi' %>
+        <%= sortable 'kurssi', Currency.human_attribute_name(:kurssi) %>
         <br/>
         <%= text_field_tag :kurssi, params[:kurssi] %>
       </th>
