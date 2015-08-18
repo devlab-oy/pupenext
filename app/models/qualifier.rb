@@ -6,8 +6,6 @@ class Qualifier < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :nimi, presence: true
   validate :deactivation_allowed
 
