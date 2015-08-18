@@ -15,9 +15,9 @@ class Administration::PrintersController < AdministrationController
   end
 
   def create
-    @printer = Printer.new(printer_params)
+    @printer = Printer.new printer_params
 
-    if @printer.save_by current_user
+    if @printer.save
       redirect_to printers_path, notice: t('.create_success')
     else
       render :edit
@@ -28,7 +28,7 @@ class Administration::PrintersController < AdministrationController
   end
 
   def update
-    if @printer.update_by(printer_params, current_user)
+    if @printer.update printer_params
       redirect_to printers_path, notice: t('.update_success')
     else
       render :edit
@@ -61,7 +61,7 @@ class Administration::PrintersController < AdministrationController
     end
 
     def find_resource
-      @printer = Printer.find(params[:id])
+      @printer = Printer.find params[:id]
     end
 
     def sortable_columns

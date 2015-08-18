@@ -16,9 +16,9 @@ class Administration::AccountsController < AdministrationController
   end
 
   def create
-    @account = Account.new(account_params)
+    @account = Account.new account_params
 
-    if @account.save_by current_user
+    if @account.save
       redirect_to accounts_path, notice: t('.create_success')
     else
       render :edit
@@ -29,7 +29,7 @@ class Administration::AccountsController < AdministrationController
   end
 
   def update
-    if @account.update_by account_params, current_user
+    if @account.update account_params
       redirect_to accounts_path, notice: t('.update_success')
     else
       render :edit

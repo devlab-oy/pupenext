@@ -16,9 +16,9 @@ class Administration::CarriersController < AdministrationController
   end
 
   def create
-    @carrier = Carrier.new(carrier_params)
+    @carrier = Carrier.new carrier_params
 
-    if @carrier.save_by current_user
+    if @carrier.save
       redirect_to carriers_path, notice: t("Rahdinkuljettaja luotiin onnistuneesti")
     else
       render :edit
@@ -26,7 +26,7 @@ class Administration::CarriersController < AdministrationController
   end
 
   def update
-    if @carrier.update_by(carrier_params, current_user)
+    if @carrier.update carrier_params
       redirect_to carriers_path, notice: t("Rahdinkuljettaja päivitettiin onnistuneesti")
     else
       render :edit
@@ -50,7 +50,7 @@ class Administration::CarriersController < AdministrationController
     end
 
     def find_resource
-      @carrier = Carrier.find(params[:id])
+      @carrier = Carrier.find params[:id]
     end
 
     def searchable_columns

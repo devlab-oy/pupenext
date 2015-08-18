@@ -24,9 +24,9 @@ class Administration::QualifiersController < AdministrationController
   end
 
   def create
-    @qualifier = Qualifier.new(qualifier_params)
+    @qualifier = Qualifier.new qualifier_params
 
-    if @qualifier.save_by current_user
+    if @qualifier.save
       redirect_to qualifiers_path, notice: t('.create_success')
     else
       render :edit
@@ -34,7 +34,7 @@ class Administration::QualifiersController < AdministrationController
   end
 
   def update
-    if @qualifier.update_by(qualifier_params, current_user)
+    if @qualifier.update qualifier_params
       redirect_to qualifiers_path, notice: t('.update_success')
     else
       render :edit
@@ -44,7 +44,7 @@ class Administration::QualifiersController < AdministrationController
   private
 
     def find_resource
-      @qualifier = Qualifier.find(params[:id])
+      @qualifier = Qualifier.find params[:id]
     end
 
     def showing_not_used?

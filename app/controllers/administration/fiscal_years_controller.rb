@@ -18,9 +18,9 @@ class Administration::FiscalYearsController < AdministrationController
   end
 
   def create
-    @fiscal_year = FiscalYear.new(fiscal_year_params)
+    @fiscal_year = FiscalYear.new fiscal_year_params
 
-    if @fiscal_year.save_by(current_user)
+    if @fiscal_year.save
       redirect_to fiscal_years_path, notice: t('.create_success')
     else
       render :edit
@@ -28,7 +28,7 @@ class Administration::FiscalYearsController < AdministrationController
   end
 
   def update
-    if @fiscal_year.update_by(fiscal_year_params, current_user)
+    if @fiscal_year.update fiscal_year_params
       redirect_to fiscal_years_path, notice: t('.update_success')
     else
       render :edit
@@ -38,7 +38,7 @@ class Administration::FiscalYearsController < AdministrationController
   private
 
     def find_resource
-      @fiscal_year = FiscalYear.find(params[:id])
+      @fiscal_year = FiscalYear.find params[:id]
     end
 
     def fiscal_year_params
