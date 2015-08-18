@@ -2,14 +2,12 @@ require "test_helper"
 
 class KeywordTest < ActiveSupport::TestCase
   setup do
-    @one = keywords(:one)
+    @vat = keywords(:vat)
+    @foreign_vat = keywords(:foreign_vat)
   end
 
-  test "vat_percent works" do
-    assert_equal BigDecimal("24"), @one.vat_percent
-  end
-
-  test "vat_percent_text works" do
-    assert_equal "24 %", @one.vat_percent_text
+  test "fixtures are valid" do
+    assert @vat.valid?, @vat.errors.full_messages
+    assert @foreign_vat.valid?, @foreign_vat.errors.full_messages
   end
 end

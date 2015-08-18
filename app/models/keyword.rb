@@ -1,17 +1,22 @@
 class Keyword < BaseModel
-  def self.vat_percents
-    where(laji: %w(alv alvulk))
-      .where("selitetark_2 IN (?) OR laji = 'alv'", Location.countries)
-  end
+  include PupenextSingleTableInheritance
+
+  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   self.table_name = :avainsana
   self.primary_key = :tunnus
+  self.inheritance_column = :laji
 
-  def vat_percent_text
-    "#{selite} %"
+  validates :selite, presence: true
+
+  def self.default_child_instance
+    child_class 'ALV'
   end
 
-  def vat_percent
-    BigDecimal selite
+  def self.child_class_names
+    {
+      'ALV' => Keyword::Vat,
+      'ALVULK' => Keyword::ForeignVat
+    }
   end
 end

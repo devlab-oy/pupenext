@@ -21,7 +21,7 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "should return sum level name" do
-    assert_equal "3 TILIKAUDEN TULOS", @external.sum_level_name
+    assert_equal "3 - TILIKAUDEN TULOS", @external.sum_level_name
   end
 
   test "sum level should not contain O with dots" do

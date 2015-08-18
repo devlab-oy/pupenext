@@ -1,23 +1,19 @@
 class Administration::CurrenciesController < AdministrationController
-  # GET /currencies
   def index
     @currencies = Currency
       .search_like(search_params)
       .order(order_params)
   end
 
-  # GET /currencies/1
   def show
     render :edit
   end
 
-  # GET /currencies/new
   def new
     @currency = Currency.new
     render :edit
   end
 
-  # POST /currencies
   def create
     @currency = Currency.new
     @currency.attributes = currency_params
@@ -29,11 +25,9 @@ class Administration::CurrenciesController < AdministrationController
     end
   end
 
-  # GET /currencies/1/edit
   def edit
   end
 
-  # PATCH/PUT /currencies/1
   def update
     if @currency.update_by(currency_params, current_user)
       redirect_to currencies_path, notice: t('.update_success')
