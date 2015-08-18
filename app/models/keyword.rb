@@ -10,14 +10,13 @@ class Keyword < BaseModel
   validates :selite, presence: true
 
   def self.default_child_instance
-    child_class 'PAKKAUSKV'
+    child_class 'ALV'
   end
 
   def self.child_class_names
     {
       'ALV' => Keyword::Vat,
-      'ALVULK' => Keyword::ForeignVat,
-      'PAKKAUSKV' => Keyword::Package,
+      'ALVULK' => Keyword::ForeignVat
     }
   end
 end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AccountHelperTest < ActionView::TestCase
   test "gives names" do
-    assert_equal "Perustamismenot 120", account_name('120')
+    assert_equal "120 - Perustamismenot 120", account_name('120')
   end
 
   test "gives blank" do

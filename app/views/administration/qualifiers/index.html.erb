@@ -11,42 +11,59 @@
 <br /><br />
 
 <%= form_tag qualifiers_path, method: :get do %>
-<%= hidden_field_tag :not_used, :yes if showing_not_used? %>
-<table>
-  <tr>
-    <th>
-      <%= sortable "nimi" %>
-      <br />
-      <%= text_field_tag :nimi, params[:nimi] %>
-    </th>
-    <th>
-      <%= sortable "koodi" %>
-      <br />
-      <%= text_field_tag :koodi, params[:koodi] %>
-    </th>
-    <th>
-      <%= sortable "tyyppi" %>
-      <br />
-      <%= text_field_tag :tyyppi, params[:tyyppi] %>
-    </th>
-    <th class="back"><%= submit_tag t('.button_search') %></th>
-  </tr>
 
-  <% @qualifiers.each do |q| %>
+  <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
+
+  <table>
     <tr>
-      <td>
-        <% if update_access? %>
-          <%= link_to q.nimi, edit_qualifier_path(q.id) %>
-        <% else %>
-          <%= q.nimi %>
-        <% end %>
-      </td>
-      <td><%= q.koodi %></td>
-      <td><%= q.class.model_name.human %></td>
-      <td class="back"></td>
+      <th>
+        <%= sortable "nimi", Qualifier.human_attribute_name(:nimi) %>
+        <br />
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable "koodi", Qualifier.human_attribute_name(:koodi) %>
+        <br />
+        <%= text_field_tag :koodi, params[:koodi] %>
+      </th>
+
+      <th>
+        <%= sortable "tyyppi", Qualifier.human_attribute_name(:tyyppi) %>
+        <br />
+        <%= text_field_tag :tyyppi, params[:tyyppi] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
     </tr>
-  <% end %>
-</table>
+
+    <% @qualifiers.each do |q| %>
+      <tr>
+        <td>
+          <% if update_access? %>
+            <%= link_to q.nimi, edit_qualifier_path(q.id) %>
+          <% else %>
+            <%= q.nimi %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= q.koodi %>
+        </td>
+
+        <td>
+          <%= q.class.model_name.human %>
+        </td>
+
+        <td class="back">
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
 <% end %>
 
 <br />

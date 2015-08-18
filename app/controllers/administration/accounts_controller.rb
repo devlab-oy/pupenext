@@ -21,7 +21,6 @@ class Administration::AccountsController < AdministrationController
     if @account.save_by current_user
       redirect_to accounts_path, notice: t('.create_success')
     else
-      fetch_options_for_selects
       render :edit
     end
   end
@@ -33,7 +32,6 @@ class Administration::AccountsController < AdministrationController
     if @account.update_by account_params, current_user
       redirect_to accounts_path, notice: t('.update_success')
     else
-      fetch_options_for_selects
       render :edit
     end
   end
