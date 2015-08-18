@@ -21,31 +21,31 @@ class RevenueExpenditureReport
   private
 
   def history_salesinvoice
-    Head::SalesInvoice.where(alatila: :X)
+    Head::SalesInvoice.sent.paid
       .where(erpcm: @date_begin..@previous_week)
       .where(tapvm: @date_begin..@previous_week)
-      .where.not(mapvm: '0000-00-00').sum(:summa)
+      .sum(:summa)
   end
 
   def overdue_accounts_receivable
-    Head::SalesInvoice.where(alatila: :X)
+    Head::SalesInvoice.sent.unpaid
       .where(erpcm: @date_begin..@beginning_of_week)
       .where(tapvm: @date_begin..@beginning_of_week)
-      .where(mapvm: '0000-00-00').sum(:summa)
+      .sum(:summa)
   end
 
   def history_purchaseinvoice
-    Head::PurchaseInvoice.all_purchase_invoices
+    Head::PurchaseInvoice.all_purchase_invoices.paid
       .where(erpcm: @date_begin..@previous_week)
       .where(tapvm: @date_begin..@previous_week)
-      .where.not(mapvm: '0000-00-00').sum(:summa)
+      .sum(:summa)
   end
 
   def overdue_accounts_payable
-    Head::PurchaseInvoice.all_purchase_invoices
+    Head::PurchaseInvoice.all_purchase_invoices.unpaid
       .where(erpcm: @date_begin..@beginning_of_week)
       .where(tapvm: @date_begin..@beginning_of_week)
-      .where(mapvm: '0000-00-00').sum(:summa)
+      .sum(:summa)
   end
 
   def weekly
