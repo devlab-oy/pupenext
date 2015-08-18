@@ -3,7 +3,7 @@ module AccountHelper
 
   def account_name(number)
     a = Account.find_by_tilino(number)
-    a.try :tilino_nimi
+    a.try(:tilino_nimi) || ""
   end
 
   def tili_options
