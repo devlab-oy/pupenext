@@ -13,9 +13,9 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def create
-    @sum_level = SumLevel.new(sum_level_params)
+    @sum_level = SumLevel.new sum_level_params
 
-    if params[:commit] && @sum_level.save_by(current_user)
+    if params[:commit] && @sum_level.save
       redirect_to sum_levels_path, notice: t('.create_success')
     else
       render :edit
@@ -29,10 +29,10 @@ class Administration::SumLevelsController < AdministrationController
     # Redirect to sum_levels_path only if commit is present in params (submit button or enter
     # pressed). Otherwise submits triggered i.e. from select updates would also result in
     # redirection.
-    if params[:commit] && @sum_level.update_by(sum_level_params, current_user)
+    if params[:commit] && @sum_level.update(sum_level_params)
       redirect_to sum_levels_path, notice: t('.update_success')
     else
-      @sum_level.assign_attributes(sum_level_params)
+      @sum_level.assign_attributes sum_level_params
       render :edit
     end
   end
