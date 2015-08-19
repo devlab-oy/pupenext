@@ -139,6 +139,8 @@ sv:
         viivastyskorko: 
         www: web
         ytunnus: Org.Nr
+      keyword:
+        kieli: Språk
       packing_area:
         nimi: Namn
         printteri0: Plocklista

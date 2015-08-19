@@ -139,6 +139,8 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      keyword:
+        kieli: Sprache
       packing_area:
         lokero: Fach
         nimi: Name
@@ -369,6 +371,8 @@ de:
         button_show_active: 
         button_show_removed: 
         header: 
+      translations:
+        link_new: Neue Übersetzung hinzufügen
       update:
         update_success: 
     update_access:
