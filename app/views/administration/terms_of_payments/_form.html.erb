@@ -1,12 +1,21 @@
 <%= render "administration/form_errors", resource: @terms_of_payment %>
 
 <%= form_for @terms_of_payment do |f| %>
-
   <table>
     <tr>
-      <th><%= f.label :teksti %></th>
-      <td><%= f.text_field :teksti %></td>
+      <th>
+        <%= f.label :teksti %>
+      </th>
+
+      <td>
+        <%= f.text_field :teksti %>
+      </td>
+
+      <td rowspan='16' class='back' style='vertical-align: top; padding: 0px; padding-left: 30px;'>
+        <%= render "translations", f: f %>
+      </td>
     </tr>
+
     <tr>
       <th><%= f.label :rel_pvm %></th>
       <td><%= f.text_field :rel_pvm %></td>

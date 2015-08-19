@@ -139,6 +139,8 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      keyword:
+        kieli: Keel
       packing_area:
         nimi: Nimi
         printteri0: Komplekteerimisleht

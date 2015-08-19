@@ -17,3 +17,4 @@
 //= require pickadate/picker.date
 //= require date_picker
 //= require toggle
+//= require cocoon

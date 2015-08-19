@@ -1,0 +1,18 @@
+<table id='translations'>
+
+  <tr>
+    <th><%= label_tag Keyword.human_attribute_name(:kieli) %></th>
+    <th><%= f.label :teksti %></th>
+    <th><%= label_tag t('helpers.submit.destroy', model: '') %></th>
+  </tr>
+
+  <%= f.fields_for :translations do |translation| %>
+    <%= render 'translation_fields', f: translation %>
+  <% end %>
+
+</table>
+
+<br>
+
+<%= link_to_add_association t('.link_new'), f, :translations,
+    data: { association_insertion_method: :append, association_insertion_node: '#translations'} %>
