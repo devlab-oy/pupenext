@@ -3,17 +3,11 @@ class DeliveryMethod < BaseModel
   validates :tulostustapa, inclusion: { in: %w(H E K L X) }
   validates :selite, uniqueness: true
 
-  validate :check_unifaun, if: :build_patch_print?
-
   scope :permit_adr, -> { where(vak_kielto: '') }
   scope :shipment, -> { where(nouto: '') }
 
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
-
-  def build_patch_print?
-    tulostustapa == "L"
-  end
 
   def pickup_options
     [
@@ -436,14 +430,4 @@ class DeliveryMethod < BaseModel
       }
     }
   end
-
-  private
-
-    def check_unifaun
-      true
-      if self.rahtikirja.index("rahtikirja_unifaun").present?
-        errors.add(:base, "Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa")
-        false
-      end
-    end
 end
