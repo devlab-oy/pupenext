@@ -1,5 +1,4 @@
 class DeliveryMethod < BaseModel
-  include Translatable
 
   validates :tulostustapa, inclusion: { in: %w(H E K L X) }
   validates :selite, uniqueness: true
@@ -18,22 +17,22 @@ class DeliveryMethod < BaseModel
 
   def pickup_options
     [
-      [t("Tilaukset toimitetaan asiakkaalle"), ""],
-      [t("Asiakas noutaa tilaukset"), "o"]
+      ["Tilaukset toimitetaan asiakkaalle", ""],
+      ["Asiakas noutaa tilaukset", "o"]
     ]
   end
 
   def saturday_delivery_options
     [
-      [t("Ei lauantaijakelua"), ""],
-      [t("Itella lisäpalvelu: Lauantaijakelu"), "o"]
+      ["Ei lauantaijakelua", ""],
+      ["Itella lisäpalvelu: Lauantaijakelu", "o"]
     ]
   end
 
   def transport_unit_options
     [
-      [t("Ei kuljetusyksikkökuljetusta"), ""],
-      [t("Itella lisäpalvelu: Kuljetusyksikkökuljetus"), "o"]
+      ["Ei kuljetusyksikkökuljetusta", ""],
+      ["Itella lisäpalvelu: Kuljetusyksikkökuljetus", "o"]
     ]
   end
 
@@ -43,33 +42,33 @@ class DeliveryMethod < BaseModel
 
   def print_method_options
     [
-      [t("Erätulostus"), "E"],
-      [t("Hetitulostus"), "H"],
-      [t("Koonti-hetitulostus"), "K"],
-      [t("Koonti-erätulostus"), "L"],
-      [t("Rahtikirjansyöttö ja -tulostus ohitetaan"), "X"]
+      ["Erätulostus", "E"],
+      ["Hetitulostus", "H"],
+      ["Koonti-hetitulostus", "K"],
+      ["Koonti-erätulostus", "L"],
+      ["Rahtikirjansyöttö ja -tulostus ohitetaan", "X"]
     ]
   end
 
   def freight_contract_options
     [
-      [t("Käytetään lähettäjän rahtisopimusta"), "K"],
-      [t("Käytetään vastaanottajan rahtisopimusta"), ""]
+      ["Käytetään lähettäjän rahtisopimusta", "K"],
+      ["Käytetään vastaanottajan rahtisopimusta", ""]
     ]
   end
 
   def logy_waybill_number_options
     [
-      [t("Ei käytetä LOGY:n rahtikirjanumeroita"), ""],
-      [t("Käytetään LOGY:n rahtikirjanumeroita"), "K"]
+      ["Ei käytetä LOGY:n rahtikirjanumeroita", ""],
+      ["Käytetään LOGY:n rahtikirjanumeroita", "K"]
     ]
   end
 
   def extranet_options
     [
-      [t("Toimitustapa näytetään vain myynnissä"), ""],
-      [t("Toimitustapa näytetään vain extranetissä"), "K"],
-      [t("Toimitustapa näytetään molemmissa"), "M"]
+      ["Toimitustapa näytetään vain myynnissä", ""],
+      ["Toimitustapa näytetään vain extranetissä", "K"],
+      ["Toimitustapa näytetään molemmissa", "M"]
     ]
   end
 
@@ -79,13 +78,13 @@ class DeliveryMethod < BaseModel
 
   def label_options
     options = [
-      [t("Normaali"), ""],
-      [t("Intrade"), "intrade"],
-      [t("Tiivistetty"), "tiivistetty"]
+      ["Normaali", ""],
+      ["Intrade", "intrade"],
+      ["Tiivistetty", "tiivistetty"]
     ]
 
     if company.parameter.kerayserat == "K"
-      options << [t("Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa"), "oslap_mg"]
+      options << ["Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa", "oslap_mg"]
     end
 
     options
@@ -113,15 +112,15 @@ class DeliveryMethod < BaseModel
 
   def container_options
     [
-      [t("Kyllä"), "1"],
-      [t("Ei"), "0"]
+      ["Kyllä", "1"],
+      ["Ei", "0"]
     ]
   end
 
   def cash_on_delivery_prohibition_options
     [
-      [t("Toimitustavalla saa toimittaa jälkivaatimuksia"), ""],
-      [t("Toimitustavalla ei saa toimittaa jälkivaatimuksia"), "o"]
+      ["Toimitustavalla saa toimittaa jälkivaatimuksia", ""],
+      ["Toimitustavalla ei saa toimittaa jälkivaatimuksia", "o"]
     ]
   end
 
@@ -133,45 +132,45 @@ class DeliveryMethod < BaseModel
 
   def adr_prohibition_options
     [
-      [t("Toimitustavalla saa toimittaa VAK-tuotteita"), ""],
-      [t("Toimitustavalla ei saa toimittaa VAK-tuotteita"), "K"],
-      adr_options(t("VAK-tuotteet toimitetaan toimitustavalla"))
+      ["Toimitustavalla saa toimittaa VAK-tuotteita", ""],
+      ["Toimitustavalla ei saa toimittaa VAK-tuotteita", "K"],
+      adr_options("VAK-tuotteet toimitetaan toimitustavalla")
     ].reject {|i,_| i.empty?}
   end
 
   def alternative_adr_delivery_method_options
     [
-      [t("VAK-tuotteita ei siirretä omalle tilaukselleen"), ""],
-      adr_options(t("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla"))
+      ["VAK-tuotteita ei siirretä omalle tilaukselleen", ""],
+      adr_options("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla")
     ].reject {|i,_| i.empty?}
   end
 
   def special_packaging_prohibition_options
     [
-      [t("Toimitustavalla saa toimittaa erikoispakkauksia"), ""],
-      [t("Toimitustavalla ei saa toimittaa erikoispakkauksia"), "K"]
+      ["Toimitustavalla saa toimittaa erikoispakkauksia", ""],
+      ["Toimitustavalla ei saa toimittaa erikoispakkauksia", "K"]
     ]
   end
 
   def packing_area_prohibition_options
     [
-      [t("Toimitustavan tilaukset varaavat pakkaamolokeron"), "0"],
-      [t("Toimitustavan tilaukaset eivät varaa pakkaamolokeroa"), "1"]
+      ["Toimitustavan tilaukset varaavat pakkaamolokeron", "0"],
+      ["Toimitustavan tilaukaset eivät varaa pakkaamolokeroa", "1"]
     ]
   end
 
   def waybill_specification_options
     [
-      [t("Toimitustavalle ei tulosteta rahtikirjaerittelyä"), ""],
-      [t("Toimitustavalle tulostetaan rahtikirjaerittely"), "t"],
-      [t("Toimitustavalle tulostetaan rahtikirjaerittely per asiakas"), "k"]
+      ["Toimitustavalle ei tulosteta rahtikirjaerittelyä", ""],
+      ["Toimitustavalle tulostetaan rahtikirjaerittely", "t"],
+      ["Toimitustavalle tulostetaan rahtikirjaerittely per asiakas", "k"]
     ]
   end
 
   def new_packaging_information_options
     [
-      [t("Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta"), ""],
-      [t("Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta"), "K"]
+      ["Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta", ""],
+      ["Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta", "K"]
     ]
   end
 
@@ -181,14 +180,14 @@ class DeliveryMethod < BaseModel
 
   def transportation_insurance_type_options
     [
-      [t("Yhtiön oletus"), ""],
-      [t("Ei kuljetusvakuutusta"), "E"],
-      [t("Valuuttamääräinen kuljetusvakuutus lisätään"), "A"],
-      [t("Prosentuaalinen kuljetusvakuutus lisätään"), "B"],
-      [t("Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
-        asiakashintaa ja alennusta"), "F"],
-      [t("Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
-        asiakasalennusta"), "G"]
+      ["Yhtiön oletus", ""],
+      ["Ei kuljetusvakuutusta", "E"],
+      ["Valuuttamääräinen kuljetusvakuutus lisätään", "A"],
+      ["Prosentuaalinen kuljetusvakuutus lisätään", "B"],
+      ["Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
+        asiakashintaa ja alennusta", "F"],
+      ["Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
+        asiakasalennusta", "G"]
     ]
   end
 
@@ -443,7 +442,7 @@ class DeliveryMethod < BaseModel
     def check_unifaun
       true
       if self.rahtikirja.index("rahtikirja_unifaun").present?
-        errors.add(:base, t("Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa"))
+        errors.add(:base, "Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa")
         false
       end
     end
