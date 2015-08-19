@@ -139,6 +139,8 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      keyword:
+        kieli: Kieli
       packing_area:
         lokero: Lokero
         nimi: Nimi
@@ -186,6 +188,9 @@ fi:
         nimi: Nimi
         tunnus: Tunnus
         tyyppi: Tyyppi
+      translations:
+        kieli: Käännöksen kieli
+        selitetark: Käännetty teksti
     models:
       account: Tili
       carrier: Rahdinkuljettaja
@@ -402,6 +407,8 @@ fi:
         button_show_active: Näytä aktiiviset maksuehdot
         button_show_removed: Näytä poistetut maksuehdot
         header: Maksuedot
+      translations:
+        link_new: Lisää uusi käännös
       update:
         update_success: Maksuehto päivitettiin onnistuneesti
     update_access:
@@ -632,6 +639,7 @@ fi:
       prompt: Valitse
     submit:
       create: Luo %{model}
+      destroy: Poista %{model}
       submit: Tallenna %{model}
       update: Päivitä %{model}
   number:
