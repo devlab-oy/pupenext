@@ -16,3 +16,25 @@ foreign_vat:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+top_locale_se:
+  yhtio: acme
+  selite: <%= ActiveRecord::FixtureSet.identify(:sixty_days_net) %>
+  selitetark: 60 dagar netto
+  kieli: se
+  laji: MAKSUEHTOKV
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+top_locale_en:
+  yhtio: acme
+  selite: <%= ActiveRecord::FixtureSet.identify(:sixty_days_net) %>
+  selitetark: 60 days net
+  kieli: en
+  laji: MAKSUEHTOKV
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
