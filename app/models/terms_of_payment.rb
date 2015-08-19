@@ -16,6 +16,7 @@ class TermsOfPayment < BaseModel
   validate :check_relations, if: :inactive?
 
   float_columns :kassa_alepros
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   before_save :defaults
 
