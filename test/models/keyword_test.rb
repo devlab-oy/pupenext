@@ -10,4 +10,9 @@ class KeywordTest < ActiveSupport::TestCase
     assert @vat.valid?, @vat.errors.full_messages
     assert @foreign_vat.valid?, @foreign_vat.errors.full_messages
   end
+
+  test 'top translation relation' do
+    top_translation = keywords(:top_locale_se)
+    assert TermsOfPayment, top_translation.terms_of_payment.class
+  end
 end
