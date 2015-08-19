@@ -1,0 +1,13 @@
+<tr class='nested-fields'>
+  <td>
+    <%= f.select :kieli, translatable_locales_options, include_blank: true %>
+  </td>
+
+  <td>
+    <%= f.text_field :selitetark %>
+  </td>
+
+  <td>
+    <%= f.check_box :_destroy %>
+  </td>
+</tr>
