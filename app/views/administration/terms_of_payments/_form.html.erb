@@ -1,5 +1,6 @@
-<%= form_for(@terms_of_payment) do |f| %>
-  <%= render "administration/form_errors", resource: @terms_of_payment %>
+<%= render "administration/form_errors", resource: @terms_of_payment %>
+
+<%= form_for @terms_of_payment do |f| %>
 
   <table>
     <tr>
@@ -35,21 +36,21 @@
     <tr>
       <th><%= f.label :kateinen %></th>
       <td>
-        <%= f.select(:kateinen, @terms_of_payment.cash_options) %>
+        <%= f.select(:kateinen, cash_options) %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :factoring %></th>
       <td>
         <%= f.select(:factoring, @terms_of_payment.factoring_options,
-          include_blank: t('Ei factoroida')) %>
+          include_blank: t('administration.terms_of_payments.edit.no_factoring')) %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :pankkiyhteystiedot %></th>
       <td>
         <%= f.select(:pankkiyhteystiedot, @terms_of_payment.bank_details_options,
-          include_blank: t('Käytä yrityksen oletuksia')) %>
+          include_blank: t('administration.terms_of_payments.edit.use_company_defaults')) %>
       </td>
     </tr>
     <tr>
@@ -76,7 +77,7 @@
     <tr>
       <th><%= f.label :kaytossa %></th>
       <td>
-        <%= f.select(:kaytossa, @terms_of_payment.in_use_options) %>
+        <%= f.select(:kaytossa, in_use_options) %>
       </td>
     </tr>
     <tr>

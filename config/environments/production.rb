@@ -73,6 +73,4 @@ Pupesoft::Application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  ActionView::Base.default_form_builder = PupenextFormBuilder
 end

@@ -2,10 +2,12 @@ require "test_helper"
 
 class KeywordTest < ActiveSupport::TestCase
   setup do
-    @one = keywords(:one)
+    @vat = keywords(:vat)
+    @foreign_vat = keywords(:foreign_vat)
   end
 
-  test "option_value works" do
-    assert_equal "Testing keyword %", @one.option_value
+  test "fixtures are valid" do
+    assert @vat.valid?, @vat.errors.full_messages
+    assert @foreign_vat.valid?, @foreign_vat.errors.full_messages
   end
 end

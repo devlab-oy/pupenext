@@ -1,8 +1,5 @@
 class Keyword < BaseModel
-  def self.vat_percents
-    where(laji: %w(alv alvulk))
-      .where("selitetark_2 IN (?) OR laji = 'alv'", Location.countries)
-  end
+  include PupenextSingleTableInheritance
 
   def self.waybills
     where(laji: "RAHTIKIRJA")
@@ -26,8 +23,18 @@ class Keyword < BaseModel
 
   self.table_name = :avainsana
   self.primary_key = :tunnus
+  self.inheritance_column = :laji
 
-  def option_value
-    "#{selite} %"
+  validates :selite, presence: true
+
+  def self.default_child_instance
+    child_class 'ALV'
+  end
+
+  def self.child_class_names
+    {
+      'ALV' => Keyword::Vat,
+      'ALVULK' => Keyword::ForeignVat
+    }
   end
 end

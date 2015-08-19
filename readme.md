@@ -5,3 +5,5 @@
 [![Build Status](https://travis-ci.org/devlab-oy/pupenext.svg?branch=master)](https://travis-ci.org/devlab-oy/pupenext)
 
 Ruby on Rails implementaatio [Pupesoft](https://github.com/devlab-oy/pupesoft) -toiminnanohjausjärjestelmästä.
+
+Voit auttaa projektin käännöstyössä suoraan Locale palvelun [Pupenext](https://www.localeapp.com/projects/8499) -projektissa.

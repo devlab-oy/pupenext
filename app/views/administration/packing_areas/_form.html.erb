@@ -1,0 +1,72 @@
+<%= render "administration/form_errors", resource: @packing_area %>
+
+<%= form_for @packing_area do |f| %>
+
+  <table>
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :lokero %></th>
+      <td><%= f.text_field :lokero %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :prio %></th>
+      <td><%= f.text_field :prio %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :pakkaamon_prio %></th>
+      <td><%= f.text_field :pakkaamon_prio %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :varasto %></th>
+      <td><%= f.select :varasto, varasto_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri0 %></th>
+      <td><%= f.select :printteri0, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri1 %></th>
+      <td><%= f.select :printteri1, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri2 %></th>
+      <td><%= f.select :printteri2, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri3 %></th>
+      <td><%= f.select :printteri3, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri4 %></th>
+      <td><%= f.select :printteri4, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri6 %></th>
+      <td><%= f.select :printteri6, printteri_options %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :printteri7 %></th>
+      <td><%= f.select :printteri7, printteri_options %></td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @packing_area %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>

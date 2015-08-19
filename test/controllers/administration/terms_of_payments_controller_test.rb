@@ -41,6 +41,7 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
         teksti: "60 pv netto 2",
         rel_pvm: 60,
         abs_pvm: Date.today,
+        pankkiyhteystiedot: nil,
         kassa_relpvm: 14,
         kassa_abspvm: Date.today,
         jarjestys: 1
@@ -58,7 +59,7 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
       params = { not_existing_column: true }
 
       post :create, terms_of_payment: params
-      assert_template "new", "Template should be new"
+      assert_template "edit", "Template should be edit"
     end
   end
 

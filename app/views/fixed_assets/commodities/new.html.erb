@@ -1,6 +1,6 @@
-<%= return_link("Hyödykkeet", commodities_path) %>
+<%= return_link(FixedAssets::Commodity.model_name.human(count: 2), commodities_path) %>
 
 <br /><br />
 
-<%= render "administration/header", title: "Uusi Hyödyke" %>
+<%= render "administration/header", text: t('.header') %>
 <%= render 'create_form' %>

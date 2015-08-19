@@ -22,6 +22,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
   # GET /terms_of_payments/new
   def new
     @terms_of_payment = TermsOfPayment.new
+    render :edit
   end
 
   # GET /terms_of_payments/1/edit
@@ -30,19 +31,19 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
   # POST /terms_of_payments
   def create
-    @terms_of_payment = TermsOfPayment.new(terms_of_payment_params)
+    @terms_of_payment = TermsOfPayment.new terms_of_payment_params
 
-    if @terms_of_payment.save_by current_user
-      redirect_to terms_of_payments_path, notice: t('Maksuehto luotiin onnistuneesti')
+    if @terms_of_payment.save
+      redirect_to terms_of_payments_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 
   # PATCH/PUT /terms_of_payments/1
   def update
-    if @terms_of_payment.update_by(terms_of_payment_params, current_user)
-      redirect_to terms_of_payments_path, notice: t('Maksuehto päivitettiin onnistuneesti')
+    if @terms_of_payment.update terms_of_payment_params
+      redirect_to terms_of_payments_path, notice: t('.update_success')
     else
       render :edit
     end
@@ -72,7 +73,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
     end
 
     def find_resource
-      @terms_of_payment = TermsOfPayment.find(params[:id])
+      @terms_of_payment = TermsOfPayment.find params[:id]
     end
 
     def showing_not_used?

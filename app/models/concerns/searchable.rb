@@ -8,9 +8,13 @@ module Searchable
       result = self.all
 
       args.each do |key, value|
-        if DatetimeUtils.is_db_date?(value) || exact_search?(value)
-          value = (DatetimeUtils.is_db_date?(value)) ? DatetimeUtils.parse(value) : exact_search(value)
+        if exact_search? value
+          value = exact_search value
           result = result.where(key => value)
+        elsif value == "true"
+          result = result.where(key => true)
+        elsif value == "false"
+          result = result.where(key => false)
         else
           result = result.where_like key, value
         end

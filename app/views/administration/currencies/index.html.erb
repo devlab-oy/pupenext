@@ -1,26 +1,27 @@
-<%= render "administration/header", title: "Valuutat" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>
 
 <br/><br/>
 
 <%= form_tag currencies_path, method: :get do %>
+
   <table>
     <tr>
       <th>
-        <%= sortable 'nimi' %>
+        <%= sortable 'nimi', Currency.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable 'kurssi' %>
+        <%= sortable 'kurssi', Currency.human_attribute_name(:kurssi) %>
         <br/>
         <%= text_field_tag :kurssi, params[:kurssi] %>
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -45,6 +46,7 @@
   </table>
 
 <% end %>
+
 <br/>
 
-<%= button_to t('Uusi valuutta'), new_currency_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>

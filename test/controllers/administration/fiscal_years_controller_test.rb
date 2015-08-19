@@ -22,8 +22,16 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku:  '2000-01-01',
-      tilikausi_loppu: '2000-12-31'
+      tilikausi_alku: {
+        day: 01,
+        month: 01,
+        year: 2000
+      },
+      tilikausi_loppu: {
+        day: 31,
+        month: 12,
+        year: 2000
+      }
     }
 
     assert_difference('FiscalYear.count') do
@@ -37,8 +45,16 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku:  '2000-01-41',
-      tilikausi_loppu: '2000-12-51'
+      tilikausi_alku: {
+        day: 01,
+        month: 01,
+        year: 2000
+      },
+      tilikausi_loppu: {
+        day: 31,
+        month: 2,
+        year: 2000
+      }
     }
 
     assert_no_difference('FiscalYear.count') do
@@ -64,8 +80,16 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku:  @fiscal_year.tilikausi_alku,
-      tilikausi_loppu: @fiscal_year.tilikausi_loppu
+      tilikausi_alku: {
+        day: @fiscal_year.tilikausi_alku.day,
+        month: @fiscal_year.tilikausi_alku.month,
+        year: @fiscal_year.tilikausi_alku.year
+      },
+      tilikausi_loppu: {
+        day: @fiscal_year.tilikausi_loppu.day,
+        month: @fiscal_year.tilikausi_loppu.month,
+        year: @fiscal_year.tilikausi_loppu.year
+      }
     }
 
     patch :update, id: @fiscal_year, fiscal_year: params
@@ -76,8 +100,11 @@ class Administration::FiscalYearsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      tilikausi_alku:  @fiscal_year.tilikausi_alku,
-      tilikausi_loppu: ''
+      tilikausi_loppu: {
+        day: 32,
+        month: 12,
+        year: 2014
+      }
     }
 
     patch :update, id: @fiscal_year, fiscal_year: params
