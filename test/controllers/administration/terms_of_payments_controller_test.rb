@@ -89,7 +89,7 @@ class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
     params = {
       translations_attributes: {
         "0" => {
-          kieli: 'se',
+          kieli: 'no',
           selitetark: '60 dagar netto',
         }
       }
