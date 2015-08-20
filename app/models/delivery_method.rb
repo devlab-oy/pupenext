@@ -1,6 +1,4 @@
 class DeliveryMethod < BaseModel
-
-  validates :tulostustapa, inclusion: { in: %w(H E K L X) }
   validates :selite, uniqueness: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
@@ -9,62 +7,84 @@ class DeliveryMethod < BaseModel
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
 
-  def pickup_options
-    [
-      ["Tilaukset toimitetaan asiakkaalle", ""],
-      ["Asiakas noutaa tilaukset", "o"]
-    ]
-  end
+  enum nouto: {
+    not_pickup: '',
+    pickup: 'o'
+  }
 
-  def saturday_delivery_options
-    [
-      ["Ei lauantaijakelua", ""],
-      ["Itella lisäpalvelu: Lauantaijakelu", "o"]
-    ]
-  end
+  enum lauantai: {
+    not_saturday_delivery: '',
+    saturday_delivery: 'o'
+  }
 
-  def transport_unit_options
-    [
-      ["Ei kuljetusyksikkökuljetusta", ""],
-      ["Itella lisäpalvelu: Kuljetusyksikkökuljetus", "o"]
-    ]
-  end
+  enum kuljyksikko: {
+    not_transport_unit: '',
+    transport_unit: 'o'
+  }
 
-  def carrier_options
-    #company.carriers.map { |i| [ i.nimi, i.koodi ] }
-  end
+  enum tulostustapa: {
+    batch: 'E',
+    instant: 'H',
+    collective_instant: 'K',
+    collective_batch: 'L',
+    skip_print: 'X'
+  }
 
-  def print_method_options
-    [
-      ["Erätulostus", "E"],
-      ["Hetitulostus", "H"],
-      ["Koonti-hetitulostus", "K"],
-      ["Koonti-erätulostus", "L"],
-      ["Rahtikirjansyöttö ja -tulostus ohitetaan", "X"]
-    ]
-  end
+  enum merahti: {
+    sender_freight_contract: 'K',
+    receiver_freight_contract: ''
+  }
 
-  def freight_contract_options
-    [
-      ["Käytetään lähettäjän rahtisopimusta", "K"],
-      ["Käytetään vastaanottajan rahtisopimusta", ""]
-    ]
-  end
+  enum logy_rahtikirjanumerot: {
+    not_using_logy_waybill_numbers: '',
+    use_logy_waybill_numbers: 'K'
+  }
 
-  def logy_waybill_number_options
-    [
-      ["Ei käytetä LOGY:n rahtikirjanumeroita", ""],
-      ["Käytetään LOGY:n rahtikirjanumeroita", "K"]
-    ]
-  end
+  enum extranet: {
+    only_in_sales: '',
+    only_in_extranet: 'K',
+    both_in_sales_and_extranet: 'M'
+  }
 
-  def extranet_options
-    [
-      ["Toimitustapa näytetään vain myynnissä", ""],
-      ["Toimitustapa näytetään vain extranetissä", "K"],
-      ["Toimitustapa näytetään molemmissa", "M"]
-    ]
-  end
+  enum kontti: {
+    includes_container: '1',
+    not_including_container: '0'
+  }
+
+  enum jvkielto: {
+    cash_on_delivery_permitted: '',
+    cash_on_delivery_prohibition: 'o'
+  }
+
+  enum erikoispakkaus_kielto: {
+    special_packaging_permitted: '',
+    special_packaging_prohibition: 'K'
+  }
+
+  enum ei_pakkaamoa: {
+    reserve_packing_line: '0',
+    not_reserving_packing_line: '1'
+  }
+
+  enum erittely: {
+    no_waybill_specification: '',
+    print_waybill_specification: 't',
+    print_waybill_specification_per_customer: 'k'
+  }
+
+  enum uudet_pakkaustiedot: {
+    package_info_entry_denied: '',
+    package_info_entry_allowed: 'K'
+  }
+
+  enum kuljetusvakuutus_tyyppi: {
+    use_company_default: '',
+    no_transportation_insurance: 'E',
+    currency_based_insurance: 'A',
+    percentage_based_insurance: 'B',
+    currency_based_insurance_with_discount: 'F',
+    percentage_based_insurance_with_discount: 'G'
+  }
 
   def waybill_options
     company.keywords.waybills.map { |i| [ i.selitetark, i.selite ] }
@@ -104,20 +124,6 @@ class DeliveryMethod < BaseModel
     company.keywords.sorting_points.map { |i| [ i.selitetark, i.selite ] }
   end
 
-  def container_options
-    [
-      ["Kyllä", "1"],
-      ["Ei", "0"]
-    ]
-  end
-
-  def cash_on_delivery_prohibition_options
-    [
-      ["Toimitustavalla saa toimittaa jälkivaatimuksia", ""],
-      ["Toimitustavalla ei saa toimittaa jälkivaatimuksia", "o"]
-    ]
-  end
-
   def adr_options(text)
     DeliveryMethod.permit_adr.shipment.map do |i|
       [ "#{text} #{i.selite}", i.selite ]
@@ -139,50 +145,12 @@ class DeliveryMethod < BaseModel
     ].reject {|i,_| i.empty?}
   end
 
-  def special_packaging_prohibition_options
-    [
-      ["Toimitustavalla saa toimittaa erikoispakkauksia", ""],
-      ["Toimitustavalla ei saa toimittaa erikoispakkauksia", "K"]
-    ]
-  end
-
-  def packing_area_prohibition_options
-    [
-      ["Toimitustavan tilaukset varaavat pakkaamolokeron", "0"],
-      ["Toimitustavan tilaukaset eivät varaa pakkaamolokeroa", "1"]
-    ]
-  end
-
-  def waybill_specification_options
-    [
-      ["Toimitustavalle ei tulosteta rahtikirjaerittelyä", ""],
-      ["Toimitustavalle tulostetaan rahtikirjaerittely", "t"],
-      ["Toimitustavalle tulostetaan rahtikirjaerittely per asiakas", "k"]
-    ]
-  end
-
-  def new_packaging_information_options
-    [
-      ["Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta", ""],
-      ["Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta", "K"]
-    ]
-  end
-
   def permitted_packaging_options
     []
   end
 
-  def transportation_insurance_type_options
-    [
-      ["Yhtiön oletus", ""],
-      ["Ei kuljetusvakuutusta", "E"],
-      ["Valuuttamääräinen kuljetusvakuutus lisätään", "A"],
-      ["Prosentuaalinen kuljetusvakuutus lisätään", "B"],
-      ["Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
-        asiakashintaa ja alennusta", "F"],
-      ["Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen
-        asiakasalennusta", "G"]
-    ]
+  def carrier_options
+    #company.carriers.map { |i| [ i.nimi, i.koodi ] }
   end
 
   def official_legend_options
