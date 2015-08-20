@@ -47,6 +47,16 @@ nature_of_transaction:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+customs:
+  yhtio: acme
+  selite: FI001000
+  selitetark: Helsinki Postitulli
+  laji: TULLI
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 top_locale_se:
   yhtio: acme
   selite: <%= ActiveRecord::FixtureSet.identify(:sixty_days_net) %>

@@ -1,10 +1,6 @@
 class Keyword < BaseModel
   include PupenextSingleTableInheritance
 
-  def self.customs
-    where(laji: "TULLI")
-  end
-
   def self.sorting_points
     where(laji: "TOIMTAPALP")
   end
@@ -26,7 +22,8 @@ class Keyword < BaseModel
       'KM' => Keyword::ModeOfTransport,
       'KT' => Keyword::NatureOfTransaction,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
-      'RAHTIKIRJA' => Keyword::Waybill
+      'RAHTIKIRJA' => Keyword::Waybill,
+      'TULLI' => Keyword::Customs
     }
   end
 end
