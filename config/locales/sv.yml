@@ -182,6 +182,14 @@ sv:
       qualifier:
         nimi: Namn
         tyyppi: Typ
+      terms_of_payment:
+        abs_pvm: Betalningsdag
+        jarjestys: Ordning
+        jv: Efterkrav
+        kateinen: Kontant
+        laatija: Skapare
+        luontiaika: Skapad
+        pankkiyhteystiedot: Bankuppgifter
     models:
       account: Konto
       carrier: 

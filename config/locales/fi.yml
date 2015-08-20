@@ -2,27 +2,6 @@
 fi:
   activerecord:
     attributes:
-      terms_of_payment:
-        teksti: Teksti
-        rel_pvm: Maksuaika päivissä
-        abs_pvm: Maksupäivä
-        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
-        kassa_abspvm: Kassa-alennuksen maksupäivä
-        kassa_alepros: Kassa-alennusprosentti
-        jv: Jälkivaatimus
-        kateinen: Käteinen
-        factoring: Factoring
-        pankkiyhteystiedot: Pankkiyhteystiedot
-        itsetulostus: Itsetulostus
-        jaksotettu: Jaksotettu
-        erapvmkasin: Eräpäivän syöttö käsin
-        sallitut_maat: Sallitut maat
-        kaytossa: Käytössä
-        jarjestys: Järjestys
-        laatija: Laatija
-        luontiaika: Luontiaika
-        muutospvm: Muutospäivä
-        muuttaja: Muuttaja
       account:
         alv_taso: ALV-laskelman verotaso
         kohde: Oletuskohde
@@ -209,6 +188,27 @@ fi:
         nimi: Nimi
         tunnus: Tunnus
         tyyppi: Tyyppi
+      terms_of_payment:
+        abs_pvm: Maksupäivä
+        erapvmkasin: Eräpäivän syöttö käsin
+        factoring: Factoring
+        itsetulostus: Itsetulostus
+        jaksotettu: Jaksotettu
+        jarjestys: Järjestys
+        jv: Jälkivaatimus
+        kassa_abspvm: Kassa-alennuksen maksupäivä
+        kassa_alepros: Kassa-alennusprosentti
+        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
+        kateinen: Käteinen
+        kaytossa: Käytössä
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        pankkiyhteystiedot: Pankkiyhteystiedot
+        rel_pvm: Maksuaika päivissä
+        sallitut_maat: Sallitut maat
+        teksti: Teksti
       translations:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
@@ -449,7 +449,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -475,7 +475,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
