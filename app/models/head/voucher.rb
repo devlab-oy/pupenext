@@ -1,6 +1,6 @@
 class Head::Voucher < Head
   has_one :commodity, class_name: 'FixedAssets::Commodity'
-  has_many :rows, foreign_key: :ltunnus, primary_key: :tunnus, class_name: 'Head::VoucherRow'
+  has_many :rows, foreign_key: :ltunnus, class_name: 'Head::VoucherRow'
 
   validates :tila, inclusion: { in: ['X'] }
 

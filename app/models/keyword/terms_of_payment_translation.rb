@@ -1,5 +1,5 @@
 class Keyword::TermsOfPaymentTranslation < Keyword
-  belongs_to :terms_of_payment, foreign_key: :selite, primary_key: :tunnus
+  belongs_to :terms_of_payment, foreign_key: :selite
 
   validates :selitetark, presence: true
   validates :kieli, inclusion: { in: %w{ee en no se de dk ru} }
