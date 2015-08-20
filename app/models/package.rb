@@ -1,6 +1,6 @@
 class Package < BaseModel
-  has_many :translations, foreign_key: :selite, primary_key: :tunnus, class_name: 'Keyword::PackageTranslation'
-  has_many :package_codes, foreign_key: :pakkaus, primary_key: :tunnus
+  has_many :translations, foreign_key: :selite, class_name: 'Keyword::PackageTranslation'
+  has_many :package_codes, foreign_key: :pakkaus
 
   validates :pakkaus, presence: true
   validates :pakkauskuvaus, presence: true

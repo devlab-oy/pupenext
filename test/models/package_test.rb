@@ -3,11 +3,16 @@ require 'test_helper'
 class PackageTest < ActiveSupport::TestCase
 
   def setup
-    @package = packages(:first)
+    @package = packages(:steel_barrel)
   end
 
   test "assert fixtures are valid" do
     assert @package.valid?
+  end
+
+  test "relations" do
+    assert_equal 1, @package.translations.count
+    assert_equal 1, @package.package_codes.count
   end
 
   test "pakkaus cant be empty" do
