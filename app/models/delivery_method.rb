@@ -95,10 +95,6 @@ class DeliveryMethod < BaseModel
     simple_label: 'oslap_mg'
   }
 
-  def inland_mode_of_transport_options
-    mode_of_transport_options
-  end
-
   def nature_of_transaction_options
     company.keywords.nature_of_transactions.map { |i| [ i.selitetark, i.selite ] }
   end
