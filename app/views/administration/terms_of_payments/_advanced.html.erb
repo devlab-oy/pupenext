@@ -1,13 +1,13 @@
-<table>
+<table width='100%'>
   <tr>
-    <th><%= f.label :kaytossa %></th>
+    <th width='170'><%= f.label :kaytossa %></th>
     <td><%= f.select :kaytossa, in_use_options %></td>
   </tr>
 
   <tr>
     <th><%= f.label :kateinen %></th>
     <td>
-      <%= f.select(:kateinen, cash_options) %>
+      <%= f.select :kateinen, cash_options %>
     </td>
   </tr>
 
