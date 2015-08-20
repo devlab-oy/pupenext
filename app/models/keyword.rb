@@ -28,6 +28,7 @@ class Keyword < BaseModel
       'ALV' => Keyword::Vat,
       'ALVULK' => Keyword::ForeignVat,
       'KM' => Keyword::ModeOfTransport,
+      'KT' => Keyword::NatureOfTransaction,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'RAHTIKIRJA' => Keyword::Waybill
     }

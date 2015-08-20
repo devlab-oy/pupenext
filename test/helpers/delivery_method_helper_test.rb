@@ -135,4 +135,9 @@ class DeliveryMethodHelperTest < ActionView::TestCase
     assert_kind_of Array, label_options
     assert label_options.any? { |_,key| key == 'simple_label' }
   end
+
+  test "should get nature of transaction options" do
+    assert_kind_of Array, nature_of_transaction_options
+    assert_equal '11 - Suora osto/myynti', nature_of_transaction_options.first.first
+  end
 end

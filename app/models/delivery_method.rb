@@ -1,6 +1,7 @@
 class DeliveryMethod < BaseModel
   has_many :waybills, foreign_key: :selite, primary_key: :rahtikirja, class_name: 'Keyword::Waybill'
   has_many :mode_of_transports, foreign_key: :selite, primary_key: :kuljetusmuoto, class_name: 'Keyword::ModeOfTransport'
+  has_many :nature_of_transactions, foreign_key: :selite, primary_key: :kauppatapahtuman_luonne, class_name: 'Keyword::NatureOfTransaction'
 
   validates :selite, uniqueness: true
 
@@ -94,10 +95,6 @@ class DeliveryMethod < BaseModel
     compact_label: 'tiivistetty',
     simple_label: 'oslap_mg'
   }
-
-  def nature_of_transaction_options
-    company.keywords.nature_of_transactions.map { |i| [ i.selitetark, i.selite ] }
-  end
 
   def exit_code_options
     company.keywords.customs.map { |i| [ "#{i.selite} #{i.selitetark}", i.selite ] }
