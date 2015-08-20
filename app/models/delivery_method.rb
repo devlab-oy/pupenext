@@ -1,4 +1,6 @@
 class DeliveryMethod < BaseModel
+  has_many :waybills, foreign_key: :selite, primary_key: :rahtikirja, class_name: 'Keyword::Waybill'
+
   validates :selite, uniqueness: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
@@ -87,7 +89,7 @@ class DeliveryMethod < BaseModel
   }
 
   def waybill_options
-    Keyword::Waybill.all.map { |i| [ i.selitetark, i.selite ] }
+    waybills.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def label_options
