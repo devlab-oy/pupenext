@@ -1,6 +1,4 @@
 class Package < BaseModel
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   has_many :keywords, foreign_key: :perhe, primary_key: :tunnus, class_name: 'PackageKeyword'
   has_many :package_codes, foreign_key: :pakkaus, primary_key: :tunnus
 
