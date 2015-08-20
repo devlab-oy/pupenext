@@ -381,7 +381,7 @@ fi:
         not_cumulative: Ei
       update:
         update_success: Taso päivitettiin onnistuneesti
-    deliver_methods:
+    delivery_methods:
       pickup_options:
         not_pickup: Tilaukset toimitetaan asiakkaalle
         pickup: Asiakas noutaa tilaukset
