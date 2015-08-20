@@ -1,4 +1,4 @@
-module DeliveryMethodsHelper
+module DeliveryMethodHelper
   ROOT = 'administration.delivery_methods'
 
   def pickup_options
@@ -68,7 +68,7 @@ module DeliveryMethodsHelper
   end
 
   def waybill_specification_options
-    DeliveryMethod.erittelys.map do |key,_|
+    DeliveryMethod.erittelies.map do |key,_|
       [ t("#{ROOT}.waybill_specification_options.#{key}"), key ]
     end
   end
