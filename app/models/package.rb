@@ -1,5 +1,5 @@
 class Package < BaseModel
-  has_many :keywords, foreign_key: :perhe, primary_key: :tunnus, class_name: 'PackageKeyword'
+  has_many :translations, foreign_key: :selite, primary_key: :tunnus, class_name: 'Keyword::PackageTranslation'
   has_many :package_codes, foreign_key: :pakkaus, primary_key: :tunnus
 
   validates :pakkaus, presence: true
