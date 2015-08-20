@@ -89,7 +89,7 @@ select {
   margin: 0px;
   border-style: solid;
   border-width: 1px;
-  background-image: url('../../../pics/facelift/dropdown_arrow.png');
+  background-image: image_url('facelift/dropdown_arrow.png');
   background-repeat: no-repeat;
   background-position: right;
 }
@@ -111,28 +111,28 @@ button, input[type=submit], input[type=button] {
 }
 
 input[type=submit].lisaa_btn {
-  background-image: url('../../../pics/facelift/submit_add.png');
+  background-image: image_url('facelift/submit_add.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].hae_btn {
-  background-image: url('../../../pics/facelift/submit_mglass.png');
+  background-image: image_url('facelift/submit_mglass.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].tallenna_btn {
-  background-image: url('../../../pics/facelift/submit_rightarrow.png');
+  background-image: image_url('facelift/submit_rightarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].poista_btn {
-  background-image: url('../../../pics/facelift/submit_leftarrow.png');
+  background-image: image_url('facelift/submit_leftarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
@@ -146,4 +146,3 @@ table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[ty
   margin: 0;
   padding: 1px;
 }
-
