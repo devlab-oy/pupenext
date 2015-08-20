@@ -4,9 +4,9 @@ class DeliveryMethodHelperTest < ActionView::TestCase
   test "returns translated pickup options valid for collection" do
     assert pickup_options.is_a? Array
 
-    text = I18n.t 'administration.delivery_methods.pickup_options.not_pickup', :fi
+    text = I18n.t 'administration.delivery_methods.pickup_options.shipment', :fi
     assert_equal text, pickup_options.first.first
-    assert_equal 'not_pickup', pickup_options.first.second
+    assert_equal 'shipment', pickup_options.first.second
   end
 
   test "returns translated saturday delivery options valid for collection" do
@@ -121,5 +121,18 @@ class DeliveryMethodHelperTest < ActionView::TestCase
   test "should get mode of transport options" do
     assert_kind_of Array, mode_of_transport_options
     assert_equal '1 - Merikuljetus (ml. auto- ja junalauttakuljetus)', mode_of_transport_options.first.first
+  end
+
+  test "should get label options" do
+    Current.company.parameter.kerayserat = ''
+
+    assert_kind_of Array, label_options
+    assert_equal 'Tiivistetty', label_options.third.first
+    refute label_options.any? { |_,key| key == 'simple_label' }
+
+    Current.company.parameter.kerayserat = 'K'
+
+    assert_kind_of Array, label_options
+    assert label_options.any? { |_,key| key == 'simple_label' }
   end
 end

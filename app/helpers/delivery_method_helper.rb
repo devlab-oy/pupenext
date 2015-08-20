@@ -9,6 +9,14 @@ module DeliveryMethodHelper
     Keyword::ModeOfTransport.all.map { |i| [ i.selitetark, i.selite ] }
   end
 
+  def label_options
+    options = DeliveryMethod.osoitelappus.map do |key,_|
+      [ t("#{ROOT}.label_options.#{key}"), key ]
+    end
+
+    options.reject { |_,key| !Current.company.parameter.use_kerayserat? && key == 'simple_label' }
+  end
+
   def pickup_options
     DeliveryMethod.noutos.map do |key,_|
       [ t("#{ROOT}.pickup_options.#{key}"), key ]

@@ -409,7 +409,7 @@ fi:
         update_success: Taso päivitettiin onnistuneesti
     delivery_methods:
       pickup_options:
-        not_pickup: Tilaukset toimitetaan asiakkaalle
+        shipment: Tilaukset toimitetaan asiakkaalle
         pickup: Asiakas noutaa tilaukset
       saturday_delivery_options:
         not_saturday_delivery: Ei lauantaijakelua
@@ -459,6 +459,11 @@ fi:
         percentage_based_insurance: Prosentuaalinen kuljetusvakuutus lisätään
         currency_based_insurance_with_discount: Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakashintaa ja alennusta
         percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
+      label_options:
+        normal_label: Normaali
+        intrade_label: Intrade
+        compact_label: Tiivistetty
+        simple_label: Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa
     terms_of_payments:
       cash_options:
         cash: Käteismaksuehto, käteinen pyöristetään

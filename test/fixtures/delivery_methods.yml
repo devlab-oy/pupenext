@@ -5,6 +5,7 @@ kaukokiito:
   rahtikirja: rahtikirja.inc
   rahdinkuljettaja: Kaukokiito
   kuljetusmuoto: 1
+  osoitelappu: tiivistetty
   laatija: 'joe'
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>

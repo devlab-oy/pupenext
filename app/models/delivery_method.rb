@@ -5,13 +5,12 @@ class DeliveryMethod < BaseModel
   validates :selite, uniqueness: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
-  scope :shipment, -> { where(nouto: '') }
 
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
 
   enum nouto: {
-    not_pickup: '',
+    shipment: '',
     pickup: 'o'
   }
 
@@ -89,19 +88,12 @@ class DeliveryMethod < BaseModel
     percentage_based_insurance_with_discount: 'G'
   }
 
-  def label_options
-    options = [
-      ["Normaali", ""],
-      ["Intrade", "intrade"],
-      ["Tiivistetty", "tiivistetty"]
-    ]
-
-    if company.parameter.kerayserat == "K"
-      options << ["Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa", "oslap_mg"]
-    end
-
-    options
-  end
+  enum osoitelappu: {
+    normal_label: '',
+    intrade_label: 'intrade',
+    compact_label: 'tiivistetty',
+    simple_label: 'oslap_mg'
+  }
 
   def inland_mode_of_transport_options
     mode_of_transport_options

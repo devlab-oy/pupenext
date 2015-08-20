@@ -2,6 +2,7 @@ acme:
   yhtio: acme
   css: "* { font-family: sans-serif }"
   maventa_aikaleima: <%= Time.now %>
+  kerayserat: K
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
