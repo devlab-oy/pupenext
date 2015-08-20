@@ -1,5 +1,6 @@
-first:
+code_aa:
   yhtio: acme
+  koodi: AA
   package: steel_barrel
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>

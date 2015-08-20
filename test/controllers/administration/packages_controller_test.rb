@@ -4,9 +4,9 @@ class Administration::PackagesControllerTest < ActionController::TestCase
 
   def setup
     login users(:joe)
-    @package = packages(:first)
-    @keyword = keywords(:first)
-    @package_code = package_codes(:first)
+    @package = packages(:steel_barrel)
+    @translation = keywords(:package_locale_en)
+    @package_code = package_codes(:code_aa)
   end
 
   test "should get index" do
