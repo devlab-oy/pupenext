@@ -34,7 +34,8 @@ class Keyword < BaseModel
   def self.child_class_names
     {
       'ALV' => Keyword::Vat,
-      'ALVULK' => Keyword::ForeignVat
+      'ALVULK' => Keyword::ForeignVat,
+      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation
     }
   end
 end

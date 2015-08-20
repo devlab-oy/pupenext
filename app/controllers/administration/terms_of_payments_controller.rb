@@ -53,22 +53,23 @@ class Administration::TermsOfPaymentsController < AdministrationController
 
     def terms_of_payment_params
       params.require(:terms_of_payment).permit(
-        :teksti,
-        :rel_pvm,
         :abs_pvm,
-        :kassa_relpvm,
-        :kassa_abspvm,
-        :kassa_alepros,
-        :jv,
-        :kateinen,
+        :erapvmkasin,
         :factoring,
-        :pankkiyhteystiedot,
         :itsetulostus,
         :jaksotettu,
-        :erapvmkasin,
-        :sallitut_maat,
+        :jarjestys,
+        :jv,
+        :kassa_abspvm,
+        :kassa_alepros,
+        :kassa_relpvm,
+        :kateinen,
         :kaytossa,
-        :jarjestys
+        :pankkiyhteystiedot,
+        :rel_pvm,
+        :sallitut_maat,
+        :teksti,
+        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ]
       )
     end
 

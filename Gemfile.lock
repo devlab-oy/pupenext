@@ -39,6 +39,7 @@ GEM
     arel (6.0.2)
     bcrypt (3.1.10)
     builder (3.2.2)
+    cocoon (1.2.6)
     codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
     coffee-rails (4.1.0)
@@ -213,6 +214,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  cocoon
   codeclimate-test-reporter
   dalli
   date_validator
