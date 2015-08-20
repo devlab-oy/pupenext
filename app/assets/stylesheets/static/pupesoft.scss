@@ -81,6 +81,18 @@ input, textarea {
   border-width: 1px;
 }
 
+input.large, select.large, textarea.large {
+  width: 90%;
+}
+
+input.medium, select.medium, textarea.medium {
+  width: 60%;
+}
+
+input.small, select.small, textarea.small {
+  width: 30%;
+}
+
 select {
   font-size: 10pt;
   -webkit-appearance: none;
