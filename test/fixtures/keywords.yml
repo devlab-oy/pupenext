@@ -28,12 +28,12 @@ top_locale_se:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-top_locale_en:
+package_locale_en:
   yhtio: acme
-  selite: <%= ActiveRecord::FixtureSet.identify(:sixty_days_net) %>
-  selitetark: 60 days net
+  selite: <%= ActiveRecord::FixtureSet.identify(:steel_barrel) %>
+  selitetark: Steel Barrel
   kieli: en
-  laji: MAKSUEHTOKV
+  laji: PAKKAUSKV
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
