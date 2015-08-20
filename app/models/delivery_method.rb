@@ -87,7 +87,7 @@ class DeliveryMethod < BaseModel
   }
 
   def waybill_options
-    company.keywords.waybills.map { |i| [ i.selitetark, i.selite ] }
+    Keyword::Waybill.all.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def label_options
