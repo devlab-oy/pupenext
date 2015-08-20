@@ -14,4 +14,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.selite = "Kiitolinja"
     refute @delivery_method.valid?, "Delivery method already exists"
   end
+
+  test "should get waybill options" do
+    assert_kind_of Array, @delivery_method.waybill_options
+    assert_operator 0, '<', @delivery_method.waybill_options.count
+  end
 end
