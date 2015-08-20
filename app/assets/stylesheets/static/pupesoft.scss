@@ -237,3 +237,7 @@ table.responsive td input[type=text] {
 .del {
   text-decoration: line-through;
 }
+
+.field_with_errors input {
+  border: 1px solid red;
+}
