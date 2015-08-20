@@ -1,5 +1,6 @@
 class DeliveryMethod < BaseModel
   has_many :waybills, foreign_key: :selite, primary_key: :rahtikirja, class_name: 'Keyword::Waybill'
+  has_many :mode_of_transports, foreign_key: :selite, primary_key: :kuljetusmuoto, class_name: 'Keyword::ModeOfTransport'
 
   validates :selite, uniqueness: true
 
@@ -92,6 +93,10 @@ class DeliveryMethod < BaseModel
     waybills.map { |i| [ i.selitetark, i.selite ] }
   end
 
+  def mode_of_transport_options
+    mode_of_transports.map { |i| [ i.selitetark, i.selite ] }
+  end
+
   def label_options
     options = [
       ["Normaali", ""],
@@ -104,10 +109,6 @@ class DeliveryMethod < BaseModel
     end
 
     options
-  end
-
-  def mode_of_transport_options
-    company.keywords.mode_of_transports.map { |i| [ i.selitetark, i.selite ] }
   end
 
   def inland_mode_of_transport_options

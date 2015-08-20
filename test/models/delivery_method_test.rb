@@ -19,4 +19,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_kind_of Array, @delivery_method.waybill_options
     assert_operator 0, '<', @delivery_method.waybill_options.count
   end
+
+  test "should get mode of transport options" do
+    assert_kind_of Array, @delivery_method.mode_of_transport_options
+    assert_operator 0, '<', @delivery_method.mode_of_transport_options.count
+  end
 end

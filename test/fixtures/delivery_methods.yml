@@ -4,6 +4,7 @@ kaukokiito:
   tulostustapa: H
   rahtikirja: rahtikirja.inc
   rahdinkuljettaja: Kaukokiito
+  kuljetusmuoto: 1
   laatija: 'joe'
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
