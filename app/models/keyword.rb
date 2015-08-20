@@ -1,10 +1,6 @@
 class Keyword < BaseModel
   include PupenextSingleTableInheritance
 
-  def self.nature_of_transactions
-    where(laji: "KT")
-  end
-
   def self.customs
     where(laji: "TULLI")
   end
