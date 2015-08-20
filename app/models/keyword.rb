@@ -1,8 +1,6 @@
 class Keyword < BaseModel
   include PupenextSingleTableInheritance
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   self.table_name = :avainsana
   self.primary_key = :tunnus
   self.inheritance_column = :laji
@@ -16,7 +14,8 @@ class Keyword < BaseModel
   def self.child_class_names
     {
       'ALV' => Keyword::Vat,
-      'ALVULK' => Keyword::ForeignVat
+      'ALVULK' => Keyword::ForeignVat,
+      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation
     }
   end
 end

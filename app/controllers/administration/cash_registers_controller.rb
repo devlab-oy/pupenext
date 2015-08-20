@@ -16,9 +16,9 @@ class Administration::CashRegistersController < AdministrationController
   end
 
   def create
-    @cash_register = CashRegister.new(cash_register_params)
+    @cash_register = CashRegister.new cash_register_params
 
-    if @cash_register.save_by current_user
+    if @cash_register.save
       redirect_to cash_registers_path, notice: t('.create_success')
     else
       render :edit
@@ -26,7 +26,7 @@ class Administration::CashRegistersController < AdministrationController
   end
 
   def update
-    if @cash_register.update_by(cash_register_params, current_user)
+    if @cash_register.update cash_register_params
       redirect_to cash_registers_path, notice: t('.update_success')
     else
       render :edit
@@ -36,7 +36,7 @@ class Administration::CashRegistersController < AdministrationController
   private
 
     def find_resource
-      @cash_register = CashRegister.find(params[:id])
+      @cash_register = CashRegister.find params[:id]
     end
 
     def searchable_columns

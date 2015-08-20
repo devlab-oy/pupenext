@@ -15,10 +15,9 @@ class Administration::CurrenciesController < AdministrationController
   end
 
   def create
-    @currency = Currency.new
-    @currency.attributes = currency_params
+    @currency = Currency.new currency_params
 
-    if @currency.save_by current_user
+    if @currency.save
       redirect_to currencies_path, notice: t('.create_success')
     else
       render :edit
@@ -29,7 +28,7 @@ class Administration::CurrenciesController < AdministrationController
   end
 
   def update
-    if @currency.update_by(currency_params, current_user)
+    if @currency.update currency_params
       redirect_to currencies_path, notice: t('.update_success')
     else
       render :edit
@@ -39,7 +38,7 @@ class Administration::CurrenciesController < AdministrationController
   private
 
     def find_resource
-      @currency = Currency.find(params[:id])
+      @currency = Currency.find params[:id]
     end
 
     def currency_params

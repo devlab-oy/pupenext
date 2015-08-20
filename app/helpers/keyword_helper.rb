@@ -16,4 +16,16 @@ module KeywordHelper
 
     vat.uniq.sort
   end
+
+  def translatable_locales_options
+    [
+      [ 'Eesti',    'ee' ],
+      [ 'Englanti', 'en' ],
+      [ 'Norja',    'no' ],
+      [ 'Ruotsi',   'se' ],
+      [ 'Saksa',    'de' ],
+      [ 'Tanska',   'dk' ],
+      [ 'Venäjä',   'ru' ],
+    ]
+  end
 end

@@ -1,3 +1,7 @@
+select::-ms-expand {
+    display: none;
+}
+
 select.indexvas {
   width: 235px;
 }

@@ -16,9 +16,9 @@ class Administration::PackingAreasController < AdministrationController
   end
 
   def create
-    @packing_area = PackingArea.new(packing_area_params)
+    @packing_area = PackingArea.new packing_area_params
 
-    if @packing_area.save_by current_user
+    if @packing_area.save
       redirect_to packing_areas_path, notice: t('.create_success')
     else
       render :edit
@@ -26,7 +26,7 @@ class Administration::PackingAreasController < AdministrationController
   end
 
   def update
-    if @packing_area.update_by(packing_area_params, current_user)
+    if @packing_area.update packing_area_params
       redirect_to packing_areas_path, notice: t('.update_success')
     else
       render :edit
@@ -34,14 +34,14 @@ class Administration::PackingAreasController < AdministrationController
   end
 
   def destroy
-    PackingArea.destroy(params[:id])
+    PackingArea.destroy params[:id]
     redirect_to packing_areas_path, notice: t('.destroy_success')
   end
 
   private
 
     def find_resource
-      @packing_area = PackingArea.find(params[:id])
+      @packing_area = PackingArea.find params[:id]
     end
 
     def searchable_columns

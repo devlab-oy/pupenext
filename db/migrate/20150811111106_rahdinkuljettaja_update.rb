@@ -3,11 +3,12 @@ class RahdinkuljettajaUpdate < ActiveRecord::Migration
     remove_column :rahdinkuljettajat, :jalleenmyyjanro
 
     # We must loop all companies, because we need Current.company
-    Company.all.each do |company|
+    Company.find_each do |company|
       Current.company = company.yhtio
 
-      Permission.where(nimi: 'yllapito.php', alanimi: 'rahdinkuljettajat')
-        .update_all(nimi: 'pupenext/carriers', alanimi: '')
+      Permission.where(nimi: 'yllapito.php', alanimi: 'rahdinkuljettajat').find_each do |permission|
+        permission.update(nimi: 'pupenext/carriers', alanimi: '')
+      end
     end
   end
 
@@ -15,11 +16,12 @@ class RahdinkuljettajaUpdate < ActiveRecord::Migration
     add_column :rahdinkuljettajat, :jalleenmyyjanro, :integer
 
     # We must loop all companies, because we need Current.company
-    Company.all.each do |company|
+    Company.find_each do |company|
       Current.company = company.yhtio
 
-      Permission.where(nimi: 'pupenext/carriers', alanimi: '')
-        .update_all(nimi: 'yllapito.php', alanimi: 'rahdinkuljettajat')
+      Permission.where(nimi: 'pupenext/carriers', alanimi: '').find_each do |permission|
+        permission.update(nimi: 'yllapito.php', alanimi: 'rahdinkuljettajat')
+      end
     end
   end
 end
