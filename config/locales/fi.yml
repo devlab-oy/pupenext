@@ -188,6 +188,27 @@ fi:
         nimi: Nimi
         tunnus: Tunnus
         tyyppi: Tyyppi
+      terms_of_payment:
+        abs_pvm: Maksupäivä
+        erapvmkasin: Eräpäivän syöttö käsin
+        factoring: Factoring
+        itsetulostus: Itsetulostus
+        jaksotettu: Jaksotettu
+        jarjestys: Järjestys
+        jv: Jälkivaatimus
+        kassa_abspvm: Kassa-alennuksen maksupäivä
+        kassa_alepros: Kassa-alennusprosentti
+        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
+        kateinen: Käteinen
+        kaytossa: Käytössä
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        pankkiyhteystiedot: Pankkiyhteystiedot
+        rel_pvm: Maksuaika päivissä
+        sallitut_maat: Sallitut maat
+        teksti: Teksti
       translations:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
@@ -449,7 +470,7 @@ fi:
       edit:
         header: Maksuehto
         no_factoring: Ei factoroida
-        use_company_defaults: Käydä yrityksen oletuksia
+        use_company_defaults: Käytä yrityksen oletuksia
       in_use_options:
         active: Käytössä
         inactive: Poistettu / Ei käytössä

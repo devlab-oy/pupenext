@@ -26,6 +26,10 @@ module ApplicationHelper
     }
   end
 
+  def user_name(kuka)
+    User.find_by(kuka: kuka).try(:nimi) || kuka
+  end
+
   private
 
     def user_agent_include?(value)

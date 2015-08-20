@@ -31,21 +31,9 @@
       </th>
 
       <th>
-        <%= sortable 'abs_pvm', TermsOfPayment.human_attribute_name(:abs_pvm) %>
-        <br/>
-        <%= text_field_tag :abs_pvm, params[:abs_pvm] %>
-      </th>
-
-      <th>
         <%= sortable 'kassa_relpvm', TermsOfPayment.human_attribute_name(:kassa_relpvm) %>
         <br/>
         <%= text_field_tag :kassa_relpvm, params[:kassa_relpvm] %>
-      </th>
-
-      <th>
-        <%= sortable 'kassa_abspvm', TermsOfPayment.human_attribute_name(:kassa_abspvm) %>
-        <br/>
-        <%= text_field_tag :kassa_abspvm, params[:kassa_abspvm] %>
       </th>
 
       <th>
@@ -76,15 +64,7 @@
         </td>
 
         <td>
-          <%= l top.abs_pvm unless top.abs_pvm.nil? %>
-        </td>
-
-        <td>
           <%= top.kassa_relpvm %>
-        </td>
-
-        <td>
-          <%= l top.kassa_abspvm unless top.kassa_abspvm.nil? %>
         </td>
 
         <td>

@@ -1,0 +1,30 @@
+<table width='100%'>
+
+  <tr>
+    <th width='170'><%= f.label :teksti %></th>
+    <td><%= f.text_field :teksti, size: 35 %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :rel_pvm %></th>
+    <td><%= f.text_field :rel_pvm %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :kassa_relpvm %></th>
+    <td><%= f.text_field :kassa_relpvm %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :kassa_alepros %></th>
+    <td><%= f.text_field :kassa_alepros %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :jarjestys %></th>
+    <td><%= f.text_field :jarjestys %></td>
+  </tr>
+
+  <%= render 'administration/resource_timestamps_and_users', resource: @terms_of_payment %>
+
+</table>

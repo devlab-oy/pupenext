@@ -1,0 +1,62 @@
+<table width='100%'>
+  <tr>
+    <th width='170'><%= f.label :kaytossa %></th>
+    <td><%= f.select :kaytossa, in_use_options %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :kateinen %></th>
+    <td>
+      <%= f.select :kateinen, cash_options %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :factoring %></th>
+    <td>
+      <%= f.select(:factoring, @terms_of_payment.factoring_options,
+        include_blank: t('administration.terms_of_payments.edit.no_factoring')) %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :pankkiyhteystiedot %></th>
+    <td>
+      <%= f.select(:pankkiyhteystiedot, @terms_of_payment.bank_details_options,
+        include_blank: t('administration.terms_of_payments.edit.use_company_defaults')) %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :jv %></th>
+    <td>
+      <%= f.check_box :jv, { checked: f.object.jv.present? }, 'o', '' %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :itsetulostus %></th>
+    <td>
+      <%= f.check_box :itsetulostus, { checked: f.object.itsetulostus.present? }, "o", "" %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :jaksotettu %></th>
+    <td>
+      <%= f.check_box :jaksotettu, { checked: f.object.jaksotettu.present? }, "o", "" %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :erapvmkasin %></th>
+    <td>
+      <%= f.check_box :erapvmkasin, { checked: f.object.erapvmkasin.present? }, "o", "" %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :sallitut_maat %></th>
+    <td><%= f.text_field :sallitut_maat, size: 42 %></td>
+  </tr>
+</table>

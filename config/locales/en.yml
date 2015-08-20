@@ -175,6 +175,11 @@ en:
       qualifier:
         nimi: Name
         tyyppi: Type
+      terms_of_payment:
+        abs_pvm: Date of payment
+        laatija: Created by
+        luontiaika: Date of creation
+        pankkiyhteystiedot: Bank accounts
     models:
       account: Account
       carrier: 
