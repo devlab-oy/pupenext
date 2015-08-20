@@ -17,10 +17,10 @@ foreign_vat:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-foreign_vat:
+waybill:
   yhtio: acme
   selite: rahtikirja.inc
-  selitetark: Yleisrahtikirja A4 teksti
+  selitetark:
   laji: RAHTIKIRJA
   muuttaja: joe
   laatija: joe
