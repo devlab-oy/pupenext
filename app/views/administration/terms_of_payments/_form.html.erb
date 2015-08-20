@@ -2,20 +2,17 @@
 
 <%= form_for @terms_of_payment do |f| %>
 
-  <table>
-    <tr>
-      <td class='back' style='vertical-align: top; padding: 0px;'>
-        <%= render 'basic', f: f %>
-      </td>
-      <td class='back' style='vertical-align: top; padding: 0px; padding-left: 30px;'>
-        <%= render 'translations', f: f %>
-      </td>
-      <td class='back' style='vertical-align: top; padding: 0px; padding-left: 30px;'>
-        <%= render 'advanced', f: f %>
-      </td>
-    </tr>
-  </table>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'basic', f: f %>
+  </div>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'translations', f: f %>
+  </div>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'advanced', f: f %>
+  </div>
 
-  <%= render 'administration/actions', f: f %>
-
+  <div style='clear: both;'>
+    <%= render 'administration/actions', f: f %>
+  </div>
 <% end %>
