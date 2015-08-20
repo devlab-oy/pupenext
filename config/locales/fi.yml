@@ -2,6 +2,27 @@
 fi:
   activerecord:
     attributes:
+      terms_of_payment:
+        teksti: Teksti
+        rel_pvm: Maksuaika päivissä
+        abs_pvm: Maksupäivä
+        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
+        kassa_abspvm: Kassa-alennuksen maksupäivä
+        kassa_alepros: Kassa-alennusprosentti
+        jv: Jälkivaatimus
+        kateinen: Käteinen
+        factoring: Factoring
+        pankkiyhteystiedot: Pankkiyhteystiedot
+        itsetulostus: Itsetulostus
+        jaksotettu: Jaksotettu
+        erapvmkasin: Eräpäivän syöttö käsin
+        sallitut_maat: Sallitut maat
+        kaytossa: Käytössä
+        jarjestys: Järjestys
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
       account:
         alv_taso: ALV-laskelman verotaso
         kohde: Oletuskohde
@@ -397,7 +418,7 @@ fi:
       edit:
         header: Maksuehto
         no_factoring: Ei factoroida
-        use_company_defaults: Käydä yrityksen oletuksia
+        use_company_defaults: Käytä yrityksen oletuksia
       in_use_options:
         active: Käytössä
         inactive: Poistettu / Ei käytössä
@@ -428,7 +449,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -454,7 +475,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
