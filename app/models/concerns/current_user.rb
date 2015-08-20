@@ -14,6 +14,9 @@ module CurrentUser
       self.muuttaja    = name     if respond_to?(:muuttaja=)
       self.muutospvm   = Time.now if respond_to?(:muutospvm=)
 
+      self.laatija     = name     if respond_to?(:laatija=)    && !laatija.present?
+      self.luontiaika  = Time.now if respond_to?(:luontiaika=) && !luontiaika.present?
+
       # if this is a new record, also update created user/time
       unless persisted?
         self.created_by = name     if respond_to?(:created_by=)

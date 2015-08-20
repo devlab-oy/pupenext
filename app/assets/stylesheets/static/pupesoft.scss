@@ -94,6 +94,15 @@ select {
   background-position: right;
 }
 
+.field_with_errors input {
+  border: 1px solid red;
+}
+
+.field_with_errors label {
+  font-size: 11pt;
+  font-weight: bold;
+}
+
 select:disabled {
   background-image: none;
   border-style: none;
