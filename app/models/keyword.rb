@@ -1,10 +1,6 @@
 class Keyword < BaseModel
   include PupenextSingleTableInheritance
 
-  def self.mode_of_transports
-    where(laji: "KM")
-  end
-
   def self.nature_of_transactions
     where(laji: "KT")
   end
@@ -31,6 +27,7 @@ class Keyword < BaseModel
     {
       'ALV' => Keyword::Vat,
       'ALVULK' => Keyword::ForeignVat,
+      'KM' => Keyword::ModeOfTransport,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'RAHTIKIRJA' => Keyword::Waybill
     }
