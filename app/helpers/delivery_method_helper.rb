@@ -1,6 +1,14 @@
 module DeliveryMethodHelper
   ROOT = 'administration.delivery_methods'
 
+  def waybill_options
+    Keyword::Waybill.all.map { |i| [ i.selitetark, i.selite ] }
+  end
+
+  def mode_of_transport_options
+    Keyword::ModeOfTransport.all.map { |i| [ i.selitetark, i.selite ] }
+  end
+
   def pickup_options
     DeliveryMethod.noutos.map do |key,_|
       [ t("#{ROOT}.pickup_options.#{key}"), key ]

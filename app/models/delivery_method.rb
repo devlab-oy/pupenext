@@ -89,14 +89,6 @@ class DeliveryMethod < BaseModel
     percentage_based_insurance_with_discount: 'G'
   }
 
-  def waybill_options
-    waybills.map { |i| [ i.selitetark, i.selite ] }
-  end
-
-  def mode_of_transport_options
-    mode_of_transports.map { |i| [ i.selitetark, i.selite ] }
-  end
-
   def label_options
     options = [
       ["Normaali", ""],
