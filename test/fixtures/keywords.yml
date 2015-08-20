@@ -20,7 +20,7 @@ foreign_vat:
 waybill:
   yhtio: acme
   selite: rahtikirja.inc
-  selitetark:
+  selitetark: Yleisrahtikirja A4 teksti
   laji: RAHTIKIRJA
   muuttaja: joe
   laatija: joe
