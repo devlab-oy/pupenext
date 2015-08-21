@@ -329,7 +329,7 @@ fi:
         special: Erikoispakkaus
       yksin_eraan_options:
         combined_parcel: Pakkaus yksin erään
-        separate_parcel: Normaali käsittely
+        separate_parcel: Normaalikäsittely
     packing_areas:
       create:
         create_success: Pakkaamo lisätty onnistuneesti
@@ -458,7 +458,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -484,7 +484,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
