@@ -1,11 +1,9 @@
 <%= render "administration/form_errors", resource: @package %>
 
-<table>
-  <tr><td class='back'>
-
-  <%= form_for(@package) do |f| %>
+<%= form_for @package do |f| %>
 
   <table>
+
     <tr>
       <th><%= f.label :pakkaus %></th>
       <td><%= f.text_field :pakkaus %></td>
@@ -23,10 +21,7 @@
 
     <tr>
       <th><%= f.label :erikoispakkaus %></th>
-      <td>
-        <% options = options_for_select(@package.on_off_options, f.object.erikoispakkaus) %>
-        <%= select_tag 'package[erikoispakkaus]', options, include_blank: false %>
-      </td>
+      <td><%= f.select :erikoispakkaus, erikoispakkaus_options %></td>
     </tr>
 
     <tr>
@@ -66,10 +61,7 @@
 
     <tr>
       <th><%= f.label :yksin_eraan %></th>
-      <td>
-        <% options = options_for_select(@package.on_off_options, f.object.yksin_eraan) %>
-        <%= select_tag 'package[yksin_eraan]', options, include_blank: false %>
-      </td>
+      <td><%= f.select :yksin_eraan, yksin_eraan_options %></td>
     </tr>
 
     <tr>
@@ -82,105 +74,10 @@
       <td><%= f.text_field :jarjestys %></td>
     </tr>
 
-    <% if @package.persisted? %>
-      <tr>
-        <th><%= f.label :laatija %></th>
-        <td><%= @package.laatija %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :luontiaika %></th>
-        <td><%= @package.luontiaika.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muutospvm %></th>
-        <td><%= @package.muutospvm.utc.getlocal.strftime("%Y-%m-%d %H:%M:%S") %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :muuttaja %></th>
-        <td><%= @package.muuttaja %></td>
-      </tr>
-    <% end %>
+    <%= render 'administration/resource_timestamps_and_users', resource: @package %>
 
   </table>
 
-  <br />
-  <div class="actions">
-    <% text = @package.persisted? ? 'Päivitä pakkaus' : 'Perusta pakkaus' %>
-    <%= f.submit text, :disable_with => 'Tallentaa...' %>
-  </div>
+  <%= render 'administration/actions', f: f %>
 
-  <% end %>
-
-  </td><td class='back'>
-
-  <% if @package.keywords.present? or @package.id != nil %>
-      <font class="head">AVAINSANAN KIELIVERSIOT</font>
-      <hr />
-    <%= link_to "Uusi avainsanan kieliversio".html_safe, package_new_keyword_path(@package.id) %>
-    <br />
-    <br />
-  <% end %>
-
-  <% if @package.keywords.present? %>
-
-      <table>
-        <tr>
-          <th><%= Keyword.human_attribute_name(:kieli) %></th>
-          <th><%= Keyword.human_attribute_name(:laji) %></th>
-          <th><%= Keyword.human_attribute_name(:selite) %></th>
-          <th><%= Keyword.human_attribute_name(:selitetark) %></th>
-          <th><%= Keyword.human_attribute_name(:selitetark_2) %></th>
-          <th><%= Keyword.human_attribute_name(:selitetark_3) %></th>
-          <th><%= Keyword.human_attribute_name(:jarjestys) %></th>
-        </tr>
-
-        <% @package.keywords.each do |k| %>
-        <tr>
-         <td><%= link_to k.kieli, package_edit_keyword_path(package_id: @package.id, keyword_id: k.id) %></td>
-          <td><%= k.laji %></td>
-          <td><%= k.selite %></td>
-          <td><%= k.selitetark %></td>
-          <td><%= k.selitetark_2 %></td>
-          <td><%= k.selitetark_3 %></td>
-          <td><%= k.jarjestys %></td>
-        </tr>
-        <% end %>
-
-      </table>
-      <br />
-  <% end %>
-
-
-
-  <% if @carrier_options.present? %>
-
-    <% if @package.package_codes.present? or @package.id != nil %>
-        <font class="head">Pakkauskoodit</font>
-        <hr />
-      <%= link_to "Uusi pakkauskoodi".html_safe, package_new_package_code_path(@package.id) %>
-      <br />
-      <br />
-    <% end %>
-
-    <% if @package.package_codes.present? %>
-        <table>
-          <tr>
-            <th><%= PackageCode.human_attribute_name(:koodi) %></th>
-            <th><%= PackageCode.human_attribute_name(:rahdinkuljettaja) %></th>
-          </tr>
-
-          <% @package.package_codes.each do |p| %>
-          <tr>
-            <td><%= link_to p.koodi, package_edit_package_code_path(package_id: @package.id, package_code_id: p.id) %></td>
-            <td><%= p.rahdinkuljettaja %></td>
-          </tr>
-          <% end %>
-        </table>
-    <% end %>
-  <% end %>
-
-  </td></tr>
-</table>
+<% end %>
