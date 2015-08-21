@@ -18,7 +18,7 @@ class Administration::PackagesController < AdministrationController
   def create
     @package = Package.new package_params
 
-    if @package.save_by current_user
+    if @package.save
       redirect_to packages_path, notice: t('.create_success')
     else
       render :edit
@@ -26,7 +26,7 @@ class Administration::PackagesController < AdministrationController
   end
 
   def update
-    if @package.update_by(package_params, current_user)
+    if @package.update package_params
       redirect_to packages_path, notice: t('.update_success')
     else
       render :edit
