@@ -1,0 +1,19 @@
+<table id='package_codes' width='100%'>
+
+  <tr>
+    <th><%= label_tag PackageCode.human_attribute_name(:rahdinkuljettaja) %></th>
+    <th><%= label_tag PackageCode.human_attribute_name(:koodi) %></th>
+    <th><%= label_tag PackageCode.human_attribute_name(:pakkaus) %></th>
+    <th><%= label_tag t('helpers.submit.destroy', model: '') %></th>
+  </tr>
+
+  <%= f.fields_for :package_codes do |code| %>
+    <%= render 'package_code_fields', f: code %>
+  <% end %>
+
+</table>
+
+<br>
+
+<%= link_to_add_association t('.link_new'), f, :package_codes,
+    data: { association_insertion_method: :append, association_insertion_node: '#package_codes'} %>
