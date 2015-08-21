@@ -1,8 +1,8 @@
 <table id='translations' width='100%'>
 
   <tr>
-    <th><%= label_tag Keyword.human_attribute_name(:kieli) %></th>
-    <th><%= f.label :teksti %></th>
+    <th><%= label_tag t('administration.translations.language') %></th>
+    <th><%= label_tag t('.text') %></th>
     <th><%= label_tag t('helpers.submit.destroy', model: '') %></th>
   </tr>
 
@@ -14,6 +14,6 @@
 
 <br>
 
-<%= link_to_add_association t('.link_new'), f, :translations,
+<%= link_to_add_association t('administration.translations.link_new'), f, :translations,
     data: { association_insertion_method: :append, association_insertion_node: '#translations'},
     partial: 'administration/translation_fields' %>

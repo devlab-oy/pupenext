@@ -435,10 +435,12 @@ fi:
         button_show_active: Näytä aktiiviset maksuehdot
         button_show_removed: Näytä poistetut maksuehdot
         header: Maksuedot
-      translations:
-        link_new: Lisää uusi käännös
       update:
         update_success: Maksuehto päivitettiin onnistuneesti
+    translations:
+      language: Kieli
+      link_new: Lisää uusi käännös
+      text: Käännös
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   application:
@@ -456,7 +458,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -482,7 +484,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
