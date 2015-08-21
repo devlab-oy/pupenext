@@ -56,7 +56,8 @@ class Administration::PackagesController < AdministrationController
         :rahtivapaa_veloitus,
         :syvyys,
         :yksin_eraan,
-        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ]
+        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
+        package_codes_attributes: [ :id, :pakkaus, :rahdinkuljettaja, :koodi, :_destroy ],
       )
     end
 end

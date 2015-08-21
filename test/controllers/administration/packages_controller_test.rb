@@ -125,61 +125,51 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get edit package_code" do
-    skip
-    get :edit_package_code, package_id: @package.id, package_code_id: @package_code.id
-    assert_response :success
-  end
-
-  test "should update package code" do
-    skip
-    request = {
-      koodi: 'Kissa'
+  test "should add package code" do
+    params = {
+      package_codes_attributes: {
+        "0" => {
+          pakkaus: 'foo',
+          rahdinkuljettaja: 'bar',
+          koodi: 'baz'
+        }
+      }
     }
 
-    post :update_package_code, package_id: @package.id, package_code_id:  @package_code.id, package_code: request
-    assert_redirected_to package_path(@package)
-  end
-
-  test "should not update package code" do
-    skip
-    request = {
-      koodi: nil
-    }
-
-    post :update_package_code, package_id: @package.id, package_code_id:  @package_code.id, package_code: request
-    assert_template :edit_package_code, "Template should be edit_package_code"
-  end
-
-  test "should get new package code" do
-    skip
-    get :new_package_code, package_id: @package.id
-    assert_response :success
-  end
-
-  test "should create package code" do
-    skip
-    request = {
-      koodi: 'Kissa'
-    }
-
-    assert_difference('PackageCode.count', 1) do
-      skip
-      post :create_package_code, package_id: @package.id, package_code: request
+    assert_difference('PackageCode.count') do
+      patch :update, id: @package.id, package: params
     end
   end
 
-  test "should not create package code" do
-    skip
-    request = {
-      koodi: nil
+  test "should update and destroy package codes" do
+    code = package_codes(:code_aa)
+
+    params = {
+      package_codes_attributes: {
+        "0" => {
+          id: code.id,
+          koodi: 'a new code',
+        }
+      }
     }
 
     assert_no_difference('PackageCode.count') do
-      skip
-      post :create_package_code, package_id: @package.id, package_code: request
+      patch :update, id: code.package.id, package: params
     end
 
-    assert_template :new_package_code, "Template should be new package code"
+    assert_equal 'a new code', code.reload.koodi
+
+    params = {
+      package_codes_attributes: {
+        "0" => {
+          id: code.id,
+          _destroy: 'true',
+        }
+      }
+    }
+
+    assert_difference('PackageCode.count', -1) do
+      patch :update, id: code.package.id, package: params
+    end
   end
 end
