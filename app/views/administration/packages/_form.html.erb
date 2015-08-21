@@ -2,7 +2,16 @@
 
 <%= form_for @package do |f| %>
 
-  <%= render 'basic', f: f %>
-  <%= render 'administration/actions', f: f %>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'basic', f: f %>
+  </div>
+
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'administration/translations', f: f %>
+  </div>
+
+  <div style='clear: both;'>
+    <%= render 'administration/actions', f: f %>
+  </div>
 
 <% end %>
