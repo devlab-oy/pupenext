@@ -7,7 +7,7 @@
   </tr>
 
   <%= f.fields_for :translations do |translation| %>
-    <%= render 'translation_fields', f: translation %>
+    <%= render 'administration/translation_fields', f: translation %>
   <% end %>
 
 </table>
@@ -15,4 +15,5 @@
 <br>
 
 <%= link_to_add_association t('.link_new'), f, :translations,
-    data: { association_insertion_method: :append, association_insertion_node: '#translations'} %>
+    data: { association_insertion_method: :append, association_insertion_node: '#translations'},
+    partial: 'administration/translation_fields' %>
