@@ -2,33 +2,26 @@ require 'test_helper'
 
 class Administration::PackagesControllerTest < ActionController::TestCase
   def setup
-    login users(:joe)
+    login users(:bob)
+    @package = packages(:steel_barrel)
   end
 
   test "should get index" do
-    skip
     get :index
     assert_response :success
   end
 
   test "should get show" do
-    skip
     get :show, id: @package.id
     assert_response :success
   end
 
   test "should get new" do
-    skip
-    login users(:bob)
-
     get :new
     assert_response :success
   end
 
   test "should create" do
-    skip
-    login users(:bob)
-
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: '10',
@@ -39,7 +32,6 @@ class Administration::PackagesControllerTest < ActionController::TestCase
     }
 
     assert_difference('Package.count', 1) do
-      skip
       post :create, package: request
     end
 
@@ -47,32 +39,22 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should not create" do
-    skip
-    login users(:bob)
-
     request = {
       pakkaus: 'Kissa',
       kayttoprosentti: 0
     }
 
     assert_no_difference('Package.count') do
-      skip
       post :create, package: request
     end
-
-    assert_template :edit
   end
 
   test "should get edit" do
-    skip
     get :edit, id: @package.id
     assert_response :success
   end
 
   test "should update" do
-    skip
-    login users(:bob)
-
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: 'xxx',
@@ -87,9 +69,6 @@ class Administration::PackagesControllerTest < ActionController::TestCase
   end
 
   test "should not update" do
-    skip
-    login users(:bob)
-
     request = {
       pakkaus: 'Kissa',
       pakkauskuvaus: nil
