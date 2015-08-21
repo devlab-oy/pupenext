@@ -6,4 +6,10 @@ module CarrierHelper
       [ t("#{ROOT}.neutraali_options.#{key}"), key ]
     end
   end
+
+  def rahdinkuljettaja_options
+    Carrier.all.map do |c|
+      [ c.nimi, c.koodi ]
+    end
+  end
 end
