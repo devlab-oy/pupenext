@@ -1,0 +1,75 @@
+<table>
+
+  <tr>
+    <th><%= f.label :pakkaus %></th>
+    <td><%= f.text_field :pakkaus %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :pakkauskuvaus %></th>
+    <td><%= f.text_field :pakkauskuvaus %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :pakkausveloitus_tuotenumero %></th>
+    <td><%= f.text_field :pakkausveloitus_tuotenumero %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :erikoispakkaus %></th>
+    <td><%= f.select :erikoispakkaus, erikoispakkaus_options %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :korkeus %></th>
+    <td><%= f.text_field :korkeus %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :leveys %></th>
+    <td><%= f.text_field :leveys %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :syvyys %></th>
+    <td><%= f.text_field :syvyys %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :paino %></th>
+    <td><%= f.text_field :paino %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :oma_paino %></th>
+    <td><%= f.text_field :oma_paino %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :minimi_paino %></th>
+    <td><%= f.text_field :minimi_paino %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :kayttoprosentti %></th>
+    <td><%= f.text_field :kayttoprosentti %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :yksin_eraan %></th>
+    <td><%= f.select :yksin_eraan, yksin_eraan_options %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :puukotuskerroin %></th>
+    <td><%= f.text_field :puukotuskerroin %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :jarjestys %></th>
+    <td><%= f.text_field :jarjestys %></td>
+  </tr>
+
+  <%= render 'administration/resource_timestamps_and_users', resource: @package %>
+
+</table>
