@@ -10,6 +10,8 @@ class Package < BaseModel
 
   after_initialize :initial_values
 
+  accepts_nested_attributes_for :translations, allow_destroy: true
+
   enum rahtivapaa_veloitus: {
     add_rack_charge: '',
     no_rack_charge: 'E'
