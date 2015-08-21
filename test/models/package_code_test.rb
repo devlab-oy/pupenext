@@ -11,5 +11,6 @@ class PackageCodeTest < ActiveSupport::TestCase
 
   test 'relations' do
     assert_equal Package, @code.package.class
+    assert_equal Carrier, @code.carrier.class
   end
 end

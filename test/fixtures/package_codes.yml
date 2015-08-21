@@ -2,6 +2,7 @@ code_aa:
   yhtio: acme
   koodi: AA
   package: steel_barrel
+  rahdinkuljettaja: hit
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   laatija: joe

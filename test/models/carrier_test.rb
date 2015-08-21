@@ -9,6 +9,10 @@ class CarrierTest < ActiveSupport::TestCase
     assert @carrier.valid?, @carrier.errors.full_messages.inspect
   end
 
+  test 'relations' do
+    assert_equal 1, @carrier.package_codes.count
+  end
+
   test 'cannot be empty' do
     assert @carrier.nimi.present?
     assert @carrier.koodi.present?
