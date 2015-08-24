@@ -1,6 +1,6 @@
 class Administration::PackagesController < AdministrationController
   def index
-    @packages = Package.all
+    @packages = Package.search_like(search_params).order(order_params)
   end
 
   def show
@@ -59,5 +59,23 @@ class Administration::PackagesController < AdministrationController
         translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
         package_codes_attributes: [ :id, :pakkaus, :rahdinkuljettaja, :koodi, :_destroy ],
       )
+    end
+
+    def sortable_columns
+      [
+        :jarjestys,
+        :kayttoprosentti,
+        :korkeus,
+        :leveys,
+        :paino,
+        :pakkaus,
+        :pakkauskuvaus,
+        :pakkausveloitus_tuotenumero,
+        :syvyys,
+      ]
+    end
+
+    def searchable_columns
+      []
     end
 end

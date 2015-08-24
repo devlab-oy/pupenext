@@ -4,33 +4,65 @@
 
 <br /><br />
 
-<table>
-  <tr>
-    <th><%= Package.human_attribute_name(:pakkaus) %></th>
-    <th><%= Package.human_attribute_name(:pakkauskuvaus) %></th>
-    <th><%= Package.human_attribute_name(:pakkausveloitus_tuotenumero) %></th>
-    <th><%= Package.human_attribute_name(:korkeus) %></th>
-    <th><%= Package.human_attribute_name(:leveys) %></th>
-    <th><%= Package.human_attribute_name(:syvyys) %></th>
-    <th><%= Package.human_attribute_name(:kayttoprosentti) %></th>
-    <th><%= Package.human_attribute_name(:paino) %></th>
-    <th><%= Package.human_attribute_name(:jarjestys) %></th>
-  </tr>
+<%= form_tag packages_path, method: :get do %>
 
-  <% @packages.each do |p| %>
+  <table>
+
     <tr>
-      <td><%= link_to p.pakkaus, edit_package_path(p) %></td>
-      <td><%= p.pakkauskuvaus %></td>
-      <td><%= p.pakkausveloitus_tuotenumero %></td>
-      <td><%= p.korkeus %></td>
-      <td><%= p.leveys %></td>
-      <td><%= p.syvyys %></td>
-      <td><%= p.kayttoprosentti %></td>
-      <td><%= p.paino %></td>
-      <td><%= p.jarjestys %></td>
+      <th>
+        <%= sortable 'pakkaus', Package.human_attribute_name(:pakkaus) %>
+      </th>
+
+      <th>
+        <%= sortable 'pakkauskuvaus', Package.human_attribute_name(:pakkauskuvaus) %>
+      </th>
+
+      <th>
+        <%= sortable 'pakkausveloitus_tuotenumero', Package.human_attribute_name(:pakkausveloitus_tuotenumero) %>
+      </th>
+
+      <th>
+        <%= sortable 'korkeus', Package.human_attribute_name(:korkeus) %>
+      </th>
+
+      <th>
+        <%= sortable 'leveys', Package.human_attribute_name(:leveys) %>
+      </th>
+
+      <th>
+        <%= sortable 'syvyys', Package.human_attribute_name(:syvyys) %>
+      </th>
+
+      <th>
+        <%= sortable 'kayttoprosentti', Package.human_attribute_name(:kayttoprosentti) %>
+      </th>
+
+      <th>
+        <%= sortable 'paino', Package.human_attribute_name(:paino) %>
+      </th>
+
+      <th>
+        <%= sortable 'jarjestys', Package.human_attribute_name(:jarjestys) %>
+      </th>
     </tr>
-  <% end %>
-</table>
+
+    <% @packages.each do |p| %>
+      <tr>
+        <td><%= link_to p.pakkaus, edit_package_path(p) %></td>
+        <td><%= p.pakkauskuvaus %></td>
+        <td><%= p.pakkausveloitus_tuotenumero %></td>
+        <td><%= p.korkeus %></td>
+        <td><%= p.leveys %></td>
+        <td><%= p.syvyys %></td>
+        <td><%= p.kayttoprosentti %></td>
+        <td><%= p.paino %></td>
+        <td><%= p.jarjestys %></td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
 
 <br />
 
