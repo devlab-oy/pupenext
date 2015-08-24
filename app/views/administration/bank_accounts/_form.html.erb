@@ -40,36 +40,27 @@
 
     <tr>
       <th><%= f.label :oletus_kulutili %></th>
-      <td>
-        <%= f.text_field :oletus_kulutili, class: :small %>
-        <%= account_name @bank_account.oletus_kulutili %>
-      </td>
+      <td><%= f.select :oletus_kulutili, tili_options, {}, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
-      <td>
-        <%= f.text_field :oletus_rahatili, class: :small %>
-        <%= account_name @bank_account.oletus_rahatili %>
-      </td>
+      <td><%= f.select :oletus_rahatili, tili_options, {}, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
-      <td>
-        <%= f.text_field :oletus_selvittelytili, class: :small %>
-        <%= account_name @bank_account.oletus_selvittelytili %>
-      </td>
+      <td><%= f.select :oletus_selvittelytili, tili_options, {}, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :hyvak %></th>
-      <td><%= f.select :hyvak, hyvaksyja_options, { include_blank: true }, class: :large %></td>
+      <td><%= f.select :hyvak, kuka_options, { include_blank: true }, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :oletus_kustp %></th>
-      <td><%= f.select :oletus_kustp, kustannuspaikka_options, { include_blank: true }, class: :large %></td>
+      <td><%= f.select :oletus_kustp, kustp_options, { include_blank: true }, class: :large %></td>
     </tr>
 
     <tr>
