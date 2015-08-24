@@ -140,7 +140,37 @@ fi:
         www: WWW
         ytunnus: Y-tunnus
       keyword:
+        jarjestys: Järjestys
         kieli: Kieli
+        laji: Laji
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+      package:
+        erikoispakkaus: Erikoispakkaus
+        jarjestys: Järjestys
+        järjestys: Järjestys
+        kayttoprosentti: Käyttöprosentti
+        kieli: Kieli
+        korkeus: Korkeus
+        laji: Laji
+        leveys: Leveys
+        minimi_paino: Minimipaino
+        paino: Paino
+        pakkaus: Pakkaus
+        pakkauskuvaus: Pakkauskuvaus
+        pakkausveloitus_tuotenumero: Pakkausveloitus tuotenumero
+        puukotus_kerroin: Puukotuskerroin
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+        syvyys: Syvyys
+        yksin_eraan: Yksin erään
+      package_code:
+        koodi: Koodi
+        rahdinkuljettaja: Rahdinkuljettaja
       packing_area:
         lokero: Lokero
         nimi: Nimi
@@ -458,7 +488,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -484,7 +514,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

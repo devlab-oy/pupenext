@@ -1,7 +1,0 @@
-fi:
-  activerecord:
-    attributes:
-      package_code:
-        koodi: 'Koodi'
-        rahdinkuljettaja: 'Rahdinkuljettaja'
-
