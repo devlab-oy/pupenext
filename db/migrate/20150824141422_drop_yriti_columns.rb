@@ -4,6 +4,10 @@ class DropYritiColumns < ActiveRecord::Migration
                            :salattukerta, :generointiavain, :asiakas, :pankki, :asiakastarkenne,
                            :pankkitarkenne, :nro, :kayttoavain
 
+    remove_index :yriti, name: :yhtio_tilino
+    add_index    :yriti, [:yhtio, :tilino]
+    add_index    :yriti, [:yhtio, :iban]
+
     Company.find_each do |company|
       Current.company = company.yhtio
 
@@ -35,5 +39,9 @@ class DropYritiColumns < ActiveRecord::Migration
         permission.update(nimi: 'yllapito.php', alanimi: 'yriti')
       end
     end
+
+    remove_index :yriti, [:yhtio, :iban]
+    remove_index :yriti, [:yhtio, :tilino]
+    add_index    :yriti, [:yhtio, :tilino], unique: true, name: :yhtio_tilino
   end
 end

@@ -3740,6 +3740,7 @@ ActiveRecord::Schema.define(version: 20150824141422) do
     t.string   "muuttaja",              limit: 50,                          default: "",  null: false
   end
 
-  add_index "yriti", ["yhtio", "tilino"], name: "yhtio_tilino", unique: true, using: :btree
+  add_index "yriti", ["yhtio", "iban"], name: "index_yriti_on_yhtio_and_iban", using: :btree
+  add_index "yriti", ["yhtio", "tilino"], name: "index_yriti_on_yhtio_and_tilino", using: :btree
 
 end
