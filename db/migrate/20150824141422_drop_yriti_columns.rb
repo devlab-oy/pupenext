@@ -3,6 +3,14 @@ class DropYritiColumns < ActiveRecord::Migration
     remove_columns :yriti, :siirtoavain, :kasukupolvi, :sasukupolvi, :kertaavain, :siemen,
                            :salattukerta, :generointiavain, :asiakas, :pankki, :asiakastarkenne,
                            :pankkitarkenne, :nro, :kayttoavain
+
+    Company.find_each do |company|
+      Current.company = company.yhtio
+
+      Permission.where(nimi: 'yllapito.php', alanimi: 'yriti').find_each do |permission|
+        permission.update(nimi: 'pupenext/bank_accounts', alanimi: '')
+      end
+    end
   end
 
   def down
@@ -19,5 +27,13 @@ class DropYritiColumns < ActiveRecord::Migration
     add_column :yriti, :pankkitarkenne,  :string
     add_column :yriti, :nro,             :integer
     add_column :yriti, :kayttoavain,     :text
+
+    Company.find_each do |company|
+      Current.company = company.yhtio
+
+      Permission.where(nimi: 'pupenext/bank_accounts', alanimi: '').find_each do |permission|
+        permission.update(nimi: 'yllapito.php', alanimi: 'yriti')
+      end
+    end
   end
 end
