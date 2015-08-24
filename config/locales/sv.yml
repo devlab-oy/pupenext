@@ -20,6 +20,12 @@ sv:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Ibruktagningsdatum
+      bank_account:
+        asiakastunnus: Org.nummer
+        kaytossa: Status
+        nimi: Namn
+        tilino: Kontonummer
+        valkoodi: Valuta
       carrier:
         koodi: 
         luontiaika: Skapad

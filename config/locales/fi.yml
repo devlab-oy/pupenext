@@ -20,6 +20,24 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      bank_account:
+        asiakastunnus: Asiakastunnus
+        bic: SWIFT / BIC
+        factoring: Factoring (Myyntisaatavarahoitus)
+        hyvak: Oletus hyväksyjä
+        iban: IBAN
+        kaytossa: Tila
+        maksulimitti: Maksulimitti
+        nimi: Nimi
+        oletus_kohde: Oletuskulutilikirjauksen kohde
+        oletus_kulutili: Oletuskulutili
+        oletus_kustp: Oletuskulutilikirjauksen kustannuspaikka
+        oletus_projekti: Oletuskulutilikirjauksen projekti
+        oletus_rahatili: Oletusrahatili
+        oletus_selvittelytili: Oletusselvittelytili
+        tilino: Tilinumero
+        tilinylitys: Tilinylitys
+        valkoodi: Valuutta
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -215,6 +233,7 @@ fi:
         selitetark: Käännetty teksti
     models:
       account: Tili
+      bank_account: Pankkitili
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
@@ -242,7 +261,6 @@ fi:
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
       terms_of_payment: Maksuehto
-      bank_account: Pankkitili
   administration:
     accounts:
       create:
@@ -451,7 +469,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -477,7 +495,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
