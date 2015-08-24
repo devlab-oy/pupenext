@@ -12,19 +12,17 @@ class BankAccount < BaseModel
   belongs_to :default_target,      foreign_key: :oletus_kohde,    class_name: "Qualifier::Target"
   belongs_to :default_project,     foreign_key: :oletus_projekti, class_name: "Qualifier::Project"
 
-  validates :nimi, presence: true
-  validates :default_liquidity_account, presence: true
-  validates :default_expense_account,   presence: true
+  validates :bic, presence: true
   validates :default_clearing_account,  presence: true
+  validates :default_expense_account,   presence: true
+  validates :default_liquidity_account, presence: true
+  validates :iban, presence: true, uniqueness: { scope: :company }
+  validates :nimi, presence: true
 
-  with_options unless: ->(b) { b.iban.blank? && b.bic.blank? } do |o|
-    o.validates :iban, presence: true, uniqueness: { scope: :company }
-    o.validates :bic, presence: true
-    o.validate :check_iban
-    o.validate :check_bic
-  end
+  validate :check_iban
+  validate :check_bic
 
-  before_validation :fix_numbers
+  before_validation :convert_to_iban
   before_save :defaults
 
   self.table_name = :yriti
@@ -47,7 +45,7 @@ class BankAccount < BaseModel
 
   private
 
-    def fix_numbers
+    def convert_to_iban
       # Try to create iban in case user has entered old account number
       if iban.present? && !valid_iban?(iban)
         self.iban = create_iban(iban)

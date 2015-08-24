@@ -28,16 +28,16 @@ class BankAccountTest < ActiveSupport::TestCase
 
     valid_ibans.each do |iban|
       @ba.iban = iban
-      assert @ba.valid?, @ba.errors.full_messages
+      assert @ba.valid?
     end
 
-    @ba.iban = "NONO NOT A VALID IBAN3123"
-    refute @ba.valid?, "Should not be valid with letters and few numbers"
+    @ba.iban = "not_a_valid_iban_123"
+    refute @ba.valid?
   end
 
-  test "text bypasses IBAN validation" do
+  test "only text bypasses IBAN validation" do
     @ba.iban = "Keijon Kassatili"
-    assert @ba.valid?, @ba.errors.full_messages
+    assert @ba.valid?
     assert_equal "KEIJONKASSATILI", @ba.iban
   end
 
@@ -98,11 +98,5 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal @ba.reload.oletus_kustp, 0
     assert_equal @ba.reload.oletus_kohde, 0
     assert_equal @ba.reload.oletus_projekti, 0
-  end
-
-  test "empty IBAN and BIC are allowed if both are empty" do
-    @ba.iban, @ba.bic = ""
-
-    assert @ba.valid?, @ba.errors.full_messages
   end
 end
