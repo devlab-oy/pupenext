@@ -40,11 +40,25 @@ class QualifierTest < ActiveSupport::TestCase
   end
 
   test "if someone tries to deactivate qualifier check account assosiation" do
-    @project_with_account.kaytossa = :not_in_use
-    refute @project_with_account.valid?
+    # Make sure we have no relations
+    Account.update_all kustp: 0
+    account = accounts :account_100
+    kustp = qualifiers :cost_center_in_use
 
-    @project_with_account.kaytossa = :in_use
-    assert @project_with_account.valid?
+    # We should be able to disable qualifier
+    kustp.kaytossa = :not_in_use
+    assert kustp.valid?
+
+    # ... and enable
+    kustp.kaytossa = :in_use
+    assert kustp.valid?
+
+    # Use qualifier on account
+    account.kustp = kustp.id
+
+    # We should not be able to disable qualifier
+    kustp.kaytossa = :not_in_use
+    refute kustp.valid?, kustp.errors.messages
   end
 
   test "models have human names" do
