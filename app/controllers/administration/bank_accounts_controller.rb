@@ -1,8 +1,8 @@
 class Administration::BankAccountsController < AdministrationController
-  helper_method :show_used?
+  helper_method :show_inactive?
 
   def index
-    accounts = show_used? ? BankAccount.active : BankAccount.all
+    accounts = show_inactive? ? BankAccount.all : BankAccount.active
     @bank_accounts = accounts.search_like(search_params).order(order_params)
   end
 
@@ -34,8 +34,8 @@ class Administration::BankAccountsController < AdministrationController
 
   private
 
-    def show_used?
-      params[:not_used] != "yes"
+    def show_inactive?
+      params[:show_inactive] == "yes"
     end
 
     def find_resource

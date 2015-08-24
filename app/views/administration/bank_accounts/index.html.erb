@@ -3,11 +3,10 @@
 <%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
-  <% if show_used? %>
-    <%= hidden_field_tag :not_used, :no %>
+  <% if show_inactive? %>
     <%= submit_tag t('.show_active') %>
   <% else %>
-    <%= hidden_field_tag :not_used, :yes %>
+    <%= hidden_field_tag :show_inactive, :yes %>
     <%= submit_tag t(".show_inactive") %>
   <% end %>
 <% end %>
