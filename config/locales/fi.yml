@@ -158,7 +158,7 @@ fi:
         leveys: Leveys
         minimi_paino: Minimipaino
         paino: Paino
-        pakkaus: Pakkaus
+        pakkaus: Pakkauskoodi
         pakkauskuvaus: Pakkauskuvaus
         pakkausveloitus_tuotenumero: Pakkausveloitus tuotenumero
         puukotus_kerroin: Puukotuskerroin
