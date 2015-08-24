@@ -58,7 +58,7 @@ class QualifierTest < ActiveSupport::TestCase
 
     # We should not be able to disable qualifier
     kustp.kaytossa = :not_in_use
-    refute kustp.valid?, kustp.errors.messages
+    refute kustp.valid?
   end
 
   test "models have human names" do
