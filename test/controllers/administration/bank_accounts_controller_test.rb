@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Administration::BankAccountsControllerTest < ActionController::TestCase
 
-  def setup
+  setup do
     login users(:joe)
 
     @ba = bank_accounts(:acme_account)
@@ -22,7 +22,7 @@ class Administration::BankAccountsControllerTest < ActionController::TestCase
 
     get :new
     assert_response :success
-    assert_template :new
+    assert_template :edit
   end
 
   test "should get edit" do
@@ -35,7 +35,7 @@ class Administration::BankAccountsControllerTest < ActionController::TestCase
     login users(:bob)
 
     params = {
-      kaytossa: "",
+      kaytossa: "active",
       nimi: "Keijo",
       iban: "FI3715903000000776",
       bic: "DABAFIHH",
@@ -72,7 +72,7 @@ class Administration::BankAccountsControllerTest < ActionController::TestCase
 
     assert_no_difference('BankAccount.count') do
       post :create, bank_account: params
-      assert_template :new
+      assert_template :edit
     end
   end
 
