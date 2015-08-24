@@ -1,14 +1,14 @@
 acme_account:
-  yhtio:                 acme
-  nimi:                  AcmeAccount
-  iban:                  FI5542345670000081
-  bic:                   DABAFIHH
-  valkoodi:              EUR
-  maksulimitti:          0
-  oletus_kulutili:       100
-  oletus_rahatili:       110
+  yhtio: acme
+  nimi: AcmeAccount
+  iban: FI5542345670000081
+  bic: DABAFIHH
+  valkoodi: EUR
+  maksulimitti: 0
+  oletus_kulutili: 100
+  oletus_rahatili: 110
   oletus_selvittelytili: 120
-  laatija:               joe
-  luontiaika:            <%= Date.today %>
-  muutospvm:             <%= Date.today %>
-  muuttaja:              joe
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe
