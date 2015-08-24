@@ -2,87 +2,94 @@
 
 <%= form_for @bank_account do |f| %>
 
-  <table>
+  <table width='600'>
     <tr>
-      <th><%= f.label :kaytossa %></th>
-      <td><%= f.select :kaytossa, tili_kaytossa_options %></td>
+      <th width='40%'><%= f.label :kaytossa %></th>
+      <td width='60%'><%= f.select :kaytossa, tili_kaytossa_options, {}, class: :medium %></td>
     </tr>
+
     <tr>
       <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
+      <td><%= f.text_field :nimi, class: :large %></td>
     </tr>
+
     <tr>
       <th><%= f.label :iban %></th>
-      <td><%= f.text_field :iban %></td>
+      <td><%= f.text_field :iban, class: :large %></td>
     </tr>
+
     <tr>
       <th><%= f.label :bic %></th>
-      <td><%= f.text_field :bic %></td>
+      <td><%= f.text_field :bic, class: :large %></td>
     </tr>
-    <tr>
-      <th><%= f.label :valkoodi %></th>
-      <td><%= f.select :valkoodi, currency_options %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :factoring %></th>
-      <td><%= f.select :factoring, factoring_options %></td>
-    </tr>
+
     <tr>
       <th><%= f.label :asiakastunnus %></th>
-      <td><%= f.text_field :asiakastunnus %></td>
+      <td><%= f.text_field :asiakastunnus, class: :small %></td>
     </tr>
+
     <tr>
       <th><%= f.label :maksulimitti %></th>
-      <td><%= f.text_field :maksulimitti %></td>
+      <td><%= f.text_field :maksulimitti, class: :small %></td>
     </tr>
+
     <tr>
-      <th><%= f.label :tilinylitys %></th>
-      <td><%= f.select :tilinylitys, tilinylitys_options %></td>
+      <th><%= f.label :valkoodi %></th>
+      <td><%= f.select :valkoodi, currency_options, {}, class: :medium %></td>
     </tr>
-    <tr>
-      <th><%= f.label :hyvak %></th>
-      <td>
-        <%= f.select :hyvak, hyvaksyja_options, include_blank: true %>
-      </td>
-    </tr>
+
     <tr>
       <th><%= f.label :oletus_kulutili %></th>
       <td>
-        <%= f.text_field :oletus_kulutili %>
+        <%= f.text_field :oletus_kulutili, class: :small %>
         <%= account_name @bank_account.oletus_kulutili %>
       </td>
     </tr>
-    <tr>
-      <th><%= f.label :oletus_kustp %></th>
-      <td>
-        <%= f.select :oletus_kustp, kustannuspaikka_options, include_blank: true %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :oletus_kohde %></th>
-      <td>
-        <%= f.select :oletus_kohde, kohde_options, include_blank: true %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= f.label :oletus_projekti %></th>
-      <td>
-        <%= f.select :oletus_projekti, projekti_options, include_blank: true %>
-      </td>
-    </tr>
+
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
       <td>
-        <%= f.text_field :oletus_rahatili %>
+        <%= f.text_field :oletus_rahatili, class: :small %>
         <%= account_name @bank_account.oletus_rahatili %>
       </td>
     </tr>
+
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
       <td>
-        <%= f.text_field :oletus_selvittelytili %>
+        <%= f.text_field :oletus_selvittelytili, class: :small %>
         <%= account_name @bank_account.oletus_selvittelytili %>
       </td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :hyvak %></th>
+      <td><%= f.select :hyvak, hyvaksyja_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_kustp %></th>
+      <td><%= f.select :oletus_kustp, kustannuspaikka_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_kohde %></th>
+      <td><%= f.select :oletus_kohde, kohde_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_projekti %></th>
+      <td><%= f.select :oletus_projekti, projekti_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :factoring %></th>
+      <td><%= f.select :factoring, factoring_options, {}, class: :medium %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tilinylitys %></th>
+      <td><%= f.select :tilinylitys, tilinylitys_options, {}, class: :medium %></td>
     </tr>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @bank_account %>
