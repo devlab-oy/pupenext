@@ -299,6 +299,24 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    bank_accounts:
+      edit:
+        header: Pankkitili
+      factoring_options:
+        factoring_disabled: Ei factoroidao
+        factoring_enabled: Factoring käytössä
+      index:
+        button_new: Uusi pankkitili
+        button_search: Etsi
+        header: Pankkitilit
+        show_active: Näytä aktiiviset
+        show_inactive: Näytä poistetut
+      kaytossa_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
+      tilinylitys_options:
+        limit_override_allowed: Tilinylitys sallittu
+        limit_override_denied: Tilinylitys estetty
     carriers:
       edit:
         header: Rahdinkuljettaja
@@ -469,7 +487,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -495,7 +513,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
