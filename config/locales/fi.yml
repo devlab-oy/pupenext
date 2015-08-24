@@ -184,6 +184,7 @@ fi:
         yhteyshenkilo: Yhteyshenkilö
       qualifier:
         isa_tarkenne: Isätarkenne
+        kaytossa: Käytössä
         koodi: Koodi
         nimi: Nimi
         tunnus: Tunnus
@@ -579,7 +580,7 @@ fi:
     packing_area:
       duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
     qualifier:
-      accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
+      accounts_found: Et voi poistaa tarkennetta käytöstä, koska tarkenne on käytössä tileillä %{account_numbers}
     sum_level:
       begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
       invalid_char: Ei saa sisältää Ö -kirjainta
