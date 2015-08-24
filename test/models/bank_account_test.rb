@@ -12,14 +12,19 @@ class BankAccountTest < ActiveSupport::TestCase
 
   test "duplicate accounts should fail" do
     two = @ba.dup
-    refute two.valid?, two.errors.full_messages
-    assert_includes two.errors.full_messages,
-                    "IBAN on käytössä, eli pankkitili löytyy jo järjestelmästä"
+    refute two.valid?
+
+    error = [:iban, I18n.t('errors.messages.taken')]
+    assert_equal error, two.errors.first
   end
 
   test "should validate iban" do
-    valid_ibans = %w(AL47212110090000000235698741 CZ6508000000192000145399 SE3550000000054910000003
-                     FI2112345600000785)
+    valid_ibans = %w(
+      AL47212110090000000235698741
+      CZ6508000000192000145399
+      SE3550000000054910000003
+      FI2112345600000785
+    )
 
     valid_ibans.each do |iban|
       @ba.iban = iban
@@ -68,31 +73,26 @@ class BankAccountTest < ActiveSupport::TestCase
 
   test "existence of all associated accounts is required" do
     @ba.oletus_rahatili = 9999
-
     refute @ba.valid?
   end
 
   test "existence of default liquidity account is required" do
     @ba.oletus_rahatili = 9999
-
     refute @ba.valid?
   end
 
   test "existence of default expense account is required" do
     @ba.oletus_kulutili = 9999
-
     refute @ba.valid?
   end
 
   test "existence of default clearing account is required" do
     @ba.oletus_selvittelytili = 9999
-
     refute @ba.valid?
   end
 
   test "default values" do
     @ba.oletus_kustp, @ba.oletus_kohde, @ba.oletus_projekti = nil
-
     @ba.save
 
     assert_equal @ba.reload.oletus_kustp, 0
@@ -100,18 +100,9 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal @ba.reload.oletus_projekti, 0
   end
 
-  test "presence of default_clearing_account is only checked if one is not present for company" do
-    @ba.oletus_selvittelytili = ""
-    refute @ba.valid?
-
-    @ba.company.update(selvittelytili: 130)
-    assert @ba.valid?, @ba.errors.full_messages
-  end
-
   test "empty IBAN and BIC are allowed if both are empty" do
     @ba.iban, @ba.bic = ""
 
     assert @ba.valid?, @ba.errors.full_messages
   end
-
 end

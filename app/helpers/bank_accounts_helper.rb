@@ -18,4 +18,25 @@ module BankAccountsHelper
   def projekti_options
     Qualifier::Project.order("koodi+0, koodi, nimi")
   end
+
+  def kaytossa_options
+    [
+      [t("Käytössä"), ""],
+      [t("Poistettu / Ei käytössä"), "E"]
+    ]
+  end
+
+  def factoring_options
+    [
+      [t("Ei"), ""],
+      [t("Kyllä"), "o"]
+    ]
+  end
+
+  def tilinylitys_options
+    [
+      [t("Tilinylitys ei sallittu"), ""],
+      [t("Tilinylitys sallittu"), "o"]
+    ]
+  end
 end
