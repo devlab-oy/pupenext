@@ -18,37 +18,37 @@
   <table>
     <tr>
       <th>
-        <%= sortable :nimi %>
+        <%= sortable :nimi, BankAccount.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable :iban %>
+        <%= sortable :iban, BankAccount.human_attribute_name(:iban) %>
         <br/>
         <%= text_field_tag :iban, params[:iban] %>
       </th>
 
       <th>
-        <%= sortable :maksulimitti %>
+        <%= sortable :maksulimitti, BankAccount.human_attribute_name(:maksulimitti) %>
         <br/>
         <%= text_field_tag :maksulimitti, params[:maksulimitti] %>
       </th>
 
       <th>
-        <%= sortable :oletus_kulutili %>
+        <%= sortable :oletus_kulutili, BankAccount.human_attribute_name(:oletus_kulutili) %>
         <br/>
         <%= text_field_tag :oletus_kulutili, params[:oletus_kulutili] %>
       </th>
 
       <th>
-        <%= sortable :oletus_rahatili %>
+        <%= sortable :oletus_rahatili, BankAccount.human_attribute_name(:oletus_rahatili) %>
         <br/>
         <%= text_field_tag :oletus_rahatili, params[:oletus_rahatili] %>
       </th>
 
       <th>
-        <%= sortable :oletus_selvittelytili %>
+        <%= sortable :oletus_selvittelytili, BankAccount.human_attribute_name(:oletus_selvittelytili) %>
         <br/>
         <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %>
       </th>
