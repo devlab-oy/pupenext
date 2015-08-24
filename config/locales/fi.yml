@@ -354,9 +354,15 @@ fi:
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
     packages:
+      create:
+        create_success: Pakkaus lisättiin onnistuneesti
       erikoispakkaus_options:
         not_special: Normaalipakkaus
         special: Erikoispakkaus
+      package_codes:
+        link_new: Lisää uusi pakkauskoodi
+      update:
+        update_success: Pakkaus päivitettiin onnistuneesti
       yksin_eraan_options:
         combined_parcel: Pakkaus yksin erään
         separate_parcel: Normaalikäsittely
@@ -488,7 +494,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -514,7 +520,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
