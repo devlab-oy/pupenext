@@ -258,6 +258,7 @@ fi:
       head/sales_order: Myyntitilaus
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
+      package: Pakkaus
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
@@ -356,9 +357,13 @@ fi:
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
+      edit:
+        header: Pakkaus
       erikoispakkaus_options:
         not_special: Normaalipakkaus
         special: Erikoispakkaus
+      index:
+        header: Pakkaukset
       package_codes:
         link_new: Lisää uusi pakkauskoodi
       update:
@@ -494,7 +499,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -520,7 +525,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

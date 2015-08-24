@@ -1,6 +1,6 @@
-<%= link_to '« Palaa ohjelmaan: Pakkaus', packages_path %>
-<br />
-<br />
-<font class="head">Muokkaa pakkausta</font>
-<hr />
+<%= return_link t('administration.packages.index.header'), packages_path %>
+
+<br/>
+
+<%= render "administration/header", text: t('administration.packages.edit.header') %>
 <%= render 'form' %>
