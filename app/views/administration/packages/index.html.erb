@@ -1,6 +1,7 @@
-<font class="head">Pakkaus</font>
-<hr />
-<%= link_to "<button>Uusi pakkaus</button>".html_safe, new_package_path %>
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>
+
 <br /><br />
 
 <table>
@@ -35,4 +36,4 @@
 
 <br />
 
-<%= link_to "<button>Uusi pakkaus</button>".html_safe, new_package_path %>
+<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>

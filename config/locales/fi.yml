@@ -364,6 +364,7 @@ fi:
         special: Erikoispakkaus
       index:
         header: Pakkaukset
+        button_new: Uusi pakkaus
       package_codes:
         link_new: Lisää uusi pakkauskoodi
       update:
@@ -499,7 +500,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -525,7 +526,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
