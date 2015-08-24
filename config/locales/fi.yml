@@ -169,7 +169,10 @@ fi:
         syvyys: Syvyys
         yksin_eraan: Yksin erään
       package_code:
-        koodi: Koodi
+        koodi: Pakkauskoodi
+        rahdinkuljettaja: Rahdinkuljettaja
+      package_codes:
+        koodi: Pakkauskoodi
         rahdinkuljettaja: Rahdinkuljettaja
       packing_area:
         lokero: Lokero
@@ -259,6 +262,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       package: Pakkaus
+      package_code: Pakkauskoodi
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
@@ -363,9 +367,9 @@ fi:
         not_special: Normaalipakkaus
         special: Erikoispakkaus
       index:
-        header: Pakkaukset
         button_new: Uusi pakkaus
         button_search: Etsi
+        header: Pakkaukset
       package_codes:
         link_new: Lisää uusi pakkauskoodi
       update:
@@ -501,7 +505,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -527,7 +531,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
