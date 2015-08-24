@@ -1,10 +1,9 @@
 <table id='package_codes' width='100%'>
 
   <tr>
-    <th width='40%'><%= label_tag PackageCode.human_attribute_name(:rahdinkuljettaja) %></th>
-    <th width='20%'><%= label_tag PackageCode.human_attribute_name(:koodi) %></th>
-    <th width='20%'><%= label_tag PackageCode.human_attribute_name(:pakkaus) %></th>
-    <th width='20%'><%= label_tag t('helpers.submit.destroy', model: '') %></th>
+    <th width='60%'><%= label_tag PackageCode.human_attribute_name(:rahdinkuljettaja) %></th>
+    <th width='30%'><%= label_tag PackageCode.human_attribute_name(:koodi) %></th>
+    <th width='10%'><%= label_tag t('helpers.submit.destroy', model: '') %></th>
   </tr>
 
   <%= f.fields_for :package_codes do |code| %>
