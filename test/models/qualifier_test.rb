@@ -39,7 +39,7 @@ class QualifierTest < ActiveSupport::TestCase
     assert_equal values, Qualifier.kaytossas
   end
 
-  test "if someone tries to deactivate qualifier check account assosiation" do
+  test 'cannot deactivate if in use' do
     # Make sure we have no relations
     Account.update_all kustp: 0
     account = accounts :account_100
@@ -54,7 +54,7 @@ class QualifierTest < ActiveSupport::TestCase
     assert kustp.valid?
 
     # Use qualifier on account
-    account.kustp = kustp.id
+    account.update_attribute :kustp, kustp.id
 
     # We should not be able to disable qualifier
     kustp.kaytossa = :not_in_use
