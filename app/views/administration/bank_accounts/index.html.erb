@@ -1,16 +1,14 @@
-<%= render "administration/header", title: "Yrityksen pankkitilit" %>
+<%= render "administration/header", text: t('.header') %>
 
-<% if update_access? %>
-  <%= button_to t("Uusi yrityksen pankkitili"), new_bank_account_path, method: :get %>
-<% end %>
+<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
-  <% if showing_unused %>
+  <% if show_used? %>
     <%= hidden_field_tag :not_used, :no %>
-    <%= submit_tag t("Piilota poistetut") %>
+    <%= submit_tag t('.show_active') %>
   <% else %>
     <%= hidden_field_tag :not_used, :yes %>
-    <%= submit_tag t("Näytä poistetut") %>
+    <%= submit_tag t(".show_inactive") %>
   <% end %>
 <% end %>
 
@@ -56,12 +54,12 @@
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
     <% @bank_accounts.each do |bank_account| %>
-      <% classes = bank_account.in_use? ? "" : " class=line-through" %>
+      <% classes = bank_account.active? ? "" : " class=line-through" %>
       <tr class="aktiivi">
         <td><%= link_to bank_account.nimi, edit_bank_account_path(bank_account) %></td>
         <td<%= classes %>>
@@ -78,4 +76,4 @@
 
 <br/>
 
-<%= button_to t("Uusi yrityksen pankkitili"), new_bank_account_path, method: :get %>
+<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
