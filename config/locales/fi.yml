@@ -24,7 +24,7 @@ fi:
         asiakastunnus: Asiakastunnus
         bic: SWIFT / BIC
         factoring: Factoring (Myyntisaatavarahoitus)
-        hyvak: Oletus hyväksyjä
+        hyvak: Oletushyväksyjä
         iban: IBAN
         kaytossa: Tila
         maksulimitti: Maksulimitti
@@ -303,7 +303,7 @@ fi:
       edit:
         header: Pankkitili
       factoring_options:
-        factoring_disabled: Ei factoroidao
+        factoring_disabled: Ei factoroida
         factoring_enabled: Factoring käytössä
       index:
         button_new: Uusi pankkitili
