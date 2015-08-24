@@ -58,16 +58,13 @@
     </tr>
 
     <% @bank_accounts.each do |bank_account| %>
-      <% classes = bank_account.active? ? "" : " class=line-through" %>
-      <tr class="aktiivi">
+      <tr class="aktiivi <%= "del" if bank_account.inactive? %>">
         <td><%= link_to bank_account.nimi, edit_bank_account_path(bank_account) %></td>
-        <td<%= classes %>>
-          <%= bank_account.iban.empty? ? bank_account.tilino : bank_account.iban %>
-        </td>
-        <td<%= classes %>><%= bank_account.maksulimitti %></td>
-        <td<%= classes %>><%= bank_account.oletus_kulutili %></td>
-        <td<%= classes %>><%= bank_account.oletus_rahatili %></td>
-        <td<%= classes %>><%= bank_account.oletus_selvittelytili %></td>
+        <td><%= bank_account.iban %></td>
+        <td><%= bank_account.maksulimitti %></td>
+        <td><%= bank_account.oletus_kulutili %></td>
+        <td><%= bank_account.oletus_rahatili %></td>
+        <td><%= bank_account.oletus_selvittelytili %></td>
       </tr>
     <% end %>
   </table>
