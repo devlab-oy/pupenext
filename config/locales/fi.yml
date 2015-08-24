@@ -20,6 +20,15 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      carrier:
+        koodi: Koodi
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvm
+        muuttaja: Muuttaja
+        neutraali: Neutraali
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: Pakkauksen särmän minimimitta
       cash_register:
         kassa: Kassa
         kassaerotus: Kassaerotus
@@ -130,6 +139,21 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      keyword:
+        kieli: Kieli
+      packing_area:
+        lokero: Lokero
+        nimi: Nimi
+        pakkaamon_prio: Pakkaamon prio
+        printteri0: Keräyslista
+        printteri1: Lähete
+        printteri2: Tuotetarrat
+        printteri3: Osoitelappu
+        printteri4: Rahtikirja A5
+        printteri6: Rahtikirja A4
+        printteri7: JV-Lasku/-Kuitti
+        prio: Prio
+        varasto: Varasto
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -158,14 +182,65 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      qualifier:
+        isa_tarkenne: Isätarkenne
+        kaytossa: Käytössä
+        koodi: Koodi
+        nimi: Nimi
+        tunnus: Tunnus
+        tyyppi: Tyyppi
+      terms_of_payment:
+        abs_pvm: Maksupäivä
+        erapvmkasin: Eräpäivän syöttö käsin
+        factoring: Factoring
+        itsetulostus: Itsetulostus
+        jaksotettu: Jaksotettu
+        jarjestys: Järjestys
+        jv: Jälkivaatimus
+        kassa_abspvm: Kassa-alennuksen maksupäivä
+        kassa_alepros: Kassa-alennusprosentti
+        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
+        kateinen: Käteinen
+        kaytossa: Käytössä
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        pankkiyhteystiedot: Pankkiyhteystiedot
+        rel_pvm: Maksuaika päivissä
+        sallitut_maat: Sallitut maat
+        teksti: Teksti
+      translations:
+        kieli: Käännöksen kieli
+        selitetark: Käännetty teksti
     models:
       account: Tili
+      carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
       fiscal_year: Tilikausi
+      head/purchase_invoice/approval: Ostolasku hyväksyttävänä
+      head/purchase_invoice/approved: Ostolasku valmis maksatukseen
+      head/purchase_invoice/paid: Ostolasku maksettu
+      head/purchase_invoice/transfer: Ostolasku lähdössä pankkiin
+      head/purchase_invoice/waiting: Ostolasku odottaa suoritusta
+      head/purchase_order: Ostotilaus
+      head/sales_invoice: Myyntilasku
+      head/sales_order: Myyntitilaus
+      head/sales_order_draft: Myyntitilaus kesken
+      head/voucher: Tosite
+      packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
+      qualifier/cost_center: Kustannuspaikka
+      qualifier/project: Projekti
+      qualifier/target: Kohde
       sum_level: Taso
+      sum_level/commodity: EVL
+      sum_level/external: Ulkoinen
+      sum_level/internal: Sisäinen
+      sum_level/profit: Tulosseuranta
+      sum_level/vat: ALV
       terms_of_payment: Maksuehto
       bank_account: Pankkitili
   administration:
@@ -206,6 +281,16 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    carriers:
+      edit:
+        header: Rahdinkuljettaja
+      index:
+        button_new: Uusi rahdinkuljettaja
+        button_search: Etsi
+        header: Rahdinkuljettajat
+      neutraali_options:
+        neutral: Kyllä
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -240,6 +325,21 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    packing_areas:
+      create:
+        create_success: Pakkaamo lisätty onnistuneesti
+      destroy:
+        destroy_success: Pakkaamo poistettu onnistuneesti
+      edit:
+        button_remove: Poista pakkaamo
+        confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
+        header: Pakkaamo
+      index:
+        button_new: Uusi pakkaamo
+        button_search: Etsi
+        header: Pakkaamot
+      update:
+        update_success: Update success
     printers:
       create:
         create_success: Kirjoitin perustettiin onnistuneesti
@@ -271,6 +371,22 @@ fi:
         charset_utf8: UTF8
       update:
         update_success: Kirjoitin päivitettiin onnistuneesti
+    qualifiers:
+      create:
+        create_success: Tarkenne luotiin onnistuneesti
+      edit:
+        header: Muokkaa tarkennetta
+      index:
+        button_new: Uusi tarkenne
+        button_search: Etsi
+        button_show_active: Näytä aktiiviset
+        button_show_removed: Näytä poistetut
+        header: Tilikartan tarkenteet
+      kaytossa_options:
+        in_use: Kyllä
+        not_in_use: Ei
+      update:
+        update_success: Tarkenne päivitettiin onnistuneesti
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
@@ -304,7 +420,7 @@ fi:
       edit:
         header: Maksuehto
         no_factoring: Ei factoroida
-        use_company_defaults: Käydä yrityksen oletuksia
+        use_company_defaults: Käytä yrityksen oletuksia
       in_use_options:
         active: Käytössä
         inactive: Poistettu / Ei käytössä
@@ -314,6 +430,8 @@ fi:
         button_show_active: Näytä aktiiviset maksuehdot
         button_show_removed: Näytä poistetut maksuehdot
         header: Maksuedot
+      translations:
+        link_new: Lisää uusi käännös
       update:
         update_success: Maksuehto päivitettiin onnistuneesti
     update_access:
@@ -434,7 +552,7 @@ fi:
       after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
       before: tulee olla pienempi kuin %{date}
       before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
-      blank: ei voi olla sisällötön
+      blank: ei voi olla tyhjä
       confirmation: ei vastaa varmennusta %{attribute}
       empty: ei voi olla tyhjä
       equal_to: tulee olla yhtäsuuri kuin %{count}
@@ -460,8 +578,10 @@ fi:
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+    packing_area:
+      duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
     qualifier:
-      accounts_found: Et voi ottaa pois käytöstä, koska kustannuspaikalla on tilejä
+      accounts_found: Et voi poistaa tarkennetta käytöstä, koska tarkenne on käytössä tileillä %{account_numbers}
     sum_level:
       begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
       invalid_char: Ei saa sisältää Ö -kirjainta
@@ -469,8 +589,8 @@ fi:
     template:
       body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
-        one: Virhe syötteessä esti mallin %{model} tallentamisen
-        other: "%{count} virhettä esti mallin %{model} tallentamisen"
+        one: Yksi virhe esti %{model} tietueen tallentamisen
+        other: "%{count} virhettä esti %{model} tietueen tallentamisen"
     terms_of_payment:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
@@ -542,6 +662,7 @@ fi:
       prompt: Valitse
     submit:
       create: Luo %{model}
+      destroy: Poista %{model}
       submit: Tallenna %{model}
       update: Päivitä %{model}
   number:

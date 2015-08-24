@@ -3,18 +3,21 @@ class Company < ActiveRecord::Base
     o.has_one  :parameter
 
     o.has_many :accounts
+    o.has_many :bank_accounts
+    o.has_many :bank_details
+    o.has_many :carriers
+    o.has_many :cash_registers
     o.has_many :currencies
+    o.has_many :customers
+    o.has_many :factorings
     o.has_many :fiscal_years
     o.has_many :keywords
-    o.has_many :printers
-    o.has_many :users
-    o.has_many :terms_of_payments
-    o.has_many :factorings
-    o.has_many :bank_details
-    o.has_many :customers
-    o.has_many :cash_registers
     o.has_many :locations
-    o.has_many :bank_accounts
+    o.has_many :packing_areas
+    o.has_many :printers
+    o.has_many :terms_of_payments
+    o.has_many :users
+    o.has_many :warehouses
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'

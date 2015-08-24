@@ -1,8 +1,16 @@
 require 'test_helper'
 
 class QualifierTest < ActiveSupport::TestCase
-  def setup
+  setup do
     @project_with_account = qualifiers(:project_in_use)
+  end
+
+  test "all fixtures are valid" do
+    assert qualifiers(:project_in_use).valid?
+    assert qualifiers(:target_in_use).valid?
+    assert qualifiers(:cost_center_in_use).valid?
+    assert qualifiers(:project_not_in_use).valid?
+    assert qualifiers(:project_in_use_without_account).valid?
   end
 
   test "nimi should be present" do
@@ -26,51 +34,59 @@ class QualifierTest < ActiveSupport::TestCase
     assert_equal "123 Projektin nimi", @project_with_account.nimitys
   end
 
-  test "should return kaytossa char" do
-    assert_equal 'o', Qualifier.in_use_char
-    assert_equal 'E', Qualifier.not_in_use_char
+  test "kaytossa should have 2 values" do
+    values = { "not_in_use" => "E", "in_use" => "o" }
+    assert_equal values, Qualifier.kaytossas
   end
 
-  test "kaytossa_options should be 2" do
-    assert_equal 2, Qualifier.kaytossa_options.count
+  test 'cannot deactivate if in use' do
+    # Make sure we have no relations
+    Account.update_all kustp: 0
+    account = accounts :account_100
+    kustp = qualifiers :cost_center_in_use
+
+    # We should be able to disable qualifier
+    kustp.kaytossa = :not_in_use
+    assert kustp.valid?
+
+    # ... and enable
+    kustp.kaytossa = :in_use
+    assert kustp.valid?
+
+    # Use qualifier on account
+    account.update_attribute :kustp, kustp.id
+
+    # We should not be able to disable qualifier
+    kustp.kaytossa = :not_in_use
+    refute kustp.valid?
   end
 
-  test "should deactivate project" do
-    project_without_account = qualifiers(:project_in_use_without_account)
-    assert_equal "project_in_use_without_account", project_without_account.nimi
-    project_without_account.deactivate!
-
-    assert project_without_account.valid?, project_without_account.errors.full_messages
-    assert_equal Qualifier.not_in_use_char, project_without_account.kaytossa
-  end
-
-  test "should activate project" do
-    project_not_in_use = Qualifier::Project.not_in_use.where(koodi: '12345').first
-    project_not_in_use.activate!
-    assert_equal Qualifier.in_use_char, project_not_in_use.kaytossa
-  end
-
-  test "if someone tries to deactivate qualifier check account assosiation" do
-    @project_with_account.deactivate!
-    refute @project_with_account.valid?
-
-    @project_with_account.activate!
-    assert @project_with_account.valid?, @project_with_account.errors.full_messages
-  end
-
-  test "human_readable_type works" do
-    assert_equal "Kustannuspaikka", Qualifier::CostCenter.human_readable_type
-    assert_equal "Projekti", Qualifier::Project.human_readable_type
-    assert_equal "Kohde", Qualifier::Target.human_readable_type
-  end
-
-  test "model_name works" do
-    assert_equal Qualifier.model_name, Qualifier::CostCenter.model_name
-    assert_equal Qualifier.model_name, Qualifier::Project.model_name
-    assert_equal Qualifier.model_name, Qualifier::Target.model_name
+  test "models have human names" do
+    assert_equal "Kustannuspaikka", Qualifier::CostCenter.model_name.human
+    assert_equal "Projekti", Qualifier::Project.model_name.human
+    assert_equal "Kohde", Qualifier::Target.model_name.human
   end
 
   test "default_child_instance works" do
     assert_equal Qualifier::Project, Qualifier.default_child_instance
+  end
+
+  test "creates correct model based on tyyppi" do
+    klass = Qualifier.new tyyppi: 'P'
+    assert_equal Qualifier::Project, klass.class
+
+    klass = Qualifier.new tyyppi: 'O'
+    assert_equal Qualifier::Target, klass.class
+
+    klass = Qualifier.new tyyppi: 'K'
+    assert_equal Qualifier::CostCenter, klass.class
+
+    @project_with_account.tyyppi = 'not_valid'
+    refute @project_with_account.valid?
+
+    Qualifier.child_class_names.each do |q|
+      @project_with_account.tyyppi = q.first
+      assert @project_with_account.valid?
+    end
   end
 end

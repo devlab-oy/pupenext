@@ -7,7 +7,7 @@ class BaseModel < ActiveRecord::Base
     unless subclass.abstract_class?
       subclass.class_eval do
         include CurrentCompany
-        include SaveByExtension
+        include CurrentUser
       end
     end
   end

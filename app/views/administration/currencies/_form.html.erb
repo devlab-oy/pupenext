@@ -1,5 +1,6 @@
-<%= form_for(@currency) do |f| %>
-  <%= render "administration/form_errors", resource: @currency %>
+<%= render "administration/form_errors", resource: @currency %>
+
+<%= form_for @currency do |f| %>
 
   <table>
     <tr>
