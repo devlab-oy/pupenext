@@ -365,6 +365,7 @@ fi:
       index:
         header: Pakkaukset
         button_new: Uusi pakkaus
+        button_search: Etsi
       package_codes:
         link_new: Lisää uusi pakkauskoodi
       update:

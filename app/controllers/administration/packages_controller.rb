@@ -64,18 +64,16 @@ class Administration::PackagesController < AdministrationController
     def sortable_columns
       [
         :jarjestys,
-        :kayttoprosentti,
         :korkeus,
         :leveys,
         :paino,
         :pakkaus,
         :pakkauskuvaus,
-        :pakkausveloitus_tuotenumero,
         :syvyys,
       ]
     end
 
     def searchable_columns
-      []
+      sortable_columns
     end
 end
