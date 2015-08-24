@@ -1,10 +1,11 @@
+<%= render "administration/form_errors", resource: @bank_account %>
+
 <%= form_for @bank_account do |f| %>
-  <%= render "administration/form_errors", resource: @bank_account %>
 
   <table>
     <tr>
       <th><%= f.label :kaytossa, t("Käytössä") %></th>
-      <td><%= f.select :kaytossa, BankAccount.kaytossa_options %></td>
+      <td><%= f.select :kaytossa, kaytossa_options %></td>
     </tr>
     <tr>
       <th><%= f.label :nimi, t("Nimi") %></th>
@@ -24,7 +25,7 @@
     </tr>
     <tr>
       <th><%= f.label :factoring, t("Factoring") %></th>
-      <td><%= f.select :factoring, BankAccount.factoring_options %></td>
+      <td><%= f.select :factoring, factoring_options %></td>
     </tr>
     <tr>
       <th><%= f.label :asiakastunnus, t("Asiakastunnus") %></th>
@@ -36,67 +37,51 @@
     </tr>
     <tr>
       <th><%= f.label :tilinylitys, t("Tilinylitys") %></th>
-      <td><%= f.select :tilinylitys, BankAccount.tilinylitys_options %></td>
+      <td><%= f.select :tilinylitys, tilinylitys_options %></td>
     </tr>
     <tr>
       <th><%= f.label :hyvak, t("Oletushyväksyjä") %></th>
       <td>
-        <%= f.collection_select(:hyvak,
-            hyvaksyja_options,
-            :kuka,
-            :nimi,
-            include_blank: t("Ei kukaan")) %>
+        <%= f.select :hyvak, hyvaksyja_options, include_blank: t("Ei kukaan") %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kulutili, t("Oletuskulutili") %></th>
       <td>
         <%= f.text_field :oletus_kulutili %>
-        <%= show_account_name(f.object.oletus_kulutili) %>
+        <%= account_name @bank_account.oletus_kulutili %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kustp, t("Oletuskusannuspaikka") %></th>
       <td>
-        <%= f.collection_select(:oletus_kustp,
-            kustannuspaikka_options,
-            :tunnus,
-            :nimi,
-            include_blank: t("Ei kustannuspaikkaa")) %>
+        <%= f.select :oletus_kustp, kustannuspaikka_options, include_blank: t("Ei kustannuspaikkaa") %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_kohde, t("Oletuskohde") %></th>
       <td>
-        <%= f.collection_select(:oletus_kohde,
-            kohde_options,
-            :tunnus,
-            :nimi,
-            include_blank: t("Ei kohdetta")) %>
+        <%= f.select :oletus_kohde, kohde_options, include_blank: t("Ei kohdetta") %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_projekti, t("Oletusprojekti") %></th>
       <td>
-        <%= f.collection_select(:oletus_projekti,
-            projekti_options,
-            :tunnus,
-            :nimi,
-            include_blank: t("Ei projektia")) %>
+        <%= f.select :oletus_projekti, projekti_options, include_blank: t("Ei projektia") %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
       <td>
         <%= f.text_field :oletus_rahatili %>
-        <%= show_account_name(f.object.oletus_rahatili) %>
+        <%= account_name @bank_account.oletus_rahatili %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
       <td>
         <%= f.text_field :oletus_selvittelytili %>
-        <%= show_account_name(f.object.oletus_selvittelytili) %>
+        <%= account_name @bank_account.oletus_selvittelytili %>
       </td>
     </tr>
 
@@ -104,11 +89,6 @@
 
   </table>
 
-  <% if update_access? %>
-    <br/>
+  <%= render 'administration/actions', f: f %>
 
-    <div class="actions">
-      <%= f.submit disable_with: t("Tallentaa") + "..." %>
-    </div>
-  <% end %>
 <% end %>
