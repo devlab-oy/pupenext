@@ -1,30 +1,26 @@
 class Administration::BankAccountsController < AdministrationController
-  helper_method :showing_unused
-  helper_method :show_account_name
+  helper_method :show_used?
 
   def index
-    if showing_unused
-      @bank_accounts = BankAccount.search_like(search_params).order(order_params)
-    else
-      @bank_accounts = BankAccount.in_use.search_like(search_params).order(order_params)
-    end
+    accounts = show_used? ? BankAccount.active : BankAccount.all
+    @bank_accounts = accounts.search_like(search_params).order(order_params)
   end
 
   def edit
   end
 
   def create
-    @bank_account = BankAccount.new(bank_account_params)
+    @bank_account = BankAccount.new bank_account_params
 
-    if @bank_account.save_by current_user
+    if @bank_account.save
       redirect_to bank_accounts_path, notice: "Uusi pankkitili perustettu"
     else
-      render :new
+      render :edit
     end
   end
 
   def update
-    if @bank_account.update_by bank_account_params, current_user
+    if @bank_account.update bank_account_params
       redirect_to bank_accounts_path, notice: "Pankkitili päivitettiin onnistuneesti"
     else
       render :edit
@@ -33,16 +29,13 @@ class Administration::BankAccountsController < AdministrationController
 
   def new
     @bank_account = BankAccount.new
+    render :edit
   end
 
   private
 
-    def show_account_name(value)
-      Account.find_by_tilino(value).try(:nimi)
-    end
-
-    def showing_unused
-      params[:not_used] == "yes"
+    def show_used?
+      params[:not_used] != "yes"
     end
 
     def find_resource
@@ -52,21 +45,21 @@ class Administration::BankAccountsController < AdministrationController
     def bank_account_params
       params.require(:bank_account).permit(
         :nimi,
-        :kaytossa,
-        :iban,
-        :bic,
-        :valkoodi,
-        :factoring,
         :asiakastunnus,
-        :maksulimitti,
+        :bic,
+        :factoring,
         :hyvak,
+        :iban,
+        :kaytossa,
+        :maksulimitti,
+        :oletus_kohde,
         :oletus_kulutili,
         :oletus_kustp,
-        :oletus_kohde,
         :oletus_projekti,
         :oletus_rahatili,
         :oletus_selvittelytili,
-        :tilinylitys
+        :tilinylitys,
+        :valkoodi,
       )
     end
 
@@ -77,5 +70,4 @@ class Administration::BankAccountsController < AdministrationController
     def sortable_columns
       searchable_columns
     end
-
 end
