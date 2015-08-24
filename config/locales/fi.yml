@@ -300,6 +300,8 @@ fi:
     actions:
       button_saving: Tallentaa...
     bank_accounts:
+      create:
+        create_success: Pankkitili perustettiin onnistuneesti
       edit:
         header: Pankkitili
       factoring_options:
@@ -317,6 +319,8 @@ fi:
       tilinylitys_options:
         limit_override_allowed: Tilinylitys sallittu
         limit_override_denied: Tilinylitys estetty
+      update:
+        update_success: Pankkitili päivitettiin onnistuneesti
     carriers:
       edit:
         header: Rahdinkuljettaja

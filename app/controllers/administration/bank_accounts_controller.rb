@@ -13,7 +13,7 @@ class Administration::BankAccountsController < AdministrationController
     @bank_account = BankAccount.new bank_account_params
 
     if @bank_account.save
-      redirect_to bank_accounts_path, notice: "Uusi pankkitili perustettu"
+      redirect_to bank_accounts_path, notice: t('.create_success')
     else
       render :edit
     end
@@ -21,7 +21,7 @@ class Administration::BankAccountsController < AdministrationController
 
   def update
     if @bank_account.update bank_account_params
-      redirect_to bank_accounts_path, notice: "Pankkitili päivitettiin onnistuneesti"
+      redirect_to bank_accounts_path, notice: t('.update_success')
     else
       render :edit
     end
