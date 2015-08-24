@@ -8,35 +8,35 @@ module BankAccountsHelper
   end
 
   def kustannuspaikka_options
-    Qualifier::CostCenter.order("koodi+0, koodi, nimi")
+    Qualifier::CostCenter.order('koodi+0, koodi, nimi')
   end
 
   def kohde_options
-    Qualifier::Target.order("koodi+0, koodi, nimi")
+    Qualifier::Target.order('koodi+0, koodi, nimi')
   end
 
   def projekti_options
-    Qualifier::Project.order("koodi+0, koodi, nimi")
+    Qualifier::Project.order('koodi+0, koodi, nimi')
   end
 
-  def kaytossa_options
+  def tili_kaytossa_options
     [
-      [t("Käytössä"), ""],
-      [t("Poistettu / Ei käytössä"), "E"]
+      [ t('administration.bank_accounts.kaytossa_options.active'),   :active   ],
+      [ t('administration.bank_accounts.kaytossa_options.inactive'), :inactive ],
     ]
   end
 
   def factoring_options
     [
-      [t("Ei"), ""],
-      [t("Kyllä"), "o"]
+      [ t('administration.bank_accounts.factoring_options.factoring_disabled'), :factoring_disabled ],
+      [ t('administration.bank_accounts.factoring_options.factoring_enabled'),  :factoring_enabled  ],
     ]
   end
 
   def tilinylitys_options
     [
-      [t("Tilinylitys ei sallittu"), ""],
-      [t("Tilinylitys sallittu"), "o"]
+      [ t('administration.bank_accounts.tilinylitys_options.limit_override_denied'),  :limit_override_denied  ],
+      [ t('administration.bank_accounts.tilinylitys_options.limit_override_allowed'), :limit_override_allowed ],
     ]
   end
 end
