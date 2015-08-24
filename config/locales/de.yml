@@ -140,7 +140,19 @@ de:
         www: www
         ytunnus: Steuernummer
       keyword:
+        jarjestys: Sortierung
         kieli: Sprache
+        laji: Art
+        selite: Erklärung
+      package:
+        jarjestys: Sortierung
+        kieli: Sprache
+        korkeus: Höhe
+        laji: Art
+        leveys: Breite
+        paino: Gewicht
+        pakkauskuvaus: Verpackungsbeschreibung
+        selite: Erklärung
       packing_area:
         lokero: Fach
         nimi: Name
@@ -204,6 +216,7 @@ de:
       head/sales_invoice: Verkaufsrechnung
       head/sales_order: Auftrag
       head/sales_order_draft: Aufrag nicht abgeschlossen
+      package: Verpackung
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
@@ -293,6 +306,13 @@ de:
         header:
       update:
         update_success:
+    packages:
+      edit:
+        header: Verpackung
+      index:
+        button_search: Suchen
+      yksin_eraan_options:
+        separate_parcel: Normalbehandlung
     packing_areas:
       edit:
         header: Packraum/Verpackungsabteilung
@@ -383,6 +403,9 @@ de:
         header:
       update:
         update_success:
+    translations:
+      language: Sprache
+      link_new: Neue Übersetzung hinzufügen
     update_access:
       forbidden:
   application:
