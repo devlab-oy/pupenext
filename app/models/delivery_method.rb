@@ -7,6 +7,7 @@ class DeliveryMethod < BaseModel
   end
 
   validates :selite, uniqueness: true
+  validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
 
   scope :permit_adr, -> { where(vak_kielto: '') }
@@ -100,13 +101,6 @@ class DeliveryMethod < BaseModel
     simple_label: 'oslap_mg'
   }
 
-  # def alternative_adr_delivery_method_options
-    # [
-    #   ["VAK-tuotteita ei siirretä omalle tilaukselleen", ""],
-    #   adr_options("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla")
-    # ].reject {|i,_| i.empty?}
-  # end
-
   def permitted_packaging_options
     []
   end
@@ -117,10 +111,17 @@ class DeliveryMethod < BaseModel
 
   private
 
-    def vak_kielto_validation
-      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite)
-      allowed += [ '', 'K' ]
+    def permit_adr_shipments
+      DeliveryMethod.permit_adr.shipment.pluck(:selite)
+    end
 
+    def vak_kielto_validation
+      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite) + [ '', 'K' ]
       errors.add :vak_kielto, I18n.t('errors.messages.inclusion') unless allowed.include? vak_kielto
+    end
+
+    def vaihtoehtoinen_vak_toimitustapa_validation
+      allowed = permit_adr_shipments + [ '' ]
+      errors.add :vaihtoehtoinen_vak_toimitustapa, I18n.t('errors.messages.inclusion') unless allowed.include? vaihtoehtoinen_vak_toimitustapa
     end
 end

@@ -24,4 +24,12 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.vak_kielto = 'neko'
     refute @delivery_method.valid?, "Invalid vak_kielto value"
   end
+
+  test 'should validate alternative adr prohibition' do
+    @delivery_method.vaihtoehtoinen_vak_toimitustapa = ''
+    assert @delivery_method.valid?
+
+    @delivery_method.vaihtoehtoinen_vak_toimitustapa = 'neko'
+    refute @delivery_method.valid?, "Invalid vaihtoehtoinen_vak_toimitustapa value"
+  end
 end

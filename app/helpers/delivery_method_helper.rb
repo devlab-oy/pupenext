@@ -23,16 +23,28 @@ module DeliveryMethodHelper
 
   def adr_prohibition_options
     options = [
-      [ t("#{ROOT}.adr_prohibition_options.permit_adr"), "" ],
-      [ t("#{ROOT}.adr_prohibition_options.adr_prohibition"), "K" ]
+      [ t("administration.delivery_methods.adr_prohibition_options.permit_adr"), "" ],
+      [ t("administration.delivery_methods.adr_prohibition_options.adr_prohibition"), "K" ]
     ]
 
-    options = options + adr_options
+    text = t("administration.delivery_methods.adr_prohibition_options.adr_shipment")
+
+    options = options + adr_options(text)
     options.reject { |i,_| i.empty? }
   end
 
-  def adr_options
-    text = t("#{ROOT}.adr_prohibition_options.adr_shipment")
+  def alternative_adr_delivery_method_options
+    options = [
+      [ t("administration.delivery_methods.alternative_adr_delivery_method_options.adr_products_transfer_prohibition"), "" ],
+    ]
+
+    text = t("administration.delivery_methods.alternative_adr_delivery_method_options.adr_products_transfer_permit")
+
+    options = options + adr_options(text)
+    options.reject { |i,_| i.empty? }
+  end
+
+  def adr_options(text)
     DeliveryMethod.permit_adr.shipment.map do |i|
       [ "#{text} #{i.selite}", i.selite ]
     end

@@ -318,6 +318,9 @@ fi:
         adr_prohibition: Toimitustavalla ei saa toimittaa VAK-tuotteita
         adr_shipment: VAK-tuotteet toimitetaan toimitustavalla
         permit_adr: Toimitustavalla saa toimittaa VAK-tuotteita
+      alternative_adr_delivery_method_options:
+        adr_products_transfer_permit: VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla
+        adr_products_transfer_prohibition: VAK-tuotteita ei siirretä omalle tilaukselleen
       cash_on_delivery_prohibition_options:
         cash_on_delivery_permitted: Toimitustavalla saa toimittaa jälkivaatimuksia
         cash_on_delivery_prohibition: Toimitustavalla ei saa toimittaa jälkivaatimuksia
@@ -511,7 +514,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -537,7 +540,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
