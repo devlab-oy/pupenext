@@ -52,8 +52,7 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
 
     assert_no_difference("BankDetail.count") do
       post :create, bank_detail: params
-
-      assert_template :new
+      assert_template :edit
     end
   end
 
