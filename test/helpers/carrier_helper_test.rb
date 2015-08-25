@@ -8,4 +8,9 @@ class CarrierHelperTest < ActionView::TestCase
     assert_equal text, neutraali_options.first.first
     assert_equal 'neutral', neutraali_options.first.second
   end
+
+  test "should get carrier options" do
+    assert_kind_of Array, carrier_options
+    assert_equal 'HIT', carrier_options.first.second
+  end
 end

@@ -106,10 +106,6 @@ class DeliveryMethod < BaseModel
     []
   end
 
-  def carrier_options
-    #company.carriers.map { |i| [ i.nimi, i.koodi ] }
-  end
-
   private
 
     def permit_adr_shipments

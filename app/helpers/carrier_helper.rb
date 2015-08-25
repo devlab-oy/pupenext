@@ -6,4 +6,8 @@ module CarrierHelper
       [ t("#{ROOT}.neutraali_options.#{key}"), key ]
     end
   end
+
+  def carrier_options
+    Carrier.pluck(:nimi, :koodi)
+  end
 end
