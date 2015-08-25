@@ -542,30 +542,31 @@ ActiveRecord::Schema.define(version: 20150824141422) do
   add_index "extranet_kayttajan_lisatiedot", ["yhtio", "liitostunnus", "laji", "selite"], name: "yhtio_liitostunnus_laji_selite", unique: true, using: :btree
 
   create_table "factoring", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",          limit: 5,     default: "", null: false
-    t.string   "factoringyhtio", limit: 10,    default: "", null: false
-    t.string   "nimitys",        limit: 55,    default: "", null: false
-    t.string   "pankkinimi1",    limit: 80,    default: "", null: false
-    t.string   "pankkitili1",    limit: 80,    default: "", null: false
-    t.string   "pankkiiban1",    limit: 80,    default: "", null: false
-    t.string   "pankkiswift1",   limit: 80,    default: "", null: false
-    t.string   "pankkinimi2",    limit: 80,    default: "", null: false
-    t.string   "pankkitili2",    limit: 80,    default: "", null: false
-    t.string   "pankkiiban2",    limit: 80,    default: "", null: false
-    t.string   "pankkiswift2",   limit: 80,    default: "", null: false
-    t.string   "pankki_tili",    limit: 35,    default: "", null: false
-    t.text     "teksti_fi",      limit: 65535
-    t.text     "teksti_en",      limit: 65535
-    t.text     "teksti_se",      limit: 65535
-    t.text     "teksti_ee",      limit: 65535
-    t.string   "sopimusnumero",  limit: 20,    default: "", null: false
-    t.string   "email",          limit: 100,   default: "", null: false
-    t.string   "valkoodi",       limit: 3,     default: "", null: false
-    t.string   "viitetyyppi",    limit: 1,     default: "", null: false
-    t.string   "laatija",        limit: 50,    default: "", null: false
-    t.datetime "luontiaika",                                null: false
-    t.datetime "muutospvm",                                 null: false
-    t.string   "muuttaja",       limit: 50,    default: "", null: false
+    t.string   "yhtio",           limit: 5,     default: "", null: false
+    t.integer  "bank_account_id", limit: 4
+    t.string   "factoringyhtio",  limit: 10,    default: "", null: false
+    t.string   "nimitys",         limit: 55,    default: "", null: false
+    t.string   "pankkinimi1",     limit: 80,    default: "", null: false
+    t.string   "pankkitili1",     limit: 80,    default: "", null: false
+    t.string   "pankkiiban1",     limit: 80,    default: "", null: false
+    t.string   "pankkiswift1",    limit: 80,    default: "", null: false
+    t.string   "pankkinimi2",     limit: 80,    default: "", null: false
+    t.string   "pankkitili2",     limit: 80,    default: "", null: false
+    t.string   "pankkiiban2",     limit: 80,    default: "", null: false
+    t.string   "pankkiswift2",    limit: 80,    default: "", null: false
+    t.string   "pankki_tili",     limit: 35,    default: "", null: false
+    t.text     "teksti_fi",       limit: 65535
+    t.text     "teksti_en",       limit: 65535
+    t.text     "teksti_se",       limit: 65535
+    t.text     "teksti_ee",       limit: 65535
+    t.string   "sopimusnumero",   limit: 20,    default: "", null: false
+    t.string   "email",           limit: 100,   default: "", null: false
+    t.string   "valkoodi",        limit: 3,     default: "", null: false
+    t.string   "viitetyyppi",     limit: 1,     default: "", null: false
+    t.string   "laatija",         limit: 50,    default: "", null: false
+    t.datetime "luontiaika",                                 null: false
+    t.datetime "muutospvm",                                  null: false
+    t.string   "muuttaja",        limit: 50,    default: "", null: false
   end
 
   create_table "fixed_assets_commodities", force: :cascade do |t|
@@ -1923,20 +1924,21 @@ ActiveRecord::Schema.define(version: 20150824141422) do
   add_index "suorituksen_kohdistus", ["yhtio", "suoritustunnus"], name: "suoritustunnus_index", using: :btree
 
   create_table "suoritus", primary_key: "tunnus", force: :cascade do |t|
-    t.string  "yhtio",          limit: 5,                              default: "",  null: false
-    t.string  "tilino",         limit: 35,                             default: "",  null: false
-    t.string  "tilino_maksaja", limit: 35,                             default: "",  null: false
-    t.string  "nimi_maksaja",   limit: 12,                             default: "",  null: false
-    t.string  "viite",          limit: 25,                             default: "",  null: false
-    t.text    "viesti",         limit: 65535
-    t.decimal "summa",                        precision: 12, scale: 2, default: 0.0, null: false
-    t.string  "valkoodi",       limit: 3,                              default: "",  null: false
-    t.decimal "kurssi",                       precision: 15, scale: 9, default: 0.0, null: false
-    t.date    "maksupvm",                                                            null: false
-    t.date    "kirjpvm",                                                             null: false
-    t.date    "kohdpvm",                                                             null: false
-    t.integer "asiakas_tunnus", limit: 4,                              default: 0,   null: false
-    t.integer "ltunnus",        limit: 4,                              default: 0,   null: false
+    t.string  "yhtio",           limit: 5,                              default: "",  null: false
+    t.integer "bank_account_id", limit: 4
+    t.string  "tilino",          limit: 35,                             default: "",  null: false
+    t.string  "tilino_maksaja",  limit: 35,                             default: "",  null: false
+    t.string  "nimi_maksaja",    limit: 12,                             default: "",  null: false
+    t.string  "viite",           limit: 25,                             default: "",  null: false
+    t.text    "viesti",          limit: 65535
+    t.decimal "summa",                         precision: 12, scale: 2, default: 0.0, null: false
+    t.string  "valkoodi",        limit: 3,                              default: "",  null: false
+    t.decimal "kurssi",                        precision: 15, scale: 9, default: 0.0, null: false
+    t.date    "maksupvm",                                                             null: false
+    t.date    "kirjpvm",                                                              null: false
+    t.date    "kohdpvm",                                                              null: false
+    t.integer "asiakas_tunnus",  limit: 4,                              default: 0,   null: false
+    t.integer "ltunnus",         limit: 4,                              default: 0,   null: false
   end
 
   add_index "suoritus", ["ltunnus"], name: "tositerivit_index", using: :btree
@@ -2338,6 +2340,7 @@ ActiveRecord::Schema.define(version: 20150824141422) do
 
   create_table "tiliotedata", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",           limit: 5,     default: "", null: false
+    t.integer  "bank_account_id", limit: 4
     t.integer  "aineisto",        limit: 4,     default: 0,  null: false
     t.string   "tilino",          limit: 35,    default: "", null: false
     t.date     "alku",                                       null: false
@@ -2359,17 +2362,18 @@ ActiveRecord::Schema.define(version: 20150824141422) do
   add_index "tiliotedata", ["yhtio", "tiliointitunnus"], name: "yhtio_tiliointitunnus", using: :btree
 
   create_table "tiliotesaanto", primary_key: "tunnus", force: :cascade do |t|
-    t.string  "yhtio",       limit: 5,   default: "", null: false
-    t.string  "pankkitili",  limit: 35,  default: "", null: false
-    t.string  "koodi",       limit: 3,   default: "", null: false
-    t.string  "koodiselite", limit: 35,  default: "", null: false
-    t.string  "nimitieto",   limit: 35,  default: "", null: false
-    t.string  "selite",      limit: 100, default: "", null: false
-    t.string  "erittely",    limit: 1,   default: "", null: false
-    t.string  "tilino",      limit: 6,   default: "", null: false
-    t.string  "tilino2",     limit: 6,   default: "", null: false
-    t.integer "kustp",       limit: 4,   default: 0,  null: false
-    t.integer "kustp2",      limit: 4,   default: 0,  null: false
+    t.string  "yhtio",           limit: 5,   default: "", null: false
+    t.integer "bank_account_id", limit: 4
+    t.string  "pankkitili",      limit: 35,  default: "", null: false
+    t.string  "koodi",           limit: 3,   default: "", null: false
+    t.string  "koodiselite",     limit: 35,  default: "", null: false
+    t.string  "nimitieto",       limit: 35,  default: "", null: false
+    t.string  "selite",          limit: 100, default: "", null: false
+    t.string  "erittely",        limit: 1,   default: "", null: false
+    t.string  "tilino",          limit: 6,   default: "", null: false
+    t.string  "tilino2",         limit: 6,   default: "", null: false
+    t.integer "kustp",           limit: 4,   default: 0,  null: false
+    t.integer "kustp2",          limit: 4,   default: 0,  null: false
   end
 
   create_table "toimi", primary_key: "tunnus", force: :cascade do |t|
