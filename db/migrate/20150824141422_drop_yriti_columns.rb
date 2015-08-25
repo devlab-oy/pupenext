@@ -4,10 +4,10 @@ class DropYritiColumns < ActiveRecord::Migration
                            :salattukerta, :generointiavain, :asiakas, :pankki, :asiakastarkenne,
                            :pankkitarkenne, :nro, :kayttoavain
 
-    add_column :factoring,     :bank_account_id, :integer, { after: :yhtio }
-    add_column :suoritus,      :bank_account_id, :integer, { after: :yhtio }
-    add_column :tiliotedata,   :bank_account_id, :integer, { after: :yhtio }
-    add_column :tiliotesaanto, :bank_account_id, :integer, { after: :yhtio }
+    add_column :factoring,     :bank_account_id, :integer, after: :yhtio
+    add_column :suoritus,      :bank_account_id, :integer, after: :yhtio
+    add_column :tiliotedata,   :bank_account_id, :integer, after: :yhtio
+    add_column :tiliotesaanto, :bank_account_id, :integer, after: :yhtio
 
     remove_index :yriti, name: :yhtio_tilino
     add_index    :yriti, [:yhtio, :tilino]
@@ -23,19 +23,19 @@ class DropYritiColumns < ActiveRecord::Migration
   end
 
   def down
-    add_column :yriti, :siirtoavain,     :text,    { after: :yhtio }
-    add_column :yriti, :kasukupolvi,     :integer, { after: :yhtio }
-    add_column :yriti, :sasukupolvi,     :integer, { after: :yhtio }
-    add_column :yriti, :kertaavain,      :text,    { after: :yhtio }
-    add_column :yriti, :siemen,          :text,    { after: :yhtio }
-    add_column :yriti, :salattukerta,    :text,    { after: :yhtio }
-    add_column :yriti, :generointiavain, :text,    { after: :yhtio }
-    add_column :yriti, :asiakas,         :string,  { after: :yhtio }
-    add_column :yriti, :pankki,          :string,  { after: :yhtio }
-    add_column :yriti, :asiakastarkenne, :string,  { after: :yhtio }
-    add_column :yriti, :pankkitarkenne,  :string,  { after: :yhtio }
-    add_column :yriti, :nro,             :integer, { after: :yhtio }
-    add_column :yriti, :kayttoavain,     :text,    { after: :yhtio }
+    add_column :yriti, :siirtoavain,     :text,    after: :yhtio
+    add_column :yriti, :kasukupolvi,     :integer, after: :yhtio
+    add_column :yriti, :sasukupolvi,     :integer, after: :yhtio
+    add_column :yriti, :kertaavain,      :text,    after: :yhtio
+    add_column :yriti, :siemen,          :text,    after: :yhtio
+    add_column :yriti, :salattukerta,    :text,    after: :yhtio
+    add_column :yriti, :generointiavain, :text,    after: :yhtio
+    add_column :yriti, :asiakas,         :string,  after: :yhtio
+    add_column :yriti, :pankki,          :string,  after: :yhtio
+    add_column :yriti, :asiakastarkenne, :string,  after: :yhtio
+    add_column :yriti, :pankkitarkenne,  :string,  after: :yhtio
+    add_column :yriti, :nro,             :integer, after: :yhtio
+    add_column :yriti, :kayttoavain,     :text,    after: :yhtio
 
     remove_column :factoring,     :bank_account_id
     remove_column :suoritus,      :bank_account_id
