@@ -33,7 +33,7 @@ module BankHelper
     return false unless value.respond_to?(:upcase)
 
     # Validation bypass if value contains only letters (space allowed)
-    return true if value =~ /\A[a-zA-Z ]+\z/
+    return true if value =~ /\A[a-zA-Z öäåÖÄÅ]+\z/
 
     value.upcase!
     # Clean value
