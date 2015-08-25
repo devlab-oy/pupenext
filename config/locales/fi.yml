@@ -20,6 +20,25 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      bank_detail:
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        nimitys: Nimitys
+        pankkiiban1: IBAN
+        pankkiiban2: IBAN
+        pankkiiban3: IBAN
+        pankkinimi1: Pankin nimi
+        pankkinimi2: Pankin nimi
+        pankkinimi3: Pankin nimi
+        pankkiswift1: BIC
+        pankkiswift2: BIC
+        pankkiswift3: BIC
+        pankkitili1: Tilinumero
+        pankkitili2: Tilinumero
+        pankkitili3: Tilinumero
+        viite: Viite
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -280,6 +299,17 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    bank_details:
+      edit:
+        header: Pankkiyhteystieto
+      index:
+        button_new: Uusi pankkiyhteystieto
+        button_search: Etsi
+        header: Pankkiyhteystiedot
+    bank_details_helper:
+      empty: tyhjä
+      finnish: Suomi
+      swedish: Ruotsi
     carriers:
       edit:
         header: Rahdinkuljettaja
