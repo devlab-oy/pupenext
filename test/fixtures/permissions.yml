@@ -1,24 +1,27 @@
 # list of permissions to create
 <% permississions = %w{
-    test
     accounts
+    bank_details
+    carriers
+    cash_registers
     commodities
     companies
     currencies
     customers
     fiscal_years
-    terms_of_payments
+    packing_areas
     printers
+    qualifiers
     sum_levels
-    cash_registers
-    bank_details
+    terms_of_payments
+    test
   }
 %>
 
 # list of permissions to pupesoft classic
 <% classic_permissions = %w{
-     tulosta_tuotetarrat.php
-   }
+    tulosta_tuotetarrat.php
+  }
 %>
 
 <% permississions.each do |p| %>

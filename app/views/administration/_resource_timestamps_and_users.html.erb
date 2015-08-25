@@ -4,7 +4,7 @@
       <%= label_tag :laatija, resource.class.human_attribute_name(:laatija) %>
     </th>
     <td>
-      <%= resource.laatija %>
+      <%= user_name resource.laatija %>
       <%="- #{l(resource.luontiaika)}" if resource.luontiaika %>
     </td>
   </tr>
@@ -13,7 +13,7 @@
       <%= label_tag :muuttaja, resource.class.human_attribute_name(:muuttaja) %>
     </th>
     <td>
-      <%= resource.muuttaja %>
+      <%= user_name resource.muuttaja %>
       <%="- #{l(resource.muutospvm)}" if resource.muutospvm %>
     </td>
   </tr>

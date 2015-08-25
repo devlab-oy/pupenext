@@ -3,7 +3,7 @@ class MonitoringController < ApplicationController
 
   skip_before_action :access_control
   skip_before_action :authorize
-  skip_before_action :set_current_company
+  skip_before_action :set_current_info
   skip_before_action :set_locale
 
   before_action :monitoring_access_control
