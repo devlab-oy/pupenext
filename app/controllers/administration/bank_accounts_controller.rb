@@ -58,6 +58,7 @@ class Administration::BankAccountsController < AdministrationController
         :oletus_projekti,
         :oletus_rahatili,
         :oletus_selvittelytili,
+        :tilino,
         :tilinylitys,
         :valkoodi,
       )
