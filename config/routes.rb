@@ -23,6 +23,7 @@ Pupesoft::Application.routes.draw do
     resources :carriers
     resources :cash_registers
     resources :currencies, except: :destroy
+    resources :delivery_methods
     resources :fiscal_years, except: :destroy
     resources :packing_areas
     resources :printers
