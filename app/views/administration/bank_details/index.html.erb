@@ -1,33 +1,38 @@
-<%= render "administration/header", title: "Pankkiyhteystiedot" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi pankkiyhteystieto"), new_bank_detail_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>
 
 <br/><br/>
 
 <%= form_tag bank_details_path, method: :get do %>
   <table>
     <thead>
-    <tr>
-      <th>
-        <%= sortable :nimitys %>
-        <br/>
-        <%= text_field_tag :nimitys, params[:nimitys] %>
-      </th>
-      <th class="back"><%= submit_tag t("Etsi"), class: "hae_btn" %></th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @bank_details.each do |bank_detail| %>
-      <tr class="aktiivi">
-        <td>
-          <%= link_to nimitys_teksti(bank_detail.nimitys), edit_bank_detail_path(bank_detail) %>
-        </td>
+      <tr>
+        <th>
+          <%= sortable :nimitys, BankDetail.human_attribute_name(:nimitys) %>
+          <br/>
+          <%= text_field_tag :nimitys, params[:nimitys] %>
+        </th>
+        <th class="back">
+          <%= submit_tag t('.button_search'), class: "hae_btn" %>
+        </th>
       </tr>
-    <% end %>
+    </thead>
+
+    <tbody>
+      <% @bank_details.each do |bank_detail| %>
+        <tr class="aktiivi">
+          <td>
+            <%= link_to nimitys_teksti(bank_detail.nimitys), edit_bank_detail_path(bank_detail) %>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
+
   </table>
 
-  <br/>
-
-  <%= button_to t("Uusi pankkiyhteystieto"), new_bank_detail_path, method: :get if update_access? %>
 <% end %>
+
+<br/>
+
+<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>
