@@ -1,29 +1,31 @@
 <table width='100%'>
   <tr>
     <th width='170'><%= f.label :kaytossa %></th>
-    <td><%= f.select :kaytossa, in_use_options %></td>
+    <td><%= f.select :kaytossa, in_use_options, {}, class: :large %></td>
   </tr>
 
   <tr>
     <th><%= f.label :kateinen %></th>
     <td>
-      <%= f.select :kateinen, cash_options %>
+      <%= f.select :kateinen, cash_options, {}, class: :large %>
     </td>
   </tr>
 
   <tr>
     <th><%= f.label :factoring %></th>
     <td>
-      <%= f.select(:factoring, @terms_of_payment.factoring_options,
-        include_blank: t('administration.terms_of_payments.edit.no_factoring')) %>
+      <%= f.select :factoring, @terms_of_payment.factoring_options,
+          { include_blank: t('administration.terms_of_payments.edit.no_factoring') },
+          class: :large %>
     </td>
   </tr>
 
   <tr>
     <th><%= f.label :pankkiyhteystiedot %></th>
     <td>
-      <%= f.select(:pankkiyhteystiedot, @terms_of_payment.bank_details_options,
-        include_blank: t('administration.terms_of_payments.edit.use_company_defaults')) %>
+      <%= f.select :pankkiyhteystiedot, @terms_of_payment.bank_details_options,
+          { include_blank: t('administration.terms_of_payments.edit.use_company_defaults') },
+          class: :large %>
     </td>
   </tr>
 
@@ -57,6 +59,6 @@
 
   <tr>
     <th><%= f.label :sallitut_maat %></th>
-    <td><%= f.text_field :sallitut_maat, size: 42 %></td>
+    <td><%= f.text_field :sallitut_maat, class: :large %></td>
   </tr>
 </table>
