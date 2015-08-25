@@ -313,6 +313,67 @@ fi:
         header: Valuutat
       update:
         update_success: Valuutta päivitettiin onnistuneesti
+    delivery_methods:
+      adr_prohibition_options:
+        adr_prohibition: Toimitustavalla ei saa toimittaa VAK-tuotteita
+        adr_shipment: VAK-tuotteet toimitetaan toimitustavalla
+        permit_adr: Toimitustavalla saa toimittaa VAK-tuotteita
+      cash_on_delivery_prohibition_options:
+        cash_on_delivery_permitted: Toimitustavalla saa toimittaa jälkivaatimuksia
+        cash_on_delivery_prohibition: Toimitustavalla ei saa toimittaa jälkivaatimuksia
+      container_options:
+        includes_container: Kyllä
+        not_including_container: Ei
+      extranet_options:
+        both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
+        only_in_extranet: Toimitustapa näytetään vain extranetissä
+        only_in_sales: Toimitustapa näytetään vain myynnissä
+      freight_contract_options:
+        receiver_freight_contract: Käytetään vastaanottajan rahtisopimusta
+        sender_freight_contract: Käytetään lähettäjän rahtisopimusta
+      label_options:
+        compact_label: Tiivistetty
+        intrade_label: Intrade
+        normal_label: Normaali
+        simple_label: Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa
+      logy_waybill_number_options:
+        not_using_logy_waybill_numbers: Ei käytetä LOGY-rahtikirjanumeroita
+        use_logy_waybill_numbers: Käytetään LOGY-rahtikirjanumeroita
+      new_packaging_information_options:
+        package_info_entry_allowed: Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta
+        package_info_entry_denied: Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta
+      packing_line_prohibition_options:
+        not_reserving_packing_line: Toimitustavan tilaukaset eivät varaa pakkaamolokeroa
+        reserve_packing_line: Toimitustavan tilaukset varaavat pakkaamolokeron
+      pickup_options:
+        pickup: Asiakas noutaa tilaukset
+        shipment: Tilaukset toimitetaan asiakkaalle
+      print_method_options:
+        batch: Erätulostus
+        collective_batch: Koonti-erätulostus
+        collective_instant: Koonti-hetitulostus
+        instant: Hetitulostus
+        skip_print: Rahtikirjansyöttö ja -tulostus ohitetaan
+      saturday_delivery_options:
+        not_saturday_delivery: Ei lauantaijakelua
+        saturday_delivery: Itella lisäpalvelu - Lauantaijakelu
+      special_packaging_prohibition_options:
+        special_packaging_permitted: Toimitustavalla saa toimittaa erikoispakkauksia
+        special_packaging_prohibition: Toimitustavalla ei saa toimittaa erikoispakkauksia
+      transport_unit_options:
+        not_transport_unit: Ei kuljetusyksikkökuljetusta
+        transport_unit: Itella lisäpalvelu - Kuljetusyksikkökuljetus
+      transportation_insurance_type_options:
+        currency_based_insurance: Valuuttamääräinen kuljetusvakuutus lisätään
+        currency_based_insurance_with_discount: Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakashintaa ja alennusta
+        no_transportation_insurance: Ei kuljetusvakuutusta
+        percentage_based_insurance: Prosentuaalinen kuljetusvakuutus lisätään
+        percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
+        use_company_default: Yhtiön oletus
+      waybill_specification_options:
+        no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
+        print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely
+        print_waybill_specification_per_customer: Toimitustavalle tulostetaan rahtikirjaerittely per asiakas
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
@@ -408,63 +469,6 @@ fi:
         not_cumulative: Ei
       update:
         update_success: Taso päivitettiin onnistuneesti
-    delivery_methods:
-      pickup_options:
-        shipment: Tilaukset toimitetaan asiakkaalle
-        pickup: Asiakas noutaa tilaukset
-      saturday_delivery_options:
-        not_saturday_delivery: Ei lauantaijakelua
-        saturday_delivery: Itella lisäpalvelu - Lauantaijakelu
-      transport_unit_options:
-        not_transport_unit: Ei kuljetusyksikkökuljetusta
-        transport_unit: Itella lisäpalvelu - Kuljetusyksikkökuljetus
-      print_method_options:
-        batch: Erätulostus
-        instant: Hetitulostus
-        collective_instant: Koonti-hetitulostus
-        collective_batch: Koonti-erätulostus
-        skip_print: Rahtikirjansyöttö ja -tulostus ohitetaan
-      freight_contract_options:
-        sender_freight_contract: Käytetään lähettäjän rahtisopimusta
-        receiver_freight_contract: Käytetään vastaanottajan rahtisopimusta
-      logy_waybill_number_options:
-        not_using_logy_waybill_numbers: Ei käytetä LOGY-rahtikirjanumeroita
-        use_logy_waybill_numbers: Käytetään LOGY-rahtikirjanumeroita
-      extranet_options:
-        only_in_sales: Toimitustapa näytetään vain myynnissä
-        only_in_extranet: Toimitustapa näytetään vain extranetissä
-        both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
-      container_options:
-        includes_container: Kyllä
-        not_including_container: Ei
-      cash_on_delivery_prohibition_options:
-        cash_on_delivery_permitted: Toimitustavalla saa toimittaa jälkivaatimuksia
-        cash_on_delivery_prohibition: Toimitustavalla ei saa toimittaa jälkivaatimuksia
-      special_packaging_prohibition_options:
-        special_packaging_permitted: Toimitustavalla saa toimittaa erikoispakkauksia
-        special_packaging_prohibition: Toimitustavalla ei saa toimittaa erikoispakkauksia
-      packing_line_prohibition_options:
-        reserve_packing_line: Toimitustavan tilaukset varaavat pakkaamolokeron
-        not_reserving_packing_line: Toimitustavan tilaukaset eivät varaa pakkaamolokeroa
-      waybill_specification_options:
-        no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
-        print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely
-        print_waybill_specification_per_customer: Toimitustavalle tulostetaan rahtikirjaerittely per asiakas
-      new_packaging_information_options:
-        package_info_entry_denied: Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta
-        package_info_entry_allowed: Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta
-      transportation_insurance_type_options:
-        use_company_default: Yhtiön oletus
-        no_transportation_insurance: Ei kuljetusvakuutusta
-        currency_based_insurance: Valuuttamääräinen kuljetusvakuutus lisätään
-        percentage_based_insurance: Prosentuaalinen kuljetusvakuutus lisätään
-        currency_based_insurance_with_discount: Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakashintaa ja alennusta
-        percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
-      label_options:
-        normal_label: Normaali
-        intrade_label: Intrade
-        compact_label: Tiivistetty
-        simple_label: Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa
     terms_of_payments:
       cash_options:
         cash: Käteismaksuehto, käteinen pyöristetään
@@ -507,7 +511,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -533,7 +537,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
