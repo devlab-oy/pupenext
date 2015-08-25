@@ -113,16 +113,6 @@ class DeliveryMethodHelperTest < ActionView::TestCase
     assert_equal 'currency_based_insurance', transportation_insurance_type_options.third.second
   end
 
-  test "should get waybill options" do
-    assert_kind_of Array, waybill_options
-    assert_equal 'rahtikirja.inc', waybill_options.first.second
-  end
-
-  test "should get mode of transport options" do
-    assert_kind_of Array, mode_of_transport_options
-    assert_equal '1 - Merikuljetus (ml. auto- ja junalauttakuljetus)', mode_of_transport_options.first.first
-  end
-
   test "should get label options" do
     Current.company.parameter.kerayserat = ''
 
@@ -134,21 +124,6 @@ class DeliveryMethodHelperTest < ActionView::TestCase
 
     assert_kind_of Array, label_options
     assert label_options.any? { |_,key| key == 'simple_label' }
-  end
-
-  test "should get nature of transaction options" do
-    assert_kind_of Array, nature_of_transaction_options
-    assert_equal '11 - Suora osto/myynti', nature_of_transaction_options.first.first
-  end
-
-  test "should get customs options" do
-    assert_kind_of Array, customs_options
-    assert_equal 'FI001000', customs_options.first.second
-  end
-
-  test "should get sorting point options" do
-    assert_kind_of Array, sorting_point_options
-    assert_equal 'FIVAT', sorting_point_options.first.second
   end
 
   test "should get adr prohibition options" do

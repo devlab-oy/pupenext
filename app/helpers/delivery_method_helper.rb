@@ -1,26 +1,6 @@
 module DeliveryMethodHelper
   ROOT = 'administration.delivery_methods'
 
-  def waybill_options
-    Keyword::Waybill.all.map { |i| [ i.selitetark, i.selite ] }
-  end
-
-  def mode_of_transport_options
-    Keyword::ModeOfTransport.all.map { |i| [ i.selitetark, i.selite ] }
-  end
-
-  def nature_of_transaction_options
-    Keyword::NatureOfTransaction.all.map { |i| [ i.selitetark, i.selite ] }
-  end
-
-  def customs_options
-    Keyword::Customs.all.map { |i| [ "#{i.selite} #{i.selitetark}", i.selite ] }
-  end
-
-  def sorting_point_options
-    Keyword::SortingPoint.all.map { |i| [ i.selitetark, i.selite ] }
-  end
-
   def adr_prohibition_options
     options = [
       [ t("administration.delivery_methods.adr_prohibition_options.permit_adr"), "" ],
