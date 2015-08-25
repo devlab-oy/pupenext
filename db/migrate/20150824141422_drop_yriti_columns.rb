@@ -9,9 +9,7 @@ class DropYritiColumns < ActiveRecord::Migration
     add_column :tiliotedata,   :bank_account_id, :integer, after: :yhtio
     add_column :tiliotesaanto, :bank_account_id, :integer, after: :yhtio
 
-    remove_index :yriti, name: :yhtio_tilino
-    add_index    :yriti, [:yhtio, :tilino]
-    add_index    :yriti, [:yhtio, :iban]
+    add_index :yriti, [:yhtio, :iban]
 
     Company.find_each do |company|
       Current.company = company.yhtio
@@ -51,7 +49,5 @@ class DropYritiColumns < ActiveRecord::Migration
     end
 
     remove_index :yriti, [:yhtio, :iban]
-    remove_index :yriti, [:yhtio, :tilino]
-    add_index    :yriti, [:yhtio, :tilino], unique: true, name: :yhtio_tilino
   end
 end
