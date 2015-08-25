@@ -327,6 +327,8 @@ fi:
       container_options:
         includes_container: Kyllä
         not_including_container: Ei
+      edit:
+        header: Toimitustapa
       extranet_options:
         both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
         only_in_extranet: Toimitustapa näytetään vain extranetissä
@@ -334,6 +336,10 @@ fi:
       freight_contract_options:
         receiver_freight_contract: Käytetään vastaanottajan rahtisopimusta
         sender_freight_contract: Käytetään lähettäjän rahtisopimusta
+      index:
+        button_new: Uusi toimitustapa
+        button_search: Etsi
+        header: Toimitustavat
       label_options:
         compact_label: Tiivistetty
         intrade_label: Intrade

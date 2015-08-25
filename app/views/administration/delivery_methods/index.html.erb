@@ -1,0 +1,117 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to t('.button_new'), new_delivery_method_path, method: :get if update_access? %>
+
+<br /><br />
+
+<%= form_tag delivery_methods_path, method: :get do %>
+
+  <table>
+    <tr>
+      <th>
+        <%= sortable "selite", DeliveryMethod.human_attribute_name(:selite) %>
+        <br />
+        <%= text_field_tag :selite, params[:selite] %>
+      </th>
+
+      <th>
+        <%= sortable "tulostustapa", DeliveryMethod.human_attribute_name(:tulostustapa) %>
+        <br />
+        <%= text_field_tag :tulostustapa, params[:tulostustapa] %>
+      </th>
+
+      <th>
+        <%= sortable "sopimusnro", DeliveryMethod.human_attribute_name(:sopimusnro) %>
+        <br />
+        <%= text_field_tag :sopimusnro, params[:sopimusnro] %>
+      </th>
+
+      <th>
+        <%= sortable "nouto", DeliveryMethod.human_attribute_name(:nouto) %>
+        <br />
+        <%= text_field_tag :nouto, params[:nouto] %>
+      </th>
+
+      <th>
+        <%= sortable "ei_pakkaamoa", DeliveryMethod.human_attribute_name(:ei_pakkaamoa) %>
+        <br />
+        <%= text_field_tag :ei_pakkaamoa, params[:ei_pakkaamoa] %>
+      </th>
+
+      <th>
+        <%= sortable "extranet", DeliveryMethod.human_attribute_name(:extranet) %>
+        <br />
+        <%= text_field_tag :extranet, params[:extranet] %>
+      </th>
+
+      <th>
+        <%= sortable "rahtikirja", DeliveryMethod.human_attribute_name(:rahtikirja) %>
+        <br />
+        <%= text_field_tag :rahtikirja, params[:rahtikirja] %>
+      </th>
+
+      <th>
+        <%= sortable "jarjestys", DeliveryMethod.human_attribute_name(:jarjestys) %>
+        <br />
+        <%= text_field_tag :jarjestys, params[:jarjestys] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+  <% @delivery_methods.each do |delivery_method| %>
+    <tr>
+      <td>
+        <%= link_to delivery_method.selite, edit_delivery_method_path(delivery_method.id) %>
+      </td>
+
+      <td>
+        <%= t("administration.delivery_methods.print_method_options.batch") if delivery_method.batch? %>
+        <%= t("administration.delivery_methods.print_method_options.collective_batch") if delivery_method.collective_batch? %>
+        <%= t("administration.delivery_methods.print_method_options.collective_instant") if delivery_method.collective_instant? %>
+        <%= t("administration.delivery_methods.print_method_options.instant") if delivery_method.instant? %>
+        <%= t("administration.delivery_methods.print_method_options.skip_print") if delivery_method.skip_print? %>
+      </td>
+
+      <td>
+        <%= delivery_method.sopimusnro %>
+      </td>
+
+      <td>
+        <%= t("administration.delivery_methods.pickup_options.pickup") if delivery_method.pickup? %>
+        <%= t("administration.delivery_methods.pickup_options.shipment") if delivery_method.shipment? %>
+      </td>
+
+      <td>
+        <%= t("administration.delivery_methods.packing_line_prohibition_options.not_reserving_packing_line") if delivery_method.not_reserving_packing_line? %>
+        <%= t("administration.delivery_methods.packing_line_prohibition_options.reserve_packing_line") if delivery_method.reserve_packing_line? %>
+      </td>
+
+      <td>
+        <%= t("administration.delivery_methods.extranet_options.both_in_sales_and_extranet") if delivery_method.both_in_sales_and_extranet? %>
+        <%= t("administration.delivery_methods.extranet_options.only_in_extranet") if delivery_method.only_in_extranet? %>
+        <%= t("administration.delivery_methods.extranet_options.only_in_sales") if delivery_method.only_in_sales? %>
+      </td>
+
+      <td>
+        <%= delivery_method.rahtikirja %>
+      </td>
+
+      <td>
+        <%= delivery_method.jarjestys %>
+      </td>
+
+      <td class="back">
+      </td>
+    </tr>
+  <% end %>
+
+  </table>
+
+<% end %>
+
+<br/>
+
+<%= button_to t('.button_new'), new_delivery_method_path, method: :get if update_access? %>

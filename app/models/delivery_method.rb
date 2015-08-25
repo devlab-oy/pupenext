@@ -1,4 +1,6 @@
 class DeliveryMethod < BaseModel
+  include Searchable
+
   with_options foreign_key: :selite do |o|
     o.has_many :waybills,               primary_key: :rahtikirja,                 class_name: 'Keyword::Waybill'
     o.has_many :mode_of_transports,     primary_key: :kuljetusmuoto,              class_name: 'Keyword::ModeOfTransport'

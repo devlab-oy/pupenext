@@ -1,0 +1,26 @@
+<%= render "administration/form_errors", resource: @delivery_method %>
+
+<%= form_for @delivery_method do |f| %>
+
+  <table>
+    <tr>
+      <th><%= f.label :selite %></th>
+      <td><%= f.text_field :selite %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :lahdon_selite %></th>
+      <td><%= f.text_field :lahdon_selite %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :virallinen_selite %></th>
+      <td><%= f.select :virallinen_selite, grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite) %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tulostustapa %></th>
+      <td><%= f.text_field :tulostustapa %></td>
+    </tr>
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>
