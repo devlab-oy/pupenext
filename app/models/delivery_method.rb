@@ -97,10 +97,6 @@ class DeliveryMethod < BaseModel
     simple_label: 'oslap_mg'
   }
 
-  def sorting_point_options
-    company.keywords.sorting_points.map { |i| [ i.selitetark, i.selite ] }
-  end
-
   def adr_options(text)
     DeliveryMethod.permit_adr.shipment.map do |i|
       [ "#{text} #{i.selite}", i.selite ]

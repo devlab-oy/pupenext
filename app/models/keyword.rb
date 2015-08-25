@@ -1,10 +1,6 @@
 class Keyword < BaseModel
   include PupenextSingleTableInheritance
 
-  def self.sorting_points
-    where(laji: "TOIMTAPALP")
-  end
-
   self.table_name = :avainsana
   self.primary_key = :tunnus
   self.inheritance_column = :laji
@@ -23,6 +19,7 @@ class Keyword < BaseModel
       'KT' => Keyword::NatureOfTransaction,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'RAHTIKIRJA' => Keyword::Waybill,
+      'TOIMTAPALP' => Keyword::SortingPoint,
       'TULLI' => Keyword::Customs
     }
   end

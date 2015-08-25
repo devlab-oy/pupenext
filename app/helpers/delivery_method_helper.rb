@@ -17,6 +17,10 @@ module DeliveryMethodHelper
     Keyword::Customs.all.map { |i| [ "#{i.selite} #{i.selitetark}", i.selite ] }
   end
 
+  def sorting_point_options
+    Keyword::SortingPoint.all.map { |i| [ i.selitetark, i.selite ] }
+  end
+
   def label_options
     options = DeliveryMethod.osoitelappus.map do |key,_|
       [ t("#{ROOT}.label_options.#{key}"), key ]

@@ -145,4 +145,9 @@ class DeliveryMethodHelperTest < ActionView::TestCase
     assert_kind_of Array, customs_options
     assert_equal 'FI001000', customs_options.first.second
   end
+
+  test "should get sorting point options" do
+    assert_kind_of Array, sorting_point_options
+    assert_equal 'FIVAT', sorting_point_options.first.second
+  end
 end
