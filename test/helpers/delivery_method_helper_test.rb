@@ -150,4 +150,13 @@ class DeliveryMethodHelperTest < ActionView::TestCase
     assert_kind_of Array, sorting_point_options
     assert_equal 'FIVAT', sorting_point_options.first.second
   end
+
+  test "should get adr prohibition options" do
+    assert_kind_of Array, adr_prohibition_options
+    assert_operator 2, '<', adr_prohibition_options.count
+    assert_equal 'Kaukokiito', adr_prohibition_options.third.second
+
+    text = I18n.t 'administration.delivery_methods.adr_prohibition_options.permit_adr', :fi
+    assert_equal text, adr_prohibition_options.first.first
+  end
 end

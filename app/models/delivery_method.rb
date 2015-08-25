@@ -1,10 +1,13 @@
 class DeliveryMethod < BaseModel
-  has_many :waybills, foreign_key: :selite, primary_key: :rahtikirja, class_name: 'Keyword::Waybill'
-  has_many :mode_of_transports, foreign_key: :selite, primary_key: :kuljetusmuoto, class_name: 'Keyword::ModeOfTransport'
-  has_many :nature_of_transactions, foreign_key: :selite, primary_key: :kauppatapahtuman_luonne, class_name: 'Keyword::NatureOfTransaction'
-  has_many :customs, foreign_key: :selite, primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
+  with_options foreign_key: :selite do |o|
+    o.has_many :waybills,               primary_key: :rahtikirja,                 class_name: 'Keyword::Waybill'
+    o.has_many :mode_of_transports,     primary_key: :kuljetusmuoto,              class_name: 'Keyword::ModeOfTransport'
+    o.has_many :nature_of_transactions, primary_key: :kauppatapahtuman_luonne,    class_name: 'Keyword::NatureOfTransaction'
+    o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
+  end
 
   validates :selite, uniqueness: true
+  validate :vak_kielto_validation
 
   scope :permit_adr, -> { where(vak_kielto: '') }
 
@@ -97,26 +100,12 @@ class DeliveryMethod < BaseModel
     simple_label: 'oslap_mg'
   }
 
-  def adr_options(text)
-    DeliveryMethod.permit_adr.shipment.map do |i|
-      [ "#{text} #{i.selite}", i.selite ]
-    end
-  end
-
-  def adr_prohibition_options
-    [
-      ["Toimitustavalla saa toimittaa VAK-tuotteita", ""],
-      ["Toimitustavalla ei saa toimittaa VAK-tuotteita", "K"],
-      adr_options("VAK-tuotteet toimitetaan toimitustavalla")
-    ].reject {|i,_| i.empty?}
-  end
-
-  def alternative_adr_delivery_method_options
-    [
-      ["VAK-tuotteita ei siirretä omalle tilaukselleen", ""],
-      adr_options("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla")
-    ].reject {|i,_| i.empty?}
-  end
+  # def alternative_adr_delivery_method_options
+    # [
+    #   ["VAK-tuotteita ei siirretä omalle tilaukselleen", ""],
+    #   adr_options("VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla")
+    # ].reject {|i,_| i.empty?}
+  # end
 
   def permitted_packaging_options
     []
@@ -125,4 +114,13 @@ class DeliveryMethod < BaseModel
   def carrier_options
     #company.carriers.map { |i| [ i.nimi, i.koodi ] }
   end
+
+  private
+
+    def vak_kielto_validation
+      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite)
+      allowed += [ '', 'K' ]
+
+      errors.add :vak_kielto, I18n.t('errors.messages.inclusion') unless allowed.include? vak_kielto
+    end
 end

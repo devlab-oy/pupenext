@@ -21,6 +21,23 @@ module DeliveryMethodHelper
     Keyword::SortingPoint.all.map { |i| [ i.selitetark, i.selite ] }
   end
 
+  def adr_prohibition_options
+    options = [
+      [ t("#{ROOT}.adr_prohibition_options.permit_adr"), "" ],
+      [ t("#{ROOT}.adr_prohibition_options.adr_prohibition"), "K" ]
+    ]
+
+    options = options + adr_options
+    options.reject { |i,_| i.empty? }
+  end
+
+  def adr_options
+    text = t("#{ROOT}.adr_prohibition_options.adr_shipment")
+    DeliveryMethod.permit_adr.shipment.map do |i|
+      [ "#{text} #{i.selite}", i.selite ]
+    end
+  end
+
   def label_options
     options = DeliveryMethod.osoitelappus.map do |key,_|
       [ t("#{ROOT}.label_options.#{key}"), key ]

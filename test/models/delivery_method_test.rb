@@ -13,4 +13,15 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.selite = "Kiitolinja"
     refute @delivery_method.valid?, "Delivery method already exists"
   end
+
+  test 'should validate adr prohibition' do
+    @delivery_method.vak_kielto = ''
+    assert @delivery_method.valid?
+
+    @delivery_method.vak_kielto = 'K'
+    assert @delivery_method.valid?
+
+    @delivery_method.vak_kielto = 'neko'
+    refute @delivery_method.valid?, "Invalid vak_kielto value"
+  end
 end
