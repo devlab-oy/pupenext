@@ -28,6 +28,7 @@ class BankAccountTest < ActiveSupport::TestCase
 
     valid_ibans.each do |iban|
       @ba.iban = iban
+      @ba.tilino = nil
       assert @ba.valid?
     end
 
@@ -35,10 +36,22 @@ class BankAccountTest < ActiveSupport::TestCase
     refute @ba.valid?
   end
 
+  test 'should skip all valiations if not a finnish company' do
+    @ba.company.maa = 'SE'
+    @ba.iban = "not_a_valid_iban_123"
+    assert @ba.valid?
+
+    @ba.tilino = "not_a_valid_tilino"
+    assert @ba.valid?
+
+    @ba.bic = "not_a_valid_bic"
+    assert @ba.valid?
+  end
+
   test "only text bypasses IBAN validation" do
     @ba.iban = "Keijon Kassatili"
+    @ba.tilino = nil
     assert @ba.valid?
-    assert_equal "KEIJONKASSATILI", @ba.iban
   end
 
   test "IBAN is converted to uniform format" do
@@ -48,11 +61,20 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal "FI3715903000000776", @ba.iban
   end
 
-  test "should generate iban from account number" do
-    @ba.iban = "574044-25478"
+  test 'should generate account number from iban' do
+    @ba.iban = 'FI7329501800068417'
+    @ba.tilino = nil
 
-    assert @ba.valid?, "Should have generated IBAN from account number"
-    assert_equal "FI0457404420005478", @ba.iban
+    assert @ba.valid?
+    assert_equal '29501800068417', @ba.tilino
+  end
+
+  test 'should generate iban from account number' do
+    @ba.tilino = "574044-25478"
+    @ba.iban = nil
+
+    assert @ba.valid?
+    assert_equal 'FI0457404420005478', @ba.iban
   end
 
   test "validates BIC properly" do

@@ -12,17 +12,20 @@ class BankAccount < BaseModel
   belongs_to :default_target,      foreign_key: :oletus_kohde,    class_name: "Qualifier::Target"
   belongs_to :default_project,     foreign_key: :oletus_projekti, class_name: "Qualifier::Project"
 
-  validates :bic, presence: true
   validates :default_clearing_account,  presence: true
   validates :default_expense_account,   presence: true
   validates :default_liquidity_account, presence: true
   validates :iban, presence: true, uniqueness: { scope: :company }
   validates :nimi, presence: true
+  validates :tilino, uniqueness: { scope: :company }
 
   validate :check_iban
   validate :check_bic
+  validate :check_tilino
 
   before_validation :convert_to_iban
+  before_validation :convert_to_tilino
+
   before_save :defaults
 
   self.table_name = :yriti
@@ -45,19 +48,44 @@ class BankAccount < BaseModel
 
   private
 
+    def finnish_account?
+      iban.first(2).upcase == 'FI'
+    end
+
+    def finnish_company?
+      company.maa == 'FI'
+    end
+
     def convert_to_iban
-      # Try to create iban in case user has entered old account number
-      if iban.present? && !valid_iban?(iban)
-        self.iban = create_iban(iban)
+      if iban.blank? && tilino.present?
+        number = create_iban(tilino)
+        self.iban = number if valid_iban?(number)
+      end
+    end
+
+    def convert_to_tilino
+      if tilino.blank? && iban.present? && finnish_account?
+        number = iban.last(-4)
+        self.tilino = number if valid_account_number?(number)
       end
     end
 
     def check_iban
-      errors.add(:iban, I18n.t('errors.messages.invalid')) unless valid_iban?(iban)
+      if finnish_company? && !valid_iban?(iban)
+        errors.add :iban, I18n.t('errors.messages.invalid')
+      end
     end
 
     def check_bic
-      errors.add(:bic, I18n.t('errors.messages.invalid')) unless valid_bic?(bic)
+      if finnish_company? && !valid_bic?(bic)
+        errors.add :bic, I18n.t('errors.messages.invalid')
+      end
+    end
+
+    def check_tilino
+      if finnish_account? && finnish_company? && !valid_account_number?(tilino)
+        errors.add(:tilino, I18n.t('errors.messages.invalid'))
+      end
     end
 
     def defaults
