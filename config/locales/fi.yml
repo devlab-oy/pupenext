@@ -234,6 +234,7 @@ fi:
         selitetark: Käännetty teksti
     models:
       account: Tili
+      bank_detail: Pankkiyhteystieto
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
