@@ -32,8 +32,8 @@ module BankHelper
   def valid_iban?(value)
     return false unless value.respond_to?(:upcase)
 
-    # Validation bypass if value contains only letters
-    return true if value =~ /\A[a-zA-Z]+\z/
+    # Validation bypass if value contains only letters (space allowed)
+    return true if value =~ /\A[a-zA-Z ]+\z/
 
     value.upcase!
     # Clean value
