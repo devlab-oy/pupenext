@@ -7,9 +7,15 @@ class Keyword::CustomAttribute < Keyword
     mandatory: 'PAKOLLINEN',
   }
 
+  alias_attribute :database_field, :selite
+  alias_attribute :label,          :selitetark
+  alias_attribute :set_name,       :selitetark_2
+  alias_attribute :required,       :selitetark_3
+  alias_attribute :default_value,  :selitetark_4
+  alias_attribute :help_text,      :selitetark_5
+
   # Rails requires sti_name method to return type column (laji) value
   def self.sti_name
     'MYSQLALIAS'
   end
 end
-
