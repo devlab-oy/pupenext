@@ -1,0 +1,14 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_for :custom_attributes, method: :get do |f| %>
+  <%= f.label :set_name %>
+  <%= f.select :set_name, custom_attribute_set_options, { include_blank: true }, onchange: "submit()" %>
+<% end %>
+
+<br>
+
+<%= form_for :custom_attributes, method: :get do |f| %>
+  <%= f.label :set_name %>
+  <%= f.text_field :set_name %>
+  <%= f.submit t('.button_new') %>
+<% end %>
