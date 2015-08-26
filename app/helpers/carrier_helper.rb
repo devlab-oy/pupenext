@@ -8,6 +8,6 @@ module CarrierHelper
   end
 
   def carrier_options
-    Carrier.pluck(:nimi, :koodi)
+    Carrier.order(:nimi, :koodi).pluck(:nimi, :koodi)
   end
 end

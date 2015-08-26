@@ -17,7 +17,24 @@
     </tr>
     <tr>
       <th><%= f.label :tulostustapa %></th>
-      <td><%= f.text_field :tulostustapa %></td>
+      <td><%= f.select :tulostustapa, print_method_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :rahtikirja %></th>
+      <td><%= f.select :rahtikirja, waybill_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :logy_rahtikirjanumerot %></th>
+      <td><%= f.select :logy_rahtikirjanumerot, logy_waybill_number_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :osoitelappu %></th>
+      <td><%= f.select :osoitelappu, label_options %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :rahdinkuljettaja %></th>
+      <td><%= f.select :rahdinkuljettaja, carrier_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
     </tr>
   </table>
 

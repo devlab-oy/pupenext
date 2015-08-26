@@ -329,6 +329,7 @@ fi:
         not_including_container: Ei
       edit:
         header: Toimitustapa
+        no_select: Ei valintaa
       extranet_options:
         both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
         only_in_extranet: Toimitustapa näytetään vain extranetissä
