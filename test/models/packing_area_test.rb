@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PackingAreaTest < ActiveSupport::TestCase
+  fixtures %w(packing_areas)
+
   setup do
     @q = packing_areas(:first)
   end
