@@ -18,6 +18,10 @@ class Keyword::CustomAttribute < Keyword
     selite.split('.').last
   end
 
+  def table
+    selite.split('.').first
+  end
+
   # Rails requires sti_name method to return type column (laji) value
   def self.sti_name
     'MYSQLALIAS'

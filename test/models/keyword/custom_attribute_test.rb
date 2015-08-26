@@ -42,11 +42,13 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     assert attrib.valid?
   end
 
-  test 'field name' do
+  test 'field and table name' do
     @attrib.database_field = 'foo.bar'
     assert_equal "bar", @attrib.field
+    assert_equal "foo", @attrib.table
 
     @attrib.database_field = 'foo.bar.baz'
     assert_equal "baz", @attrib.field
+    assert_equal "foo", @attrib.table
   end
 end
