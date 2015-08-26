@@ -38,7 +38,7 @@ fi:
         pankkitili1: Tilinumero
         pankkitili2: Tilinumero
         pankkitili3: Tilinumero
-        viite: Viite
+        viite: Vitteen muoto
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -305,7 +305,6 @@ fi:
         header: Pankkiyhteystieto
       index:
         button_new: Uusi pankkiyhteystieto
-        button_search: Etsi
         header: Pankkiyhteystiedot
     bank_details_helper:
       empty: tyhjä
