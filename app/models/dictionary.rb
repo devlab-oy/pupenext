@@ -10,54 +10,40 @@ class Dictionary < ActiveRecord::Base
   scope :created_order, -> { order({ luontiaika: :desc }, :fi) }
 
   def self.translate(string, language = 'fi')
-    RequestStore.store[:translated_words] ||= []
-    RequestStore.store[:translated_words] << string
+    # Return the string if don't have the translation
+    translate_raw(string, language) || string
+  end
 
+  def self.translate_raw(string, language)
     language.downcase!
 
-    # Return the string if we ask for a Finnish word
-    return string if language == 'fi'
+    # Return nil if we're asking for finnish
+    return if language == 'fi'
 
-    # Generate a cache key for the string
-    cache_key = string.hash
+    # Fetch the translation
+    translation = fetch_translation string
 
-    # Fetch the translation (cache does not expire)
-    translation = Rails.cache.fetch("translation_#{cache_key}") do
-      where("fi = BINARY ?", string).first
-    end
-
-    # Return the string if don't have it in the database
-    return string if translation.nil?
+    # Return nil if don't have it in the database
+    return if translation.nil?
 
     # Get the translation for the given language
     t_string = translation.send(language)
 
-    # Return the string if we don't have translation in correct languate
-    t_string.present? ? t_string : string
+    # Return nil if we don't have translation in correct languate
+    t_string.present? ? t_string : nil
   end
 
-  def self.allowed_languages
-    [
-      [t("Englanti"), "en"],
-      [t("Ruotsi"), "se"],
-      [t("Viro"), "ee"],
-      [t("Saksa"), "de"],
-      [t("Tanska"), "dk"],
-      [t("Norja"), "no"],
-      [t("Venäjä"), "ru"]
-    ]
-  end
+  private
 
-  def self.default_language
-    [t("Suomi"), "fi"]
-  end
+    def self.fetch_translation(string)
+      # Generate a cache key for the string
+      cache_key = string.hash
 
-  def self.all_languages
-    [default_language] | allowed_languages
-  end
+      # Fetch the translation (cache does not expire)
+      translation = Rails.cache.fetch("translation_#{cache_key}") do
+        where("fi = BINARY ?", string.to_s).first
+      end
 
-  def self.translated_words(format = false)
-    translated_words = RequestStore.store[:translated_words].try(:uniq)
-    translated_words.try(:join, "\n") if format == :to_s
-  end
+      translation
+    end
 end

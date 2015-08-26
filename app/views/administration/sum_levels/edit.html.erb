@@ -1,15 +1,15 @@
-<%= return_link("Tilikartan rakenne", sum_levels_path) %>
+<%= return_link t('administration.sum_levels.index.header'), sum_levels_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa tasoa" %>
+<%= render "administration/header", text: t('administration.sum_levels.edit.header') %>
 <%= render 'form' %>
 
 <% if @sum_level.persisted? %>
   <br/>
 
-  <%= button_to(t('Poista taso'),
+  <%= button_to(t('.button_remove'),
                 sum_level_path(@sum_level),
-                data: { confirm: t('Haluatko todella poistaa tämän tietueen?') },
+                data: { confirm: t('administration.sum_levels.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>

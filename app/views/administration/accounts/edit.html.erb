@@ -1,18 +1,15 @@
-<%= return_link("Tilikartta", accounts_path) %>
+<%= return_link t('administration.accounts.index.header'), accounts_path %>
 
 <br/>
 
-<%= render "administration/header", title: "Muokkaa tiliä" %>
-<%= render 'form', account: @account,
-                   levels: @levels,
-                   qualifiers: @qualifiers,
-                   oletus_alv_options: @oletus_alv_options %>
+<%= render "administration/header", text: t('administration.accounts.edit.header') %>
+<%= render 'form' %>
 
 <% if @account.persisted? && update_access? %>
   <br/>
 
-  <%= button_to(t('Poista tili'),
+  <%= button_to(t('administration.accounts.edit.button_remove'),
                 account_path(@account.id),
-                data: { confirm: t('Haluatko todella poistaa tämän tietueen?') },
+                data: { confirm: t('administration.accounts.edit.confirm_remove') },
                 method: "delete") %>
 <% end %>

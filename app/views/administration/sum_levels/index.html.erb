@@ -1,61 +1,64 @@
-<%= render "administration/header", title: "Tilikartan rakenne" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
 
 <br/><br/>
+
 <%= form_tag sum_levels_path, method: :get do %>
+
   <table>
+
     <tr>
       <th>
-        <%= sortable 'taso' %>
+        <%= sortable 'taso', SumLevel.human_attribute_name(:taso) %>
         <br/>
         <%= text_field_tag :taso, params[:taso] %>
       </th>
 
       <th>
-        <%= sortable 'tyyppi' %>
+        <%= sortable 'tyyppi', SumLevel.human_attribute_name(:tyyppi) %>
         <br/>
         <%= text_field_tag :tyyppi, params[:tyyppi] %>
       </th>
 
       <th>
-        <%= sortable 'nimi' %>
+        <%= sortable 'nimi', SumLevel.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable 'summattava_taso' %>
+        <%= sortable 'summattava_taso', SumLevel.human_attribute_name(:summattava_taso) %>
         <br/>
         <%= text_field_tag :summattava_taso, params[:summattava_taso] %>
       </th>
 
       <th>
-        <%= sortable 'kumulatiivinen' %>
+        <%= sortable 'kumulatiivinen', SumLevel.human_attribute_name(:kumulatiivinen) %>
         <br/>
         <%= text_field_tag :kumulatiivinen, params[:kumulatiivinen] %>
       </th>
 
       <th>
-        <%= sortable 'oletusarvo' %>
+        <%= sortable 'oletusarvo', SumLevel.human_attribute_name(:oletusarvo) %>
         <br/>
         <%= text_field_tag :oletusarvo, params[:oletusarvo] %>
       </th>
 
       <th>
-        <%= sortable 'kerroin' %>
+        <%= sortable 'kerroin', SumLevel.human_attribute_name(:kerroin) %>
         <br/>
         <%= text_field_tag :kerroin, params[:kerroin] %>
       </th>
 
       <th>
-        <%= sortable 'jakaja' %>
+        <%= sortable 'jakaja', SumLevel.human_attribute_name(:jakaja) %>
         <br/>
         <%= text_field_tag :jakaja, params[:jakaja] %>
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -79,7 +82,11 @@
         </td>
 
         <td>
-          <%= sum_level.kumulatiivinen %>
+          <% if sum_level.cumulative? %>
+            <%=t 'administration.sum_levels.kumulatiivinen_options.cumulative' %>
+          <% else %>
+            <%=t 'administration.sum_levels.kumulatiivinen_options.not_cumulative' %>
+          <% end %>
         </td>
 
         <td>
@@ -94,11 +101,15 @@
           <%= sum_level.jakaja %>
         </td>
 
-        <td class="back"></td>
+        <td class="back">
+        </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
+
 <br/>
 
-<%= button_to t('Uusi taso'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>

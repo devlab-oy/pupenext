@@ -1,0 +1,40 @@
+# i18n-tasks finds and manages missing and unused translations
+# https://github.com/glebm/i18n-tasks
+base_locale: fi
+
+# Read and write locale data
+data:
+  read:
+    - config/locales/%{locale}.yml
+  write:
+    - config/locales/%{locale}.yml
+  yaml:
+    write:
+      # do not wrap lines at 80 characters
+      line_width: -1
+  json:
+    write:
+      # pretty print JSON
+      indent: '  '
+      space: ' '
+      object_nl: "\n"
+      array_nl: "\n"
+
+# Find translate calls
+search:
+  paths:
+    - app/
+
+## Consider these keys not missing
+## These should match https://phraseapp.com/projects/ahkio/blacklisted_keys
+ignore_missing:
+
+## Consider these keys used
+ignore_unused:
+- 'activerecord.{attributes,models}.*'
+- '{date,time,datetime,errors,helpers,number,support}.*'
+- 'administration.terms_of_payments.{cash_options,in_use_options}.*'
+- 'administration.accounts.{manuaali_esto_options,tiliointi_tarkistus_options,toimijaliitos_options}.*'
+- 'administration.printers.{mediatyyppi_options,merkisto_options}.*'
+- 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
+- 'administration.qualifiers.{kaytossa_options}.*'

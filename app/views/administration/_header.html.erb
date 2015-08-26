@@ -1,12 +1,3 @@
-<h1 class="head"><%= t(title) %></h1>
-<hr/>
-
-<% flash.each do |key, value| %>
-  <% if key == "alert" %>
-    <span class="error"><%= t(value) %></span>
-  <% else %>
-    <span><%= t(value) %></span>
-  <% end %>
-
-  <br/><br/>
-<% end %>
+<h1 class="head">
+  <%= text %>
+</h1>

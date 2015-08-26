@@ -44,7 +44,33 @@ table.indexvas td {
 }
 
 .monivalintadiv {
-  display: inline-block;
+  float: left;
+  margin-right: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+ul.list-unstyled {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.del {
+  text-decoration: line-through;
 }
 
 .translations-table {

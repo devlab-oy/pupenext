@@ -21,7 +21,7 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "should return sum level name" do
-    assert_equal "3 TILIKAUDEN TULOS", @external.sum_level_name
+    assert_equal "3 - TILIKAUDEN TULOS", @external.sum_level_name
   end
 
   test "sum level should not contain O with dots" do
@@ -102,24 +102,22 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @profit.valid?, @profit.errors.full_messages
   end
 
-  test "should have unique sum level" do
-    existing_sum_level = @internal.taso
+  test "should have unique sum level in scope" do
+    # taso should be unique in scope [:yhtio, :tyyppi]
+    new_sum_level = @internal.dup
+    refute new_sum_level.valid?
 
-    new_sum_level = SumLevel::Internal.new
-    new_sum_level.taso = existing_sum_level
+    error_message = [:taso, I18n.t('errors.messages.taken')]
+    assert_equal error_message, new_sum_level.errors.first
 
-    assert_no_difference "SumLevel::Internal.count", new_sum_level.errors.full_messages do
-      new_sum_level.save
-    end
+    # changing the company makes it valid
+    new_sum_level.yhtio = 'esto'
+    assert new_sum_level.valid?
 
-    new_sum_level.taso = "1111111"
+    # or changing the taso makes it valid
     new_sum_level.yhtio = @internal.yhtio
-    new_sum_level.muuttaja = @internal.muuttaja
-    new_sum_level.laatija = @internal.laatija
-    new_sum_level.nimi = "test"
-    assert_difference "SumLevel::Internal.count", 1, new_sum_level.errors.full_messages do
-      new_sum_level.save
-    end
+    new_sum_level.taso = '1 something different'
+    assert new_sum_level.valid?
   end
 
   test "taso should be present" do
@@ -167,64 +165,20 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "kumulatiivinen should be empty string or X" do
-    @internal.kumulatiivinen = "A"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = "1"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = true
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = false
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = 1
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = 0
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = nil
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = "X"
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kumulatiivinen = ""
-    assert @internal.valid?, @internal.errors.full_messages
+    values = {
+      "not_cumulative" => "",
+      "cumulative"     => "X"
+    }
+    assert_equal values, @internal.class.kumulatiivinens
   end
 
-  test "kayttotarkoitus should be empty string, M or O" do
-    @internal.kayttotarkoitus = "A"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "1"
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = true
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = false
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = 1
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = 0
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = nil
-    refute @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = ""
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "M"
-    assert @internal.valid?, @internal.errors.full_messages
-
-    @internal.kayttotarkoitus = "O"
-    assert @internal.valid?, @internal.errors.full_messages
+  test "kayttotarkoitus should be empty or M or O" do
+    values = {
+      "normal"    => "",
+      "turnover"  => "M",
+      "purchases" => "O"
+    }
+    assert_equal values, @internal.class.kayttotarkoitus
   end
 
   test "initializing new SumLevel with tyyppi sets class correctly" do

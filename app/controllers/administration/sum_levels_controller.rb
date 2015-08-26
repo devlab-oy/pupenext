@@ -1,12 +1,11 @@
 class Administration::SumLevelsController < AdministrationController
   def index
-    @sum_levels = SumLevel
-      .search_like(search_params)
-      .order(order_params)
+    @sum_levels = SumLevel.search_like(search_params).order(order_params)
   end
 
   def new
     @sum_level = SumLevel::Internal.new
+    render :edit
   end
 
   def show
@@ -14,10 +13,10 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def create
-    @sum_level = SumLevel.new(sum_level_params)
+    @sum_level = SumLevel.new sum_level_params
 
-    if params[:commit] && @sum_level.save_by(current_user)
-      redirect_to sum_levels_path, notice: 'Taso luotiin onnistuneesti'
+    if params[:commit] && @sum_level.save
+      redirect_to sum_levels_path, notice: t('.create_success')
     else
       render :edit
     end
@@ -30,17 +29,17 @@ class Administration::SumLevelsController < AdministrationController
     # Redirect to sum_levels_path only if commit is present in params (submit button or enter
     # pressed). Otherwise submits triggered i.e. from select updates would also result in
     # redirection.
-    if params[:commit] && @sum_level.update_by(sum_level_params, current_user)
-      redirect_to sum_levels_path, notice: 'Taso päivitettiin onnistuneesti'
+    if params[:commit] && @sum_level.update(sum_level_params)
+      redirect_to sum_levels_path, notice: t('.update_success')
     else
-      @sum_level.assign_attributes(sum_level_params)
+      @sum_level.assign_attributes sum_level_params
       render :edit
     end
   end
 
   def destroy
     @sum_level.destroy
-    redirect_to sum_levels_path, notice: 'Taso poistettiin onnistuneesti'
+    redirect_to sum_levels_path, notice: t('.destroy_success')
   end
 
   private
