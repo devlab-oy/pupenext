@@ -1,12 +1,18 @@
 require 'test_helper'
 
 class CarrierTest < ActiveSupport::TestCase
-  def setup
+  fixtures %w(carriers)
+
+  setup do
     @carrier = carriers(:hit)
   end
 
   test 'all fixtures should be valid' do
     assert @carrier.valid?, @carrier.errors.full_messages.inspect
+  end
+
+  test 'relations' do
+    assert_equal 1, @carrier.package_codes.count
   end
 
   test 'cannot be empty' do

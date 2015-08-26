@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class Administration::CashRegistersControllerTest < ActionController::TestCase
+  fixtures %w(cash_registers)
 
-  def setup
+  setup do
     login users(:bob)
     @cash_register = cash_registers(:first)
   end

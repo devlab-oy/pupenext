@@ -20,6 +20,12 @@ sv:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Ibruktagningsdatum
+      bank_account:
+        asiakastunnus: Org.nummer
+        kaytossa: Status
+        nimi: Namn
+        tilino: Kontonummer
+        valkoodi: Valuta
       bank_detail:
         laatija: Skapare
         luontiaika: Skapad
@@ -147,7 +153,15 @@ sv:
         www: web
         ytunnus: Org.Nr
       keyword:
+        jarjestys: Ordning
         kieli: Språk
+        selite: Benämning
+      package:
+        jarjestys: Ordning
+        kieli: Språk
+        paino: Vikt
+        pakkauskuvaus: Paketbeskrivning
+        selite: Benämning
       packing_area:
         nimi: Namn
         printteri0: Plocklista
@@ -207,6 +221,7 @@ sv:
       head/sales_invoice: Försäljningsfaktura
       head/sales_order: Försäljningsorder
       head/sales_order_draft: "Öppen försäljningsorder"
+      package: Förpackning
       printer: Skrivare
       qualifier: Specifikation
       qualifier/cost_center: Kostnadsställe
@@ -258,6 +273,7 @@ sv:
       index:
         header: Bankuppgifter
     bank_details_helper:
+      button_saving: 
       finnish: Finska
       swedish: Svenska
     carriers:
@@ -300,6 +316,13 @@ sv:
         header: Räkenskapsåren
       update:
         update_success: 
+    packages:
+      edit:
+        header: Förpackning
+      index:
+        button_search: Sök
+      yksin_eraan_options:
+        separate_parcel: Normal behandling
     packing_areas:
       index:
         button_search: Sök
@@ -386,6 +409,8 @@ sv:
         header: 
       update:
         update_success: 
+    translations:
+      language: Språk
     update_access:
       forbidden: 
   application:

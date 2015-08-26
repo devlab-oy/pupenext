@@ -2,8 +2,8 @@ class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
 
-  belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
-  has_many :translations, foreign_key: :selite, primary_key: :tunnus, class_name: 'Keyword::TermsOfPaymentTranslation'
+  belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
+  has_many :translations, foreign_key: :selite, class_name: 'Keyword::TermsOfPaymentTranslation'
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }

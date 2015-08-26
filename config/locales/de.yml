@@ -20,6 +20,13 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      bank_account:
+        bic: SWIFT / BIC
+        kaytossa: Status
+        maksulimitti: Zahlungslimit
+        nimi: Name
+        tilino: Kontonummer
+        valkoodi: Währung
       bank_detail:
         laatija: Erstellt von
         luontiaika: Erstellt am
@@ -147,7 +154,19 @@ de:
         www: www
         ytunnus: Steuernummer
       keyword:
+        jarjestys: Sortierung
         kieli: Sprache
+        laji: Art
+        selite: Erklärung
+      package:
+        jarjestys: Sortierung
+        kieli: Sprache
+        korkeus: Höhe
+        laji: Art
+        leveys: Breite
+        paino: Gewicht
+        pakkauskuvaus: Verpackungsbeschreibung
+        selite: Erklärung
       packing_area:
         lokero: Fach
         nimi: Name
@@ -212,6 +231,7 @@ de:
       head/sales_invoice: Verkaufsrechnung
       head/sales_order: Auftrag
       head/sales_order_draft: Aufrag nicht abgeschlossen
+      package: Verpackung
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
@@ -265,6 +285,7 @@ de:
       index:
         header: Bankverbindungsdaten
     bank_details_helper:
+      button_saving: 
       finnish: Finnisch
       swedish: Schwedisch
     carriers:
@@ -307,6 +328,13 @@ de:
         header: 
       update:
         update_success: 
+    packages:
+      edit:
+        header: Verpackung
+      index:
+        button_search: Suchen
+      yksin_eraan_options:
+        separate_parcel: Normalbehandlung
     packing_areas:
       edit:
         header: Packraum/Verpackungsabteilung
@@ -395,10 +423,11 @@ de:
         button_show_active: 
         button_show_removed: 
         header: 
-      translations:
-        link_new: Neue Übersetzung hinzufügen
       update:
         update_success: 
+    translations:
+      language: Sprache
+      link_new: Neue Übersetzung hinzufügen
     update_access:
       forbidden: 
   application:

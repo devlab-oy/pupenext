@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class ParametersTest < ActiveSupport::TestCase
+  fixtures %w(parameters)
 
-  def setup
+  setup do
     @acme_params = parameters(:acme)
   end
 

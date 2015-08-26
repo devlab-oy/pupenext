@@ -38,3 +38,14 @@ top_locale_en:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+package_locale_en:
+  yhtio: acme
+  selite: <%= ActiveRecord::FixtureSet.identify(:steel_barrel) %>
+  selitetark: Steel Barrel
+  kieli: en
+  laji: PAKKAUSKV
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

@@ -20,6 +20,14 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      bank_account:
+        asiakastunnus: Klienditunnus
+        bic: SWIFT / BIC
+        kaytossa: Ruum
+        maksulimitti: Makselimiit
+        nimi: Nimi
+        tilino: Kontonumber
+        valkoodi: Valuuta
       bank_detail:
         laatija: Koostaja
         luontiaika: Koostamise aeg
@@ -147,7 +155,15 @@ et:
         www: WWW
         ytunnus: KMKR Nr.
       keyword:
+        jarjestys: Järjekord
         kieli: Keel
+        selite: Selgitus
+      package:
+        jarjestys: Järjekord
+        kieli: Keel
+        paino: Kaal
+        pakkauskuvaus: Pakendi kirjeldus
+        selite: Selgitus
       packing_area:
         nimi: Nimi
         printteri0: Komplekteerimisleht
@@ -206,6 +222,7 @@ et:
       head/sales_invoice: Myygiarve
       head/sales_order: Myygitellimus
       head/sales_order_draft: Myygitellimus pooleli
+      package: Pakend
       printer: Printer
       qualifier: TÃ¤psustus
       qualifier/cost_center: Kulukoht
@@ -257,6 +274,7 @@ et:
       index:
         header: Pangarekvisiidid
     bank_details_helper:
+      button_saving: 
       finnish: Soome
       swedish: Rootsi
     carriers:
@@ -299,6 +317,13 @@ et:
         header: Majandusaasta
       update:
         update_success: 
+    packages:
+      edit:
+        header: Pakend
+      index:
+        button_search: Otsi
+      yksin_eraan_options:
+        separate_parcel: Tavakäsitlus
     packing_areas:
       index:
         button_search: Otsi
@@ -385,6 +410,8 @@ et:
         header: 
       update:
         update_success: 
+    translations:
+      language: Keel
     update_access:
       forbidden: 
   application:

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class WarehouseTest < ActiveSupport::TestCase
+  fixtures %w(warehouses packing_areas)
+
   setup do
     @veikkola = warehouses(:veikkola)
   end

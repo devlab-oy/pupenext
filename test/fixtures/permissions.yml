@@ -2,6 +2,7 @@
 <% permississions = %w{
     accounts
     bank_details
+    bank_accounts
     carriers
     cash_registers
     commodities
@@ -9,6 +10,7 @@
     currencies
     customers
     fiscal_years
+    packages
     packing_areas
     printers
     qualifiers
