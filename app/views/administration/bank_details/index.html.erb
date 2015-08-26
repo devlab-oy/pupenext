@@ -9,12 +9,13 @@
     <thead>
       <tr>
         <th>
-          <%= sortable :nimitys, BankDetail.human_attribute_name(:nimitys) %>
-          <br/>
-          <%= text_field_tag :nimitys, params[:nimitys] %>
+          <%= label_tag BankDetail.human_attribute_name(:nimitys) %>
         </th>
-        <th class="back">
-          <%= submit_tag t('.button_search'), class: "hae_btn" %>
+        <th>
+          <%= label_tag BankDetail.human_attribute_name(:pankkinimi1) %>
+        </th>
+        <th>
+          <%= label_tag BankDetail.human_attribute_name(:pankkiiban1) %>
         </th>
       </tr>
     </thead>
@@ -24,6 +25,16 @@
         <tr class="aktiivi">
           <td>
             <%= link_to nimitys_teksti(bank_detail.nimitys), edit_bank_detail_path(bank_detail) %>
+          </td>
+          <td>
+            <%= bank_detail.pankkinimi1 %>
+            <%= bank_detail.pankkinimi2 %>
+            <%= bank_detail.pankkinimi3 %>
+          </td>
+          <td>
+            <%= bank_detail.pankkiiban1 %>
+            <%= bank_detail.pankkiiban2 %>
+            <%= bank_detail.pankkiiban3 %>
           </td>
         </tr>
       <% end %>
