@@ -5,7 +5,7 @@ class Head < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tila
 
-  belongs_to :terms_of_payment, foreign_key: :maksuehto, primary_key: :tunnus
+  belongs_to :terms_of_payment, foreign_key: :maksuehto
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
   def self.default_child_instance

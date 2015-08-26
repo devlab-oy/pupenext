@@ -148,6 +148,11 @@ en:
         viivastyskorko: Penalty interest rate
         www: www
         ytunnus: VAT nr
+      keyword:
+        selite: Comment
+      package:
+        paino: Weight
+        selite: Comment
       packing_area:
         nimi: Name
         printteri1: Dispatch note
@@ -199,6 +204,7 @@ en:
       head/sales_invoice: Invoice
       head/sales_order: Order
       head/sales_order_draft: Sales order has open issues
+      package: package
       printer: Printer
       qualifier: Cost, profit center, projects
       qualifier/target: Target
@@ -283,6 +289,11 @@ en:
         header: Fiscal periods
       update:
         update_success: 
+    packages:
+      edit:
+        header: package
+      index:
+        button_search: Search
     packing_areas:
       index:
         button_search: Search

@@ -15,7 +15,8 @@ class Keyword < BaseModel
     {
       'ALV' => Keyword::Vat,
       'ALVULK' => Keyword::ForeignVat,
-      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation
+      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
+      'PAKKAUSKV' => Keyword::PackageTranslation,
     }
   end
 end

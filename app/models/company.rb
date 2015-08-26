@@ -13,6 +13,8 @@ class Company < ActiveRecord::Base
     o.has_many :fiscal_years
     o.has_many :keywords
     o.has_many :locations
+    o.has_many :package_codes
+    o.has_many :packages
     o.has_many :packing_areas
     o.has_many :printers
     o.has_many :terms_of_payments
