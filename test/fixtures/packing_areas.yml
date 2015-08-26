@@ -1,0 +1,37 @@
+first:
+  yhtio: acme
+  nimi: Dynimite
+  lokero: 4-4
+  warehouse: veikkola
+  prio: 9
+  pakkaamon_prio: 6
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  printteri0: 11
+  printteri1: 11
+  printteri2: 11
+  printteri3: 11
+  printteri4: 11
+  printteri6: 11
+  printteri7: 11
+  laatija: joe
+  muuttaja: joe
+
+second:
+  yhtio: acme
+  nimi: Rubbish
+  lokero: 4-5
+  warehouse: veikkola
+  prio: 9
+  pakkaamon_prio: 6
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  printteri0: 11
+  printteri1: 11
+  printteri2: 11
+  printteri3: 11
+  printteri4: 11
+  printteri6: 11
+  printteri7: 11
+  laatija: joe
+  muuttaja: joe

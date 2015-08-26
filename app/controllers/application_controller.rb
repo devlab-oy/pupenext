@@ -2,20 +2,20 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authorize
-  before_action :set_current_company
+  before_action :set_current_info
   before_action :set_locale
   before_action :access_control
 
   helper_method :current_user
   helper_method :current_company
   helper_method :update_access?
-  helper_method :t
 
   def current_user
     @current_user ||= User.unscoped.find_by_session(cookies[:pupesoft_session])
   end
 
-  def set_current_company
+  def set_current_info
+    Current.user = current_user
     Current.company = current_user.company
   end
 
@@ -33,11 +33,11 @@ class ApplicationController < ActionController::Base
   protected
 
     def authorize
-      render text: t('.unauthorized'), status: :unauthorized unless current_user
+      render text: t('application.authorize.unauthorized'), status: :unauthorized unless current_user
     end
 
     def access_control
-      render text: t('.forbidden'), status: :forbidden unless read_access?
+      render text: t('application.access_control.forbidden'), status: :forbidden unless read_access?
     end
 
     def set_locale
