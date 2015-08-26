@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Keyword::CustomAttributeTest < ActiveSupport::TestCase
+  fixtures %w(keywords)
+
   setup do
     @attrib = keywords(:mysql_alias_1)
   end
