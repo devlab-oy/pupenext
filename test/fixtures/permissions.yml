@@ -8,6 +8,7 @@
     currencies
     customers
     fiscal_years
+    packages
     packing_areas
     printers
     qualifiers

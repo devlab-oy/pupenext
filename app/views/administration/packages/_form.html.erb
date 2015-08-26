@@ -1,6 +1,6 @@
-<%= render "administration/form_errors", resource: @terms_of_payment %>
+<%= render "administration/form_errors", resource: @package %>
 
-<%= form_for @terms_of_payment do |f| %>
+<%= form_for @package do |f| %>
 
   <div style='float: left; padding: 10px; width: 460px;'>
     <%= render 'basic', f: f %>
@@ -8,10 +8,10 @@
 
   <div style='float: left; padding: 10px; width: 460px;'>
     <%= render 'administration/translations', f: f %>
-  </div>
 
-  <div style='float: left; padding: 10px; width: 460px;'>
-    <%= render 'advanced', f: f %>
+    <br><br>
+
+    <%= render 'package_codes', f: f %>
   </div>
 
   <div style='clear: both;'>

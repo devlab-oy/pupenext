@@ -22,8 +22,10 @@ Pupesoft::Application.routes.draw do
     resources :accounts
     resources :carriers
     resources :cash_registers
+    resources :cash_registers
     resources :currencies, except: :destroy
     resources :fiscal_years, except: :destroy
+    resources :packages
     resources :packing_areas
     resources :printers
     resources :qualifiers
