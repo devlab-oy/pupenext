@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PackageTest < ActiveSupport::TestCase
-  fixtures %w(packages translations package_codes)
+  fixtures %w(packages keywords package_codes)
 
   setup do
     @package = packages(:steel_barrel)

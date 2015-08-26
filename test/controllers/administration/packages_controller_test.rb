@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Administration::PackagesControllerTest < ActionController::TestCase
-  fixtures %w(packages keywords)
+  fixtures %w(packages keywords package_codes)
 
   setup do
     login users(:bob)
