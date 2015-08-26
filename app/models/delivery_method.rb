@@ -9,7 +9,22 @@ class DeliveryMethod < BaseModel
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
   end
 
-  validates :selite, uniqueness: true
+  validates :selite, uniqueness: true, length: { within: 1..50 }
+  validates :lahdon_selite, :sallitut_alustat, length: { within: 1..150 }, allow_blank: true
+  validates :rahti_tuotenumero, :rahtikirjakopio_email, :kuljetusvakuutus_tuotenumero, :toim_nimi,
+            :toim_nimitark, length: { within: 1..60 }, allow_blank: true
+  validates :sopimusnro, :sallitut_maat, length: { within: 1..50 }, allow_blank: true
+  validates :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
+            :lisakulu, :lisakulu_summa, numericality: true, allow_blank: true
+  validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
+  validates :toim_ovttunnus, length: { within: 1..25 }, allow_blank: true
+  validates :toim_osoite, length: { within: 1..55 }, allow_blank: true
+  validates :toim_postino, length: { within: 1..15 }, allow_blank: true
+  validates :toim_postitp, :toim_maa, length: { within: 1..35 }, allow_blank: true
+  validates :maa_maara, :sisamaan_kuljetus_kansallisuus, :aktiivinen_kuljetus_kansallisuus,
+            length: { within: 1..2 }, allow_blank: true
+  validates :sisamaan_kuljetus, :aktiivinen_kuljetus, length: { within: 1..30 }, allow_blank: true
+
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
 
