@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Administration::PackingAreasControllerTest < ActionController::TestCase
-  fixtures %w(packing_areas)
+  fixtures %w(packing_areas warehouses)
 
   setup do
     login users(:joe)
