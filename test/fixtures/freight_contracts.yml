@@ -1,15 +1,19 @@
-<% (1..351).each do |number| %>
-freight_contract_<%= number %>:
+plane:
   yhtio: acme
-  <% if number.odd? %>
-  toimitustapa: Lentokoneella
-  <% else %>
-  toimitustapa: Laivalla
-  <% end %>
-  rahtisopimus: <%= number %>
+  delivery_method: lento
+  rahtisopimus: 12312123
   customer: stubborn_customer
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   laatija: bob
   muuttaja: bob
-<% end %>
+
+boat:
+  yhtio: acme
+  delivery_method: laiva
+  customer: stubborn_customer
+  rahtisopimus: 123413
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
