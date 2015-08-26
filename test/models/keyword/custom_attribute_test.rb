@@ -25,4 +25,18 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     assert_equal 'Wheee!',          @attrib.default_value
     assert_equal 'This is helpful', @attrib.help_text
   end
+
+  test 'unique scope' do
+    attrib = @attrib.dup
+    refute attrib.valid?
+
+    attrib.database_field = 'different.field'
+    assert attrib.valid?
+
+    attrib.database_field = @attrib.database_field
+    refute attrib.valid?
+
+    attrib.set_name = 'different_set'
+    assert attrib.valid?
+  end
 end
