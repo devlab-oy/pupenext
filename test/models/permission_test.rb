@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PermissionTest < ActiveSupport::TestCase
+  fixtures %w(permissions)
 
   setup do
     @perms = permissions(:joe_customers_read)

@@ -3,6 +3,8 @@ require 'test_helper'
 class PupenextDateFieldTest < ActionDispatch::IntegrationTest
   include LoginHelper
 
+  fixtures %w(fiscal_years)
+
   setup do
     login users(:bob)
     @fy = fiscal_years(:one)
