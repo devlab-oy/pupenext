@@ -92,11 +92,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Käyttöomaisuus-rivit
   def fixed_assets_rows
-    if voucher
-      voucher.rows.where(tilino: fixed_assets_account)
-    else
-      Head::VoucherRow.none
-    end
+    voucher.rows.where(tilino: fixed_assets_account)
   end
 
   # Poisto-tili (tuloslaskelma)
@@ -116,11 +112,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poistoero-rivit
   def depreciation_difference_rows
-    if voucher
-      voucher.rows.where(tilino: depreciation_difference_account)
-    else
-      Head::VoucherRow.none
-    end
+    voucher.rows.where(tilino: depreciation_difference_account)
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
@@ -150,10 +142,9 @@ class FixedAssets::Commodity < BaseModel
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    start_date = activated_at.present? ?  activated_at : company.current_fiscal_year.first
-    calculation = voucher.present? ? fixed_assets_rows.where(tapvm: start_date.to_date..end_date.to_date).sum(:summa) : 0
-
-    if !activated?
+    range = company.current_fiscal_year.first..end_date
+    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
+    if deactivated?
       calculation = amount
     end
 

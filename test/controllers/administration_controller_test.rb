@@ -2,9 +2,11 @@ require 'test_helper'
 
 # The purpose of AdministrationControllerTest is to test the common logic behind AdministrationController
 class AdministrationControllerTest < ActionController::TestCase
+  tests Administration::SumLevelsController
+
   fixtures %w(sum_levels keywords)
 
-  def setup
+  setup do
     login users(:joe)
     @sum_level = sum_levels(:external)
   end
