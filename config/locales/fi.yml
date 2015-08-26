@@ -327,6 +327,8 @@ fi:
       container_options:
         includes_container: Kyllä
         not_including_container: Ei
+      create:
+        create_success: Toimitustapa luotiin onnistuneesti
       edit:
         header: Toimitustapa
         no_select: Ei valintaa
@@ -380,6 +382,8 @@ fi:
         percentage_based_insurance: Prosentuaalinen kuljetusvakuutus lisätään
         percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
         use_company_default: Yhtiön oletus
+      update:
+        update_success: Toimitustapa päivitettiin onnistuneesti
       waybill_specification_options:
         no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
         print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   def setup
-    login users(:joe)
+    login users(:bob)
     @delivery_method = delivery_methods(:kaukokiito)
   end
 
@@ -11,5 +11,61 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     assert_response :success
 
     assert_template "index", "Template should be index"
+  end
+
+  test 'should get edit' do
+    get :edit, id: @delivery_method.tunnus
+    assert_response :success
+  end
+
+  test 'show should be edit' do
+    get :show, id: @delivery_method.tunnus
+    assert_response :success
+  end
+
+  test 'should create delivery method' do
+    assert_difference('DeliveryMethod.count', 1, response.body) do
+
+      params = {
+        selite: "Random delivery method",
+        tulostustapa: 'H',
+        sopimusnro: '',
+        nouto: :shipment,
+        ei_pakkaamoa: '1',
+        extranet: :only_in_sales,
+        rahtikirja: 'rahtikirja.inc',
+        jarjestys: 1
+      }
+
+      post :create, delivery_method: params
+      assert_redirected_to delivery_methods_path
+    end
+  end
+
+  test 'should not create delivery method' do
+    assert_no_difference('DeliveryMethod.count') do
+
+      params = {
+        not_existing_column: true,
+        nouto: ''
+      }
+
+      post :create, delivery_method: params
+      assert_template "edit", "Template should be edit"
+    end
+  end
+
+  test 'should update delivery method' do
+    params = { tulostustapa: :collective_batch }
+
+    patch :update, id: @delivery_method.id, delivery_method: params
+    assert_redirected_to delivery_methods_path
+  end
+
+  test 'should not update delivery method' do
+    params = { selite: 'Kiitolinja' }
+
+    patch :update, id: @delivery_method.id, delivery_method: params
+    assert_template "edit", "Template should be edit"
   end
 end
