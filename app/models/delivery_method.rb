@@ -1,4 +1,5 @@
 class DeliveryMethod < BaseModel
+  include AttributeSanitator
   include Searchable
 
   with_options foreign_key: :selite do |o|
@@ -14,8 +15,6 @@ class DeliveryMethod < BaseModel
   validates :rahti_tuotenumero, :rahtikirjakopio_email, :kuljetusvakuutus_tuotenumero, :toim_nimi,
             :toim_nimitark, length: { within: 1..60 }, allow_blank: true
   validates :sopimusnro, :sallitut_maat, length: { within: 1..50 }, allow_blank: true
-  validates :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
-            :lisakulu, :lisakulu_summa, numericality: true, allow_blank: true
   validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
   validates :toim_ovttunnus, length: { within: 1..25 }, allow_blank: true
   validates :toim_osoite, length: { within: 1..55 }, allow_blank: true
@@ -27,6 +26,9 @@ class DeliveryMethod < BaseModel
 
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
+
+  float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
+                :lisakulu, :lisakulu_summa
 
   scope :permit_adr, -> { where(vak_kielto: '') }
 
