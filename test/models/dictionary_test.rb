@@ -3,7 +3,7 @@ require 'test_helper'
 class DictionaryTest < ActiveSupport::TestCase
   fixtures %w(dictionaries)
 
-  def setup
+  setup do
     @hello = dictionaries(:hello)
   end
 

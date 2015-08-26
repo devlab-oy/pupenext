@@ -3,7 +3,7 @@ require 'test_helper'
 class Administration::PrintersControllerTest < ActionController::TestCase
   fixtures %w(printers)
 
-  def setup
+  setup do
     login users(:bob)
     @printer1 = printers(:printer1)
   end
