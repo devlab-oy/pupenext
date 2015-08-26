@@ -3,7 +3,7 @@ require 'test_helper'
 class CashRegisterTest < ActiveSupport::TestCase
   fixtures %w(cash_registers)
 
-  def setup
+  setup do
     @q = cash_registers(:first)
   end
 

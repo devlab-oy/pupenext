@@ -3,7 +3,7 @@ require 'test_helper'
 class Administration::CarriersControllerTest < ActionController::TestCase
   fixtures %w(carriers)
 
-  def setup
+  setup do
     login users(:joe)
     @carrier = carriers(:hit)
   end
