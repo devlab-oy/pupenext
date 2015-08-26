@@ -1,6 +1,10 @@
 class BankDetail < BaseModel
   validates :nimitys, presence: true
-  validates :viite, inclusion: { in: %w(SE) }, allow_blank: true
+
+  enum viite: {
+    finnish: '',
+    swedish: 'SE'
+  }
 
   self.table_name = :pankkiyhteystiedot
   self.primary_key = :tunnus

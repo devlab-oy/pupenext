@@ -30,7 +30,7 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
       pankkitili3: "123456",
       pankkiiban3: "FI123456",
       pankkiswift3: "ABCDEFG",
-      viite: "SE"
+      viite: "swedish"
     }
 
     assert_difference("BankDetail.count", 1) do
@@ -65,17 +65,6 @@ class Administration::BankDetailsControllerTest < ActionController::TestCase
 
     assert_redirected_to bank_details_url
     assert_equal new_name, @one.reload.nimitys
-  end
-
-  test "bank details cannot be updated with invalid attributes" do
-    login users(:bob)
-
-    old_name = @one.nimitys
-
-    patch :update, id: @one.id, bank_detail: { viite: "KL" }
-
-    assert_template :edit
-    assert_equal old_name, @one.reload.nimitys
   end
 
   test "new is rendered properly" do

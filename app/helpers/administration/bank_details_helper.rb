@@ -5,8 +5,8 @@ module Administration::BankDetailsHelper
 
   def viite_options
     [
-      [ t('administration.bank_details_helper.finnish'), ''   ],
-      [ t('administration.bank_details_helper.swedish'), 'SE' ],
+      [ t('administration.bank_details_helper.finnish'), 'finnish'   ],
+      [ t('administration.bank_details_helper.swedish'), 'swedish' ],
     ]
   end
 end
