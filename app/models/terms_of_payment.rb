@@ -3,6 +3,7 @@ class TermsOfPayment < BaseModel
   include Searchable
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
+  has_many :translations, foreign_key: :selite, primary_key: :tunnus, class_name: 'Keyword::TermsOfPaymentTranslation'
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
@@ -15,6 +16,7 @@ class TermsOfPayment < BaseModel
   validate :check_relations, if: :inactive?
 
   float_columns :kassa_alepros
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   before_save :defaults
 
@@ -42,6 +44,14 @@ class TermsOfPayment < BaseModel
 
   def bank_details_options
     company.bank_details.map { |i| [ i.nimitys, i.id ] }
+  end
+
+  def translated_locales
+    translations.map(&:kieli)
+  end
+
+  def name_translated(locale)
+    translations.find_by(kieli: locale).try(:selitetark) || teksti
   end
 
   private

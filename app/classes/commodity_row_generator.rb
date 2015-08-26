@@ -7,6 +7,9 @@ class CommodityRowGenerator
     self.activation_date = commodity.activated_at
     self.user            = company.users.find_by(tunnus: user_id)
 
+    Current.user         = user
+    Current.company      = company
+
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
     self.fiscal_start = fi.first
     self.fiscal_end   = fi.last
@@ -167,7 +170,7 @@ class CommodityRowGenerator
       if commodity.voucher.present?
         commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
           row.amend_by(user)
-          row.save_by(user)
+          row.save
         end
       end
     end
@@ -180,10 +183,10 @@ class CommodityRowGenerator
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save_by(user)
+      accounting_voucher.save
 
       commodity.voucher = accounting_voucher
-      commodity.save_by(user)
+      commodity.save
     end
 
     def generate_voucher_rows

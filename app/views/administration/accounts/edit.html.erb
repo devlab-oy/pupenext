@@ -3,10 +3,7 @@
 <br/>
 
 <%= render "administration/header", text: t('administration.accounts.edit.header') %>
-<%= render 'form', account: @account,
-                   levels: @levels,
-                   qualifiers: @qualifiers,
-                   oletus_alv_options: @oletus_alv_options %>
+<%= render 'form' %>
 
 <% if @account.persisted? && update_access? %>
   <br/>

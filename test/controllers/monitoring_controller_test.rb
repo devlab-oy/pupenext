@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MonitoringControllerTest < ActionController::TestCase
 
-  def setup
+  setup do
     login users(:joe)
   end
 

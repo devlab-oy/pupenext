@@ -41,7 +41,7 @@ class SumLevel < BaseModel
   end
 
   def sum_level_name
-    "#{taso} #{nimi}"
+    "#{taso} - #{nimi}"
   end
 
   def summattava_taso=(summattava_taso)

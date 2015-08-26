@@ -139,6 +139,8 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      keyword:
+        kieli: Sprache
       packing_area:
         lokero: Fach
         nimi: Name
@@ -182,6 +184,16 @@ de:
         nimi: Name
         tunnus: Kennzeichen
         tyyppi: Typ
+      terms_of_payment:
+        abs_pvm: Zahlungsdatum
+        jarjestys: Sortierung
+        jv: Nachnahme
+        kassa_alepros: Kassenrabattsprozent
+        kateinen: Barzahlung
+        kaytossa: Wird benutzt
+        laatija: Erstellt von
+        luontiaika: Erstellt am
+        pankkiyhteystiedot: Bankverbindungsdaten
     models:
       account: Konto
       carrier: 
@@ -359,7 +371,7 @@ de:
       edit:
         header: Zahlungsbedingung
         no_factoring: Wird nicht factoriert
-        use_company_defaults: 
+        use_company_defaults: Standarde der Firma verwenden
       in_use_options:
         active: Wird benutzt
         inactive: Gelöscht / Wird nicht benutzt
@@ -369,6 +381,8 @@ de:
         button_show_active: 
         button_show_removed: 
         header: 
+      translations:
+        link_new: Neue Übersetzung hinzufügen
       update:
         update_success: 
     update_access:

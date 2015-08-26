@@ -6,8 +6,6 @@ class Qualifier < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :nimi, presence: true
   validate :deactivation_allowed
 
@@ -37,7 +35,10 @@ class Qualifier < BaseModel
   private
 
     def deactivation_allowed
-      msg = I18n.t 'errors.qualifier.accounts_found'
-      errors.add(:kaytossa, msg) if not_in_use? && accounts.count > 0
+      if not_in_use? && accounts.count > 0
+        numbers = accounts.map(&:tilino).join ', '
+        msg = I18n.t 'errors.qualifier.accounts_found', account_numbers: numbers
+        errors.add :kaytossa, msg
+      end
     end
 end

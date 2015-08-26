@@ -9,23 +9,27 @@
   <table>
     <tr>
       <th>
-        <%= sortable "koodi" %>
+        <%= sortable "koodi", Carrier.human_attribute_name(:koodi) %>
         <br />
         <%= text_field_tag :koodi, params[:koodi] %>
       </th>
+
       <th>
-        <%= sortable "nimi" %>
+        <%= sortable "nimi", Carrier.human_attribute_name(:nimi) %>
         <br />
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
+
       <th>
-        <%= sortable "neutraali" %>
+        <%= sortable "neutraali", Carrier.human_attribute_name(:neutraali) %>
       </th>
+
       <th>
-        <%= sortable "pakkauksen_sarman_minimimitta" %>
+        <%= sortable "pakkauksen_sarman_minimimitta", Carrier.human_attribute_name(:pakkauksen_sarman_minimimitta) %>
         <br />
         <%= text_field_tag :pakkauksen_sarman_minimimitta, params[:pakkauksen_sarman_minimimitta] %>
       </th>
+
       <th class="back">
         <%= submit_tag t('.button_search') %>
       </th>
@@ -36,22 +40,27 @@
       <td>
         <%= link_to carrier.koodi, edit_carrier_path(carrier.id) %>
       </td>
+
       <td>
         <%= carrier.nimi %>
       </td>
+
       <td>
         <%= t("administration.carriers.neutraali_options.neutral") if carrier.neutral? %>
         <%= t("administration.carriers.neutraali_options.not_neutral") if carrier.not_neutral? %>
       </td>
+
       <td>
         <%= carrier.pakkauksen_sarman_minimimitta %>
       </td>
+
       <td class="back">
       </td>
     </tr>
   <% end %>
 
   </table>
+
 <% end %>
 
 <br/>

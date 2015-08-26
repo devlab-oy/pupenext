@@ -139,6 +139,8 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      keyword:
+        kieli: Keel
       packing_area:
         nimi: Nimi
         printteri0: Komplekteerimisleht
@@ -179,6 +181,13 @@ et:
       qualifier:
         nimi: Nimi
         tyyppi: Tyyp
+      terms_of_payment:
+        abs_pvm: Maksepäev
+        jarjestys: Järjekord
+        kaytossa: Kasutusel
+        laatija: Koostaja
+        luontiaika: Koostamise aeg
+        pankkiyhteystiedot: Pangarekvisiidid
     models:
       account: Arve
       carrier: 
@@ -350,7 +359,7 @@ et:
       edit:
         header: Maksutingimus
         no_factoring: Ei kasutata faktooringut
-        use_company_defaults: 
+        use_company_defaults: Kasuta firma vaikimisi programme
       in_use_options:
         active: Kasutusel
         inactive: Kustutatud/Ei ole kasutusel

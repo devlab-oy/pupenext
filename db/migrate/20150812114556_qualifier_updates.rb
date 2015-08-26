@@ -4,12 +4,13 @@ class QualifierUpdates < ActiveRecord::Migration
     change_column :kustannuspaikka, :isa_tarkenne, :integer, default: nil, null: true
 
     # We must loop all companies, because we need Current.company
-    Company.all.each do |company|
+    Company.find_each do |company|
       Current.company = company.yhtio
 
       # Change permission to new route
-      Permission.where(nimi: 'yllapito.php', alanimi: 'kustannuspaikka')
-        .update_all(nimi: 'pupenext/qualifiers', alanimi: '')
+      Permission.where(nimi: 'yllapito.php', alanimi: 'kustannuspaikka').find_each do |permission|
+        permission.update(nimi: 'pupenext/qualifiers', alanimi: '')
+      end
 
       # Update zero values to nil
       Qualifier.where(isa_tarkenne: 0).update_all(isa_tarkenne: nil)
@@ -21,11 +22,12 @@ class QualifierUpdates < ActiveRecord::Migration
     change_column_null :kustannuspaikka, :isa_tarkenne, false, 0
     change_column :kustannuspaikka, :isa_tarkenne, :integer, default: 0, null: false
 
-    Company.all.each do |company|
+    Company.find_each do |company|
       Current.company = company.yhtio
 
-      Permission.where(nimi: 'pupenext/qualifiers', alanimi: '')
-        .update_all(nimi: 'yllapito.php', alanimi: 'kustannuspaikka')
+      Permission.where(nimi: 'pupenext/qualifiers', alanimi: '').find_each do |permission|
+        permission.update(nimi: 'yllapito.php', alanimi: 'kustannuspaikka')
+      end
     end
   end
 end

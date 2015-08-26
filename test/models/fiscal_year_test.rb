@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class FiscalYearTest < ActiveSupport::TestCase
+  fixtures %w(fiscal_years)
+
   setup do
     @one = fiscal_years(:one)
     @two = fiscal_years(:two)

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
+  fixtures %w(fixed_assets/commodities fixed_assets/commodity_rows heads head/voucher_rows)
+
   setup do
     @one = fixed_assets_commodity_rows(:one)
     @two = fixed_assets_commodity_rows(:two)
@@ -25,10 +27,10 @@ class FixedAssets::CommodityRowTest < ActiveSupport::TestCase
   end
 
   test 'has a depreciation difference' do
-    # Edit row manually to not break fixtures
-    head_voucher_row        = head_voucher_rows(:one)
-    head_voucher_row.tilino = '4444'
-    head_voucher_row.save
+    testrow = head_voucher_rows(:one)
+    testrow.tilino = '4444'
+    testrow.save
+
     assert_equal 233, @one.depreciation_difference
     assert_equal 1234, @two.depreciation_difference
   end
