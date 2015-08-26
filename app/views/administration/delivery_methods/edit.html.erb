@@ -4,3 +4,12 @@
 
 <%= render "administration/header", text: t('administration.delivery_methods.edit.header') %>
 <%= render 'form' %>
+
+<% if @delivery_method.persisted? && update_access? %>
+  <br/>
+
+  <%= button_to(t('.button_remove'),
+                delivery_method_path(@delivery_method.id),
+                data: { confirm: t('administration.delivery_methods.edit.confirm_remove') },
+                method: "delete") %>
+<% end %>
