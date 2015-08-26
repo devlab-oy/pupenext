@@ -12,3 +12,5 @@
   <%= f.text_field :set_name %>
   <%= f.submit t('.button_new') %>
 <% end %>
+
+<%= render 'custom_attributes' if @attribute_set %>
