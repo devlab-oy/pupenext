@@ -18,6 +18,10 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @joe.company
   end
 
+  test "user has permissions" do
+    assert_equal 13, @joe.permissions.count
+  end
+
   test "user has update permissions" do
     assert_equal 0, @joe.permissions.update_permissions.count
   end
@@ -67,5 +71,10 @@ class UserTest < ActiveSupport::TestCase
     refute @joe.classic_ui?, "company set nothing, joe set new, should be new"
     @joe.kayttoliittyma = 'C'
     assert @joe.classic_ui?, "company set nothing, joe set classic, should be classic"
+  end
+
+  test "has correct translation language" do
+    assert_equal "en", @joe.translation_language
+    assert_equal "en", @bob.translation_language
   end
 end

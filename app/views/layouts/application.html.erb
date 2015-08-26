@@ -23,5 +23,9 @@
 
 <%= yield %>
 
+<% if current_user.can_update? "/dictionaries" %>
+  <%= render "layouts/footer" %>
+<% end %>
+
 </body>
 </html>

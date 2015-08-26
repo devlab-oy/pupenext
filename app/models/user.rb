@@ -20,4 +20,12 @@ class User < BaseModel
   def classic_ui?
     kayttoliittyma == 'C' || (kayttoliittyma.blank? && company.classic_ui?)
   end
+
+  def translation_language
+    if kieli.downcase.in? %w(en se de dk ee)
+      kieli.downcase
+    else
+      "en"
+    end
+  end
 end

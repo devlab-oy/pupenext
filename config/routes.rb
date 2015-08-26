@@ -22,20 +22,25 @@ Pupesoft::Application.routes.draw do
     resources :accounts
     resources :carriers
     resources :cash_registers
+    resources :cash_registers
     resources :currencies, except: :destroy
+    resources :dictionaries, only: :index do
+      collection { patch :bulk_update }
+      collection { post :index }
+    end
     resources :fiscal_years, except: :destroy
     resources :packing_areas
     resources :printers
-    resources :qualifiers
     resources :qualifier_cost_centers, path: :qualifiers, controller: :qualifiers
     resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
     resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
-    resources :sum_levels
+    resources :qualifiers
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
     resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_profits, path: :sum_levels, controller: :sum_levels
     resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
+    resources :sum_levels
     resources :terms_of_payments, except: :destroy
   end
 

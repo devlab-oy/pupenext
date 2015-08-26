@@ -1,6 +1,13 @@
 class Dictionary < ActiveRecord::Base
+  include SaveByExtension
+  include Searchable
+  extend Translatable
+
+  # Map old database schema table to class
   self.table_name = :sanakirja
   self.primary_key = :tunnus
+
+  scope :created_order, -> { order({ luontiaika: :desc }, :fi) }
 
   def self.translate(string, language = 'fi')
     # Return the string if don't have the translation

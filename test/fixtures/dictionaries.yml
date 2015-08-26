@@ -1,11 +1,30 @@
 hello:
   fi: Hei maailma!
   en: Hello world!
-  se:
+  se: ''
   ru: ''
   aikaleima: <%= Time.now %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
   laatija: joe
-  yhtio: acme
+
+car:
+  fi: Auto
+  en: Car
+  se: Bil
+  aikaleima: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+new_car:
+  fi: Uusi auto
+  en: New car
+  se: Ny bil
+  aikaleima: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe

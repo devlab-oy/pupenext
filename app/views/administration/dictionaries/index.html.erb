@@ -1,0 +1,100 @@
+<%= render "administration/header", title: "Sanakirja" %>
+<%= render "administration/notice" %>
+
+<%= form_tag dictionaries_path, method: :get do %>
+  <table>
+    <tr>
+      <th><%= t("Valitse käännettävät kielet") %></th>
+      <td>
+        <table>
+          <% Dictionary.allowed_languages.each do |language| %>
+            <tr>
+              <td>
+                <%= label_tag language[0], nil, for: "checkbox_#{language[1]}" %>
+              </td>
+              <td>
+                <%= check_box_tag("languages[]",
+                                  language[1],
+                                  language[1].in?(languages),
+                                  id: "checkbox_#{language[1]}") %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <th><%= t("Näytä kaikki lauseet") %></th>
+      <td><%= radio_button_tag "untranslated", false, !untranslated? %></td>
+    </tr>
+    <tr>
+      <th><%= t("Näytä vain kääntämättömät lauseet") %></th>
+      <td><%= radio_button_tag "untranslated", true, untranslated? %></td>
+    </tr>
+    <tr>
+      <th><%= label_tag t("Millä kielellä etsitään"), nil, for: "search_language" %></th>
+      <td>
+        <%= select_tag("search[language]",
+                       options_for_select(Dictionary.all_languages, search_language)) %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= label_tag t("Hakusana"), nil, for: "search_keyword" %></th>
+      <td><%= text_area_tag "search[keyword]", keyword, rows: 5, cols: 25 %></td>
+    </tr>
+    <tr>
+      <th><%= label_tag t("Tarkka haku"), nil, for: "search_strict" %></th>
+      <td><%= check_box_tag "search[strict]", true, strict_search? %></td>
+      <td class="back">
+        <%= submit_tag t("Hae") %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<% unless @dictionaries.empty? %>
+  <%= form_tag bulk_update_dictionaries_path, method: :patch do %>
+    <% languages.each do |language| %>
+      <%= hidden_field_tag "languages[]", language %>
+    <% end %>
+    <%= hidden_field_tag "search[language]", search_language %>
+    <%= hidden_field_tag "search[keyword]", keyword %>
+    <%= hidden_field_tag "search[strict]", strict_search? %>
+    <%= hidden_field_tag "untranslated", params[:untranslated] %>
+    <table class="translations-table">
+      <thead>
+      <tr>
+        <th><%= Dictionary.default_language[1] %></th>
+        <% languages.each do |language| %>
+          <th><%= language %></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @dictionaries.each do |dictionary| %>
+        <%= fields_for "dictionaries[]", dictionary do |f| %>
+          <tr>
+            <td><%= dictionary.send(Dictionary.default_language[1]) %></td>
+            <% languages.each do |language| %>
+              <td>
+                <%= f.text_field(language) %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+      <tr>
+        <th colspan="<%= languages.count + 1 %>">
+          <%= "#{t("Yhteensä")} #{@dictionaries.count} #{t("riviä")}" %>
+        </th>
+      </tr>
+      <tr>
+        <td class="back">
+          <%= submit_tag t("Päivitä") %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
+

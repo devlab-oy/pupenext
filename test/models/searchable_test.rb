@@ -51,6 +51,44 @@ class SearchableTest < ActiveSupport::TestCase
     assert_equal 1, DummyClass.search_like(params).count
   end
 
+  test "search like with or joiner works correctly with one column" do
+    options = { joiner: :or }
+
+    args = { maa: %w(FI EE) }
+    assert_equal 2, DummyClass.search_like(args, options).count
+
+    args = { maa: %w(FI) }
+    assert_equal 1, DummyClass.search_like(args, options).count
+
+    args = { maa: %w(RU) }
+    assert_equal 0, DummyClass.search_like(args, options).count
+  end
+
+  test "search like with or works correctly with multiple columns" do
+    options = { joiner: :or }
+
+    args = { maa: %w(FI), nimi: %w(Estonian) }
+    assert_equal 2, DummyClass.search_like(args, options).count
+
+    args = { maa: %w(EE), nimi: %w(Kala) }
+    assert_equal 1, DummyClass.search_like(args, options).count
+
+    args = { maa: %w(RU), nimi: %w(Kala) }
+    assert_equal 0, DummyClass.search_like(args, options).count
+  end
+
+  test "search like with or works correctly with strict search" do
+    options = { joiner: :or, strict: true }
+
+    args = { nimi: ["Acme Corporation", "Estonian"] }
+    assert_equal 1, DummyClass.search_like(args, options).count
+
+    args = { nimi: ["Acme Corporation", "Estonian Corporation"] }
+    assert_equal 2, DummyClass.search_like(args, options).count
+
+    args = { nimi: %w(Acme Corporation) }
+    assert_equal 0, DummyClass.search_like(args, options).count
+
   test 'should be able to search with true and false' do
     count = DumberClass.all.count
 

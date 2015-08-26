@@ -2,7 +2,11 @@ require 'test_helper'
 
 class DictionaryTest < ActiveSupport::TestCase
 
-  def setup
+  setup do
+    # RequestStore needs to be cleared here since these tests don't go through the Rack stack
+    # where it is usually cleared
+    RequestStore.clear!
+
     @hello = dictionaries(:hello)
   end
 
@@ -32,6 +36,25 @@ class DictionaryTest < ActiveSupport::TestCase
 
     t = Dictionary.translate("Hei maailma!")
     assert_equal "Hei maailma!", t, "return string if no language given"
+  end
+
+  test "translated words are saved to current thread" do
+    Dictionary.translate("Kirjahylly")
+
+    assert_equal 1, RequestStore.store[:translated_words].length
+    assert_includes RequestStore.store[:translated_words], "Kirjahylly"
+  end
+
+  test "allowed languages count is correct" do
+    assert_equal 7, Dictionary.allowed_languages.count
+  end
+
+  test "default language is Finnish" do
+    assert_equal "fi", Dictionary.default_language[1]
+  end
+
+  test "all languages count is correct" do
+    assert_equal 8, Dictionary.all_languages.count
   end
 
   test "translate raw returns nil if translations are not found" do

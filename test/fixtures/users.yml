@@ -3,6 +3,7 @@ joe:
   kuka: joe
   nimi: Joe Danger
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
+  kieli: fi
   session: IAOZQQAXYYDWMDBSWOEFSVBBI
   muuttaja: joe
   laatija: joe
@@ -15,6 +16,7 @@ bob:
   kuka: bob
   nimi: Bob Mursu
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
+  kieli: en
   session: VNBMDDNKLLQJZQOFJBRSFIOOV
   muuttaja: bob
   laatija: bob
