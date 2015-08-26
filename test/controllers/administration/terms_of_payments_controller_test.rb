@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class Administration::TermsOfPaymentsControllerTest < ActionController::TestCase
+  fixtures %w(terms_of_payments)
 
   def setup
     login users(:bob)

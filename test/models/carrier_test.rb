@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class CarrierTest < ActiveSupport::TestCase
+  fixtures %w(carriers)
+
   def setup
     @carrier = carriers(:hit)
   end

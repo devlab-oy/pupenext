@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Administration::QualifiersControllerTest < ActionController::TestCase
+  fixtures %w(qualifiers)
+
   setup do
     login users(:bob)
     @qualifier = qualifiers(:project_in_use)
