@@ -8,10 +8,12 @@
     currencies
     customers
     fiscal_years
+    freight_contracts
     packing_areas
     printers
     qualifiers
     sum_levels
+    terms_of_payments
     terms_of_payments
     test
   }

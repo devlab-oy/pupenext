@@ -1,0 +1,19 @@
+plane:
+  yhtio: acme
+  delivery_method: lento
+  rahtisopimus: 12312123
+  customer: stubborn_customer
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
+
+boat:
+  yhtio: acme
+  delivery_method: laiva
+  customer: stubborn_customer
+  rahtisopimus: 123413
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob

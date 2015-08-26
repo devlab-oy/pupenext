@@ -242,6 +242,7 @@ fi:
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
       terms_of_payment: Maksuehto
+      freight_contract: Rahtisopimus
   administration:
     accounts:
       create:
@@ -324,6 +325,15 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    freight_contracts:
+      edit:
+        header: Rahtisopimus
+      index:
+        button_new: Uusi Rahtisopimus
+        button_search: Etsi
+        button_show_all: Näytä kaikki
+        header: Rahtisopimukset
+        no_customer: Tyhjä
     packing_areas:
       create:
         create_success: Pakkaamo lisätty onnistuneesti
@@ -450,7 +460,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -476,7 +486,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu

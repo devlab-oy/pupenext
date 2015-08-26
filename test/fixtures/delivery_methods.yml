@@ -1,0 +1,15 @@
+lento:
+  yhtio: acme
+  selite: Lentokoneella
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
+
+laiva:
+  yhtio: acme
+  selite: Laivalla
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: bob
+  muuttaja: bob
