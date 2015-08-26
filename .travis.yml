@@ -29,6 +29,7 @@ before_script:
 script:
   - bundle install
   - bundle exec rake
+  - bundle exec i18n-tasks health fi
 after_success:
 after_failure:
 after_script:
