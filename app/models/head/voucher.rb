@@ -11,16 +11,6 @@ class Head::Voucher < Head
     "X"
   end
 
-  def self.human_readable_type
-    "Tosite"
-  end
-
-  # Rails figures out paths from the model name. User model has users_path etc.
-  # With STI we want to use same name for each child. Thats why we override model_name
-  def self.model_name
-    Head.model_name
-  end
-
   def self.find_by_account(account_no)
     joins(:rows).where(tiliointi: { tilino: account_no })
   end

@@ -25,6 +25,13 @@ th {
   font-weight: bold;
   vertical-align: middle;
   padding: 10px 10px 10px 10px;
+  background-color: #f9f9f9;
+}
+
+th label {
+  font-size: inherit;
+  font-weight: inherit;
+  vertical-align: inherit;
 }
 
 th a {
@@ -68,10 +75,22 @@ div.ohje {
 }
 
 input, textarea {
-  margin: 0px 4px 0px 4px;
-  padding: 7px 2px 8px 2px;
+  margin: 0px;
+  padding: 8px 2px 8px 4px;
   border-style: solid;
   border-width: 1px;
+}
+
+input.large, select.large, textarea.large {
+  width: 90%;
+}
+
+input.medium, select.medium, textarea.medium {
+  width: 60%;
+}
+
+input.small, select.small, textarea.small {
+  width: 30%;
 }
 
 select {
@@ -79,11 +98,26 @@ select {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
   padding: 8px 35px 8px 4px;
+  margin: 0px;
   border-style: solid;
   border-width: 1px;
-  background-image: url('../../../pics/facelift/dropdown_arrow.png');
+  background-image: image_url('facelift/dropdown_arrow.png');
   background-repeat: no-repeat;
   background-position: right;
+}
+
+.field_with_errors input {
+  border: 1px solid red;
+}
+
+.field_with_errors label {
+  font-size: 11pt;
+  font-weight: bold;
+}
+
+select:disabled {
+  background-image: none;
+  border-style: none;
 }
 
 select.multipleselect {
@@ -104,35 +138,36 @@ button, input[type=submit], input[type=button] {
 }
 
 input[type=submit].lisaa_btn {
-  background-image: url('../../../pics/facelift/submit_add.png');
+  background-image: image_url('facelift/submit_add.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].hae_btn {
-  background-image: url('../../../pics/facelift/submit_mglass.png');
+  background-image: image_url('facelift/submit_mglass.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].tallenna_btn {
-  background-image: url('../../../pics/facelift/submit_rightarrow.png');
+  background-image: image_url('facelift/submit_rightarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 input[type=submit].poista_btn {
-  background-image: url('../../../pics/facelift/submit_leftarrow.png');
+  background-image: image_url('facelift/submit_leftarrow.png');
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 35px;
 }
 
 .monivalintadiv {
-  display: inline-block;
+  float: left;
+  margin-right: 5px;
 }
 
 table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[type=button], table.ostorivien_kohdistus select {
@@ -140,3 +175,86 @@ table.ostorivien_kohdistus input[type=text], table.ostorivien_kohdistus input[ty
   padding: 1px;
 }
 
+select.minpad_select {
+  padding: 8px 15px 8px 4px;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.no-title .ui-dialog-titlebar {
+  display: none;
+}
+
+ul.list-unstyled {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.text-large {
+  font-size: 2rem !important;
+  margin-bottom: 10px;
+}
+
+.text-medium {
+  font-size: 1.25rem !important;
+}
+
+.margin-left-20 {
+  margin-left: 20px !important;
+}
+
+.kateis-table {
+  margin-bottom: 20px;
+}
+
+.kateis-table th, .kateis-table td {
+  font-size: 1.25rem;
+}
+
+.laskuri {
+  margin-bottom: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table.responsive {
+  width: 100%;
+}
+
+table.responsive td input[type=text] {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.del {
+  text-decoration: line-through;
+}

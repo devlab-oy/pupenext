@@ -23,7 +23,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # PATCH /commodities/1
   def update
-    if @commodity.update_by(commodity_params, current_user)
+    if @commodity.update commodity_params
       redirect_to edit_commodity_path(@commodity), notice: t('.update_success')
     else
       render :edit
@@ -36,9 +36,9 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities
   def create
-    @commodity = FixedAssets::Commodity.new(commodity_create_params)
+    @commodity = FixedAssets::Commodity.new commodity_create_params
 
-    if @commodity.save_by current_user
+    if @commodity.save
       redirect_to edit_commodity_path(@commodity), notice: t('.create_success')
     else
       render :new
@@ -84,7 +84,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   def activate
     @commodity.status = 'A'
 
-    if @commodity.save_by current_user
+    if @commodity.save
       redirect_to edit_commodity_path(@commodity), notice: t('.activation_success')
     else
       @commodity.status = ''
@@ -111,7 +111,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   def confirm_sale
     commodity_sales_params
 
-    if @commodity.can_be_sold? && @commodity.save_by(current_user)
+    if @commodity.can_be_sold? && @commodity.save
       options = {
         commodity_id: @commodity.id,
         user_id: current_user.id
@@ -168,7 +168,7 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
 
     def find_voucher_row
-      @voucher_row = Head::VoucherRow.find(params[:voucher_row_id])
+      @voucher_row = Head::VoucherRow.find params[:voucher_row_id]
     end
 
     def linkable_vouchers
@@ -188,8 +188,8 @@ class FixedAssets::CommoditiesController < AdministrationController
       end
 
       if @voucher_row.valid?
-        @voucher_row.save_by current_user
-        @commodity.save_by current_user
+        @voucher_row.save
+        @commodity.save
       else
         flash.now[:notice] = t('.cannot_link_row')
         false
@@ -199,8 +199,8 @@ class FixedAssets::CommoditiesController < AdministrationController
     def unlink_voucher_row
       if @commodity.allows_unlinking? && @voucher_row.commodity_id.present?
         @voucher_row.commodity_id = nil
-        @voucher_row.save_by current_user
-        @commodity.save_by current_user
+        @voucher_row.save
+        @commodity.save
       else
         flash.now[:notice] = t('.cannot_unlink')
         false
