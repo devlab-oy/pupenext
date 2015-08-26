@@ -36,6 +36,26 @@
       <td><%= f.select :rahdinkuljettaja, carrier_options,
               { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
     </tr>
+    <tr>
+      <th><%= f.label :rahti_tuotenumero %></th>
+      <td><%= f.text_field :rahti_tuotenumero %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sopimusnro %></th>
+      <td><%= f.text_field :sopimusnro %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :rahtikirjakopio_email %></th>
+      <td><%= f.text_field :rahtikirjakopio_email %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jvkulu %></th>
+      <td><%= f.text_field :jvkulu %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jvkielto %></th>
+      <td><%= f.select :jvkielto, cash_on_delivery_prohibition_options %></td>
+    </tr>
   </table>
 
   <%= render 'administration/actions', f: f %>
