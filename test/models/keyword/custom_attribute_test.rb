@@ -41,4 +41,12 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     attrib.set_name = 'different_set'
     assert attrib.valid?
   end
+
+  test 'field name' do
+    @attrib.database_field = 'foo.bar'
+    assert_equal "bar", @attrib.field
+
+    @attrib.database_field = 'foo.bar.baz'
+    assert_equal "baz", @attrib.field
+  end
 end

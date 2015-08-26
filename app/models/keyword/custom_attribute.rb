@@ -14,6 +14,10 @@ class Keyword::CustomAttribute < Keyword
   alias_attribute :default_value,  :selitetark_4
   alias_attribute :help_text,      :selitetark_5
 
+  def field
+    selite.split('.').last
+  end
+
   # Rails requires sti_name method to return type column (laji) value
   def self.sti_name
     'MYSQLALIAS'
