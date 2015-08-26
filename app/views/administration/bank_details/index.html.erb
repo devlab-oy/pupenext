@@ -1,0 +1,49 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>
+
+<br/><br/>
+
+<%= form_tag bank_details_path, method: :get do %>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <%= label_tag BankDetail.human_attribute_name(:nimitys) %>
+        </th>
+        <th>
+          <%= label_tag BankDetail.human_attribute_name(:pankkinimi1) %>
+        </th>
+        <th>
+          <%= label_tag BankDetail.human_attribute_name(:pankkiiban1) %>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @bank_details.each do |bank_detail| %>
+        <tr class="aktiivi">
+          <td>
+            <%= link_to nimitys_teksti(bank_detail.nimitys), edit_bank_detail_path(bank_detail) %>
+          </td>
+          <td>
+            <%= bank_detail.pankkinimi1 %>
+            <%= bank_detail.pankkinimi2 %>
+            <%= bank_detail.pankkinimi3 %>
+          </td>
+          <td>
+            <%= bank_detail.pankkiiban1 %>
+            <%= bank_detail.pankkiiban2 %>
+            <%= bank_detail.pankkiiban3 %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+
+<% end %>
+
+<br/>
+
+<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>

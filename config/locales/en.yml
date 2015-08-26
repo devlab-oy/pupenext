@@ -29,6 +29,10 @@ en:
         nimi: Name
         tilino: 'Account #'
         valkoodi: Currency
+      bank_detail:
+        laatija: Created by
+        luontiaika: Date of creation
+        nimitys: Product name
       carrier:
         koodi: 
         luontiaika: Created
@@ -249,6 +253,12 @@ en:
         update_success: 
     actions:
       button_saving: 
+    bank_details:
+      index:
+        header: Bank accounts
+    bank_details_helper:
+      finnish: Finnish
+      swedish: Swedish
     carriers:
       index:
         button_search: Search

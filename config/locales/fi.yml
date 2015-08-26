@@ -38,6 +38,25 @@ fi:
         tilino: Tilinumero
         tilinylitys: Tilinylitys
         valkoodi: Valuutta
+      bank_detail:
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        nimitys: Nimitys
+        pankkiiban1: IBAN
+        pankkiiban2: IBAN
+        pankkiiban3: IBAN
+        pankkinimi1: Pankin nimi
+        pankkinimi2: Pankin nimi
+        pankkinimi3: Pankin nimi
+        pankkiswift1: BIC
+        pankkiswift2: BIC
+        pankkiswift3: BIC
+        pankkitili1: Tilinumero
+        pankkitili2: Tilinumero
+        pankkitili3: Tilinumero
+        viite: Vitteen muoto
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -266,6 +285,7 @@ fi:
     models:
       account: Tili
       bank_account: Pankkitili
+      bank_detail: Pankkiyhteystieto
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
@@ -355,6 +375,16 @@ fi:
         limit_override_denied: Tilinylitys estetty
       update:
         update_success: Pankkitili päivitettiin onnistuneesti
+    bank_details:
+      edit:
+        header: Pankkiyhteystieto
+      index:
+        button_new: Uusi pankkiyhteystieto
+        header: Pankkiyhteystiedot
+    bank_details_helper:
+      empty: tyhjä
+      finnish: Suomi
+      swedish: Ruotsi
     carriers:
       edit:
         header: Rahdinkuljettaja
@@ -546,7 +576,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -572,7 +602,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
