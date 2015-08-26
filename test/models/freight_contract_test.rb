@@ -2,8 +2,8 @@ require 'test_helper'
 
 class FreightContractTest < ActiveSupport::TestCase
   setup do
-    @one = freight_contracts(:freight_contract_1)
-    @two = freight_contracts(:freight_contract_2)
+    @one = freight_contracts(:plane)
+    @two = freight_contracts(:boat)
   end
 
   test "fixtures are valid" do
@@ -11,8 +11,9 @@ class FreightContractTest < ActiveSupport::TestCase
     assert @two.valid?, @two.errors.full_messages
   end
 
-  test "ordered scope works" do
-    assert_equal 351, FreightContract.ordered.count
+  test 'relations' do
+    assert_equal Customer, @one.customer.class
+    assert_equal DeliveryMethod, @one.delivery_method.class
   end
 
   test "delivery method saved to freight contract must exist" do
