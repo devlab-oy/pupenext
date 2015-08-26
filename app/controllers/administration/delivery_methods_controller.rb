@@ -33,6 +33,11 @@ class Administration::DeliveryMethodsController < AdministrationController
     end
   end
 
+  def destroy
+    @delivery_method.destroy
+    redirect_to delivery_methods_path, notice: t('.destroy_success')
+  end
+
   private
     def delivery_method_params
       params.require(:delivery_method).permit(
