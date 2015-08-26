@@ -11,4 +11,18 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     get :index
     assert_response :success
   end
+
+  test 'should list custom attributes for set' do
+    get :index
+    assert_response :success
+    refute assigns(:attribute_set)
+
+    params = {
+      set_name: 'PROSPEKTI'
+    }
+
+    get :index, custom_attributes: params
+    assert_response :success
+    assert assigns(:attribute_set)
+  end
 end
