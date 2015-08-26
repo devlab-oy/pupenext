@@ -153,6 +153,78 @@
       <th><%= f.label :toim_maa %></th>
       <td><%= f.text_field :toim_maa %></td>
     </tr>
+    <tr>
+      <th><%= f.label :maa_maara %></th>
+      <td><%= f.text_field :maa_maara %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sisamaan_kuljetus %></th>
+      <td><%= f.text_field :sisamaan_kuljetus %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sisamaan_kuljetus_kansallisuus %></th>
+      <td><%= f.text_field :sisamaan_kuljetus_kansallisuus %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sisamaan_kuljetusmuoto %></th>
+      <td><%= f.select :sisamaan_kuljetusmuoto, mode_of_transport_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kontti %></th>
+      <td><%= f.select :kontti, container_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :aktiivinen_kuljetus %></th>
+      <td><%= f.text_field :aktiivinen_kuljetus %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :aktiivinen_kuljetus_kansallisuus %></th>
+      <td><%= f.text_field :aktiivinen_kuljetus_kansallisuus %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kauppatapahtuman_luonne %></th>
+      <td><%= f.select :kauppatapahtuman_luonne, nature_of_transaction_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :kuljetusmuoto %></th>
+      <td><%= f.select :kuljetusmuoto, mode_of_transport_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :poistumistoimipaikka_koodi %></th>
+      <td><%= f.select :poistumistoimipaikka_koodi, customs_options,
+              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :ulkomaanlisa %></th>
+      <td><%= f.text_field :ulkomaanlisa %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sallitut_maat %></th>
+      <td><%= f.text_field :sallitut_maat %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :sallitut_alustat %></th>
+      <td><%= f.text_field :sallitut_alustat %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :lisakulu %></th>
+      <td><%= f.text_field :lisakulu %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :lisakulu_summa %></th>
+      <td><%= f.text_field :lisakulu_summa %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :jarjestys %></th>
+      <td><%= f.text_field :jarjestys %></td>
+    </tr>
+
+  <%= render 'administration/resource_timestamps_and_users', resource: @delivery_method %>
+
   </table>
 
   <%= render 'administration/actions', f: f %>
