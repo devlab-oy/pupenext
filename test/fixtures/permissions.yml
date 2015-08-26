@@ -6,6 +6,7 @@
     commodities
     companies
     currencies
+    custom_attributes
     customers
     fiscal_years
     packing_areas
