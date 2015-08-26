@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   def setup
-    login users(:bob)
+    login users(:joe)
     @delivery_method = delivery_methods(:kaukokiito)
   end
 
@@ -24,6 +24,8 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should create delivery method' do
+    login users(:bob)
+
     assert_difference('DeliveryMethod.count', 1, response.body) do
 
       params = {
@@ -43,6 +45,8 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should not create delivery method' do
+    login users(:bob)
+
     assert_no_difference('DeliveryMethod.count') do
 
       params = {
@@ -56,6 +60,8 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should update delivery method' do
+    login users(:bob)
+
     params = { tulostustapa: :collective_batch }
 
     patch :update, id: @delivery_method.id, delivery_method: params
@@ -63,9 +69,21 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should not update delivery method' do
+    login users(:bob)
+
     params = { selite: 'Kiitolinja' }
 
     patch :update, id: @delivery_method.id, delivery_method: params
     assert_template "edit", "Template should be edit"
+  end
+
+  test "should delete delivery method" do
+    login users(:bob)
+
+    assert_difference("DeliveryMethod.count", -1) do
+      delete :destroy, id: @delivery_method.id
+    end
+
+    assert_redirected_to delivery_methods_path
   end
 end
