@@ -20,6 +20,13 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      bank_detail:
+        laatija: Erstellt von
+        luontiaika: Erstellt am
+        nimitys: Bezeichnung
+        pankkitili1: Kontonummer
+        pankkitili2: Kontonummer
+        pankkitili3: Kontonummer
       carrier:
         koodi: 
         luontiaika: Erstellt am
@@ -181,6 +188,7 @@ de:
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
       qualifier:
+        kaytossa: Wird benutzt
         nimi: Name
         tunnus: Kennzeichen
         tyyppi: Typ
@@ -253,6 +261,12 @@ de:
         update_success: 
     actions:
       button_saving: 
+    bank_details:
+      index:
+        header: Bankverbindungsdaten
+    bank_details_helper:
+      finnish: Finnisch
+      swedish: Schwedisch
     carriers:
       index:
         button_search: Suchen

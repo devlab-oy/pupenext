@@ -20,6 +20,13 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      bank_detail:
+        laatija: Koostaja
+        luontiaika: Koostamise aeg
+        nimitys: Nimetus
+        pankkitili1: Konto number
+        pankkitili2: Konto number
+        pankkitili3: Konto number
       carrier:
         koodi: Kood
         luontiaika: Koostamise aeg
@@ -179,6 +186,7 @@ et:
         unifaun_nimi: 
         yhteyshenkilo: Kontaktisik
       qualifier:
+        kaytossa: Kasutusel
         nimi: Nimi
         tyyppi: Tyyp
       terms_of_payment:
@@ -245,6 +253,12 @@ et:
         update_success: 
     actions:
       button_saving: 
+    bank_details:
+      index:
+        header: Pangarekvisiidid
+    bank_details_helper:
+      finnish: Soome
+      swedish: Rootsi
     carriers:
       index:
         button_search: Otsi

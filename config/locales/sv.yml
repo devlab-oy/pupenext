@@ -20,6 +20,13 @@ sv:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Ibruktagningsdatum
+      bank_detail:
+        laatija: Skapare
+        luontiaika: Skapad
+        nimitys: Benämning
+        pankkitili1: Kontonummer
+        pankkitili2: Kontonummer
+        pankkitili3: Kontonummer
       carrier:
         koodi: 
         luontiaika: Skapad
@@ -247,6 +254,12 @@ sv:
         update_success: 
     actions:
       button_saving: 
+    bank_details:
+      index:
+        header: Bankuppgifter
+    bank_details_helper:
+      finnish: Finska
+      swedish: Svenska
     carriers:
       index:
         button_search: Sök
