@@ -20,6 +20,7 @@ Pupesoft::Application.routes.draw do
 
   scope module: :administration do
     resources :accounts
+    resources :bank_accounts
     resources :carriers
     resources :cash_registers
     resources :cash_registers

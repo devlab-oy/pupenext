@@ -20,6 +20,15 @@ en:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Deployment date
+      bank_account:
+        asiakastunnus: Customer nr
+        bic: SWIFT/BIC
+        iban: IBAN
+        kaytossa: Status
+        maksulimitti: Limit
+        nimi: Name
+        tilino: 'Account #'
+        valkoodi: Currency
       carrier:
         koodi: 
         luontiaika: Created

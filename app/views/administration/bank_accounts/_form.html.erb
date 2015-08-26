@@ -1,0 +1,97 @@
+<%= render "administration/form_errors", resource: @bank_account %>
+
+<%= form_for @bank_account do |f| %>
+
+  <table width='600'>
+    <tr>
+      <th width='40%'><%= f.label :kaytossa %></th>
+      <td width='60%'><%= f.select :kaytossa, tili_kaytossa_options, {}, class: :medium %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :nimi %></th>
+      <td><%= f.text_field :nimi, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tilino %></th>
+      <td><%= f.text_field :tilino, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :iban %></th>
+      <td><%= f.text_field :iban, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :bic %></th>
+      <td><%= f.text_field :bic, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :asiakastunnus %></th>
+      <td><%= f.text_field :asiakastunnus, class: :small %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :maksulimitti %></th>
+      <td><%= f.text_field :maksulimitti, class: :small %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :valkoodi %></th>
+      <td><%= f.select :valkoodi, currency_options, {}, class: :medium %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_kulutili %></th>
+      <td><%= f.select :oletus_kulutili, tili_options, {}, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_rahatili %></th>
+      <td><%= f.select :oletus_rahatili, tili_options, {}, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_selvittelytili %></th>
+      <td><%= f.select :oletus_selvittelytili, tili_options, {}, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :hyvak %></th>
+      <td><%= f.select :hyvak, kuka_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_kustp %></th>
+      <td><%= f.select :oletus_kustp, kustp_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_kohde %></th>
+      <td><%= f.select :oletus_kohde, kohde_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :oletus_projekti %></th>
+      <td><%= f.select :oletus_projekti, projekti_options, { include_blank: true }, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :factoring %></th>
+      <td><%= f.select :factoring, factoring_options, {}, class: :medium %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :tilinylitys %></th>
+      <td><%= f.select :tilinylitys, tilinylitys_options, {}, class: :medium %></td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @bank_account %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>

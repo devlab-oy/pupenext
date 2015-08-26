@@ -20,6 +20,24 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      bank_account:
+        asiakastunnus: Asiakastunnus
+        bic: SWIFT / BIC
+        factoring: Factoring (Myyntisaatavarahoitus)
+        hyvak: Oletushyväksyjä
+        iban: IBAN
+        kaytossa: Tila
+        maksulimitti: Maksulimitti
+        nimi: Nimi
+        oletus_kohde: Oletuskulutilikirjauksen kohde
+        oletus_kulutili: Oletuskulutili
+        oletus_kustp: Oletuskulutilikirjauksen kustannuspaikka
+        oletus_projekti: Oletuskulutilikirjauksen projekti
+        oletus_rahatili: Oletusrahatili
+        oletus_selvittelytili: Oletusselvittelytili
+        tilino: Tilinumero
+        tilinylitys: Tilinylitys
+        valkoodi: Valuutta
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -247,6 +265,7 @@ fi:
         selitetark: Käännetty teksti
     models:
       account: Tili
+      bank_account: Pankkitili
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
@@ -314,6 +333,28 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    bank_accounts:
+      create:
+        create_success: Pankkitili perustettiin onnistuneesti
+      edit:
+        header: Pankkitili
+      factoring_options:
+        factoring_disabled: Ei factoroida
+        factoring_enabled: Factoring käytössä
+      index:
+        button_new: Uusi pankkitili
+        button_search: Etsi
+        header: Pankkitilit
+        show_active: Näytä aktiiviset
+        show_inactive: Näytä poistetut
+      kaytossa_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
+      tilinylitys_options:
+        limit_override_allowed: Tilinylitys sallittu
+        limit_override_denied: Tilinylitys estetty
+      update:
+        update_success: Pankkitili päivitettiin onnistuneesti
     carriers:
       edit:
         header: Rahdinkuljettaja

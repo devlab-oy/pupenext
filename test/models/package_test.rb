@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class PackageTest < ActiveSupport::TestCase
+  fixtures %w(packages keywords package_codes)
 
-  def setup
+  setup do
     @package = packages(:steel_barrel)
   end
 

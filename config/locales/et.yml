@@ -20,6 +20,14 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi:
         kayttoonottopvm: Kasutuselevotu kuupäev
+      bank_account:
+        asiakastunnus: Klienditunnus
+        bic: SWIFT / BIC
+        kaytossa: Ruum
+        maksulimitti: Makselimiit
+        nimi: Nimi
+        tilino: Kontonumber
+        valkoodi: Valuuta
       carrier:
         koodi: Kood
         luontiaika: Koostamise aeg

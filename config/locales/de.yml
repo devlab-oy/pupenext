@@ -20,6 +20,13 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi:
         kayttoonottopvm: Inbetriebnahmedatum
+      bank_account:
+        bic: SWIFT / BIC
+        kaytossa: Status
+        maksulimitti: Zahlungslimit
+        nimi: Name
+        tilino: Kontonummer
+        valkoodi: Währung
       carrier:
         koodi:
         luontiaika: Erstellt am
