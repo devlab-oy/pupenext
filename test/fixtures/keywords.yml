@@ -38,3 +38,17 @@ top_locale_en:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+mysql_alias_1:
+  yhtio: acme
+  laji: MYSQLALIAS
+  selite: asiakas.nimi
+  selitetark: Nimiskuukkeli
+  selitetark_2: PROSPEKTI
+  selitetark_3: PAKOLLINEN
+  selitetark_4: Oletuksena tässä lukee Mursu
+  selitetark_5: Tämä on ohjeteksti
+  laatija: joe
+  muuttaja: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
