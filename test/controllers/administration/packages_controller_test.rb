@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class Administration::PackagesControllerTest < ActionController::TestCase
-  def setup
+  fixtures %w(packages keywords)
+
+  setup do
     login users(:bob)
     @package = packages(:steel_barrel)
   end
