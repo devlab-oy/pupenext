@@ -1,6 +1,6 @@
 class Administration::BankDetailsController < AdministrationController
   def index
-    @bank_details = BankDetail.search_like(search_params).order(order_params)
+    @bank_details = BankDetail.all.order :nimitys
   end
 
   def create
@@ -49,13 +49,5 @@ class Administration::BankDetailsController < AdministrationController
 
     def find_resource
       @bank_detail = BankDetail.find params[:id]
-    end
-
-    def sortable_columns
-      [:nimitys]
-    end
-
-    def searchable_columns
-      sortable_columns
     end
 end
