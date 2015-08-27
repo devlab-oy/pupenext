@@ -168,6 +168,20 @@ class DeliveryMethod < BaseModel
         allow_delete = false
       end
 
+      count = company.freights.where(toimitustapa: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_freights", count: count))
+        allow_delete = false
+      end
+
+      count = company.freight_contracts.where(toimitustapa: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_freights", count: count))
+        allow_delete = false
+      end
+
       return allow_delete
     end
 end
