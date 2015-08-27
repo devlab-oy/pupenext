@@ -26,6 +26,7 @@ class DeliveryMethod < BaseModel
 
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
+  validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
 
   before_destroy :check_relations
 
@@ -131,6 +132,11 @@ class DeliveryMethod < BaseModel
 
     def permit_adr_shipments
       DeliveryMethod.permit_adr.shipment.pluck(:selite)
+    end
+
+    def mandatory_new_packaging_information
+      root = 'errors.delivery_method'
+      errors.add(:base, I18n.t("#{root}.mandatory_new_packaging_info_with_unifaun_waybill")) if rahtikirja.include? 'rahtikirja_unifaun'
     end
 
     def vak_kielto_validation
