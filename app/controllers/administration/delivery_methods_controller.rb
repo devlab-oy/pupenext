@@ -34,8 +34,11 @@ class Administration::DeliveryMethodsController < AdministrationController
   end
 
   def destroy
-    @delivery_method.destroy
-    redirect_to delivery_methods_path, notice: t('.destroy_success')
+    if @delivery_method.destroy
+      redirect_to delivery_methods_path, notice: t('.destroy_success')
+    else
+      render :edit
+    end
   end
 
   private

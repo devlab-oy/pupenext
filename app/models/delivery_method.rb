@@ -27,6 +27,8 @@ class DeliveryMethod < BaseModel
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
 
+  before_destroy :check_relations
+
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
                 :lisakulu, :lisakulu_summa
 
@@ -139,5 +141,33 @@ class DeliveryMethod < BaseModel
     def vaihtoehtoinen_vak_toimitustapa_validation
       allowed = permit_adr_shipments + [ '' ]
       errors.add :vaihtoehtoinen_vak_toimitustapa, I18n.t('errors.messages.inclusion') unless allowed.include? vaihtoehtoinen_vak_toimitustapa
+    end
+
+    def check_relations
+      root = 'errors.delivery_method'
+      allow_delete = true
+
+      count = company.customers.where(toimitustapa: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_customers", count: count))
+        allow_delete = false
+      end
+
+      count = company.sales_orders.not_delivered.where(toimitustapa: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_sales_orders", count: count))
+        allow_delete = false
+      end
+
+      count = company.sales_order_drafts.where(toimitustapa: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_sales_order_drafts", count: count))
+        allow_delete = false
+      end
+
+      return allow_delete
     end
 end

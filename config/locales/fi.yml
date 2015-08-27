@@ -801,6 +801,8 @@ fi:
       in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
     delivery_method:
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
+      in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
   fixed_assets:
     commodities:
       activate:
