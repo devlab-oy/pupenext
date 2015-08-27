@@ -51,4 +51,13 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     assert_equal "baz", @attrib.field
     assert_equal "foo", @attrib.table
   end
+
+  test 'fetch set' do
+    params = {
+      table_name: 'asiakas',
+      set_name: 'PROSPEKTI'
+    }
+
+    assert_equal 1, Keyword::CustomAttribute.fetch_set(params).count
+  end
 end

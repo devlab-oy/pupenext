@@ -26,4 +26,8 @@ class Keyword::CustomAttribute < Keyword
   def self.sti_name
     'MYSQLALIAS'
   end
+
+  def self.fetch_set(table_name:, set_name:)
+    where("avainsana.selite like ?", "#{table_name}.%").where(selitetark_2: set_name)
+  end
 end
