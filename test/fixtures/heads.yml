@@ -49,7 +49,7 @@ pi_<%= i %>_history:
   h3time: <%= Time.now %>
   h4time: <%= Time.now %>
   h5time: <%= Time.now %>
-  mapvm: <%= Time.now %>
+  mapvm: 0000-00-00
   popvm: <%= Time.now %>
 
 pi_<%= i %>_overdue:
@@ -63,7 +63,7 @@ pi_<%= i %>_overdue:
   tapvm: <%= Time.now.weeks_ago(1) %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
-  erpcm: <%= Time.now.weeks_ago(1) %>
+  erpcm: <%= Time.now %>
   olmapvm: <%= Time.now %>
   kerayspvm: <%= Time.now %>
   toimaika: <%= Time.now %>
@@ -158,7 +158,7 @@ si_one_history:
   h3time: <%= Time.now %>
   h4time: <%= Time.now %>
   h5time: <%= Time.now %>
-  mapvm: <%= Time.now %>
+  mapvm: 0000-00-00
   popvm: <%= Time.now %>
 
 # Erääntynyt myyntilasku
