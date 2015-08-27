@@ -18,9 +18,11 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     @attrib.default_value  = 'Wheee!'
     @attrib.help_text      = 'This is helpful'
     @attrib.required       = :optional
+    @attrib.visibility     = :hidden
     @attrib.save!
 
     assert @attrib.reload.optional?
+    assert @attrib.hidden?
     assert_equal 'foo.bar',         @attrib.database_field
     assert_equal 'Foobar',          @attrib.label
     assert_equal 'BAZ',             @attrib.set_name

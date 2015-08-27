@@ -2,6 +2,11 @@ class Keyword::CustomAttribute < Keyword
   validates :selitetark, presence: true
   validates :selitetark_2, uniqueness: { scope: [:selite] }
 
+  enum nakyvyys: {
+    visible: 'X',
+    hidden: '',
+  }
+
   enum selitetark_3: {
     optional: '',
     mandatory: 'PAKOLLINEN',
@@ -13,6 +18,7 @@ class Keyword::CustomAttribute < Keyword
   alias_attribute :required,       :selitetark_3
   alias_attribute :default_value,  :selitetark_4
   alias_attribute :help_text,      :selitetark_5
+  alias_attribute :visibility,     :nakyvyys
 
   def field
     selite.split('.').last
