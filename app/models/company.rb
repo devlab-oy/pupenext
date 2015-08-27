@@ -8,6 +8,7 @@ class Company < ActiveRecord::Base
     o.has_many :carriers
     o.has_many :cash_registers
     o.has_many :currencies
+    o.has_many :customer_keywords
     o.has_many :customers
     o.has_many :delivery_methods
     o.has_many :factorings
