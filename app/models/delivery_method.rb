@@ -182,6 +182,13 @@ class DeliveryMethod < BaseModel
         allow_delete = false
       end
 
+      count = company.customer_keywords.where(avainsana: selite).count
+
+      if count.nonzero?
+        errors.add(:base, I18n.t("#{root}.in_use_customer_keywords", count: count))
+        allow_delete = false
+      end
+
       return allow_delete
     end
 end
