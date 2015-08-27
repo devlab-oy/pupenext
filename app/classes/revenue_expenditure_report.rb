@@ -5,6 +5,7 @@ class RevenueExpenditureReport
     @date_begin = Date.today.months_ago period
     @date_end = Date.today.months_since period
     @beginning_of_week = Date.today.beginning_of_week
+    @end_of_week = Date.today.end_of_week
     @previous_week = Date.today.beginning_of_week.yesterday
   end
 
@@ -21,30 +22,26 @@ class RevenueExpenditureReport
   private
 
   def history_salesinvoice
-    Head::SalesInvoice.sent.paid
+    Head::SalesInvoice.sent.unpaid
       .where(erpcm: @date_begin..@previous_week)
-      .where(tapvm: @date_begin..@previous_week)
       .sum(:summa)
   end
 
   def overdue_accounts_receivable
     Head::SalesInvoice.sent.unpaid
-      .where(erpcm: @date_begin..@beginning_of_week)
-      .where(tapvm: @date_begin..@beginning_of_week)
+      .where(erpcm: @beginning_of_week..@end_of_week)
       .sum(:summa)
   end
 
   def history_purchaseinvoice
-    Head::PurchaseInvoice.all_purchase_invoices.paid
+    Head::PurchaseInvoice.all_purchase_invoices.unpaid
       .where(erpcm: @date_begin..@previous_week)
-      .where(tapvm: @date_begin..@previous_week)
       .sum(:summa)
   end
 
   def overdue_accounts_payable
     Head::PurchaseInvoice.all_purchase_invoices.unpaid
-      .where(erpcm: @date_begin..@beginning_of_week)
-      .where(tapvm: @date_begin..@beginning_of_week)
+      .where(erpcm: @beginning_of_week..@end_of_week)
       .sum(:summa)
   end
 
@@ -71,16 +68,14 @@ class RevenueExpenditureReport
   end
 
   def sales(start, stop)
-    Head::SalesInvoice.where(alatila: :X)
+    Head::SalesInvoice.where(alatila: :X).paid
       .where(erpcm: start..stop)
-      .where(tapvm: @date_begin..stop)
       .sum(:summa)
   end
 
   def purchases(start, stop)
-    Head::PurchaseInvoice.all_purchase_invoices
+    Head::PurchaseInvoice.all_purchase_invoices.paid
       .where(erpcm: start..stop)
-      .where(tapvm: @date_begin..stop)
       .sum(:summa)
   end
 end

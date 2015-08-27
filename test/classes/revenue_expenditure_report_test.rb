@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
+  fixtures %w(
+    heads
+  )
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -12,12 +15,12 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     si_one.save
 
     si_one_history = heads(:si_one_history)
-    si_one_history.erpcm = Time.now.weeks_ago(1)
-    si_one_history.tapvm = Time.now.weeks_ago(1)
+    si_one_history.erpcm = Time.now.weeks_ago(3)
+    si_one_history.tapvm = Time.now.weeks_ago(3)
     si_one_history.save
 
     si_one_overdue = heads(:si_one_overdue)
-    si_one_overdue.erpcm = Time.now.weeks_ago(1)
+    si_one_overdue.erpcm = Date.today.beginning_of_week
     si_one_overdue.tapvm = Time.now.weeks_ago(1)
     si_one_overdue.save
 
@@ -29,14 +32,14 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       pi_today.save
 
       pi_history = heads(:"pi_#{i}_history")
-      pi_history.erpcm = Time.now.weeks_ago(1)
-      pi_history.tapvm = Time.now.weeks_ago(1)
+      pi_history.erpcm = Time.now.weeks_ago(3)
+      pi_history.tapvm = Time.now.weeks_ago(3)
       pi_history.save
 
-      pi_history = heads(:"pi_#{i}_overdue")
-      pi_history.erpcm = Time.now.weeks_ago(1)
-      pi_history.tapvm = Time.now.weeks_ago(1)
-      pi_history.save
+      pi_overdue = heads(:"pi_#{i}_overdue")
+      pi_overdue.erpcm = Date.today.beginning_of_week
+      pi_overdue.tapvm = Time.now.weeks_ago(1)
+      pi_overdue.save
     end
   end
 
