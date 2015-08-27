@@ -24,7 +24,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     si_one_overdue.tapvm = Time.now.weeks_ago(1)
     si_one_overdue.save
 
-    Head::PurchaseInvoice::INVOICE_TYPES.each do |i|
+    Head::PURCHASE_INVOICE_TYPES.each do |i|
       pi_today = heads(:"pi_#{i}")
       pi_today.erpcm = Date.today
       pi_today.tapvm = Date.today
@@ -60,7 +60,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   test 'should return revenue / expenditure data' do
     history_purchaseinvoice_sum = 0
     overdue_accounts_payable_sum = 0
-    Head::PurchaseInvoice::INVOICE_TYPES.each do |i|
+    Head::PURCHASE_INVOICE_TYPES.each do |i|
       history_purchaseinvoice_sum += heads(:"pi_#{i}_history").summa
       overdue_accounts_payable_sum += heads(:"pi_#{i}_overdue").summa
     end
