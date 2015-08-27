@@ -12,6 +12,8 @@ class Company < ActiveRecord::Base
     o.has_many :delivery_methods
     o.has_many :factorings
     o.has_many :fiscal_years
+    o.has_many :freight_contracts
+    o.has_many :freights
     o.has_many :keywords
     o.has_many :locations
     o.has_many :package_codes
