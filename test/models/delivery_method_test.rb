@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class DeliveryMethodTest < ActiveSupport::TestCase
+  fixtures %w(delivery_methods)
+
   def setup
     @delivery_method = delivery_methods(:kaukokiito)
   end
