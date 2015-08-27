@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class CurrencyTest < ActiveSupport::TestCase
+  fixtures %w(currencies)
 
-  def setup
+  setup do
     @currency = currencies(:eur)
   end
 

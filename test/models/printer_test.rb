@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class PrinterTest < ActiveSupport::TestCase
+  fixtures %w(printers)
 
-  def setup
+  setup do
     @printer1 = printers(:printer1)
     @printer2 = printers(:printer2)
   end

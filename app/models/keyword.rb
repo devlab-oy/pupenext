@@ -18,6 +18,7 @@ class Keyword < BaseModel
       'KM' => Keyword::ModeOfTransport,
       'KT' => Keyword::NatureOfTransaction,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
+      'PAKKAUSKV' => Keyword::PackageTranslation,
       'RAHTIKIRJA' => Keyword::Waybill,
       'TOIMTAPALP' => Keyword::SortingPoint,
       'TULLI' => Keyword::Customs

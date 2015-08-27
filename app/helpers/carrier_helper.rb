@@ -10,4 +10,10 @@ module CarrierHelper
   def carrier_options
     Carrier.order(:nimi, :koodi).pluck(:nimi, :koodi)
   end
+
+  def rahdinkuljettaja_options
+    Carrier.all.map do |c|
+      [ c.nimi, c.koodi ]
+    end
+  end
 end

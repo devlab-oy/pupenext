@@ -39,3 +39,4 @@ ignore_unused:
 - 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
 - 'administration.qualifiers.{kaytossa_options}.*'
 - 'administration.delivery_methods.{*_options}.*'
+- 'administration.packages.{erikoispakkaus_options,yksin_eraan_options}.*'

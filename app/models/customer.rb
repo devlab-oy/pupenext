@@ -1,5 +1,5 @@
 class Customer < BaseModel
-  belongs_to :terms_of_payment, foreign_key: :maksuehto,    primary_key: :tunnus
+  belongs_to :terms_of_payment, foreign_key: :maksuehto
   belongs_to :delivery_method,  foreign_key: :toimitustapa, primary_key: :selite
 
   default_scope { where.not(laji: %w(P R)) }

@@ -1,6 +1,8 @@
 require "test_helper"
 
 class KeywordTest < ActiveSupport::TestCase
+  fixtures %w(keywords)
+
   setup do
     @vat = keywords(:vat)
     @foreign_vat = keywords(:foreign_vat)
