@@ -313,6 +313,11 @@ fi:
         header: Valuutat
       update:
         update_success: Valuutta päivitettiin onnistuneesti
+    custom_attributes:
+      index:
+        button_edit: Muokkaa ryhmää
+        button_new: Uusi ryhmä
+        header: Ylläpitonäkymien kentät
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
@@ -450,7 +455,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -476,7 +481,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
