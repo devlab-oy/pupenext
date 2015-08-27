@@ -8,8 +8,13 @@ class Head < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto, primary_key: :tunnus
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
+  # We have actually 5 types, that are saved in "tila".
+  # Eventough it's supposed to be the STI column.
+  PURCHASE_INVOICE_TYPES = %w{H Y M P Q}
+
   scope :paid, -> { where.not(mapvm: '0000-00-00') }
   scope :unpaid, -> { where(mapvm: '0000-00-00') }
+  scope :all_purchase_invoices, -> { where(tila: PURCHASE_INVOICE_TYPES) }
 
   def self.default_child_instance
     child_class 'N'

@@ -34,13 +34,13 @@ class RevenueExpenditureReport
   end
 
   def history_purchaseinvoice
-    Head::PurchaseInvoice.all_purchase_invoices.unpaid
+    Head.all_purchase_invoices.unpaid
       .where(erpcm: @date_begin..@previous_week)
       .sum(:summa)
   end
 
   def overdue_accounts_payable
-    Head::PurchaseInvoice.all_purchase_invoices.unpaid
+    Head.all_purchase_invoices.unpaid
       .where(erpcm: @beginning_of_week..@end_of_week)
       .sum(:summa)
   end
@@ -74,7 +74,7 @@ class RevenueExpenditureReport
   end
 
   def purchases(start, stop)
-    Head::PurchaseInvoice.all_purchase_invoices.paid
+    Head.all_purchase_invoices.paid
       .where(erpcm: start..stop)
       .sum(:summa)
   end
