@@ -28,6 +28,19 @@ class Administration::CustomAttributesController < AdministrationController
     end
   end
 
+  def update
+    if @custom_attribute.update custom_keyword_params
+      redirect_to custom_attributes_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @custom_attribute.destroy
+    redirect_to custom_attributes_path
+  end
+
   private
 
     def find_resource

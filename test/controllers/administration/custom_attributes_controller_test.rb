@@ -61,7 +61,7 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     assert_redirected_to custom_attributes_path
   end
 
-  test 'should not create carrier' do
+  test 'should not create attribute' do
     params = {
       visibility: 'visible',
       required: 'optional',
@@ -71,5 +71,27 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
       post :create, custom_attribute: params
       assert_template :edit
     end
+  end
+
+  test 'should update attribute' do
+    params = { label: "Foobar" }
+
+    patch :update, id: @attribute.id, custom_attribute: params
+    assert_redirected_to custom_attributes_path
+  end
+
+  test 'should not update attribute' do
+    params = { label: '' }
+
+    patch :update, id: @attribute.id, custom_attribute: params
+    assert_template :edit
+  end
+
+  test "should delete attribute" do
+    assert_difference("Keyword::CustomAttribute.count", -1) do
+      delete :destroy, id: @attribute.id
+    end
+
+    assert_redirected_to custom_attributes_path
   end
 end
