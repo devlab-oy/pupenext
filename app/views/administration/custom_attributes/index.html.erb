@@ -1,5 +1,9 @@
 <%= render "administration/header", text: t('.header') %>
 
+<%= button_to t('.button_new'), new_custom_attribute_path, method: :get if update_access? %>
+
+<hr>
+
 <%= form_tag custom_attributes_path, method: :get do %>
   <%= select_tag :combo_set,
       options_for_select(custom_attribute_set_options, params[:combo_set]),
