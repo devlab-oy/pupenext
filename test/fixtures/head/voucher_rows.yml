@@ -25,6 +25,7 @@ three:
 four:
   yhtio: acme
   sales_invoice: si_one
+  summa: 100
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
@@ -106,6 +107,14 @@ thirteen:
   voucher: pi_Y
   tilino: 4444
   summa: 54932
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+fourteen:
+  yhtio: acme
+  sales_invoice: si_one_overdue
+  summa: 100
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
