@@ -66,7 +66,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     weekly = [
       {
         week: '33 / 2015',
-        sales: BigDecimal(0),
+        sales: BigDecimal(200),
         purchases: BigDecimal(54932)
       },
       {

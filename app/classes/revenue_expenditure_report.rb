@@ -28,7 +28,9 @@ class RevenueExpenditureReport
 
   def overdue_accounts_receivable
     if Date.today != @beginning_of_week
-      Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday).sum(:summa)
+      Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday)
+      .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+      .sum('tiliointi.summa')
     else
       0
     end
