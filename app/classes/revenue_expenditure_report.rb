@@ -23,7 +23,7 @@ class RevenueExpenditureReport
 
   def history_salesinvoice
     Head::SalesInvoice.sent.unpaid
-      .where(erpcm: @date_begin..@previous_week)
+      .where("erpcm < ?", @previous_week)
       .sum(:summa)
   end
 
@@ -35,7 +35,7 @@ class RevenueExpenditureReport
 
   def history_purchaseinvoice
     Head.all_purchase_invoices.unpaid
-      .where(erpcm: @date_begin..@previous_week)
+      .where("erpcm < ?", @previous_week)
       .sum(:summa)
   end
 
