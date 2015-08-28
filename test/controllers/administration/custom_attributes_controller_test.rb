@@ -37,4 +37,39 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     get :show, id: @attribute.tunnus
     assert_response :success
   end
+
+  test 'should get new' do
+    get :new
+    assert_response :success
+  end
+
+  test 'should create attribute' do
+    params = {
+      database_field: 'toimi.nimi',
+      label: 'Toimittajan nimi',
+      set_name: 'MINISET',
+      default_value: 'Bob',
+      help_text: 'Ongelmatilanteessa soita jonnekin',
+      visibility: 'visible',
+      required: 'optional',
+    }
+
+    assert_difference("Keyword::CustomAttribute.count") do
+      post :create, custom_attribute: params
+    end
+
+    assert_redirected_to custom_attributes_path
+  end
+
+  test 'should not create carrier' do
+    params = {
+      visibility: 'visible',
+      required: 'optional',
+    }
+
+    assert_no_difference("Keyword::CustomAttribute.count") do
+      post :create, custom_attribute: params
+      assert_template :edit
+    end
+  end
 end
