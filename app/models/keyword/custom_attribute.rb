@@ -43,7 +43,7 @@ class Keyword::CustomAttribute < Keyword
 
     def invalid_characters
       msg = I18n.t 'errors.messages.invalid'
-      errors.add(:set_name, msg) if set_name.include? "+"
-      errors.add(:database_field, msg) if database_field.include? "+"
+      errors.add(:set_name, msg) if set_name && set_name.include?("+")
+      errors.add(:database_field, msg) if database_field && database_field.include?("+")
     end
 end

@@ -65,6 +65,9 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
   end
 
   test 'invalid characters' do
+    @attrib.set_name = nil
+    refute @attrib.valid?
+
     @attrib.set_name = 'string + another'
     refute @attrib.valid?
 
