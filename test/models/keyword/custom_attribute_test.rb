@@ -9,6 +9,7 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
 
   test 'fixtures are valid' do
     assert @attrib.valid?
+    assert keywords(:mysql_alias_2).valid?
   end
 
   test 'keyword attribute aliases' do
