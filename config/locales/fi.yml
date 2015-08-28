@@ -184,6 +184,14 @@ fi:
         selitetark: Selitetarkenne
         selitetark_2: Selitetarkenne 2
         selitetark_3: Selitetarkenne 3
+      keyword/custom_attribute:
+        database_field: Kenttä
+        default_value: Oletusarvo
+        help_text: Ohjeteksti
+        label: Kentän nimitys
+        required: Pakollisuus
+        set_name: Ryhmän nimi
+        visibility: Näkyvyys
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
@@ -300,6 +308,7 @@ fi:
       head/sales_order: Myyntitilaus
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
+      keyword/custom_attribute: Ylläpitonäkymän kenttä
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -418,6 +427,21 @@ fi:
         header: Valuutat
       update:
         update_success: Valuutta päivitettiin onnistuneesti
+    custom_attributes:
+      edit:
+        button_remove: Poista kenttä
+        confirm_remove: Oletko varma, että haluat poistaa kentän?
+        header: Ylläpitonäkymän kenttä
+      index:
+        button_new: Lisää uusi kenttä
+        button_search: Etsi
+        header: Ylläpitonäkymien kentät
+      required_options:
+        mandatory: Kentän arvo on pakollinen
+        optional: Kentän arvo ei ole pakollinen
+      visibility_options:
+        hidden: Kenttää ei näytetä näkymässä
+        visible: Kenttä näytetään näkymässä
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti

@@ -8,6 +8,7 @@
     commodities
     companies
     currencies
+    custom_attributes
     customers
     fiscal_years
     packages

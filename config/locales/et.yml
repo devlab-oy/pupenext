@@ -214,6 +214,7 @@ et:
         pankkiyhteystiedot: Pangarekvisiidid
     models:
       account: Arve
+      bank_account: Pangakonto
       carrier: 
       cash_register: Kassa
       currency: Valuuta
@@ -270,11 +271,21 @@ et:
         update_success: 
     actions:
       button_saving: 
+    bank_accounts:
+      edit:
+        header: Pangakonto
+      factoring_options:
+        factoring_disabled: Ei kasutata faktooringut
+      index:
+        button_search: Otsi
+        show_inactive: Näita tyhistatuid
+      kaytossa_options:
+        active: Kasutusel
+        inactive: Kustutatud/Ei ole kasutusel
     bank_details:
       index:
         header: Pangarekvisiidid
     bank_details_helper:
-      button_saving: 
       finnish: Soome
       swedish: Rootsi
     carriers:
@@ -306,6 +317,9 @@ et:
         header: Valuutad
       update:
         update_success: 
+    custom_attributes:
+      index:
+        button_search: Otsi
     fiscal_years:
       create:
         create_success: 

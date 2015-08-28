@@ -223,6 +223,7 @@ de:
         pankkiyhteystiedot: Bankverbindungsdaten
     models:
       account: Konto
+      bank_account: Bankkonto
       carrier: 
       cash_register: 
       currency: Währung
@@ -281,11 +282,21 @@ de:
         update_success: 
     actions:
       button_saving: 
+    bank_accounts:
+      edit:
+        header: Bankkonto
+      factoring_options:
+        factoring_disabled: Wird nicht factoriert
+      index:
+        button_search: Suchen
+        show_inactive: Gelöschte anzeigen
+      kaytossa_options:
+        active: Wird benutzt
+        inactive: Gelöscht / Wird nicht benutzt
     bank_details:
       index:
         header: Bankverbindungsdaten
     bank_details_helper:
-      button_saving: 
       finnish: Finnisch
       swedish: Schwedisch
     carriers:
@@ -317,6 +328,9 @@ de:
         header: Währungen
       update:
         update_success: 
+    custom_attributes:
+      index:
+        button_search: Suchen
     fiscal_years:
       create:
         create_success: 

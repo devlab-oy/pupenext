@@ -253,6 +253,10 @@ en:
         update_success: 
     actions:
       button_saving: 
+    bank_accounts:
+      index:
+        button_search: Search
+        show_inactive: Show removed
     bank_details:
       index:
         header: Bank accounts
@@ -288,6 +292,9 @@ en:
         header: Currencies
       update:
         update_success: 
+    custom_attributes:
+      index:
+        button_search: Search
     fiscal_years:
       create:
         create_success: 
