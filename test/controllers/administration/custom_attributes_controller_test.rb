@@ -5,6 +5,7 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
 
   setup do
     login users(:bob)
+    @attribute = keywords(:mysql_alias_1)
   end
 
   test 'should get index' do
@@ -27,5 +28,13 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     assert_response :success
     assert_template :index
     assert_equal 1, assigns(:attribute_set).count
+  end
+
+  test 'should get edit' do
+    get :edit, id: @attribute.tunnus
+    assert_response :success
+
+    get :show, id: @attribute.tunnus
+    assert_response :success
   end
 end

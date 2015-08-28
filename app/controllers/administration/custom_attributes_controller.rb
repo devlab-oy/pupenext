@@ -3,10 +3,21 @@ class Administration::CustomAttributesController < AdministrationController
     set = Keyword::CustomAttribute.all
     set = set.fetch_set combo_params if combo_params
 
-    @attribute_set = set.order(:selite)
+    @attribute_set = set.order(:set_name, :database_field)
+  end
+
+  def edit
+  end
+
+  def show
+    render :edit
   end
 
   private
+
+    def find_resource
+      @custom_attribute = Keyword::CustomAttribute.find params[:id]
+    end
 
     def combo_params
       return unless params[:combo_set].present?
