@@ -1,6 +1,6 @@
 module CustomAttributeHelper
   def custom_attribute_set_options
-    Keyword::CustomAttribute.where.not(set_name: '').map do |a|
+    Keyword::CustomAttribute.all.map do |a|
       [ "#{a.table.capitalize} - #{a.set_name}", "#{a.table}/#{a.set_name}" ]
     end.uniq.sort
   end
