@@ -1,7 +1,7 @@
 class Administration::CustomAttributesController < AdministrationController
   def index
     set = Keyword::CustomAttribute.all
-    set = set.fetch_set combo_params if combo_params
+    set = set.fetch_set alias_set_params if alias_set_params
 
     @attribute_set = set.order(:set_name, :database_field)
   end
@@ -47,7 +47,7 @@ class Administration::CustomAttributesController < AdministrationController
       @custom_attribute = Keyword::CustomAttribute.find params[:id]
     end
 
-    def combo_params
+    def alias_set_params
       return unless params[:alias_set].present?
 
       table_name = params[:alias_set].split('+').first
