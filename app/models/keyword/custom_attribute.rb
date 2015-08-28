@@ -1,6 +1,6 @@
 class Keyword::CustomAttribute < Keyword
-  validates :selitetark, presence: true
-  validates :selitetark_2, uniqueness: { scope: [:selite] }
+  validates :label, presence: true
+  validates :set_name, uniqueness: { scope: [:selite] }, presence: true
 
   enum nakyvyys: {
     visible: 'X',
