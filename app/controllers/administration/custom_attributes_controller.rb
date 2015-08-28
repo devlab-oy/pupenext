@@ -1,31 +1,19 @@
 class Administration::CustomAttributesController < AdministrationController
-  before_action :redirect_to_show_set, only: :index
-
   def index
-  end
+    set = Keyword::CustomAttribute.all
+    set = set.fetch_set combo_params if combo_params
 
-  def show_set
-    @attribute_set = Keyword::CustomAttribute.fetch_set set_parameters
+    @attribute_set = set.order(:selite)
   end
 
   private
 
-    def redirect_to_show_set
-      return unless set_parameters[:table_name].present? && set_parameters[:set_name].present?
+    def combo_params
+      return unless params[:combo_set].present?
 
-      redirect_to action: :show_set,
-        table_name: set_parameters[:table_name],
-        set_name: set_parameters[:set_name]
-    end
+      table_name = params[:combo_set].split('/').first
+      set_name   = params[:combo_set].split('/').last
 
-    def set_parameters
-      allowed = params.permit(:table_name, :set_name).symbolize_keys
-
-      if params[:combo_name].present?
-        allowed[:table_name] = params[:combo_name].split('/').first
-        allowed[:set_name]   = params[:combo_name].split('/').last
-      end
-
-      allowed
+      { table_name: table_name, set_name: set_name }
     end
 end

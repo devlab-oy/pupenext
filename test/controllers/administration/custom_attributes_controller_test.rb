@@ -12,31 +12,20 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     assert_response :success
   end
 
-  test 'should list custom attributes for set' do
-    params = {
-      table_name: 'asiakas',
-      set_name: 'PROSPEKTI'
-    }
-
-    get :show_set, params
-    assert_response :success
-    assert assigns(:attribute_set)
-
-    get :index, params
-    assert_redirected_to custom_set_path(params)
-    assert assigns(:attribute_set)
-  end
-
-  test 'should get index if params missing' do
-    get :index, table_name: 'asiakas'
+  test 'should search index' do
+    get :index
     assert_response :success
     assert_template :index
+    assert_equal 2, assigns(:attribute_set).count
 
-    get :index, set_name: 'PROSPEKTI'
+    get :index, combo_set: 'notfound/search'
     assert_response :success
     assert_template :index
+    assert_equal 0, assigns(:attribute_set).count
 
-    get :index, table_name: 'asiakas', set_name: 'PROSPEKTI'
-    assert_response :redirect
+    get :index, combo_set: 'asiakas/PROSPEKTI'
+    assert_response :success
+    assert_template :index
+    assert_equal 1, assigns(:attribute_set).count
   end
 end
