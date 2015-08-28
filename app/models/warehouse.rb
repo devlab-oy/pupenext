@@ -1,5 +1,5 @@
 class Warehouse < BaseModel
-  has_many :packing_areas, foreign_key: :varasto, primary_key: :tunnus
+  has_many :packing_areas, foreign_key: :varasto
 
   scope :active, -> { where.not(tyyppi: 'P') }
 

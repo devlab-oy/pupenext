@@ -1,0 +1,77 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>
+
+<br /><br />
+
+<%= form_tag packages_path, method: :get do %>
+
+  <table style='max-width: 1200px;'>
+
+    <tr>
+      <th width='5%'>
+        <%= sortable 'pakkaus', Package.human_attribute_name(:pakkaus) %>
+        <br/><br/>
+        <%= text_field_tag :pakkaus, params[:pakkaus], class: :large %>
+      </th>
+
+      <th width='40%'>
+        <%= sortable 'pakkauskuvaus', Package.human_attribute_name(:pakkauskuvaus) %>
+        <br/><br/>
+        <%= text_field_tag :pakkauskuvaus, params[:pakkauskuvaus], class: :large %>
+      </th>
+
+      <th width='5%'>
+        <%= sortable 'korkeus', Package.human_attribute_name(:korkeus) %>
+        <br/><br/>
+        <%= text_field_tag :korkeus, params[:korkeus], class: :medium %>
+      </th>
+
+      <th width='5%'>
+        <%= sortable 'leveys', Package.human_attribute_name(:leveys) %>
+        <br/><br/>
+        <%= text_field_tag :leveys, params[:leveys], class: :medium %>
+      </th>
+
+      <th width='5%'>
+        <%= sortable 'syvyys', Package.human_attribute_name(:syvyys) %>
+        <br/><br/>
+        <%= text_field_tag :syvyys, params[:syvyys], class: :medium %>
+      </th>
+
+      <th width='5%'>
+        <%= sortable 'paino', Package.human_attribute_name(:paino) %>
+        <br/><br/>
+        <%= text_field_tag :paino, params[:paino], class: :medium %>
+      </th>
+
+      <th width='5%'>
+        <%= sortable 'jarjestys', Package.human_attribute_name(:jarjestys) %>
+        <br/><br/>
+        <%= text_field_tag :jarjestys, params[:jarjestys], class: :medium %>
+      </th>
+
+      <th class="back" width='10%'>
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+    <% @packages.each do |p| %>
+      <tr>
+        <td><%= link_to p.pakkaus, edit_package_path(p) %></td>
+        <td><%= p.pakkauskuvaus %></td>
+        <td><%= p.korkeus %></td>
+        <td><%= p.leveys %></td>
+        <td><%= p.syvyys %></td>
+        <td><%= p.paino %></td>
+        <td><%= p.jarjestys %></td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
+
+<br />
+
+<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>

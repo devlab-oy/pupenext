@@ -12,16 +12,18 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test "company relations" do
-    assert_not_nil @acme.parameter
-    assert_not_nil @acme.accounts
-    assert_not_nil @acme.currencies
-    assert_not_nil @acme.keywords
-    assert_not_nil @acme.users
-    assert_not_nil @acme.cost_centers
-    assert_not_nil @acme.projects
-    assert_not_nil @acme.targets
-    assert_not_nil @acme.commodities
-    assert_not_nil @acme.fiscal_years
+    assert_equal Parameter, @acme.parameter.class
+    assert_not_equal 0, @acme.accounts.count
+    assert_not_equal 0, @acme.commodities.count
+    assert_not_equal 0, @acme.cost_centers.count
+    assert_not_equal 0, @acme.currencies.count
+    assert_not_equal 0, @acme.fiscal_years.count
+    assert_not_equal 0, @acme.keywords.count
+    assert_not_equal 0, @acme.packing_areas.count
+    assert_not_equal 0, @acme.projects.count
+    assert_not_equal 0, @acme.targets.count
+    assert_not_equal 0, @acme.users.count
+    assert_not_equal 0, @acme.warehouses.count
   end
 
   test "company has working STI headings" do
