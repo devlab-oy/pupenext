@@ -83,3 +83,7 @@
   <% end %>
 
 </table>
+
+<br>
+
+<%= button_to t('.button_new'), new_custom_attribute_path, method: :get if update_access? %>
