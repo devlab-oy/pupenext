@@ -1,18 +1,81 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%=t '.button_edit' %><br>
-
 <%= form_tag custom_attributes_path, method: :get do %>
-  <%= select_tag :combo_name, options_for_select(custom_attribute_set_options) %>
-  <%= submit_tag t('.button_edit') %>
+  <%= select_tag :combo_set,
+      options_for_select(custom_attribute_set_options, params[:combo_set]),
+      include_blank: true,
+      onchange: 'submit()' %>
+  <%= submit_tag t('.button_search') %>
 <% end %>
 
-<br><hr>
+<br><br>
 
-<%=t '.button_new' %><br>
+<table>
 
-<%= form_tag custom_attributes_path, method: :get do |f| %>
-  <%= select_tag :table_name, options_for_select(custom_attributes_tables_options) %>
-  <%= text_field_tag :set_name %>
-  <%= submit_tag t('.button_new') %>
-<% end %>
+  <tr>
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:selite) %>
+    </th>
+
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:selitetark) %>
+    </th>
+
+    <% if params[:combo_set].blank? %>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:selitetark_2) %>
+      </th>
+    <% end %>
+
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:selitetark_4) %>
+    </th>
+
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:selitetark_5) %>
+    </th>
+
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:nakyvyys) %>
+    </th>
+
+    <th>
+      <%= Keyword::CustomAttribute.human_attribute_name(:selitetark_3) %>
+    </th>
+  </tr>
+
+  <% @attribute_set.each do |attribute| %>
+    <tr class='aktiivi'>
+      <td>
+        <%= link_to attribute.database_field, edit_custom_attribute_path(attribute) %>
+      </td>
+
+      <td>
+        <%= attribute.label %>
+      </td>
+
+      <% if params[:combo_set].blank? %>
+        <td>
+          <%= attribute.set_name %>
+        </td>
+      <% end %>
+
+      <td>
+        <%= attribute.default_value %>
+      </td>
+
+      <td>
+        <%= attribute.help_text %>
+      </td>
+
+      <td>
+        <%= attribute.visibility %>
+      </td>
+
+      <td>
+        <%= attribute.required %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
