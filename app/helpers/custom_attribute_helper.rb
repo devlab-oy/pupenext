@@ -1,7 +1,7 @@
 module CustomAttributeHelper
   def custom_attribute_set_options
     Keyword::CustomAttribute.all.map do |a|
-      [ "#{a.table.capitalize} - #{a.set_name}", "#{a.table}_#{a.set_name}" ]
+      [ "#{a.table.capitalize} - #{a.set_name}", "#{a.table}+#{a.set_name}" ]
     end.uniq.sort
   end
 
