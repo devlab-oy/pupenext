@@ -142,13 +142,13 @@ fi:
       keyword:
         kieli: Kieli
       keyword/custom_attribute:
-        nakyvyys: Näkyvyys
-        selite: Kenttä
-        selitetark: Kentän nimitys
-        selitetark_2: Ryhmän nimi
-        selitetark_3: Pakollisuus
-        selitetark_4: Oletusarvo
-        selitetark_5: Ohje teksti
+        database_field: Kenttä
+        default_value: Oletusarvo
+        help_text: Ohjeteksti
+        label: Kentän nimitys
+        required: Pakollisuus
+        set_name: Ryhmän nimi
+        visibility: Näkyvyys
       packing_area:
         lokero: Lokero
         nimi: Nimi
@@ -237,6 +237,7 @@ fi:
       head/sales_order: Myyntitilaus
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
+      keyword/custom_attribute: Ylläpitonäkymän kenttä
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
@@ -322,9 +323,19 @@ fi:
       update:
         update_success: Valuutta päivitettiin onnistuneesti
     custom_attributes:
+      edit:
+        button_remove: Poista kenttä
+        confirm_remove: Oletko varma, että haluat poistaa kentän?
+        header: Ylläpitonäkymän kenttä
       index:
         button_search: Etsi
         header: Ylläpitonäkymien kentät
+      required_options:
+        mandatory: Kentän arvo on pakollinen
+        optional: Kentän arvo ei ole pakollinen
+      visibility_options:
+        hidden: Kenttää ei näytetä näkymässä
+        visible: Kenttä näytetään näkymässä
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
