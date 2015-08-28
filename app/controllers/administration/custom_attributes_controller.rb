@@ -50,8 +50,8 @@ class Administration::CustomAttributesController < AdministrationController
     def combo_params
       return unless params[:combo_set].present?
 
-      table_name = params[:combo_set].split('/').first
-      set_name   = params[:combo_set].split('/').last
+      table_name = params[:combo_set].split('_').first
+      set_name   = params[:combo_set].split('_').last
 
       { table_name: table_name, set_name: set_name }
     end
