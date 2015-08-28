@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class DeliveryMethodTest < ActiveSupport::TestCase
-  fixtures %w(delivery_methods)
+  fixtures %w(delivery_methods heads customers)
 
   def setup
     @delivery_method = delivery_methods(:kaukokiito)
@@ -33,5 +33,19 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     @delivery_method.vaihtoehtoinen_vak_toimitustapa = 'neko'
     refute @delivery_method.valid?, "Invalid vaihtoehtoinen_vak_toimitustapa value"
+  end
+
+  test 'mandatory new packaging information' do
+    @delivery_method.tulostustapa = 'L'
+    @delivery_method.uudet_pakkaustiedot = ''
+    @delivery_method.rahtikirja = 'rahtikirja_unifaun_uo_siirto.inc'
+
+    refute @delivery_method.valid?, "New packaging info is mandatory with collective batch and Unifaun Online"
+  end
+
+  test 'should be in use' do
+    assert_no_difference('DeliveryMethod.count') do
+      @delivery_method.destroy
+    end
   end
 end

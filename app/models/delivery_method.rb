@@ -184,7 +184,7 @@ class DeliveryMethod < BaseModel
       count = company.freight_contracts.where(toimitustapa: selite).count
 
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_freights", count: count))
+        errors.add(:base, I18n.t("#{root}.in_use_freight_contracts", count: count))
         allow_delete = false
       end
 

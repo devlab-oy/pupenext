@@ -187,6 +187,7 @@ not_finished_order:
   tila: N
   alatila: ''
   terms_of_payment: hundred_days_net
+  toimitustapa: Kaukokiito
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -235,6 +236,7 @@ not_delivered_order_1:
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
+  toimitustapa: Kaukokiito
 
 not_delivered_order_2:
   yhtio: acme
@@ -262,3 +264,32 @@ not_delivered_order_2:
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
+  toimitustapa: Kaukokiito
+
+not_delivered_order_3:
+  yhtio: acme
+  tila: L
+  alatila: B
+  terms_of_payment: ninety_days_net
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  tapvm: <%= Time.now %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+  toimitustapa: Kaukokiito

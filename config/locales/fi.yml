@@ -803,6 +803,7 @@ fi:
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+      in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
       in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
       in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
       mandatory_new_packaging_info_with_unifaun_waybill: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'

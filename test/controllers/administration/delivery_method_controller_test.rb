@@ -82,6 +82,9 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   test "should delete delivery method" do
     login users(:bob)
 
+    @delivery_method.selite = 'Random delivery method'
+    @delivery_method.save
+
     assert_difference("DeliveryMethod.count", -1) do
       delete :destroy, id: @delivery_method.id
     end

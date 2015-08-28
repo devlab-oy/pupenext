@@ -28,7 +28,7 @@ class CompanyTest < ActiveSupport::TestCase
 
   test "company has working STI headings" do
     assert_not_nil @acme.heads
-    assert_equal 14, @acme.heads.count
+    assert_equal 15, @acme.heads.count
 
     assert_not_nil @acme.purchase_orders
     assert_equal Head::PurchaseOrder.new.class, @acme.purchase_orders.first.class
@@ -62,7 +62,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     assert_not_nil @acme.sales_orders
     assert_equal Head::SalesOrder.new.class, @acme.sales_orders.first.class
-    assert_equal 3, @acme.sales_orders.count
+    assert_equal 4, @acme.sales_orders.count
     assert_equal ['L'], @acme.sales_orders.collect(&:tila).uniq
 
     assert_not_nil @acme.sales_order_drafts
