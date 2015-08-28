@@ -1,6 +1,7 @@
 <%= render "administration/form_errors", resource: @custom_attribute %>
 
-<%= form_for @custom_attribute, as: :custom_attribute, url: custom_attribute_path do |f| %>
+<% url = @custom_attribute.id ? custom_attribute_path(@custom_attribute) : custom_attributes_path %>
+<%= form_for @custom_attribute, as: :custom_attribute, url: url do |f| %>
 
   <table width='700'>
 
