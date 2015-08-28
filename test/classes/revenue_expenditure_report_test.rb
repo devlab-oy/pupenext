@@ -1,9 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(
-    heads
-  )
+  fixtures %w(heads head/voucher_rows)
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -68,8 +66,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     weekly = [
       {
         week: '33 / 2015',
-        sales: BigDecimal(100),
-        purchases: BigDecimal(500)
+        sales: BigDecimal(0),
+        purchases: BigDecimal(54932)
       },
       {
         week: '34 / 2015',
@@ -79,7 +77,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       {
         week: '35 / 2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(11000)
       },
       {
         week: '36 / 2015',

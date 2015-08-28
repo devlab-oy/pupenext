@@ -113,3 +113,19 @@ account_150_esto:
   muutospvm: <%= Time.now %>
   muuttaja: bob
   laatija: bob
+
+account_factoring:
+  yhtio: acme
+  nimi: Factoringmyyntisaamiset
+  ulkoinen_taso: 666
+  sisainen_taso: 666
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 666
+  project:
+  target:
+  cost_center:
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob

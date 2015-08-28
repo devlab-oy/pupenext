@@ -7,6 +7,7 @@ class RevenueExpenditureReport
     @beginning_of_week = Date.today.beginning_of_week
     @end_of_week = Date.today.end_of_week
     @previous_week = Date.today.beginning_of_week.yesterday
+    @yesterday = Date.yesterday
   end
 
   def data
@@ -22,27 +23,27 @@ class RevenueExpenditureReport
   private
 
   def history_salesinvoice
-    Head::SalesInvoice.sent.unpaid
-      .where("erpcm < ?", @previous_week)
-      .sum(:summa)
+    Head::SalesInvoice.sent.unpaid.where("erpcm < ?", @beginning_of_week).sum(:summa)
   end
 
   def overdue_accounts_receivable
-    Head::SalesInvoice.sent.unpaid
-      .where(erpcm: @beginning_of_week..@end_of_week)
-      .sum(:summa)
+    if Date.today != @beginning_of_week
+      Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday).sum(:summa)
+    else
+      0
+    end
   end
 
   def history_purchaseinvoice
-    Head.all_purchase_invoices.unpaid
-      .where("erpcm < ?", @previous_week)
-      .sum(:summa)
+    Head.all_purchase_invoices.unpaid.where("erpcm < ?", @beginning_of_week).sum(:summa)
   end
 
   def overdue_accounts_payable
-    Head.all_purchase_invoices.unpaid
-      .where(erpcm: @beginning_of_week..@end_of_week)
-      .sum(:summa)
+    if Date.today != @beginning_of_week
+      Head.all_purchase_invoices.unpaid.where(erpcm: @beginning_of_week..@yesterday).sum(:summa)
+    else
+      0
+    end
   end
 
   def weekly
@@ -68,14 +69,14 @@ class RevenueExpenditureReport
   end
 
   def sales(start, stop)
-    Head::SalesInvoice.where(alatila: :X).paid
-      .where(erpcm: start..stop)
-      .sum(:summa)
+    Head::SalesInvoice.sent.where(erpcm: start..stop)
+    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .sum('tiliointi.summa')
   end
 
   def purchases(start, stop)
-    Head.all_purchase_invoices.paid
-      .where(erpcm: start..stop)
-      .sum(:summa)
+    Head.all_purchase_invoices.where(erpcm: start..stop)
+    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .sum('tiliointi.summa')
   end
 end
