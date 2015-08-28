@@ -20,22 +20,27 @@ Pupesoft::Application.routes.draw do
 
   scope module: :administration do
     resources :accounts
+    resources :bank_accounts
+    resources :bank_details, except: :destroy
     resources :carriers
     resources :cash_registers
+    resources :cash_registers
     resources :currencies, except: :destroy
+    resources :custom_attributes
     resources :fiscal_years, except: :destroy
+    resources :packages
     resources :packing_areas
     resources :printers
-    resources :qualifiers
     resources :qualifier_cost_centers, path: :qualifiers, controller: :qualifiers
     resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
     resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
-    resources :sum_levels
+    resources :qualifiers
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
     resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_profits, path: :sum_levels, controller: :sum_levels
     resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
+    resources :sum_levels
     resources :terms_of_payments, except: :destroy
   end
 

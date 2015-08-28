@@ -20,6 +20,43 @@ fi:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: EVL Poistotyyppi
         kayttoonottopvm: Käyttöönottopvm
+      bank_account:
+        asiakastunnus: Asiakastunnus
+        bic: SWIFT / BIC
+        factoring: Factoring (Myyntisaatavarahoitus)
+        hyvak: Oletushyväksyjä
+        iban: IBAN
+        kaytossa: Tila
+        maksulimitti: Maksulimitti
+        nimi: Nimi
+        oletus_kohde: Oletuskulutilikirjauksen kohde
+        oletus_kulutili: Oletuskulutili
+        oletus_kustp: Oletuskulutilikirjauksen kustannuspaikka
+        oletus_projekti: Oletuskulutilikirjauksen projekti
+        oletus_rahatili: Oletusrahatili
+        oletus_selvittelytili: Oletusselvittelytili
+        tilino: Tilinumero
+        tilinylitys: Tilinylitys
+        valkoodi: Valuutta
+      bank_detail:
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        nimitys: Nimitys
+        pankkiiban1: IBAN
+        pankkiiban2: IBAN
+        pankkiiban3: IBAN
+        pankkinimi1: Pankin nimi
+        pankkinimi2: Pankin nimi
+        pankkinimi3: Pankin nimi
+        pankkiswift1: BIC
+        pankkiswift2: BIC
+        pankkiswift3: BIC
+        pankkitili1: Tilinumero
+        pankkitili2: Tilinumero
+        pankkitili3: Tilinumero
+        viite: Vitteen muoto
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -140,7 +177,47 @@ fi:
         www: WWW
         ytunnus: Y-tunnus
       keyword:
+        jarjestys: Järjestys
         kieli: Kieli
+        laji: Laji
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+      keyword/custom_attribute:
+        database_field: Kenttä
+        default_value: Oletusarvo
+        help_text: Ohjeteksti
+        label: Kentän nimitys
+        required: Pakollisuus
+        set_name: Ryhmän nimi
+        visibility: Näkyvyys
+      package:
+        erikoispakkaus: Erikoispakkaus
+        jarjestys: Järjestys
+        kayttoprosentti: Käyttöprosentti
+        kieli: Kieli
+        korkeus: Korkeus
+        laji: Laji
+        leveys: Leveys
+        minimi_paino: Minimipaino
+        paino: Paino
+        pakkaus: Pakkauskoodi
+        pakkauskuvaus: Pakkauskuvaus
+        pakkausveloitus_tuotenumero: Pakkausveloitus tuotenumero
+        puukotus_kerroin: Puukotuskerroin
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+        syvyys: Syvyys
+        yksin_eraan: Yksin erään
+      package_code:
+        koodi: Pakkauskoodi
+        rahdinkuljettaja: Rahdinkuljettaja
+      package_codes:
+        koodi: Pakkauskoodi
+        rahdinkuljettaja: Rahdinkuljettaja
       packing_area:
         lokero: Lokero
         nimi: Nimi
@@ -215,6 +292,8 @@ fi:
         selitetark: Käännetty teksti
     models:
       account: Tili
+      bank_account: Pankkitili
+      bank_detail: Pankkiyhteystieto
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
@@ -229,6 +308,9 @@ fi:
       head/sales_order: Myyntitilaus
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
+      keyword/custom_attribute: Ylläpitonäkymän kenttä
+      package: Pakkaus
+      package_code: Pakkauskoodi
       packing_area: Pakkaamo
       printer: Kirjoitin
       qualifier: Tarkenne
@@ -280,6 +362,38 @@ fi:
         update_success: Tili päivitettiin onnistuneesti
     actions:
       button_saving: Tallentaa...
+    bank_accounts:
+      create:
+        create_success: Pankkitili perustettiin onnistuneesti
+      edit:
+        header: Pankkitili
+      factoring_options:
+        factoring_disabled: Ei factoroida
+        factoring_enabled: Factoring käytössä
+      index:
+        button_new: Uusi pankkitili
+        button_search: Etsi
+        header: Pankkitilit
+        show_active: Näytä aktiiviset
+        show_inactive: Näytä poistetut
+      kaytossa_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
+      tilinylitys_options:
+        limit_override_allowed: Tilinylitys sallittu
+        limit_override_denied: Tilinylitys estetty
+      update:
+        update_success: Pankkitili päivitettiin onnistuneesti
+    bank_details:
+      edit:
+        header: Pankkiyhteystieto
+      index:
+        button_new: Uusi pankkiyhteystieto
+        header: Pankkiyhteystiedot
+    bank_details_helper:
+      empty: tyhjä
+      finnish: Suomi
+      swedish: Ruotsi
     carriers:
       edit:
         header: Rahdinkuljettaja
@@ -313,6 +427,21 @@ fi:
         header: Valuutat
       update:
         update_success: Valuutta päivitettiin onnistuneesti
+    custom_attributes:
+      edit:
+        button_remove: Poista kenttä
+        confirm_remove: Oletko varma, että haluat poistaa kentän?
+        header: Ylläpitonäkymän kenttä
+      index:
+        button_new: Lisää uusi kenttä
+        button_search: Etsi
+        header: Ylläpitonäkymien kentät
+      required_options:
+        mandatory: Kentän arvo on pakollinen
+        optional: Kentän arvo ei ole pakollinen
+      visibility_options:
+        hidden: Kenttää ei näytetä näkymässä
+        visible: Kenttä näytetään näkymässä
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
@@ -324,6 +453,25 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    packages:
+      create:
+        create_success: Pakkaus lisättiin onnistuneesti
+      edit:
+        header: Pakkaus
+      erikoispakkaus_options:
+        not_special: Normaalipakkaus
+        special: Erikoispakkaus
+      index:
+        button_new: Uusi pakkaus
+        button_search: Etsi
+        header: Pakkaukset
+      package_codes:
+        link_new: Lisää uusi pakkauskoodi
+      update:
+        update_success: Pakkaus päivitettiin onnistuneesti
+      yksin_eraan_options:
+        combined_parcel: Pakkaus yksin erään
+        separate_parcel: Normaalikäsittely
     packing_areas:
       create:
         create_success: Pakkaamo lisätty onnistuneesti
@@ -429,10 +577,12 @@ fi:
         button_show_active: Näytä aktiiviset maksuehdot
         button_show_removed: Näytä poistetut maksuehdot
         header: Maksuedot
-      translations:
-        link_new: Lisää uusi käännös
       update:
         update_success: Maksuehto päivitettiin onnistuneesti
+    translations:
+      language: Kieli
+      link_new: Lisää uusi käännös
+      text: Käännös
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   reports:

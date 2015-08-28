@@ -38,3 +38,44 @@ top_locale_en:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+mysql_alias_1:
+  yhtio: acme
+  laji: MYSQLALIAS
+  selite: asiakas.nimi
+  selitetark: Nimiskuukkeli
+  selitetark_2: PROSPEKTI
+  selitetark_3: PAKOLLINEN
+  selitetark_4: Oletuksena tässä lukee Mursu
+  selitetark_5: Tämä on ohjeteksti
+  nakyvyys: X
+  laatija: joe
+  muuttaja: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+mysql_alias_2:
+  yhtio: acme
+  laji: MYSQLALIAS
+  selite: asiakas.nimi
+  selitetark: Kumisniikkeli
+  selitetark_2: PIKAPERUSTA
+  selitetark_3: ''
+  selitetark_4:
+  selitetark_5:
+  nakyvyys: ''
+  laatija: joe
+  muuttaja: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+package_locale_en:
+  yhtio: acme
+  selite: <%= ActiveRecord::FixtureSet.identify(:steel_barrel) %>
+  selitetark: Steel Barrel
+  kieli: en
+  laji: PAKKAUSKV
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

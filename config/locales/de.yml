@@ -20,6 +20,20 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      bank_account:
+        bic: SWIFT / BIC
+        kaytossa: Status
+        maksulimitti: Zahlungslimit
+        nimi: Name
+        tilino: Kontonummer
+        valkoodi: Währung
+      bank_detail:
+        laatija: Erstellt von
+        luontiaika: Erstellt am
+        nimitys: Bezeichnung
+        pankkitili1: Kontonummer
+        pankkitili2: Kontonummer
+        pankkitili3: Kontonummer
       carrier:
         koodi: 
         luontiaika: Erstellt am
@@ -140,7 +154,19 @@ de:
         www: www
         ytunnus: Steuernummer
       keyword:
+        jarjestys: Sortierung
         kieli: Sprache
+        laji: Art
+        selite: Erklärung
+      package:
+        jarjestys: Sortierung
+        kieli: Sprache
+        korkeus: Höhe
+        laji: Art
+        leveys: Breite
+        paino: Gewicht
+        pakkauskuvaus: Verpackungsbeschreibung
+        selite: Erklärung
       packing_area:
         lokero: Fach
         nimi: Name
@@ -181,6 +207,7 @@ de:
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
       qualifier:
+        kaytossa: Wird benutzt
         nimi: Name
         tunnus: Kennzeichen
         tyyppi: Typ
@@ -196,6 +223,7 @@ de:
         pankkiyhteystiedot: Bankverbindungsdaten
     models:
       account: Konto
+      bank_account: Bankkonto
       carrier: 
       cash_register: 
       currency: Währung
@@ -204,6 +232,7 @@ de:
       head/sales_invoice: Verkaufsrechnung
       head/sales_order: Auftrag
       head/sales_order_draft: Aufrag nicht abgeschlossen
+      package: Verpackung
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
@@ -253,6 +282,23 @@ de:
         update_success: 
     actions:
       button_saving: 
+    bank_accounts:
+      edit:
+        header: Bankkonto
+      factoring_options:
+        factoring_disabled: Wird nicht factoriert
+      index:
+        button_search: Suchen
+        show_inactive: Gelöschte anzeigen
+      kaytossa_options:
+        active: Wird benutzt
+        inactive: Gelöscht / Wird nicht benutzt
+    bank_details:
+      index:
+        header: Bankverbindungsdaten
+    bank_details_helper:
+      finnish: Finnisch
+      swedish: Schwedisch
     carriers:
       index:
         button_search: Suchen
@@ -282,6 +328,9 @@ de:
         header: Währungen
       update:
         update_success: 
+    custom_attributes:
+      index:
+        button_search: Suchen
     fiscal_years:
       create:
         create_success: 
@@ -293,6 +342,13 @@ de:
         header: 
       update:
         update_success: 
+    packages:
+      edit:
+        header: Verpackung
+      index:
+        button_search: Suchen
+      yksin_eraan_options:
+        separate_parcel: Normalbehandlung
     packing_areas:
       edit:
         header: Packraum/Verpackungsabteilung
@@ -381,10 +437,11 @@ de:
         button_show_active: 
         button_show_removed: 
         header: 
-      translations:
-        link_new: Neue Übersetzung hinzufügen
       update:
         update_success: 
+    translations:
+      language: Sprache
+      link_new: Neue Übersetzung hinzufügen
     update_access:
       forbidden: 
   application:

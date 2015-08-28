@@ -1,7 +1,7 @@
 hit:
   yhtio: acme
   koodi: HIT
-  nimi: HIT
+  nimi: Itella International
   pakkauksen_sarman_minimimitta: 1.0
   laatija: joe
   luontiaika: <%= Date.today %>

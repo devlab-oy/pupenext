@@ -1,13 +1,17 @@
 # list of permissions to create
 <% permississions = %w{
     accounts
+    bank_details
+    bank_accounts
     carriers
     cash_registers
     commodities
     companies
     currencies
+    custom_attributes
     customers
     fiscal_years
+    packages
     packing_areas
     printers
     qualifiers

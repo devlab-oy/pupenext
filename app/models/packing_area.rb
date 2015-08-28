@@ -1,7 +1,7 @@
 class PackingArea < BaseModel
   include Searchable
 
-  belongs_to :warehouse, foreign_key: :varasto, primary_key: :tunnus
+  belongs_to :warehouse, foreign_key: :varasto
 
   validates :nimi, presence: true
   validates :lokero, length: { minimum: 1, maximum: 5 }
