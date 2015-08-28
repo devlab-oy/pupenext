@@ -24,7 +24,6 @@ Pupesoft::Application.routes.draw do
     resources :cash_registers
     resources :currencies, except: :destroy
     resources :custom_attributes
-    get 'custom_attributes/:table_name/:set_name', to: 'custom_attributes#show_set', as: :custom_set
     resources :fiscal_years, except: :destroy
     resources :packing_areas
     resources :printers
