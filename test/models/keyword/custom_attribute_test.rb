@@ -63,4 +63,17 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
 
     assert_equal 1, Keyword::CustomAttribute.fetch_set(params).count
   end
+
+  test 'invalid characters' do
+    @attrib.set_name = 'string + another'
+    refute @attrib.valid?
+
+    @attrib.set_name = 'string'
+    @attrib.database_field = 'field + another'
+    refute @attrib.valid?
+
+    @attrib.set_name = 'string'
+    @attrib.database_field = 'field'
+    assert @attrib.valid?
+  end
 end

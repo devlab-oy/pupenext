@@ -2,6 +2,8 @@ class Keyword::CustomAttribute < Keyword
   validates :label, presence: true
   validates :set_name, uniqueness: { scope: [:selite] }, presence: true
 
+  validate :invalid_characters
+
   enum nakyvyys: {
     visible: 'X',
     hidden: '',
@@ -36,4 +38,12 @@ class Keyword::CustomAttribute < Keyword
   def self.fetch_set(table_name:, set_name:)
     where("avainsana.selite like ?", "#{table_name}.%").where(selitetark_2: set_name)
   end
+
+  private
+
+    def invalid_characters
+      msg = I18n.t 'errors.messages.invalid'
+      errors.add(:set_name, msg) if set_name.include? "+"
+      errors.add(:database_field, msg) if database_field.include? "+"
+    end
 end
