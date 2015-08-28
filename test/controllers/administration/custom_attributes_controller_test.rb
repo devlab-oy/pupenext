@@ -19,12 +19,12 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     assert_template :index
     assert_equal 2, assigns(:attribute_set).count
 
-    get :index, combo_set: 'notfound/search'
+    get :index, alias_set: 'notfound/search'
     assert_response :success
     assert_template :index
     assert_equal 0, assigns(:attribute_set).count
 
-    get :index, combo_set: 'asiakas/PROSPEKTI'
+    get :index, alias_set: 'asiakas/PROSPEKTI'
     assert_response :success
     assert_template :index
     assert_equal 1, assigns(:attribute_set).count

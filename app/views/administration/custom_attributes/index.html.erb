@@ -5,8 +5,8 @@
 <hr>
 
 <%= form_tag custom_attributes_path, method: :get do %>
-  <%= select_tag :combo_set,
-      options_for_select(custom_attribute_set_options, params[:combo_set]),
+  <%= select_tag :alias_set,
+      options_for_select(custom_attribute_set_options, params[:alias_set]),
       include_blank: true,
       onchange: 'submit()' %>
   <%= submit_tag t('.button_search') %>
@@ -25,7 +25,7 @@
       <%= Keyword::CustomAttribute.human_attribute_name(:label) %>
     </th>
 
-    <% if params[:combo_set].blank? %>
+    <% if params[:alias_set].blank? %>
       <th>
         <%= Keyword::CustomAttribute.human_attribute_name(:set_name) %>
       </th>
@@ -58,7 +58,7 @@
         <%= attribute.label %>
       </td>
 
-      <% if params[:combo_set].blank? %>
+      <% if params[:alias_set].blank? %>
         <td>
           <%= attribute.set_name %>
         </td>
