@@ -141,6 +141,14 @@ fi:
         ytunnus: Y-tunnus
       keyword:
         kieli: Kieli
+      keyword/custom_attribute:
+        nakyvyys: Näkyvyys
+        selite: Kenttä
+        selitetark: Kentän nimitys
+        selitetark_2: Ryhmän nimi
+        selitetark_3: Pakollisuus
+        selitetark_4: Oletusarvo
+        selitetark_5: Ohje teksti
       packing_area:
         lokero: Lokero
         nimi: Nimi
@@ -315,8 +323,7 @@ fi:
         update_success: Valuutta päivitettiin onnistuneesti
     custom_attributes:
       index:
-        button_edit: Muokkaa ryhmää
-        button_new: Uusi ryhmä
+        button_search: Etsi
         header: Ylläpitonäkymien kentät
     fiscal_years:
       create:
@@ -455,7 +462,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -481,7 +488,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
