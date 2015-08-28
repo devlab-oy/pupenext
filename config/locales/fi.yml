@@ -328,6 +328,7 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa kentän?
         header: Ylläpitonäkymän kenttä
       index:
+        button_new: Lisää uusi kenttä
         button_search: Etsi
         header: Ylläpitonäkymien kentät
       required_options:
@@ -473,7 +474,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -499,7 +500,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
