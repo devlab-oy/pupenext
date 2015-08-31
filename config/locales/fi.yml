@@ -576,16 +576,17 @@ fi:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   reports:
     revenue_expenditure:
-      title:  Tulot- ja Menot-raportti
-      period: Ajanjakso
       button_make: Laadi
-      history_revenue: Tulot historiassa
-      history_expenditure: Menot historiassa
-      overdue_accounts_receivable: Erääntyneet myyntisaamiset
-      overdue_accounts_payable: Erääntyneet ostovelat
-      week: Viikko
-      revenue: Tulot
       expenditure: Menot
+      history_expenditure: Menot historiassa
+      history_revenue: Tulot historiassa
+      overdue_accounts_payable: Erääntyneet ostovelat
+      overdue_accounts_receivable: Erääntyneet myyntisaamiset
+      period: Ajanjakso
+      revenue: Tulot
+      summary: Yhteensä
+      title:  Tulot- ja Menot-raportti
+      week: Viikko
   application:
     access_control:
       forbidden: Pääsy kielletty!

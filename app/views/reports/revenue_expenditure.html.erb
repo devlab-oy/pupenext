@@ -49,5 +49,11 @@
         <td><%= week[:purchases] %></td>
       </tr>
     <% end %>
+
+    <tr>
+      <th><%= t('.summary') %></th>
+      <td><%= @data[:weekly_sum][:sales] %></td>
+      <td><%= @data[:weekly_sum][:purchases] %></td>
+    </tr>
   </table>
 <% end %>
