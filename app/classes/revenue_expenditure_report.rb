@@ -5,6 +5,11 @@ class RevenueExpenditureReport
     @date_end = Date.today.months_since period
     @beginning_of_week = Date.today.beginning_of_week
     @yesterday = Date.yesterday
+
+    @weekly_sum = {
+      sales: 0,
+      purchases: 0
+    }
   end
 
   def data
@@ -13,7 +18,8 @@ class RevenueExpenditureReport
       history_purchaseinvoice: history_purchaseinvoice,
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
-      weekly: weekly
+      weekly: weekly,
+      weekly_sum: @weekly_sum
     }
   end
 
@@ -51,10 +57,17 @@ class RevenueExpenditureReport
 
   def weekly
     loop_weeks.map do |week|
+
+      @sales = sales(week[:beginning], week[:ending])
+      @purchases = purchases(week[:beginning], week[:ending])
+
+      @weekly_sum[:sales] += @sales
+      @weekly_sum[:purchases] += @purchases
+
       {
         week: week[:week],
-        sales: sales(week[:beginning], week[:ending]),
-        purchases: purchases(week[:beginning], week[:ending])
+        sales: @sales,
+        purchases: @purchases
       }
     end
   end

@@ -81,7 +81,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       },
       {
         week: '36 / 2015',
-        sales: BigDecimal(-100),
+        sales: BigDecimal(0),
         purchases: BigDecimal(11000)
       },
       {
@@ -96,12 +96,18 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       },
     ]
 
+    weekly_sum = {
+      sales: BigDecimal(200),
+      purchases: BigDecimal(67432)
+    }
+
     data = {
       history_salesinvoice: heads(:si_two_history).summa,
       history_purchaseinvoice: history_purchaseinvoice_sum,
       overdue_accounts_payable: overdue_accounts_payable_sum,
       overdue_accounts_receivable: heads(:si_two_overdue).summa,
-      weekly: weekly
+      weekly: weekly,
+      weekly_sum: weekly_sum
     }
 
     response = RevenueExpenditureReport.new(1).data
