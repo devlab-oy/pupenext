@@ -3,10 +3,14 @@ class Permission < BaseModel
 
   scope :update_permissions, -> { where(paivitys: 1) }
 
-  def self.read_access(resource, options = {})
-    nimi = options[:classic] ? resource : "pupenext#{resource}"
+  alias_attribute :resource, :nimi
+  alias_attribute :alias_set, :alanimi
 
-    where nimi: nimi
+  def self.read_access(resource, options = {})
+    nimi    = options[:classic]   ? resource : "pupenext#{resource}"
+    alanimi = options[:alias_set] ? options[:alias_set] : ''
+
+    where nimi: nimi, alanimi: alanimi
   end
 
   def self.update_access(resource, options = {})
