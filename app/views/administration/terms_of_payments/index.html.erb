@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to_new :terms_of_payment %>
 
 <% if showing_not_used? %>
   <%= button_to t('.button_show_active'), terms_of_payments_path, method: :get %>
@@ -86,4 +86,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to_new :terms_of_payment %>

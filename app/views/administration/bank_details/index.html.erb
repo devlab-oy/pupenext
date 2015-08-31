@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>
+<%= button_to_new :bank_detail %>
 
 <br/><br/>
 
@@ -46,4 +46,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_bank_detail_path, method: :get if update_access? %>
+<%= button_to_new :bank_detail %>

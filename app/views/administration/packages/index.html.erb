@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>
+<%= button_to_new :package %>
 
 <br /><br />
 
@@ -74,4 +74,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_package_path, method: :get if update_access? %>
+<%= button_to_new :package %>

@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_packing_area_path, method: :get if update_access? %>
+<%= button_to_new :packing_area %>
 
 <br /><br />
 
@@ -80,4 +80,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_packing_area_path, method: :get if update_access? %>
+<%= button_to_new :packing_area %>

@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
+<%= button_to_new :bank_account %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
   <% if show_inactive? %>
@@ -72,4 +72,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
+<%= button_to_new :bank_account %>

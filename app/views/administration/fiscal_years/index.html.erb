@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to_new :fiscal_year %>
 
 <br/><br/>
 
@@ -43,4 +43,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_fiscal_year_path, method: :get if update_access? %>
+<%= button_to_new :fiscal_year %>

@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('administration.qualifiers.index.header') %>
 
-<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
+<%= button_to_new :qualifier %>
 
 <% if showing_not_used? %>
   <%= button_to t('.button_show_active'), qualifiers_path, method: :get %>
@@ -68,4 +68,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
+<%= button_to_new :qualifier %>

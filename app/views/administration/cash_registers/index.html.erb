@@ -1,6 +1,6 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>
 
 <br /><br />
 
@@ -110,4 +110,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>
