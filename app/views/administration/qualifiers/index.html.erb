@@ -3,9 +3,11 @@
 <%= button_to_new :qualifier %>
 
 <% if showing_not_used? %>
-  <%= button_to t('.button_show_active'), qualifiers_path, method: :get %>
+  <%= button_to t('.button_show_active'), qualifiers_path,
+      method: :get, param: { alias_set: params[:alias_set] } %>
 <% else %>
-  <%= button_to t('.button_show_removed'), qualifiers_path, method: :get, params: { not_used: :yes } %>
+  <%= button_to t('.button_show_removed'), qualifiers_path,
+      method: :get, params: { not_used: :yes, alias_set: params[:alias_set] } %>
 <% end %>
 
 <br /><br />

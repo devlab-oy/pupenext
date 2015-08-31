@@ -3,6 +3,8 @@
 <%= button_to_new :bank_account %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <% if show_inactive? %>
     <%= submit_tag t('.show_active') %>
   <% else %>
