@@ -2,11 +2,8 @@ class RevenueExpenditureReport
   def initialize(period)
     raise ArgumentError, "pass month as integer" unless period.is_a? Integer
 
-    @date_begin = Date.today.months_ago period
     @date_end = Date.today.months_since period
     @beginning_of_week = Date.today.beginning_of_week
-    @end_of_week = Date.today.end_of_week
-    @previous_week = Date.today.beginning_of_week.yesterday
     @yesterday = Date.yesterday
   end
 
@@ -25,32 +22,30 @@ class RevenueExpenditureReport
   def history_salesinvoice
     Head::SalesInvoice.sent.unpaid.where("erpcm < ?", @beginning_of_week)
     .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-    .sum('tiliointi.summa')
+    .sum("tiliointi.summa * -1")
   end
 
   def overdue_accounts_receivable
     if Date.today != @beginning_of_week
       Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday)
       .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-      .sum('tiliointi.summa')
+      .sum("tiliointi.summa * -1")
     else
-      0
+      BigDecimal(0)
     end
   end
 
   def history_purchaseinvoice
     Head.all_purchase_invoices.unpaid.where("erpcm < ?", @beginning_of_week)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-    .sum('tiliointi.summa')
+    .joins(:accounting_rows).sum('tiliointi.summa')
   end
 
   def overdue_accounts_payable
     if Date.today != @beginning_of_week
       Head.all_purchase_invoices.unpaid.where(erpcm: @beginning_of_week..@yesterday)
-      .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-      .sum('tiliointi.summa')
+      .joins(:accounting_rows).sum('tiliointi.summa')
     else
-      0
+      BigDecimal(0)
     end
   end
 
@@ -79,12 +74,11 @@ class RevenueExpenditureReport
   def sales(start, stop)
     Head::SalesInvoice.sent.where(erpcm: start..stop)
     .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-    .sum('tiliointi.summa')
+    .sum("tiliointi.summa * -1")
   end
 
   def purchases(start, stop)
     Head.all_purchase_invoices.where(erpcm: start..stop)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
-    .sum('tiliointi.summa')
+    .joins(:accounting_rows).sum('tiliointi.summa')
   end
 end
