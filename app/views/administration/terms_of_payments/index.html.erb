@@ -12,7 +12,7 @@
 <br/><br/>
 
 <%= form_tag terms_of_payments_path, method: :get do %>
-
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
   <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
 
   <table>

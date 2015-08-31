@@ -5,6 +5,7 @@
 <br/><br/>
 
 <%= form_tag sum_levels_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
   <table>
 

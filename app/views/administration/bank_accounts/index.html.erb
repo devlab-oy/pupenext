@@ -14,6 +14,8 @@
 <br/><br/>
 
 <%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
     <tr>
       <th>

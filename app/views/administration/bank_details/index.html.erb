@@ -5,6 +5,8 @@
 <br/><br/>
 
 <%= form_tag bank_details_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
     <thead>
       <tr>
