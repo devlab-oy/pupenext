@@ -1,17 +1,19 @@
 <%= render "administration/header", text: t('administration.qualifiers.index.header') %>
 
-<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
+<%= button_to_new :qualifier %>
 
 <% if showing_not_used? %>
-  <%= button_to t('.button_show_active'), qualifiers_path, method: :get %>
+  <%= button_to t('.button_show_active'), qualifiers_path,
+      method: :get, param: { alias_set: params[:alias_set] } %>
 <% else %>
-  <%= button_to t('.button_show_removed'), qualifiers_path, method: :get, params: { not_used: :yes } %>
+  <%= button_to t('.button_show_removed'), qualifiers_path,
+      method: :get, params: { not_used: :yes, alias_set: params[:alias_set] } %>
 <% end %>
 
 <br /><br />
 
 <%= form_tag qualifiers_path, method: :get do %>
-
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
   <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
 
   <table>
@@ -68,4 +70,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_qualifier_path, method: :get if update_access? %>
+<%= button_to_new :qualifier %>

@@ -15,10 +15,10 @@ et:
         sisainen_taso: Taseme kood (Sisene kasumiaruanne)
         tilino: Kontonumber
         tiliointi_tarkistus: Kohustuslikud väljad
-        toimijaliitos: 
+        toimijaliitos:
         ulkoinen_taso: Taseme kood (Väline kasumiaruanne/Bilanss))
       accounting/fixed_assets/commodity:
-        evl_poistotyyppi: 
+        evl_poistotyyppi:
         kayttoonottopvm: Kasutuselevotu kuupäev
       bank_account:
         asiakastunnus: Klienditunnus
@@ -38,12 +38,12 @@ et:
       carrier:
         koodi: Kood
         luontiaika: Koostamise aeg
-        luottokortti: 
+        luottokortti:
         muutospvm: Muutmise kuupäev
         muuttaja: Muutja
-        neutraali: 
+        neutraali:
         nimi: Nimi
-        pakkauksen_sarman_minimimitta: 
+        pakkauksen_sarman_minimimitta:
       cash_register:
         kassa: Kassa
         kassaerotus: Kassa vahe
@@ -69,7 +69,7 @@ et:
         karhuerapvm: Makse meeldetuletuste maksetähtaeg (pv)
         kassa: Sularaha müük
         kassaale: Ostude allahindlused
-        kassaerotus: 
+        kassaerotus:
         kateistilitys: Kassa sularahamaksed
         kieli: Keel
         konserni: Kontsern
@@ -93,7 +93,7 @@ et:
         myynninkassaale: Müügi allahindlused
         myynninvaluuttaero: Müügi valuutakursi vahed
         myynti: Müük
-        myynti_ei_eu: 
+        myynti_ei_eu:
         myynti_eu: "Ühendatud müük"
         myynti_kaanteinen: Müük, pöördkäibemaks
         myynti_kohde: Müügi vaikimisi objekt
@@ -130,13 +130,13 @@ et:
         raaka_ainevarasto: Tooraineladu
         raaka_ainevarastonmuutos: Toorainelao muutus
         selvittelytili: Rahakonto kliiringkonto ebamäärastele tehingutele
-        siirtosaamiset: 
-        siirtovelka: 
+        siirtosaamiset:
+        siirtovelka:
         tilastotullikamari: Statistikaameti tolliosakond
         tilikauden_tulos: Aruandeaasta kasum
         tilikausi_alku: Raamatupidamise perioodi alguskuupäev
         tilikausi_loppu: Raamatupidamise perioodi lõppkuupäev
-        tilino_triang: 
+        tilino_triang:
         tulli_lisattava_era: SAD-ankeedi lisatav partii
         tulli_vahennettava_era: SAD-ankeedi vähendav partii
         tullikamari: Tolliosakond
@@ -149,7 +149,7 @@ et:
         varastonmuutos: Lao muutus
         varastonmuutos_epakurantti: Mitteminevuse laoväärtus muutus
         varastonmuutos_inventointi: Inventuuride saldoparandus
-        varastonmuutos_rahti: 
+        varastonmuutos_rahti:
         varastonmuutos_valmistuksesta: Tootmise varude muutus
         viivastyskorko: Viivise protsent
         www: WWW
@@ -178,28 +178,28 @@ et:
         jarjestys: Järjekord
         kirjoitin: Printer
         komento: käsklus
-        mediatyyppi: 
+        mediatyyppi:
         mediatyyppi_types:
-          A4: 
-          A5: 
-          LS149X104: 
-          LS59X40: 
-          LSN149X104: 
-          LSN59X40: 
-          kuittitulostin: 
+          A4:
+          A5:
+          LS149X104:
+          LS59X40:
+          LSN149X104:
+          LSN59X40:
+          kuittitulostin:
         merkisto: märgistik
         merkisto_types:
-          '1': 
-          '2': 
-          '3': 
-          '4': 
-          '5': 
+          '1':
+          '2':
+          '3':
+          '4':
+          '5':
         nimi: Nimi
         osoite: Aadress
         postino: Postinr
         postitp: Postiaadress
         puhelin: Telefon
-        unifaun_nimi: 
+        unifaun_nimi:
         yhteyshenkilo: Kontaktisik
       qualifier:
         kaytossa: Kasutusel
@@ -215,7 +215,7 @@ et:
     models:
       account: Arve
       bank_account: Pangakonto
-      carrier: 
+      carrier:
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
@@ -236,25 +236,24 @@ et:
   administration:
     accounts:
       create:
-        create_success: 
+        create_success:
       destroy:
-        destroy_success: 
+        destroy_success:
       edit:
         button_remove: Kustuta konto
-        confirm_remove: 
+        confirm_remove:
         header: Arve
         no_cost_center: Kulukoht puudub
         no_project: Projekt puudub
-        no_sum_level: 
+        no_sum_level:
         no_target: Objekt puudub
-        no_vat: 
+        no_vat:
       index:
-        button_new: Uus arve
         button_search: Otsi
         header: Kontokaart
       manuaali_esto_options:
         editing_disabled: Konteeringu käsitsi lisamine/muutmine keelatud
-        editing_enabled: 
+        editing_enabled:
       tiliointi_tarkistus_options:
         mandatory_cs: kohustuslikke välju konteerimisel on kulukoht
         mandatory_cs_project: kohustuslikke välju konteerimisel on kulukoht, projekt
@@ -266,11 +265,11 @@ et:
         no_mandatory_fields: Kohustuslikud väljad puuduvad
       toimijaliitos_options:
         relation_not_required: Liitmine ei ole kohustuslik
-        relation_required: 
+        relation_required:
       update:
-        update_success: 
+        update_success:
     actions:
-      button_saving: 
+      button_saving:
     bank_accounts:
       edit:
         header: Pangakonto
@@ -296,41 +295,38 @@ et:
         not_neutral: Ei
     cash_registers:
       create:
-        create_success: 
+        create_success:
       edit:
         header: Kassa
         no_select: Pole valikut
       index:
-        button_new: 
         button_search: Otsi
         header: Kassarakised
       update:
-        update_success: 
+        update_success:
     currencies:
       create:
-        create_success: 
+        create_success:
       edit:
         header: Valuuta
       index:
-        button_new: 
         button_search: Otsi
         header: Valuutad
       update:
-        update_success: 
+        update_success:
     custom_attributes:
       index:
         button_search: Otsi
     fiscal_years:
       create:
-        create_success: 
+        create_success:
       edit:
         header: Aruandeperiood
       index:
-        button_new: Uus kontoperiood
         button_search: Otsi
         header: Majandusaasta
       update:
-        update_success: 
+        update_success:
     packages:
       edit:
         header: Pakend
@@ -343,35 +339,34 @@ et:
         button_search: Otsi
     printers:
       create:
-        create_success: 
+        create_success:
       destroy:
-        destroy_success: 
+        destroy_success:
       edit:
-        button_remove: 
-        confirm_remove: 
+        button_remove:
+        confirm_remove:
         header: Printer
       index:
-        button_new: 
         button_search: Otsi
         header: Printerid
       mediatyyppi_options:
-        media_a4: 
-        media_a5: 
+        media_a4:
+        media_a5:
         media_default: Pole valikut
-        media_receipt: 
-        media_thermal1: 
-        media_thermal2: 
-        media_thermal3: 
-        media_thermal4: 
+        media_receipt:
+        media_thermal1:
+        media_thermal2:
+        media_thermal3:
+        media_thermal4:
       merkisto_options:
-        charset_7bit: 
-        charset_ansi: 
+        charset_7bit:
+        charset_ansi:
         charset_default: Pole valikut
-        charset_dos: 
-        charset_scandic_off: 
-        charset_utf8: 
+        charset_dos:
+        charset_scandic_off:
+        charset_utf8:
       update:
-        update_success: 
+        update_success:
     qualifiers:
       index:
         button_search: Otsi
@@ -381,34 +376,33 @@ et:
         not_in_use: Ei
     sum_levels:
       create:
-        create_success: 
+        create_success:
       destroy:
-        destroy_success: 
+        destroy_success:
       edit:
         button_remove: Kustuta tase
-        confirm_remove: 
-        header: 
+        confirm_remove:
+        header:
       index:
-        button_new: Uus tase
         button_search: Otsi
-        header: 
+        header:
       kayttotarkoitus_options:
         normal: Pole valikut
-        purchases: 
+        purchases:
         turnover: Kaupluse vahetus
       kumulatiivinen_options:
-        cumulative: 
+        cumulative:
         not_cumulative: Ei
       update:
-        update_success: 
+        update_success:
     terms_of_payments:
       cash_options:
-        cash: 
-        credit_card: 
-        debit_card: 
-        not_cash: 
+        cash:
+        credit_card:
+        debit_card:
+        not_cash:
       create:
-        create_success: 
+        create_success:
       edit:
         header: Maksutingimus
         no_factoring: Ei kasutata faktooringut
@@ -417,22 +411,21 @@ et:
         active: Kasutusel
         inactive: Kustutatud/Ei ole kasutusel
       index:
-        button_new: Uus maksutingimus
         button_search: Otsi
-        button_show_active: 
-        button_show_removed: 
-        header: 
+        button_show_active:
+        button_show_removed:
+        header:
       update:
-        update_success: 
+        update_success:
     translations:
       language: Keel
     update_access:
-      forbidden: 
+      forbidden:
   application:
     access_control:
-      forbidden: 
+      forbidden:
     authorize:
-      unauthorized: 
+      unauthorized:
   date:
     abbr_day_names:
     - P
@@ -443,7 +436,7 @@ et:
     - R
     - L
     abbr_month_names:
-    - 
+    -
     - jaan.
     - veebr.
     - märts
@@ -469,7 +462,7 @@ et:
       long: "%d. %B %Y"
       short: "%d.%m.%y"
     month_names:
-    - 
+    -
     - jaanuar
     - veebruar
     - märts
@@ -531,19 +524,19 @@ et:
       year: Aasta
   errors:
     cash_register:
-      kassa_missing: 
-      kassaerotus_missing: 
-      kateisotto_missing: 
-      kateistilitys_missing: 
-      luottokortti_missing: 
-      pankkikortti_missing: 
+      kassa_missing:
+      kassaerotus_missing:
+      kateisotto_missing:
+      kateistilitys_missing:
+      luottokortti_missing:
+      pankkikortti_missing:
     format: "%{attribute} %{message}"
     messages:
       accepted: peab olema heaks kiidetud
-      after: 
-      after_or_equal_to: 
-      before: 
-      before_or_equal_to: 
+      after:
+      after_or_equal_to:
+      before:
+      before_or_equal_to:
       blank: on täitmata
       confirmation: ei vasta kinnitusele %{attribute}
       empty: on tühi
@@ -556,100 +549,101 @@ et:
       invalid: ei ole korrektne
       less_than: peab olema vähem kui %{count}
       less_than_or_equal_to: peab olema vähem või võrdne arvuga %{count}
-      not_a_date: 
+      not_a_date:
       not_a_number: ei ole number
       not_an_integer: peab olema täisarv
       odd: peab olema paaritu arv
-      other_than: 
-      present: 
+      other_than:
+      present:
       record_invalid: 'Valideerimine ebaõnnestus: %{errors}'
-      restrict_dependent_destroy: 
+      restrict_dependent_destroy:
       taken: on juba võetud
       too_long: on liiga pikk (maksimum on %{count} tähemärki)
       too_short: on liiga lühike (miinimum on %{count} tähemärki)
       wrong_length: on vale pikkusega (peab olema %{count} tähemärki)
     qualifier:
-      accounts_found: 
+      accounts_found:
     sum_level:
-      begin_with_error: 
-      invalid_char: 
-      not_same_type: 
+      begin_with_error:
+      invalid_char:
+      not_same_type:
     template:
       body: 'Probleeme ilmnes järgmiste väljadega:'
       header:
         one: "Üks viga takistas objekti %{model} salvestamist"
         other: "%{count} viga takistasid objekti %{model} salvestamist"
     terms_of_payment:
-      in_use_customers: 
-      in_use_sales_order_drafts: 
-      in_use_sales_orders: 
+      in_use_customers:
+      in_use_sales_order_drafts:
+      in_use_sales_orders:
   fixed_assets:
     commodities:
       activate:
-        activation_failure: 
-        activation_success: 
+        activation_failure:
+        activation_success:
       commodity_rows:
         button_show_hide: Näita / Peida
-        commodity_row_amount: 
-        header: 
+        commodity_row_amount:
+        header:
       confirm_sale:
-        sale_failure: 
-        sale_success: 
+        sale_failure:
+        sale_success:
       create:
-        create_success: 
+        create_success:
       depreciations:
         button_show_hide: Näita / Peida
-        depreciation_difference_amount: 
-        depreciation_rows_amount: 
-        header: 
+        depreciation_difference_amount:
+        depreciation_rows_amount:
+        header:
       edit:
-        button_activate: 
-        button_add_invoice_rows: 
-        button_add_voucher_rows: 
-        button_create: 
-        button_sell: 
-        header: 
+        button_activate:
+        button_add_invoice_rows:
+        button_add_voucher_rows:
+        button_create:
+        button_sell:
+        header:
       form:
-        bookkeeping_value: 
-        bookkeeping_value_now: 
+        bookkeeping_value:
+        bookkeeping_value_now:
       index:
-        button_new: 
-        button_search: 
-        header: 
+        button_new:
+        button_search:
+        header:
       link_order:
-        link_order_success: 
+        link_order_success:
       link_voucher:
-        link_voucher_success: 
+        link_voucher_success:
       link_voucher_row:
-        cannot_link_row: 
-        row_already_linked: 
+        cannot_link_row:
+        row_already_linked:
       new:
-        header: 
+        header:
       procurement_rows:
-        button_remove: 
-        header: 
+        button_remove:
+        header:
       purchase_orders:
-        button_add: 
-        button_search: 
-        header: 
+        button_add:
+        button_search:
+        header:
       sell:
-        confirm_sale: 
-        header: 
+        confirm_sale:
+        header:
       unlink:
-        unlink_success: 
+        unlink_success:
       unlink_voucher_row:
-        cannot_unlink: 
+        cannot_unlink:
       update:
-        update_success: 
+        update_success:
       vouchers:
-        button_add: 
-        button_search: 
-        header: 
+        button_add:
+        button_search:
+        header:
   helpers:
     select:
       prompt: Palun vali
     submit:
       create: Loo uus %{model}
+      new: Uus %{model}
       submit: Salvesta %{model}
       update: Uuenda objekti %{model}
   number:
@@ -691,7 +685,7 @@ et:
           tb: TB
     percentage:
       format:
-        format: 
+        format:
   shared:
     link_return_to: Tagasi programmi
   support:

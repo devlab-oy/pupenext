@@ -231,7 +231,6 @@ en:
         no_target: No target
         no_vat: 
       index:
-        button_new: New account
         button_search: Search
         header: Chart of accounts
       manuaali_esto_options:
@@ -276,7 +275,6 @@ en:
         header: Kassa
         no_select: No selection
       index:
-        button_new: New cash account
         button_search: Search
         header: Cash accounts
       update:
@@ -287,7 +285,6 @@ en:
       edit:
         header: Currency
       index:
-        button_new: 
         button_search: Search
         header: Currencies
       update:
@@ -301,7 +298,6 @@ en:
       edit:
         header: Fiscal year
       index:
-        button_new: 
         button_search: Search
         header: Fiscal periods
       update:
@@ -324,7 +320,6 @@ en:
         confirm_remove: 
         header: Printer
       index:
-        button_new: 
         button_search: Search
         header: Printers
       mediatyyppi_options:
@@ -362,7 +357,6 @@ en:
         confirm_remove: 
         header: 
       index:
-        button_new: New level
         button_search: Search
         header: 
       kayttotarkoitus_options:
@@ -390,7 +384,6 @@ en:
         active: In use
         inactive: Deleted / Not in use
       index:
-        button_new: New payment term
         button_search: Search
         button_show_active: 
         button_show_removed: 
@@ -629,6 +622,7 @@ en:
       prompt: Please select
     submit:
       create: Create %{model}
+      new: New %{model}
       submit: Save %{model}
       update: Update %{model}
   number:

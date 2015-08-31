@@ -1,12 +1,12 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_custom_attribute_path, method: :get if update_access? %>
+<%= button_to_new 'keyword/custom_attribute', new_custom_attribute_path %>
 
 <hr>
 
 <%= form_tag custom_attributes_path, method: :get do %>
-  <%= select_tag :alias_set,
-      options_for_select(custom_attribute_set_options, params[:alias_set]),
+  <%= select_tag :table_alias_set,
+      options_for_select(custom_attribute_set_options, params[:table_alias_set]),
       include_blank: true,
       onchange: 'submit()' %>
   <%= submit_tag t('.button_search') %>
@@ -25,7 +25,7 @@
       <%= Keyword::CustomAttribute.human_attribute_name(:label) %>
     </th>
 
-    <% if params[:alias_set].blank? %>
+    <% if params[:table_alias_set].blank? %>
       <th>
         <%= Keyword::CustomAttribute.human_attribute_name(:set_name) %>
       </th>
@@ -58,7 +58,7 @@
         <%= attribute.label %>
       </td>
 
-      <% if params[:alias_set].blank? %>
+      <% if params[:table_alias_set].blank? %>
         <td>
           <%= attribute.set_name %>
         </td>
@@ -86,4 +86,4 @@
 
 <br>
 
-<%= button_to t('.button_new'), new_custom_attribute_path, method: :get if update_access? %>
+<%= button_to_new 'keyword/custom_attribute', new_custom_attribute_path %>
