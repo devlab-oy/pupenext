@@ -30,6 +30,14 @@ four:
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
 
+fourfour:
+  yhtio: acme
+  sales_invoice: si_two
+  summa: -100
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
 five:
   yhtio: acme
   sales_order: so_one
@@ -113,16 +121,16 @@ thirteen:
 
 fourteen:
   yhtio: acme
-  sales_invoice: si_one_overdue
-  summa: 100
+  sales_invoice: si_two_overdue
+  summa: -100
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
 
 fifteen:
   yhtio: acme
-  sales_invoice: si_one_history
-  summa: 100
+  sales_invoice: si_two_history
+  summa: -100
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>

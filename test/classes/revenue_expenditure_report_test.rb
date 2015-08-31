@@ -6,21 +6,21 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   setup do
     travel_to Date.parse '2015-08-14'
 
-    si_one = heads(:si_one)
-    si_one.erpcm = Date.today
-    si_one.tapvm = Date.today
-    si_one.mapvm = Date.today
-    si_one.save
+    si_two = heads(:si_two)
+    si_two.erpcm = Date.today
+    si_two.tapvm = Date.today
+    si_two.mapvm = Date.today
+    si_two.save
 
-    si_one_history = heads(:si_one_history)
-    si_one_history.erpcm = Time.now.weeks_ago(3)
-    si_one_history.tapvm = Time.now.weeks_ago(3)
-    si_one_history.save
+    si_two_history = heads(:si_two_history)
+    si_two_history.erpcm = Time.now.weeks_ago(3)
+    si_two_history.tapvm = Time.now.weeks_ago(3)
+    si_two_history.save
 
-    si_one_overdue = heads(:si_one_overdue)
-    si_one_overdue.erpcm = Date.today.beginning_of_week
-    si_one_overdue.tapvm = Time.now.weeks_ago(1)
-    si_one_overdue.save
+    si_two_overdue = heads(:si_two_overdue)
+    si_two_overdue.erpcm = Date.today.beginning_of_week
+    si_two_overdue.tapvm = Time.now.weeks_ago(1)
+    si_two_overdue.save
 
     Head::PURCHASE_INVOICE_TYPES.each do |i|
       pi_today = heads(:"pi_#{i}")
@@ -81,7 +81,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       },
       {
         week: '36 / 2015',
-        sales: BigDecimal(0),
+        sales: BigDecimal(-100),
         purchases: BigDecimal(11000)
       },
       {
@@ -97,10 +97,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     ]
 
     data = {
-      history_salesinvoice: heads(:si_one_history).summa,
+      history_salesinvoice: heads(:si_two_history).summa,
       history_purchaseinvoice: history_purchaseinvoice_sum,
       overdue_accounts_payable: overdue_accounts_payable_sum,
-      overdue_accounts_receivable: heads(:si_one_overdue).summa,
+      overdue_accounts_receivable: heads(:si_two_overdue).summa,
       weekly: weekly
     }
 
