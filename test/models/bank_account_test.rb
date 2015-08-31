@@ -1,7 +1,7 @@
 require "test_helper"
 
 class BankAccountTest < ActiveSupport::TestCase
-  fixtures %w(bank_accounts)
+  fixtures %w(bank_accounts accounts)
 
   setup do
     @ba = bank_accounts(:acme_account)

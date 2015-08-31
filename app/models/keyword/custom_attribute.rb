@@ -22,6 +22,9 @@ class Keyword::CustomAttribute < Keyword
   alias_attribute :help_text,      :selitetark_5
   alias_attribute :visibility,     :nakyvyys
 
+  # If user wants to override default validations, store them to db with set_name = 'Default'
+  DEFAULT_SET_NAME = 'Default'
+
   def field
     selite.split('.').last
   end
