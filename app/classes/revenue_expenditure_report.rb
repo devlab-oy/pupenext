@@ -41,6 +41,22 @@ class RevenueExpenditureReport
     end
   end
 
+  def overdue_factoring(start, stop)
+    if Date.today != @beginning_of_week
+      Head::SalesInvoice.sent.where(erpcm: start..stop)
+      .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.factoringsaamiset })
+      .sum("(tiliointi.summa * 0.3) * -1")
+    else
+      BigDecimal(0)
+    end
+  end
+
+  def current_week_factoring(start, stop)
+    Head::SalesInvoice.sent.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
+    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .sum("(tiliointi.summa * 0.7) * -1")
+  end
+
   def history_purchaseinvoice
     Head.all_purchase_invoices.unpaid.where("erpcm < ?", @beginning_of_week)
     .joins(:accounting_rows).sum('tiliointi.summa')
@@ -58,7 +74,10 @@ class RevenueExpenditureReport
   def weekly
     loop_weeks.map do |week|
 
-      @sales = sales(week[:beginning], week[:ending])
+      @sales  = sales(week[:beginning], week[:ending])
+      @sales += overdue_factoring(week[:beginning], week[:ending])
+      @sales += current_week_factoring(week[:beginning], week[:ending])
+
       @purchases = purchases(week[:beginning], week[:ending])
 
       @weekly_sum[:sales] += @sales

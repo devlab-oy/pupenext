@@ -214,3 +214,12 @@ twentyfive:
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
+
+twentysix:
+  yhtio: acme
+  sales_invoice: si_two_factoring
+  summa: -666
+  tilino: 666
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
