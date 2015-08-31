@@ -4,19 +4,13 @@ class Permission < BaseModel
   scope :update_permissions, -> { where(paivitys: 1) }
 
   def self.read_access(resource, options = {})
-    if options[:classic]
-      where(nimi: resource)
-    else
-      where(nimi: "pupenext#{resource}")
-    end
+    nimi = options[:classic] ? resource : "pupenext#{resource}"
+
+    where nimi: nimi
   end
 
   def self.update_access(resource, options = {})
-    if options[:classic]
-      where(nimi: resource, paivitys: 1)
-    else
-      where(nimi: "pupenext#{resource}", paivitys: 1)
-    end
+    update_permissions.read_access resource, options
   end
 
   self.table_name = :oikeu
