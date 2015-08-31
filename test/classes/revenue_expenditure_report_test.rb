@@ -22,6 +22,12 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     si_two_overdue.tapvm = Time.now.weeks_ago(1)
     si_two_overdue.save
 
+    si_two_factoring = heads(:si_two_factoring)
+    si_two_factoring.erpcm = Date.today
+    si_two_factoring.tapvm = Date.today
+    si_two_factoring.mapvm = Date.today
+    si_two_factoring.save
+
     Head::PURCHASE_INVOICE_TYPES.each do |i|
       pi_today = heads(:"pi_#{i}")
       pi_today.erpcm = Date.today
@@ -66,7 +72,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     weekly = [
       {
         week: '33 / 2015',
-        sales: BigDecimal(200),
+        sales: BigDecimal(866),
         purchases: BigDecimal(56432)
       },
       {
@@ -97,7 +103,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     ]
 
     weekly_sum = {
-      sales: BigDecimal(200),
+      sales: BigDecimal(866),
       purchases: BigDecimal(67432)
     }
 
