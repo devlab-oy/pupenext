@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base
     # Root path does not require access
     return true if request_path == root_path
 
-    @read_access ||= current_user.can_read?(request_path)
+    @read_access ||= current_user.can_read?(request_path, alias_set: alias_set)
   end
 
   def update_access?
-    @update_access ||= current_user.can_update?(request_path)
+    @update_access ||= current_user.can_update?(request_path, alias_set: alias_set)
   end
 
   protected
@@ -82,5 +82,17 @@ class ApplicationController < ActionController::Base
 
     def available_locales
       I18n.available_locales.map(&:to_s)
+    end
+
+    def default_url_options(options = {})
+      if alias_set.present?
+        { alias_set: alias_set }.merge options
+      else
+        options
+      end
+    end
+
+    def alias_set
+      params[:alias_set].to_s
     end
 end
