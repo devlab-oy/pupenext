@@ -67,7 +67,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       {
         week: '33 / 2015',
         sales: BigDecimal(200),
-        purchases: BigDecimal(54932)
+        purchases: BigDecimal(56432)
       },
       {
         week: '34 / 2015',
@@ -77,12 +77,12 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       {
         week: '35 / 2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(11000)
+        purchases: BigDecimal(0)
       },
       {
         week: '36 / 2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(11000)
       },
       {
         week: '37 / 2015',

@@ -118,3 +118,91 @@ fourteen:
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
+
+fifteen:
+  yhtio: acme
+  sales_invoice: si_one_history
+  summa: 100
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+sixteen:
+  yhtio: acme
+  sales_invoice: pi_H_history
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+seventeen:
+  yhtio: acme
+  sales_invoice: pi_Y_history
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+eighteen:
+  yhtio: acme
+  sales_invoice: pi_M_history
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+nineteen:
+  yhtio: acme
+  sales_invoice: pi_P_history
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twenty:
+  yhtio: acme
+  sales_invoice: pi_Q_history
+  summa: 200
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentyone:
+  yhtio: acme
+  sales_invoice: pi_H_overdue
+  summa: 300
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentytwo:
+  yhtio: acme
+  sales_invoice: pi_Y_overdue
+  summa: 300
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentythree:
+  yhtio: acme
+  sales_invoice: pi_M_overdue
+  summa: 300
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentyfour:
+  yhtio: acme
+  sales_invoice: pi_P_overdue
+  summa: 300
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentyfive:
+  yhtio: acme
+  sales_invoice: pi_Q_overdue
+  summa: 300
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
