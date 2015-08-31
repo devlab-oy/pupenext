@@ -32,7 +32,10 @@ module ApplicationHelper
       path = path || Rails.application.routes.url_helpers.send("new_#{model_name}_path")
       text = t('helpers.submit.new', model: name)
 
-      button_to text, path, method: :get, params: { alias_set: params[:alias_set] }
+      alias_set = params[:alias_set].to_s
+      params = alias_set.present? ? { alias_set: alias_set } : nil
+
+      button_to text, path, method: :get, params: params
     end
   end
 
