@@ -109,4 +109,31 @@ class AdministrationControllerTest < ActionController::TestCase
     attribute_two.update! set_name: 'another_set'
     assert_equal [:foo, :bar], @controller.resource_parameters(SumLevel, :foo, :bar)
   end
+
+  test 'should allow default params' do
+    login users(:bob)
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
+    assert_equal 'the_new_name!', @sum_level.reload.nimi
+  end
+
+  test 'should deny hidden params set in default custom attributes' do
+    login users(:bob)
+    attribute = keywords(:mysql_alias_1)
+
+    attribute.update! database_field: 'taso.nimi', set_name: 'Default', visibility: :hidden
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
+    refute_equal 'the_new_name!', @sum_level.reload.nimi
+  end
+
+  test 'should allow hidden params set in default custom attributes' do
+    login users(:bob)
+    attribute = keywords(:mysql_alias_1)
+
+    attribute.update! database_field: 'taso.nimi', set_name: 'Default', visibility: :visible
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
+    assert_equal 'the_new_name!', @sum_level.reload.nimi
+  end
 end
