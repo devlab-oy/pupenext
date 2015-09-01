@@ -21,19 +21,42 @@ de:
         evl_poistotyyppi:
         kayttoonottopvm: Inbetriebnahmedatum
       bank_account:
+        asiakastunnus:
         bic: SWIFT / BIC
+        factoring:
+        hyvak:
+        iban:
         kaytossa: Status
         maksulimitti: Zahlungslimit
         nimi: Name
+        oletus_kohde:
+        oletus_kulutili:
+        oletus_kustp:
+        oletus_projekti:
+        oletus_rahatili:
+        oletus_selvittelytili:
         tilino: Kontonummer
+        tilinylitys:
         valkoodi: Währung
       bank_detail:
         laatija: Erstellt von
         luontiaika: Erstellt am
+        muutospvm:
+        muuttaja:
         nimitys: Bezeichnung
+        pankkiiban1:
+        pankkiiban2:
+        pankkiiban3:
+        pankkinimi1:
+        pankkinimi2:
+        pankkinimi3:
+        pankkiswift1:
+        pankkiswift2:
+        pankkiswift3:
         pankkitili1: Kontonummer
         pankkitili2: Kontonummer
         pankkitili3: Kontonummer
+        viite:
       carrier:
         koodi:
         luontiaika: Erstellt am
@@ -158,24 +181,54 @@ de:
         kieli: Sprache
         laji: Art
         selite: Erklärung
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+      keyword/custom_attribute:
+        database_field:
+        default_value:
+        help_text:
+        label:
+        required:
+        set_name:
+        visibility:
       package:
+        erikoispakkaus:
         jarjestys: Sortierung
+        kayttoprosentti:
         kieli: Sprache
         korkeus: Höhe
         laji: Art
         leveys: Breite
+        minimi_paino:
         paino: Gewicht
+        pakkaus:
         pakkauskuvaus: Verpackungsbeschreibung
+        pakkausveloitus_tuotenumero:
+        puukotus_kerroin:
         selite: Erklärung
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+        syvyys:
+        yksin_eraan:
+      package_code:
+        koodi:
+        rahdinkuljettaja:
+      package_codes:
+        koodi:
+        rahdinkuljettaja:
       packing_area:
         lokero: Fach
         nimi: Name
+        pakkaamon_prio:
         printteri0: Auswahlliste
         printteri1: Versandpapier
         printteri2: Artikeletiketten
         printteri3: Adressetikett
         printteri4: Frachtbrief A5
         printteri6: Frachtbrief A4
+        printteri7:
         prio: Prio
         varasto: Lager
       printer:
@@ -207,32 +260,57 @@ de:
         unifaun_nimi:
         yhteyshenkilo: Kontaktperson
       qualifier:
+        isa_tarkenne:
         kaytossa: Wird benutzt
+        koodi:
         nimi: Name
         tunnus: Kennzeichen
         tyyppi: Typ
       terms_of_payment:
         abs_pvm: Zahlungsdatum
+        erapvmkasin:
+        factoring:
+        itsetulostus:
+        jaksotettu:
         jarjestys: Sortierung
         jv: Nachnahme
+        kassa_abspvm:
         kassa_alepros: Kassenrabattsprozent
+        kassa_relpvm:
         kateinen: Barzahlung
         kaytossa: Wird benutzt
         laatija: Erstellt von
         luontiaika: Erstellt am
+        muutospvm:
+        muuttaja:
         pankkiyhteystiedot: Bankverbindungsdaten
+        rel_pvm:
+        sallitut_maat:
+        teksti:
+      translations:
+        kieli:
+        selitetark:
     models:
       account: Konto
       bank_account: Bankkonto
+      bank_detail:
       carrier:
       cash_register:
       currency: Währung
       fiscal_year: Rechnungsjahr
+      head/purchase_invoice/approval:
+      head/purchase_invoice/approved:
+      head/purchase_invoice/paid:
+      head/purchase_invoice/transfer:
+      head/purchase_invoice/waiting:
       head/purchase_order: Kaufauftrag
       head/sales_invoice: Verkaufsrechnung
       head/sales_order: Auftrag
       head/sales_order_draft: Aufrag nicht abgeschlossen
+      head/voucher:
+      keyword/custom_attribute:
       package: Verpackung
+      package_code:
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
@@ -240,8 +318,10 @@ de:
       qualifier/project: Projekt
       qualifier/target: Ziel
       sum_level: Ebene
+      sum_level/commodity:
       sum_level/external: Extern
       sum_level/internal: Intern
+      sum_level/profit:
       sum_level/vat: Umsatzsteuer
       terms_of_payment: Zahlungsbedingung
   administration:
@@ -282,25 +362,41 @@ de:
     actions:
       button_saving:
     bank_accounts:
+      create:
+        create_success:
       edit:
         header: Bankkonto
       factoring_options:
         factoring_disabled: Wird nicht factoriert
+        factoring_enabled:
       index:
         button_search: Suchen
+        header:
+        show_active:
         show_inactive: Gelöschte anzeigen
       kaytossa_options:
         active: Wird benutzt
         inactive: Gelöscht / Wird nicht benutzt
+      tilinylitys_options:
+        limit_override_allowed:
+        limit_override_denied:
+      update:
+        update_success:
     bank_details:
+      edit:
+        header:
       index:
         header: Bankverbindungsdaten
     bank_details_helper:
+      empty:
       finnish: Finnisch
       swedish: Schwedisch
     carriers:
+      edit:
+        header:
       index:
         button_search: Suchen
+        header:
       neutraali_options:
         neutral: Ja
         not_neutral: Nein
@@ -326,8 +422,19 @@ de:
       update:
         update_success:
     custom_attributes:
+      edit:
+        button_remove:
+        confirm_remove:
+        header:
       index:
         button_search: Suchen
+        header:
+      required_options:
+        mandatory:
+        optional:
+      visibility_options:
+        hidden:
+        visible:
     fiscal_years:
       create:
         create_success:
@@ -339,18 +446,37 @@ de:
       update:
         update_success:
     packages:
+      create:
+        create_success:
       edit:
         header: Verpackung
+      erikoispakkaus_options:
+        not_special:
+        special:
       index:
         button_search: Suchen
+        header:
+      package_codes:
+        link_new:
+      update:
+        update_success:
       yksin_eraan_options:
+        combined_parcel:
         separate_parcel: Normalbehandlung
     packing_areas:
+      create:
+        create_success:
+      destroy:
+        destroy_success:
       edit:
+        button_remove:
+        confirm_remove:
         header: Packraum/Verpackungsabteilung
       index:
         button_search: Suchen
         header: Packräume/Verpackungsabteilungen
+      update:
+        update_success:
     printers:
       create:
         create_success:
@@ -382,12 +508,20 @@ de:
       update:
         update_success:
     qualifiers:
+      create:
+        create_success:
+      edit:
+        header:
       index:
         button_search: Suchen
+        button_show_active:
         button_show_removed: Gelöschte anzeigen
+        header:
       kaytossa_options:
         in_use: Ja
         not_in_use: Nein
+      update:
+        update_success:
     sum_levels:
       create:
         create_success:
@@ -434,6 +568,7 @@ de:
     translations:
       language: Sprache
       link_new: Neue Übersetzung hinzufügen
+      text:
     update_access:
       forbidden:
   application:
@@ -584,6 +719,8 @@ de:
       wrong_length:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
+    packing_area:
+      duplicate_cells:
     qualifier:
       accounts_found:
     sum_level:
@@ -629,7 +766,6 @@ de:
         bookkeeping_value:
         bookkeeping_value_now:
       index:
-        button_new:
         button_search:
         header:
       link_order:
@@ -666,6 +802,7 @@ de:
       prompt: Bitte wählen
     submit:
       create: "%{model} erstellen"
+      destroy:
       new: Neu %{model}
       submit: "%{model} speichern"
       update: "%{model} aktualisieren"

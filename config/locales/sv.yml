@@ -22,17 +22,41 @@ sv:
         kayttoonottopvm: Ibruktagningsdatum
       bank_account:
         asiakastunnus: Org.nummer
+        bic:
+        factoring:
+        hyvak:
+        iban:
         kaytossa: Status
+        maksulimitti:
         nimi: Namn
+        oletus_kohde:
+        oletus_kulutili:
+        oletus_kustp:
+        oletus_projekti:
+        oletus_rahatili:
+        oletus_selvittelytili:
         tilino: Kontonummer
+        tilinylitys:
         valkoodi: Valuta
       bank_detail:
         laatija: Skapare
         luontiaika: Skapad
+        muutospvm:
+        muuttaja:
         nimitys: Benämning
+        pankkiiban1:
+        pankkiiban2:
+        pankkiiban3:
+        pankkinimi1:
+        pankkinimi2:
+        pankkinimi3:
+        pankkiswift1:
+        pankkiswift2:
+        pankkiswift3:
         pankkitili1: Kontonummer
         pankkitili2: Kontonummer
         pankkitili3: Kontonummer
+        viite:
       carrier:
         koodi:
         luontiaika: Skapad
@@ -155,21 +179,56 @@ sv:
       keyword:
         jarjestys: Ordning
         kieli: Språk
+        laji:
         selite: Benämning
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+      keyword/custom_attribute:
+        database_field:
+        default_value:
+        help_text:
+        label:
+        required:
+        set_name:
+        visibility:
       package:
+        erikoispakkaus:
         jarjestys: Ordning
+        kayttoprosentti:
         kieli: Språk
+        korkeus:
+        laji:
+        leveys:
+        minimi_paino:
         paino: Vikt
+        pakkaus:
         pakkauskuvaus: Paketbeskrivning
+        pakkausveloitus_tuotenumero:
+        puukotus_kerroin:
         selite: Benämning
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+        syvyys:
+        yksin_eraan:
+      package_code:
+        koodi:
+        rahdinkuljettaja:
+      package_codes:
+        koodi:
+        rahdinkuljettaja:
       packing_area:
+        lokero:
         nimi: Namn
+        pakkaamon_prio:
         printteri0: Plocklista
         printteri1: Följesedel
         printteri2: Artikeletiketter
         printteri3: adresslapp
         printteri4: Fraktsedel A5
         printteri6: Fraktsedel A4
+        printteri7:
         prio: Prio
         varasto: Lager
       printer:
@@ -201,35 +260,68 @@ sv:
         unifaun_nimi:
         yhteyshenkilo: Kontaktperson
       qualifier:
+        isa_tarkenne:
+        kaytossa:
+        koodi:
         nimi: Namn
+        tunnus:
         tyyppi: Typ
       terms_of_payment:
         abs_pvm: Betalningsdag
+        erapvmkasin:
+        factoring:
+        itsetulostus:
+        jaksotettu:
         jarjestys: Ordning
         jv: Efterkrav
+        kassa_abspvm:
+        kassa_alepros:
+        kassa_relpvm:
         kateinen: Kontant
+        kaytossa:
         laatija: Skapare
         luontiaika: Skapad
+        muutospvm:
+        muuttaja:
         pankkiyhteystiedot: Bankuppgifter
+        rel_pvm:
+        sallitut_maat:
+        teksti:
+      translations:
+        kieli:
+        selitetark:
     models:
       account: Konto
       bank_account: Bankkonto
+      bank_detail:
       carrier:
       cash_register:
       currency: Valuta
       fiscal_year: Räkenskapsår
+      head/purchase_invoice/approval:
+      head/purchase_invoice/approved:
+      head/purchase_invoice/paid:
+      head/purchase_invoice/transfer:
+      head/purchase_invoice/waiting:
       head/purchase_order: Inköpsorder
       head/sales_invoice: Försäljningsfaktura
       head/sales_order: Försäljningsorder
       head/sales_order_draft: "Öppen försäljningsorder"
+      head/voucher:
+      keyword/custom_attribute:
       package: Förpackning
+      package_code:
+      packing_area:
       printer: Skrivare
       qualifier: Specifikation
       qualifier/cost_center: Kostnadsställe
       qualifier/project: Projekt
       qualifier/target: Objekt
       sum_level: Nivå
+      sum_level/commodity:
+      sum_level/external:
       sum_level/internal: Intern
+      sum_level/profit:
       sum_level/vat: Moms
       terms_of_payment: Betalningsvillkor
   administration:
@@ -270,24 +362,41 @@ sv:
     actions:
       button_saving:
     bank_accounts:
+      create:
+        create_success:
       edit:
         header: Bankkonto
       factoring_options:
         factoring_disabled: Ej factoring
+        factoring_enabled:
       index:
         button_search: Sök
+        header:
+        show_active:
         show_inactive: Visa raderade
       kaytossa_options:
+        active:
         inactive: Borttagit / Inte i bruk
+      tilinylitys_options:
+        limit_override_allowed:
+        limit_override_denied:
+      update:
+        update_success:
     bank_details:
+      edit:
+        header:
       index:
         header: Bankuppgifter
     bank_details_helper:
+      empty:
       finnish: Finska
       swedish: Svenska
     carriers:
+      edit:
+        header:
       index:
         button_search: Sök
+        header:
       neutraali_options:
         neutral: Ja
         not_neutral: Nej
@@ -313,8 +422,19 @@ sv:
       update:
         update_success:
     custom_attributes:
+      edit:
+        button_remove:
+        confirm_remove:
+        header:
       index:
         button_search: Sök
+        header:
+      required_options:
+        mandatory:
+        optional:
+      visibility_options:
+        hidden:
+        visible:
     fiscal_years:
       create:
         create_success:
@@ -326,15 +446,37 @@ sv:
       update:
         update_success:
     packages:
+      create:
+        create_success:
       edit:
         header: Förpackning
+      erikoispakkaus_options:
+        not_special:
+        special:
       index:
         button_search: Sök
+        header:
+      package_codes:
+        link_new:
+      update:
+        update_success:
       yksin_eraan_options:
+        combined_parcel:
         separate_parcel: Normal behandling
     packing_areas:
+      create:
+        create_success:
+      destroy:
+        destroy_success:
+      edit:
+        button_remove:
+        confirm_remove:
+        header:
       index:
         button_search: Sök
+        header:
+      update:
+        update_success:
     printers:
       create:
         create_success:
@@ -366,12 +508,20 @@ sv:
       update:
         update_success:
     qualifiers:
+      create:
+        create_success:
+      edit:
+        header:
       index:
         button_search: Sök
+        button_show_active:
         button_show_removed: Visa raderade
+        header:
       kaytossa_options:
         in_use: Ja
         not_in_use: Nej
+      update:
+        update_success:
     sum_levels:
       create:
         create_success:
@@ -417,6 +567,8 @@ sv:
         update_success:
     translations:
       language: Språk
+      link_new:
+      text:
     update_access:
       forbidden:
   application:
@@ -561,6 +713,8 @@ sv:
       too_long: "är för lång (maximum är %{count} tecken)"
       too_short: "är för kort (minimum är %{count} tecken)"
       wrong_length: har fel längd (ska vara %{count} tecken)
+    packing_area:
+      duplicate_cells:
     qualifier:
       accounts_found:
     sum_level:
@@ -606,7 +760,6 @@ sv:
         bookkeeping_value:
         bookkeeping_value_now:
       index:
-        button_new:
         button_search:
         header:
       link_order:
@@ -643,6 +796,7 @@ sv:
       prompt: Välj
     submit:
       create: Skapa %{model}
+      destroy:
       new: Ny %{model}
       submit: Spara %{model}
       update: "Ändra %{model}"

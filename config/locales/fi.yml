@@ -760,7 +760,6 @@ fi:
         bookkeeping_value: Bookkeeping value
         bookkeeping_value_now: Bookkeeping value now
       index:
-        button_new: Button new
         button_search: Button search
         header: Header
       link_order:

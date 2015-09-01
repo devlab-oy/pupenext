@@ -23,18 +23,40 @@ et:
       bank_account:
         asiakastunnus: Klienditunnus
         bic: SWIFT / BIC
+        factoring:
+        hyvak:
+        iban:
         kaytossa: Ruum
         maksulimitti: Makselimiit
         nimi: Nimi
+        oletus_kohde:
+        oletus_kulutili:
+        oletus_kustp:
+        oletus_projekti:
+        oletus_rahatili:
+        oletus_selvittelytili:
         tilino: Kontonumber
+        tilinylitys:
         valkoodi: Valuuta
       bank_detail:
         laatija: Koostaja
         luontiaika: Koostamise aeg
+        muutospvm:
+        muuttaja:
         nimitys: Nimetus
+        pankkiiban1:
+        pankkiiban2:
+        pankkiiban3:
+        pankkinimi1:
+        pankkinimi2:
+        pankkinimi3:
+        pankkiswift1:
+        pankkiswift2:
+        pankkiswift3:
         pankkitili1: Konto number
         pankkitili2: Konto number
         pankkitili3: Konto number
+        viite:
       carrier:
         koodi: Kood
         luontiaika: Koostamise aeg
@@ -157,21 +179,57 @@ et:
       keyword:
         jarjestys: Järjekord
         kieli: Keel
+        laji:
         selite: Selgitus
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+      keyword/custom_attribute:
+        database_field:
+        default_value:
+        help_text:
+        label:
+        required:
+        set_name:
+        visibility:
       package:
+        erikoispakkaus:
         jarjestys: Järjekord
+        kayttoprosentti:
         kieli: Keel
+        korkeus:
+        laji:
+        leveys:
+        minimi_paino:
         paino: Kaal
+        pakkaus:
         pakkauskuvaus: Pakendi kirjeldus
+        pakkausveloitus_tuotenumero:
+        puukotus_kerroin:
         selite: Selgitus
+        selitetark:
+        selitetark_2:
+        selitetark_3:
+        syvyys:
+        yksin_eraan:
+      package_code:
+        koodi:
+        rahdinkuljettaja:
+      package_codes:
+        koodi:
+        rahdinkuljettaja:
       packing_area:
+        lokero:
         nimi: Nimi
+        pakkaamon_prio:
         printteri0: Komplekteerimisleht
         printteri1: Saateleht
         printteri2: Tootekleebised
         printteri3: Aadressilipik
         printteri4: Veokiri A5
         printteri6: Veokiri A4
+        printteri7:
+        prio:
         varasto: Ladu
       printer:
         ip: ip
@@ -202,35 +260,68 @@ et:
         unifaun_nimi:
         yhteyshenkilo: Kontaktisik
       qualifier:
+        isa_tarkenne:
         kaytossa: Kasutusel
+        koodi:
         nimi: Nimi
+        tunnus:
         tyyppi: Tyyp
       terms_of_payment:
         abs_pvm: Maksepäev
+        erapvmkasin:
+        factoring:
+        itsetulostus:
+        jaksotettu:
         jarjestys: Järjekord
+        jv:
+        kassa_abspvm:
+        kassa_alepros:
+        kassa_relpvm:
+        kateinen:
         kaytossa: Kasutusel
         laatija: Koostaja
         luontiaika: Koostamise aeg
+        muutospvm:
+        muuttaja:
         pankkiyhteystiedot: Pangarekvisiidid
+        rel_pvm:
+        sallitut_maat:
+        teksti:
+      translations:
+        kieli:
+        selitetark:
     models:
       account: Arve
       bank_account: Pangakonto
+      bank_detail:
       carrier:
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
+      head/purchase_invoice/approval:
+      head/purchase_invoice/approved:
+      head/purchase_invoice/paid:
+      head/purchase_invoice/transfer:
+      head/purchase_invoice/waiting:
       head/purchase_order: Ostutellimus
       head/sales_invoice: Myygiarve
       head/sales_order: Myygitellimus
       head/sales_order_draft: Myygitellimus pooleli
+      head/voucher:
+      keyword/custom_attribute:
       package: Pakend
+      package_code:
+      packing_area:
       printer: Printer
       qualifier: TÃ¤psustus
       qualifier/cost_center: Kulukoht
       qualifier/project: Projekt
       qualifier/target: Objekt
       sum_level: Tase
+      sum_level/commodity:
+      sum_level/external:
       sum_level/internal: Sisemine
+      sum_level/profit:
       sum_level/vat: Km
       terms_of_payment: Maksutingimus
   administration:
@@ -271,25 +362,41 @@ et:
     actions:
       button_saving:
     bank_accounts:
+      create:
+        create_success:
       edit:
         header: Pangakonto
       factoring_options:
         factoring_disabled: Ei kasutata faktooringut
+        factoring_enabled:
       index:
         button_search: Otsi
+        header:
+        show_active:
         show_inactive: Näita tyhistatuid
       kaytossa_options:
         active: Kasutusel
         inactive: Kustutatud/Ei ole kasutusel
+      tilinylitys_options:
+        limit_override_allowed:
+        limit_override_denied:
+      update:
+        update_success:
     bank_details:
+      edit:
+        header:
       index:
         header: Pangarekvisiidid
     bank_details_helper:
+      empty:
       finnish: Soome
       swedish: Rootsi
     carriers:
+      edit:
+        header:
       index:
         button_search: Otsi
+        header:
       neutraali_options:
         neutral: Jah
         not_neutral: Ei
@@ -315,8 +422,19 @@ et:
       update:
         update_success:
     custom_attributes:
+      edit:
+        button_remove:
+        confirm_remove:
+        header:
       index:
         button_search: Otsi
+        header:
+      required_options:
+        mandatory:
+        optional:
+      visibility_options:
+        hidden:
+        visible:
     fiscal_years:
       create:
         create_success:
@@ -328,15 +446,37 @@ et:
       update:
         update_success:
     packages:
+      create:
+        create_success:
       edit:
         header: Pakend
+      erikoispakkaus_options:
+        not_special:
+        special:
       index:
         button_search: Otsi
+        header:
+      package_codes:
+        link_new:
+      update:
+        update_success:
       yksin_eraan_options:
+        combined_parcel:
         separate_parcel: Tavakäsitlus
     packing_areas:
+      create:
+        create_success:
+      destroy:
+        destroy_success:
+      edit:
+        button_remove:
+        confirm_remove:
+        header:
       index:
         button_search: Otsi
+        header:
+      update:
+        update_success:
     printers:
       create:
         create_success:
@@ -368,12 +508,20 @@ et:
       update:
         update_success:
     qualifiers:
+      create:
+        create_success:
+      edit:
+        header:
       index:
         button_search: Otsi
+        button_show_active:
         button_show_removed: Näita tyhistatuid
+        header:
       kaytossa_options:
         in_use: Jah
         not_in_use: Ei
+      update:
+        update_success:
     sum_levels:
       create:
         create_success:
@@ -419,6 +567,8 @@ et:
         update_success:
     translations:
       language: Keel
+      link_new:
+      text:
     update_access:
       forbidden:
   application:
@@ -561,6 +711,8 @@ et:
       too_long: on liiga pikk (maksimum on %{count} tähemärki)
       too_short: on liiga lühike (miinimum on %{count} tähemärki)
       wrong_length: on vale pikkusega (peab olema %{count} tähemärki)
+    packing_area:
+      duplicate_cells:
     qualifier:
       accounts_found:
     sum_level:
@@ -606,7 +758,6 @@ et:
         bookkeeping_value:
         bookkeeping_value_now:
       index:
-        button_new:
         button_search:
         header:
       link_order:
@@ -643,6 +794,7 @@ et:
       prompt: Palun vali
     submit:
       create: Loo uus %{model}
+      destroy:
       new: Uus %{model}
       submit: Salvesta %{model}
       update: Uuenda objekti %{model}
