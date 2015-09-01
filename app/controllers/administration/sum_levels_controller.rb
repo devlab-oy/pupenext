@@ -49,7 +49,7 @@ class Administration::SumLevelsController < AdministrationController
     end
 
     def sum_level_params
-      params.require(:sum_level).permit(resource_parameters(SumLevel,
+      resource_parameters model: :sum_level, parameters: [
         :tyyppi,
         :summattava_taso,
         :taso,
@@ -66,7 +66,7 @@ class Administration::SumLevelsController < AdministrationController
         :planned_depreciation_amount,
         :btl_depreciation_type,
         :btl_depreciation_amount,
-      ))
+      ]
     end
 
     def searchable_columns

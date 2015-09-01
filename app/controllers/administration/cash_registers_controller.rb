@@ -58,7 +58,7 @@ class Administration::CashRegistersController < AdministrationController
     end
 
     def cash_register_params
-      params.require(:cash_register).permit(resource_parameters(CashRegister,
+      resource_parameters model: :cash_register, parameters: [
         :nimi,
         :kustp,
         :toimipaikka,
@@ -67,7 +67,7 @@ class Administration::CashRegistersController < AdministrationController
         :luottokortti,
         :kateistilitys,
         :kassaerotus,
-        :kateisotto
-      ))
+        :kateisotto,
+      ]
     end
 end

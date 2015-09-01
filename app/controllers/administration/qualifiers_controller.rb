@@ -52,13 +52,13 @@ class Administration::QualifiersController < AdministrationController
     end
 
     def qualifier_params
-      params.require(:qualifier).permit(resource_parameters(Qualifier,
+      resource_parameters model: :qualifier, parameters: [
         :nimi,
         :koodi,
         :tyyppi,
         :kaytossa,
-        :isa_tarkenne
-      ))
+        :isa_tarkenne,
+      ]
     end
 
     def searchable_columns
