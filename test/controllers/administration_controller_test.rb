@@ -136,4 +136,36 @@ class AdministrationControllerTest < ActionController::TestCase
     patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
     assert_equal 'the_new_name!', @sum_level.reload.nimi
   end
+
+  test 'should allow visible params for given attribute set' do
+    login users(:bob)
+
+    attribute = keywords(:mysql_alias_1)
+    permission = permissions(:bob_sum_levels_update)
+
+    attribute.update! database_field: 'taso.nimi', set_name: 'bobset', visibility: :visible
+    permission.update! alias_set: 'bobset'
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
+    refute_equal 'the_new_name!', @sum_level.reload.nimi
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }, alias_set: :bobset
+    assert_equal 'the_new_name!', @sum_level.reload.nimi
+  end
+
+  test 'should deny hidden params for given attribute set' do
+    login users(:bob)
+
+    attribute = keywords(:mysql_alias_1)
+    permission = permissions(:bob_sum_levels_update)
+
+    attribute.update! database_field: 'taso.nimi', set_name: 'bobset', visibility: :hidden
+    permission.update! alias_set: 'bobset'
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }
+    refute_equal 'the_new_name!', @sum_level.reload.nimi
+
+    patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }, alias_set: :bobset
+    refute_equal 'the_new_name!', @sum_level.reload.nimi
+  end
 end
