@@ -8,14 +8,14 @@ class AdministrationController < ApplicationController
     render text: t('.forbidden'), status: :forbidden unless update_access?
   end
 
-  def resource_parameters(klass, *strong_parameters)
+  def resource_parameters(model:, parameters:)
     alias_set  = params[:alias_set].to_s
     set_name   = alias_set.empty? ? "Default" : alias_set
-    table_name = klass.table_name
+    table_name = model.to_s.classify.constantize.table_name
     attributes = Keyword::CustomAttribute.fetch_set table_name: table_name, set_name: set_name
 
-    return strong_parameters unless attributes.present?
+    allowed = attributes.present? ? attributes.visible.map { |a| a.field.to_sym }.sort : parameters
 
-    attributes.visible.map { |a| a.field.to_sym }.sort
+    params.require(model).permit(allowed)
   end
 end
