@@ -48,7 +48,7 @@ class Administration::AccountsController < AdministrationController
     end
 
     def account_params
-      params.require(:account).permit(
+      params.require(:account).permit(resource_parameters(Account,
         :tilino,
         :sisainen_taso,
         :ulkoinen_taso,
@@ -63,7 +63,7 @@ class Administration::AccountsController < AdministrationController
         :tiliointi_tarkistus,
         :manuaali_esto,
         :oletus_alv
-      )
+      ))
     end
 
     def searchable_columns

@@ -42,12 +42,12 @@ class Administration::CurrenciesController < AdministrationController
     end
 
     def currency_params
-      params.require(:currency).permit(
+      params.require(:currency).permit(resource_parameters(Currency,
         :nimi,
         :jarjestys,
         :kurssi,
         :intrastat_kurssi,
-      )
+      ))
     end
 
     def searchable_columns

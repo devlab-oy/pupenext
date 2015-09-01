@@ -52,7 +52,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
   private
 
     def terms_of_payment_params
-      params.require(:terms_of_payment).permit(
+      params.require(:terms_of_payment).permit(resource_parameters(TermsOfPayment,
         :abs_pvm,
         :erapvmkasin,
         :factoring,
@@ -70,7 +70,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
         :sallitut_maat,
         :teksti,
         translations_attributes: [ :id, :kieli, :selitetark, :_destroy ]
-      )
+      ))
     end
 
     def find_resource

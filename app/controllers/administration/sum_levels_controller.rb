@@ -4,7 +4,7 @@ class Administration::SumLevelsController < AdministrationController
   end
 
   def new
-    @sum_level = SumLevel::Internal.new
+    @sum_level = SumLevel.new
     render :edit
   end
 
@@ -49,7 +49,7 @@ class Administration::SumLevelsController < AdministrationController
     end
 
     def sum_level_params
-      params.require(:sum_level).permit(resource_parameters(
+      params.require(:sum_level).permit(resource_parameters(SumLevel,
         :tyyppi,
         :summattava_taso,
         :taso,

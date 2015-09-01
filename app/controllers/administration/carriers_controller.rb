@@ -41,12 +41,12 @@ class Administration::CarriersController < AdministrationController
   private
 
     def carrier_params
-      params.require(:carrier).permit(
+      params.require(:carrier).permit(resource_parameters(Carrier,
         :koodi,
         :nimi,
         :neutraali,
         :pakkauksen_sarman_minimimitta
-      )
+      ))
     end
 
     def find_resource
