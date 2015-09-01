@@ -12,10 +12,10 @@ class AdministrationController < ApplicationController
     alias_set  = params[:alias_set].to_s
     set_name   = alias_set.empty? ? "Default" : alias_set
     table_name = klass.table_name
-    attributes = Keyword::CustomAttribute.visible.fetch_set table_name: table_name, set_name: set_name
+    attributes = Keyword::CustomAttribute.fetch_set table_name: table_name, set_name: set_name
 
     return strong_parameters unless attributes.present?
 
-    attributes.map { |a| a.field.to_sym }
+    attributes.visible.map { |a| a.field.to_sym }.sort
   end
 end
