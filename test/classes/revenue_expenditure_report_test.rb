@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows)
+  fixtures %w(heads head/voucher_rows keywords)
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -110,8 +110,16 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     weekly_sum = {
       sales: BigDecimal(866),
-      purchases: BigDecimal(67432)
+      purchases: BigDecimal(67732)
     }
+
+    alternative_expenditure = keywords(:weekly_alternative_expenditure_one)
+
+    weekly.each do |w|
+      if w[:week] == alternative_expenditure.selite
+        w[:purchases] += BigDecimal(alternative_expenditure.selitetark_2)
+      end
+    end
 
     data = {
       history_salesinvoice: heads(:si_two_history).summa,
