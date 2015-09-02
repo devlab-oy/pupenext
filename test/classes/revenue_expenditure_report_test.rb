@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows keywords)
+  fixtures %w(heads head/voucher_rows)
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -110,13 +110,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     weekly_sum = {
       sales: BigDecimal(866),
-      purchases: BigDecimal(67732)
-    }
-
-    weekly_alternative_expenditure = {
-      '38 / 2015' => [
-        keywords(:weekly_alternative_expenditure_one)
-      ]
+      purchases: BigDecimal(67432)
     }
 
     data = {
@@ -126,7 +120,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       overdue_accounts_receivable: heads(:si_two_overdue).summa,
       weekly: weekly,
       weekly_sum: weekly_sum,
-      weekly_alternative_expenditure: weekly_alternative_expenditure
     }
 
     response = RevenueExpenditureReport.new(1).data
