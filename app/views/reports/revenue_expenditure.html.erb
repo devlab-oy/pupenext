@@ -55,14 +55,6 @@
     </tr>
 
     <% @data[:weekly].each do |week| %>
-      <%
-      if @data[:weekly_alternative_expenditure][week[:week]].present?
-        @data[:weekly_alternative_expenditure][week[:week]].each do |keyword|
-          week[:purchases] += BigDecimal(keyword.selitetark_2)
-        end
-      end
-      %>
-
       <tr>
         <td><%= week[:week] %></td>
         <td><%= week[:sales] %></td>
@@ -72,59 +64,6 @@
         </td>
       </tr>
 
-      <tr class='custom_expenditure <%= week[:week_sanitized] %>'>
-        <th colspan='3'>
-          Vaihtoehtoiset menot
-        </th>
-        <th class='back'>
-        </th>
-      </tr>
-
-      <% if @data[:weekly_alternative_expenditure][week[:week]].present? %>
-        <% @data[:weekly_alternative_expenditure][week[:week]].each do |keyword| %>
-          <tr class='custom_expenditure <%= week[:week_sanitized] %>'>
-            <%= form_tag revenue_expenditure_update_path, method: :post do %>
-              <%= hidden_field_tag :week, week[:week] %>
-              <%= hidden_field_tag :period, params[:period] %>
-              <%= hidden_field_tag :id, keyword.tunnus %>
-                <td>
-                  <%= label_tag :name, 'Nimi' %> <%= text_field_tag :name, keyword.selitetark %>
-                </td>
-                <td>
-                  <%= label_tag :sum, 'Summa' %> <%= text_field_tag :sum, keyword.selitetark_2 %>
-                </td>
-                <td class='back'>
-                  <%= submit_tag 'Muokkaa' %>
-                </td>
-            <% end %>
-            <%= form_tag revenue_expenditure_delete_path, method: :post do %>
-              <%= hidden_field_tag :id, keyword.tunnus %>
-              <%= hidden_field_tag :period, params[:period] %>
-              <td class='back'>
-                <%= submit_tag 'Poista' %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      <% end %>
-
-      <%= form_tag revenue_expenditure_save_path, method: :post do %>
-        <%= hidden_field_tag :week, week[:week] %>
-        <%= hidden_field_tag :period, params[:period] %>
-        <tr class='custom_expenditure <%= week[:week_sanitized] %>'>
-          <td>
-            <%= label_tag :name, 'Nimi' %> <%= text_field_tag :name %>
-          </td>
-          <td>
-            <%= label_tag :sum, 'Summa' %> <%= text_field_tag :sum %>
-          </td>
-          <td class='back'>
-            <%= submit_tag 'Lisää' %>
-          </td>
-          <td class='back'>
-          </td>
-        </tr>
-      <% end %>
       <tr class='custom_expenditure <%= week[:week_sanitized] %>'>
         <td class='back' colspan='4'>
           &nbsp;
