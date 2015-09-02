@@ -312,6 +312,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/revenue_expenditure_report_data: Tulot- / Menot-raportin vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
