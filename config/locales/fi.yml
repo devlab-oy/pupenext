@@ -587,6 +587,10 @@ fi:
       summary: Yhteensä
       title:  Tulot- ja Menot-raportti
       week: Viikko
+    revenue_expenditure_update:
+      update_success: Päivitettiin onnistuneesti
+    revenue_expenditure_update:
+      create_success: Tallennettiin onnistuneesti
   application:
     access_control:
       forbidden: Pääsy kielletty!

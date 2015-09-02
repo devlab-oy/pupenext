@@ -22,6 +22,7 @@ class Keyword < BaseModel
       'S' => Product::Status,
       'TRY' => Product::Subcategory,
       'TUOTEMERKKI' => Product::Brand,
+      'REVENUEREP' => Keyword::RevenueExpenditureReportData,
     }
   end
 end

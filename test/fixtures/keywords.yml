@@ -91,3 +91,18 @@ status_active:
   selitetark: Aktiivi
   laji: S
   <<: *DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+weekly_alternative_expenditure_one:
+  yhtio: acme
+  laji: REVENUEREP
+  selite: 38 / 2015
+  selitetark: Palkat
+  selitetark_2: 300
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

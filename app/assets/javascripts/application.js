@@ -19,3 +19,4 @@
 //= require toggle
 //= require cocoon
 //= require update_title
+//= require revenue_expenditure_report
