@@ -10,8 +10,6 @@ class RevenueExpenditureReport
       sales: BigDecimal(0),
       purchases: BigDecimal(0)
     }
-
-    @weekly_alternative_expenditure = {}
   end
 
   def data
@@ -22,7 +20,6 @@ class RevenueExpenditureReport
       overdue_accounts_receivable: overdue_accounts_receivable,
       weekly: weekly,
       weekly_sum: @weekly_sum,
-      weekly_alternative_expenditure: weekly_alternative_expenditure,
     }
   end
 
@@ -116,23 +113,5 @@ class RevenueExpenditureReport
   def purchases(start, stop)
     Head.all_purchase_invoices.where(erpcm: start..stop)
     .joins(:accounting_rows).sum('tiliointi.summa')
-  end
-
-  def keywords(week)
-    Keyword::RevenueExpenditureReportData.where(selite: week)
-  end
-
-  def weekly_alternative_expenditure
-    loop_weeks.each do |week|
-      if @weekly_alternative_expenditure[week[:week]].nil?
-        @weekly_alternative_expenditure[week[:week]] = []
-      end
-
-      keywords(week[:week]).each do |k|
-        @weekly_alternative_expenditure[week[:week]] << k
-        @weekly_sum[:purchases] += BigDecimal(k.selitetark_2)
-      end
-    end
-    @weekly_alternative_expenditure.reject { |_, v| v.empty? }
   end
 end
