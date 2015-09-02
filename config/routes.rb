@@ -54,9 +54,6 @@ Pupesoft::Application.routes.draw do
 
   scope :reports, controller: :reports do
     get :revenue_expenditure
-    post :revenue_expenditure_delete
-    post :revenue_expenditure_save
-    post :revenue_expenditure_update
   end
 
   root to: 'home#index'
