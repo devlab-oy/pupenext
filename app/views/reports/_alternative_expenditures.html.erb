@@ -1,0 +1,14 @@
+<% Keyword::RevenueExpenditureReportData.where(selite: week).each do |d| %>
+  <tr class='custom_expenditure <%= week_sanitized %>'>
+    <td>
+    </td>
+
+    <td>
+      <%= d.selitetark %>
+    </td>
+
+    <td>
+      <%= d.selitetark_2 %>
+    </td>
+  </tr>
+<% end %>
