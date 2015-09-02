@@ -1,6 +1,6 @@
 class Administration::RevenueExpenditureReportDatumController < AdministrationController
   def index
-    @data_set = Keyword::RevenueExpenditureReportData.all
+    @data_set = Keyword::RevenueExpenditureReportData.all.order(:selite)
   end
 
   def new
@@ -13,6 +13,16 @@ class Administration::RevenueExpenditureReportDatumController < AdministrationCo
 
   def show
     render :edit
+  end
+
+  def create
+    @data = Keyword::RevenueExpenditureReportData.new revenue_expenditure_report_data_params
+
+    if @data.save
+      redirect_to revenue_expenditure_report_datum_index_path
+    else
+      render :edit
+    end
   end
 
   def update
