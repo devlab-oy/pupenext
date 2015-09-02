@@ -1,6 +1,8 @@
 class Administration::RevenueExpenditureReportDatumController < AdministrationController
   def index
-    @data_set = Keyword::RevenueExpenditureReportData.all.order(:selite)
+    data_set = Keyword::RevenueExpenditureReportData.all.search_like(search_params)
+
+    @data_set = data_set.all.order(:selite, :selitetark, :selitetark_2)
   end
 
   def new
@@ -50,5 +52,13 @@ class Administration::RevenueExpenditureReportDatumController < AdministrationCo
         :selitetark,
         :selitetark_2,
       )
+    end
+
+    def searchable_columns
+      [
+        :selite,
+        :selitetark,
+        :selitetark_2,
+      ]
     end
 end
