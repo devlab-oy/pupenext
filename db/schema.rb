@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902114039) do
+ActiveRecord::Schema.define(version: 20150902122115) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2314,26 +2314,27 @@ ActiveRecord::Schema.define(version: 20150902114039) do
   add_index "tiliointi", ["yhtio", "tosite"], name: "tosite_index", using: :btree
 
   create_table "tiliointisaanto", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",       limit: 5,     default: "", null: false
-    t.string   "tyyppi",      limit: 1,     default: "", null: false
-    t.integer  "ttunnus",     limit: 4,     default: 0,  null: false
-    t.string   "mintuote",    limit: 25,    default: "", null: false
-    t.string   "maxtuote",    limit: 25,    default: "", null: false
+    t.string   "yhtio",       limit: 5,                             default: "", null: false
+    t.string   "tyyppi",      limit: 1,                             default: "", null: false
+    t.integer  "ttunnus",     limit: 4,                             default: 0,  null: false
+    t.string   "mintuote",    limit: 25,                            default: "", null: false
+    t.string   "maxtuote",    limit: 25,                            default: "", null: false
     t.text     "kuvaus",      limit: 65535
     t.text     "kuvaus2",     limit: 65535
-    t.string   "tilino",      limit: 6,     default: "", null: false
-    t.integer  "kustp",       limit: 4,     default: 0,  null: false
-    t.integer  "toimipaikka", limit: 4,     default: 0,  null: false
-    t.string   "hyvak1",      limit: 50,    default: "", null: false
-    t.string   "hyvak2",      limit: 50,    default: "", null: false
-    t.string   "hyvak3",      limit: 50,    default: "", null: false
-    t.string   "hyvak4",      limit: 50,    default: "", null: false
-    t.string   "hyvak5",      limit: 50,    default: "", null: false
-    t.string   "vienti",      limit: 1,     default: "", null: false
-    t.string   "laatija",     limit: 50,    default: "", null: false
-    t.datetime "luontiaika",                             null: false
-    t.datetime "muutospvm",                              null: false
-    t.string   "muuttaja",    limit: 50,    default: "", null: false
+    t.string   "tilino",      limit: 6,                             default: "", null: false
+    t.integer  "kustp",       limit: 4,                             default: 0,  null: false
+    t.decimal  "alv",                       precision: 5, scale: 2
+    t.integer  "toimipaikka", limit: 4,                             default: 0,  null: false
+    t.string   "hyvak1",      limit: 50,                            default: "", null: false
+    t.string   "hyvak2",      limit: 50,                            default: "", null: false
+    t.string   "hyvak3",      limit: 50,                            default: "", null: false
+    t.string   "hyvak4",      limit: 50,                            default: "", null: false
+    t.string   "hyvak5",      limit: 50,                            default: "", null: false
+    t.string   "vienti",      limit: 1,                             default: "", null: false
+    t.string   "laatija",     limit: 50,                            default: "", null: false
+    t.datetime "luontiaika",                                                     null: false
+    t.datetime "muutospvm",                                                      null: false
+    t.string   "muuttaja",    limit: 50,                            default: "", null: false
   end
 
   create_table "tiliotedata", primary_key: "tunnus", force: :cascade do |t|
