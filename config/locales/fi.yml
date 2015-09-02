@@ -537,6 +537,8 @@ fi:
         update_success: Tarkenne päivitettiin onnistuneesti
     revenue_expenditure_report_datum:
       edit:
+        button_remove: Poista meno
+        confirm_remove: Oletko varma, että haluat poistaa menon?
         header: Tulot- / Menot-raportin vaihtoehtoinen meno
       index:
         button_new: Uusi vaihtoehtoinen meno
