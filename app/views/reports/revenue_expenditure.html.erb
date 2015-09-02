@@ -16,8 +16,7 @@
         <%= t('.period') %>
       </th>
       <td>
-        <% options = options_for_select([['1 kk', 1],['2 kk', 2], ['3 kk', 3], ['6 kk', 6], ['12 kk', 12]], params[:period]) %>
-        <%= select_tag :period, options %>
+        <%= select_tag :period, options_for_select(month_options, params[:period]) %>
       </td>
       <td class='back'>
         <%= submit_tag t('.button_make') %>
@@ -64,11 +63,7 @@
         </td>
       </tr>
 
-      <tr class='custom_expenditure <%= week[:week_sanitized] %>'>
-        <td class='back' colspan='4'>
-          &nbsp;
-        </td>
-      </tr>
+      <%= render 'alternative_expenditures', week: week[:week], week_sanitized: week[:week_sanitized] %>
     <% end %>
 
     <tr>
