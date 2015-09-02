@@ -7,9 +7,11 @@ class RevenueExpenditureReport
     @yesterday = Date.yesterday
 
     @weekly_sum = {
-      sales: 0,
-      purchases: 0
+      sales: BigDecimal(0),
+      purchases: BigDecimal(0)
     }
+
+    @weekly_alternative_expenditure = {}
   end
 
   def data
@@ -19,8 +21,50 @@ class RevenueExpenditureReport
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
       weekly: weekly,
-      weekly_sum: @weekly_sum
+      weekly_sum: @weekly_sum,
+      weekly_alternative_expenditure: weekly_alternative_expenditure,
     }
+  end
+
+  def self.delete_keyword(params)
+
+    if Keyword::RevenueExpenditureReportData.delete params[:id]
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.update_keyword(params)
+
+    update_params = {
+      selite: params[:week],
+      selitetark: params[:name],
+      selitetark_2: params[:sum],
+    }
+
+    if Keyword::RevenueExpenditureReportData.update params[:id], update_params
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.save_keyword(params)
+
+    save_params = {
+      selite: params[:week],
+      selitetark: params[:name],
+      selitetark_2: params[:sum],
+    }
+
+    keyword = Keyword::RevenueExpenditureReportData.new save_params
+
+    if keyword.save
+      return true
+    else
+      return false
+    end
   end
 
   private
@@ -85,6 +129,7 @@ class RevenueExpenditureReport
 
       {
         week: week[:week],
+        week_sanitized: week[:week].tr(' / ', '_'),
         sales: @sales,
         purchases: @purchases
       }
@@ -112,5 +157,23 @@ class RevenueExpenditureReport
   def purchases(start, stop)
     Head.all_purchase_invoices.where(erpcm: start..stop)
     .joins(:accounting_rows).sum('tiliointi.summa')
+  end
+
+  def keywords(week)
+    Keyword::RevenueExpenditureReportData.where(selite: week)
+  end
+
+  def weekly_alternative_expenditure
+    loop_weeks.each do |week|
+      if @weekly_alternative_expenditure[week[:week]].nil?
+        @weekly_alternative_expenditure[week[:week]] = []
+      end
+
+      keywords(week[:week]).each do |k|
+        @weekly_alternative_expenditure[week[:week]] << k
+        @weekly_sum[:purchases] += BigDecimal(k.selitetark_2)
+      end
+    end
+    @weekly_alternative_expenditure.reject { |_, v| v.empty? }
   end
 end

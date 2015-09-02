@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows)
+  fixtures %w(heads head/voucher_rows keywords)
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -72,31 +72,37 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     weekly = [
       {
         week: '33 / 2015',
+        week_sanitized: '33___2015',
         sales: BigDecimal(866),
         purchases: BigDecimal(56432)
       },
       {
         week: '34 / 2015',
+        week_sanitized: '34___2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
       },
       {
         week: '35 / 2015',
+        week_sanitized: '35___2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
       },
       {
         week: '36 / 2015',
+        week_sanitized: '36___2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(11000)
       },
       {
         week: '37 / 2015',
+        week_sanitized: '37___2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
       },
       {
         week: '38 / 2015',
+        week_sanitized: '38___2015',
         sales: BigDecimal(0),
         purchases: BigDecimal(0)
       },
@@ -104,7 +110,13 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     weekly_sum = {
       sales: BigDecimal(866),
-      purchases: BigDecimal(67432)
+      purchases: BigDecimal(67732)
+    }
+
+    weekly_alternative_expenditure = {
+      '38 / 2015' => [
+        keywords(:weekly_alternative_expenditure_one)
+      ]
     }
 
     data = {
@@ -113,7 +125,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       overdue_accounts_payable: overdue_accounts_payable_sum,
       overdue_accounts_receivable: heads(:si_two_overdue).summa,
       weekly: weekly,
-      weekly_sum: weekly_sum
+      weekly_sum: weekly_sum,
+      weekly_alternative_expenditure: weekly_alternative_expenditure
     }
 
     response = RevenueExpenditureReport.new(1).data

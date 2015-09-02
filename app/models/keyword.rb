@@ -18,6 +18,7 @@ class Keyword < BaseModel
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'PAKKAUSKV' => Keyword::PackageTranslation,
+      'REVENUEREP' => Keyword::RevenueExpenditureReportData,
     }
   end
 end
