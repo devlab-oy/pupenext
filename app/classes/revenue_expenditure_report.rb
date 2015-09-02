@@ -79,6 +79,7 @@ class RevenueExpenditureReport
       @sales += current_week_factoring(week[:beginning], week[:ending])
 
       @purchases = purchases(week[:beginning], week[:ending])
+      @purchases += alternative_expenditures week[:week]
 
       @weekly_sum[:sales] += @sales
       @weekly_sum[:purchases] += @purchases
@@ -113,5 +114,9 @@ class RevenueExpenditureReport
   def purchases(start, stop)
     Head::PurchaseInvoice.where(erpcm: start..stop)
     .joins(:accounting_rows).sum('tiliointi.summa')
+  end
+
+  def alternative_expenditures(week)
+    BigDecimal(Keyword::RevenueExpenditureReportData.where(selite: week).sum(:selitetark_2))
   end
 end
