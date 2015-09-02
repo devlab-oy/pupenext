@@ -16,7 +16,6 @@ class Head < BaseModel
 
   scope :paid, -> { where.not(mapvm: '0000-00-00') }
   scope :unpaid, -> { where(mapvm: '0000-00-00') }
-  scope :all_purchase_invoices, -> { where(tila: PURCHASE_INVOICE_TYPES) }
 
   def self.default_child_instance
     child_class 'N'
