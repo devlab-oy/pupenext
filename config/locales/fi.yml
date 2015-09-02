@@ -525,6 +525,9 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
+    revenue_expenditure_report_data:
+      index:
+        header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
