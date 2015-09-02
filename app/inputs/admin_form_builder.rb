@@ -16,13 +16,13 @@ class AdminFormBuilder < SimpleForm::FormBuilder
   private
 
     def input_allowed?(attribute_name)
-      database_field = "#{@table_name}.#{attribute_name}"
       attributes = Keyword::CustomAttribute.fetch_set table_name: @table_name, set_name: @alias_set
 
       # If have no attributes defined, and we're using default set -> allow everything
       return true if attributes.blank? && @alias_set == @default_set
 
       # Check that current attribute is marked as visible
+      database_field = "#{@table_name}.#{attribute_name}"
       attributes.visible.where(database_field: database_field).present?
     end
 end
