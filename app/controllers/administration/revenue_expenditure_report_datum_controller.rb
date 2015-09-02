@@ -1,6 +1,13 @@
-class Administration::RevenueExpenditureReportDataController < AdministrationController
+class Administration::RevenueExpenditureReportDatumController < AdministrationController
   def index
     @data_set = Keyword::RevenueExpenditureReportData.all
+  end
+
+  def edit
+  end
+
+  def show
+    render :edit
   end
 
   # def self.delete_keyword(params)
