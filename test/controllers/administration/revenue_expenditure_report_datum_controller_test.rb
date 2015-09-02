@@ -52,4 +52,18 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
       assert_template :edit
     end
   end
+
+  test 'should update keyword' do
+    params = { selitetark: "Here comes the boom" }
+
+    patch :update, id: @data.id, data: params
+    assert_redirected_to revenue_expenditure_report_datum_index_path
+  end
+
+  test 'should not update keyword' do
+    params = { selitetark: '' }
+
+    patch :update, id: @data.id, data: params
+    assert_template :edit
+  end
 end
