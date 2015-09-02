@@ -5,11 +5,19 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
 
   setup do
     login users(:bob)
-    @keyword = keywords(:weekly_alternative_expenditure_one)
+    @data = keywords(:weekly_alternative_expenditure_one)
   end
 
   test 'should get index' do
     get :index
+    assert_response :success
+  end
+
+  test 'should get edit' do
+    get :edit, id: @data.tunnus
+    assert_response :success
+
+    get :show, id: @data.tunnus
     assert_response :success
   end
 end
