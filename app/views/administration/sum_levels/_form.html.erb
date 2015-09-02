@@ -1,6 +1,6 @@
 <%= render "administration/form_errors", resource: @sum_level %>
 
-<%= simple_form_for @sum_level, as: :sum_level, builder: AdminFormBuilder do |f| %>
+<%= simple_form_for @sum_level, as: :sum_level, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
 
   <table width='600px' class='admin-view-30'>
 
