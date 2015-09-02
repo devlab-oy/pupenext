@@ -535,6 +535,8 @@ fi:
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
     revenue_expenditure_report_datum:
+      edit:
+        header: Tulot- / Menot-raportin vaihtoehtoinen meno
       index:
         header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
