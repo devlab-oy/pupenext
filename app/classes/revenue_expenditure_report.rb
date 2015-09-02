@@ -58,13 +58,13 @@ class RevenueExpenditureReport
   end
 
   def history_purchaseinvoice
-    Head.all_purchase_invoices.unpaid.where("erpcm < ?", @beginning_of_week)
+    Head::PurchaseInvoice.unpaid.where("erpcm < ?", @beginning_of_week)
     .joins(:accounting_rows).sum('tiliointi.summa')
   end
 
   def overdue_accounts_payable
     if Date.today != @beginning_of_week
-      Head.all_purchase_invoices.unpaid.where(erpcm: @beginning_of_week..@yesterday)
+      Head::PurchaseInvoice.unpaid.where(erpcm: @beginning_of_week..@yesterday)
       .joins(:accounting_rows).sum('tiliointi.summa')
     else
       BigDecimal(0)
@@ -111,7 +111,7 @@ class RevenueExpenditureReport
   end
 
   def purchases(start, stop)
-    Head.all_purchase_invoices.where(erpcm: start..stop)
+    Head::PurchaseInvoice.where(erpcm: start..stop)
     .joins(:accounting_rows).sum('tiliointi.summa')
   end
 end

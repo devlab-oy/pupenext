@@ -1,5 +1,5 @@
 # Ostolaskut, tehdään yks jokaista "ostolaskutyyppiä"
-<% Head::PURCHASE_INVOICE_TYPES.each do |i| %>
+<% Head::PurchaseInvoice::PURCHASE_INVOICE_TYPES.each do |i| %>
 pi_<%= i %>:
   yhtio: acme
   tila: <%= i %>
