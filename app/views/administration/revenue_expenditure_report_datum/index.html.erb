@@ -1,5 +1,9 @@
 <%= render "administration/header", text: t('.header') %>
 
+<%= button_to t('.button_new'), new_revenue_expenditure_report_datum_path, method: :get if update_access? %>
+
+<br><br>
+
 <table>
   <tr>
     <th>
@@ -32,3 +36,7 @@
     </tr>
   <% end %>
 </table>
+
+<br>
+
+<%= button_to t('.button_new'), new_revenue_expenditure_report_datum_path, method: :get if update_access? %>
