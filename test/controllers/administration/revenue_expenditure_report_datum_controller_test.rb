@@ -66,4 +66,12 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
     patch :update, id: @data.id, data: params
     assert_template :edit
   end
+
+  test "should delete keyword" do
+    assert_difference("Keyword::RevenueExpenditureReportData.count", -1) do
+      delete :destroy, id: @data.id
+    end
+
+    assert_redirected_to revenue_expenditure_report_datum_index_path
+  end
 end
