@@ -33,6 +33,11 @@ class Administration::RevenueExpenditureReportDatumController < AdministrationCo
     end
   end
 
+  def destroy
+    @data.destroy
+    redirect_to revenue_expenditure_report_datum_index_path
+  end
+
   private
 
     def find_resource

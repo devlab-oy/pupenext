@@ -4,3 +4,12 @@
 
 <%= render "administration/header", text: t('administration.revenue_expenditure_report_datum.edit.header') %>
 <%= render 'form' %>
+
+<% if @data.persisted? %>
+  <br/>
+
+  <%= button_to(t('.button_remove'),
+                revenue_expenditure_report_datum_path(@data),
+                data: { confirm: t('administration.revenue_expenditure_report_datum.edit.confirm_remove') },
+                method: "delete") %>
+<% end %>
