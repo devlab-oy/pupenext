@@ -3,6 +3,11 @@ class Administration::RevenueExpenditureReportDatumController < AdministrationCo
     @data_set = Keyword::RevenueExpenditureReportData.all
   end
 
+  def new
+    @data = Keyword::RevenueExpenditureReportData.new
+    render :edit
+  end
+
   def edit
   end
 

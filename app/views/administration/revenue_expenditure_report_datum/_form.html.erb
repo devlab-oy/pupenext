@@ -1,6 +1,6 @@
 <%= render "administration/form_errors", resource: @data %>
 
-<% url = @data.id ? revenue_expenditure_report_datum_path(@data) : revenue_expenditure_report_datum_path %>
+<% url = @data.id ? revenue_expenditure_report_datum_path(@data) : revenue_expenditure_report_datum_index_path %>
 <%= form_for @data, as: :data, url: url do |f| %>
 
   <table width='700'>
