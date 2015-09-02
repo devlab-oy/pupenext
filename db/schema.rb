@@ -2323,7 +2323,7 @@ ActiveRecord::Schema.define(version: 20150902122115) do
     t.text     "kuvaus2",     limit: 65535
     t.string   "tilino",      limit: 6,                             default: "", null: false
     t.integer  "kustp",       limit: 4,                             default: 0,  null: false
-    t.decimal  "alv",                       precision: 5, scale: 2
+    t.string   "alv",         limit: 1,                             default: "", null: false
     t.integer  "toimipaikka", limit: 4,                             default: 0,  null: false
     t.string   "hyvak1",      limit: 50,                            default: "", null: false
     t.string   "hyvak2",      limit: 50,                            default: "", null: false

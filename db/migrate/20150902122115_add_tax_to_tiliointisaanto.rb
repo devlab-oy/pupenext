@@ -1,5 +1,5 @@
 class AddTaxToTiliointisaanto < ActiveRecord::Migration
   def change
-    add_column :tiliointisaanto, :alv, :decimal, precision: 5, scale: 2, default: nil, null: true, after: :kustp
+    add_column :tiliointisaanto, :alv, :string, limit: 1, default: '', null: false, after: :kustp
   end
 end
