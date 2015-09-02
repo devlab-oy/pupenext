@@ -4,7 +4,7 @@ class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows)
 
   setup do
-    @tilat = Head::PURCHASE_INVOICE_TYPES
+    @tilat = Head::PurchaseInvoice::PURCHASE_INVOICE_TYPES
   end
 
   test 'fixtures should be valid' do
