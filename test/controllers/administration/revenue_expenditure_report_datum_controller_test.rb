@@ -39,4 +39,17 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
 
     assert_redirected_to revenue_expenditure_report_datum_index_path
   end
+
+  test 'should not create keyword' do
+    params = {
+      selite: '36 / 2015',
+      selitetark: '',
+      selitetark_2: 'kek',
+    }
+
+    assert_no_difference("Keyword::RevenueExpenditureReportData.count") do
+      post :create, data: params
+      assert_template :edit
+    end
+  end
 end
