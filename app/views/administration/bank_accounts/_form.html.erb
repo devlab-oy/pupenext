@@ -45,17 +45,17 @@
 
     <tr>
       <th><%= f.label :oletus_kulutili %></th>
-      <td><%= f.select :oletus_kulutili, tili_options, {}, class: :large %></td>
+      <td><%= f.select :oletus_kulutili, tili_options, { include_blank: true }, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :oletus_rahatili %></th>
-      <td><%= f.select :oletus_rahatili, tili_options, {}, class: :large %></td>
+      <td><%= f.select :oletus_rahatili, tili_options, { include_blank: true }, class: :large %></td>
     </tr>
 
     <tr>
       <th><%= f.label :oletus_selvittelytili %></th>
-      <td><%= f.select :oletus_selvittelytili, tili_options, {}, class: :large %></td>
+      <td><%= f.select :oletus_selvittelytili, tili_options, { include_blank: true }, class: :large %></td>
     </tr>
 
     <tr>
