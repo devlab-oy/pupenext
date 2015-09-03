@@ -137,7 +137,7 @@ fifteen:
 
 sixteen:
   yhtio: acme
-  sales_invoice: pi_H_history
+  purchase_invoice: pi_H_history
   summa: 200
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -145,7 +145,7 @@ sixteen:
 
 seventeen:
   yhtio: acme
-  sales_invoice: pi_Y_history
+  purchase_invoice: pi_Y_history
   summa: 200
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -153,7 +153,7 @@ seventeen:
 
 eighteen:
   yhtio: acme
-  sales_invoice: pi_M_history
+  purchase_invoice: pi_M_history
   summa: 200
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -161,7 +161,7 @@ eighteen:
 
 nineteen:
   yhtio: acme
-  sales_invoice: pi_P_history
+  purchase_invoice: pi_P_history
   summa: 200
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -169,7 +169,7 @@ nineteen:
 
 twenty:
   yhtio: acme
-  sales_invoice: pi_Q_history
+  purchase_invoice: pi_Q_history
   summa: 200
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -177,7 +177,7 @@ twenty:
 
 twentyone:
   yhtio: acme
-  sales_invoice: pi_H_overdue
+  purchase_invoice: pi_H_overdue
   summa: 300
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -185,7 +185,7 @@ twentyone:
 
 twentytwo:
   yhtio: acme
-  sales_invoice: pi_Y_overdue
+  purchase_invoice: pi_Y_overdue
   summa: 300
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -193,7 +193,7 @@ twentytwo:
 
 twentythree:
   yhtio: acme
-  sales_invoice: pi_M_overdue
+  purchase_invoice: pi_M_overdue
   summa: 300
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -201,7 +201,7 @@ twentythree:
 
 twentyfour:
   yhtio: acme
-  sales_invoice: pi_P_overdue
+  purchase_invoice: pi_P_overdue
   summa: 300
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -209,7 +209,7 @@ twentyfour:
 
 twentyfive:
   yhtio: acme
-  sales_invoice: pi_Q_overdue
+  purchase_invoice: pi_Q_overdue
   summa: 300
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -220,6 +220,15 @@ twentysix:
   sales_invoice: si_two_factoring
   summa: -666
   tilino: 666
+  tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+twentyseven:
+  yhtio: acme
+  sales_invoice: si_concern
+  summa: -999
+  tilino: 999
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>

@@ -4,6 +4,7 @@ class RevenueExpenditureReport
 
     @date_end = Date.today.months_since period
     @beginning_of_week = Date.today.beginning_of_week
+    @end_of_week = Date.today.end_of_week
     @yesterday = Date.yesterday
 
     @weekly_sum = {
@@ -18,6 +19,7 @@ class RevenueExpenditureReport
       history_purchaseinvoice: history_purchaseinvoice,
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
+      concern_accounts_receivable: concern_accounts_receivable,
       weekly: weekly,
       weekly_sum: @weekly_sum,
     }
@@ -39,6 +41,12 @@ class RevenueExpenditureReport
     else
       BigDecimal(0)
     end
+  end
+
+  def concern_accounts_receivable
+    Head::SalesInvoice.sent.where(erpcm: @beginning_of_week..@end_of_week)
+    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konsernimyyntisaamiset })
+    .sum("tiliointi.summa * -1")
   end
 
   def overdue_factoring(start, stop)
@@ -107,7 +115,7 @@ class RevenueExpenditureReport
 
   def sales(start, stop)
     Head::SalesInvoice.sent.where(erpcm: start..stop)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .joins(:accounting_rows).where.not(tiliointi: { tilino: [ Current.company.factoringsaamiset, Current.company.konsernimyyntisaamiset ] })
     .sum("tiliointi.summa * -1")
   end
 

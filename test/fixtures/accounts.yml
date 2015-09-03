@@ -129,3 +129,19 @@ account_factoring:
   muutospvm: <%= Time.now %>
   muuttaja: bob
   laatija: bob
+
+account_concern_accounts_receivable:
+  yhtio: acme
+  nimi: Konsernimyyntisaamiset
+  ulkoinen_taso: 999
+  sisainen_taso: 999
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 999
+  project:
+  target:
+  cost_center:
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
