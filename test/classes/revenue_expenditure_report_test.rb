@@ -89,6 +89,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         purchases: BigDecimal(56432),
         concern_accounts_receivable: heads(:si_concern_receivable).summa,
         concern_accounts_payable: heads(:pi_concern_payable).summa,
+        alternative_expenditures: [],
       },
       {
         week: '34 / 2015',
@@ -97,6 +98,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         purchases: BigDecimal(0),
         concern_accounts_receivable: BigDecimal(0),
         concern_accounts_payable: BigDecimal(0),
+        alternative_expenditures: [],
       },
       {
         week: '35 / 2015',
@@ -105,6 +107,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         purchases: BigDecimal(0),
         concern_accounts_receivable: BigDecimal(0),
         concern_accounts_payable: BigDecimal(0),
+        alternative_expenditures: [],
       },
       {
         week: '36 / 2015',
@@ -113,6 +116,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         purchases: BigDecimal(11000),
         concern_accounts_receivable: BigDecimal(0),
         concern_accounts_payable: BigDecimal(0),
+        alternative_expenditures: [],
       },
       {
         week: '37 / 2015',
@@ -121,14 +125,21 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         purchases: BigDecimal(0),
         concern_accounts_receivable: BigDecimal(0),
         concern_accounts_payable: BigDecimal(0),
+        alternative_expenditures: [],
       },
       {
         week: '38 / 2015',
         week_sanitized: '38___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0),
+        purchases: BigDecimal(000),
         concern_accounts_receivable: BigDecimal(0),
         concern_accounts_payable: BigDecimal(0),
+        alternative_expenditures: [
+          {
+            description: 'Palkat',
+            amount: '300',
+          }
+        ],
       },
     ]
 

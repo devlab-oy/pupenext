@@ -94,7 +94,7 @@ class RevenueExpenditureReport
       @sales += current_week_factoring(week[:beginning], week[:ending])
 
       @purchases = purchases(week[:beginning], week[:ending])
-      @purchases += alternative_expenditures week[:week]
+      @purchases += BigDecimal(alternative_expenditures(week[:week]).sum(:selitetark_2))
 
       @concern_accounts_receivable = concern_accounts_receivable(week[:beginning], week[:ending])
       @concern_accounts_payable = concern_accounts_payable(week[:beginning], week[:ending])
@@ -111,6 +111,7 @@ class RevenueExpenditureReport
         purchases: @purchases,
         concern_accounts_receivable: @concern_accounts_receivable,
         concern_accounts_payable: @concern_accounts_payable,
+        alternative_expenditures: expenditures_for_week(week[:week]),
       }
     end
   end
@@ -140,6 +141,10 @@ class RevenueExpenditureReport
   end
 
   def alternative_expenditures(week)
-    BigDecimal(Keyword::RevenueExpenditureReportData.where(selite: week).sum(:selitetark_2))
+    Keyword::RevenueExpenditureReportData.where(selite: week)
+  end
+
+  def expenditures_for_week(week)
+    alternative_expenditures(week).map { |e| { description: e.selitetark, amount: e.selitetark_2 } }
   end
 end

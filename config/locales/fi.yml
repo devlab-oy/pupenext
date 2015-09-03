@@ -195,6 +195,10 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
+      keyword/revenue_expenditure_report_data:
+        selite: Viikko / Vuosi
+        selitetark: Kuvaus
+        selitetark_2: Määrä
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
