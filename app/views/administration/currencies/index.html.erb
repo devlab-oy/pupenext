@@ -1,10 +1,11 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>
+<%= button_to_new :currency %>
 
 <br/><br/>
 
 <%= form_tag currencies_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
   <table>
     <tr>
@@ -49,4 +50,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>
+<%= button_to_new :currency %>

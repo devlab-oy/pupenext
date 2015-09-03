@@ -48,10 +48,10 @@ class Administration::CustomAttributesController < AdministrationController
     end
 
     def alias_set_params
-      return unless params[:alias_set].present?
+      return unless params[:table_alias_set].present?
 
-      table_name = params[:alias_set].split('+').first
-      set_name   = params[:alias_set].split('+').last
+      table_name = params[:table_alias_set].split('+').first
+      set_name   = params[:table_alias_set].split('+').last
 
       { table_name: table_name, set_name: set_name }
     end

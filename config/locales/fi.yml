@@ -345,7 +345,6 @@ fi:
         no_target: Ei kohdetta
         no_vat: Ei oletusveroa
       index:
-        button_new: Uusi tili
         button_search: Etsi
         header: Tilikartta
       manuaali_esto_options:
@@ -376,7 +375,6 @@ fi:
         factoring_disabled: Ei factoroida
         factoring_enabled: Factoring käytössä
       index:
-        button_new: Uusi pankkitili
         button_search: Etsi
         header: Pankkitilit
         show_active: Näytä aktiiviset
@@ -393,7 +391,6 @@ fi:
       edit:
         header: Pankkiyhteystieto
       index:
-        button_new: Uusi pankkiyhteystieto
         header: Pankkiyhteystiedot
     bank_details_helper:
       empty: tyhjä
@@ -403,7 +400,6 @@ fi:
       edit:
         header: Rahdinkuljettaja
       index:
-        button_new: Uusi rahdinkuljettaja
         button_search: Etsi
         header: Rahdinkuljettajat
       neutraali_options:
@@ -416,7 +412,6 @@ fi:
         header: Kassalipas
         no_select: Ei valintaa
       index:
-        button_new: Uusi kassalipas
         button_search: Etsi
         header: Kassalippaat
       update:
@@ -427,7 +422,6 @@ fi:
       edit:
         header: Valuutta
       index:
-        button_new: Uusi valuutta
         button_search: Etsi
         header: Valuutat
       update:
@@ -438,7 +432,6 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa kentän?
         header: Ylläpitonäkymän kenttä
       index:
-        button_new: Lisää uusi kenttä
         button_search: Etsi
         header: Ylläpitonäkymien kentät
       required_options:
@@ -453,7 +446,6 @@ fi:
       edit:
         header: Tilikausi
       index:
-        button_new: Uusi tilikausi
         button_search: Etsi
         header: Tilikaudet
       update:
@@ -467,7 +459,6 @@ fi:
         not_special: Normaalipakkaus
         special: Erikoispakkaus
       index:
-        button_new: Uusi pakkaus
         button_search: Etsi
         header: Pakkaukset
       package_codes:
@@ -487,7 +478,6 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
         header: Pakkaamo
       index:
-        button_new: Uusi pakkaamo
         button_search: Etsi
         header: Pakkaamot
       update:
@@ -502,7 +492,6 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa tämän kirjoittimen?
         header: Kirjoitin
       index:
-        button_new: Uusi kirjoitin
         button_search: Etsi
         header: Kirjoittimet
       mediatyyppi_options:
@@ -529,7 +518,6 @@ fi:
       edit:
         header: Muokkaa tarkennetta
       index:
-        button_new: Uusi tarkenne
         button_search: Etsi
         button_show_active: Näytä aktiiviset
         button_show_removed: Näytä poistetut
@@ -557,7 +545,6 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa tämän tason?
         header: Tilikartan taso
       index:
-        button_new: Uusi taso
         button_search: Etsi
         header: Tilikartan tasot
       kayttotarkoitus_options:
@@ -585,7 +572,6 @@ fi:
         active: Käytössä
         inactive: Poistettu / Ei käytössä
       index:
-        button_new: Uusi maksuehto
         button_search: Etsi
         button_show_active: Näytä aktiiviset maksuehdot
         button_show_removed: Näytä poistetut maksuehdot
@@ -805,7 +791,6 @@ fi:
         bookkeeping_value: Bookkeeping value
         bookkeeping_value_now: Bookkeeping value now
       index:
-        button_new: Button new
         button_search: Button search
         header: Header
       link_order:
@@ -843,6 +828,7 @@ fi:
     submit:
       create: Luo %{model}
       destroy: Poista %{model}
+      new: Uusi %{model}
       submit: Tallenna %{model}
       update: Päivitä %{model}
   number:

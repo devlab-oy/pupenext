@@ -26,6 +26,19 @@ module ApplicationHelper
     }
   end
 
+  def button_to_new(model_name, path = nil)
+    if update_access?
+      name = model_name.to_s.classify.constantize.model_name.human
+      path = path || "new_#{model_name}".to_sym
+      text = t('helpers.submit.new', model: name)
+
+      alias_set = params[:alias_set].to_s
+      params = alias_set.present? ? { alias_set: alias_set } : nil
+
+      button_to text, path, method: :get, params: params
+    end
+  end
+
   def user_name(kuka)
     User.find_by(kuka: kuka).try(:nimi) || kuka
   end

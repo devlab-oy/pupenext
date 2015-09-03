@@ -43,7 +43,7 @@ class Administration::PrintersController < AdministrationController
   private
 
     def printer_params
-      params.require(:printer).permit(
+      resource_parameters model: :printer, parameters: [
         :merkisto,
         :mediatyyppi,
         :nimi,
@@ -56,8 +56,8 @@ class Administration::PrintersController < AdministrationController
         :postitp,
         :puhelin,
         :yhteyshenkilo,
-        :jarjestys
-      )
+        :jarjestys,
+      ]
     end
 
     def find_resource

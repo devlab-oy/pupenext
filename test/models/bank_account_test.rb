@@ -1,7 +1,7 @@
 require "test_helper"
 
 class BankAccountTest < ActiveSupport::TestCase
-  fixtures %w(bank_accounts)
+  fixtures %w(bank_accounts accounts)
 
   setup do
     @ba = bank_accounts(:acme_account)
@@ -121,5 +121,13 @@ class BankAccountTest < ActiveSupport::TestCase
     assert_equal @ba.reload.oletus_kustp, 0
     assert_equal @ba.reload.oletus_kohde, 0
     assert_equal @ba.reload.oletus_projekti, 0
+  end
+
+  test "initial values" do
+    @ba.company.selvittelytili = "100"
+    @ba.company.save!
+
+    assert_equal "100", BankAccount.new.oletus_selvittelytili
+    assert_equal "200", BankAccount.new(oletus_selvittelytili: '200').oletus_selvittelytili
   end
 end

@@ -1,8 +1,10 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
+<%= button_to_new :bank_account %>
 
 <%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <% if show_inactive? %>
     <%= submit_tag t('.show_active') %>
   <% else %>
@@ -14,6 +16,8 @@
 <br/><br/>
 
 <%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
     <tr>
       <th>
@@ -72,4 +76,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_bank_account_path, method: :get if update_access? %>
+<%= button_to_new :bank_account %>

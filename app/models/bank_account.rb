@@ -26,6 +26,7 @@ class BankAccount < BaseModel
   before_validation :convert_to_iban
   before_validation :convert_to_tilino
 
+  after_initialize :initial_values
   before_save :defaults
 
   self.table_name = :yriti
@@ -94,5 +95,9 @@ class BankAccount < BaseModel
       self.oletus_projekti ||= 0
       self.iban ||= ""
       self.bic ||= ""
+    end
+
+    def initial_values
+      self.oletus_selvittelytili = company.selvittelytili if oletus_selvittelytili.blank?
     end
 end

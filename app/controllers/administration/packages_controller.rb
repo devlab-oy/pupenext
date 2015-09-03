@@ -40,7 +40,7 @@ class Administration::PackagesController < AdministrationController
     end
 
     def package_params
-      params.require(:package).permit(
+      resource_parameters model: :package, parameters: [
         :erikoispakkaus,
         :jarjestys,
         :kayttoprosentti,
@@ -58,7 +58,7 @@ class Administration::PackagesController < AdministrationController
         :yksin_eraan,
         translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
         package_codes_attributes: [ :id, :pakkaus, :rahdinkuljettaja, :koodi, :_destroy ],
-      )
+      ]
     end
 
     def sortable_columns

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PupenextFormBuilderTest < ActiveSupport::TestCase
+  fixtures %w(fiscal_years)
+
   setup do
     @template = Object.new
     @template.extend ActionView::Helpers::FormHelper
