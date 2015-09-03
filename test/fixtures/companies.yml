@@ -10,6 +10,7 @@ acme:
   myyntireskontrakausi_loppu: <%= Date.today %>
   factoringsaamiset: 666
   konsernimyyntisaamiset: 999
+  konserniostovelat: 777
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
