@@ -1,14 +1,16 @@
-<% Keyword::RevenueExpenditureReportData.where(selite: week).each do |d| %>
-  <tr class='custom_expenditure <%= week_sanitized %>'>
-    <td>
+<% alternative_expenditures.each do |e| %>
+  <tr class='custom_expenditure hidden <%= week_sanitized %>'>
+    <td class='back'>
     </td>
 
-    <td>
-      <%= d.selitetark %>
+    <td class='spec'>
+      <%= e[:description] %>
     </td>
 
-    <td>
-      <%= d.selitetark_2 %>
+    <td class='spec'>
+      <%= e[:amount] %>
     </td>
+
+    <td class='back' colspan='2'></td>
   </tr>
 <% end %>

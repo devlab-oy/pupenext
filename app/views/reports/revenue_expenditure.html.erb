@@ -45,7 +45,7 @@
 
   <br>
 
-  <table id='rows_table'>
+  <table id='revenue_expenditure_rows_table'>
     <tr>
       <th><%= t('.week') %></th>
       <th><%= t('.revenue') %></th>
@@ -63,11 +63,16 @@
         <td><%= week[:concern_accounts_receivable] %></td>
         <td><%= week[:concern_accounts_payable] %></td>
         <td class='back'>
-          <%= button_tag '+', type: 'button', class: 'custom_expenditure_rows', id: week[:week_sanitized] %>
+          <%= button_tag '+',
+              type: 'button',
+              class: 'custom_expenditure_rows',
+              id: week[:week_sanitized] %>
         </td>
       </tr>
 
-      <%= render 'alternative_expenditures', week: week[:week], week_sanitized: week[:week_sanitized] %>
+      <%= render 'alternative_expenditures',
+          week_sanitized: week[:week_sanitized],
+          alternative_expenditures: week[:alternative_expenditures] %>
     <% end %>
 
     <tr>

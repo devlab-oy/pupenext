@@ -11,7 +11,7 @@
       </th>
 
       <td>
-        <%= f.text_field :selite, class: :large %>
+      <%= f.select :selite, week_options(@data.selite) %>
       </td>
     </tr>
 
