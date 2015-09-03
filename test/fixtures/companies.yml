@@ -9,6 +9,7 @@ acme:
   myyntireskontrakausi_alku: <%= Date.today %>
   myyntireskontrakausi_loppu: <%= Date.today %>
   factoringsaamiset: 666
+  konsernimyyntisaamiset: 999
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

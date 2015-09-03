@@ -28,6 +28,12 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     si_two_factoring.mapvm = Date.today
     si_two_factoring.save
 
+    si_concern = heads(:si_concern)
+    si_concern.erpcm = Date.today
+    si_concern.tapvm = Date.today
+    si_concern.mapvm = Date.today
+    si_concern.save
+
     Head::PurchaseInvoice::PURCHASE_INVOICE_TYPES.each do |i|
       pi_today = heads(:"pi_#{i}")
       pi_today.erpcm = Date.today
@@ -126,6 +132,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       history_purchaseinvoice: history_purchaseinvoice_sum,
       overdue_accounts_payable: overdue_accounts_payable_sum,
       overdue_accounts_receivable: heads(:si_two_overdue).summa,
+      concern_accounts_receivable: heads(:si_concern).summa,
       weekly: weekly,
       weekly_sum: weekly_sum,
     }
