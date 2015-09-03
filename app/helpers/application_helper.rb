@@ -29,7 +29,7 @@ module ApplicationHelper
   def button_to_new(model_name, path = nil)
     if update_access?
       name = model_name.to_s.classify.constantize.model_name.human
-      path = path || Rails.application.routes.url_helpers.send("new_#{model_name}_path")
+      path = path || "new_#{model_name}".to_sym
       text = t('helpers.submit.new', model: name)
 
       alias_set = params[:alias_set].to_s
