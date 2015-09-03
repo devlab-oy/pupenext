@@ -20,6 +20,7 @@ class RevenueExpenditureReport
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
       concern_accounts_receivable: concern_accounts_receivable,
+      concern_accounts_payable: concern_accounts_payable,
       weekly: weekly,
       weekly_sum: @weekly_sum,
     }
@@ -79,6 +80,12 @@ class RevenueExpenditureReport
     end
   end
 
+  def concern_accounts_payable
+    Head::PurchaseInvoice.where(erpcm: @beginning_of_week..@end_of_week)
+    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konserniostovelat })
+    .sum("tiliointi.summa * -1")
+  end
+
   def weekly
     loop_weeks.map do |week|
 
@@ -121,7 +128,8 @@ class RevenueExpenditureReport
 
   def purchases(start, stop)
     Head::PurchaseInvoice.where(erpcm: start..stop)
-    .joins(:accounting_rows).sum('tiliointi.summa')
+    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.konserniostovelat })
+    .sum('tiliointi.summa')
   end
 
   def alternative_expenditures(week)
