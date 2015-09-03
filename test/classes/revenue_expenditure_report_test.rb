@@ -86,43 +86,57 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
         week: '33 / 2015',
         week_sanitized: '33___2015',
         sales: BigDecimal(866),
-        purchases: BigDecimal(56432)
+        purchases: BigDecimal(56432),
+        concern_accounts_receivable: heads(:si_concern_receivable).summa,
+        concern_accounts_payable: heads(:pi_concern_payable).summa,
       },
       {
         week: '34 / 2015',
         week_sanitized: '34___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(0),
+        concern_accounts_receivable: BigDecimal(0),
+        concern_accounts_payable: BigDecimal(0),
       },
       {
         week: '35 / 2015',
         week_sanitized: '35___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(0),
+        concern_accounts_receivable: BigDecimal(0),
+        concern_accounts_payable: BigDecimal(0),
       },
       {
         week: '36 / 2015',
         week_sanitized: '36___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(11000)
+        purchases: BigDecimal(11000),
+        concern_accounts_receivable: BigDecimal(0),
+        concern_accounts_payable: BigDecimal(0),
       },
       {
         week: '37 / 2015',
         week_sanitized: '37___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(0),
+        concern_accounts_receivable: BigDecimal(0),
+        concern_accounts_payable: BigDecimal(0),
       },
       {
         week: '38 / 2015',
         week_sanitized: '38___2015',
         sales: BigDecimal(0),
-        purchases: BigDecimal(0)
+        purchases: BigDecimal(0),
+        concern_accounts_receivable: BigDecimal(0),
+        concern_accounts_payable: BigDecimal(0),
       },
     ]
 
     weekly_sum = {
       sales: BigDecimal(866),
-      purchases: BigDecimal(67732)
+      purchases: BigDecimal(67732),
+      concern_accounts_receivable: BigDecimal(999),
+      concern_accounts_payable: BigDecimal(333),
     }
 
     alternative_expenditure = keywords(:weekly_alternative_expenditure_one)
@@ -138,8 +152,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
       history_purchaseinvoice: history_purchaseinvoice_sum,
       overdue_accounts_payable: overdue_accounts_payable_sum,
       overdue_accounts_receivable: heads(:si_two_overdue).summa,
-      concern_accounts_receivable: heads(:si_concern_receivable).summa,
-      concern_accounts_payable: heads(:pi_concern_payable).summa,
       weekly: weekly,
       weekly_sum: weekly_sum,
     }

@@ -589,6 +589,8 @@ fi:
       other: '%{count} kuukautta'
     revenue_expenditure:
       button_make: Laadi
+      concern_accounts_receivable: Konsernimyyntisaamiset
+      concern_accounts_payable: Konserniostovelat
       expenditure: Menot
       history_expenditure: Menot historiassa
       history_revenue: Tulot historiassa

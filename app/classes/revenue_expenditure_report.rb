@@ -9,7 +9,9 @@ class RevenueExpenditureReport
 
     @weekly_sum = {
       sales: BigDecimal(0),
-      purchases: BigDecimal(0)
+      purchases: BigDecimal(0),
+      concern_accounts_receivable: BigDecimal(0),
+      concern_accounts_payable: BigDecimal(0),
     }
   end
 
@@ -19,8 +21,6 @@ class RevenueExpenditureReport
       history_purchaseinvoice: history_purchaseinvoice,
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
-      concern_accounts_receivable: concern_accounts_receivable,
-      concern_accounts_payable: concern_accounts_payable,
       weekly: weekly,
       weekly_sum: @weekly_sum,
     }
@@ -44,10 +44,10 @@ class RevenueExpenditureReport
     end
   end
 
-  def concern_accounts_receivable
-    Head::SalesInvoice.sent.where(erpcm: @beginning_of_week..@end_of_week)
+  def concern_accounts_receivable(start, stop)
+    Head::SalesInvoice.sent.where(erpcm: start..stop)
     .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konsernimyyntisaamiset })
-    .sum("tiliointi.summa * -1")
+    .sum("tiliointi.summa")
   end
 
   def overdue_factoring(start, stop)
@@ -80,10 +80,10 @@ class RevenueExpenditureReport
     end
   end
 
-  def concern_accounts_payable
-    Head::PurchaseInvoice.where(erpcm: @beginning_of_week..@end_of_week)
+  def concern_accounts_payable(start, stop)
+    Head::PurchaseInvoice.where(erpcm: start..stop)
     .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konserniostovelat })
-    .sum("tiliointi.summa * -1")
+    .sum("tiliointi.summa")
   end
 
   def weekly
@@ -96,14 +96,21 @@ class RevenueExpenditureReport
       @purchases = purchases(week[:beginning], week[:ending])
       @purchases += alternative_expenditures week[:week]
 
+      @concern_accounts_receivable = concern_accounts_receivable(week[:beginning], week[:ending])
+      @concern_accounts_payable = concern_accounts_payable(week[:beginning], week[:ending])
+
       @weekly_sum[:sales] += @sales
       @weekly_sum[:purchases] += @purchases
+      @weekly_sum[:concern_accounts_receivable] += @concern_accounts_receivable
+      @weekly_sum[:concern_accounts_payable] += @concern_accounts_payable
 
       {
         week: week[:week],
         week_sanitized: week[:week].tr(' / ', '_'),
         sales: @sales,
-        purchases: @purchases
+        purchases: @purchases,
+        concern_accounts_receivable: @concern_accounts_receivable,
+        concern_accounts_payable: @concern_accounts_payable,
       }
     end
   end

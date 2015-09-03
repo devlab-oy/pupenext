@@ -50,6 +50,8 @@
       <th><%= t('.week') %></th>
       <th><%= t('.revenue') %></th>
       <th><%= t('.expenditure') %></th>
+      <th><%= t('.concern_accounts_receivable') %></th>
+      <th><%= t('.concern_accounts_payable') %></th>
       <th class='back'></th>
     </tr>
 
@@ -58,6 +60,8 @@
         <td><%= week[:week] %></td>
         <td><%= week[:sales] %></td>
         <td><%= week[:purchases] %></td>
+        <td><%= week[:concern_accounts_receivable] %></td>
+        <td><%= week[:concern_accounts_payable] %></td>
         <td class='back'>
           <%= button_tag '+', type: 'button', class: 'custom_expenditure_rows', id: week[:week_sanitized] %>
         </td>
@@ -70,6 +74,8 @@
       <th><%= t('.summary') %></th>
       <th><%= @data[:weekly_sum][:sales] %></th>
       <th><%= @data[:weekly_sum][:purchases] %></th>
+      <th><%= @data[:weekly_sum][:concern_accounts_receivable] %></th>
+      <th><%= @data[:weekly_sum][:concern_accounts_payable] %></th>
       <th class='back'></th>
     </tr>
   </table>

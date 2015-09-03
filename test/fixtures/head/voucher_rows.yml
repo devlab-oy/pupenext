@@ -227,7 +227,7 @@ twentysix:
 twentyseven:
   yhtio: acme
   sales_invoice: si_concern_receivable
-  summa: -999
+  summa: 999
   tilino: 999
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
@@ -236,7 +236,7 @@ twentyseven:
 twentyeight:
   yhtio: acme
   purchase_invoice: pi_concern_payable
-  summa: -333
+  summa: 333
   tilino: 777
   tapvm: <%= Time.now %>
   laadittu: <%= Time.now %>
