@@ -6,18 +6,6 @@ class RevenueExpenditureReport
     @beginning_of_week = Date.today.beginning_of_week
     @end_of_week = Date.today.end_of_week
     @yesterday = Date.yesterday
-
-    @weekly_sum = {
-      sales: BigDecimal(0),
-      purchases: BigDecimal(0),
-      concern_accounts_receivable: BigDecimal(0),
-      concern_accounts_payable: BigDecimal(0),
-    }
-
-    @sales = BigDecimal(0)
-    @purchases = BigDecimal(0)
-    @concern_accounts_receivable = BigDecimal(0)
-    @concern_accounts_payable = BigDecimal(0)
   end
 
   def data
@@ -27,7 +15,7 @@ class RevenueExpenditureReport
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
       weekly: weekly,
-      weekly_sum: @weekly_sum,
+      weekly_sum: weekly_summary,
     }
   end
 
@@ -126,30 +114,32 @@ class RevenueExpenditureReport
   end
 
   def weekly_summary
-    @weekly_sum[:sales] += @sales
-    @weekly_sum[:purchases] += @purchases
-    @weekly_sum[:concern_accounts_receivable] += @concern_accounts_receivable
-    @weekly_sum[:concern_accounts_payable] += @concern_accounts_payable
+    @weekly_sum = {
+      sales: BigDecimal(0),
+      purchases: BigDecimal(0),
+      concern_accounts_receivable: BigDecimal(0),
+      concern_accounts_payable: BigDecimal(0),
+    }
+
+    weekly.each do |w|
+      @weekly_sum[:sales] += w[:sales]
+      @weekly_sum[:purchases] += w[:purchases]
+      @weekly_sum[:concern_accounts_receivable] += w[:concern_accounts_receivable]
+      @weekly_sum[:concern_accounts_payable] += w[:concern_accounts_payable]
+    end
+
+    @weekly_sum
   end
 
   def weekly
     loop_weeks.map do |week|
-
-      @sales = sum_sales(week[:beginning], week[:ending])
-      @purchases = sum_purchases(week[:beginning], week[:ending], week[:week])
-
-      @concern_accounts_receivable = concern_accounts_receivable(week[:beginning], week[:ending])
-      @concern_accounts_payable = concern_accounts_payable(week[:beginning], week[:ending])
-
-      weekly_summary
-
       {
         week: week[:week],
         week_sanitized: week[:week].tr(' / ', '_'),
-        sales: @sales,
-        purchases: @purchases,
-        concern_accounts_receivable: @concern_accounts_receivable,
-        concern_accounts_payable: @concern_accounts_payable,
+        sales: sum_sales(week[:beginning], week[:ending]),
+        purchases: sum_purchases(week[:beginning], week[:ending], week[:week]),
+        concern_accounts_receivable: concern_accounts_receivable(week[:beginning], week[:ending]),
+        concern_accounts_payable: concern_accounts_payable(week[:beginning], week[:ending]),
         alternative_expenditures: expenditures_for_week(week[:week]),
       }
     end
