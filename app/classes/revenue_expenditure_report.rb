@@ -16,6 +16,8 @@ class RevenueExpenditureReport
 
     @sales = BigDecimal(0)
     @purchases = BigDecimal(0)
+    @concern_accounts_receivable = BigDecimal(0)
+    @concern_accounts_payable = BigDecimal(0)
   end
 
   def data
@@ -123,6 +125,13 @@ class RevenueExpenditureReport
     amount
   end
 
+  def weekly_summary
+    @weekly_sum[:sales] += @sales
+    @weekly_sum[:purchases] += @purchases
+    @weekly_sum[:concern_accounts_receivable] += @concern_accounts_receivable
+    @weekly_sum[:concern_accounts_payable] += @concern_accounts_payable
+  end
+
   def weekly
     loop_weeks.map do |week|
 
@@ -132,10 +141,7 @@ class RevenueExpenditureReport
       @concern_accounts_receivable = concern_accounts_receivable(week[:beginning], week[:ending])
       @concern_accounts_payable = concern_accounts_payable(week[:beginning], week[:ending])
 
-      @weekly_sum[:sales] += @sales
-      @weekly_sum[:purchases] += @purchases
-      @weekly_sum[:concern_accounts_receivable] += @concern_accounts_receivable
-      @weekly_sum[:concern_accounts_payable] += @concern_accounts_payable
+      weekly_summary
 
       {
         week: week[:week],
