@@ -28,17 +28,17 @@ class RevenueExpenditureReport
 
   private
 
+  def unpaid_sent_sales_invoices
+    Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
+  end
+
   def history_salesinvoice
-    Head::SalesInvoice.sent.unpaid.where("erpcm < ?", @beginning_of_week)
-    .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
-    .sum("tiliointi.summa * -1")
+    unpaid_sent_sales_invoices.where("erpcm < ?", @beginning_of_week).sum("tiliointi.summa * -1")
   end
 
   def overdue_accounts_receivable
     if Date.today != @beginning_of_week
-      Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday)
-      .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
-      .sum("tiliointi.summa * -1")
+      unpaid_sent_sales_invoices.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa * -1")
     else
       BigDecimal(0)
     end
