@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows keywords)
+  fixtures %w(heads head/voucher_rows keywords accounts)
 
   setup do
     travel_to Date.parse '2015-08-14'
