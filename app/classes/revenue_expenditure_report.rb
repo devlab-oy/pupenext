@@ -62,8 +62,20 @@ class RevenueExpenditureReport
   end
 
   def overdue_accounts_receivable
+    overdue_accounts('receivable') * -1
+  end
+
+  def overdue_accounts_payable
+    overdue_accounts 'payable'
+  end
+
+  def which_overdue_account(type)
+    type == 'receivable' ? unpaid_sent_sales_invoices : unpaid_purchase_invoice
+  end
+
+  def overdue_accounts(type)
     if Date.today != @beginning_of_week
-      unpaid_sent_sales_invoices.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa * -1")
+      which_overdue_account(type).where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
     else
       BigDecimal(0)
     end
@@ -89,14 +101,6 @@ class RevenueExpenditureReport
 
   def history_purchaseinvoice
     unpaid_purchase_invoice.where("erpcm < ?", @beginning_of_week).sum('tiliointi.summa')
-  end
-
-  def overdue_accounts_payable
-    if Date.today != @beginning_of_week
-      unpaid_purchase_invoice.where(erpcm: @beginning_of_week..@yesterday).sum('tiliointi.summa')
-    else
-      BigDecimal(0)
-    end
   end
 
   def concern_accounts_payable(start, stop)
