@@ -12,6 +12,14 @@ class Head::VoucherRow < BaseModel
   default_scope { where(korjattu: '') }
   scope :locked, -> { where(lukko: 'X') }
   scope :unlocked, -> { where(lukko: '') }
+  scope :factoring, -> { where(tilino: Current.company.factoringsaamiset) }
+  scope :without_factoring, -> { where.not(tilino: Current.company.factoringsaamiset) }
+  scope :concern_accounts_receivable, -> { where(tilino: Current.company.konsernimyyntisaamiset) }
+  scope :concern_accounts_payable, -> { where(tilino: Current.company.konserniostovelat) }
+  scope :without_concern_accounts_payable, -> { where.not(tilino: Current.company.konserniostovelat) }
+  scope :without_factoring_concern_accounts_receivable, -> {
+    where.not(tilino: [ Current.company.factoringsaamiset, Current.company.konsernimyyntisaamiset ])
+  }
 
   validates :yhtio, presence: true
   validate :allow_only_open_fiscal_period
