@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902135757) do
+ActiveRecord::Schema.define(version: 20150903141052) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1295,6 +1295,7 @@ ActiveRecord::Schema.define(version: 20150902135757) do
   add_index "lasku", ["yhtio", "laskunro"], name: "lasno_index", using: :btree
   add_index "lasku", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
   add_index "lasku", ["yhtio", "tila", "alatila"], name: "tila_index", using: :btree
+  add_index "lasku", ["yhtio", "tila", "erpcm"], name: "index_lasku_on_yhtio_and_tila_and_erpcm", using: :btree
   add_index "lasku", ["yhtio", "tila", "factoringsiirtonumero"], name: "factoring", using: :btree
   add_index "lasku", ["yhtio", "tila", "kerayslista"], name: "yhtio_tila_kerayslista", using: :btree
   add_index "lasku", ["yhtio", "tila", "laskunro"], name: "yhtio_tila_laskunro", using: :btree
