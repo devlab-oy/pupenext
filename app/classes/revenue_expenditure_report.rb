@@ -13,6 +13,8 @@ class RevenueExpenditureReport
       concern_accounts_receivable: BigDecimal(0),
       concern_accounts_payable: BigDecimal(0),
     }
+
+    @sales = BigDecimal(0)
   end
 
   def data
@@ -107,12 +109,17 @@ class RevenueExpenditureReport
     purchase_invoice_concern_accounts_payable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
 
+  def sum_sales(start, stop)
+    @sales  = sales(start, stop)
+    @sales += overdue_factoring(start, stop)
+    @sales += current_week_factoring(start, stop)
+    @sales
+  end
+
   def weekly
     loop_weeks.map do |week|
 
-      @sales  = sales(week[:beginning], week[:ending])
-      @sales += overdue_factoring(week[:beginning], week[:ending])
-      @sales += current_week_factoring(week[:beginning], week[:ending])
+      @sales = sum_sales(week[:beginning], week[:ending])
 
       @purchases = purchases(week[:beginning], week[:ending])
       @purchases += BigDecimal(alternative_expenditures(week[:week]).sum(:selitetark_2))
