@@ -50,10 +50,13 @@ class RevenueExpenditureReport
     .sum("tiliointi.summa")
   end
 
+  def sent_factoring_sales_invoices
+    Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+  end
+
   def overdue_factoring(start, stop)
     if Date.today != @beginning_of_week
-      Head::SalesInvoice.sent.where(erpcm: start..stop)
-      .joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+      sent_factoring_sales_invoices.where(erpcm: start..stop)
       .sum("(tiliointi.summa * 0.3) * -1")
     else
       BigDecimal(0)
@@ -61,8 +64,7 @@ class RevenueExpenditureReport
   end
 
   def current_week_factoring(start, stop)
-    Head::SalesInvoice.sent.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
-    .joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+    sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
     .sum("(tiliointi.summa * 0.7) * -1")
   end
 
