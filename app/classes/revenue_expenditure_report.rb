@@ -32,6 +32,31 @@ class RevenueExpenditureReport
     Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
   end
 
+  def sent_factoring_sales_invoices
+    Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+  end
+
+  def sent_sales_invoice_concern_accounts_receivable
+    Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
+  end
+
+  def purchase_invoice_concern_accounts_payable
+    Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_payable)
+  end
+
+  def unpaid_purchase_invoice
+    Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
+  end
+
+  def sent_sales_invoice_without_factoring_concern
+    Head::SalesInvoice.sent
+    .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
+  end
+
+  def purchase_invoice_without_concern_accounts_payable
+    Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
+  end
+
   def history_salesinvoice
     unpaid_sent_sales_invoices.where("erpcm < ?", @beginning_of_week).sum("tiliointi.summa * -1")
   end
@@ -45,13 +70,7 @@ class RevenueExpenditureReport
   end
 
   def concern_accounts_receivable(start, stop)
-    Head::SalesInvoice.sent.where(erpcm: start..stop)
-    .joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
-    .sum("tiliointi.summa")
-  end
-
-  def sent_factoring_sales_invoices
-    Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+    sent_sales_invoice_concern_accounts_receivable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
 
   def overdue_factoring(start, stop)
@@ -69,23 +88,19 @@ class RevenueExpenditureReport
   end
 
   def history_purchaseinvoice
-    Head::PurchaseInvoice.unpaid.where("erpcm < ?", @beginning_of_week)
-    .joins(:accounting_rows).sum('tiliointi.summa')
+    unpaid_purchase_invoice.where("erpcm < ?", @beginning_of_week).sum('tiliointi.summa')
   end
 
   def overdue_accounts_payable
     if Date.today != @beginning_of_week
-      Head::PurchaseInvoice.unpaid.where(erpcm: @beginning_of_week..@yesterday)
-      .joins(:accounting_rows).sum('tiliointi.summa')
+      unpaid_purchase_invoice.where(erpcm: @beginning_of_week..@yesterday).sum('tiliointi.summa')
     else
       BigDecimal(0)
     end
   end
 
   def concern_accounts_payable(start, stop)
-    Head::PurchaseInvoice.where(erpcm: start..stop)
-    .joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_payable)
-    .sum("tiliointi.summa")
+    purchase_invoice_concern_accounts_payable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
 
   def weekly
@@ -131,15 +146,11 @@ class RevenueExpenditureReport
   end
 
   def sales(start, stop)
-    Head::SalesInvoice.sent.where(erpcm: start..stop)
-    .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
-    .sum("tiliointi.summa * -1")
+    sent_sales_invoice_without_factoring_concern.where(erpcm: start..stop).sum("tiliointi.summa * -1")
   end
 
   def purchases(start, stop)
-    Head::PurchaseInvoice.where(erpcm: start..stop)
-    .joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
-    .sum('tiliointi.summa')
+    purchase_invoice_without_concern_accounts_payable.where(erpcm: start..stop).sum('tiliointi.summa')
   end
 
   def alternative_expenditures(week)
