@@ -30,14 +30,14 @@ class RevenueExpenditureReport
 
   def history_salesinvoice
     Head::SalesInvoice.sent.unpaid.where("erpcm < ?", @beginning_of_week)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
     .sum("tiliointi.summa * -1")
   end
 
   def overdue_accounts_receivable
     if Date.today != @beginning_of_week
       Head::SalesInvoice.sent.unpaid.where(erpcm: @beginning_of_week..@yesterday)
-      .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.factoringsaamiset })
+      .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
       .sum("tiliointi.summa * -1")
     else
       BigDecimal(0)
@@ -46,14 +46,14 @@ class RevenueExpenditureReport
 
   def concern_accounts_receivable(start, stop)
     Head::SalesInvoice.sent.where(erpcm: start..stop)
-    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konsernimyyntisaamiset })
+    .joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
     .sum("tiliointi.summa")
   end
 
   def overdue_factoring(start, stop)
     if Date.today != @beginning_of_week
       Head::SalesInvoice.sent.where(erpcm: start..stop)
-      .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.factoringsaamiset })
+      .joins(:accounting_rows).merge(Head::VoucherRow.factoring)
       .sum("(tiliointi.summa * 0.3) * -1")
     else
       BigDecimal(0)
@@ -62,7 +62,7 @@ class RevenueExpenditureReport
 
   def current_week_factoring(start, stop)
     Head::SalesInvoice.sent.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
-    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.factoringsaamiset })
+    .joins(:accounting_rows).merge(Head::VoucherRow.factoring)
     .sum("(tiliointi.summa * 0.7) * -1")
   end
 
@@ -82,7 +82,7 @@ class RevenueExpenditureReport
 
   def concern_accounts_payable(start, stop)
     Head::PurchaseInvoice.where(erpcm: start..stop)
-    .joins(:accounting_rows).where(tiliointi: { tilino: Current.company.konserniostovelat })
+    .joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_payable)
     .sum("tiliointi.summa")
   end
 
@@ -130,13 +130,13 @@ class RevenueExpenditureReport
 
   def sales(start, stop)
     Head::SalesInvoice.sent.where(erpcm: start..stop)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: [ Current.company.factoringsaamiset, Current.company.konsernimyyntisaamiset ] })
+    .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
     .sum("tiliointi.summa * -1")
   end
 
   def purchases(start, stop)
     Head::PurchaseInvoice.where(erpcm: start..stop)
-    .joins(:accounting_rows).where.not(tiliointi: { tilino: Current.company.konserniostovelat })
+    .joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
     .sum('tiliointi.summa')
   end
 
