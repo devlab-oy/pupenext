@@ -106,7 +106,7 @@ select {
   background-position: right;
 }
 
-.field_with_errors input {
+.field_with_errors input, .field_with_errors select {
   border: 1px solid red;
 }
 
