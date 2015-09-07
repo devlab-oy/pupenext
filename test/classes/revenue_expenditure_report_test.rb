@@ -181,8 +181,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
 
-    # Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
-
     # First is unpaid
     invoice_one.erpcm = 1.weeks.ago
     invoice_one.alatila = 'X'
@@ -199,13 +197,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.erpcm = 2.weeks.ago
     invoice_two.summa = 324.34
     invoice_two.save!
-
-    # Move way back, so it should be ignored
-    invoice_three = invoice_one.dup
-    invoice_three.mapvm = 6.weeks.ago
-    invoice_three.erpcm = 6.weeks.ago
-    invoice_three.summa = 2000000
-    invoice_three.save!
 
     # Fourth invoice is company accounts receivable
     invoice_four = invoice_one.dup
@@ -228,7 +219,44 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal 153.39, response[:history_salesinvoice]
   end
 
-  test 'purchase invoices history' do
+  test 'unpaid purchase invoices' do
+    #Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
+
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:pi_H).dup
+    Head::PurchaseInvoice.delete_all
+
+    # First is unpaid
+    invoice_one.erpcm = 1.weeks.ago
+    invoice_one.mapvm = 0
+    invoice_one.save!
+
+    # Create accounting rows
+    # sales sums are positive for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is paid
+    invoice_two = invoice_one.dup
+    invoice_two.mapvm = 2.weeks.ago
+    invoice_two.erpcm = 2.weeks.ago
+    invoice_two.summa = 324.34
+    invoice_two.save!
+
+    # Create accounting rows
+    # sales sums are positive for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
+
+    # Third invoice is company accounts payable
+    invoice_three = invoice_one.dup
+    invoice_three.mapvm = 0
+    invoice_three.erpcm = 1.weeks.ago
+    invoice_three.summa = 100.0
+    invoice_three.save!
+    invoice_three.accounting_rows.create!(tilino: '777', summa: 100, tapvm: 1.weeks.ago)
+
+    # history_purchaseinvoice should include invoice one and three
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 153.39, response[:history_purchaseinvoice]
   end
 
   test 'overdue accounts payable' do
