@@ -18,6 +18,7 @@ class BankAccount < BaseModel
   validates :iban, presence: true, uniqueness: { scope: :company }
   validates :nimi, presence: true
   validates :tilino, uniqueness: { scope: :company }
+  validates :valkoodi, presence: true
 
   validate :check_iban
   validate :check_bic
