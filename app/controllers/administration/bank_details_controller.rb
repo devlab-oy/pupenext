@@ -29,7 +29,7 @@ class Administration::BankDetailsController < AdministrationController
   private
 
     def bank_detail_attributes
-      resource_parameters model: :bank_detail, parameters: [
+      params.require(:bank_detail).permit(
         :nimitys,
         :pankkiiban1,
         :pankkiiban2,
@@ -44,7 +44,7 @@ class Administration::BankDetailsController < AdministrationController
         :pankkitili2,
         :pankkitili3,
         :viite,
-      ]
+      )
     end
 
     def find_resource
