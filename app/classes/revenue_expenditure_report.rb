@@ -23,21 +23,25 @@ class RevenueExpenditureReport
   private
 
   # @return [ActiveRecord::Relation] unpaid sent sales invoices joined with accounting rows (excluding accounts with factoring account number)
-  # @note unpaid = mapvm is not set
-  # @note sent = alatila X
+  # @note unpaid = mapvm is not set, sales invoice's scope
+  # @note sent = alatila X, sales invoice's scope
+  # @note without_factoring = voucher row scope excluding company's factoring accounts receivable account number
   # have to join accounting rows, because invoice's sum is calculated from rows
   # have to exlude rows with company's factoring accounts receivable account number, because factoring invoices has special calculation method
   def unpaid_sent_sales_invoices
     Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
   end
 
+  # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (only accounts with factoring account number)
+  # @note sent = alatila X, sales invoice's scope
+  # @note factoring = voucher row scope using company's factoring accounts receivable account number
   def sent_factoring_sales_invoices
     Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
   end
 
   # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluding accounts with company accounts receivable account number)
   #
-  # sent = alatila X
+  # @note sent = alatila X, sales invoice's scope
   def sent_sales_invoice_concern_accounts_receivable
     Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
   end
@@ -49,20 +53,22 @@ class RevenueExpenditureReport
 
   # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows
   #
-  # unpaid = mapvm is not set
+  # @note unpaid = mapvm is not set, purchase invoice's scope
   # need to join accounting rows for more precise sum
   def unpaid_purchase_invoice
     Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
   end
 
   # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluded factoring and company accounts receivable account numbers)
-  # sent = Alatila X
+  # @note sent = alatila X, sales invoice's scope
+  # @note without_factoring_concern_accounts_receivable = voucher row scope excluding company's factoring accounts receivable and company accounts receivable account numbers
   def sent_sales_invoice_without_factoring_concern
     Head::SalesInvoice.sent
     .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
   end
 
   # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows (excluded company accounts payable account numbers)
+  # @note without_concern_accounts_payable = voucher row scope excluding company accounts receivable account number
   def purchase_invoice_without_concern_accounts_payable
     Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
   end
