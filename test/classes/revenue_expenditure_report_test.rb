@@ -379,6 +379,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Third invoice is overdue factoring
     # only 30% of account row's sum is added
+    # overdue date is on current week, but event date is not
     invoice_three = invoice_one.dup
     invoice_three.erpcm = 1.days.ago
     invoice_three.tapvm = 1.weeks.ago
@@ -409,6 +410,50 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly purchases' do
+    # weekly purchases consists of
+    # - purchases
+    # - alternative expenditures
+
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:pi_H).dup
+    Head::PurchaseInvoice.delete_all
+
+    # First is within current week
+    # Can be either paid or unpaid
+    invoice_one.erpcm = Date.today
+    invoice_one.alatila = 'X'
+    invoice_one.save!
+
+    # Create accounting rows
+    # row sums are negative for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is outside of current week
+    invoice_two = invoice_one.dup
+    invoice_two.alatila = 'X'
+    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.save!
+
+    # Create accounting rows
+    # row sums are negative for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '345', summa: 20, tapvm: 1.weeks.ago)
+
+    # Lets add one alternative expenditure for current week
+    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
+    keyword_one.selite = '33 / 2015'
+    keyword_one.selitetark_2 = '100'
+    keyword_one.save!
+
+    # Lets add another one alternative expenditure for next week
+    # Should not sum this keyword's amount
+    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
+    keyword_one.selite = '34 / 2015'
+    keyword_one.selitetark_2 = '100'
+    keyword_one.save!
+
+    # sales should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 153.39, response[:weekly][0][:purchases].to_f
   end
 
   test 'weekly company group accounts receivable' do
