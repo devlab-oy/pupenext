@@ -241,7 +241,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # sales sums are positive for accounting reasons
+    # row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
 
     # Third invoice is company accounts payable
@@ -258,6 +258,44 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'overdue accounts payable' do
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:pi_H).dup
+    Head::PurchaseInvoice.delete_all
+
+    # First is unpaid and within current week
+    invoice_one.erpcm = 1.days.ago #Date.today is 2015-08-14, friday because of setup travel_to
+    invoice_one.mapvm = 0
+    invoice_one.save!
+
+    # Create accounting rows
+    # sales sums are positive for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is unpaid, but it is current date so it's not overdue
+    # sum is calculated as 0
+    invoice_two = invoice_one.dup
+    invoice_two.erpcm = Date.today
+    invoice_two.mapvm = 0
+    invoice_two.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
+
+    # Third invoice is paid
+    invoice_three = invoice_one.dup
+    invoice_three.erpcm = 1.days.ago
+    invoice_three.mapvm = 1.days.ago
+    invoice_three.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_three.accounting_rows.create!(tilino: '345', summa: 100, tapvm: 2.weeks.ago)
+
+    # overdue_accounts_payable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:overdue_accounts_payable]
+
   end
 
   test 'overdue accounts receivable' do
