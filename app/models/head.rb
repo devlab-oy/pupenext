@@ -8,6 +8,9 @@ class Head < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
+  scope :paid, -> { where.not(mapvm: 0) }
+  scope :unpaid, -> { where(mapvm: 0) }
+
   before_create :set_date_fields
   after_create :fix_datetime_fields
   # We have actually 5 types, that are saved in "tila".
