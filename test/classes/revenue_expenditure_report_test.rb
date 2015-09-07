@@ -178,35 +178,41 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
   test 'unpaid sales invoices' do
     # Let's save one invoice and delete the rest
-    invoice_one = heads(:si_one)
+    invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
 
     # First id unpaid
     invoice_one.erpcm = 1.weeks.ago
-    invoice_one.accounting_rows.create!(summa: 53.39, tapvm: 1.weeks.ago)
+    invoice_one.mapvm = 0
     invoice_one.save!
+
+    # Create accounting rows
+    invoice_one.accounting_rows.create!(tilino: '999', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is paid
     invoice_two = invoice_one.dup
+    invoice_two.mapvm = 2.weeks.ago
     invoice_two.erpcm = 2.weeks.ago
     invoice_two.summa = 324.34
     invoice_two.save!
 
     # Move way back, so it shoule be ignored
     invoice_three = invoice_one.dup
+    invoice_three.mapvm = 6.weeks.ago
     invoice_three.erpcm = 6.weeks.ago
-    invoice_three.summa = 1000000
+    invoice_three.summa = 2000000
     invoice_three.save!
 
     # Fourth invoice is sold within compnay group
     invoice_four = invoice_one.dup
+    invoice_four.mapvm = 1.weeks.ago
     invoice_four.erpcm = 1.weeks.ago
     invoice_four.summa = 123.2
     invoice_four.save!
 
     # history_salesinvoice should include invoice one, two and four.
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 1, response[:history_salesinvoice]
+    assert_equal 1, response[:history_salesinvoice].to_f
   end
 
   test 'purchase invoices history' do
