@@ -21,6 +21,11 @@ class RevenueExpenditureReport
 
   private
 
+  # @return [ActiveRecord::Relation] unpaid sent sales invoices joined with accounting rows (excluding accounts with factoring account number)
+  # @note unpaid = mapvm is not set
+  # @note sent = alatila X
+  # have to join accounting rows, because invoice's sum is calculated from rows
+  # have to exlude rows with company's factoring accounts receivable account number, because factoring invoices has special calculation method
   def unpaid_sent_sales_invoices
     Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
   end
@@ -29,43 +34,71 @@ class RevenueExpenditureReport
     Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
   end
 
+  # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluding accounts with company accounts receivable account number)
+  #
+  # sent = alatila X
   def sent_sales_invoice_concern_accounts_receivable
     Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
   end
 
+  # @return [ActiveRecord::Relation] all purchase invoices joined with company accounts payable accounting rows
   def purchase_invoice_concern_accounts_payable
     Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_payable)
   end
 
+  # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows
+  #
+  # unpaid = mapvm is not set
+  # need to join accounting rows for more precise sum
   def unpaid_purchase_invoice
     Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
   end
 
+  # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluded factoring and company accounts receivable account numbers)
+  # sent = Alatila X
   def sent_sales_invoice_without_factoring_concern
     Head::SalesInvoice.sent
     .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
   end
 
+  # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows (excluded company accounts payable account numbers)
   def purchase_invoice_without_concern_accounts_payable
     Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
   end
 
+  # @return [BigDecimal] sum of invoices
+  #
+  # overdue date must be older than current week
+  # fetch sum from accounting rows, because it can be partially paid
+  # accounting rows sum is negative, so it must be converted to positive number
   def history_salesinvoice
     unpaid_sent_sales_invoices.where("erpcm < ?", @beginning_of_week).sum("tiliointi.summa * -1")
   end
 
+  # @return (see #overdue_accounts)
+  # @return returned sum from #overdue_accounts is negative, so it must be converted to positive number
   def overdue_accounts_receivable
     overdue_accounts('receivable') * -1
   end
 
+  # @return (see #overdue_accounts)
   def overdue_accounts_payable
     overdue_accounts 'payable'
   end
 
+  # @param (see #overdue_accounts)
+  # @return (see #unpaid_sent_sales_invoices)
+  # @return (see #unpaid_purchase_invoice)
   def which_overdue_account(type)
     type == 'receivable' ? unpaid_sent_sales_invoices : unpaid_purchase_invoice
   end
 
+  # @param type [String] values 'receivable' or 'payable'
+  # @return [BigDecimal] sum of invoices
+  #
+  # if current date is the beginning of week return 0, because invoice cannot be overdue
+  # if current date is in the middle of week, or in the end, calculate sum from accounting rows
+  # overdue date range example: current date is thu, overdue date range is mon - wed
   def overdue_accounts(type)
     if Date.today != @beginning_of_week
       which_overdue_account(type).where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
@@ -74,6 +107,9 @@ class RevenueExpenditureReport
     end
   end
 
+  # @param start [Date] starting date
+  # @param stop [Date] ending date
+  # @return [BigDecimal] accounting rows sum of sent sales invoices and company accounts receivables within date range
   def concern_accounts_receivable(start, stop)
     sent_sales_invoice_concern_accounts_receivable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
@@ -92,14 +128,24 @@ class RevenueExpenditureReport
     .sum("(tiliointi.summa * 0.7) * -1")
   end
 
+  # @return (see #unpaid_purchase_invoice)
+  #
+  # overdue date must be older than current week
+  # fetch sum from accounting rows, because it can be partially paid
   def history_purchaseinvoice
     unpaid_purchase_invoice.where("erpcm < ?", @beginning_of_week).sum('tiliointi.summa')
   end
 
+  # @param start [Date] starting date
+  # @param stop [Date] ending date
+  # @return [BigDecimal] sum of purchase invoices which had company accounts payable account rows
   def concern_accounts_payable(start, stop)
     purchase_invoice_concern_accounts_payable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
 
+  # @param start [Date] starting date
+  # @param stop [Date] ending date
+  # @return [BigDecimal] amount of date range's sales invoices and factoring invoices (overdued and not overdued)
   def sum_sales(start, stop)
     amount  = sales(start, stop)
     amount += overdue_factoring(start, stop)
@@ -107,12 +153,17 @@ class RevenueExpenditureReport
     amount
   end
 
+  # @param start [Date] starting date
+  # @param stop [Date] ending date
+  # @param week [String] week / year combo, example '35 / 2015'
+  # @return [BigDecimal] amount of date range's purchase invoices and alternative expenditure's
   def sum_purchases(start, stop, week)
     amount = purchases(start, stop)
     amount += BigDecimal(alternative_expenditures(week).sum(:selitetark_2))
     amount
   end
 
+  # @return [Hash] sum of all weekly sales invoices, purchase invoices, company accounts receivables and company accounts payables
   def weekly_summary
     @weekly_sum = {
       sales: BigDecimal(0),
@@ -131,6 +182,13 @@ class RevenueExpenditureReport
     @weekly_sum
   end
 
+  # @return [Array] contains weekly hashes of
+  #  week/year combo (see #loop_weeks)
+  #  looped week's sales sum (see #sum_sales)
+  #  looped week's purchases sum (see #sum_purchases)
+  #  looped week's company accounts receivable sum (see #concern_accounts_receivable)
+  #  looped week's company accounts payable sum (see #concern_accounts_payable)
+  #  looped week's alternative expenditures (see #expenditures_for_week)
   def weekly
     loop_weeks.map do |week|
       {
@@ -145,6 +203,7 @@ class RevenueExpenditureReport
     end
   end
 
+  # @return [Array] unique week/year grouping with week's beginning and ending dates
   def loop_weeks
     weeks = []
     @beginning_of_week.upto(@date_end) do |date|
@@ -157,18 +216,31 @@ class RevenueExpenditureReport
     weeks.uniq!
   end
 
+  # @param (see #sum_sales)
+  # @note (see #sent_sales_invoice_without_factoring_concern)
+  # @return [BigDecimal] sum from accounting rows
   def sales(start, stop)
     sent_sales_invoice_without_factoring_concern.where(erpcm: start..stop).sum("tiliointi.summa * -1")
   end
 
+  # @param start [Date] starting date
+  # @param stop [Date] ending date
+  # @note (see #purchase_invoice_without_concern_accounts_payable)
+  # @return [BigDecimal] sum from accounting rows
   def purchases(start, stop)
     purchase_invoice_without_concern_accounts_payable.where(erpcm: start..stop).sum('tiliointi.summa')
   end
 
+  # @param (see #expenditures_for_week)
+  # @return [ActiveRecord::Relation] alternative expenditures
   def alternative_expenditures(week)
     Keyword::RevenueExpenditureReportData.where(selite: week)
   end
 
+  # @note alternative expenditures are user's own custom expenditures which are stored in keywords
+  # @note (see #alternative_expenditures)
+  # @param week [String] week & year combination, example: '35 / 2015'
+  # @return [Array] alternative expenditures, example [ description: 'Foo', amount: '100' ]
   def expenditures_for_week(week)
     alternative_expenditures(week).map { |e| { description: e.selitetark, amount: e.selitetark_2 } }
   end
