@@ -105,7 +105,7 @@ class RevenueExpenditureReport
   #
   # if current date is the beginning of week return 0, because invoice cannot be overdue
   # if current date is in the middle of week, or in the end, calculate sum from accounting rows
-  # overdue date range example: current date is thu, overdue date range is mon - wed
+  # @example current date is thu, overdue date range is mon - wed
   def overdue_accounts(type)
     if Date.today != @beginning_of_week
       which_overdue_account(type).where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
@@ -146,7 +146,7 @@ class RevenueExpenditureReport
   # overdue date has to be within date range
   # event date has to be within date range plus one day added for both ends
   # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
-  # example for factoring sales invoice: if event day is wednedsay, 70% is calculated for thursday
+  # @example if event day is wednedsay, 70% is calculated for thursday
   def current_week_factoring(start, stop)
     sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start-1)..(stop-1))
     .sum("(tiliointi.summa * 0.7) * -1")
@@ -263,8 +263,10 @@ class RevenueExpenditureReport
 
   # @note alternative expenditures are user's own custom expenditures which are stored in keywords
   # @note (see #alternative_expenditures)
-  # @param week [String] week & year combination, example: '35 / 2015'
-  # @return [Array] alternative expenditures, example [ description: 'Foo', amount: '100' ]
+  # @param week [String] week & year combination
+  # @example '35 / 2015'
+  # @return [Array] alternative expenditures
+  # @example [ description: 'Foo', amount: '100' ]
   def expenditures_for_week(week)
     alternative_expenditures(week).map { |e| { description: e.selitetark, amount: e.selitetark_2 } }
   end
