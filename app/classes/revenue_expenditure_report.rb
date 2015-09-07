@@ -1,4 +1,5 @@
 class RevenueExpenditureReport
+  # @param period [Integer] how many months in the future report calculates weekly sums, example: 1, 2, 3, 6 or 12
   def initialize(period)
     raise ArgumentError, "pass month as integer" unless period.is_a? Integer
 
@@ -114,6 +115,14 @@ class RevenueExpenditureReport
     sent_sales_invoice_concern_accounts_receivable.where(erpcm: start..stop).sum("tiliointi.summa")
   end
 
+  # @param (see #sum_sales)
+  # @return [BigDecimal] sum of invoices in the date range
+  #
+  # if current date is the beginning of week return 0, because invoice cannot be overdue
+  # if current date is in the middle of week, or in the end, calculate sum from accounting rows
+  # only 30% of sum is calculated for overdues
+  # the rest 70% is calculated in (see #current_week_factoring)
+  # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
   def overdue_factoring(start, stop)
     if Date.today != @beginning_of_week
       sent_factoring_sales_invoices.where(erpcm: start..stop)
@@ -123,8 +132,17 @@ class RevenueExpenditureReport
     end
   end
 
+  # @param (see #sum_sales)
+  # @return [BigDecimal] 70% of sent factoring sales invoices' sum
+  #
+  # return only 70% of sum
+  # the rest 30% is calculated in (see #overdue_factoring)
+  # overdue date has to be within date range
+  # event date has to be within date range plus one day added for both ends
+  # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
+  # example for factoring sales invoice: if event day is wednedsay, 70% is calculated for thursday
   def current_week_factoring(start, stop)
-    sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
+    sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start-1)..(stop-1))
     .sum("(tiliointi.summa * 0.7) * -1")
   end
 
