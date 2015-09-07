@@ -23,7 +23,7 @@ class RevenueExpenditureReport
   private
 
   # @return [ActiveRecord::Relation] unpaid sent sales invoices joined with accounting rows (excluding accounts with factoring account number)
-  # @note unpaid = mapvm is not set, sales invoice's scope
+  # @note unpaid = mapvm is 0, sales invoice's scope
   # @note sent = alatila X, sales invoice's scope
   # @note without_factoring = voucher row scope excluding company's factoring accounts receivable account number
   # have to join accounting rows, because invoice's sum is calculated from rows
@@ -53,7 +53,7 @@ class RevenueExpenditureReport
 
   # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows
   #
-  # @note unpaid = mapvm is not set, purchase invoice's scope
+  # @note unpaid = mapvm is 0, purchase invoice's scope
   # need to join accounting rows for more precise sum
   def unpaid_purchase_invoice
     Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
