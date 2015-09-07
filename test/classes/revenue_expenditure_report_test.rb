@@ -176,18 +176,22 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal data, response
   end
 
-  test 'unpaid sales invoices' do
+  test 'unpaid sent sales invoices' do
     # Let's save one invoice and delete the rest
     invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
 
-    # First id unpaid
+    # Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
+
+    # First is unpaid
     invoice_one.erpcm = 1.weeks.ago
+    invoice_one.alatila = 'X'
     invoice_one.mapvm = 0
     invoice_one.save!
 
     # Create accounting rows
-    invoice_one.accounting_rows.create!(tilino: '999', summa: 53.39, tapvm: 1.weeks.ago)
+    # sales sums are negative for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '555', summa: -53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is paid
     invoice_two = invoice_one.dup
@@ -196,23 +200,32 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.summa = 324.34
     invoice_two.save!
 
-    # Move way back, so it shoule be ignored
+    # Move way back, so it should be ignored
     invoice_three = invoice_one.dup
     invoice_three.mapvm = 6.weeks.ago
     invoice_three.erpcm = 6.weeks.ago
     invoice_three.summa = 2000000
     invoice_three.save!
 
-    # Fourth invoice is sold within compnay group
+    # Fourth invoice is company accounts receivable
     invoice_four = invoice_one.dup
-    invoice_four.mapvm = 1.weeks.ago
+    invoice_four.mapvm = 0
     invoice_four.erpcm = 1.weeks.ago
     invoice_four.summa = 123.2
     invoice_four.save!
+    invoice_four.accounting_rows.create!(tilino: '999', summa: -100, tapvm: 1.weeks.ago)
 
-    # history_salesinvoice should include invoice one, two and four.
+    # Fifth invoice is factoring
+    invoice_five = invoice_one.dup
+    invoice_five.mapvm = 0
+    invoice_five.erpcm = 1.weeks.ago
+    invoice_five.summa = 123.2
+    invoice_five.save!
+    invoice_five.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.weeks.ago)
+
+    # history_salesinvoice should include invoice one and four.
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 1, response[:history_salesinvoice].to_f
+    assert_equal 153.39, response[:history_salesinvoice]
   end
 
   test 'purchase invoices history' do
