@@ -479,12 +479,37 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '999', summa: 20, tapvm: 1.weeks.ago)
 
-    # sales should include invoice one
+    # concern accounts receivable should include invoice one
     response = RevenueExpenditureReport.new(1).data
     assert_equal 53.39, response[:weekly][0][:concern_accounts_receivable].to_f
   end
 
   test 'weekly company group accounts payable' do
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:pi_H).dup
+    Head::PurchaseInvoice.delete_all
+
+    # First is within current week
+    # Can be either paid or unpaid
+    invoice_one.erpcm = Date.today
+    invoice_one.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '777', summa: 53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is outside of current week
+    invoice_two = invoice_one.dup
+    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '777', summa: 20, tapvm: 1.weeks.ago)
+
+    # concern accounts payable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:weekly][0][:concern_accounts_payable].to_f
   end
 
   test 'weekly alternative expenditures' do
