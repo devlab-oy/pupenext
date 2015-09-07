@@ -348,6 +348,64 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly sales' do
+    # weekly sales consists of
+    # - sales
+    # - current week overdue factoring (current date is thursday, mon-wed factorings are overdue)
+    # - current week factoring
+
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:si_one).dup
+    Head::SalesInvoice.delete_all
+
+    # First is within current week
+    # Can be either paid or unpaid
+    invoice_one.erpcm = Date.today
+    invoice_one.alatila = 'X'
+    invoice_one.save!
+
+    # Create accounting rows
+    # row sums are negative for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '345', summa: -53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is outside of current week
+    invoice_two = invoice_one.dup
+    invoice_two.alatila = 'X'
+    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.save!
+
+    # Create accounting rows
+    # row sums are negative for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '345', summa: -20, tapvm: 1.weeks.ago)
+
+    # Third invoice is overdue factoring
+    # only 30% of account row's sum is added
+    invoice_three = invoice_one.dup
+    invoice_three.erpcm = 1.days.ago
+    invoice_three.tapvm = 1.weeks.ago
+    invoice_three.alatila = 'X'
+    invoice_three.save!
+
+    # Create accounting rows
+    # Factoring account number is 666 from accounts.yml
+    # row sums are negative for accounting reasons
+    invoice_three.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
+
+    # Fourth invoice is current week factoring
+    # only 70% of account row's sum is added
+    invoice_four = invoice_one.dup
+    invoice_four.erpcm = Date.today
+    invoice_four.tapvm = Date.today
+    invoice_four.alatila = 'X'
+    invoice_four.save!
+
+    # Create accounting rows
+    # Factoring account number is 666 from accounts yml
+    # row sums are negative for accounting reasons
+    invoice_four.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
+
+    # sales should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 153.39, response[:weekly][0][:sales].to_f
   end
 
   test 'weekly purchases' do

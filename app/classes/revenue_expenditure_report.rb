@@ -131,7 +131,7 @@ class RevenueExpenditureReport
   # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
   def overdue_factoring(start, stop)
     if Date.today != @beginning_of_week
-      sent_factoring_sales_invoices.where(erpcm: start..stop)
+      sent_factoring_sales_invoices.where(erpcm: start..stop).where("lasku.tapvm < ?", @beginning_of_week)
       .sum("(tiliointi.summa * 0.3) * -1")
     else
       BigDecimal(0)
@@ -148,7 +148,7 @@ class RevenueExpenditureReport
   # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
   # @example if event day is wednedsay, 70% is calculated for thursday
   def current_week_factoring(start, stop)
-    sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start-1)..(stop-1))
+    sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
     .sum("(tiliointi.summa * 0.7) * -1")
   end
 
