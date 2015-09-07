@@ -82,6 +82,6 @@ class Head < BaseModel
       params[:popvm]      = zero if popvm      == epoch
 
       # update_columns skips all validations and updates values directly with sql
-      update_columns params
+      update_columns params if params.present?
     end
 end
