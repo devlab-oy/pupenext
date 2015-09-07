@@ -421,11 +421,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # First is within current week
     # Can be either paid or unpaid
     invoice_one.erpcm = Date.today
-    invoice_one.alatila = 'X'
     invoice_one.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is outside of current week
@@ -435,7 +434,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: 20, tapvm: 1.weeks.ago)
 
     # Lets add one alternative expenditure for current week
@@ -451,12 +450,38 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     keyword_one.selitetark_2 = '100'
     keyword_one.save!
 
-    # sales should include invoice one
+    # purchases should include invoice one
     response = RevenueExpenditureReport.new(1).data
     assert_equal 153.39, response[:weekly][0][:purchases].to_f
   end
 
   test 'weekly company group accounts receivable' do
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:si_one).dup
+    Head::SalesInvoice.delete_all
+
+    # First is within current week
+    # Can be either paid or unpaid
+    invoice_one.erpcm = Date.today
+    invoice_one.alatila = 'X'
+    invoice_one.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_one.accounting_rows.create!(tilino: '999', summa: 53.39, tapvm: 1.weeks.ago)
+
+    # Second invoice is outside of current week
+    invoice_two = invoice_one.dup
+    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.save!
+
+    # Create accounting rows
+    # row sums are positive for accounting reasons
+    invoice_two.accounting_rows.create!(tilino: '999', summa: 20, tapvm: 1.weeks.ago)
+
+    # sales should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:weekly][0][:concern_accounts_receivable].to_f
   end
 
   test 'weekly company group accounts payable' do
