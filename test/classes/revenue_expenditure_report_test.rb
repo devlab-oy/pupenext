@@ -220,8 +220,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'unpaid purchase invoices' do
-    #Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
-
     # Let's save one invoice and delete the rest
     invoice_one = heads(:pi_H).dup
     Head::PurchaseInvoice.delete_all
