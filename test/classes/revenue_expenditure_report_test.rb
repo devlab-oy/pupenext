@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows keywords accounts companies permissions users)
+  fixtures %w(heads head/voucher_rows accounts)
 
   setup do
     travel_to Date.parse '2015-08-14'
@@ -174,5 +174,73 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal data[:weekly],                      response[:weekly]
     assert_equal data[:weekly_sum],                  response[:weekly_sum]
     assert_equal data, response
+  end
+
+  test 'unpaid sales invoices' do
+    # Let's save one invoice and delete the rest
+    invoice_one = heads(:si_one)
+    Head::SalesInvoice.delete_all
+
+    # First id unpaid
+    invoice_one.erpcm = 1.weeks.ago
+    invoice_one.accounting_rows.create!(summa: 53.39, tapvm: 1.weeks.ago)
+    invoice_one.save!
+
+    # Second invoice is paid
+    invoice_two = invoice_one.dup
+    invoice_two.erpcm = 2.weeks.ago
+    invoice_two.summa = 324.34
+    invoice_two.save!
+
+    # Move way back, so it shoule be ignored
+    invoice_three = invoice_one.dup
+    invoice_three.erpcm = 6.weeks.ago
+    invoice_three.summa = 1000000
+    invoice_three.save!
+
+    # Fourth invoice is sold within compnay group
+    invoice_four = invoice_one.dup
+    invoice_four.erpcm = 1.weeks.ago
+    invoice_four.summa = 123.2
+    invoice_four.save!
+
+    # history_salesinvoice should include invoice one, two and four.
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 1, response[:history_salesinvoice]
+  end
+
+  test 'purchase invoices history' do
+  end
+
+  test 'overdue accounts payable' do
+  end
+
+  test 'overdue accounts receivable' do
+  end
+
+  test 'weekly sales' do
+  end
+
+  test 'weekly purchases' do
+  end
+
+  test 'weekly company group accounts receivable' do
+  end
+
+  test 'weekly company group accounts payable' do
+  end
+
+  test 'weekly alternative expenditures' do
+  end
+
+  test 'should return data per week' do
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 4, response[:weekly].count
+
+    response = RevenueExpenditureReport.new(2).data
+    assert_equal 8, response[:weekly].count
+  end
+
+  test 'data format' do
   end
 end
