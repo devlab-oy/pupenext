@@ -531,10 +531,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
   test 'should return data per week' do
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 4, response[:weekly].count
+    assert_equal 5, response[:weekly].count
 
     response = RevenueExpenditureReport.new(2).data
-    assert_equal 8, response[:weekly].count
+    assert_equal 9, response[:weekly].count
   end
 
   test 'data format' do
