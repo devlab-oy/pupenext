@@ -1,115 +1,33 @@
 <%= render "administration/form_errors", resource: @account %>
 
-<%= form_for @account do |f| %>
+<%= simple_form_for @account,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
-  <table>
-    <tr>
-      <th><%= f.label :tilino %></th>
-      <td><%= f.text_field :tilino %></td>
-    </tr>
+  <table width='600' class='admin-view-30'>
 
-    <tr>
-      <th><%= f.label :sisainen_taso %></th>
-      <td>
-        <%= f.select :sisainen_taso, sisainen_taso_options,
-            include_blank: t('administration.accounts.edit.no_sum_level') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :ulkoinen_taso %></th>
-      <td>
-        <%= f.select :ulkoinen_taso, ulkoinen_taso_options,
-            include_blank: t('administration.accounts.edit.no_sum_level') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :alv_taso %></th>
-      <td>
-        <%= f.select :alv_taso, alv_taso_options,
-            include_blank: t('administration.accounts.edit.no_sum_level') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tulosseuranta_taso %></th>
-      <td>
-        <%= f.select :tulosseuranta_taso, tulosseuranta_taso_options,
-            include_blank: t('administration.accounts.edit.no_sum_level') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :evl_taso %></th>
-      <td>
-        <%= f.select :evl_taso, evl_taso_options,
-            include_blank: t('administration.accounts.edit.no_sum_level') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :kustp %></th>
-      <td>
-        <%= f.select :kustp, kustp_options,
-            include_blank: t('administration.accounts.edit.no_cost_center') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :kohde %></th>
-      <td>
-        <%= f.select :kohde, kohde_options,
-            include_blank: t('administration.accounts.edit.no_target') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :projekti %></th>
-      <td>
-        <%= f.select :projekti, projekti_options,
-            include_blank: t('administration.accounts.edit.no_project') %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :toimijaliitos %></th>
-      <td>
-        <%= f.select :toimijaliitos, toimijaliitos_options %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tiliointi_tarkistus %></th>
-      <td>
-        <%= f.select :tiliointi_tarkistus, tiliointi_tarkistus_options %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :manuaali_esto %></th>
-      <td>
-        <%= f.select :manuaali_esto, manuaali_esto_options %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_alv %></th>
-      <td>
-        <%= f.select :oletus_alv, oletus_alv_options,
-            include_blank: t('administration.accounts.edit.no_vat') %>
-      </td>
-    </tr>
+    <%= f.input :tilino, input_html: { class: :small } %>
+    <%= f.input :nimi %>
+    <%= f.input :ulkoinen_taso, collection: ulkoinen_taso_options %>
+    <%= f.input :sisainen_taso, collection: sisainen_taso_options %>
+    <%= f.input :kustp, collection: kustp_options, include_blank: t('administration.accounts.edit.no_cost_center') %>
+    <%= f.input :kohde, collection: kohde_options, include_blank: t('administration.accounts.edit.no_target') %>
+    <%= f.input :projekti, collection: projekti_options, include_blank: t('administration.accounts.edit.no_project') %>
+    <%= f.input :alv_taso, collection: alv_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :tulosseuranta_taso, collection: tulosseuranta_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :evl_taso, collection: evl_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :oletus_alv, collection: oletus_alv_options, include_blank: t('administration.accounts.edit.no_vat') %>
+    <%= f.input :toimijaliitos, collection: toimijaliitos_options, include_blank: false %>
+    <%= f.input :tiliointi_tarkistus, collection: tiliointi_tarkistus_options, include_blank: false %>
+    <%= f.input :manuaali_esto, collection: manuaali_esto_options, include_blank: false %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @account %>
 
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
 
 <% end %>

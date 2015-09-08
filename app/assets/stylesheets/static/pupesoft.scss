@@ -106,7 +106,7 @@ select {
   background-position: right;
 }
 
-.field_with_errors input {
+.field_with_errors input, .field_with_errors select {
   border: 1px solid red;
 }
 
@@ -257,4 +257,13 @@ table.responsive td input[type=text] {
 
 .del {
   text-decoration: line-through;
+}
+
+.admin-view-30 {
+  th {
+    width: 30%;
+  }
+  td {
+    width: 70%;
+  }
 }

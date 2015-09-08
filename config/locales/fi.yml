@@ -23,6 +23,9 @@ fi:
       bank_account:
         asiakastunnus: Asiakastunnus
         bic: SWIFT / BIC
+        default_clearing_account: Oletusselvittelytili
+        default_expense_account: Oletuskulutili
+        default_liquidity_account: Oletusrahatili
         factoring: Factoring (Myyntisaatavarahoitus)
         hyvak: Oletushyväksyjä
         iban: IBAN
@@ -873,6 +876,12 @@ fi:
         format: "%n %"
   shared:
     link_return_to: Palaa ohjelmaan
+  simple_form:
+    'no': Ei
+    required:
+      mark: "*"
+      text: Pakollinen
+    'yes': Kyllä
   support:
     array:
       last_word_connector: " ja "

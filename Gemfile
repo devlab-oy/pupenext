@@ -14,6 +14,8 @@ gem 'resque-web', require: 'resque_web'
 gem 'date_validator'
 gem 'request_store'
 gem 'cocoon'
+gem 'simple_form'
+gem 'country_select'
 
 group :assets do
   gem 'uglifier'

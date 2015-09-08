@@ -42,10 +42,10 @@ class Administration::FiscalYearsController < AdministrationController
     end
 
     def fiscal_year_params
-      resource_parameters model: :fiscal_year, parameters: [
+      params.require(:fiscal_year).permit(
         tilikausi_alku:  [:day, :month, :year],
         tilikausi_loppu: [:day, :month, :year],
-      ]
+      )
     end
 
     def searchable_columns
