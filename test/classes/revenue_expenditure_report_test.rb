@@ -73,109 +73,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     end
   end
 
-  test 'should return revenue expenditure data' do
-    history_purchaseinvoice_sum = 0
-    overdue_accounts_payable_sum = 0
-
-    Head::PurchaseInvoice::PURCHASE_INVOICE_TYPES.each do |i|
-      history_purchaseinvoice_sum += heads(:"pi_#{i}_history").summa
-      overdue_accounts_payable_sum += heads(:"pi_#{i}_overdue").summa
-    end
-
-    weekly = [
-      {
-        week: '33 / 2015',
-        week_sanitized: '33___2015',
-        sales: 866.0,
-        purchases: 56432.0,
-        concern_accounts_receivable: heads(:si_concern_receivable).summa,
-        concern_accounts_payable: heads(:pi_concern_payable).summa,
-        alternative_expenditures: [],
-      },
-      {
-        week: '34 / 2015',
-        week_sanitized: '34___2015',
-        sales: 0.0,
-        purchases: 0.0,
-        concern_accounts_receivable: 0.0,
-        concern_accounts_payable: 0.0,
-        alternative_expenditures: [],
-      },
-      {
-        week: '35 / 2015',
-        week_sanitized: '35___2015',
-        sales: 0.0,
-        purchases: 0.0,
-        concern_accounts_receivable: 0.0,
-        concern_accounts_payable: 0.0,
-        alternative_expenditures: [],
-      },
-      {
-        week: '36 / 2015',
-        week_sanitized: '36___2015',
-        sales: 0.0,
-        purchases: 11000.0,
-        concern_accounts_receivable: 0.0,
-        concern_accounts_payable: 0.0,
-        alternative_expenditures: [],
-      },
-      {
-        week: '37 / 2015',
-        week_sanitized: '37___2015',
-        sales: 0.0,
-        purchases: 0.0,
-        concern_accounts_receivable: 0.0,
-        concern_accounts_payable: 0.0,
-        alternative_expenditures: [],
-      },
-      {
-        week: '38 / 2015',
-        week_sanitized: '38___2015',
-        sales: 0.0,
-        purchases: 0.0,
-        concern_accounts_receivable: 0.0,
-        concern_accounts_payable: 0.0,
-        alternative_expenditures: [
-          { description: 'Palkat', amount: '300' }
-        ],
-      },
-    ]
-
-    weekly_sum = {
-      sales: 866.0,
-      purchases: 67732.0,
-      concern_accounts_receivable: 999.0,
-      concern_accounts_payable: 333.0,
-    }
-
-    alternative_expenditure = keywords(:weekly_alternative_expenditure_one)
-
-    weekly.each do |w|
-      if w[:week] == alternative_expenditure.selite
-        w[:purchases] += alternative_expenditure.selitetark_2.to_f
-      end
-    end
-
-    data = {
-      history_salesinvoice: heads(:si_two_history).summa,
-      history_purchaseinvoice: history_purchaseinvoice_sum,
-      overdue_accounts_payable: overdue_accounts_payable_sum,
-      overdue_accounts_receivable: heads(:si_two_overdue).summa,
-      weekly: weekly,
-      weekly_sum: weekly_sum,
-    }
-
-    response = RevenueExpenditureReport.new(1).data
-
-    assert_equal data[:history_salesinvoice],        response[:history_salesinvoice]
-    assert_equal data[:history_purchaseinvoice],     response[:history_purchaseinvoice]
-    assert_equal data[:overdue_accounts_payable],    response[:overdue_accounts_payable]
-    assert_equal data[:overdue_accounts_receivable], response[:overdue_accounts_receivable]
-    assert_equal data[:weekly],                      response[:weekly]
-    assert_equal data[:weekly_sum],                  response[:weekly_sum]
-    assert_equal data, response
-  end
-
   test 'unpaid sent sales invoices' do
     # Let's save one invoice and delete the rest
     invoice_one = heads(:si_one).dup
@@ -535,8 +432,5 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     response = RevenueExpenditureReport.new(2).data
     assert_equal 9, response[:weekly].count
-  end
-
-  test 'data format' do
   end
 end
