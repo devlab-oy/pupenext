@@ -93,13 +93,6 @@ class RevenueExpenditureReport
     overdue_accounts 'payable'
   end
 
-  # @param (see #overdue_accounts)
-  # @return (see #unpaid_sent_sales_invoices)
-  # @return (see #unpaid_purchase_invoice)
-  def which_overdue_account(type)
-    type == 'receivable' ? unpaid_sent_sales_invoices : unpaid_purchase_invoice
-  end
-
   # @param type [String] values 'receivable' or 'payable'
   # @return [BigDecimal] sum of invoices
   #
@@ -107,11 +100,10 @@ class RevenueExpenditureReport
   # if current date is in the middle of week, or in the end, calculate sum from accounting rows
   # @example current date is thu, overdue date range is mon - wed
   def overdue_accounts(type)
-    if Date.today != @beginning_of_week
-      which_overdue_account(type).where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
-    else
-      BigDecimal(0)
-    end
+    return 0.0 unless Date.today != @beginning_of_week
+
+    unpaid = type == 'receivable' ? unpaid_sent_sales_invoices : unpaid_purchase_invoice
+    unpaid.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
   end
 
   # @param start [Date] starting date
