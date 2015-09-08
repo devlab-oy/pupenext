@@ -168,10 +168,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # purchase accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
 
-    # Second invoice is unpaid, but it is current date so it's not overdue
+    # Second invoice is unpaid, but its overdue date is last week
     # sum is calculated as 0
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = Date.today
+    invoice_two.erpcm = 1.weeks.ago
     invoice_two.mapvm = 0
     invoice_two.save!
 
