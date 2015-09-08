@@ -3,66 +3,6 @@ require 'test_helper'
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows accounts)
 
-  setup do
-    travel_to Date.parse '2015-08-14'
-
-    si_two = heads(:si_two)
-    si_two.erpcm = Date.today
-    si_two.tapvm = Date.today
-    si_two.mapvm = Date.today
-    si_two.save
-
-    si_two_history = heads(:si_two_history)
-    si_two_history.erpcm = Time.now.weeks_ago(3)
-    si_two_history.tapvm = Time.now.weeks_ago(3)
-    si_two_history.save
-
-    si_two_overdue = heads(:si_two_overdue)
-    si_two_overdue.erpcm = Date.today.beginning_of_week
-    si_two_overdue.tapvm = Time.now.weeks_ago(1)
-    si_two_overdue.save
-
-    si_two_factoring = heads(:si_two_factoring)
-    si_two_factoring.erpcm = Date.today
-    si_two_factoring.tapvm = Date.today
-    si_two_factoring.mapvm = Date.today
-    si_two_factoring.save
-
-    si_concern_receivable = heads(:si_concern_receivable)
-    si_concern_receivable.erpcm = Date.today
-    si_concern_receivable.tapvm = Date.today
-    si_concern_receivable.mapvm = Date.today
-    si_concern_receivable.save
-
-    pi_concern_payable = heads(:pi_concern_payable)
-    pi_concern_payable.erpcm = Date.today
-    pi_concern_payable.tapvm = Date.today
-    pi_concern_payable.mapvm = Date.today
-    pi_concern_payable.save
-
-    Head::PurchaseInvoice::PURCHASE_INVOICE_TYPES.each do |i|
-      pi_today = heads(:"pi_#{i}")
-      pi_today.erpcm = Date.today
-      pi_today.tapvm = Date.today
-      pi_today.mapvm = Date.today
-      pi_today.save
-
-      pi_history = heads(:"pi_#{i}_history")
-      pi_history.erpcm = Time.now.weeks_ago(3)
-      pi_history.tapvm = Time.now.weeks_ago(3)
-      pi_history.save
-
-      pi_overdue = heads(:"pi_#{i}_overdue")
-      pi_overdue.erpcm = Date.today.beginning_of_week
-      pi_overdue.tapvm = Time.now.weeks_ago(1)
-      pi_overdue.save
-    end
-  end
-
-  teardown do
-    travel_back
-  end
-
   test 'initialization with wrong values' do
     assert_raise ArgumentError do
       RevenueExpenditureReport.new(nil)
@@ -160,7 +100,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     Head::PurchaseInvoice.delete_all
 
     # First is unpaid and within current week
-    invoice_one.erpcm = 1.days.ago #Date.today is 2015-08-14, friday because of setup travel_to
+    invoice_one.erpcm = Date.today
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -191,7 +131,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # overdue_accounts_payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_payable]
+    assert_equal 53.39, response[:overdue_accounts_payable].to_f
   end
 
   test 'overdue accounts receivable' do
@@ -200,7 +140,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     Head::SalesInvoice.delete_all
 
     # First is unpaid and within current week
-    invoice_one.erpcm = 1.days.ago #Date.today is 2015-08-14, friday because of setup travel_to
+    invoice_one.erpcm = Date.today
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -241,7 +181,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # overdue_accounts_receivable should include invoice one
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable]
+    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
   end
 
   test 'weekly sales' do
@@ -318,6 +258,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # First is within current week
     # Can be either paid or unpaid
     invoice_one.erpcm = Date.today
+    invoice_one.alatila = 'X'
     invoice_one.save!
 
     # Create accounting rows
@@ -335,17 +276,17 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: '345', summa: 20, tapvm: 1.weeks.ago)
 
     # Lets add one alternative expenditure for current week
-    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
-    keyword_one.selite = '33 / 2015'
+    keyword_one = keywords(:weekly_alternative_expenditure_one)
+    keyword_one.selite = "#{Date.today.cweek} / #{Date.today.year}"
     keyword_one.selitetark_2 = '100'
     keyword_one.save!
 
     # Lets add another one alternative expenditure for next week
     # Should not sum this keyword's amount
-    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
-    keyword_one.selite = '34 / 2015'
-    keyword_one.selitetark_2 = '100'
-    keyword_one.save!
+    keyword_two = keyword_one.dup
+    keyword_two.selite = "#{1.week.from_now.to_date.cweek} / #{1.week.from_now.year}"
+    keyword_two.selitetark_2 = '100'
+    keyword_two.save!
 
     # purchases should include invoice one
     response = RevenueExpenditureReport.new(1).data
@@ -411,16 +352,16 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
   test 'weekly alternative expenditures' do
     # Lets add one alternative expenditure for current week
-    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
-    keyword_one.selite = '33 / 2015'
+    keyword_one = keywords(:weekly_alternative_expenditure_one)
+    keyword_one.selite = "#{Date.today.cweek} / #{Date.today.year}"
     keyword_one.selitetark_2 = '53.39'
     keyword_one.save!
 
     # Should not sum this keyword's amount
-    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
-    keyword_one.selite = '34 / 2015'
-    keyword_one.selitetark_2 = '100'
-    keyword_one.save!
+    keyword_two = keyword_one.dup
+    keyword_two.selite = "#{1.week.from_now.to_date.cweek} / #{1.week.from_now.year}"
+    keyword_two.selitetark_2 = '100'
+    keyword_two.save!
 
     response = RevenueExpenditureReport.new(1).data
     assert_equal 53.39, response[:weekly][0][:alternative_expenditures][0][:amount].to_f
