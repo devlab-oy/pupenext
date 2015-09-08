@@ -513,6 +513,20 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly alternative expenditures' do
+    # Lets add one alternative expenditure for current week
+    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
+    keyword_one.selite = '33 / 2015'
+    keyword_one.selitetark_2 = '53.39'
+    keyword_one.save!
+
+    # Should not sum this keyword's amount
+    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
+    keyword_one.selite = '34 / 2015'
+    keyword_one.selitetark_2 = '100'
+    keyword_one.save!
+
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:weekly][0][:alternative_expenditures][0][:amount].to_f
   end
 
   test 'should return data per week' do
