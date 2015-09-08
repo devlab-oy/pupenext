@@ -383,6 +383,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'should return data per week' do
+    # Let's travel to a static date, so we know how many weeks to expect
+    travel_to Date.parse '2015-08-14'
+
     response = RevenueExpenditureReport.new(1).data
     assert_equal 5, response[:weekly].count
 
