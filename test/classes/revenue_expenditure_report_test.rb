@@ -3,6 +3,11 @@ require 'test_helper'
 class RevenueExpenditureReportTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows accounts)
 
+  teardown do
+    # make sure other tests don't mess up our dates
+    travel_back
+  end
+
   test 'initialization with wrong values' do
     assert_raise ArgumentError do
       RevenueExpenditureReport.new(nil)
@@ -99,8 +104,13 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one = heads(:pi_H).dup
     Head::PurchaseInvoice.delete_all
 
+    # We must travel to friday, since accounts payable calculated between monday - yesterday.
+    # Otherwise these test would not work on mondays.
+    this_friday = Date.today.beginning_of_week.advance(days: 4)
+    travel_to this_friday
+
     # First is unpaid and within current week
-    invoice_one.erpcm = Date.today
+    invoice_one.erpcm = 1.days.ago
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -139,8 +149,13 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
 
+    # We must travel to friday, since accounts receivable calculated between monday - yesterday.
+    # Otherwise these test would not work on mondays.
+    this_friday = Date.today.beginning_of_week.advance(days: 4)
+    travel_to this_friday
+
     # First is unpaid and within current week
-    invoice_one.erpcm = Date.today
+    invoice_one.erpcm = 1.days.ago
     invoice_one.mapvm = 0
     invoice_one.save!
 
