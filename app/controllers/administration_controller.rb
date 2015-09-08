@@ -34,6 +34,7 @@ class AdministrationController < ApplicationController
     end
 
     def is_a_new_resource?
+      # TODO, this is pretty fragile? Is there a better way to find this out?
       params[:id].blank?
     end
 end
