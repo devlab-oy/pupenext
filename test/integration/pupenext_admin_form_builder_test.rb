@@ -76,4 +76,34 @@ class PupenextAdminFormBuilderTest < ActionDispatch::IntegrationTest
     assert_select "tr", { count: 3 }, 'only three rows should be visible'
     assert_select "input[id=account_nimi]", { count: 1 }, 'nimi must be present'
   end
+
+  test "we should get default values for attirbutes in default alias_set" do
+    attribute = keywords(:mysql_alias_1)
+
+    # Add default value to nimi in default set
+    attribute.update! database_field: 'tili.nimi', set_name: 'Default', visibility: :visible, default_value: 'foobar'
+
+    get new_account_path
+    assert_response :success
+
+    # New should not show created_by/modified_by columns, just nimi
+    assert_select "tr", { count: 1 }, 'we should see only nimi'
+    assert_select "input[id=account_nimi][value=foobar]", { count: 1 }, 'nimi must set with default value'
+  end
+
+  test "we should get default values for attirbutes in given alias_set" do
+    attribute = keywords(:mysql_alias_1)
+    permission = permissions(:bob_accounts_update)
+
+    # Add default value to nimi in bobset -set and add permissions to that set
+    attribute.update! database_field: 'tili.nimi', set_name: 'bobset', visibility: :visible, default_value: 'foobar'
+    permission.update! alias_set: 'bobset'
+
+    get new_account_path, alias_set: 'bobset'
+    assert_response :success
+
+    # New should not show created_by/modified_by columns, just nimi
+    assert_select "tr", { count: 1 }, 'we should see only nimi'
+    assert_select "input[id=account_nimi][value=foobar]", { count: 1 }, 'nimi must set with default value'
+  end
 end
