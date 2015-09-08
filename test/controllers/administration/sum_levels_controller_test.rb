@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class Administration::SumLevelsControllerTest < ActionController::TestCase
-  def setup
+  fixtures %w(sum_levels)
+
+  setup do
     login users(:bob)
     @sum_level = sum_levels(:external)
   end
@@ -36,8 +38,8 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
           nimi: 'TILIKAUDEN TULOS2221',
           oletusarvo: '',
           jakaja: '',
-          kumulatiivinen: '',
-          kayttotarkoitus: '',
+          kumulatiivinen: 'not_cumulative',
+          kayttotarkoitus: 'normal',
           kerroin: ''
         },
         commit: "joo"
@@ -48,19 +50,20 @@ class Administration::SumLevelsControllerTest < ActionController::TestCase
     assert_redirected_to sum_levels_path
   end
 
-  test "doesn't create with invalid params" do
+  test "does not create with invalid params" do
+    request = {
+      tyyppi: 'U',
+      summattava_taso: '',
+      taso: '',
+      nimi: 'TILIKAUDEN TULOS2221',
+      oletusarvo: '',
+      jakaja: '',
+      kumulatiivinen: '',
+      kayttotarkoitus: '',
+      kerroin: ''
+    }
+
     assert_no_difference("SumLevel.count") do
-      request = {
-        tyyppi: 'U',
-        summattava_taso: '',
-        taso: '',
-        nimi: 'TILIKAUDEN TULOS2221',
-        oletusarvo: '',
-        jakaja: '',
-        kumulatiivinen: '',
-        kayttotarkoitus: '',
-        kerroin: '',
-      }
       post :create, sum_level: request
     end
 

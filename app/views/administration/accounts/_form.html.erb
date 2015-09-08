@@ -1,143 +1,33 @@
-<%= form_for(@account) do |f| %>
-  <%= render "administration/form_errors", resource: @account %>
+<%= render "administration/form_errors", resource: @account %>
 
-  <table>
-    <tr>
-      <th><%= f.label :tilino %></th>
-      <td><%= f.text_field :tilino %></td>
-    </tr>
+<%= simple_form_for @account,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
-    <tr>
-      <th><%= f.label :tasokoodi_s %></th>
-      <td>
-        <%= f.collection_select(:sisainen_taso,
-                                levels[:internal],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.sisainen_taso) %>
-      </td>
-    </tr>
+  <table width='600' class='admin-view-30'>
 
-    <tr>
-      <th><%= f.label :tasokoodi_u %></th>
-      <td>
-        <%= f.collection_select(:ulkoinen_taso,
-                                levels[:external],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.ulkoinen_taso) %>
-      </td>
-    </tr>
+    <%= f.input :tilino, input_html: { class: :small } %>
+    <%= f.input :nimi %>
+    <%= f.input :ulkoinen_taso, collection: ulkoinen_taso_options %>
+    <%= f.input :sisainen_taso, collection: sisainen_taso_options %>
+    <%= f.input :kustp, collection: kustp_options, include_blank: t('administration.accounts.edit.no_cost_center') %>
+    <%= f.input :kohde, collection: kohde_options, include_blank: t('administration.accounts.edit.no_target') %>
+    <%= f.input :projekti, collection: projekti_options, include_blank: t('administration.accounts.edit.no_project') %>
+    <%= f.input :alv_taso, collection: alv_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :tulosseuranta_taso, collection: tulosseuranta_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :evl_taso, collection: evl_taso_options, include_blank: t('administration.accounts.edit.no_sum_level') %>
+    <%= f.input :oletus_alv, collection: oletus_alv_options, include_blank: t('administration.accounts.edit.no_vat') %>
+    <%= f.input :toimijaliitos, collection: toimijaliitos_options, include_blank: false %>
+    <%= f.input :tiliointi_tarkistus, collection: tiliointi_tarkistus_options, include_blank: false %>
+    <%= f.input :manuaali_esto, collection: manuaali_esto_options, include_blank: false %>
 
-    <tr>
-      <th><%= f.label :tasokoodi_a %></th>
-      <td>
-        <%= f.collection_select(:alv_taso,
-                                levels[:vat],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.alv_taso) %>
-      </td>
-    </tr>
+    <%= render 'administration/resource_timestamps_and_users', resource: @account %>
 
-    <tr>
-      <th><%= f.label :tasokoodi_b %></th>
-      <td>
-        <%= f.collection_select(:tulosseuranta_taso,
-                                levels[:profit],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.tulosseuranta_taso) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tasokoodi_e %></th>
-      <td>
-        <%= f.collection_select(:evl_taso,
-                                levels[:commodity],
-                                :taso,
-                                :sum_level_name,
-                                include_blank: t('Ei tasoa'), selected: account.evl_taso) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :kustp %></th>
-      <td>
-        <%= f.collection_select(:kustp,
-                                qualifiers[:cost_center],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei kustannuspaikkaa"),
-                                selected: account.kustp) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :kohde, t('Oletuskohde') %></th>
-      <td>
-        <%= f.collection_select(:kohde,
-                                qualifiers[:target],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei kohdetta"),
-                                selected: account.kohde) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :projekti, t('Oletusprojekti') %></th>
-      <td>
-        <%= f.collection_select(:projekti,
-                                qualifiers[:project],
-                                :tunnus,
-                                :nimitys,
-                                include_blank: t("Ei projektia"),
-                                selected: account.projekti) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :toimijaliitos %></th>
-      <td>
-        <%= f.select(:toimijaliitos, account.toimijaliitos_options) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tiliointi_tarkistus, t("Pakolliset kentät") %></th>
-      <td>
-        <%= f.select(:tiliointi_tarkistus, account.tiliointi_tarkistus_options) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :manuaali_esto %></th>
-      <td>
-        <%= f.select(:manuaali_esto, account.manuaali_esto_options) %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_alv %></th>
-      <td>
-        <%= f.collection_select(:oletus_alv,
-                                oletus_alv_options,
-                                :vat_percent,
-                                :vat_percent_text,
-                                include_blank: t('Ei oletusta')) %>
-      </td>
-    </tr>
-
-
-    <%= render 'administration/resource_timestamps_and_users', resource: account %>
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
+
 <% end %>

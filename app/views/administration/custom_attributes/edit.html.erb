@@ -1,0 +1,15 @@
+<%= return_link t('administration.custom_attributes.index.header'), custom_attributes_path %>
+
+<br/>
+
+<%= render "administration/header", text: t('administration.custom_attributes.edit.header') %>
+<%= render 'form' %>
+
+<% if @custom_attribute.persisted? %>
+  <br/>
+
+  <%= button_to(t('.button_remove'),
+                custom_attribute_path(@custom_attribute),
+                data: { confirm: t('administration.custom_attributes.edit.confirm_remove') },
+                method: "delete") %>
+<% end %>

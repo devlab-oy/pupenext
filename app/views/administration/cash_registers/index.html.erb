@@ -1,62 +1,64 @@
-<%= render "administration/header", title: "Kassalippaat" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>
 
 <br /><br />
 
 <%= form_tag cash_registers_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
     <tr>
       <th>
-        <%= sortable "nimi" %>
+        <%= sortable "nimi", CashRegister.human_attribute_name(:nimi) %>
         <br />
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable "kustp" %>
+        <%= sortable "kustp", CashRegister.human_attribute_name(:kustp) %>
         <br />
         <%= text_field_tag :kustp, params[:kustp] %>
       </th>
 
       <th>
-        <%= sortable "kassa" %>
+        <%= sortable "kassa", CashRegister.human_attribute_name(:kassa) %>
         <br />
         <%= text_field_tag :kassa, params[:kassa] %>
       </th>
 
       <th>
-        <%= sortable "pankkikortti" %>
+        <%= sortable "pankkikortti", CashRegister.human_attribute_name(:pankkikortti) %>
         <br />
         <%= text_field_tag :pankkikortti, params[:pankkikortti] %>
       </th>
 
       <th>
-        <%= sortable "luottokortti" %>
+        <%= sortable "luottokortti", CashRegister.human_attribute_name(:luottokortti) %>
         <br />
         <%= text_field_tag :luottokortti, params[:luottokortti] %>
       </th>
 
       <th>
-        <%= sortable "kateistilitys" %>
+        <%= sortable "kateistilitys", CashRegister.human_attribute_name(:kateistilitys) %>
         <br />
         <%= text_field_tag :kateistilitys, params[:kateistilitys] %>
       </th>
 
       <th>
-        <%= sortable "kassaerotus" %>
+        <%= sortable "kassaerotus", CashRegister.human_attribute_name(:kassaerotus) %>
         <br />
         <%= text_field_tag :kassaerotus, params[:kassaerotus] %>
       </th>
 
       <th>
-        <%= sortable "kateisotto" %>
+        <%= sortable "kateisotto", CashRegister.human_attribute_name(:kateisotto) %>
         <br />
         <%= text_field_tag :kateisotto, params[:kateisotto] %>
       </th>
 
       <th class="back">
-        <%= submit_tag t("Etsi") %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -69,19 +71,44 @@
             <%= p.nimi %>
           <% end %>
         </td>
-        <td><%= p.kustp %></td>
-        <td><%= p.kassa %></td>
-        <td><%= p.pankkikortti %></td>
-        <td><%= p.luottokortti %></td>
-        <td><%= p.kateistilitys %></td>
-        <td><%= p.kassaerotus %></td>
-        <td><%= p.kateisotto %></td>
-        <td class="back"></td>
+
+        <td>
+          <%= p.kustp %>
+        </td>
+
+        <td>
+          <%= account_name p.kassa %>
+        </td>
+
+        <td>
+          <%= account_name p.pankkikortti %>
+        </td>
+
+        <td>
+          <%= account_name p.luottokortti %>
+        </td>
+
+        <td>
+          <%= account_name p.kateistilitys %>
+        </td>
+
+        <td>
+          <%= account_name p.kassaerotus %>
+        </td>
+
+        <td>
+          <%= account_name p.kateisotto %>
+        </td>
+
+        <td class="back">
+        </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
 
 <br />
 
-<%= button_to t("Uusi kassalipas"), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>

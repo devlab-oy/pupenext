@@ -1,5 +1,5 @@
 class Head::VoucherRow < BaseModel
-  with_options foreign_key: :ltunnus, primary_key: :tunnus do |o|
+  with_options foreign_key: :ltunnus do |o|
     o.belongs_to :purchase_invoice, class_name: 'Head::PurchaseInvoice'
     o.belongs_to :purchase_order,   class_name: 'Head::PurchaseOrder'
     o.belongs_to :sales_invoice,    class_name: 'Head::SalesInvoice'
@@ -64,8 +64,8 @@ class Head::VoucherRow < BaseModel
     amend_by(creator)
 
     if new_rows_valid && valid?
-      new_rows.each { |row| row.save_by(creator) }
-      save_by(creator)
+      new_rows.each { |row| row.save }
+      save
     else
       raise ArgumentError, 'Invalid parameters'
     end

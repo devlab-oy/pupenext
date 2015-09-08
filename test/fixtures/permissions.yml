@@ -1,23 +1,30 @@
 # list of permissions to create
 <% permississions = %w{
-    test
     accounts
+    bank_details
+    bank_accounts
+    carriers
+    cash_registers
     commodities
     companies
     currencies
+    custom_attributes
     customers
     fiscal_years
-    terms_of_payments
+    packages
+    packing_areas
     printers
+    qualifiers
     sum_levels
-    cash_registers
+    terms_of_payments
+    test
   }
 %>
 
 # list of permissions to pupesoft classic
 <% classic_permissions = %w{
-     tulosta_tuotetarrat.php
-   }
+    tulosta_tuotetarrat.php
+  }
 %>
 
 <% permississions.each do |p| %>
@@ -27,6 +34,7 @@ joe_<%= p %>_read:
   user: joe
   kuka: joe
   nimi: pupenext/<%= p %>
+  alanimi: ''
   paivitys: 0
   muuttaja: joe
   laatija: joe
@@ -39,6 +47,7 @@ bob_<%= p %>_update:
   user: bob
   kuka: bob
   nimi: pupenext/<%= p %>
+  alanimi: ''
   paivitys: 1
   muuttaja: joe
   laatija: joe

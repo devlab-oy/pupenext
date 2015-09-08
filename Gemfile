@@ -13,6 +13,9 @@ gem 'resque-web', require: 'resque_web'
 
 gem 'date_validator'
 gem 'request_store'
+gem 'cocoon'
+gem 'simple_form'
+gem 'country_select'
 
 group :assets do
   gem 'uglifier'
@@ -29,5 +32,7 @@ end
 group :test, :development do
   gem 'rake'
   gem 'minitest'
-  gem "codeclimate-test-reporter"
+  gem 'codeclimate-test-reporter'
+  gem 'i18n-tasks'
+  gem 'localeapp'
 end

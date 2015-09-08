@@ -1,23 +1,22 @@
 class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
-  include Translatable
 
-  belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot, primary_key: :tunnus
+  belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
+  has_many :translations, foreign_key: :selite, class_name: 'Keyword::TermsOfPaymentTranslation'
 
-  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? }
+  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
   validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
-  validates :kassa_abspvm, :abs_pvm, date: true, allow_blank: true
+  validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
-  validates :kateinen, inclusion: { in: %w(n o p) }, allow_blank: true
-  validates :kaytossa, inclusion: { in: %w(E) }, allow_blank: true
-  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }
+  validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }, allow_blank: true
   validates :teksti, length: { within: 1..40 }
 
-  validate :check_relations, if: :not_in_use?
+  validate :check_relations, if: :inactive?
 
   float_columns :kassa_alepros
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   before_save :defaults
 
@@ -27,14 +26,17 @@ class TermsOfPayment < BaseModel
   self.table_name = :maksuehto
   self.primary_key = :tunnus
 
-  def cash_options
-    [
-      [t("Tämä ei ole käteismaksuehto"), ""],
-      [t("Käteismaksuehto, pankkikortti ei pyöristetä"), "n"],
-      [t("Käteismaksuehto, luottokortti ei pyöristetä"), "o"],
-      [t("Käteismaksuehto, käteinen pyöristetään"), "p"]
-    ]
-  end
+  enum kateinen: {
+    not_cash: '',
+    debit_card: 'n',
+    credit_card: 'o',
+    cash: 'p'
+  }
+
+  enum kaytossa: {
+    active: '',
+    inactive: 'E'
+  }
 
   def factoring_options
     company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
@@ -44,35 +46,32 @@ class TermsOfPayment < BaseModel
     company.bank_details.map { |i| [ i.nimitys, i.id ] }
   end
 
-  def in_use_options
-    [
-      [t("Käytössä"), ""],
-      [t("Poistettu / Ei käytössä"), "E"]
-    ]
+  def translated_locales
+    translations.map(&:kieli)
   end
 
-  def not_in_use?
-    kaytossa == 'E'
+  def name_translated(locale)
+    translations.find_by(kieli: locale).try(:selitetark) || teksti
   end
 
   private
 
-    def check_if_in_use(obj, msg)
-      count = obj.where(maksuehto: tunnus).count
-
-      if count > 0
-        msg_pre = t("HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä")
-        errors.add(:base, "#{msg_pre} #{count} #{t(msg)}")
-      end
-    end
-
     def check_relations
-      check_if_in_use company.customers, "asiakkaalla"
-      check_if_in_use company.sales_orders.not_delivered, "toimittamattomalla myyntitilauksella"
-      check_if_in_use company.sales_order_drafts, "kesken olevalla myyntitilauksella"
+      root = 'errors.terms_of_payment'
+
+      count = company.customers.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_customers", count: count)) unless count.zero?
+
+      count = company.sales_orders.not_delivered.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_sales_orders", count: count)) unless count.zero?
+
+      count = company.sales_order_drafts.where(maksuehto: tunnus).count
+      errors.add(:base, I18n.t("#{root}.in_use_sales_order_drafts", count: count)) unless count.zero?
     end
 
     def defaults
       self.pankkiyhteystiedot ||= 0
+      self.rel_pvm ||= 0
+      self.kassa_relpvm ||= 0
     end
 end

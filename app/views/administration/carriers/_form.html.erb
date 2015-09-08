@@ -1,0 +1,21 @@
+<%= render "administration/form_errors", resource: @carrier %>
+
+<%= simple_form_for @carrier,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
+
+  <table>
+
+    <%= f.input :koodi %>
+    <%= f.input :nimi %>
+    <%= f.input :neutraali, collection: neutraali_options, include_blank: false %>
+    <%= f.input :pakkauksen_sarman_minimimitta %>
+
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>

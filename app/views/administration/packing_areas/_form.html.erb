@@ -1,0 +1,28 @@
+<%= render "administration/form_errors", resource: @packing_area %>
+
+<%= simple_form_for @packing_area, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
+
+  <table width='600' class='admin-view-30'>
+
+    <%= f.input :nimi, input_html: { class: :large } %>
+    <%= f.input :lokero, input_html: { class: :large } %>
+    <%= f.input :prio, input_html: { class: :small } %>
+    <%= f.input :pakkaamon_prio, input_html: { class: :small } %>
+    <%= f.input :varasto, collection: varasto_options, input_html: { class: :medium } %>
+    <%= f.input :printteri0, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri1, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri2, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri3, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri4, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri6, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri7, collection: printteri_options, input_html: { class: :medium } %>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @packing_area %>
+
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>

@@ -1,5 +1,5 @@
 class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
-  has_many :rows, foreign_key: :ltunnus, primary_key: :tunnus, class_name: 'Head::VoucherRow'
+  has_many :rows, foreign_key: :ltunnus, class_name: 'Head::VoucherRow'
   validates :tila, inclusion: { in: ['Y'] }
 
   # Rails requires sti_name method to return type column (tyyppi) value
@@ -7,17 +7,7 @@ class Head::PurchaseInvoice::Paid < Head::PurchaseInvoice
     'Y'
   end
 
-  def self.human_readable_type
-    "Ostolasku maksettu"
-  end
-
   def self.find_by_account(account_no)
     joins(:rows).where(tiliointi: { tilino: account_no })
-  end
-
-  # Rails figures out paths from the model name. User model has users_path etc.
-  # With STI we want to use same name for each child. Thats why we override model_name
-  def self.model_name
-    Head.model_name
   end
 end

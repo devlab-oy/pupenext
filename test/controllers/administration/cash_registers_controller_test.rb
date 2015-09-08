@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class Administration::CashRegistersControllerTest < ActionController::TestCase
+  fixtures %w(cash_registers accounts)
 
-  def setup
+  setup do
     login users(:bob)
     @cash_register = cash_registers(:first)
   end
@@ -63,7 +64,7 @@ test "should not create" do
       post :create, cash_register: request
     end
 
-    assert_template "new", "Template should be new"
+    assert_template "edit", "Template should be edit"
   end
 
   test "should update" do

@@ -1,6 +1,16 @@
 require 'test_helper'
 
 class FixedAssets::CommodityTest < ActiveSupport::TestCase
+  fixtures %w(
+    accounts
+    fiscal_years
+    fixed_assets/commodities
+    fixed_assets/commodity_rows
+    head/voucher_rows
+    heads
+    sum_levels
+  )
+
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
     @options_for_type = FixedAssets::Commodity.options_for_type

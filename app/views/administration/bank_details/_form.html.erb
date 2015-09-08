@@ -1,0 +1,53 @@
+<%= render "administration/form_errors", resource: @bank_detail %>
+
+<%= form_for @bank_detail do |f| %>
+
+  <table width='400'>
+    <tr>
+      <th><%= f.label :nimitys %></th>
+      <td><%= f.text_field :nimitys, class: :large %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :viite %></th>
+      <td><%= f.select :viite, viite_options, {}, class: :medium %></td>
+    </tr>
+
+    <%= render "administration/resource_timestamps_and_users", resource: @bank_detail %>
+  </table>
+
+  <br><br>
+
+  <table width="800">
+    <tr>
+      <th width='30%'><%= f.label :pankkinimi1 %></th>
+      <th width='20%'><%= f.label :pankkitili1 %></th>
+      <th width='40%'><%= f.label :pankkiiban1 %></th>
+      <th width='10%'><%= f.label :pankkiswift1 %></th>
+    </tr>
+
+    <tr>
+      <td><%= f.text_field :pankkinimi1, class: :large %></td>
+      <td><%= f.text_field :pankkitili1, class: :large %></td>
+      <td><%= f.text_field :pankkiiban1, class: :large %></td>
+      <td><%= f.text_field :pankkiswift1, class: :large %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.text_field :pankkinimi2, class: :large %></td>
+      <td><%= f.text_field :pankkitili2, class: :large %></td>
+      <td><%= f.text_field :pankkiiban2, class: :large %></td>
+      <td><%= f.text_field :pankkiswift2, class: :large %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.text_field :pankkinimi3, class: :large %></td>
+      <td><%= f.text_field :pankkitili3, class: :large %></td>
+      <td><%= f.text_field :pankkiiban3, class: :large %></td>
+      <td><%= f.text_field :pankkiswift3, class: :large %></td>
+    </tr>
+  </table>
+
+  <%= render "administration/actions", f: f %>
+
+<% end %>

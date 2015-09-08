@@ -1,7 +1,584 @@
-# Finnish translations from:
-# https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/fi.yml
-
+---
 fi:
+  activerecord:
+    attributes:
+      account:
+        alv_taso: ALV-laskelman verotaso
+        kohde: Oletuskohde
+        kustp: Oletuskustannuspaikka
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutosaika
+        muuttaja: Muuttaja
+        nimi: Nimi
+        projekti: Oletusprojekti
+        sisainen_taso: Tasokoodi (Sisäinen tuloslaskelma)
+        tilino: Tilinumero
+        tiliointi_tarkistus: Pakolliset kentät
+        toimijaliitos: Toimijalitos
+        ulkoinen_taso: Tasokoodi (Ulkoinen tuloslaskelma / Tase)
+      accounting/fixed_assets/commodity:
+        evl_poistotyyppi: EVL Poistotyyppi
+        kayttoonottopvm: Käyttöönottopvm
+      bank_account:
+        asiakastunnus: Asiakastunnus
+        bic: SWIFT / BIC
+        default_clearing_account: Oletusselvittelytili
+        default_expense_account: Oletuskulutili
+        default_liquidity_account: Oletusrahatili
+        factoring: Factoring (Myyntisaatavarahoitus)
+        hyvak: Oletushyväksyjä
+        iban: IBAN
+        kaytossa: Tila
+        maksulimitti: Maksulimitti
+        nimi: Nimi
+        oletus_kohde: Oletuskulutilikirjauksen kohde
+        oletus_kulutili: Oletuskulutili
+        oletus_kustp: Oletuskulutilikirjauksen kustannuspaikka
+        oletus_projekti: Oletuskulutilikirjauksen projekti
+        oletus_rahatili: Oletusrahatili
+        oletus_selvittelytili: Oletusselvittelytili
+        tilino: Tilinumero
+        tilinylitys: Tilinylitys
+        valkoodi: Valuutta
+      bank_detail:
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        nimitys: Nimitys
+        pankkiiban1: IBAN
+        pankkiiban2: IBAN
+        pankkiiban3: IBAN
+        pankkinimi1: Pankin nimi
+        pankkinimi2: Pankin nimi
+        pankkinimi3: Pankin nimi
+        pankkiswift1: BIC
+        pankkiswift2: BIC
+        pankkiswift3: BIC
+        pankkitili1: Tilinumero
+        pankkitili2: Tilinumero
+        pankkitili3: Tilinumero
+        viite: Vitteen muoto
+      carrier:
+        koodi: Koodi
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvm
+        muuttaja: Muuttaja
+        neutraali: Neutraali
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: Pakkauksen särmän minimimitta
+      cash_register:
+        kassa: Kassa
+        kassaerotus: Kassaerotus
+        kateisotto: Käteisotto
+        kateistilitys: Käteistilitys
+        kustp: Kustannuspaikka (Kirjanpito)
+        laatija: Laatija
+        luontiaika: Luontiaika
+        luottokortti: Luottokortti
+        muutospvm: Muutospvm
+        muuttaja: Muuttaja
+        nimi: Nimi
+        pankkikortti: Pankkikortti
+        toimipaikka: Toimipaikka
+      company:
+        alv: Arvonlisävero
+        email: Sähköpostiosoite
+        factoringsaamiset: Factoringmyyntisaamiset
+        fax: Fax
+        int_koodi: Intrastat Int-koodi
+        intrastat_sarjanro: Intrastat-sarjanro
+        jarjestys: Järjestys
+        karhuerapvm: Maksumuistusten maksuaika (pva)
+        kassa: Käteismyynti
+        kassaale: Ostojen alennukset
+        kassaerotus: Käteismyynnin kassan täsmäytyserot
+        kateistilitys: Kassa käteistilitykset
+        kieli: Kieli
+        konserni: Konserni
+        konsernimyyntisaamiset: Konsernimyyntisaamiset
+        konserniostovelat: Konserniostovelat
+        konsernisaamiset: Oletustili Konsernisaamiset
+        konsernivelat: Oletustili Konsernivelat
+        kotipaikka: Kotipaikka
+        kotitullauslupa: Kotitullauslupa
+        kuluprosentti: Kuluprosentti
+        laskutus_maa: Laskutusosoitteen maa
+        laskutus_nimi: Laskutusosoitteen nimi
+        laskutus_osoite: Laskutusosoitteen osoite
+        laskutus_postino: Laskutusosoitteen postinumero
+        laskutus_postitp: Laskutusosoitteen postitoimipaikka
+        luottokortti: Käteismyynti luottokorttimaksut
+        luottotappiot: Myynnin luottotappiot
+        maa: Maa
+        matkalla_olevat: Matkalla olevat vaihto-omaisuuslaskut
+        muutkulut: Ostojen oletuskulutili
+        myynninkassaale: Myynnin alennukset
+        myynninvaluuttaero: Myynnin valuuttakurssierot
+        myynti: Myynti
+        myynti_ei_eu: Myynti yhteisön ulkopuolelle
+        myynti_eu: Yhteisömyynti
+        myynti_kaanteinen: Myynti, käänteinen ALV
+        myynti_kohde: Myynnin oletuskohde
+        myynti_kustp: Myynnin oletuskustannuspaikka
+        myynti_marginaali: Myynti käytetyt tavarat
+        myynti_projekti: Myynnin oletusprojekti
+        myyntireskontrakausi_alku: Myyntireskontrakauden alkupäivä
+        myyntireskontrakausi_loppu: Myyntireskontrakauden loppupäivä
+        myyntisaamiset: Myyntisaamiset
+        nimi: Nimi
+        osoite: Osoite
+        osto_marginaali: Osto, käytetyt tavarat (myynnin yhteydessä)
+        ostoreskontrakausi_alku: Ostoreskontrakauden alkupäivä
+        ostoreskontrakausi_loppu: Ostoreskontrakauden loppupäivä
+        ostovelat: Ostovelat
+        ovttunnus: OVT-tunnus
+        pankkiiban1: Pankkiyhteystieto 1 IBAN
+        pankkiiban2: Pankkiyhteystieto 2 IBAN
+        pankkiiban3: Pankkiyhteystieto 3 IBAN
+        pankkikortti: Käteismyynti pankkikorttimaksut
+        pankkinimi1: Pankkiyhteystieto 1 pankki
+        pankkinimi2: Pankkiyhteystieto 2 pankki
+        pankkinimi3: Pankkiyhteystieto 3 pankki
+        pankkiswift1: Pankkiyhteystieto 1 SWIFT / BIC
+        pankkiswift2: Pankkiyhteystieto 2 SWIFT / BIC
+        pankkiswift3: Pankkiyhteystieto 3 SWIFT / BIC
+        pankkitili1: Pankkiyhteystieto 1 tilinumero
+        pankkitili2: Pankkiyhteystieto 2 tilinumero
+        pankkitili3: Pankkiyhteystieto 3 tilinumero
+        postino: Postinumero
+        postitp: Postitoimipaikka
+        puhelin: Puhelin
+        pyoristys: Ostolaskujen ja myyntilaskujen pyöristyserot
+        raaka_ainevarasto: Raaka-ainevarasto
+        raaka_ainevarastonmuutos: Raaka-ainevarastonmuutos
+        selvittelytili: Rahatilien selvittelytili epäselville suorituksille
+        siirtosaamiset: Siirtosaamiset-tili ostolaskun jaksotukseen
+        siirtovelka: Siirtovelka-tili myyntilaskun jaksotukseen
+        tilastotullikamari: Tilastotullikamari
+        tilikauden_tulos: Tilikauden tulos
+        tilikausi_alku: Kirjanpitokauden alkupäivä
+        tilikausi_loppu: Kirjanpitokauden loppupäivä
+        tilino_triang: Myynti kolmikantakauppa
+        tulli_lisattava_era: SAD-lomakkeen lisättävä erä
+        tulli_vahennettava_era: SAD-lomakkeen vähennettävä erä
+        tullikamari: Tullikamari
+        tullin_asiaknro: Tullin asiakasnumero
+        tullin_lupanro: Tullin lupanumero
+        tullipaate: Tullipääte
+        valkoodi: Valuutta
+        valuuttaero: Ostojen valuuttakurssierot
+        varasto: Tavarat/varasto
+        varastonmuutos: Varastonmuutos
+        varastonmuutos_epakurantti: Epäkuranttipoistojen varastonmuutos
+        varastonmuutos_inventointi: Inventointien varastonmuutos
+        varastonmuutos_rahti: Rahtikulujen varastonmuutos
+        varastonmuutos_valmistuksesta: Valmistuksen varastonmuutos
+        viivastyskorko: Viivästyskorkoprosentti
+        www: WWW
+        ytunnus: Y-tunnus
+      keyword:
+        jarjestys: Järjestys
+        kieli: Kieli
+        laji: Laji
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+      keyword/custom_attribute:
+        database_field: Kenttä
+        default_value: Oletusarvo
+        help_text: Ohjeteksti
+        label: Kentän nimitys
+        required: Pakollisuus
+        set_name: Ryhmän nimi
+        visibility: Näkyvyys
+      package:
+        erikoispakkaus: Erikoispakkaus
+        jarjestys: Järjestys
+        kayttoprosentti: Käyttöprosentti
+        kieli: Kieli
+        korkeus: Korkeus
+        laji: Laji
+        leveys: Leveys
+        minimi_paino: Minimipaino
+        paino: Paino
+        pakkaus: Pakkauskoodi
+        pakkauskuvaus: Pakkauskuvaus
+        pakkausveloitus_tuotenumero: Pakkausveloitus tuotenumero
+        puukotus_kerroin: Puukotuskerroin
+        selite: Selite
+        selitetark: Selitetarkenne
+        selitetark_2: Selitetarkenne 2
+        selitetark_3: Selitetarkenne 3
+        syvyys: Syvyys
+        yksin_eraan: Yksin erään
+      package_code:
+        koodi: Pakkauskoodi
+        rahdinkuljettaja: Rahdinkuljettaja
+      package_codes:
+        koodi: Pakkauskoodi
+        rahdinkuljettaja: Rahdinkuljettaja
+      packing_area:
+        lokero: Lokero
+        nimi: Nimi
+        pakkaamon_prio: Pakkaamon prio
+        printteri0: Keräyslista
+        printteri1: Lähete
+        printteri2: Tuotetarrat
+        printteri3: Osoitelappu
+        printteri4: Rahtikirja A5
+        printteri6: Rahtikirja A4
+        printteri7: JV-Lasku/-Kuitti
+        prio: Prio
+        varasto: Varasto
+      printer:
+        ip: Ip
+        jarjestys: Järjestys
+        kirjoitin: Kirjoitin
+        komento: Komento
+        mediatyyppi: Mediatyyppi
+        mediatyyppi_types:
+          A4: A4
+          A5: A5
+          LS149X104: Lämpösiirto 149X104mm
+          LS59X40: Lämpösiirto 59X40mm
+          LSN149X104: Lämpösiirto/nauha 149X104mm
+          LSN59X40: Lämpösiirto/nauha 59X40mm
+          kuittitulostin: Kuittitulostin
+        merkisto: Merkistö
+        merkisto_types:
+          '1': 7 Bit
+          '2': DOS
+          '3': ANSI
+          '4': UTF8
+          '5': Scandic off
+        nimi: Nimi
+        osoite: Osoite
+        postino: Postino
+        postitp: Postitp
+        puhelin: Puhelin
+        unifaun_nimi: Unifaun nimi
+        yhteyshenkilo: Yhteyshenkilö
+      qualifier:
+        isa_tarkenne: Isätarkenne
+        kaytossa: Käytössä
+        koodi: Koodi
+        nimi: Nimi
+        tunnus: Tunnus
+        tyyppi: Tyyppi
+      terms_of_payment:
+        abs_pvm: Maksupäivä
+        erapvmkasin: Eräpäivän syöttö käsin
+        factoring: Factoring
+        itsetulostus: Itsetulostus
+        jaksotettu: Jaksotettu
+        jarjestys: Järjestys
+        jv: Jälkivaatimus
+        kassa_abspvm: Kassa-alennuksen maksupäivä
+        kassa_alepros: Kassa-alennusprosentti
+        kassa_relpvm: Kassa-alennuksen maksuaika päivissä
+        kateinen: Käteinen
+        kaytossa: Käytössä
+        laatija: Laatija
+        luontiaika: Luontiaika
+        muutospvm: Muutospäivä
+        muuttaja: Muuttaja
+        pankkiyhteystiedot: Pankkiyhteystiedot
+        rel_pvm: Maksuaika päivissä
+        sallitut_maat: Sallitut maat
+        teksti: Teksti
+      translations:
+        kieli: Käännöksen kieli
+        selitetark: Käännetty teksti
+    models:
+      account: Tili
+      bank_account: Pankkitili
+      bank_detail: Pankkiyhteystieto
+      carrier: Rahdinkuljettaja
+      cash_register: Kassalipas
+      currency: Valuutta
+      fiscal_year: Tilikausi
+      head/purchase_invoice/approval: Ostolasku hyväksyttävänä
+      head/purchase_invoice/approved: Ostolasku valmis maksatukseen
+      head/purchase_invoice/paid: Ostolasku maksettu
+      head/purchase_invoice/transfer: Ostolasku lähdössä pankkiin
+      head/purchase_invoice/waiting: Ostolasku odottaa suoritusta
+      head/purchase_order: Ostotilaus
+      head/sales_invoice: Myyntilasku
+      head/sales_order: Myyntitilaus
+      head/sales_order_draft: Myyntitilaus kesken
+      head/voucher: Tosite
+      keyword/custom_attribute: Ylläpitonäkymän kenttä
+      package: Pakkaus
+      package_code: Pakkauskoodi
+      packing_area: Pakkaamo
+      printer: Kirjoitin
+      qualifier: Tarkenne
+      qualifier/cost_center: Kustannuspaikka
+      qualifier/project: Projekti
+      qualifier/target: Kohde
+      sum_level: Taso
+      sum_level/commodity: EVL
+      sum_level/external: Ulkoinen
+      sum_level/internal: Sisäinen
+      sum_level/profit: Tulosseuranta
+      sum_level/vat: ALV
+      terms_of_payment: Maksuehto
+  administration:
+    accounts:
+      create:
+        create_success: Uusi tili perustettu
+      destroy:
+        destroy_success: Tili poistettiin onnistuneesti
+      edit:
+        button_remove: Poista tili
+        confirm_remove: Oletko varma, että haluat poistaa tilin?
+        header: Tili
+        no_cost_center: Ei kustannuspaikkaa
+        no_project: Ei projektia
+        no_sum_level: Ei tarkennetta
+        no_target: Ei kohdetta
+        no_vat: Ei oletusveroa
+      index:
+        button_search: Etsi
+        header: Tilikartta
+      manuaali_esto_options:
+        editing_disabled: Tiliöinnin manuaalinen lisäys/muokkaus estetty
+        editing_enabled: Tiliöinti muokattavissa
+      tiliointi_tarkistus_options:
+        mandatory_cs: Pakollisia kenttiä tiliöinnissä on kustannuspaikka
+        mandatory_cs_project: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, projekti
+        mandatory_cs_target: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde
+        mandatory_cs_target_project: Pakollisia kenttiä tiliöinnissä on kustannuspaikka, kohde ja projekti
+        mandatory_project: Pakollisia kenttiä tiliöinnissä on projekti
+        mandatory_target: Pakollisia kenttiä tiliöinnissä on kohde
+        mandatory_target_project: Pakollisia kenttiä tiliöinnissä on kohde, projekti
+        no_mandatory_fields: Ei pakollisia kenttiä
+      toimijaliitos_options:
+        relation_not_required: Ei liitospakkoa
+        relation_required: Muistiotositteelle on liitettävä asiakas tai toimittaja
+      update:
+        update_success: Tili päivitettiin onnistuneesti
+    actions:
+      button_saving: Tallentaa...
+    bank_accounts:
+      create:
+        create_success: Pankkitili perustettiin onnistuneesti
+      edit:
+        header: Pankkitili
+      factoring_options:
+        factoring_disabled: Ei factoroida
+        factoring_enabled: Factoring käytössä
+      index:
+        button_search: Etsi
+        header: Pankkitilit
+        show_active: Näytä aktiiviset
+        show_inactive: Näytä poistetut
+      kaytossa_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
+      tilinylitys_options:
+        limit_override_allowed: Tilinylitys sallittu
+        limit_override_denied: Tilinylitys estetty
+      update:
+        update_success: Pankkitili päivitettiin onnistuneesti
+    bank_details:
+      edit:
+        header: Pankkiyhteystieto
+      index:
+        header: Pankkiyhteystiedot
+    bank_details_helper:
+      empty: tyhjä
+      finnish: Suomi
+      swedish: Ruotsi
+    carriers:
+      edit:
+        header: Rahdinkuljettaja
+      index:
+        button_search: Etsi
+        header: Rahdinkuljettajat
+      neutraali_options:
+        neutral: Kyllä
+        not_neutral: Ei
+    cash_registers:
+      create:
+        create_success: Kassalipas perustettiin onnistuneesti
+      edit:
+        header: Kassalipas
+        no_select: Ei valintaa
+      index:
+        button_search: Etsi
+        header: Kassalippaat
+      update:
+        update_success: Kassalipas päivitettiin onnistuneesti
+    currencies:
+      create:
+        create_success: Valuutta luotiin onnistuneesti
+      edit:
+        header: Valuutta
+      index:
+        button_search: Etsi
+        header: Valuutat
+      update:
+        update_success: Valuutta päivitettiin onnistuneesti
+    custom_attributes:
+      edit:
+        button_remove: Poista kenttä
+        confirm_remove: Oletko varma, että haluat poistaa kentän?
+        header: Ylläpitonäkymän kenttä
+      index:
+        button_search: Etsi
+        header: Ylläpitonäkymien kentät
+      required_options:
+        mandatory: Kentän arvo on pakollinen
+        optional: Kentän arvo ei ole pakollinen
+      visibility_options:
+        hidden: Kenttää ei näytetä näkymässä
+        visible: Kenttä näytetään näkymässä
+    fiscal_years:
+      create:
+        create_success: Tilikausi perustettiin onnistuneesti
+      edit:
+        header: Tilikausi
+      index:
+        button_search: Etsi
+        header: Tilikaudet
+      update:
+        update_success: Tilikausi päivitettiin onnistuneesti
+    packages:
+      create:
+        create_success: Pakkaus lisättiin onnistuneesti
+      edit:
+        header: Pakkaus
+      erikoispakkaus_options:
+        not_special: Normaalipakkaus
+        special: Erikoispakkaus
+      index:
+        button_search: Etsi
+        header: Pakkaukset
+      package_codes:
+        link_new: Lisää uusi pakkauskoodi
+      update:
+        update_success: Pakkaus päivitettiin onnistuneesti
+      yksin_eraan_options:
+        combined_parcel: Pakkaus yksin erään
+        separate_parcel: Normaalikäsittely
+    packing_areas:
+      create:
+        create_success: Pakkaamo lisätty onnistuneesti
+      destroy:
+        destroy_success: Pakkaamo poistettu onnistuneesti
+      edit:
+        button_remove: Poista pakkaamo
+        confirm_remove: Oletko varma, että haluat poistaa pakkaamon?
+        header: Pakkaamo
+      index:
+        button_search: Etsi
+        header: Pakkaamot
+      update:
+        update_success: Update success
+    printers:
+      create:
+        create_success: Kirjoitin perustettiin onnistuneesti
+      destroy:
+        destroy_success: Kirjoitin poistettiin onnistuneesti
+      edit:
+        button_remove: Poista kirjoitin
+        confirm_remove: Oletko varma, että haluat poistaa tämän kirjoittimen?
+        header: Kirjoitin
+      index:
+        button_search: Etsi
+        header: Kirjoittimet
+      mediatyyppi_options:
+        media_a4: A5
+        media_a5: A5
+        media_default: Ei valintaa
+        media_receipt: kuittitulostin
+        media_thermal1: Lämpösiirto/nauha 149X104mm
+        media_thermal2: Lämpösiirto/nauha 59X40mm
+        media_thermal3: Lämpösiirto 149X104mm
+        media_thermal4: Lämpösiirto 59X40mm
+      merkisto_options:
+        charset_7bit: 7 Bit
+        charset_ansi: ANSI
+        charset_default: Ei valintaa
+        charset_dos: DOS
+        charset_scandic_off: Scandic off
+        charset_utf8: UTF8
+      update:
+        update_success: Kirjoitin päivitettiin onnistuneesti
+    qualifiers:
+      create:
+        create_success: Tarkenne luotiin onnistuneesti
+      edit:
+        header: Muokkaa tarkennetta
+      index:
+        button_search: Etsi
+        button_show_active: Näytä aktiiviset
+        button_show_removed: Näytä poistetut
+        header: Tilikartan tarkenteet
+      kaytossa_options:
+        in_use: Kyllä
+        not_in_use: Ei
+      update:
+        update_success: Tarkenne päivitettiin onnistuneesti
+    sum_levels:
+      create:
+        create_success: Taso perustettiin onnistuneesti
+      destroy:
+        destroy_success: Taso poistettiin onnistuneesti
+      edit:
+        button_remove: Poista taso
+        confirm_remove: Oletko varma, että haluat poistaa tämän tason?
+        header: Tilikartan taso
+      index:
+        button_search: Etsi
+        header: Tilikartan tasot
+      kayttotarkoitus_options:
+        normal: Ei valintaa
+        purchases: Ostot, Aineet, tarvikkeet ja tavarat
+        turnover: Liikevaihto
+      kumulatiivinen_options:
+        cumulative: Kyllä Tulosseurannassa tämä taso lasketaan tilikauden alusta
+        not_cumulative: Ei
+      update:
+        update_success: Taso päivitettiin onnistuneesti
+    terms_of_payments:
+      cash_options:
+        cash: Käteismaksuehto, käteinen pyöristetään
+        credit_card: Käteismaksuehto, luottokortti ei pyöristetä
+        debit_card: Käteismaksuehto, pankkikortti ei pyöristetä
+        not_cash: Tämä ei ole käteismaksuehto
+      create:
+        create_success: Maksuehto luotiin onnistuneesti
+      edit:
+        header: Maksuehto
+        no_factoring: Ei factoroida
+        use_company_defaults: Käytä yrityksen oletuksia
+      in_use_options:
+        active: Käytössä
+        inactive: Poistettu / Ei käytössä
+      index:
+        button_search: Etsi
+        button_show_active: Näytä aktiiviset maksuehdot
+        button_show_removed: Näytä poistetut maksuehdot
+        header: Maksuedot
+      update:
+        update_success: Maksuehto päivitettiin onnistuneesti
+    translations:
+      language: Kieli
+      link_new: Lisää uusi käännös
+      text: Käännös
+    update_access:
+      forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
+  application:
+    access_control:
+      forbidden: Pääsy kielletty!
+    authorize:
+      unauthorized: Kirjaudu sisään!
   date:
     abbr_day_names:
     - su
@@ -34,9 +611,9 @@ fi:
     - perjantai
     - lauantai
     formats:
-      default: ! '%d.%m.%Y'
-      long: ! '%A %e. %Bta %Y'
-      short: ! '%e.%m.%Y'
+      default: "%-d.%-m.%Y"
+      long: "%A %e. %Bta %Y"
+      short: "%d %b"
     month_names:
     -
     - tammikuu
@@ -81,16 +658,16 @@ fi:
         other: yli %{count} vuotta
       x_days:
         one: päivä
-        other: ! '%{count} päivää'
+        other: "%{count} päivää"
       x_minutes:
         one: minuutti
-        other: ! '%{count} minuuttia'
+        other: "%{count} minuuttia"
       x_months:
         one: kuukausi
-        other: ! '%{count} kuukautta'
+        other: "%{count} kuukautta"
       x_seconds:
         one: sekunti
-        other: ! '%{count} sekuntia'
+        other: "%{count} sekuntia"
     prompts:
       day: päivä
       hour: tunti
@@ -98,14 +675,25 @@ fi:
       month: kuukausi
       second: sekunti
       year: vuosi
-  errors: &errors
-    format: ! '%{attribute} %{message}'
+  errors:
+    cash_register:
+      kassa_missing: Kassatili puuttuu tai sitä ei löydy
+      kassaerotus_missing: Kassaerotustili puuttuu tai sitä ei löydy
+      kateisotto_missing: Käteisotto puuttuu tai sitä ei löydy
+      kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
+      luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
+      pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
+    format: "%{attribute} %{message}"
     messages:
       accepted: täytyy olla hyväksytty
-      blank: ei voi olla sisällötön
-      confirmation: ei vastaa varmennusta
+      after: tulee olla suurempi kuin %{date}
+      after_or_equal_to: tulee olla suurempi tai yhtäsuuri kuin %{date}
+      before: tulee olla pienempi kuin %{date}
+      before_or_equal_to: tulee olla pienempi tai yhtäsuuri kuin %{date}
+      blank: ei voi olla tyhjä
+      confirmation: ei vastaa varmennusta %{attribute}
       empty: ei voi olla tyhjä
-      equal_to: täytyy olla yhtä suuri kuin %{count}
+      equal_to: tulee olla yhtäsuuri kuin %{count}
       even: täytyy olla parillinen
       exclusion: on varattu
       greater_than: täytyy olla suurempi kuin %{count}
@@ -114,108 +702,164 @@ fi:
       invalid: on kelvoton
       less_than: täytyy olla pienempi kuin %{count}
       less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}
+      not_a_date: ei ole oikeellinen päivämäärä
       not_a_number: ei ole luku
       not_an_integer: ei ole kokonaisluku
       odd: täytyy olla pariton
-      record_invalid: ! 'Validointi epäonnistui: %{errors}'
+      other_than: pitää olla erisuuri kuin %{count}
+      present: pitää olla tyhjä
+      record_invalid: 'Validointi epäonnistui: %{errors}'
+      restrict_dependent_destroy:
+        one: Ei voida poistaa, koska riippuvainen %{record} on olemassa.
+        other: Ei voida poistaa, koska riippuvaiset %{record} ovat olemassa.
       taken: on jo käytössä
       too_long: on liian pitkä (saa olla enintään %{count} merkkiä)
       too_short: on liian lyhyt (oltava vähintään %{count} merkkiä)
       wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)
+    packing_area:
+      duplicate_cells: Pakkaamosta löytyy jo tämä lokero!
+    qualifier:
+      accounts_found: Et voi poistaa tarkennetta käytöstä, koska tarkenne on käytössä tileillä %{account_numbers}
+    sum_level:
+      begin_with_error: Tason tulee alkaa luvulla 1, 2 tai 3
+      invalid_char: Ei saa sisältää Ö -kirjainta
+      not_same_type: Tasojen tulee olla olla saman tyyppisiä
     template:
-      body: ! 'Seuraavat kentät aiheuttivat ongelmia:'
+      body: 'Seuraavat kentät aiheuttivat ongelmia:'
       header:
-        one: Virhe syötteessä esti mallin %{model} tallentamisen
-        other: ! '%{count} virhettä esti mallin %{model} tallentamisen'
+        one: Yksi virhe esti %{model} tietueen tallentamisen
+        other: "%{count} virhettä esti %{model} tietueen tallentamisen"
+    terms_of_payment:
+      in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
+      in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+  fixed_assets:
+    commodities:
+      activate:
+        activation_failure: Activation failure
+        activation_success: Activation success
+      commodity_rows:
+        button_show_hide: Näytä / Piilota
+        commodity_row_amount: Commodity row amount
+        header: Header
+      confirm_sale:
+        sale_failure: Sale failure
+        sale_success: Sale success
+      create:
+        create_success: Create success
+      depreciations:
+        button_show_hide: Näytä / Piilota
+        depreciation_difference_amount: Depreciation difference amount
+        depreciation_rows_amount: Depreciation rows amount
+        header: Header
+      edit:
+        button_activate: Button activate
+        button_add_invoice_rows: Button add invoice rows
+        button_add_voucher_rows: Button add voucher rows
+        button_create: Button create
+        button_sell: Button sell
+        header: Header
+      form:
+        bookkeeping_value: Bookkeeping value
+        bookkeeping_value_now: Bookkeeping value now
+      index:
+        button_search: Button search
+        header: Header
+      link_order:
+        link_order_success: Link order success
+      link_voucher:
+        link_voucher_success: Link voucher success
+      link_voucher_row:
+        cannot_link_row: Cannot link row
+        row_already_linked: Row already linked
+      new:
+        header: Header
+      procurement_rows:
+        button_remove: Button remove
+        header: Header
+      purchase_orders:
+        button_add: Button add
+        button_search: Button search
+        header: Header
+      sell:
+        confirm_sale: Confirm sale
+        header: Header
+      unlink:
+        unlink_success: Unlink success
+      unlink_voucher_row:
+        cannot_unlink: Cannot unlink
+      update:
+        update_success: Update success
+      vouchers:
+        button_add: Button add
+        button_search: Button search
+        header: Header
   helpers:
     select:
       prompt: Valitse
     submit:
       create: Luo %{model}
+      destroy: Poista %{model}
+      new: Uusi %{model}
       submit: Tallenna %{model}
       update: Päivitä %{model}
   number:
     currency:
       format:
-        delimiter: .
-        format: ! '%n %u'
+        format: "%n %u"
         precision: 2
-        separator: ! ','
+        separator: ","
         significant: false
         strip_insignificant_zeros: false
-        unit: €
+        unit: "€"
     format:
-      delimiter: .
-      precision: 3
-      separator: ! ','
+      precision: 2
+      separator: ","
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: ! '%n %u'
+        format: "%n %u"
         units:
-          thousand: tuhatta
-          million: miljoonaa
           billion: miljardia
-          trillion: biljoonaa
+          million: miljoonaa
           quadrillion: tuhatta biljoonaa
-          unit: ''
+          thousand: tuhatta
+          trillion: biljoonaa
       format:
-        delimiter: ''
         precision: 3
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: ! '%n %u'
+        format: "%n %u"
         units:
           byte:
             one: tavu
             other: tavua
-          gb: GB
-          kb: kB
-          mb: MB
-          tb: TB
+          gb: Gt
+          kb: kt
+          mb: Mt
+          tb: Tt
     percentage:
       format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
+        format: "%n %"
+  shared:
+    link_return_to: Palaa ohjelmaan
+  simple_form:
+    'no': Ei
+    required:
+      mark: "*"
+      text: Pakollinen
+    'yes': Kyllä
   support:
     array:
-      last_word_connector: ! ' ja '
-      two_words_connector: ! ' ja '
-      words_connector: ! ', '
+      last_word_connector: " ja "
+      two_words_connector: " ja "
+      words_connector: ", "
   time:
     am: aamupäivä
     formats:
-      default: ! '%d.%m.%Y %H:%M:%S'
-      long: ! '%A %e. %Bta %Y %H:%M:%S %z'
-      short: ! '%e.%m. %H.%M'
+      default: "%-d.%-m.%Y %H:%M:%S"
+      long: "%e. %Bta %Y %H.%M"
+      short: "%-d.%-m.%y %H:%M"
     pm: iltapäivä
-  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
-  activemodel:
-    errors:
-      <<: *errors
-  activerecord:
-    models:
-      account:
-        one: Tili
-        other: Tilit
-      currency:
-        one: Valuutta
-        other: Valuutat
-      fiscal_year:
-        one: Tilikausi
-        other: Tilikaudet
-      printer:
-        one: Kirjoitin
-        other: Kirjoittimet
-      sum_level:
-        one: Taso
-        other: Tasot
-      terms_of_payment:
-        one: Maksuehto
-        other: Maksuehdot
-    errors:
-      <<: *errors

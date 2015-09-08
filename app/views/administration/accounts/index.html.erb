@@ -1,56 +1,41 @@
-<%= render "administration/header", title: "Tilikartta" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi tili'), new_account_path, method: :get if update_access? %>
+<%= button_to_new :account %>
 
 <br/><br/>
+
 <%= form_tag accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
 
     <tr>
-      <th>
-        <%= sortable 'tilino' %>
+      <th width='150'>
+        <%= sortable 'tilino', Account.human_attribute_name(:tilino) %>
         <br/>
         <%= text_field_tag :tilino, params[:tilino] %>
       </th>
 
-      <th>
-        <%= sortable 'nimi' %>
+      <th width='500'>
+        <%= sortable 'nimi', Account.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
-      <th>
-        <%= sortable 'sisainen_taso' %>
-        <br/>
-        <%= text_field_tag :sisainen_taso, params[:sisainen_taso] %>
+      <th width='200'>
+        <%= sortable 'sisainen_taso', Account.human_attribute_name(:sisainen_taso) %>
       </th>
 
-      <th>
-        <%= label_tag :sisainen_nimi %>
+      <th width='200'>
+        <%= sortable 'ulkoinen_taso', Account.human_attribute_name(:ulkoinen_taso) %>
       </th>
 
-      <th>
-        <%= sortable 'ulkoinen_taso' %>
-        <br/>
-        <%= text_field_tag :ulkoinen_taso, params[:ulkoinen_taso] %>
-      </th>
-
-      <th>
-        <%= label_tag :ulkoinen_nimi %>
-      </th>
-
-      <th>
-        <%= sortable 'alv_taso' %>
-        <br/>
-        <%= text_field_tag :alv_taso, params[:alv_taso] %>
-      </th>
-
-      <th>
-        <%= label_tag :alv_nimi %>
+      <th width='200'>
+        <%= sortable 'alv_taso', Account.human_attribute_name(:alv_taso) %>
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -65,27 +50,15 @@
         </td>
 
         <td>
-          <%= account.sisainen_taso %>
+          <%= account.internal.try(:sum_level_name) %>
         </td>
 
         <td>
-          <%= account.internal.try(:nimi) %>
+          <%= account.external.try(:sum_level_name) %>
         </td>
 
         <td>
-          <%= account.ulkoinen_taso %>
-        </td>
-
-        <td>
-          <%= account.external.try(:nimi) %>
-        </td>
-
-        <td>
-          <%= account.alv_taso %>
-        </td>
-
-        <td>
-          <%= account.vat.try(:nimi) %>
+          <%= account.vat.try(:sum_level_name) %>
         </td>
 
         <td class="back"></td>
@@ -95,6 +68,7 @@
   </table>
 
 <% end %>
+
 <br/>
 
-<%= button_to t('Uusi tili'), new_account_path, method: :get if update_access? %>
+<%= button_to_new :account %>

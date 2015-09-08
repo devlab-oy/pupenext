@@ -1,25 +1,28 @@
-<%= render "administration/header", title: "Kirjoittimet" %>
+<%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('Uusi kirjoitin'), new_printer_path, method: :get if update_access? %>
+<%= button_to_new :printer %>
 
 <br/><br/>
+
 <%= form_tag printers_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
   <table>
     <tr>
       <th>
-        <%= sortable "kirjoitin" %>
+        <%= sortable "kirjoitin", Printer.human_attribute_name(:kirjoitin) %>
         <br/>
         <%= text_field_tag :kirjoitin, params[:kirjoitin] %>
       </th>
 
       <th>
-        <%= sortable "komento" %>
+        <%= sortable "komento", Printer.human_attribute_name(:komento) %>
         <br/>
         <%= text_field_tag :komento, params[:komento] %>
       </th>
 
       <th class="back">
-        <%= submit_tag t('Etsi') %>
+        <%= submit_tag t('.button_search') %>
       </th>
     </tr>
 
@@ -36,8 +39,11 @@
         <td class="back"></td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
+
 <br/>
 
-<%= button_to t('Uusi kirjoitin'), new_printer_path, method: :get if update_access? %>
+<%= button_to_new :printer %>

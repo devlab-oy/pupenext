@@ -1,27 +1,23 @@
-<%= form_for(@currency) do |f| %>
-  <%= render "administration/form_errors", resource: @currency %>
+<%= render "administration/form_errors", resource: @currency %>
+
+<%= simple_form_for @currency,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
   <table>
-    <tr>
-      <th><%= f.label :nimi, t('Valuutta') %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :jarjestys, t('Järjestys') %></th>
-      <td><%= f.text_field :jarjestys %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :kurssi, t('Valuuttakurssi') %></th>
-      <td><%= f.text_field :kurssi %></td>
-    </tr>
-    <% if Current.company.maa == "EE" %>
-      <tr>
-        <th><%= f.label :intrastat_kurssi, t('Intrastat-kurssi') %></th>
-        <td><%= f.text_field :intrastat_kurssi %></td>
-      </tr>
-    <% end %>
+
+    <%= f.input :nimi %>
+    <%= f.input :jarjestys %>
+    <%= f.input :kurssi %>
+    <%= f.input :intrastat_kurssi if Current.company.maa == "EE" %>
+
     <%= render 'administration/resource_timestamps_and_users', resource: @currency %>
+
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
+
 <% end %>

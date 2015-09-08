@@ -1,6 +1,4 @@
 class Administration::AccountsController < AdministrationController
-  before_action :fetch_options_for_selects, only: [:new, :edit, :show]
-
   def index
     @accounts = Account
       .includes(:internal, :external, :vat)
@@ -10,6 +8,7 @@ class Administration::AccountsController < AdministrationController
 
   def new
     @account = Account.new
+    render :edit
   end
 
   def show
@@ -17,13 +16,12 @@ class Administration::AccountsController < AdministrationController
   end
 
   def create
-    @account = Account.new(account_params)
+    @account = Account.new account_params
 
-    if @account.save_by current_user
-      redirect_to accounts_path, notice: 'Uusi tili perustettu'
+    if @account.save
+      redirect_to accounts_path, notice: t('.create_success')
     else
-      fetch_options_for_selects
-      render :new
+      render :edit
     end
   end
 
@@ -31,17 +29,16 @@ class Administration::AccountsController < AdministrationController
   end
 
   def update
-    if @account.update_by account_params, current_user
-      redirect_to accounts_path, notice: 'Tili päivitettiin onnistuneesti'
+    if @account.update account_params
+      redirect_to accounts_path, notice: t('.update_success')
     else
-      fetch_options_for_selects
       render :edit
     end
   end
 
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice: "Tili poistettiin onnistuneesti"
+    redirect_to accounts_path, notice: t('.destroy_success')
   end
 
   private
@@ -51,7 +48,7 @@ class Administration::AccountsController < AdministrationController
     end
 
     def account_params
-      params.require(:account).permit(
+      resource_parameters model: :account, parameters: [
         :tilino,
         :sisainen_taso,
         :ulkoinen_taso,
@@ -65,8 +62,8 @@ class Administration::AccountsController < AdministrationController
         :toimijaliitos,
         :tiliointi_tarkistus,
         :manuaali_esto,
-        :oletus_alv
-      )
+        :oletus_alv,
+      ]
     end
 
     def searchable_columns
@@ -81,25 +78,5 @@ class Administration::AccountsController < AdministrationController
 
     def sortable_columns
       searchable_columns
-    end
-
-    def fetch_options_for_selects
-      @levels = {
-        internal: SumLevel::Internal.all,
-        external: SumLevel::External.all,
-        vat: SumLevel::Vat.all,
-        profit: SumLevel::Profit.all,
-        commodity: SumLevel::Commodity.all
-      }
-
-      @qualifiers = {
-        cost_center: Qualifier::CostCenter.all.order("koodi+0, koodi, nimi"),
-        target: Qualifier::Target.all.order("koodi+0, koodi, nimi"),
-        project: Qualifier::Project.all.order("koodi+0, koodi, nimi")
-      }
-
-      @oletus_alv_options = Keyword
-        .vat_percents
-        .order("selite+0, laji, jarjestys, selite")
     end
 end

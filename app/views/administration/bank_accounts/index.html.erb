@@ -1,0 +1,79 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to_new :bank_account %>
+
+<%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
+  <% if show_inactive? %>
+    <%= submit_tag t('.show_active') %>
+  <% else %>
+    <%= hidden_field_tag :show_inactive, :yes %>
+    <%= submit_tag t(".show_inactive") %>
+  <% end %>
+<% end %>
+
+<br/><br/>
+
+<%= form_tag bank_accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
+  <table>
+    <tr>
+      <th>
+        <%= sortable :nimi, BankAccount.human_attribute_name(:nimi) %>
+        <br/>
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable :iban, BankAccount.human_attribute_name(:iban) %>
+        <br/>
+        <%= text_field_tag :iban, params[:iban] %>
+      </th>
+
+      <th>
+        <%= sortable :maksulimitti, BankAccount.human_attribute_name(:maksulimitti) %>
+        <br/>
+        <%= text_field_tag :maksulimitti, params[:maksulimitti] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_kulutili, BankAccount.human_attribute_name(:oletus_kulutili) %>
+        <br/>
+        <%= text_field_tag :oletus_kulutili, params[:oletus_kulutili] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_rahatili, BankAccount.human_attribute_name(:oletus_rahatili) %>
+        <br/>
+        <%= text_field_tag :oletus_rahatili, params[:oletus_rahatili] %>
+      </th>
+
+      <th>
+        <%= sortable :oletus_selvittelytili, BankAccount.human_attribute_name(:oletus_selvittelytili) %>
+        <br/>
+        <%= text_field_tag :oletus_selvittelytili, params[:oletus_selvittelytili] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+    <% @bank_accounts.each do |bank_account| %>
+      <tr class="aktiivi <%= "del" if bank_account.inactive? %>">
+        <td><%= link_to bank_account.nimi, edit_bank_account_path(bank_account) %></td>
+        <td><%= bank_account.iban %></td>
+        <td><%= bank_account.maksulimitti %></td>
+        <td><%= bank_account.oletus_kulutili %></td>
+        <td><%= bank_account.oletus_rahatili %></td>
+        <td><%= bank_account.oletus_selvittelytili %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br/>
+
+<%= button_to_new :bank_account %>

@@ -1,0 +1,21 @@
+<%= render "administration/form_errors", resource: @qualifier %>
+
+<%= simple_form_for @qualifier, as: :qualifier, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
+
+  <table width='600px' class='admin-view-30'>
+
+    <%= f.input :tyyppi, collection: qualifier_tyyppi_options, include_blank: false %>
+    <%= f.input :nimi, input_html: { class: 'large' } %>
+    <%= f.input :koodi, input_html: { class: 'large' } %>
+    <%= f.input :isa_tarkenne, collection: isa_tarkenne_options, include_blank: true, input_html: { class: :medium } %>
+    <%= f.input :kaytossa, collection: kaytossa_options, include_blank: false, input_html: { class: :medium } %>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @qualifier %>
+
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>

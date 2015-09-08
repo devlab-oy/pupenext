@@ -1,23 +1,21 @@
 class ApplicationController < ActionController::Base
-  include Translatable
-
   protect_from_forgery with: :exception
 
   before_action :authorize
-  before_action :set_current_company
+  before_action :set_current_info
   before_action :set_locale
   before_action :access_control
 
   helper_method :current_user
   helper_method :current_company
   helper_method :update_access?
-  helper_method :t
 
   def current_user
     @current_user ||= User.unscoped.find_by_session(cookies[:pupesoft_session])
   end
 
-  def set_current_company
+  def set_current_info
+    Current.user = current_user
     Current.company = current_user.company
   end
 
@@ -25,25 +23,27 @@ class ApplicationController < ActionController::Base
     # Root path does not require access
     return true if request_path == root_path
 
-    @read_access ||= current_user.can_read?(request_path)
+    @read_access ||= current_user.can_read?(request_path, alias_set: alias_set)
   end
 
   def update_access?
-    @update_access ||= current_user.can_update?(request_path)
+    @update_access ||= current_user.can_update?(request_path, alias_set: alias_set)
   end
 
   protected
 
     def authorize
-      render text: t("Kirjaudu sisään!"), status: :unauthorized unless current_user
+      render text: t('application.authorize.unauthorized'), status: :unauthorized unless current_user
     end
 
     def access_control
-      render text: t("Käyttöoikeudet puuttuu!"), status: :forbidden unless read_access?
+      render text: t('application.access_control.forbidden'), status: :forbidden unless read_access?
     end
 
     def set_locale
-      I18n.locale = current_user.locale || I18n.default_locale
+      I18n.locale = params_locale ||
+                    users_locale ||
+                    I18n.default_locale
     end
 
   private
@@ -55,5 +55,44 @@ class ApplicationController < ActionController::Base
       access = '/'
       access << path.second unless path.empty?
       access
+    end
+
+    def users_locale
+      case current_user.locale
+      when "se"
+        "sv"
+      when "ee"
+        "et"
+      when "dk"
+        "da"
+      else
+        current_user.locale
+      end
+    end
+
+    def params_locale
+      locale = params[:locale].to_s.downcase
+
+      if available_locales.include?(locale)
+        locale
+      else
+        nil
+      end
+    end
+
+    def available_locales
+      I18n.available_locales.map(&:to_s)
+    end
+
+    def default_url_options(options = {})
+      if alias_set.present?
+        { alias_set: alias_set }.merge options
+      else
+        options
+      end
+    end
+
+    def alias_set
+      params[:alias_set].to_s
     end
 end

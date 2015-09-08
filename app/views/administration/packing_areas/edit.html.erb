@@ -1,0 +1,15 @@
+<%= return_link t('administration.packing_areas.index.header'), packing_areas_path %>
+
+<br/>
+
+<%= render "administration/header", text: t('administration.packing_areas.edit.header') %>
+<%= render 'form' %>
+
+<% if @packing_area.persisted? && update_access? %>
+  <br/>
+
+  <%= button_to t('.button_remove'),
+                packing_area_path(@packing_area.id),
+                data: { confirm: t('administration.packing_areas.edit.confirm_remove') },
+                method: :delete %>
+<% end %>

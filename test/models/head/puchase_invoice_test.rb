@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
+  fixtures %w(heads head/voucher_rows)
+
   setup do
     @tilat = Head::PurchaseInvoice::INVOICE_TYPES
   end

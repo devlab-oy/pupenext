@@ -1,41 +1,35 @@
 class Administration::CurrenciesController < AdministrationController
-  # GET /currencies
   def index
     @currencies = Currency
       .search_like(search_params)
       .order(order_params)
   end
 
-  # GET /currencies/1
   def show
     render :edit
   end
 
-  # GET /currencies/new
   def new
     @currency = Currency.new
+    render :edit
   end
 
-  # POST /currencies
   def create
-    @currency = Currency.new
-    @currency.attributes = currency_params
+    @currency = Currency.new currency_params
 
-    if @currency.save_by current_user
-      redirect_to currencies_path, notice: 'Valuutta luotiin onnistuneesti.'
+    if @currency.save
+      redirect_to currencies_path, notice: t('.create_success')
     else
-      render :new
+      render :edit
     end
   end
 
-  # GET /currencies/1/edit
   def edit
   end
 
-  # PATCH/PUT /currencies/1
   def update
-    if @currency.update_by(currency_params, current_user)
-      redirect_to currencies_path, notice: 'Valuutta päivitettiin onnistuneesti.'
+    if @currency.update currency_params
+      redirect_to currencies_path, notice: t('.update_success')
     else
       render :edit
     end
@@ -44,16 +38,16 @@ class Administration::CurrenciesController < AdministrationController
   private
 
     def find_resource
-      @currency = Currency.find(params[:id])
+      @currency = Currency.find params[:id]
     end
 
     def currency_params
-      params.require(:currency).permit(
+      resource_parameters model: :currency, parameters: [
         :nimi,
         :jarjestys,
         :kurssi,
         :intrastat_kurssi,
-      )
+      ]
     end
 
     def searchable_columns
