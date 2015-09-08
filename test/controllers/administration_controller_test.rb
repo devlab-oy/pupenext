@@ -232,4 +232,32 @@ class AdministrationControllerTest < ActionController::TestCase
     assert_equal '223344', assigns(:sum_level).taso
     assert_equal 'barbaz', assigns(:sum_level).nimi
   end
+
+  test 'updating existing record should not use default values' do
+    login users(:bob)
+
+    # Let's duplicate attributes so we can add all required fields
+    attribute1 = keywords(:mysql_alias_1)
+    attribute2 = attribute1.dup
+    attribute3 = attribute1.dup
+    attribute1.update! database_field: 'taso.taso', set_name: 'Default', visibility: :visible, default_value: '112233'
+    attribute2.update! database_field: 'taso.nimi', set_name: 'Default', visibility: :hidden, default_value: 'foobar'
+    attribute3.update! database_field: 'taso.tyyppi', set_name: 'Default', visibility: :visible
+    @sum_level.update! nimi: 'notfoobar'
+
+    # We submit tyyppi and taso. nimi is hidden, but has a default value.
+    request = {
+      id: @sum_level.id,
+      commit: "joo",
+      sum_level: {
+        tyyppi: 'U',
+        taso: '332211'
+      }
+    }
+
+    patch :update, request
+    assert_redirected_to sum_levels_path
+    assert_equal '332211', assigns(:sum_level).reload.taso
+    assert_equal 'notfoobar', assigns(:sum_level).nimi
+  end
 end

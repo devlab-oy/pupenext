@@ -12,12 +12,13 @@ class AdministrationController < ApplicationController
     alias_set  = params[:alias_set].to_s
     set_name   = alias_set.empty? ? "Default" : alias_set
     table_name = model.to_s.classify.constantize.table_name
-    attributes = custom_attributes table_name, set_name
+    attributes = Keyword::CustomAttribute.fetch_set table_name: table_name, set_name: set_name
 
     allowed = attributes.present? ? attributes.visible.map { |a| a.field.to_sym }.sort : parameters
     resource_parameters = params.require(model).permit(allowed)
 
-    resource_parameters.merge default_values_for_hidden(attributes)
+    resource_parameters.merge! default_values_for_hidden(attributes) if is_a_new_resource?
+    resource_parameters
   end
 
   private
@@ -25,14 +26,14 @@ class AdministrationController < ApplicationController
     def default_values_for_hidden(attributes)
       params = {}
 
-      attributes.hidden.where.not(default_value: '').map do |attr|
+      attributes.hidden.where.not(default_value: '').each do |attr|
         params[attr.field.to_sym] = attr.default_value
       end
 
       ActionController::Parameters.new params
     end
 
-    def custom_attributes(table_name, set_name)
-      Keyword::CustomAttribute.fetch_set table_name: table_name, set_name: set_name
+    def is_a_new_resource?
+      params[:id].blank?
     end
 end
