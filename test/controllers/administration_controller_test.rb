@@ -101,7 +101,7 @@ class AdministrationControllerTest < ActionController::TestCase
     assert_equal ['nimi', 'taso'], params.keys
 
     # Make one of them hidden, we should get only one
-    attribute_one.update! visibility: :hidden
+    attribute_one.update! visibility: :hidden, default_value: ''
     params = @controller.resource_parameters(model: :sum_level, parameters: [:foo, :bar])
     assert_equal ['taso'], params.keys
 
@@ -174,5 +174,62 @@ class AdministrationControllerTest < ActionController::TestCase
 
     patch :update, id: @sum_level.id, commit: "yes", sum_level: { nimi: 'the_new_name!' }, alias_set: :bobset
     refute_equal 'the_new_name!', @sum_level.reload.nimi
+  end
+
+  test 'should set default value on create even if attributes are hidden' do
+    login users(:bob)
+
+    # Let's duplicate attributes so we can add all required fields
+    attribute1 = keywords(:mysql_alias_1)
+    attribute2 = attribute1.dup
+    attribute3 = attribute1.dup
+    attribute1.update! database_field: 'taso.taso', set_name: 'Default', visibility: :hidden, default_value: '112233'
+    attribute2.update! database_field: 'taso.nimi', set_name: 'Default', visibility: :hidden, default_value: 'foobar'
+    attribute3.update! database_field: 'taso.tyyppi', set_name: 'Default', visibility: :visible
+
+    # We submit only tyyppi, we have default values for other required fields in hidden columns
+    request = {
+      sum_level: {
+        tyyppi: 'U'
+      },
+      commit: "joo"
+    }
+
+    assert_difference 'SumLevel.count' do
+      post :create, request
+    end
+
+    assert_redirected_to sum_levels_path
+    assert_equal '112233', assigns(:sum_level).taso
+    assert_equal 'foobar', assigns(:sum_level).nimi
+  end
+
+  test 'default value should not override if attributes are visible' do
+    login users(:bob)
+
+    # Let's duplicate attributes so we can add all required fields
+    attribute1 = keywords(:mysql_alias_1)
+    attribute2 = attribute1.dup
+    attribute3 = attribute1.dup
+    attribute1.update! database_field: 'taso.taso', set_name: 'Default', visibility: :visible, default_value: '112233'
+    attribute2.update! database_field: 'taso.nimi', set_name: 'Default', visibility: :visible, default_value: 'foobar'
+    attribute3.update! database_field: 'taso.tyyppi', set_name: 'Default', visibility: :visible
+
+    request = {
+      sum_level: {
+        tyyppi: 'U',
+        taso: '223344',
+        nimi: 'barbaz'
+      },
+      commit: "joo"
+    }
+
+    assert_difference 'SumLevel.count' do
+      post :create, request
+    end
+
+    assert_redirected_to sum_levels_path
+    assert_equal '223344', assigns(:sum_level).taso
+    assert_equal 'barbaz', assigns(:sum_level).nimi
   end
 end
