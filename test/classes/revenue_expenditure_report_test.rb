@@ -85,7 +85,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # sales sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '555', summa: -53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is paid
@@ -127,7 +127,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # sales sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is paid
@@ -138,7 +138,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
 
     # Third invoice is company accounts payable
@@ -165,7 +165,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # sales sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is unpaid, but it is current date so it's not overdue
@@ -176,7 +176,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
 
     # Third invoice is paid
@@ -186,7 +186,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_three.accounting_rows.create!(tilino: '345', summa: 100, tapvm: 2.weeks.ago)
 
     # overdue_accounts_payable should include invoice one
@@ -205,7 +205,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # sales sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: -53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is unpaid, but it is current date so it's not overdue
@@ -216,7 +216,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: -12.34, tapvm: 2.weeks.ago)
 
     # Third invoice is paid
@@ -226,7 +226,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_three.accounting_rows.create!(tilino: '345', summa: -100, tapvm: 2.weeks.ago)
 
     # Fourth invoice is unpaid but with factoring account number
@@ -236,7 +236,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_four.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 2.weeks.ago)
 
     # overdue_accounts_receivable should include invoice one
@@ -261,7 +261,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: -53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is outside of current week
@@ -271,7 +271,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: -20, tapvm: 1.weeks.ago)
 
     # Third invoice is overdue factoring
@@ -285,7 +285,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Create accounting rows
     # Factoring account number is 666 from accounts.yml
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_three.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
 
     # Fourth invoice is current week factoring
@@ -298,7 +298,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Create accounting rows
     # Factoring account number is 666 from accounts yml
-    # row sums are negative for accounting reasons
+    # sales accounting row sums are negative for accounting reasons
     invoice_four.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
 
     # sales should include invoice one
@@ -321,7 +321,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is outside of current week
@@ -331,7 +331,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '345', summa: 20, tapvm: 1.weeks.ago)
 
     # Lets add one alternative expenditure for current week
@@ -364,7 +364,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # sales accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '999', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is outside of current week
@@ -373,7 +373,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # sales accounting row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '999', summa: 20, tapvm: 1.weeks.ago)
 
     # concern accounts receivable should include invoice one
@@ -392,7 +392,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_one.accounting_rows.create!(tilino: '777', summa: 53.39, tapvm: 1.weeks.ago)
 
     # Second invoice is outside of current week
@@ -401,7 +401,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Create accounting rows
-    # row sums are positive for accounting reasons
+    # purchase accounting row sums are positive for accounting reasons
     invoice_two.accounting_rows.create!(tilino: '777', summa: 20, tapvm: 1.weeks.ago)
 
     # concern accounts payable should include invoice one
