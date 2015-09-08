@@ -15,7 +15,26 @@ class AdministrationController < ApplicationController
     attributes = Keyword::CustomAttribute.fetch_set table_name: table_name, set_name: set_name
 
     allowed = attributes.present? ? attributes.visible.map { |a| a.field.to_sym }.sort : parameters
+    resource_parameters = params.require(model).permit(allowed)
 
-    params.require(model).permit(allowed)
+    resource_parameters.merge! default_values_for_hidden(attributes) if is_a_new_resource?
+    resource_parameters
   end
+
+  private
+
+    def default_values_for_hidden(attributes)
+      params = {}
+
+      attributes.hidden.where.not(default_value: '').each do |attr|
+        params[attr.field.to_sym] = attr.default_value
+      end
+
+      ActionController::Parameters.new params
+    end
+
+    def is_a_new_resource?
+      # TODO, this is pretty fragile? Is there a better way to find this out?
+      params[:id].blank?
+    end
 end
