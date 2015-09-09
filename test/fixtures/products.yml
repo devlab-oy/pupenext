@@ -1,13 +1,17 @@
-one:
+DEFAULTS: &DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+hammer:
   yhtio: acme
-  tuoteno: prod_1
-  nimitys: Tuote 1
+  tuoteno: hammer123
+  nimitys: All-around hammer
+  osasto: <%= ActiveRecord::FixtureSet.identify(:group_tools) %>
   vihapvm: 0
   epakurantti25pvm: 0
   epakurantti50pvm: 0
   epakurantti75pvm: 0
   epakurantti100pvm: 0
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
