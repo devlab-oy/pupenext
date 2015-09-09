@@ -80,32 +80,34 @@ class RevenueExpenditureReport
         .where.not(tiliointi: { tilino: company.konserniostovelat })
     end
 
-    # @return [BigDecimal] sum of invoices
-    #
     # overdue date must be older than current week
     # fetch sum from accounting rows, because it can be partially paid
     # accounting rows sum is negative, so it must be converted to positive number
     def history_salesinvoice
-      unpaid_sent_sales_invoices.where("erpcm < ?", @beginning_of_week).sum("tiliointi.summa * -1")
+      unpaid_sent_sales_invoices
+        .where("erpcm < ?", @beginning_of_week)
+        .sum("tiliointi.summa * -1")
     end
 
     def overdue_accounts_receivable
-      unpaid_sent_sales_invoices.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa") * -1
+      unpaid_sent_sales_invoices
+        .where(erpcm: @beginning_of_week..@yesterday)
+        .sum("tiliointi.summa") * -1
     end
 
     def overdue_accounts_payable
-      unpaid_purchase_invoice.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
+      unpaid_purchase_invoice
+        .where(erpcm: @beginning_of_week..@yesterday)
+        .sum("tiliointi.summa")
     end
 
     def concern_accounts_receivable(start, stop)
-      return 0.0 if start > stop
-
-      sent_sales_invoice_concern_accounts_receivable.where(erpcm: start..stop).sum("tiliointi.summa")
+      sent_sales_invoice_concern_accounts_receivable
+        .where(erpcm: start..stop)
+        .sum("tiliointi.summa")
     end
 
-    # @param (see #sum_sales)
-    # @return [BigDecimal] sum of invoices in the date range
-    #
+    # return sum of invoices in the date range
     # if current date is the beginning of week return 0, because invoice cannot be overdue
     # if current date is in the middle of week, or in the end, calculate sum from accounting rows
     # only 30% of sum is calculated for overdues
@@ -117,12 +119,9 @@ class RevenueExpenditureReport
       sent_factoring_sales_invoices
         .where(erpcm: start..stop)
         .where("lasku.tapvm < ?", @beginning_of_week)
-        .sum("(tiliointi.summa * 0.3) * -1")
+        .sum("tiliointi.summa * 0.3 * -1")
     end
 
-    # @param (see #sum_sales)
-    # @return [BigDecimal] 70% of sent factoring sales invoices' sum
-    #
     # return only 70% of sum
     # the rest 30% is calculated in (see #overdue_factoring)
     # overdue date has to be within date range
@@ -132,22 +131,24 @@ class RevenueExpenditureReport
     def current_week_factoring(start, stop)
       sent_factoring_sales_invoices
         .where(erpcm: start..stop, tapvm: (start + 1)..(stop + 1))
-        .sum("(tiliointi.summa * 0.7) * -1")
+        .sum("tiliointi.summa * 0.7 * -1")
     end
 
-    # @return (see #unpaid_purchase_invoice)
-    #
     # overdue date must be older than current week
     # fetch sum from accounting rows, because it can be partially paid
     def history_purchaseinvoice
-      unpaid_purchase_invoice.where("erpcm < ?", @beginning_of_week).sum('tiliointi.summa')
+      unpaid_purchase_invoice
+        .where("erpcm < ?", @beginning_of_week)
+        .sum('tiliointi.summa')
     end
 
     # @param start [Date] starting date
     # @param stop [Date] ending date
     # @return [BigDecimal] sum of purchase invoices which had company accounts payable account rows
     def concern_accounts_payable(start, stop)
-      purchase_invoice_concern_accounts_payable.where(erpcm: start..stop).sum("tiliointi.summa")
+      purchase_invoice_concern_accounts_payable
+        .where(erpcm: start..stop)
+        .sum("tiliointi.summa")
     end
 
     # @param start [Date] starting date
