@@ -75,7 +75,7 @@ class RevenueExpenditureReport
           purchases: sum_purchases(start, stop, number),
           concern_accounts_receivable: concern_accounts_receivable(start, stop),
           concern_accounts_payable: concern_accounts_payable(start, stop),
-          alternative_expenditures: expenditures_for_week(number),
+          alternative_expenditures: alternative_expenditures(number),
         }
       end
     end
@@ -155,23 +155,27 @@ class RevenueExpenditureReport
         .sum("tiliointi.summa * 0.7 * -1")
     end
 
-    # return purchase invoices total plus alternative expenditures total
+    # return purchase invoices total excluding konserniostovelat
     def sum_purchases(start, stop, week)
       amount = company.heads.purchase_invoices.joins(:accounting_rows)
                 .where.not(tiliointi: { tilino: company.konserniostovelat })
                 .where(erpcm: start..stop)
                 .sum('tiliointi.summa')
 
-      amount += expenditures_for_week(week).map { |w| w[:amount] }.sum
+      amount += expenditures_for_week(week).sum(:selitetark_2).to_d
       amount
     end
 
-    # alternative expenditures are user's own custom expenditures which are stored in keywords
+    # alternative expenditures are user's own custom expenditures which are stored in keywords per week
     def expenditures_for_week(week)
-      Keyword::RevenueExpenditureReportData.where(selite: week).map do |e|
+      Keyword::RevenueExpenditureReportData.where(selite: week)
+    end
+
+    def alternative_expenditures(week)
+      expenditures_for_week(week).map do |e|
         {
           description: e.selitetark,
-          amount: BigDecimal(e.selitetark_2),
+          amount: e.selitetark_2.to_d,
         }
       end
     end
