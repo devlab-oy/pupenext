@@ -14,5 +14,7 @@ class Product::GroupTest < ActiveSupport::TestCase
   test 'relations' do
     product = products :hammer
     assert_equal product.nimitys, @group.products.first.nimitys
+
+    assert_equal Product::Group, @group.class
   end
 end
