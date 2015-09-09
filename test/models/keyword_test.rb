@@ -14,6 +14,7 @@ class KeywordTest < ActiveSupport::TestCase
     assert @foreign_vat.valid?, @foreign_vat.errors.full_messages
     assert @top_translation.valid?, @top_translation.errors.full_messages
     assert keywords(:top_locale_en).valid?
+    assert keywords(:group_1).valid?
   end
 
   test 'top translation relation' do
