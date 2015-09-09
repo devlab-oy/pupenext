@@ -1,13 +1,18 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  fixtures %w(products)
+  fixtures %w(products keywords)
 
   setup do
-    @product = products(:one)
+    @product = products(:hammer)
   end
 
   test 'all fixtures should be valid' do
     assert @product.valid?
+  end
+
+  test 'relations' do
+    group = keywords :group_tools
+    assert_equal group.name, @product.group.name
   end
 end

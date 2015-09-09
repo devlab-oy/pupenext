@@ -8,7 +8,7 @@ hammer:
   yhtio: acme
   tuoteno: hammer123
   nimitys: All-around hammer
-  osasto: <%= ActiveRecord::FixtureSet.identify(:group_tools) %>
+  osasto: 1000
   vihapvm: 0
   epakurantti25pvm: 0
   epakurantti50pvm: 0
