@@ -9,6 +9,7 @@ hammer:
   tuoteno: hammer123
   nimitys: All-around hammer
   osasto: 1000
+  try: 2000
   vihapvm: 0
   epakurantti25pvm: 0
   epakurantti50pvm: 0

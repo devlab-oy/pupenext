@@ -1,5 +1,6 @@
 class Product < BaseModel
   belongs_to :group, foreign_key: :osasto, primary_key: :selite, class_name: 'Product::Group'
+  belongs_to :category, foreign_key: :try, primary_key: :selite, class_name: 'Product::Category'
 
   self.table_name = :tuote
   self.primary_key = :tunnus
