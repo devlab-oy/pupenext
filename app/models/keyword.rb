@@ -17,7 +17,7 @@ class Keyword < BaseModel
       'ALVULK' => Keyword::ForeignVat,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'MYSQLALIAS' => Keyword::CustomAttribute,
-      'OSASTO' => Keyword::Group,
+      'OSASTO' => Product::Group,
       'PAKKAUSKV' => Keyword::PackageTranslation,
     }
   end
