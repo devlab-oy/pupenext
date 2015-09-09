@@ -4,7 +4,7 @@ class ProductTest < ActiveSupport::TestCase
   fixtures %w(products keywords)
 
   setup do
-    @product = products(:hammer)
+    @product = products :hammer
   end
 
   test 'all fixtures should be valid' do
@@ -13,6 +13,6 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'relations' do
     group = keywords :group_tools
-    assert_equal group.name, @product.group.name
+    assert_equal group.description, @product.group.description
   end
 end

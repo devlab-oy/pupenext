@@ -8,7 +8,7 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
   end
 
   test 'all fixtures should be valid' do
-    assert @product.valid?
+    assert @group.valid?
   end
 
   test 'relations' do
