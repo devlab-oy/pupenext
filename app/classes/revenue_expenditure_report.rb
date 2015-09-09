@@ -128,26 +128,15 @@ class RevenueExpenditureReport
         .sum('tiliointi.summa')
     end
 
-    # fetch all purchace invoices
-    # join accounting rows, because amounts are calculated from voucher rows
-    # include only rows with company accounts payable accounting rows
-    def purchase_invoice_concern_accounts_payable
+    # return purchase invoices sum within company group
+    def concern_accounts_payable(start, stop)
       company.heads.purchase_invoices.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.konserniostovelat })
-    end
-
-    # @param start [Date] starting date
-    # @param stop [Date] ending date
-    # @return [BigDecimal] sum of purchase invoices which had company accounts payable account rows
-    def concern_accounts_payable(start, stop)
-      purchase_invoice_concern_accounts_payable
         .where(erpcm: start..stop)
         .sum("tiliointi.summa")
     end
 
-    # @param start [Date] starting date
-    # @param stop [Date] ending date
-    # @return [BigDecimal] amount of date range's sales invoices and factoring invoices (overdued and not overdued)
+    # return total sales invoices and factoring invoices (overdued and not overdued)
     def sum_sales(start, stop)
       amount  = sales(start, stop)
       amount += overdue_factoring(start, stop)
@@ -155,21 +144,21 @@ class RevenueExpenditureReport
       amount
     end
 
-    # @param start [Date] starting date
-    # @param stop [Date] ending date
-    # @param week [String] week / year combo, example '35 / 2015'
-    # @return [BigDecimal] amount of date range's purchase invoices and alternative expenditure's
+    def sales(start, stop)
+      sent_sales_invoice_without_factoring_concern.where(erpcm: start..stop).sum("tiliointi.summa * -1")
+    end
+
+    # return purchase invoices total plus alternative expenditures total
     def sum_purchases(start, stop, week)
       amount = purchase_invoice_without_concern_accounts_payable
                 .where(erpcm: start..stop)
                 .sum('tiliointi.summa')
 
-      amount = purchases(start, stop)
-      amount += BigDecimal(alternative_expenditures(week).sum(:selitetark_2))
+      amount += expenditures_for_week(week).map { |w| w[:amount] }.sum
       amount
     end
 
-    # @return [Hash] sum of all weekly sales invoices, purchase invoices, company accounts receivables and company accounts payables
+    # return total weekly sales, purchases, and company accounts receivables/payables
     def weekly_sum
       {
         sales: weekly.map { |w| w[:sales] }.sum,
@@ -179,22 +168,20 @@ class RevenueExpenditureReport
       }
     end
 
-    # @return [Array] contains weekly hashes of
-    #  week/year combo (see #loop_weeks)
-    #  looped week's sales sum (see #sum_sales)
-    #  looped week's purchases sum (see #sum_purchases)
-    #  looped week's company accounts receivable sum (see #concern_accounts_receivable)
-    #  looped week's company accounts payable sum (see #concern_accounts_payable)
-    #  looped week's alternative expenditures (see #expenditures_for_week)
+    #  calculate weekly amounts for
+    #  - sales
+    #  - purchases
+    #  - company accounts receivable
+    #  - company accounts payable
+    #  - alternative expenditures
     def weekly
-      loop_weeks.map do |week|
+      @weekly ||= loop_weeks.map do |week|
         number = week[:week]
         start  = week[:beginning]
         stop   = week[:ending]
 
         {
           week: number,
-          week_sanitized: number.tr(' / ', '_'),
           sales: sum_sales(start, stop),
           purchases: sum_purchases(start, stop, number),
           concern_accounts_receivable: concern_accounts_receivable(start, stop),
@@ -204,7 +191,7 @@ class RevenueExpenditureReport
       end
     end
 
-    # @return [Array] unique week/year grouping with week's beginning and ending dates
+    # unique week/year grouping with week's beginning and ending dates
     def loop_weeks
       @beginning_of_week.upto(@date_end).map do |date|
         {
@@ -215,34 +202,13 @@ class RevenueExpenditureReport
       end.uniq
     end
 
-    # @param (see #sum_sales)
-    # @note (see #sent_sales_invoice_without_factoring_concern)
-    # @return [BigDecimal] sum from accounting rows
-    def sales(start, stop)
-      sent_sales_invoice_without_factoring_concern.where(erpcm: start..stop).sum("tiliointi.summa * -1")
-    end
-
-    # @param start [Date] starting date
-    # @param stop [Date] ending date
-    # @note (see #purchase_invoice_without_concern_accounts_payable)
-    # @return [BigDecimal] sum from accounting rows
-    def purchases(start, stop)
-      purchase_invoice_without_concern_accounts_payable.where(erpcm: start..stop).sum('tiliointi.summa')
-    end
-
-    # @param (see #expenditures_for_week)
-    # @return [ActiveRecord::Relation] alternative expenditures
-    def alternative_expenditures(week)
-      Keyword::RevenueExpenditureReportData.where(selite: week)
-    end
-
-    # @note alternative expenditures are user's own custom expenditures which are stored in keywords
-    # @note (see #alternative_expenditures)
-    # @param week [String] week & year combination
-    # @example '35 / 2015'
-    # @return [Array] alternative expenditures
-    # @example [ description: 'Foo', amount: '100' ]
+    # alternative expenditures are user's own custom expenditures which are stored in keywords
     def expenditures_for_week(week)
-      alternative_expenditures(week).map { |e| { description: e.selitetark, amount: e.selitetark_2 } }
+      Keyword::RevenueExpenditureReportData.where(selite: week).map do |e|
+        {
+          description: e.selitetark,
+          amount: BigDecimal(e.selitetark_2),
+        }
+      end
     end
 end
