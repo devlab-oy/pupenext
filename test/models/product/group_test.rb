@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Keyword::CustomAttributeTest < ActiveSupport::TestCase
+class Product::GroupTest < ActiveSupport::TestCase
   fixtures %w(products keywords)
 
   setup do
