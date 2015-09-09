@@ -22,55 +22,62 @@ class RevenueExpenditureReport
 
   private
 
-    # @return [ActiveRecord::Relation] unpaid sent sales invoices joined with accounting rows (excluding accounts with factoring account number)
-    # @note unpaid = mapvm is 0, sales invoice's scope
-    # @note sent = alatila X, sales invoice's scope
-    # @note without_factoring = voucher row scope excluding company's factoring accounts receivable account number
-    # have to join accounting rows, because invoice's sum is calculated from rows
-    # have to exlude rows with company's factoring accounts receivable account number, because factoring invoices has special calculation method
+    def company
+      @current_company ||= Current.company
+    end
+
+    # fetches sent unpaid sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # exclude rows with company's factoring accounts receivable account number
     def unpaid_sent_sales_invoices
-      Head::SalesInvoice.sent.unpaid.joins(:accounting_rows).merge(Head::VoucherRow.without_factoring)
+      company.sales_invoices.sent.unpaid.joins(:accounting_rows)
+        .where.not(tiliointi: { tilino: company.factoringsaamiset })
     end
 
-    # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (only accounts with factoring account number)
-    # @note sent = alatila X, sales invoice's scope
-    # @note factoring = voucher row scope using company's factoring accounts receivable account number
+    # fetch sent paid/unpaid sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # include only rows with company's factoring accounts receivable account number
     def sent_factoring_sales_invoices
-      Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.factoring)
+      company.sales_invoices.sent.joins(:accounting_rows)
+        .where(tiliointi: { tilino: company.factoringsaamiset })
     end
 
-    # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluding accounts with company accounts receivable account number)
-    #
-    # @note sent = alatila X, sales invoice's scope
+    # fetch sent sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # include only rows with company's concern accounts receivable account number
     def sent_sales_invoice_concern_accounts_receivable
-      Head::SalesInvoice.sent.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_receivable)
+      company.sales_invoices.sent.joins(:accounting_rows)
+        .where(tiliointi: { tilino: company.konsernimyyntisaamiset })
     end
 
-    # @return [ActiveRecord::Relation] all purchase invoices joined with company accounts payable accounting rows
+    # fetch all purchace invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # include only rows with company accounts payable accounting rows
     def purchase_invoice_concern_accounts_payable
-      Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.concern_accounts_payable)
+      company.heads.purchase_invoices.joins(:accounting_rows)
+        .where(tiliointi: { tilino: company.konserniostovelat })
     end
 
-    # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows
-    #
-    # @note unpaid = mapvm is 0, purchase invoice's scope
-    # need to join accounting rows for more precise sum
+    # fetch all unpaid purchase invoices
+    # join accounting rows, because amounts are calculated from voucher rows
     def unpaid_purchase_invoice
-      Head::PurchaseInvoice.unpaid.joins(:accounting_rows)
+      company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
     end
 
-    # @return [ActiveRecord::Relation] sent sales invoices joined with accounting rows (excluded factoring and company accounts receivable account numbers)
-    # @note sent = alatila X, sales invoice's scope
-    # @note without_factoring_concern_accounts_receivable = voucher row scope excluding company's factoring accounts receivable and company accounts receivable account numbers
+    # fetch all sent sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # exclude all rows with factoring and company accounts receivable account numbers
     def sent_sales_invoice_without_factoring_concern
-      Head::SalesInvoice.sent
-      .joins(:accounting_rows).merge(Head::VoucherRow.without_factoring_concern_accounts_receivable)
+      company.sales_invoices.sent.joins(:accounting_rows)
+        .where.not(tiliointi: { tilino: [company.factoringsaamiset, company.konsernimyyntisaamiset] })
     end
 
-    # @return [ActiveRecord::Relation] purchase invoices joined with accounting rows (excluded company accounts payable account numbers)
-    # @note without_concern_accounts_payable = voucher row scope excluding company accounts receivable account number
+    # fetch all purchase invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # exclude rows with company accounts payable account number
     def purchase_invoice_without_concern_accounts_payable
-      Head::PurchaseInvoice.joins(:accounting_rows).merge(Head::VoucherRow.without_concern_accounts_payable)
+      company.heads.purchase_invoices.joins(:accounting_rows)
+        .where.not(tiliointi: { tilino: company.konserniostovelat })
     end
 
     # @return [BigDecimal] sum of invoices
