@@ -1,4 +1,6 @@
-class Product < ActiveRecord::Base
+class Product < BaseModel
+  belongs_to :group, foreign_key: :osasto, primary_key: :selite, class_name: 'Product::Group'
+
   self.table_name = :tuote
   self.primary_key = :tunnus
 

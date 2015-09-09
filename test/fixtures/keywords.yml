@@ -17,10 +17,10 @@ foreign_vat:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-group_1:
+group_tools:
   yhtio: acme
   selite: 1000
-  selitetark: Elektroniikka
+  selitetark: Tools
   laji: OSASTO
   muuttaja: joe
   laatija: joe
