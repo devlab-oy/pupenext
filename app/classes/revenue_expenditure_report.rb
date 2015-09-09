@@ -16,7 +16,7 @@ class RevenueExpenditureReport
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
       weekly: weekly,
-      weekly_sum: weekly_summary,
+      weekly_sum: weekly_sum,
     }
   end
 
@@ -171,7 +171,7 @@ class RevenueExpenditureReport
     end
 
     # @return [Hash] sum of all weekly sales invoices, purchase invoices, company accounts receivables and company accounts payables
-    def weekly_summary
+    def weekly_sum
       {
         sales: weekly.map { |w| w[:sales] }.sum,
         purchases: weekly.map { |w| w[:sales] }.sum,
@@ -203,15 +203,13 @@ class RevenueExpenditureReport
 
     # @return [Array] unique week/year grouping with week's beginning and ending dates
     def loop_weeks
-      weeks = []
-      @beginning_of_week.upto(@date_end) do |date|
-        weeks << {
+      @beginning_of_week.upto(@date_end).map do |date|
+        {
           week: "#{date.cweek} / #{date.cwyear}",
           beginning: date.beginning_of_week,
           ending: date.end_of_week
         }
-      end
-      weeks.uniq!
+      end.uniq
     end
 
     # @param (see #sum_sales)
