@@ -26,42 +26,12 @@ class RevenueExpenditureReport
       @current_company ||= Current.company
     end
 
-    # fetches sent unpaid sales invoices
-    # join accounting rows, because amounts are calculated from voucher rows
-    # exclude rows with company's factoring accounts receivable account number
-    def unpaid_sent_sales_invoices
-      company.sales_invoices.sent.unpaid.joins(:accounting_rows)
-        .where.not(tiliointi: { tilino: company.factoringsaamiset })
-    end
-
-    # fetch sent paid/unpaid sales invoices
-    # join accounting rows, because amounts are calculated from voucher rows
-    # include only rows with company's factoring accounts receivable account number
-    def sent_factoring_sales_invoices
-      company.sales_invoices.sent.joins(:accounting_rows)
-        .where(tiliointi: { tilino: company.factoringsaamiset })
-    end
-
     # fetch sent sales invoices
     # join accounting rows, because amounts are calculated from voucher rows
     # include only rows with company's concern accounts receivable account number
     def sent_sales_invoice_concern_accounts_receivable
       company.sales_invoices.sent.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.konsernimyyntisaamiset })
-    end
-
-    # fetch all purchace invoices
-    # join accounting rows, because amounts are calculated from voucher rows
-    # include only rows with company accounts payable accounting rows
-    def purchase_invoice_concern_accounts_payable
-      company.heads.purchase_invoices.joins(:accounting_rows)
-        .where(tiliointi: { tilino: company.konserniostovelat })
-    end
-
-    # fetch all unpaid purchase invoices
-    # join accounting rows, because amounts are calculated from voucher rows
-    def unpaid_purchase_invoice
-      company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
     end
 
     # fetch all sent sales invoices
@@ -80,6 +50,14 @@ class RevenueExpenditureReport
         .where.not(tiliointi: { tilino: company.konserniostovelat })
     end
 
+    # fetches sent unpaid sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # exclude rows with company's factoring accounts receivable account number
+    def unpaid_sent_sales_invoices
+      company.sales_invoices.sent.unpaid.joins(:accounting_rows)
+        .where.not(tiliointi: { tilino: company.factoringsaamiset })
+    end
+
     # overdue date must be older than current week
     # fetch sum from accounting rows, because it can be partially paid
     # accounting rows sum is negative, so it must be converted to positive number
@@ -96,7 +74,7 @@ class RevenueExpenditureReport
     end
 
     def overdue_accounts_payable
-      unpaid_purchase_invoice
+      company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
         .where(erpcm: @beginning_of_week..@yesterday)
         .sum("tiliointi.summa")
     end
@@ -105,6 +83,14 @@ class RevenueExpenditureReport
       sent_sales_invoice_concern_accounts_receivable
         .where(erpcm: start..stop)
         .sum("tiliointi.summa")
+    end
+
+    # fetch sent paid/unpaid sales invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # include only rows with company's factoring accounts receivable account number
+    def sent_factoring_sales_invoices
+      company.sales_invoices.sent.joins(:accounting_rows)
+        .where(tiliointi: { tilino: company.factoringsaamiset })
     end
 
     # return sum of invoices in the date range
@@ -137,9 +123,17 @@ class RevenueExpenditureReport
     # overdue date must be older than current week
     # fetch sum from accounting rows, because it can be partially paid
     def history_purchaseinvoice
-      unpaid_purchase_invoice
+      company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
         .where("erpcm < ?", @beginning_of_week)
         .sum('tiliointi.summa')
+    end
+
+    # fetch all purchace invoices
+    # join accounting rows, because amounts are calculated from voucher rows
+    # include only rows with company accounts payable accounting rows
+    def purchase_invoice_concern_accounts_payable
+      company.heads.purchase_invoices.joins(:accounting_rows)
+        .where(tiliointi: { tilino: company.konserniostovelat })
     end
 
     # @param start [Date] starting date
@@ -166,6 +160,10 @@ class RevenueExpenditureReport
     # @param week [String] week / year combo, example '35 / 2015'
     # @return [BigDecimal] amount of date range's purchase invoices and alternative expenditure's
     def sum_purchases(start, stop, week)
+      amount = purchase_invoice_without_concern_accounts_payable
+                .where(erpcm: start..stop)
+                .sum('tiliointi.summa')
+
       amount = purchases(start, stop)
       amount += BigDecimal(alternative_expenditures(week).sum(:selitetark_2))
       amount
@@ -190,14 +188,18 @@ class RevenueExpenditureReport
     #  looped week's alternative expenditures (see #expenditures_for_week)
     def weekly
       loop_weeks.map do |week|
+        number = week[:week]
+        start  = week[:beginning]
+        stop   = week[:ending]
+
         {
-          week: week[:week],
-          week_sanitized: week[:week].tr(' / ', '_'),
-          sales: sum_sales(week[:beginning], week[:ending]),
-          purchases: sum_purchases(week[:beginning], week[:ending], week[:week]),
-          concern_accounts_receivable: concern_accounts_receivable(week[:beginning], week[:ending]),
-          concern_accounts_payable: concern_accounts_payable(week[:beginning], week[:ending]),
-          alternative_expenditures: expenditures_for_week(week[:week]),
+          week: number,
+          week_sanitized: number.tr(' / ', '_'),
+          sales: sum_sales(start, stop),
+          purchases: sum_purchases(start, stop, number),
+          concern_accounts_receivable: concern_accounts_receivable(start, stop),
+          concern_accounts_payable: concern_accounts_payable(start, stop),
+          alternative_expenditures: expenditures_for_week(number),
         }
       end
     end
