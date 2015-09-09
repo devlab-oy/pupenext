@@ -33,6 +33,10 @@ class Head < BaseModel
     }
   end
 
+  def self.purchase_invoices
+    where(tila: Head::PurchaseInvoice::TYPES)
+  end
+
   private
 
     def set_date_fields
