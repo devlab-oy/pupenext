@@ -89,34 +89,17 @@ class RevenueExpenditureReport
       unpaid_sent_sales_invoices.where("erpcm < ?", @beginning_of_week).sum("tiliointi.summa * -1")
     end
 
-    # @return (see #overdue_accounts)
-    # @return returned sum from #overdue_accounts is negative, so it must be converted to positive number
     def overdue_accounts_receivable
-      overdue_accounts('receivable') * -1
+      unpaid_sent_sales_invoices.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa") * -1
     end
 
-    # @return (see #overdue_accounts)
     def overdue_accounts_payable
-      overdue_accounts 'payable'
+      unpaid_purchase_invoice.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
     end
 
-    # @param type [String] values 'receivable' or 'payable'
-    # @return [BigDecimal] sum of invoices
-    #
-    # if current date is the beginning of week return 0, because invoice cannot be overdue
-    # if current date is in the middle of week, or in the end, calculate sum from accounting rows
-    # @example current date is thu, overdue date range is mon - wed
-    def overdue_accounts(type)
-      return 0.0 unless Date.today != @beginning_of_week
-
-      unpaid = type == 'receivable' ? unpaid_sent_sales_invoices : unpaid_purchase_invoice
-      unpaid.where(erpcm: @beginning_of_week..@yesterday).sum("tiliointi.summa")
-    end
-
-    # @param start [Date] starting date
-    # @param stop [Date] ending date
-    # @return [BigDecimal] accounting rows sum of sent sales invoices and company accounts receivables within date range
     def concern_accounts_receivable(start, stop)
+      return 0.0 if start > stop
+
       sent_sales_invoice_concern_accounts_receivable.where(erpcm: start..stop).sum("tiliointi.summa")
     end
 
@@ -129,12 +112,12 @@ class RevenueExpenditureReport
     # the rest 70% is calculated in (see #current_week_factoring)
     # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
     def overdue_factoring(start, stop)
-      if Date.today != @beginning_of_week
-        sent_factoring_sales_invoices.where(erpcm: start..stop).where("lasku.tapvm < ?", @beginning_of_week)
+      return 0.0 if start > stop
+
+      sent_factoring_sales_invoices
+        .where(erpcm: start..stop)
+        .where("lasku.tapvm < ?", @beginning_of_week)
         .sum("(tiliointi.summa * 0.3) * -1")
-      else
-        BigDecimal(0)
-      end
     end
 
     # @param (see #sum_sales)
@@ -147,8 +130,9 @@ class RevenueExpenditureReport
     # sales invoice's accounting rows sum is negative, so it must be converted to positive number for view
     # @example if event day is wednedsay, 70% is calculated for thursday
     def current_week_factoring(start, stop)
-      sent_factoring_sales_invoices.where(erpcm: start..stop, tapvm: (start+1)..(stop+1))
-      .sum("(tiliointi.summa * 0.7) * -1")
+      sent_factoring_sales_invoices
+        .where(erpcm: start..stop, tapvm: (start + 1)..(stop + 1))
+        .sum("(tiliointi.summa * 0.7) * -1")
     end
 
     # @return (see #unpaid_purchase_invoice)
