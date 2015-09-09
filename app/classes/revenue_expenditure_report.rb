@@ -172,21 +172,12 @@ class RevenueExpenditureReport
 
     # @return [Hash] sum of all weekly sales invoices, purchase invoices, company accounts receivables and company accounts payables
     def weekly_summary
-      @weekly_sum = {
-        sales: BigDecimal(0),
-        purchases: BigDecimal(0),
-        concern_accounts_receivable: BigDecimal(0),
-        concern_accounts_payable: BigDecimal(0),
+      {
+        sales: weekly.map { |w| w[:sales] }.sum,
+        purchases: weekly.map { |w| w[:sales] }.sum,
+        concern_accounts_receivable: weekly.map { |w| w[:concern_accounts_receivable] }.sum,
+        concern_accounts_payable: weekly.map { |w| w[:concern_accounts_payable] }.sum,
       }
-
-      weekly.each do |w|
-        @weekly_sum[:sales] += w[:sales]
-        @weekly_sum[:purchases] += w[:purchases]
-        @weekly_sum[:concern_accounts_receivable] += w[:concern_accounts_receivable]
-        @weekly_sum[:concern_accounts_payable] += w[:concern_accounts_payable]
-      end
-
-      @weekly_sum
     end
 
     # @return [Array] contains weekly hashes of
