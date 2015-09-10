@@ -21,6 +21,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_equal 0, @acme.keywords.count
     assert_not_equal 0, @acme.packing_areas.count
     assert_not_equal 0, @acme.projects.count
+    assert_not_equal 0, @acme.revenue_expenditures.count
     assert_not_equal 0, @acme.targets.count
     assert_not_equal 0, @acme.users.count
     assert_not_equal 0, @acme.warehouses.count

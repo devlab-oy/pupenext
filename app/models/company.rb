@@ -45,6 +45,8 @@ class Company < ActiveRecord::Base
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
     o.has_many :projects,     class_name: 'Qualifier::Project'
     o.has_many :targets,      class_name: 'Qualifier::Target'
+
+    o.has_many :revenue_expenditures, class_name: 'Keyword::RevenueExpenditureReportData'
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
