@@ -1,7 +1,10 @@
 class Product < BaseModel
-  belongs_to :group,    foreign_key: :osasto,  primary_key: :selite, class_name: 'Product::Group'
-  belongs_to :category, foreign_key: :try,     primary_key: :selite, class_name: 'Product::Category'
-  belongs_to :status,   foreign_key: :status,  primary_key: :selite, class_name: 'Keyword::Status'
+  has_many   :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
+  has_many   :suppliers, through: :product_suppliers
+
+  belongs_to :group,     foreign_key: :osasto,  primary_key: :selite,  class_name: 'Product::Group'
+  belongs_to :category,  foreign_key: :try,     primary_key: :selite,  class_name: 'Product::Category'
+  belongs_to :status,    foreign_key: :status,  primary_key: :selite,  class_name: 'Keyword::Status'
 
   validates :tuoteno, length: { within: 1..60 }, presence: true
   validates :nimitys, length: { within: 1..100 }, presence: true
