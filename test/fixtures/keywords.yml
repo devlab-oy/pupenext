@@ -99,3 +99,13 @@ package_locale_en:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+status_active:
+  yhtio: acme
+  selite: A
+  selitetark: Aktiivi
+  laji: S
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

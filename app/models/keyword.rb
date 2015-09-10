@@ -19,6 +19,7 @@ class Keyword < BaseModel
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'OSASTO' => Product::Group,
       'PAKKAUSKV' => Keyword::PackageTranslation,
+      'S' => Keyword::Status,
       'TRY' => Product::Category,
     }
   end
