@@ -56,9 +56,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_five.save!
     invoice_five.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.weeks.ago)
 
-    # history_salesinvoice should include invoice one and four.
+    # history_revenue should include invoice one and four.
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:history_salesinvoice]
+    assert_equal 153.39, response[:history_revenue]
   end
 
   test 'unpaid purchase invoices' do
@@ -94,9 +94,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
     invoice_three.accounting_rows.create!(tilino: '777', summa: 100, tapvm: 1.weeks.ago)
 
-    # history_purchaseinvoice should include invoice one and three
+    # history_expenditure should include invoice one and three
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:history_purchaseinvoice]
+    assert_equal 153.39, response[:history_expenditure]
   end
 
   test 'overdue accounts payable' do
