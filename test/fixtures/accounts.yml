@@ -114,14 +114,30 @@ account_150_esto:
   muuttaja: bob
   laatija: bob
 
-account_factoring:
+accounts_receivable:
+  yhtio: acme
+  nimi: Myyntisaamiset
+  ulkoinen_taso: 666
+  sisainen_taso: 666
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 1700
+  project:
+  target:
+  cost_center:
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+factoring_accounts_receivable:
   yhtio: acme
   nimi: Factoringmyyntisaamiset
   ulkoinen_taso: 666
   sisainen_taso: 666
   tulosseuranta_taso: 1
   alv_taso: fi307
-  tilino: 666
+  tilino: 1705
   project:
   target:
   cost_center:
@@ -130,14 +146,14 @@ account_factoring:
   muuttaja: bob
   laatija: bob
 
-account_concern_accounts_receivable:
+concern_accounts_receivable:
   yhtio: acme
   nimi: Konsernimyyntisaamiset
   ulkoinen_taso: 999
   sisainen_taso: 999
   tulosseuranta_taso: 1
   alv_taso: fi307
-  tilino: 999
+  tilino: 1710
   project:
   target:
   cost_center:
@@ -146,14 +162,30 @@ account_concern_accounts_receivable:
   muuttaja: bob
   laatija: bob
 
-account_concern_accounts_payable:
+accounts_payable:
+  yhtio: acme
+  nimi: Ostovelat
+  ulkoinen_taso: 777
+  sisainen_taso: 777
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 2870
+  project:
+  target:
+  cost_center:
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
+concern_accounts_payable:
   yhtio: acme
   nimi: Konserniostovelat
   ulkoinen_taso: 777
   sisainen_taso: 777
   tulosseuranta_taso: 1
   alv_taso: fi307
-  tilino: 777
+  tilino: 2890
   project:
   target:
   cost_center:
