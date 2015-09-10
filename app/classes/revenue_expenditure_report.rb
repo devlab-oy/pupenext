@@ -11,8 +11,8 @@ class RevenueExpenditureReport
 
   def data
     {
-      history_salesinvoice: history_salesinvoice,
-      history_purchaseinvoice: history_purchaseinvoice,
+      history_revenue: history_salesinvoice,
+      history_expenditure: history_purchaseinvoice,
       overdue_accounts_payable: overdue_accounts_payable,
       overdue_accounts_receivable: overdue_accounts_receivable,
       weekly: weekly,
