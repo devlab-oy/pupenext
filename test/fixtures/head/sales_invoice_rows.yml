@@ -1,0 +1,11 @@
+one:
+  yhtio: acme
+  invoice: si_one
+  tyyppi: L
+  laatija: joe
+  laadittu: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
