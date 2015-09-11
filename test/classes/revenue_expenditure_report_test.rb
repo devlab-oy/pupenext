@@ -39,7 +39,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.alatila = 'X'
     invoice_one.erpcm = 1.weeks.ago
     invoice_one.mapvm = 0
-    invoice_one.summa = 453.75
     invoice_one.save!
 
     # Add accounts receivable vourcher rows (and others, which should not matter)
@@ -51,7 +50,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
     invoice_two.mapvm = 1.weeks.ago
-    invoice_two.summa = 600.40
     invoice_two.save!
 
     # Add accounts receivable vourcher rows (which should not matter)
@@ -63,7 +61,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four = invoice_one.dup
     invoice_four.erpcm = 1.weeks.ago
     invoice_four.mapvm = 0
-    invoice_four.summa = 700.40
     invoice_four.save!
 
     # Add concern accounts receivable vourcher rows (which should not matter)
@@ -88,10 +85,11 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal 153.39, response[:history_revenue]
   end
 
-  test 'unpaid purchase invoices' do
-    skip
-    # Let's save one invoice and delete the rest
+  test 'history expenditure' do
+    # Let's save three invoices and delete the rest
     invoice_one = heads(:pi_H).dup
+    invoice_two = heads(:pi_Y).dup
+    invoice_three = heads(:pi_M).dup
     Head::PurchaseInvoice.delete_all
 
     # First is unpaid
@@ -99,32 +97,37 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.mapvm = 0
     invoice_one.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+    # Add accounts payable rows, these should show up, others should not
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 46.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_one.tapvm)
 
     # Second invoice is paid
-    invoice_two = invoice_one.dup
-    invoice_two.mapvm = 2.weeks.ago
-    invoice_two.erpcm = 2.weeks.ago
-    invoice_two.summa = 324.34
+    invoice_two.mapvm = 2.days.ago
+    invoice_two.erpcm = 2.days.ago
     invoice_two.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
+    # Add accounts payable rows, these should not show up, as invoice is paid
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
 
-    # Third invoice is company accounts payable
-    invoice_three = invoice_one.dup
-    invoice_three.mapvm = 0
+    # Third is unpaid approved invoice
     invoice_three.erpcm = 1.weeks.ago
-    invoice_three.summa = 100.0
+    invoice_three.mapvm = 0
     invoice_three.save!
-    invoice_three.accounting_rows.create!(tilino: '777', summa: 100, tapvm: 1.weeks.ago)
+
+    # Add accounts payable rows, these should show up, others should not
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 12.14, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 15.86, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_three.tapvm)
 
     # history_expenditure should include invoice one and three
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:history_expenditure]
+    assert_equal 128, response[:history_expenditure]
   end
 
   test 'overdue accounts payable' do
