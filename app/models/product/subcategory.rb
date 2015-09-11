@@ -8,4 +8,12 @@ class Product::Subcategory < Keyword
   def self.sti_name
     'TRY'
   end
+
+  def categories
+    company.products.where(try: selite).pluck(:osasto)
+  end
+
+  def brands
+    company.products.where(try: selite).pluck(:tuotemerkki)
+  end
 end
