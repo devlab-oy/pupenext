@@ -1,5 +1,4 @@
 update_1:
-  yhtio: acme
   pending_updatable: hammer (Product)
   key: Myyntihinta
   value_type: Decimal
