@@ -1,7 +1,6 @@
 class CreatePendingUpdates < ActiveRecord::Migration
   def change
     create_table :pending_updates do |t|
-      t.string  :yhtio
       t.integer :pending_updatable_id
       t.string  :pending_updatable_type
       t.string  :key

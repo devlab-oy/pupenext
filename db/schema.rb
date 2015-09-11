@@ -1692,7 +1692,6 @@ ActiveRecord::Schema.define(version: 20150911075529) do
   add_index "panttitili", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
   create_table "pending_updates", force: :cascade do |t|
-    t.string  "yhtio",                  limit: 255
     t.integer "pending_updatable_id",   limit: 4
     t.string  "pending_updatable_type", limit: 255
     t.string  "key",                    limit: 255
