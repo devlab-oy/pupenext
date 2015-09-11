@@ -3,9 +3,10 @@ class Product < BaseModel
   has_many :suppliers, through: :product_suppliers
   has_many :pending_updates, as: :pending_updatable
 
-  belongs_to :category,     foreign_key: :osasto,  primary_key: :selite,  class_name: 'Product::Category'
-  belongs_to :subcategory,  foreign_key: :try,     primary_key: :selite,  class_name: 'Product::Subcategory'
-  belongs_to :status,       foreign_key: :status,  primary_key: :selite,  class_name: 'Product::Status'
+  belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
+  belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
+  belongs_to :brand,        foreign_key: :tuotemerkki, primary_key: :selite,  class_name: 'Product::Brand'
+  belongs_to :status,       foreign_key: :status,      primary_key: :selite,  class_name: 'Product::Status'
 
   self.table_name = :tuote
   self.primary_key = :tunnus
