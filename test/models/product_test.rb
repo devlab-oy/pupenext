@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  fixtures %w(products keywords product/suppliers)
+  fixtures %w(products keywords product/suppliers pending_updates)
 
   setup do
     @product = products :hammer
@@ -20,5 +20,7 @@ class ProductTest < ActiveSupport::TestCase
 
     product_supplier = product_suppliers :domestic_product_supplier
     assert_equal @product.tuoteno, product_supplier.product.tuoteno
+
+    assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
   end
 end

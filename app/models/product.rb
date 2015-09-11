@@ -1,6 +1,7 @@
 class Product < BaseModel
-  has_many   :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
-  has_many   :suppliers, through: :product_suppliers
+  has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
+  has_many :suppliers, through: :product_suppliers
+  has_many :pending_updates, as: :pending_updatable
 
   belongs_to :group,     foreign_key: :osasto,  primary_key: :selite,  class_name: 'Product::Group'
   belongs_to :category,  foreign_key: :try,     primary_key: :selite,  class_name: 'Product::Category'

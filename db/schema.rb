@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902135757) do
+ActiveRecord::Schema.define(version: 20150911075529) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1690,6 +1690,17 @@ ActiveRecord::Schema.define(version: 20150902135757) do
   add_index "panttitili", ["yhtio", "status", "myyntipvm"], name: "yhtio_status_myyntipvm", using: :btree
   add_index "panttitili", ["yhtio", "tuoteno", "asiakas", "status"], name: "yhtio_tuoteno_asiakas_status", using: :btree
   add_index "panttitili", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
+
+  create_table "pending_updates", force: :cascade do |t|
+    t.string  "yhtio",                  limit: 255
+    t.integer "pending_updatable_id",   limit: 4
+    t.string  "pending_updatable_type", limit: 255
+    t.string  "key",                    limit: 255
+    t.text    "value_type",             limit: 65535
+    t.text    "value",                  limit: 65535
+  end
+
+  add_index "pending_updates", ["pending_updatable_id"], name: "index_pending_updates_on_pending_updatable_id", using: :btree
 
   create_table "perusalennus", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",      limit: 5,                          default: "",  null: false
