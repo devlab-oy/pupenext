@@ -12,8 +12,8 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test 'relations' do
-    group = keywords :group_tools
-    assert_equal group.description, @product.group.description
+    category = keywords :category_tools
+    assert_equal category.description, @product.category.description
 
     status = keywords :status_active
     assert_equal status.description, @product.status.description

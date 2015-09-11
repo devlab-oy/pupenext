@@ -17,7 +17,7 @@ foreign_vat:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-group_tools:
+category_tools:
   yhtio: acme
   selite: 1000
   selitetark: Tools
@@ -27,7 +27,7 @@ group_tools:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-category_tools:
+subcategory_tools:
   yhtio: acme
   selite: 2000
   selitetark: Power tools
