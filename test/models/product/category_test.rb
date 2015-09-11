@@ -17,4 +17,12 @@ class Product::CategoryTest < ActiveSupport::TestCase
 
     assert_equal Product::Category, @category.class
   end
+
+  test 'fetch all subcategories' do
+    assert_not_equal 0, @category.subcategories.count
+  end
+
+  test 'fetch all brands' do
+    assert_not_equal 0, @category.brands.count
+  end
 end
