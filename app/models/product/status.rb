@@ -9,4 +9,3 @@ class Product::Status < Keyword
     'S'
   end
 end
-
