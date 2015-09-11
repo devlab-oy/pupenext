@@ -131,7 +131,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'overdue accounts payable' do
-    skip
     # Let's save one invoice and delete the rest
     invoice_one = heads(:pi_H).dup
     Head::PurchaseInvoice.delete_all
@@ -146,20 +145,23 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.mapvm = 0
     invoice_one.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+    # Add two correct payable regular rows, others should be dismissed
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 446.61, tapvm: invoice_one.tapvm)
 
     # Second invoice is unpaid, but its overdue date is last week
-    # sum is calculated as 0
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
     invoice_two.mapvm = 0
     invoice_two.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '345', summa: 12.34, tapvm: 2.weeks.ago)
+    # Add two correct payable regular rows and others, should be dismissed because they're last week
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
 
     # Third invoice is paid
     invoice_three = invoice_one.dup
@@ -167,17 +169,18 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.mapvm = 1.days.ago
     invoice_three.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_three.accounting_rows.create!(tilino: '345', summa: 100, tapvm: 2.weeks.ago)
+    # Add two correct payable regular rows and others, all should be dismissed. as it is paid.
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_three.tapvm)
 
     # overdue_accounts_payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_payable].to_f
+    assert_equal 106.78, response[:overdue_accounts_payable]
   end
 
   test 'overdue accounts receivable' do
-    skip
     # Let's save one invoice and delete the rest
     invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
@@ -192,9 +195,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.mapvm = 0
     invoice_one.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '345', summa: -53.39, tapvm: 1.weeks.ago)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
 
     # Second invoice is unpaid, but its overdue date is last week
     # sum is calculated as 0

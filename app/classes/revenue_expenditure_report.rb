@@ -14,8 +14,8 @@ class RevenueExpenditureReport
     {
       history_revenue: myyntisaamiset(time_start, week_start),
       history_expenditure: ostovelat(time_start, week_start),
-      overdue_accounts_payable: myyntisaamiset(week_start, yesterday),
-      overdue_accounts_receivable: ostovelat(week_start, yesterday),
+      overdue_accounts_payable: ostovelat(week_start, yesterday),
+      overdue_accounts_receivable: myyntisaamiset(week_start, yesterday),
       weekly: weekly,
       weekly_sum: weekly_sum,
     }
