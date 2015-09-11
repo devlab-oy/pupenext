@@ -25,6 +25,7 @@ class Company < ActiveRecord::Base
     o.has_many :products
     o.has_many :brands,            class_name: 'Product::Brand'
     o.has_many :categories,        class_name: 'Product::Category'
+    o.has_many :product_statuses,  class_name: 'Product::Status'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :subcategories,     class_name: 'Product::Subcategory'
 
