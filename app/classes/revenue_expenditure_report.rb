@@ -3,19 +3,19 @@ class RevenueExpenditureReport
   def initialize(period)
     raise ArgumentError, "pass month as integer" unless period.is_a? Integer
 
-    @date_end = Date.today.beginning_of_week.months_since period
-    @beginning_of_time = Time.at(0).to_date
-    @beginning_of_week = Date.today.beginning_of_week
-    @end_of_week = Date.today.end_of_week
-    @yesterday = Date.yesterday
+    @period = period
   end
 
   def data
+    time_start = Time.at(0).to_date
+    week_start = Date.today.beginning_of_week
+    yesterday  = Date.yesterday
+
     {
-      history_revenue: myyntisaamiset(@beginning_of_time, @beginning_of_week),
-      history_expenditure: ostovelat(@beginning_of_time, @beginning_of_week),
-      overdue_accounts_payable: myyntisaamiset(@beginning_of_week, @yesterday),
-      overdue_accounts_receivable: ostovelat(@beginning_of_week, @yesterday),
+      history_revenue: myyntisaamiset(time_start, week_start),
+      history_expenditure: ostovelat(time_start, week_start),
+      overdue_accounts_payable: myyntisaamiset(week_start, yesterday),
+      overdue_accounts_receivable: ostovelat(week_start, yesterday),
       weekly: weekly,
       weekly_sum: weekly_sum,
     }
@@ -70,7 +70,9 @@ class RevenueExpenditureReport
     end
 
     def revenue_expenditures(week)
-      company.revenue_expenditures.where(selite: week).sum(:selitetark_2).to_d
+      company.revenue_expenditures
+        .where(selite: week)
+        .sum(:selitetark_2).to_d
     end
 
     def revenue_expenditures_details(week)
@@ -126,7 +128,10 @@ class RevenueExpenditureReport
 
     # return week numbers and start/end dates for weeks in the requested perioid
     def loop_weeks
-      @beginning_of_week.upto(@date_end).map do |date|
+      date_start = Date.today.beginning_of_week
+      date_end = Date.today.beginning_of_week.months_since @period
+
+      date_start.upto(date_end).map do |date|
         [
           "#{date.cweek} / #{date.cwyear}",
           date.beginning_of_week,
