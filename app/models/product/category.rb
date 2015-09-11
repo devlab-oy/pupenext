@@ -10,10 +10,10 @@ class Product::Category < Keyword
   end
 
   def subcategories
-    company.products.where(osasto: selite).pluck(:try)
+    company.subcategories.joins(:products).where(tuote: { osasto: selite })
   end
 
   def brands
-    company.products.where(osasto: selite).pluck(:tuotemerkki)
+    company.brands.joins(:products).where(tuote: { osasto: selite })
   end
 end
