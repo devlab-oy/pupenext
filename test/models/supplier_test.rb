@@ -14,5 +14,7 @@ class SupplierTest < ActiveSupport::TestCase
   test 'relations' do
     product_supplier = product_suppliers :domestic_product_supplier
     assert_equal @supplier.nimi, product_supplier.supplier.nimi
+
+    assert_not_equal 0, @supplier.products.count
   end
 end
