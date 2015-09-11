@@ -17,9 +17,17 @@ class Company < ActiveRecord::Base
     o.has_many :packages
     o.has_many :packing_areas
     o.has_many :printers
+    o.has_many :suppliers
     o.has_many :terms_of_payments
     o.has_many :users
     o.has_many :warehouses
+
+    o.has_many :products
+    o.has_many :brands,            class_name: 'Product::Brand'
+    o.has_many :categories,        class_name: 'Product::Category'
+    o.has_many :product_statuses,  class_name: 'Product::Status'
+    o.has_many :product_suppliers, class_name: 'Product::Supplier'
+    o.has_many :subcategories,     class_name: 'Product::Subcategory'
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'

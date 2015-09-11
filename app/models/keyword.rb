@@ -17,7 +17,11 @@ class Keyword < BaseModel
       'ALVULK' => Keyword::ForeignVat,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'MYSQLALIAS' => Keyword::CustomAttribute,
+      'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
+      'S' => Product::Status,
+      'TRY' => Product::Subcategory,
+      'TUOTEMERKKI' => Product::Brand,
     }
   end
 end
