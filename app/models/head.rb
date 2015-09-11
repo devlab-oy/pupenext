@@ -11,6 +11,18 @@ class Head < BaseModel
   before_create :set_date_fields
   after_create :fix_datetime_fields
 
+  enum chn: {
+    finvoice_printservice: '100',
+    finvoice: '010',
+    eu_export_finvoice: '020',
+    eu_export_finvoice_printservice: '030',
+    itella_edi_eih_14: '111',
+    insternal_finvoice: '112',
+    email_invoice: '666',
+    paper_invoice: '667',
+    invoicing_prohibited: '999',
+  }
+
   def self.default_child_instance
     child_class 'N'
   end
