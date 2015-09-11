@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Keyword::StatusTest < ActiveSupport::TestCase
+class Product::StatusTest < ActiveSupport::TestCase
   fixtures %w(keywords products)
 
   setup do
