@@ -1,4 +1,4 @@
-class Keyword::Status < Keyword
+class Product::Status < Keyword
   has_many :products, foreign_key: :status, primary_key: :selite
 
   alias_attribute :tag, :selite
