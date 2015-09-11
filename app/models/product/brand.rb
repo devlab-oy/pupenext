@@ -7,4 +7,12 @@ class Product::Brand < Keyword
   def self.sti_name
     'TUOTEMERKKI'
   end
+
+  def categories
+    company.products.where(tuotemerkki: selite).pluck(:osasto)
+  end
+
+  def subcategories
+    company.products.where(tuotemerkki: selite).pluck(:try)
+  end
 end
