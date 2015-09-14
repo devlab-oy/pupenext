@@ -42,9 +42,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Add accounts receivable vourcher rows (and others, which should not matter)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -153.39,  tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: '100',   summa: -100.01, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: '200',   summa: -200.35, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 153.39,  tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: '100',   summa: 100.01, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: '200',   summa: 200.35, tapvm: invoice_one.tapvm)
 
     # Second invoice is paid, on correct week, should not matter
     invoice_two = invoice_one.dup
@@ -53,9 +53,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Add accounts receivable vourcher rows (which should not matter)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -300.05, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -100.15, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -200.20, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 300.05, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 100.15, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 200.20, tapvm: invoice_two.tapvm)
 
     # Fourth invoice is unpaid, correct week, but has company accounts receivable (should not matter)
     invoice_four = invoice_one.dup
@@ -64,9 +64,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.save!
 
     # Add concern accounts receivable vourcher rows (which should not matter)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -350.05, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -120.15, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -230.20, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 350.05, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 120.15, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 230.20, tapvm: invoice_four.tapvm)
 
     # Fifth invoice is unpaid, correct week, but has factoring receivable (should not matter)
     invoice_five = invoice_one.dup
@@ -76,9 +76,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_five.save!
 
     # Add factoring receivable vourcher rows (which should not matter)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: -29.3, tapvm: 1.weeks.ago)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: -11.5, tapvm: 1.weeks.ago)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: -43.3, tapvm: 1.weeks.ago)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 29.3, tapvm: 1.weeks.ago)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 11.5, tapvm: 1.weeks.ago)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 43.3, tapvm: 1.weeks.ago)
 
     # history_revenue should include invoice one and four.
     response = RevenueExpenditureReport.new(1).data
@@ -98,10 +98,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Add accounts payable rows, these should show up, others should not
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 46.61, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -46.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -46.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_one.tapvm)
 
     # Second invoice is paid
     invoice_two.mapvm = 2.days.ago
@@ -109,10 +109,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Add accounts payable rows, these should not show up, as invoice is paid
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
 
     # Third is unpaid approved invoice
     invoice_three.erpcm = 1.weeks.ago
@@ -120,10 +120,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # Add accounts payable rows, these should show up, others should not
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 12.14, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 15.86, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: 46.61, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -12.14, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -15.86, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: -46.61, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_three.tapvm)
 
     # history_expenditure should include invoice one and three
     response = RevenueExpenditureReport.new(1).data
@@ -146,10 +146,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Add two correct payable regular rows, others should be dismissed
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 446.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -446.61, tapvm: invoice_one.tapvm)
 
     # Second invoice is unpaid, but its overdue date is last week
     invoice_two = invoice_one.dup
@@ -158,10 +158,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Add two correct payable regular rows and others, should be dismissed because they're last week
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
 
     # Third invoice is paid
     invoice_three = invoice_one.dup
@@ -170,10 +170,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # Add two correct payable regular rows and others, all should be dismissed. as it is paid.
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 46.61, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_three.tapvm)
 
     # overdue_accounts_payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
@@ -196,9 +196,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Only regular accounting rows should be included
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_one.tapvm)
 
     # Second is unpaid, but is due last week, should not be included
     invoice_two = invoice_one.dup
@@ -207,9 +207,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # None of these should be included
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
 
     # Third invoice is unpaid but due today, should not be included
     invoice_three = invoice_one.dup
@@ -218,9 +218,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # None of these should be included
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
 
     # Fourth invoice is paid yesterday, should not be included
     invoice_four = invoice_one.dup
@@ -229,9 +229,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.save!
 
     # None of these should be included
-    invoice_four.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_four.tapvm)
 
     # overdue_accounts_receivable should include invoice one
     response = RevenueExpenditureReport.new(1).data
@@ -256,8 +256,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Only regular accounting rows should be included
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -153.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
 
     # sales should be 153.39
     response = RevenueExpenditureReport.new(1).data
@@ -271,9 +271,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # None of these should be included
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
 
     # sales should be 153.39
     response = RevenueExpenditureReport.new(1).data
@@ -288,8 +288,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.save!
 
     # 30% of factoring rows should be included (222 * 0.3 = 66.6)
-    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: -222, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 222, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
 
     # sales should be 153.39 + 66.6
     response = RevenueExpenditureReport.new(1).data
@@ -303,9 +303,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.save!
 
     # 70% of facatoring rows should be included (42 * 0.7 = 29.4) * 2 = 58.8
-    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -42, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -42, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: 42, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: 42, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_four.tapvm)
 
     # sales should be 153.39 + 66.6 + 58.8
     response = RevenueExpenditureReport.new(1).data
@@ -332,9 +332,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Only regular accounting rows should be included (300.0)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -146.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
 
     # We should have 300
     response = RevenueExpenditureReport.new(1).data
@@ -346,9 +346,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Nothing should be included
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -153.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -146.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_two.tapvm)
 
     # We should have 300 + 0
     response = RevenueExpenditureReport.new(1).data
@@ -387,9 +387,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Only concern rows should be included
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -300.05, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -100.15, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: -200.20, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 300.05, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 100.15, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 200.20, tapvm: invoice_one.tapvm)
 
     # we should have 200.20
     response = RevenueExpenditureReport.new(1).data
@@ -401,9 +401,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # none of this should be included
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -300.05, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -100.15, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: -200.20, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 300.05, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 100.15, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 200.20, tapvm: invoice_two.tapvm)
 
     # we should have 200.20
     response = RevenueExpenditureReport.new(1).data
@@ -422,10 +422,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.save!
 
     # Concern accounting rows should be included (666,73)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 123.34, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -146.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -123.34, tapvm: invoice_one.tapvm)
 
     # concern accounts payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
@@ -437,10 +437,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.save!
 
     # Nothing should be included
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 123.34, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -153.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -146.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -123.34, tapvm: invoice_two.tapvm)
 
     # concern accounts payable should include invoice one
     response = RevenueExpenditureReport.new(1).data

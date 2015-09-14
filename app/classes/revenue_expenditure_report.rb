@@ -31,42 +31,42 @@ class RevenueExpenditureReport
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.myyntisaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa * -1")
+        .sum("tiliointi.summa")
     end
 
     def factoring_myyntisaamiset(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.factoringsaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa * -1")
+        .sum("tiliointi.summa")
     end
 
     def factoring_myyntisaamiset_tapvm(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.factoringsaamiset })
         .where(tapvm: start..stop)
-        .sum("tiliointi.summa * -1")
+        .sum("tiliointi.summa")
     end
 
     def konserni_myyntisaamiset(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.konsernisaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa * -1")
+        .sum("tiliointi.summa")
     end
 
     def ostovelat(start, stop)
       company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.ostovelat })
         .where(erpcm: start..stop)
-        .sum('tiliointi.summa')
+        .sum('tiliointi.summa * -1')
     end
 
     def konserni_ostovelat(start, stop)
       company.heads.purchase_invoices.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.konserniostovelat })
         .where(erpcm: start..stop)
-        .sum('tiliointi.summa')
+        .sum('tiliointi.summa * -1')
     end
 
     def revenue_expenditures(week)
