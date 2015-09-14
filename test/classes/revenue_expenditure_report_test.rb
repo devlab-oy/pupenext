@@ -12,7 +12,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     @receivable_concern   = invoice.company.konsernisaamiset
 
     @payable_regular = invoice.company.ostovelat
-    @payable_concern = invoice.company.konsernimyyntisaamiset
+    @payable_concern = invoice.company.konserniostovelat
   end
 
   teardown do
@@ -406,32 +406,40 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly company group accounts payable' do
-    skip
     # Let's save one invoice and delete the rest
     invoice_one = heads(:pi_H).dup
     Head::PurchaseInvoice.delete_all
 
-    # First is within current week
-    # Can be either paid or unpaid
+    # First invoice is sent, unpaid, and due this week
     invoice_one.erpcm = Date.today
+    invoice_one.mapvm = 0
+    invoice_one.alatila = 'X'
     invoice_one.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '777', summa: 53.39, tapvm: 1.weeks.ago)
+    # Concern accounting rows should be included (666,73)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 123.34, tapvm: invoice_one.tapvm)
 
-    # Second invoice is outside of current week
+    # concern accounts payable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 666.73, response[:weekly][0][:concern_accounts_payable].to_f
+
+    # Second invoice is sent, unpaid, but outside of current week
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
     invoice_two.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '777', summa: 20, tapvm: 1.weeks.ago)
+    # Nothing should be included
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 123.34, tapvm: invoice_two.tapvm)
 
     # concern accounts payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:weekly][0][:concern_accounts_payable].to_f
+    assert_equal 666.73, response[:weekly][0][:concern_accounts_payable].to_f
   end
 
   test 'weekly alternative expenditures' do
