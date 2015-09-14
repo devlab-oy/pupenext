@@ -62,6 +62,7 @@ si_one:
   laatija: joe
   muutospvm: <%= Time.now %>
   muuttaja: joe
+  location: tuusula
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>

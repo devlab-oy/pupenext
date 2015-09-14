@@ -6,6 +6,7 @@ class Head < BaseModel
   self.inheritance_column = :tila
 
   belongs_to :terms_of_payment, foreign_key: :maksuehto
+  belongs_to :location, foreign_key: :yhtio_toimipaikka
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
   before_create :set_date_fields

@@ -1,0 +1,11 @@
+tuusula:
+  yhtio: acme
+  nimi: Tuusulan toimipaikka
+  puhelin: 050-123456
+  fax: 09-123456
+  email: email@example.com
+  www: www.tuulusantoimipaikka.com
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muuttaja: joe
+  muutospvm: <%= Time.now %>
