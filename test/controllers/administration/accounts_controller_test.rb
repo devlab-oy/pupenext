@@ -26,7 +26,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     }
     get :index, params
     assert_response :success
-    assert_equal 5, assigns(:accounts).count
+    assert_equal 6, assigns(:accounts).count
 
     params = {
       tilino: 10,
@@ -45,7 +45,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     }
     get :index, params
     assert_response :success
-    assert_equal 5, assigns(:accounts).count
+    assert_equal 6, assigns(:accounts).count
     assert_equal 'Perustamismenot 410', assigns(:accounts).first.nimi
 
     params = {
@@ -55,7 +55,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     }
     get :index, params
     assert_response :success
-    assert_equal 5, assigns(:accounts).count
+    assert_equal 6, assigns(:accounts).count
     assert_equal 'Perustamismenot 100', assigns(:accounts).first.nimi
   end
 
