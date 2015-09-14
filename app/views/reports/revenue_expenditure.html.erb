@@ -26,19 +26,23 @@
 <% end %>
 
 <% if @data %>
-  <br><br>
+  <br>
 
   <table>
     <tr>
       <th><%= t('.history_revenue') %></th>
-      <th><%= t('.history_expenditure') %></th>
-      <th><%= t('.overdue_accounts_receivable') %></th>
-      <th><%= t('.overdue_accounts_payable') %></th>
+      <td><%= @data[:history_revenue] %></td>
     </tr>
     <tr>
-      <td><%= @data[:history_revenue] %></td>
+      <th><%= t('.history_expenditure') %></th>
       <td><%= @data[:history_expenditure] %></td>
+    </tr>
+    <tr>
+      <th><%= t('.overdue_accounts_receivable') %></th>
       <td><%= @data[:overdue_accounts_receivable] %></td>
+    </tr>
+    <tr>
+      <th><%= t('.overdue_accounts_payable') %></th>
       <td><%= @data[:overdue_accounts_payable] %></td>
     </tr>
   </table>
@@ -47,26 +51,28 @@
 
   <table id='revenue_expenditure_rows_table'>
     <tr>
-      <th><%= t('.week') %></th>
-      <th><%= t('.revenue') %></th>
-      <th><%= t('.expenditure') %></th>
-      <th><%= t('.concern_accounts_receivable') %></th>
-      <th><%= t('.concern_accounts_payable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.week') %></th>
+      <th width='100' style='text-align: right;'><%= t('.revenue') %></th>
+      <th width='100' style='text-align: right;'><%= t('.expenditure') %></th>
+      <th width='100' style='text-align: right;'><%= t('.concern_accounts_receivable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.concern_accounts_payable') %></th>
       <th class='back'></th>
     </tr>
 
     <% @data[:weekly].each do |week| %>
-      <tr>
-        <td><%= week[:week] %></td>
-        <td><%= week[:sales] %></td>
-        <td><%= week[:purchases] %></td>
-        <td><%= week[:concern_accounts_receivable] %></td>
-        <td><%= week[:concern_accounts_payable] %></td>
+      <tr class='aktiivi'>
+        <td align='right'><%= week[:week] %></td>
+        <td align='right'><%= week[:sales] %></td>
+        <td align='right'><%= week[:purchases] %></td>
+        <td align='right'><%= week[:concern_accounts_receivable] %></td>
+        <td align='right'><%= week[:concern_accounts_payable] %></td>
         <td class='back'>
-          <%= button_tag '+',
-              type: 'button',
-              class: 'custom_expenditure_rows',
-              id: week[:week_sanitized] %>
+          <% if week[:alternative_expenditures].present? %>
+            <%= button_tag '+',
+                type: 'button',
+                class: 'custom_expenditure_rows',
+                id: week[:week_sanitized] %>
+            <% end %>
         </td>
       </tr>
 
@@ -76,11 +82,11 @@
     <% end %>
 
     <tr>
-      <th><%= t('.summary') %></th>
-      <th><%= @data[:weekly_sum][:sales] %></th>
-      <th><%= @data[:weekly_sum][:purchases] %></th>
-      <th><%= @data[:weekly_sum][:concern_accounts_receivable] %></th>
-      <th><%= @data[:weekly_sum][:concern_accounts_payable] %></th>
+      <th style='text-align: right;'><%= t('.summary') %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:sales] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:purchases] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:concern_accounts_receivable] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:concern_accounts_payable] %></th>
       <th class='back'></th>
     </tr>
   </table>
