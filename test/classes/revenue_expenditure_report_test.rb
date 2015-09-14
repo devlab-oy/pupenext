@@ -190,46 +190,48 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     this_friday = Date.today.beginning_of_week.advance(days: 4)
     travel_to this_friday
 
-    # First is unpaid and within current week
+    # First is unpaid and due yesterday, should be included
     invoice_one.erpcm = 1.days.ago
     invoice_one.mapvm = 0
     invoice_one.save!
 
+    # Only regular accounting rows should be included
     invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_one.tapvm)
 
-    # Second invoice is unpaid, but its overdue date is last week
-    # sum is calculated as 0
+    # Second is unpaid, but is due last week, should not be included
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
     invoice_two.mapvm = 0
     invoice_two.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '345', summa: -12.34, tapvm: 2.weeks.ago)
+    # None of these should be included
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
 
-    # Third invoice is paid
+    # Third invoice is unpaid but due today, should not be included
     invoice_three = invoice_one.dup
-    invoice_three.erpcm = 1.days.ago
-    invoice_three.mapvm = 1.days.ago
+    invoice_three.erpcm = Date.today
+    invoice_three.mapvm = 0
     invoice_three.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_three.accounting_rows.create!(tilino: '345', summa: -100, tapvm: 2.weeks.ago)
+    # None of these should be included
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
 
-    # Fourth invoice is unpaid but with factoring account number
+    # Fourth invoice is paid yesterday, should not be included
     invoice_four = invoice_one.dup
     invoice_four.erpcm = 1.days.ago
-    invoice_four.mapvm = 0
+    invoice_four.mapvm = 1.days.ago
     invoice_four.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_four.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 2.weeks.ago)
+    # None of these should be included
+    invoice_four.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_four.tapvm)
 
     # overdue_accounts_receivable should include invoice one
     response = RevenueExpenditureReport.new(1).data
