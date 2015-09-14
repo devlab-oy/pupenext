@@ -72,7 +72,33 @@ class Company < ActiveRecord::Base
     (open_period.first..open_period.last).cover?(date.try(:to_date))
   end
 
+  def maa
+    read_attribute(:maa).upcase
+  end
+
+  def ytunnus_human
+    return ytunnus unless maa == "FI"
+
+    # The second to last char is a dash in a Finnish Ytunnus
+    formatted_ytunnus.insert 7, '-'
+  end
+
+  def vatnumber_human
+    return ytunnus unless maa == "FI"
+
+    # FI+ytunnus makes up the Finnish VAT-number
+    "FI#{formatted_ytunnus}"
+  end
+
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
+
+  private
+
+    def formatted_ytunnus
+      # Return 8 char long string containing only integers
+      formatted = ytunnus.gsub /[^0-9]/, ""
+      formatted = formatted.rjust 8, "0"
+    end
 end

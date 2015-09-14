@@ -148,4 +148,38 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.date_in_open_period?('2014-06-01'.to_date), 'middle'
     assert @acme.date_in_open_period?('2014-12-31'.to_date), 'last'
   end
+
+  test 'ytunnus human' do
+    @acme.maa = 'FI'
+    @acme.ytunnus = '1!2#3'
+
+    assert_equal '0000012-3', @acme.ytunnus_human
+
+    @acme.maa = 'FI'
+    @acme.ytunnus = 'FI0000012-3'
+
+    assert_equal '0000012-3', @acme.ytunnus_human
+
+    @acme.maa = 'RU'
+    @acme.ytunnus = '309438230948230948'
+
+    assert_equal '309438230948230948', @acme.ytunnus_human
+  end
+
+  test 'vatnumber human' do
+    @acme.maa = 'FI'
+    @acme.ytunnus = '1!2#3'
+
+    assert_equal 'FI00000123', @acme.vatnumber_human
+
+    @acme.maa = 'FI'
+    @acme.ytunnus = 'FI0000012-3'
+
+    assert_equal 'FI00000123', @acme.vatnumber_human
+
+    @acme.maa = 'RU'
+    @acme.ytunnus = '309438230948230948'
+
+    assert_equal '309438230948230948', @acme.vatnumber_human
+  end
 end
