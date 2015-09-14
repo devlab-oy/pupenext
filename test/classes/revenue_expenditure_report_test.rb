@@ -190,9 +190,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     this_friday = Date.today.beginning_of_week.advance(days: 4)
     travel_to this_friday
 
-    # First is unpaid and due yesterday, should be included
+    # First is unpaid, sent, and due yesterday, should be included
     invoice_one.erpcm = 1.days.ago
     invoice_one.mapvm = 0
+    invoice_one.alatila = 'X'
     invoice_one.save!
 
     # Only regular accounting rows should be included
