@@ -12,6 +12,15 @@ class DumberClass < ActiveRecord::Base
 end
 
 class SearchableTest < ActiveSupport::TestCase
+
+  fixtures %w(products suppliers)
+
+  test 'should search using relations' do
+    supplier = suppliers :domestic_supplier
+    product = products :hammer
+    assert_equal supplier.nimi, product.suppliers.where_like("tuotteen_toimittajat.toim_tuoteno", "master").first.nimi
+  end
+
   test 'test where_like search' do
     assert_equal 1, DummyClass.where_like(:yhtio, 'acme').count
     assert_equal 2, DummyClass.where_like(:nimi, 'orporati').count
