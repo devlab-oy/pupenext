@@ -1,4 +1,6 @@
 class Product < BaseModel
+  include Searchable
+
   has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
   has_many :suppliers, through: :product_suppliers
   has_many :pending_updates, as: :pending_updatable

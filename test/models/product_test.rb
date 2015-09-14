@@ -32,4 +32,12 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
   end
+
+  test 'should search using relations' do
+    supplier = suppliers :domestic_supplier
+    assert_equal supplier.nimi, @product.suppliers.where_like("nimi", "Dome").first.nimi
+
+    supplier = suppliers :domestic_supplier
+    assert_equal supplier.nimi, @product.suppliers.where_like("tuotteen_toimittajat.toim_tuoteno", "master").first.nimi
+  end
 end
