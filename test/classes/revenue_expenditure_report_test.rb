@@ -313,7 +313,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly purchases' do
-    skip
     # weekly purchases consists of
     # - purchases
     # - alternative expenditures
@@ -322,42 +321,58 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one = heads(:pi_H).dup
     Head::PurchaseInvoice.delete_all
 
-    # First is within current week
-    # Can be either paid or unpaid
+    # Let's save one keyword and delete the rest
+    keyword_one = keywords(:weekly_alternative_expenditure_one).dup
+    Keyword::RevenueExpenditureReportData.delete_all
+
+    # First invoice is unpaid within current week
     invoice_one.erpcm = Date.today
+    invoice_one.mapvm = 0
     invoice_one.alatila = 'X'
     invoice_one.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '345', summa: 53.39, tapvm: 1.weeks.ago)
+    # Only regular accounting rows should be included (300.0)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
 
-    # Second invoice is outside of current week
+    # We should have 300
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 300, response[:weekly][0][:purchases].to_f
+
+    # Second invoice is unpaid, outside of current week
     invoice_two = invoice_one.dup
-    invoice_two.alatila = 'X'
     invoice_two.erpcm = 1.weeks.ago
     invoice_two.save!
 
-    # Create accounting rows
-    # purchase accounting row sums are positive for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '345', summa: 20, tapvm: 1.weeks.ago)
+    # Nothing should be included
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 153.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: 146.61, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: 543.39, tapvm: invoice_two.tapvm)
+
+    # We should have 300 + 0
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 300, response[:weekly][0][:purchases].to_f
+
+    current_week = "#{Date.today.cweek} / #{Date.today.year}"
+    assert_equal current_week, response[:weekly][0][:week]
 
     # Lets add one alternative expenditure for current week
-    keyword_one = keywords(:weekly_alternative_expenditure_one)
-    keyword_one.selite = "#{Date.today.cweek} / #{Date.today.year}"
+    # this should be added to purchases
+    keyword_one.selite = current_week
     keyword_one.selitetark_2 = '100'
     keyword_one.save!
 
     # Lets add another one alternative expenditure for next week
-    # Should not sum this keyword's amount
+    # Should not be added to purchases
     keyword_two = keyword_one.dup
     keyword_two.selite = "#{1.week.from_now.to_date.cweek} / #{1.week.from_now.year}"
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 
-    # purchases should include invoice one
+    # we should have 300 + 100
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:weekly][0][:purchases].to_f
+    assert_equal 400, response[:weekly][0][:purchases].to_f
   end
 
   test 'weekly company group accounts receivable' do

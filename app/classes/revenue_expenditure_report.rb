@@ -108,7 +108,7 @@ class RevenueExpenditureReport
        {
           week: number,
           sales: sales,
-          purchases: ostovelat(start, stop),
+          purchases: purchases,
           concern_accounts_receivable: konserni_myyntisaamiset(start, stop),
           concern_accounts_payable: konserni_ostovelat(start, stop),
           alternative_expenditures: revenue_expenditures_details(number),
