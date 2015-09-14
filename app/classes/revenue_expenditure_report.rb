@@ -50,7 +50,7 @@ class RevenueExpenditureReport
 
     def konserni_myyntisaamiset(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
-        .where(tiliointi: { tilino: company.konsernimyyntisaamiset })
+        .where(tiliointi: { tilino: company.konsernisaamiset })
         .where(erpcm: start..stop)
         .sum("tiliointi.summa * -1")
     end
