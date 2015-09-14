@@ -239,35 +239,45 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   end
 
   test 'weekly sales' do
-    skip
-    # weekly sales consists of
-    # - sales
-    # - current week overdue factoring (current date is thursday, mon-wed factorings are overdue)
-    # - current week factoring
+    # Weekly sales are grouped per week, we'll test the first/current week
+    # We must travel to friday, since factoring accounts for "yesterday".
+    # Otherwise these test would not work on mondays.
+    this_friday = Date.today.beginning_of_week.advance(days: 4)
+    travel_to this_friday
 
     # Let's save one invoice and delete the rest
     invoice_one = heads(:si_one).dup
     Head::SalesInvoice.delete_all
 
-    # First is within current week
-    # Can be either paid or unpaid
+    # First is unpaid, within current week, should be included
     invoice_one.erpcm = Date.today
+    invoice_one.mapvm = 0
     invoice_one.alatila = 'X'
     invoice_one.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_one.accounting_rows.create!(tilino: '345', summa: -53.39, tapvm: 1.weeks.ago)
+    # Only regular accounting rows should be included
+    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -153.39, tapvm: invoice_one.tapvm)
+    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
 
-    # Second invoice is outside of current week
+    # sales should be 153.39
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 153.39, response[:weekly][0][:sales].to_f
+
+    # Second invoice unpaid, but due last week, should not be included
     invoice_two = invoice_one.dup
-    invoice_two.alatila = 'X'
     invoice_two.erpcm = 1.weeks.ago
+    invoice_two.tapvm = 2.weeks.ago
+    invoice_two.mapvm = 0
     invoice_two.save!
 
-    # Create accounting rows
-    # sales accounting row sums are negative for accounting reasons
-    invoice_two.accounting_rows.create!(tilino: '345', summa: -20, tapvm: 1.weeks.ago)
+    # None of these should be included
+    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: -53.39, tapvm: invoice_two.tapvm)
+    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
+
+    # sales should be 153.39
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 153.39, response[:weekly][0][:sales].to_f
 
     # Third invoice is overdue factoring
     # only 30% of account row's sum is added
@@ -275,30 +285,31 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three = invoice_one.dup
     invoice_three.erpcm = 1.days.ago
     invoice_three.tapvm = 1.weeks.ago
-    invoice_three.alatila = 'X'
     invoice_three.save!
 
-    # Create accounting rows
-    # Factoring account number is 666 from accounts.yml
-    # sales accounting row sums are negative for accounting reasons
-    invoice_three.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
+    # 30% of factoring rows should be included (222 * 0.3 = 66.6)
+    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: -222, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
 
-    # Fourth invoice is current week factoring
-    # only 70% of account row's sum is added
+    # sales should be 153.39 + 66.6
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 219.99, response[:weekly][0][:sales].to_f
+
+    # Fourth invoice is factoring, due 1 week from now. event date is yesterday
+    # we should include 70% of factoring rows based on event date
     invoice_four = invoice_one.dup
-    invoice_four.erpcm = Date.today
-    invoice_four.tapvm = Date.today
-    invoice_four.alatila = 'X'
+    invoice_four.erpcm = 1.weeks.from_now
+    invoice_four.tapvm = 2.days.ago
     invoice_four.save!
 
-    # Create accounting rows
-    # Factoring account number is 666 from accounts yml
-    # sales accounting row sums are negative for accounting reasons
-    invoice_four.accounting_rows.create!(tilino: '666', summa: -100, tapvm: 1.days.ago)
+    # 70% of facatoring rows should be included (42 * 0.7 = 29.4) * 2 = 58.8
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -42, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: -42, tapvm: invoice_four.tapvm)
+    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: -53.39, tapvm: invoice_four.tapvm)
 
-    # sales should include invoice one
+    # sales should be 153.39 + 66.6 + 58.8
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:weekly][0][:sales].to_f
+    assert_equal 278.79, response[:weekly][0][:sales].to_f
   end
 
   test 'weekly purchases' do
