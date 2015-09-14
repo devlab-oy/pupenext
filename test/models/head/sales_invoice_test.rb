@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Head::SalesInvoiceTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows head/sales_invoice_rows)
+  fixtures %w(heads head/voucher_rows head/sales_invoice_rows locations)
 
   setup do
     @invoice = heads(:si_one)
@@ -15,5 +15,6 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
   test 'model relations' do
     assert_equal 1, @invoice.accounting_rows.count
     assert_equal 1, @invoice.rows.count
+    assert_equal Location, @invoice.location.class
   end
 end
