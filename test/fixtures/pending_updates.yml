@@ -1,5 +1,5 @@
 update_1:
   pending_updatable: hammer (Product)
-  key: Myyntihinta
+  key: myyntihinta
   value_type: Decimal
   value: '100.5'
