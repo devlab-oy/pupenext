@@ -9,3 +9,27 @@ one:
   kerattyaika: <%= Time.now %>
   toimitettuaika: <%= Time.now %>
   laskutettuaika: <%= Time.now %>
+
+pulli1:
+  yhtio: pulli
+  invoice: si_pulli
+  tyyppi: L
+  laatija: joe
+  laadittu: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+pulli2:
+  yhtio: pulli
+  invoice: si_pulli
+  tyyppi: L
+  laatija: joe
+  laadittu: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
