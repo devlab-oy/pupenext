@@ -278,6 +278,13 @@ si_pulli:
   yhtio_ovttunnus: 003798765430
   tila: U
   chn: "010"
+  ytunnus: 76543212
+  nimi: Purjehdusseura Bitti ja Baatti ry
+  osoite: Sempalokatu 2
+  postino: 00122
+  postitp: Tampere
+  maa: FI
+  terms_of_payment: 14_days_net
   verkkotunnus: 0987654321@BANKFIHH
   luontiaika: <%= Time.now %>
   laatija: joe
