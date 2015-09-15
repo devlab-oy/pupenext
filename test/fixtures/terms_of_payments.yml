@@ -96,3 +96,13 @@ factoring_enabled:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: joe
+
+14_days_net:
+  yhtio: pulli
+  teksti: 14 pv netto
+  rel_pvm: 14
+  jarjestys: 1
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe
