@@ -81,7 +81,7 @@ class Company < ActiveRecord::Base
   def ytunnus_human
     return ytunnus unless maa == "FI"
 
-    # The second to last char is a dash in a Finnish Ytunnus
+    # The second to last char is a dash in a Finnish Y-tunnus
     formatted_ytunnus.insert 7, '-'
   end
 
