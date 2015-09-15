@@ -12,10 +12,18 @@ class Product < BaseModel
 
   accepts_nested_attributes_for :pending_updates, allow_destroy: true
 
+  validates :nimitys, presence: true
+
   self.table_name = :tuote
   self.primary_key = :tunnus
 
   before_create :set_date_fields
+
+  def pending_update_attributes
+    hash = {}
+    pending_updates.each { |attr| hash[attr.key] = attr.value }
+    hash
+  end
 
   private
 
