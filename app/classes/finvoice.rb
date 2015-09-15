@@ -25,65 +25,16 @@ class Finvoice
         }
       }
       doc.SellerPartyDetails {
-        doc.SellerPartyIdentifier "9876543-0"
-        doc.SellerPartyIdentifierUrlText ""
-        doc.SellerOrganisationName "Pullin Musiikki oy "
-        doc.SellerOrganisationName "Pullis Musik Ab"
-        doc.SellerOrganisationDepartment ""
-        doc.SellerOrganisationDepartment ""
-        doc.SellerOrganisationTaxCode "FI98765430"
-        doc.SellerPostalAddressDetails {
-          doc.SellerStreetName "StreetName 99"
-          doc.SellerTownName "Helsinki"
-          doc.SellerPostCodeIdentifier "00100"
-          doc.CountryCode "FI"
-        }
+        sellerpartydetails
       }
       doc.SellerInformationDetails {
-        doc.SellerAccountDetails {
-          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
-            doc.text("FI4819503000000010")
-          }
-          doc.SellerBic("IdentificationSchemeName" => "BIC") {
-            doc.text("BANKFIHH")
-          }
-        }
-        doc.SellerAccountDetails {
-          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
-            doc.text("FI3819503000086423")
-          }
-          doc.SellerBic("IdentificationSchemeName" => "BIC") {
-            doc.text("BANKFIHH")
-          }
-        }
-        doc.SellerAccountDetails {
-          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
-            doc.text("FI7429501800000014")
-          }
-          doc.SellerBic("IdentificationSchemeName" => "BIC") {
-            doc.text("BANKFIHH")
-          }
-        }
+        sellerinfodetails
       }
       doc.BuyerPartyDetails {
-        doc.BuyerPartyIdentifier "7654321-2"
-        doc.BuyerOrganisationName "Purjehdusseura Bitti ja Baatti ry"
-        doc.BuyerOrganisationDepartment ""
-        doc.BuyerOrganisationDepartment ""
-        doc.BuyerOrganisationTaxCode "FI76543212"
-        doc.BuyerPostalAddressDetails {
-          doc.BuyerStreetName "Sempalokatu 2"
-          doc.BuyerTownName "Tampere"
-          doc.BuyerPostCodeIdentifier "00122"
-          doc.CountryCode "FI"
-          doc.CountryName "Suomi"
-          doc.BuyerPostOfficeBoxIdentifier ""
-        }
+        buyerpartydetails
       }
       doc.DeliveryDetails {
-        doc.DeliveryDate("Format" => "CCYYMMDD") {
-          doc.text("20130812")
-        }
+        deliverydetails
       }
       doc.InvoiceDetails {
         doc.InvoiceTypeCode "INV01"
@@ -190,12 +141,26 @@ class Finvoice
     procinst = Nokogiri::XML::ProcessingInstruction.new(doc.doc, "xml-stylesheet",
                                                  'href="Finvoice.xsl" type="text/xsl" ')
     doc.doc.root.add_previous_sibling procinst
-    doc.to_xml
+
+    return_valid_xml
   end
 
   private
     def doc
       @document
+    end
+
+    def return_valid_xml
+      file = Rails.root.join 'vendor', 'assets', 'finvoice', 'Finvoice2.01.xsd'
+      xsd = Nokogiri::XML::Schema(File.read(file))
+
+      kala = Nokogiri::XML(doc.to_xml)
+
+      xsd.validate(kala).each do |error|
+        puts error.message
+      end
+
+      doc.to_xml
     end
 
     def senderdetails
@@ -219,6 +184,73 @@ class Finvoice
 
       doc.MessageIdentifier mid
       doc.MessageTimeStamp tstamp
+    end
+
+    def sellerpartydetails
+      if @invoice.location
+        # Invoice has specific location
+        y_puhelin   = @invoice.location.puhelin
+        y_fax       = @invoice.location.fax
+        y_email     = @invoice.location.email
+        y_www       = @invoice.location.www
+      else
+        # Default sender details
+        y_puhelin = @invoice.company.puhelin
+        y_fax     = @invoice.company.fax
+        y_email   = @invoice.company.email
+        y_www     = @invoice.company.www
+      end
+
+      doc.SellerPartyIdentifier @invoice.company.ytunnus_human
+      doc.SellerPartyIdentifierUrlText ""
+      doc.SellerOrganisationName @invoice.yhtio_nimi
+      doc.SellerOrganisationDepartment ""
+      doc.SellerOrganisationDepartment ""
+      doc.SellerOrganisationTaxCode @invoice.company.vatnumber_human
+      doc.SellerPostalAddressDetails {
+        doc.SellerStreetName @invoice.yhtio_osoite
+        doc.SellerTownName @invoice.yhtio_postitp
+        doc.SellerPostCodeIdentifier @invoice.yhtio_postino
+        doc.CountryCode @invoice.yhtio_maa
+      }
+    end
+
+    def sellerinfodetails
+
+      puts @invoice.terms_of_payment.bank_account_details.inspect
+
+      @invoice.terms_of_payment.bank_account_details.each do |account|
+        doc.SellerAccountDetails {
+          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
+            doc.text(account[:iban])
+          }
+          doc.SellerBic("IdentificationSchemeName" => "BIC") {
+            doc.text(account[:bic])
+          }
+        }
+      end
+    end
+
+    def buyerpartydetails
+      doc.BuyerPartyIdentifier @invoice.ytunnus_human
+        doc.BuyerOrganisationName @invoice.nimi
+        doc.BuyerOrganisationDepartment ""
+        doc.BuyerOrganisationDepartment ""
+        doc.BuyerOrganisationTaxCode @invoice.vatnumber_human
+        doc.BuyerPostalAddressDetails {
+          doc.BuyerStreetName @invoice.osoite
+          doc.BuyerTownName @invoice.postitp
+          doc.BuyerPostCodeIdentifier @invoice.postino
+          doc.CountryCode @invoice.maa
+          doc.CountryName @invoice.maa
+          doc.BuyerPostOfficeBoxIdentifier ""
+        }
+    end
+
+    def deliverydetails
+      doc.DeliveryDate("Format" => "CCYYMMDD") {
+        doc.text("20130812")
+    }
     end
 
     def rows
