@@ -1,6 +1,14 @@
 sampo:
   yhtio: acme
   factoringyhtio: Sampo
+  pankkinimi1: Danske
+  pankkitili1: 12345
+  pankkiiban1: FI12345
+  pankkiswift1: DABAFIHH
+  pankkinimi2: Danske
+  pankkitili2: 54321
+  pankkiiban2: FI54321
+  pankkiswift2: DABAFIHH
   laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
