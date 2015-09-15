@@ -10,4 +10,10 @@ class Parameter < BaseModel
     pupevoice: '',
     servinet: 'servinet',
   }
+
+  enum tilausrivien_toimitettuaika: {
+    no_manual_deliverydates: '',
+    service_products_manual_deliverydates: 'K',
+    all_products_manual_deliverydates: 'X',
+  }
 end
