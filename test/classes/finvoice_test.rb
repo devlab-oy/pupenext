@@ -5,7 +5,8 @@ class FinvoiceTest < ActiveSupport::TestCase
   fixtures %w(heads)
 
   setup do
-    @invoice = heads(:si_one)
+    Current.company = companies(:pullin_musiikki)
+    @invoice = heads(:si_pulli)
   end
 
   test 'should initialize class with invoice' do

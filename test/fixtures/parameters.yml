@@ -10,6 +10,18 @@ acme:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+pullin_musiikki:
+  yhtio: pulli
+  css: "* { font-family: sans-serif }"
+  maventa_aikaleima: <%= Time.now %>
+  varastopaikkojen_maarittely: M
+  finvoice_senderpartyid: 1234567890
+  finvoice_senderintermediator: HELSFIHH
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 esto:
   yhtio: esto
   css: "* { font-family: sans-serif }"
