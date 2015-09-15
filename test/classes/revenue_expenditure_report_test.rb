@@ -152,7 +152,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -446.61, tapvm: invoice_one.tapvm)
 
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 106.78, response[:overdue_accounts_payable]
+    assert_equal 106.78, response[:overdue_accounts_payable], "Weekstart #{Date.today.beginning_of_week} Today #{Date.today} Duedate #{invoice_one.erpcm} Yesterday #{Date.today - 1.day}"
 
     # Second invoice is unpaid, but its overdue date is last week
     invoice_two = invoice_one.dup
