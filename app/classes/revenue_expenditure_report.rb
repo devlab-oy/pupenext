@@ -9,7 +9,7 @@ class RevenueExpenditureReport
   def data
     time_start = Time.at(0).to_date
     week_start = Date.today.beginning_of_week
-    yesterday  = Date.yesterday
+    yesterday  = Date.today - 1.day
 
     {
       history_revenue: myyntisaamiset(time_start, week_start),
