@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FinvoiceTest < ActiveSupport::TestCase
 
-  fixtures %w(heads)
+  fixtures %w(heads terms_of_payments)
 
   setup do
     Current.company = companies(:pullin_musiikki)
