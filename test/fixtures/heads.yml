@@ -265,3 +265,38 @@ not_delivered_order_2:
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
+
+# Myyntilasku
+si_pulli:
+  yhtio: pulli
+  yhtio_nimi: Pullin Musiikki oy
+  yhtio_osoite: StreetName 99
+  yhtio_postino: "00100"
+  yhtio_postitp: Helsinki
+  yhtio_maa: FI
+  yhtio_kotipaikka: Helsinki
+  yhtio_ovttunnus: 003798765430
+  tila: U
+  chn: "010"
+  verkkotunnus: 0987654321@BANKFIHH
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  tapvm: <%= Time.now %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
