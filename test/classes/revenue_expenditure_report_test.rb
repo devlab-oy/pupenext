@@ -37,7 +37,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # First is unpaid
     invoice_one.alatila = 'X'
-    invoice_one.erpcm = 1.weeks.ago
+    invoice_one.erpcm = Date.today - 1.week
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -48,8 +48,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice is paid, on correct week, should not matter
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
-    invoice_two.mapvm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
+    invoice_two.mapvm = Date.today - 1.week
     invoice_two.save!
 
     # Add accounts receivable vourcher rows (which should not matter)
@@ -59,7 +59,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Fourth invoice is unpaid, correct week, but has company accounts receivable (should not matter)
     invoice_four = invoice_one.dup
-    invoice_four.erpcm = 1.weeks.ago
+    invoice_four.erpcm = Date.today - 1.week
     invoice_four.mapvm = 0
     invoice_four.save!
 
@@ -70,15 +70,15 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Fifth invoice is unpaid, correct week, but has factoring receivable (should not matter)
     invoice_five = invoice_one.dup
-    invoice_five.erpcm = 1.weeks.ago
+    invoice_five.erpcm = Date.today - 1.week
     invoice_five.mapvm = 0
     invoice_five.summa = 84.1
     invoice_five.save!
 
     # Add factoring receivable vourcher rows (which should not matter)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 29.3, tapvm: 1.weeks.ago)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 11.5, tapvm: 1.weeks.ago)
-    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 43.3, tapvm: 1.weeks.ago)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 29.3, tapvm: invoice_five.tapvm)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 11.5, tapvm: invoice_five.tapvm)
+    invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 43.3, tapvm: invoice_five.tapvm)
 
     # history_revenue should include invoice one and four.
     response = RevenueExpenditureReport.new(1).data
@@ -93,7 +93,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     Head::PurchaseInvoice.delete_all
 
     # First is unpaid
-    invoice_one.erpcm = 1.weeks.ago
+    invoice_one.erpcm = Date.today - 1.week
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -104,8 +104,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_one.tapvm)
 
     # Second invoice is paid
-    invoice_two.mapvm = 2.days.ago
-    invoice_two.erpcm = 2.days.ago
+    invoice_two.mapvm = Date.today - 2.days
+    invoice_two.erpcm = Date.today - 2.days
     invoice_two.save!
 
     # Add accounts payable rows, these should not show up, as invoice is paid
@@ -115,7 +115,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
 
     # Third is unpaid approved invoice
-    invoice_three.erpcm = 1.weeks.ago
+    invoice_three.erpcm = Date.today - 1.week
     invoice_three.mapvm = 0
     invoice_three.save!
 
@@ -141,7 +141,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     travel_to this_friday
 
     # First is unpaid and within current week
-    invoice_one.erpcm = 1.days.ago
+    invoice_one.erpcm = Date.today - 1.day
     invoice_one.mapvm = 0
     invoice_one.save!
 
@@ -156,7 +156,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice is unpaid, but its overdue date is last week
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
     invoice_two.mapvm = 0
     invoice_two.save!
 
@@ -171,8 +171,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Third invoice is paid
     invoice_three = invoice_one.dup
-    invoice_three.erpcm = 1.days.ago
-    invoice_three.mapvm = 1.days.ago
+    invoice_three.erpcm = Date.today - 1.day
+    invoice_three.mapvm = Date.today - 1.day
     invoice_three.save!
 
     # Add two correct payable regular rows and others, all should be dismissed. as it is paid.
@@ -196,7 +196,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     travel_to this_friday
 
     # First is unpaid, sent, and due yesterday, should be included
-    invoice_one.erpcm = 1.days.ago
+    invoice_one.erpcm = Date.today - 1.day
     invoice_one.mapvm = 0
     invoice_one.alatila = 'X'
     invoice_one.save!
@@ -212,7 +212,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second is unpaid, but is due last week, should not be included
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
     invoice_two.mapvm = 0
     invoice_two.save!
 
@@ -243,8 +243,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Fourth invoice is paid yesterday, should not be included
     invoice_four = invoice_one.dup
-    invoice_four.erpcm = 1.days.ago
-    invoice_four.mapvm = 1.days.ago
+    invoice_four.erpcm = Date.today - 1.day
+    invoice_four.mapvm = Date.today - 1.day
     invoice_four.save!
 
     # None of these should be included
@@ -284,8 +284,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice unpaid, but due last week, should not be included
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
-    invoice_two.tapvm = 2.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
+    invoice_two.tapvm = Date.today - 2.weeks
     invoice_two.mapvm = 0
     invoice_two.save!
 
@@ -302,8 +302,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # only 30% of account row's sum is added
     # overdue date is on current week, but event date is not
     invoice_three = invoice_one.dup
-    invoice_three.erpcm = 1.days.ago
-    invoice_three.tapvm = 1.weeks.ago
+    invoice_three.erpcm = Date.today - 1.day
+    invoice_three.tapvm = Date.today - 1.week
     invoice_three.save!
 
     # 30% of factoring rows should be included (222 * 0.3 = 66.6)
@@ -317,8 +317,8 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # Fourth invoice is factoring, due 1 week from now. event date is yesterday
     # we should include 70% of factoring rows based on event date
     invoice_four = invoice_one.dup
-    invoice_four.erpcm = 1.weeks.from_now
-    invoice_four.tapvm = 2.days.ago
+    invoice_four.erpcm = Date.today + 1.week
+    invoice_four.tapvm = Date.today - 2.days
     invoice_four.save!
 
     # 70% of facatoring rows should be included (42 * 0.7 = 29.4) * 2 = 58.8
@@ -361,7 +361,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice is unpaid, outside of current week
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
     invoice_two.save!
 
     # Nothing should be included
@@ -416,7 +416,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice is outside of current week
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
     invoice_two.save!
 
     # none of this should be included
@@ -452,7 +452,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Second invoice is sent, unpaid, but outside of current week
     invoice_two = invoice_one.dup
-    invoice_two.erpcm = 1.weeks.ago
+    invoice_two.erpcm = Date.today - 1.week
     invoice_two.save!
 
     # Nothing should be included
