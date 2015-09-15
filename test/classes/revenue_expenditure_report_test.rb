@@ -151,6 +151,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
     invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -446.61, tapvm: invoice_one.tapvm)
 
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 106.78, response[:overdue_accounts_payable]
+
     # Second invoice is unpaid, but its overdue date is last week
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
@@ -162,6 +165,9 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
     invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
     invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
+
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 106.78, response[:overdue_accounts_payable]
 
     # Third invoice is paid
     invoice_three = invoice_one.dup
@@ -175,7 +181,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
     invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_three.tapvm)
 
-    # overdue_accounts_payable should include invoice one
     response = RevenueExpenditureReport.new(1).data
     assert_equal 106.78, response[:overdue_accounts_payable]
   end
