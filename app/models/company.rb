@@ -1,4 +1,6 @@
 class Company < ActiveRecord::Base
+  include AuthorityTidy
+
   with_options foreign_key: :yhtio, primary_key: :yhtio do |o|
     o.has_one  :parameter
 
@@ -94,11 +96,27 @@ class Company < ActiveRecord::Base
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
 
-  private
+  def bank_account_details
+    accounts = []
 
-    def formatted_ytunnus
-      # Return 8 char long string containing only integers
-      formatted = ytunnus.gsub /[^0-9]/, ""
-      formatted = formatted.rjust 8, "0"
-    end
+    accounts << {
+      name: pankkinimi1,
+      iban: pankkiiban1,
+      bic: pankkiswift1
+    }
+
+    accounts << {
+      name: pankkinimi2,
+      iban: pankkiiban2,
+      bic: pankkiswift2
+    }
+
+    accounts << {
+      name: pankkinimi3,
+      iban: pankkiiban3,
+      bic: pankkiswift3
+    }
+
+    accounts.reject { |a| a[:name].blank? }
+  end
 end

@@ -3,6 +3,38 @@ acme:
   nimi: Acme Corporation
   maa: FI
   ytunnus: 1234567-8
+  pankkinimi1: Nordea
+  pankkitili1: 123456
+  pankkiiban1: FI123456
+  pankkiswift1: NDEAFIHH
+  tilikausi_alku: <%= Date.today.beginning_of_year %>
+  tilikausi_loppu: <%= Date.today.end_of_year %>
+  ostoreskontrakausi_alku: <%= Date.today %>
+  ostoreskontrakausi_loppu: <%= Date.today %>
+  myyntireskontrakausi_alku: <%= Date.today %>
+  myyntireskontrakausi_loppu: <%= Date.today %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  laatija: joe
+
+pullin_musiikki:
+  yhtio: pulli
+  nimi: Pullin Musiikki oy
+  maa: FI
+  ytunnus: 9876543-0
+  osoite: StreetName 99
+  postino: "00100"
+  postitp: Helsinki
+  maa: FI
+  kotipaikka: Helsinki
+  ovttunnus: 003798765430
+  pankkiiban1: FI4819503000000010
+  pankkiswift1: BANKFIHH
+  pankkiiban2: FI3819503000086423
+  pankkiswift2: BANKFIHH
+  pankkiiban3: FI7429501800000014
+  pankkiswift3: BANKFIHH
   tilikausi_alku: <%= Date.today.beginning_of_year %>
   tilikausi_loppu: <%= Date.today.end_of_year %>
   ostoreskontrakausi_alku: <%= Date.today %>

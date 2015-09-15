@@ -5,6 +5,14 @@ one:
   pankkitili1: 12345
   pankkiiban1: FI1234
   pankkiswift1: NDEAFIHH
+  pankkinimi2: Nordea
+  pankkitili2: 54321
+  pankkiiban2: FI54321
+  pankkiswift2: NDEAFIHH
+  pankkinimi3: Nordea
+  pankkitili3: 54321
+  pankkiiban3: FI5432122
+  pankkiswift3: NDEAFIHH
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

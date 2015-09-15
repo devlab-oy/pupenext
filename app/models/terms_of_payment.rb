@@ -3,6 +3,7 @@ class TermsOfPayment < BaseModel
   include Searchable
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
+  belongs_to :factoring_detail, foreign_key: :factoring, primary_key: :factoringyhtio, class_name: 'Factoring'
   has_many :translations, foreign_key: :selite, class_name: 'Keyword::TermsOfPaymentTranslation'
 
   validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
@@ -52,6 +53,16 @@ class TermsOfPayment < BaseModel
 
   def name_translated(locale)
     translations.find_by(kieli: locale).try(:selitetark) || teksti
+  end
+
+  def bank_account_details
+    if factoring_detail
+      factoring_detail.bank_account_details
+    elsif bank_detail
+      bank_detail.bank_account_details
+    else
+      company.bank_account_details
+    end
   end
 
   private

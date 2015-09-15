@@ -80,16 +80,16 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   end
 
   test 'bank detail should be valid' do
-    @top.reload.pankkiyhteystiedot = nil
+    @top.pankkiyhteystiedot = nil
     assert @top.valid?, 'nil is ok, this is an optional attribute'
 
-    @top.reload.pankkiyhteystiedot = @top.company.bank_details.first.id
+    @top.pankkiyhteystiedot = @top.company.bank_details.first.id
     assert @top.valid?
 
-    @top.reload.pankkiyhteystiedot = -1
+    @top.pankkiyhteystiedot = -1
     refute @top.valid?, 'not a valid bank detail id'
 
-    @top.reload.pankkiyhteystiedot = nil
+    @top.pankkiyhteystiedot = nil
     @top.save
     assert_equal 0, @top.pankkiyhteystiedot, 'nil is saved as zero'
   end
@@ -136,5 +136,23 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal ["en", "se"], @top.translated_locales
     assert_equal "60 days net", @top.name_translated(:en)
     assert_equal @top.teksti, @top.name_translated('not_valid_locale')
+  end
+
+  test 'bank account details' do
+    @top.factoring = "Sampo"
+    assert_equal 2, @top.bank_account_details.count
+    assert_equal "FI12345", @top.bank_account_details.first[:iban]
+    assert_equal "FI54321", @top.bank_account_details.second[:iban]
+
+    @top.factoring = nil
+    @top.pankkiyhteystiedot = @top.company.bank_details.first.id
+    assert_equal 3, @top.bank_account_details.count
+    assert_equal "FI1234", @top.bank_account_details.first[:iban]
+    assert_equal "FI54321", @top.bank_account_details.second[:iban]
+    assert_equal "FI5432122", @top.bank_account_details.last[:iban]
+
+    @top.pankkiyhteystiedot = 0
+    assert_equal 1, @top.bank_account_details.count
+    assert_equal "FI123456", @top.bank_account_details.first[:iban]
   end
 end
