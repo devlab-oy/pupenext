@@ -32,4 +32,15 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
   end
+
+  test 'should use pending update attributes properly' do
+    assert @product.pending_update_attributes.is_a? Hash
+
+    @product.attributes = @product.pending_update_attributes
+    assert @product.valid?
+
+    assert_raises ActiveRecord::UnknownAttributeError do
+      @product.attributes = { 'neko' => 'inu' }
+    end
+  end
 end
