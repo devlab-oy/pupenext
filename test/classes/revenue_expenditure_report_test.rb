@@ -201,6 +201,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_one.tapvm)
     invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_one.tapvm)
 
+    # overdue_accounts_receivable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
+
     # Second is unpaid, but is due last week, should not be included
     invoice_two = invoice_one.dup
     invoice_two.erpcm = 1.weeks.ago
@@ -212,6 +216,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_two.tapvm)
     invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
 
+    # overdue_accounts_receivable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
+
     # Third invoice is unpaid but due today, should not be included
     invoice_three = invoice_one.dup
     invoice_three.erpcm = Date.today
@@ -222,6 +230,10 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
     invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_three.tapvm)
     invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
+
+    # overdue_accounts_receivable should include invoice one
+    response = RevenueExpenditureReport.new(1).data
+    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
 
     # Fourth invoice is paid yesterday, should not be included
     invoice_four = invoice_one.dup
