@@ -221,19 +221,20 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal 53.39, response[:overdue_accounts_receivable].to_f
 
     # Third invoice is unpaid but due today, should not be included
+    # as we should include invoices between week_start and yesterday
     invoice_three = invoice_one.dup
     invoice_three.erpcm = Date.today
     invoice_three.mapvm = 0
     invoice_three.save!
 
     # None of these should be included
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 11, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 22, tapvm: invoice_three.tapvm)
+    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 33, tapvm: invoice_three.tapvm)
 
     # overdue_accounts_receivable should include invoice one
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
+    assert_equal 53.39, response[:overdue_accounts_receivable].to_f, "Weekstart #{Date.today.beginning_of_week} Today #{Date.today} Duedate #{invoice_three.erpcm} Yesterday #{Date.yesterday}"
 
     # Fourth invoice is paid yesterday, should not be included
     invoice_four = invoice_one.dup
