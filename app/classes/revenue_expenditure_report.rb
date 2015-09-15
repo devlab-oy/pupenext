@@ -129,7 +129,7 @@ class RevenueExpenditureReport
     # return week numbers and start/end dates for weeks in the requested perioid
     def loop_weeks
       date_start = Date.today.beginning_of_week
-      date_end = Date.today.beginning_of_week.months_since @period
+      date_end = date_start + @period.months
 
       date_start.upto(date_end).map do |date|
         [
