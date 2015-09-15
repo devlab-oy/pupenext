@@ -29,10 +29,13 @@ pullin_musiikki:
   maa: FI
   kotipaikka: Helsinki
   ovttunnus: 003798765430
+  pankkinimi1: PANKKI1
   pankkiiban1: FI4819503000000010
   pankkiswift1: BANKFIHH
+  pankkinimi2: PANKKI2
   pankkiiban2: FI3819503000086423
   pankkiswift2: BANKFIHH
+  pankkinimi3: PANKKI3
   pankkiiban3: FI7429501800000014
   pankkiswift3: BANKFIHH
   tilikausi_alku: <%= Date.today.beginning_of_year %>
