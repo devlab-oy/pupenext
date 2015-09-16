@@ -1,10 +1,11 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_account_path, method: :get if update_access? %>
+<%= button_to_new :account %>
 
 <br/><br/>
 
 <%= form_tag accounts_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
   <table>
 
@@ -70,4 +71,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_account_path, method: :get if update_access? %>
+<%= button_to_new :account %>

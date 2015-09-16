@@ -1,77 +1,35 @@
 <%= render "administration/form_errors", resource: @printer %>
 
-<%= form_for @printer do |f| %>
+<%= simple_form_for @printer, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
 
-  <table>
-    <tr>
-      <th><%= f.label :kirjoitin %></th>
-      <td><%= f.text_field :kirjoitin %></td>
-    </tr>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <table width='100%' class='admin-view-30'>
+      <%= f.input :kirjoitin, input_html: { class: :large } %>
+      <%= f.input :komento, input_html: { class: :large } %>
+      <%= f.input :merkisto, collection: merkisto_options, include_blank: false, input_html: { class: :medium } %>
+      <%= f.input :mediatyyppi, collection: mediatyyppi_options, include_blank: false, input_html: { class: :medium } %>
+      <%= f.input :jarjestys, input_html: { class: :small } %>
 
-    <tr>
-      <th><%= f.label :komento %></th>
-      <td><%= f.text_field :komento %></td>
-    </tr>
+      <%= render 'administration/resource_timestamps_and_users', resource: @printer %>
+    </table>
+  </div>
 
-    <tr>
-      <th><%= f.label :unifaun_nimi %></th>
-      <td><%= f.text_field :unifaun_nimi %></td>
-    </tr>
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <table width='100%' class='admin-view-30'>
+      <%= f.input :ip, input_html: { class: :large } %>
+      <%= f.input :unifaun_nimi, input_html: { class: :large } %>
+      <%= f.input :yhteyshenkilo, input_html: { class: :large } %>
+      <%= f.input :nimi, input_html: { class: :large } %>
+      <%= f.input :osoite, input_html: { class: :large } %>
+      <%= f.input :postino, input_html: { class: :large } %>
+      <%= f.input :postitp, input_html: { class: :large } %>
+      <%= f.input :puhelin, input_html: { class: :large } %>
+    </table>
+  </div>
 
-    <tr>
-      <th><%= f.label :merkisto %></th>
-      <td><%= f.select :merkisto, merkisto_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :mediatyyppi %></th>
-      <td><%= f.select :mediatyyppi, mediatyyppi_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :osoite %></th>
-      <td><%= f.text_field :osoite %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :postino %></th>
-      <td><%= f.text_field :postino %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :postitp %></th>
-      <td><%= f.text_field :postitp, size: 10, maxlength: 10 %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :puhelin %></th>
-      <td><%= f.telephone_field :puhelin %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :yhteyshenkilo %></th>
-      <td><%= f.text_field :yhteyshenkilo %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :ip %></th>
-      <td><%= f.text_field :ip %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :jarjestys %></th>
-      <td><%= f.number_field :jarjestys %></td>
-    </tr>
-
-    <%= render 'administration/resource_timestamps_and_users', resource: printer %>
-
-  </table>
-
-  <%= render 'administration/actions', f: f %>
+  <div style='clear: both;'>
+    <br>
+    <%= f.button :submit %>
+  </div>
 
 <% end %>

@@ -1,18 +1,19 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to_new :terms_of_payment %>
 
 <% if showing_not_used? %>
-  <%= button_to t('.button_show_active'), terms_of_payments_path, method: :get %>
+  <%= button_to t('.button_show_active'), terms_of_payments_path,
+      params: { alias_set: params[:alias_set] }, method: :get %>
 <% else %>
   <%= button_to t('.button_show_removed'), terms_of_payments_path,
-      params: { not_used: :yes }, method: :get %>
+      params: { not_used: :yes, alias_set: params[:alias_set] }, method: :get %>
 <% end %>
 
 <br/><br/>
 
 <%= form_tag terms_of_payments_path, method: :get do %>
-
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
   <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
 
   <table>
@@ -86,4 +87,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>
+<%= button_to_new :terms_of_payment %>

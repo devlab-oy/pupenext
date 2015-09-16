@@ -59,7 +59,7 @@ class Administration::PackingAreasController < AdministrationController
     end
 
     def packing_area_params
-      params.require(:packing_area).permit(
+      resource_parameters model: :packing_area, parameters: [
         :nimi,
         :lokero,
         :prio,
@@ -71,7 +71,7 @@ class Administration::PackingAreasController < AdministrationController
         :printteri3,
         :printteri4,
         :printteri6,
-        :printteri7
-      )
+        :printteri7,
+      ]
     end
 end

@@ -18,10 +18,15 @@ class Keyword < BaseModel
       'KM' => Keyword::ModeOfTransport,
       'KT' => Keyword::NatureOfTransaction,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
+      'MYSQLALIAS' => Keyword::CustomAttribute,
+      'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
       'RAHTIKIRJA' => Keyword::Waybill,
+      'S' => Product::Status,
       'TOIMTAPALP' => Keyword::SortingPoint,
-      'TULLI' => Keyword::Customs
+      'TRY' => Product::Subcategory,
+      'TULLI' => Keyword::Customs,
+      'TUOTEMERKKI' => Product::Brand,
     }
   end
 end

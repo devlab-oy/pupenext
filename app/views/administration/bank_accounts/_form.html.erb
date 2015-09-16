@@ -1,97 +1,35 @@
 <%= render "administration/form_errors", resource: @bank_account %>
 
-<%= form_for @bank_account do |f| %>
+<%= simple_form_for @bank_account,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
-  <table width='600'>
-    <tr>
-      <th width='40%'><%= f.label :kaytossa %></th>
-      <td width='60%'><%= f.select :kaytossa, tili_kaytossa_options, {}, class: :medium %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tilino %></th>
-      <td><%= f.text_field :tilino, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :iban %></th>
-      <td><%= f.text_field :iban, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :bic %></th>
-      <td><%= f.text_field :bic, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :asiakastunnus %></th>
-      <td><%= f.text_field :asiakastunnus, class: :small %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :maksulimitti %></th>
-      <td><%= f.text_field :maksulimitti, class: :small %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :valkoodi %></th>
-      <td><%= f.select :valkoodi, currency_options, {}, class: :medium %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_kulutili %></th>
-      <td><%= f.select :oletus_kulutili, tili_options, {}, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_rahatili %></th>
-      <td><%= f.select :oletus_rahatili, tili_options, {}, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_selvittelytili %></th>
-      <td><%= f.select :oletus_selvittelytili, tili_options, {}, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :hyvak %></th>
-      <td><%= f.select :hyvak, kuka_options, { include_blank: true }, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_kustp %></th>
-      <td><%= f.select :oletus_kustp, kustp_options, { include_blank: true }, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_kohde %></th>
-      <td><%= f.select :oletus_kohde, kohde_options, { include_blank: true }, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :oletus_projekti %></th>
-      <td><%= f.select :oletus_projekti, projekti_options, { include_blank: true }, class: :large %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :factoring %></th>
-      <td><%= f.select :factoring, factoring_options, {}, class: :medium %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :tilinylitys %></th>
-      <td><%= f.select :tilinylitys, tilinylitys_options, {}, class: :medium %></td>
-    </tr>
+  <table width='600' class='admin-view-30'>
+    <%= f.input :kaytossa, collection: tili_kaytossa_options, include_blank: false %>
+    <%= f.input :nimi %>
+    <%= f.input :iban %>
+    <%= f.input :tilino %>
+    <%= f.input :bic, input_html: { class: :small } %>
+    <%= f.input :asiakastunnus, input_html: { class: :small } %>
+    <%= f.input :maksulimitti, input_html: { class: :small } %>
+    <%= f.input :valkoodi, collection: currency_options, include_blank: false %>
+    <%= f.input :oletus_kulutili, collection: tili_options %>
+    <%= f.input :oletus_rahatili, collection: tili_options %>
+    <%= f.input :oletus_selvittelytili, collection: tili_options %>
+    <%= f.input :hyvak, collection: kuka_options %>
+    <%= f.input :oletus_kustp, collection: kustp_options %>
+    <%= f.input :oletus_kohde, collection: kohde_options %>
+    <%= f.input :oletus_projekti, collection: projekti_options %>
+    <%= f.input :factoring, collection: factoring_options, include_blank: false %>
+    <%= f.input :tilinylitys, collection: tilinylitys_options, include_blank: false %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @bank_account %>
 
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
 
 <% end %>

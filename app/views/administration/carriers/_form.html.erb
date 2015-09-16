@@ -1,26 +1,21 @@
 <%= render "administration/form_errors", resource: @carrier %>
 
-<%= form_for @carrier do |f| %>
+<%= simple_form_for @carrier,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
   <table>
-    <tr>
-      <th><%= f.label :koodi %></th>
-      <td><%= f.text_field :koodi %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :neutraali %></th>
-      <td><%= f.select :neutraali, neutraali_options %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :pakkauksen_sarman_minimimitta %></th>
-      <td><%= f.text_field :pakkauksen_sarman_minimimitta %></td>
-    </tr>
+
+    <%= f.input :koodi %>
+    <%= f.input :nimi %>
+    <%= f.input :neutraali, collection: neutraali_options, include_blank: false %>
+    <%= f.input :pakkauksen_sarman_minimimitta %>
+
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
 
 <% end %>

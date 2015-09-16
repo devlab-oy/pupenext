@@ -1,21 +1,41 @@
-vat:
-  yhtio: acme
-  selite: 24
-  laji: ALV
+DEFAULTS: &DEFAULTS
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+vat:
+  yhtio: acme
+  selite: 24
+  laji: ALV
+  <<: *DEFAULTS
 
 foreign_vat:
   yhtio: acme
   selite: 5.5
   selitetark_2: SE
   laji: ALV
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
+
+category_tools:
+  yhtio: acme
+  selite: 1000
+  selitetark: Tools
+  laji: OSASTO
+  <<: *DEFAULTS
+
+subcategory_tools:
+  yhtio: acme
+  selite: 2000
+  selitetark: Power tools
+  laji: TRY
+  <<: *DEFAULTS
+
+brand_tools:
+  yhtio: acme
+  selite: Bosch
+  laji: TUOTEMERKKI
+  <<: *DEFAULTS
 
 waybill:
   yhtio: acme
@@ -73,10 +93,7 @@ top_locale_se:
   selitetark: 60 dagar netto
   kieli: se
   laji: MAKSUEHTOKV
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 top_locale_en:
   yhtio: acme
@@ -84,10 +101,31 @@ top_locale_en:
   selitetark: 60 days net
   kieli: en
   laji: MAKSUEHTOKV
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
+
+mysql_alias_1:
+  yhtio: acme
+  laji: MYSQLALIAS
+  selite: asiakas.nimi
+  selitetark: Nimiskuukkeli
+  selitetark_2: PROSPEKTI
+  selitetark_3: PAKOLLINEN
+  selitetark_4: Oletuksena tässä lukee Mursu
+  selitetark_5: Tämä on ohjeteksti
+  nakyvyys: X
+  <<: *DEFAULTS
+
+mysql_alias_2:
+  yhtio: acme
+  laji: MYSQLALIAS
+  selite: asiakas.nimi
+  selitetark: Kumisniikkeli
+  selitetark_2: PIKAPERUSTA
+  selitetark_3: ''
+  selitetark_4:
+  selitetark_5:
+  nakyvyys: ''
+  <<: *DEFAULTS
 
 package_locale_en:
   yhtio: acme
@@ -95,7 +133,11 @@ package_locale_en:
   selitetark: Steel Barrel
   kieli: en
   laji: PAKKAUSKV
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
+
+status_active:
+  yhtio: acme
+  selite: A
+  selitetark: Aktiivi
+  laji: S
+  <<: *DEFAULTS

@@ -1,0 +1,84 @@
+<%= render "administration/form_errors", resource: @custom_attribute %>
+
+<% url = @custom_attribute.id ? custom_attribute_path(@custom_attribute) : custom_attributes_path %>
+<%= form_for @custom_attribute, as: :custom_attribute, url: url do |f| %>
+
+  <table width='700'>
+
+    <tr>
+      <th width='30%'>
+        <%= f.label :database_field %>
+      </th>
+
+      <td>
+        <%= f.select :database_field, database_field_options, {}, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :label %>
+      </th>
+
+      <td>
+        <%= f.text_field :label, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :set_name %>
+      </th>
+
+      <td>
+        <%= f.text_field :set_name, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :default_value %>
+      </th>
+
+      <td>
+        <%= f.text_field :default_value, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :help_text %>
+      </th>
+
+      <td>
+        <%= f.text_area :help_text, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :visibility %>
+      </th>
+
+      <td>
+        <%= f.select :visibility, attribute_visibility_options, {}, class: :medium %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :required %>
+      </th>
+
+      <td>
+        <%= f.select :required, attribute_required_options, {}, class: :medium %>
+      </td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @custom_attribute %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>

@@ -43,7 +43,7 @@ class Administration::BankAccountsController < AdministrationController
     end
 
     def bank_account_params
-      params.require(:bank_account).permit(
+      resource_parameters model: :bank_account, parameters: [
         :nimi,
         :asiakastunnus,
         :bic,
@@ -61,7 +61,7 @@ class Administration::BankAccountsController < AdministrationController
         :tilino,
         :tilinylitys,
         :valkoodi,
-      )
+      ]
     end
 
     def searchable_columns
