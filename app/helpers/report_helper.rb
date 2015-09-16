@@ -6,6 +6,6 @@ module ReportHelper
   end
 
   def sanitize_week(week)
-    week.tr(' /', '')
+    week.gsub /\D/, ''
   end
 end
