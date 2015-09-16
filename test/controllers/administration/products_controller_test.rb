@@ -30,7 +30,7 @@ class Administration::ProductsControllerTest < ActionController::TestCase
     request = {
       pending_updates_attributes: {
         "0" => {
-          key: 'foo',
+          key: 'nimitys',
           value_type: 'Gekko',
           value: '123.0'
         }
@@ -115,7 +115,9 @@ class Administration::ProductsControllerTest < ActionController::TestCase
     request = {
       pending_updates_attributes: {
         "0" => {
-          value: 200
+          id: pending_update.id,
+          key: 'nimitys',
+          value: ''
         }
       }
     }
@@ -123,6 +125,6 @@ class Administration::ProductsControllerTest < ActionController::TestCase
     post :update, id: @product.id, product: request
 
     p = PendingUpdate.where(id: pending_update.id)
-    assert_not_equal "200", p[0].value
+    assert_not_equal "nimitys", p[0].key
   end
 end
