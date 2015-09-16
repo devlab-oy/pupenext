@@ -34,15 +34,15 @@
       <td><%= @data[:history_revenue] %></td>
     </tr>
     <tr>
+      <th><%= t('.overdue_accounts_receivable', week: @data[:weekly][0][:week]) %></th>
+      <td><%= @data[:overdue_accounts_receivable] %></td>
+    </tr>
+    <tr>
       <th><%= t('.history_expenditure') %></th>
       <td><%= @data[:history_expenditure] %></td>
     </tr>
     <tr>
-      <th><%= t('.overdue_accounts_receivable') %></th>
-      <td><%= @data[:overdue_accounts_receivable] %></td>
-    </tr>
-    <tr>
-      <th><%= t('.overdue_accounts_payable') %></th>
+      <th><%= t('.overdue_accounts_payable', week: @data[:weekly][0][:week]) %></th>
       <td><%= @data[:overdue_accounts_payable] %></td>
     </tr>
   </table>
@@ -52,8 +52,8 @@
   <table id='revenue_expenditure_rows_table'>
     <tr>
       <th width='100' style='text-align: right;'><%= t('.week') %></th>
-      <th width='100' style='text-align: right;'><%= t('.revenue') %></th>
-      <th width='100' style='text-align: right;'><%= t('.expenditure') %></th>
+      <th width='100' style='text-align: right;'><%= t('.accounts_receivable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.accounts_payable') %></th>
       <th width='100' style='text-align: right;'><%= t('.concern_accounts_receivable') %></th>
       <th width='100' style='text-align: right;'><%= t('.concern_accounts_payable') %></th>
       <th class='back'></th>

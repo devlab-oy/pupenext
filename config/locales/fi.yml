@@ -595,13 +595,13 @@ fi:
       button_make: Laadi
       concern_accounts_receivable: Konsernimyyntisaamiset
       concern_accounts_payable: Konserniostovelat
-      expenditure: Menot
-      history_expenditure: Menot historiassa
-      history_revenue: Tulot historiassa
-      overdue_accounts_payable: Erääntyneet ostovelat
-      overdue_accounts_receivable: Erääntyneet myyntisaamiset
+      accounts_payable: Ostovelat
+      history_expenditure: Erääntyneet ostovelat historiassa
+      history_revenue: Erääntyneet myyntisaamiset historiassa
+      overdue_accounts_payable: Erääntyneet ostovelat vko %{week}
+      overdue_accounts_receivable: Erääntyneet myyntisaamiset vko %{week}
       period: Ajanjakso
-      revenue: Tulot
+      accounts_receivable: Myyntisaamiset
       summary: Yhteensä
       title:  Tulot- ja Menot-raportti
       week: Viikko
