@@ -12,10 +12,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
       )
 
       Permission.create!(
-        sovellus: 'Ylläpito',
+        sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure_report_datum',
         nimitys: 'Kassavirta ylläpito',
-        jarjestys: 195
+        jarjestys: 146
       )
 
       # Lisätään Admin profiiliin
@@ -33,10 +33,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
         kuka: 'Admin profiili',
         profiili: 'Admin profiili',
         paivitys: 1,
-        sovellus: 'Ylläpito',
+        sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure_report_datum',
         nimitys: 'Kassavirta ylläpito',
-        jarjestys: 195
+        jarjestys: 146
       )
 
       # Lisätään Adminille käyttöoikeus
@@ -59,10 +59,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
           user_id: admin.tunnus,
           profiili: 'Admin profiili',
           paivitys: 1,
-          sovellus: 'Ylläpito',
+          sovellus: 'Ostoreskontra',
           nimi: 'pupenext/revenue_expenditure_report_datum',
           nimitys: 'Kassavirta ylläpito',
-          jarjestys: 195
+          jarjestys: 146
         )
       end
     end
