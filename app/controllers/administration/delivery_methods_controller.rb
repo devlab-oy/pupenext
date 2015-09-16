@@ -44,14 +44,19 @@ class Administration::DeliveryMethodsController < AdministrationController
   private
     def delivery_method_params
       params.require(:delivery_method).permit(
-        :selite,
-        :tulostustapa,
-        :sopimusnro,
-        :nouto,
-        :ei_pakkaamoa,
-        :extranet,
-        :rahtikirja,
-        :jarjestys,
+        :aktiivinen_kuljetus, :aktiivinen_kuljetus_kansallisuus, :ei_pakkaamoa,
+        :erikoispakkaus_kielto, :erilliskasiteltavakulu, :erittely, :extranet,
+        :jarjestys, :jvkielto, :jvkulu, :kauppatapahtuman_luonne, :kontti,
+        :kuljetusmuoto, :kuljetusvakuutus, :kuljetusvakuutus_tuotenumero,
+        :kuljetusvakuutus_tyyppi, :kuljyksikko, :kuluprosentti, :lahdon_selite,
+        :lajittelupiste, :lauantai, :lisakulu, :lisakulu_summa, :logy_rahtikirjanumerot,
+        :maa_maara, :merahti, :nouto, :osoitelappu, :poistumistoimipaikka_koodi,
+        :rahdinkuljettaja, :rahti_tuotenumero, :rahtikirja, :rahtikirjakopio_email,
+        :sallitut_alustat, :sallitut_maat, :selite, :sisamaan_kuljetus,
+        :sisamaan_kuljetus_kansallisuus, :sisamaan_kuljetusmuoto, :sopimusnro,
+        :toim_maa, :toim_nimi, :toim_nimitark, :toim_osoite, :toim_ovttunnus,
+        :toim_postino, :toim_postitp, :tulostustapa, :ulkomaanlisa, :uudet_pakkaustiedot,
+        :vaihtoehtoinen_vak_toimitustapa, :vak_kielto, :virallinen_selite,
       )
     end
 
