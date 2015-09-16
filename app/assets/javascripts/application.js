@@ -18,3 +18,4 @@
 //= require date_picker
 //= require toggle
 //= require cocoon
+//= require update_title
