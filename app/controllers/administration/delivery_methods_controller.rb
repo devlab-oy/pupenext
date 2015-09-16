@@ -58,12 +58,7 @@ class Administration::DeliveryMethodsController < AdministrationController
     def searchable_columns
       [
         :selite,
-        :tulostustapa,
         :sopimusnro,
-        :nouto,
-        :ei_pakkaamoa,
-        :extranet,
-        :rahtikirja,
         :jarjestys,
       ]
     end
