@@ -71,13 +71,13 @@
             <%= button_tag '+',
                 type: 'button',
                 class: 'custom_expenditure_rows',
-                id: week[:week_sanitized] %>
+                id: sanitize_week(week[:week]) %>
             <% end %>
         </td>
       </tr>
 
       <%= render 'alternative_expenditures',
-          week_sanitized: week[:week_sanitized],
+          week_sanitized: sanitize_week(week[:week]),
           alternative_expenditures: week[:alternative_expenditures] %>
     <% end %>
 

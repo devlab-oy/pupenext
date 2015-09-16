@@ -8,4 +8,8 @@ class ReportHelperTest < ActionView::TestCase
     assert_equal text, month_options.first.first
     assert_equal '1', month_options.first.second
   end
+
+  test 'should sanitize week year combo' do
+    assert_equal '362015', sanitize_week('36 / 2015')
+  end
 end

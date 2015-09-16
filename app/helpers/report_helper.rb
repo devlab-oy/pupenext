@@ -4,4 +4,8 @@ module ReportHelper
       [ t("reports.revenue_expenditure_month", count: m.to_i), m ]
     end
   end
+
+  def sanitize_week(week)
+    week.tr(' /', '')
+  end
 end
