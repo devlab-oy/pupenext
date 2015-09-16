@@ -38,9 +38,5 @@ class ProductTest < ActiveSupport::TestCase
 
     @product.attributes = @product.pending_update_attributes
     assert @product.valid?
-
-    assert_raises ActiveRecord::UnknownAttributeError do
-      @product.attributes = { 'neko' => 'inu' }
-    end
   end
 end
