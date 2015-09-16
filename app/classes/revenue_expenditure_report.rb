@@ -8,12 +8,13 @@ class RevenueExpenditureReport
 
   def data
     time_start = Time.at(0).to_date
+    time_stop = Date.today.beginning_of_week - 1.day
     week_start = Date.today.beginning_of_week
     yesterday  = Date.today - 1.day
 
     {
-      history_revenue: myyntisaamiset(time_start, week_start),
-      history_expenditure: ostovelat(time_start, week_start),
+      history_revenue: myyntisaamiset(time_start, time_stop),
+      history_expenditure: ostovelat(time_start, time_stop),
       overdue_accounts_payable: ostovelat(week_start, yesterday),
       overdue_accounts_receivable: myyntisaamiset(week_start, yesterday),
       weekly: weekly,
