@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class DeliveryMethodHelperTest < ActionView::TestCase
+  fixtures %w(delivery_methods)
+
   test "returns translated pickup options valid for collection" do
     assert pickup_options.is_a? Array
 
