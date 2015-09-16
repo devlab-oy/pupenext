@@ -1,7 +1,6 @@
 class PostalOfficialLegend
   def self.options
     [
-      [ "Ei valintaa" , [ "Ei valintaa" ]],
       [ "Pupesoft / Itella", [
         [ "Itella Express City 00", "Express City 00" ],
         [ "Itella Express Morning 9", "Express Morning 9" ],

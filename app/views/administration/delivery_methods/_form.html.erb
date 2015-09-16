@@ -13,7 +13,11 @@
     </tr>
     <tr>
       <th><%= f.label :virallinen_selite %></th>
-      <td><%= f.select :virallinen_selite, grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite) %></td>
+      <td>
+        <%= f.select :virallinen_selite,
+            grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite),
+            include_blank: true %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :tulostustapa %></th>
