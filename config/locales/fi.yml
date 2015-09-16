@@ -300,6 +300,7 @@ fi:
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
+      delivery_method: Toimitustapa
       fiscal_year: Tilikausi
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
       head/purchase_invoice/approved: Ostolasku valmis maksatukseen
@@ -424,6 +425,20 @@ fi:
         header: Valuutat
       update:
         update_success: Valuutta päivitettiin onnistuneesti
+    custom_attributes:
+      edit:
+        button_remove: Poista kenttä
+        confirm_remove: Oletko varma, että haluat poistaa kentän?
+        header: Ylläpitonäkymän kenttä
+      index:
+        button_search: Etsi
+        header: Ylläpitonäkymien kentät
+      required_options:
+        mandatory: Kentän arvo on pakollinen
+        optional: Kentän arvo ei ole pakollinen
+      visibility_options:
+        hidden: Kenttää ei näytetä näkymässä
+        visible: Kenttä näytetään näkymässä
     delivery_methods:
       adr_prohibition_options:
         adr_prohibition: Toimitustavalla ei saa toimittaa VAK-tuotteita
@@ -440,6 +455,8 @@ fi:
         not_including_container: Ei
       create:
         create_success: Toimitustapa luotiin onnistuneesti
+      destroy:
+        destroy_success: Toimitustapa poistettiin onnistuneesti
       edit:
         button_remove: Poista toimitustapa
         confirm_remove: Oletko varma, että haluat poistaa toimitustavan?
@@ -449,8 +466,6 @@ fi:
         both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
         only_in_extranet: Toimitustapa näytetään vain extranetissä
         only_in_sales: Toimitustapa näytetään vain myynnissä
-      destroy:
-        destroy_success: Toimitustapa poistettiin onnistuneesti
       freight_contract_options:
         receiver_freight_contract: Käytetään vastaanottajan rahtisopimusta
         sender_freight_contract: Käytetään lähettäjän rahtisopimusta
@@ -503,20 +518,6 @@ fi:
         no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
         print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely
         print_waybill_specification_per_customer: Toimitustavalle tulostetaan rahtikirjaerittely per asiakas
-    custom_attributes:
-      edit:
-        button_remove: Poista kenttä
-        confirm_remove: Oletko varma, että haluat poistaa kentän?
-        header: Ylläpitonäkymän kenttä
-      index:
-        button_search: Etsi
-        header: Ylläpitonäkymien kentät
-      required_options:
-        mandatory: Kentän arvo on pakollinen
-        optional: Kentän arvo ei ole pakollinen
-      visibility_options:
-        hidden: Kenttää ei näytetä näkymässä
-        visible: Kenttä näytetään näkymässä
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
@@ -668,7 +669,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -694,7 +695,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -762,6 +763,14 @@ fi:
       kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
+    delivery_method:
+      in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
+      in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
+      in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
+      in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
+      in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+      mandatory_new_packaging_info_with_unifaun_waybill: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
     messages:
       accepted: täytyy olla hyväksytty
@@ -812,14 +821,6 @@ fi:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
-    delivery_method:
-      in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
-      in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
-      in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
-      in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
-      in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
-      in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
-      mandatory_new_packaging_info_with_unifaun_waybill: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
   fixed_assets:
     commodities:
       activate:
