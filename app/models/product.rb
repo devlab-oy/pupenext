@@ -19,12 +19,6 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
-  def pending_update_attributes
-    hash = {}
-    pending_updates.each { |attr| hash[attr.key] = attr.value }
-    hash
-  end
-
   private
 
     def set_date_fields
