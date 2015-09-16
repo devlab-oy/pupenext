@@ -73,6 +73,7 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
       Current.company = company.yhtio
 
       Permission.where(nimi: 'pupenext/revenue_expenditure').delete_all
+      Permission.where(nimi: 'pupenext/revenue_expenditure_report_datum').delete_all
     end
   end
 end
