@@ -695,6 +695,7 @@ ActiveRecord::Schema.define(version: 20150917101315) do
     t.datetime "muutospvm"
   end
 
+  add_index "inventointilistarivi", ["yhtio", "otunnus", "tuoteno"], name: "index_inventointilistarivi_on_yhtio_and_otunnus_and_tuoteno", using: :btree
   add_index "inventointilistarivi", ["yhtio", "tuotepaikkatunnus"], name: "tuotepaikkatunnus", using: :btree
 
   create_table "kalenteri", primary_key: "tunnus", force: :cascade do |t|
