@@ -179,6 +179,60 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      delivery_method:
+        aktiivinen_kuljetus: Oletus aktiivinen kuljetus
+        aktiivinen_kuljetus_kansallisuus: Oletus aktiivisen kuljetuksen kansallisuus
+        ei_pakkaamoa: Pakkaamokäsittely
+        erikoispakkaus_kielto: Erikoispakkauskäsittely
+        erilliskasiteltavakulu:
+        erittely: Rahtikirjaerittely
+        extranet: Extranet-toimitustapa
+        jarjestys: Järjestys
+        jvkielto: Jälkivaatimukset
+        jvkulu: Jälkivaatimuskulu
+        kauppatapahtuman_luonne: Oletus kauppatapahtuman luonne
+        kontti: Oletus kontti
+        kuljetusmuoto: Oletus kuljetusmuoto
+        kuljetusvakuutus: Kuljetusvakuutus
+        kuljetusvakuutus_tuotenumero: Kuljetusvakuutus tuote
+        kuljetusvakuutus_tyyppi: Kuljetusvakuutustyyppi
+        kuljyksikko: Itella kuljetusyksikkö
+        kuluprosentti: Kuluprosentti
+        lahdon_selite: Nimitys Lähtöjen hallinnassa
+        lajittelupiste:
+        lauantai: Lauantaijakelu
+        lisakulu:
+        lisakulu_summa:
+        logy_rahtikirjanumerot:
+        maa_maara: Oletus määrämaa
+        merahti: Rahtisopimus
+        nouto: Nouto
+        osoitelappu: Osoitelapputyyppi
+        poistumistoimipaikka_koodi: Oletus poistumistoimipaikan koodi
+        rahdinkuljettaja: Kuljetusyhtiä
+        rahti_tuotenumero: Rahtiveloitus tuotenumero
+        rahtikirja: Rahtikirjatyyppi
+        rahtikirjakopio_email:
+        sallitut_alustat: Sallitut keräilyalustat
+        sallitut_maat: Sallitut maat
+        selite: Nimitys
+        sisamaan_kuljetus: Oletus sisämaan kuljetus
+        sisamaan_kuljetus_kansallisuus: Oletus sisämaan kuljetuksen kansallisuus
+        sisamaan_kuljetusmuoto: Oletus sisämaan kuljetusmuoto
+        sopimusnro: Rahtisopimusnumero
+        toim_maa: Koontirahtikirjan maa
+        toim_nimi: Koontirahtikirjan nimi
+        toim_nimitark: Koontirahtikirjan nimitarkenne
+        toim_osoite: Koontirahtikirjan osoite
+        toim_ovttunnus: Koontirahtikirjan OVT-tunnus
+        toim_postino: Koontirahtikirjan postinumero
+        toim_postitp: Koontirahtikirjan postitoimipaikka
+        tulostustapa: Tulostustapa
+        ulkomaanlisa: Rahtikulujen ulkomaanlisä
+        uudet_pakkaustiedot: Koontirahtikirjan pakkaustiedot
+        vaihtoehtoinen_vak_toimitustapa: VAK-tuotteet omalle tilaukselle
+        vak_kielto: VAK-käsittely
+        virallinen_selite: Virallinen nimi
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -669,7 +723,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -695,7 +749,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
