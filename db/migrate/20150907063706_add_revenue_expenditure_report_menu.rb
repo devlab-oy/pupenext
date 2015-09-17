@@ -5,16 +5,26 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
 
       # Luodaan valikko
       Permission.create!(
+        kuka: '',
         sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure',
         nimitys: 'Kassavirta',
+        laatija: 'admin',
+        luontiaika: DateTime.now,
+        muuttaja: 'admin',
+        muutospvm: DateTime.now,
         jarjestys: 145
       )
 
       Permission.create!(
+        kuka: '',
         sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure_report_datum',
         nimitys: 'Kassavirta ylläpito',
+        laatija: 'admin',
+        luontiaika: DateTime.now,
+        muuttaja: 'admin',
+        muutospvm: DateTime.now,
         jarjestys: 146
       )
 
@@ -26,6 +36,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
         sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure',
         nimitys: 'Kassavirta',
+        laatija: 'admin',
+        luontiaika: DateTime.now,
+        muuttaja: 'admin',
+        muutospvm: DateTime.now,
         jarjestys: 145
       )
 
@@ -36,6 +50,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
         sovellus: 'Ostoreskontra',
         nimi: 'pupenext/revenue_expenditure_report_datum',
         nimitys: 'Kassavirta ylläpito',
+        laatija: 'admin',
+        luontiaika: DateTime.now,
+        muuttaja: 'admin',
+        muutospvm: DateTime.now,
         jarjestys: 146
       )
 
@@ -51,6 +69,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
           sovellus: 'Ostoreskontra',
           nimi: 'pupenext/revenue_expenditure',
           nimitys: 'Kassavirta',
+          laatija: 'admin',
+          luontiaika: DateTime.now,
+          muuttaja: 'admin',
+          muutospvm: DateTime.now,
           jarjestys: 145
         )
 
@@ -62,6 +84,10 @@ class AddRevenueExpenditureReportMenu < ActiveRecord::Migration
           sovellus: 'Ostoreskontra',
           nimi: 'pupenext/revenue_expenditure_report_datum',
           nimitys: 'Kassavirta ylläpito',
+          laatija: 'admin',
+          luontiaika: DateTime.now,
+          muuttaja: 'admin',
+          muutospvm: DateTime.now,
           jarjestys: 146
         )
       end
