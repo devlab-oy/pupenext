@@ -212,7 +212,14 @@
     </tr>
     <tr>
       <th><%= f.label :sallitut_alustat %></th>
-      <td><%= f.text_field :sallitut_alustat, class: :large %></td>
+      <td>
+        <%= f.collection_check_boxes :sallitut_alustat, Package.all, :tunnus, :pakkauskuvaus do |b| %>
+          <div>
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :lisakulu %></th>
