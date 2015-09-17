@@ -12,18 +12,21 @@ class PendingUpdate < ActiveRecord::Base
   validate :attributes
 
   def attributes
-    hash = {}
-    obj = pending_updatable_type.classify.constantize
+    klass = pending_updatable_type.classify.constantize
 
-    PendingUpdate.where(pending_updatable_id: pending_updatable_id, pending_updatable_type: pending_updatable_type).each do |attr|
+    pending_updates = PendingUpdate.where pending_updatable_id: pending_updatable_id,
+                                          pending_updatable_type: pending_updatable_type
+
+    hash = {}
+    pending_updates.each do |attr|
       hash[attr.key] = attr.value
     end
 
     hash[key] = value
 
-    x = obj.find pending_updatable_id
-    x.attributes = hash
+    obj = klass.find pending_updatable_id
+    obj.attributes = hash
 
-    errors.add(:value, x.errors.full_messages.join) unless x.valid?
+    errors.add(:value, obj.errors.full_messages.join(', ')) unless obj.valid?
   end
 end
