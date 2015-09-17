@@ -43,6 +43,9 @@ class Administration::DeliveryMethodsController < AdministrationController
 
   private
     def delivery_method_params
+      alustat = params[:delivery_method][:sallitut_alustat]
+      params[:delivery_method][:sallitut_alustat] = alustat.reject(&:empty?).join(',') if alustat
+
       params.require(:delivery_method).permit(
         :aktiivinen_kuljetus, :aktiivinen_kuljetus_kansallisuus, :ei_pakkaamoa,
         :erikoispakkaus_kielto, :erilliskasiteltavakulu, :erittely, :extranet,

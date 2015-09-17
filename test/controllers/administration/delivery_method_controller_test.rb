@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
-  fixtures %w(delivery_methods)
+  fixtures %w(delivery_methods packages)
 
   def setup
     login users(:joe)
@@ -90,5 +90,18 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to delivery_methods_path
+  end
+
+  test 'should save sallitut_alustat array as string' do
+    login users(:bob)
+    package_one = packages(:steel_barrel).id
+    package_two = packages(:oak_barrel).id
+
+    params = { sallitut_alustat: [ package_one, package_two, '' ] }
+
+    patch :update, id: @delivery_method.id, delivery_method: params
+    assert_redirected_to delivery_methods_path
+
+    assert_equal "#{package_one},#{package_two}", @delivery_method.reload.sallitut_alustat
   end
 end
