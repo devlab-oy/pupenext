@@ -28,6 +28,7 @@ class DeliveryMethod < BaseModel
   validate :vak_kielto_validation
   validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
 
+  before_save :defaults
   before_destroy :check_relations
 
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
@@ -62,8 +63,8 @@ class DeliveryMethod < BaseModel
   }
 
   enum merahti: {
+    receiver_freight_contract: '',
     sender_freight_contract: 'K',
-    receiver_freight_contract: ''
   }
 
   enum logy_rahtikirjanumerot: {
@@ -78,8 +79,8 @@ class DeliveryMethod < BaseModel
   }
 
   enum kontti: {
+    not_including_container: '0',
     includes_container: '1',
-    not_including_container: '0'
   }
 
   enum jvkielto: {
@@ -192,5 +193,11 @@ class DeliveryMethod < BaseModel
       end
 
       allow_delete
+    end
+
+    def defaults
+      self.kauppatapahtuman_luonne ||= 0
+      self.kuljetusmuoto ||= 0
+      self.sisamaan_kuljetusmuoto ||= 0
     end
 end

@@ -176,8 +176,7 @@
     </tr>
     <tr>
       <th><%= f.label :kontti %></th>
-      <td><%= f.select :kontti, container_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
+      <td><%= f.select :kontti, container_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :aktiivinen_kuljetus %></th>
