@@ -184,7 +184,7 @@ fi:
         aktiivinen_kuljetus_kansallisuus: Oletus aktiivisen kuljetuksen kansallisuus
         ei_pakkaamoa: Pakkaamokäsittely
         erikoispakkaus_kielto: Erikoispakkauskäsittely
-        erilliskasiteltavakulu:
+        erilliskasiteltavakulu: Erilliskäsiteltäväkulu
         erittely: Rahtikirjaerittely
         extranet: Extranet-toimitustapa
         jarjestys: Järjestys
@@ -199,11 +199,11 @@ fi:
         kuljyksikko: Itella kuljetusyksikkö
         kuluprosentti: Kuluprosentti
         lahdon_selite: Nimitys Lähtöjen hallinnassa
-        lajittelupiste:
+        lajittelupiste: Lajittelupiste
         lauantai: Lauantaijakelu
-        lisakulu:
-        lisakulu_summa:
-        logy_rahtikirjanumerot:
+        lisakulu: Lisäkulu
+        lisakulu_summa: Lisäkulusumma
+        logy_rahtikirjanumerot: LOGY rahtikirjanumerot
         maa_maara: Oletus määrämaa
         merahti: Rahtisopimus
         nouto: Nouto
