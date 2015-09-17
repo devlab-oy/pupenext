@@ -14,7 +14,6 @@ class Administration::ProductsControllerTest < ActionController::TestCase
       pending_updates_attributes: {
         "0" => {
           key: 'nimitys',
-          value_type: 'Decimal',
           value: '123.0'
         }
       }
@@ -25,14 +24,13 @@ class Administration::ProductsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should not create pending update because invalid value_type" do
+  test "should not create pending update because invalid value" do
 
     request = {
       pending_updates_attributes: {
         "0" => {
           key: 'nimitys',
-          value_type: 'Gekko',
-          value: '123.0'
+          value: ''
         }
       }
     }
@@ -77,7 +75,6 @@ class Administration::ProductsControllerTest < ActionController::TestCase
       pending_updates_attributes: {
         "0" => {
           key: 'nimitys',
-          value_type: 'Decimal',
           value: '123.0',
           _destroy: 'true'
         }

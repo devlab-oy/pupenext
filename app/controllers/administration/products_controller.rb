@@ -17,7 +17,7 @@ class Administration::ProductsController < AdministrationController
 
     def product_params
       params.require(:product).permit(
-        pending_updates_attributes: [ :id, :key, :value_type, :value, :_destroy ],
+        pending_updates_attributes: [ :id, :key, :value, :_destroy ],
       )
     end
 end
