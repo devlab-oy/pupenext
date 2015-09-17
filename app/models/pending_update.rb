@@ -5,6 +5,7 @@ class PendingUpdate < ActiveRecord::Base
   belongs_to :pending_updatable, polymorphic: true
 
   validates :key, presence: true
+  validates :pending_updatable, presence: true
 
   validate :updatable_attributes
 
