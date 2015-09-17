@@ -2,229 +2,229 @@
 
 <%= form_for @delivery_method do |f| %>
 
-  <table>
+  <table width='800' class='admin-view-30'>
     <tr>
       <th><%= f.label :selite %></th>
-      <td><%= f.text_field :selite %></td>
+      <td><%= f.text_field :selite, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :lahdon_selite %></th>
-      <td><%= f.text_field :lahdon_selite %></td>
+      <td><%= f.text_field :lahdon_selite, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :virallinen_selite %></th>
       <td>
         <%= f.select :virallinen_selite,
             grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite),
-            include_blank: true %>
+            { include_blank: true }, class: :large %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :tulostustapa %></th>
-      <td><%= f.select :tulostustapa, print_method_options %></td>
+      <td><%= f.select :tulostustapa, print_method_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :rahtikirja %></th>
-      <td><%= f.select :rahtikirja, waybill_options %></td>
+      <td><%= f.select :rahtikirja, waybill_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :logy_rahtikirjanumerot %></th>
-      <td><%= f.select :logy_rahtikirjanumerot, logy_waybill_number_options %></td>
+      <td><%= f.select :logy_rahtikirjanumerot, logy_waybill_number_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :osoitelappu %></th>
-      <td><%= f.select :osoitelappu, label_options %></td>
+      <td><%= f.select :osoitelappu, label_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :rahdinkuljettaja %></th>
       <td><%= f.select :rahdinkuljettaja, carrier_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :rahti_tuotenumero %></th>
-      <td><%= f.text_field :rahti_tuotenumero %></td>
+      <td><%= f.text_field :rahti_tuotenumero, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sopimusnro %></th>
-      <td><%= f.text_field :sopimusnro %></td>
+      <td><%= f.text_field :sopimusnro, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :rahtikirjakopio_email %></th>
-      <td><%= f.text_field :rahtikirjakopio_email %></td>
+      <td><%= f.text_field :rahtikirjakopio_email, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :jvkulu %></th>
-      <td><%= f.text_field :jvkulu %></td>
+      <td><%= f.text_field :jvkulu, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :jvkielto %></th>
-      <td><%= f.select :jvkielto, cash_on_delivery_prohibition_options %></td>
+      <td><%= f.select :jvkielto, cash_on_delivery_prohibition_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :vak_kielto %></th>
-      <td><%= f.select :vak_kielto, adr_prohibition_options %></td>
+      <td><%= f.select :vak_kielto, adr_prohibition_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :vaihtoehtoinen_vak_toimitustapa %></th>
-      <td><%= f.select :vaihtoehtoinen_vak_toimitustapa, alternative_adr_delivery_method_options %></td>
+      <td><%= f.select :vaihtoehtoinen_vak_toimitustapa, alternative_adr_delivery_method_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :erikoispakkaus_kielto %></th>
-      <td><%= f.select :erikoispakkaus_kielto, special_packaging_prohibition_options %></td>
+      <td><%= f.select :erikoispakkaus_kielto, special_packaging_prohibition_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :nouto %></th>
-      <td><%= f.select :nouto, pickup_options %></td>
+      <td><%= f.select :nouto, pickup_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :lauantai %></th>
-      <td><%= f.select :lauantai, saturday_delivery_options %></td>
+      <td><%= f.select :lauantai, saturday_delivery_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuljyksikko %></th>
-      <td><%= f.select :kuljyksikko, transport_unit_options %></td>
+      <td><%= f.select :kuljyksikko, transport_unit_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :erilliskasiteltavakulu %></th>
-      <td><%= f.text_field :erilliskasiteltavakulu %></td>
+      <td><%= f.text_field :erilliskasiteltavakulu, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :merahti %></th>
-      <td><%= f.select :merahti, freight_contract_options %></td>
+      <td><%= f.select :merahti, freight_contract_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuljetusvakuutus_tuotenumero %></th>
-      <td><%= f.text_field :kuljetusvakuutus_tuotenumero %></td>
+      <td><%= f.text_field :kuljetusvakuutus_tuotenumero, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuljetusvakuutus %></th>
-      <td><%= f.text_field :kuljetusvakuutus %></td>
+      <td><%= f.text_field :kuljetusvakuutus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuljetusvakuutus_tyyppi %></th>
-      <td><%= f.select :kuljetusvakuutus_tyyppi, transportation_insurance_type_options %></td>
+      <td><%= f.select :kuljetusvakuutus_tyyppi, transportation_insurance_type_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :extranet %></th>
-      <td><%= f.select :extranet, extranet_options %></td>
+      <td><%= f.select :extranet, extranet_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :ei_pakkaamoa %></th>
-      <td><%= f.select :ei_pakkaamoa, packing_line_prohibition_options %></td>
+      <td><%= f.select :ei_pakkaamoa, packing_line_prohibition_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :erittely %></th>
-      <td><%= f.select :erittely, waybill_specification_options %></td>
+      <td><%= f.select :erittely, waybill_specification_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :uudet_pakkaustiedot %></th>
-      <td><%= f.select :uudet_pakkaustiedot, new_packaging_information_options %></td>
+      <td><%= f.select :uudet_pakkaustiedot, new_packaging_information_options, {}, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :lajittelupiste %></th>
       <td><%= f.select :lajittelupiste, sorting_point_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuluprosentti %></th>
-      <td><%= f.text_field :kuluprosentti %></td>
+      <td><%= f.text_field :kuluprosentti, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_ovttunnus %></th>
-      <td><%= f.text_field :toim_ovttunnus %></td>
+      <td><%= f.text_field :toim_ovttunnus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_nimi %></th>
-      <td><%= f.text_field :toim_nimi %></td>
+      <td><%= f.text_field :toim_nimi, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_nimitark %></th>
-      <td><%= f.text_field :toim_nimitark %></td>
+      <td><%= f.text_field :toim_nimitark, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_osoite %></th>
-      <td><%= f.text_field :toim_osoite %></td>
+      <td><%= f.text_field :toim_osoite, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_postino %></th>
-      <td><%= f.text_field :toim_postino %></td>
+      <td><%= f.text_field :toim_postino, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_postitp %></th>
-      <td><%= f.text_field :toim_postitp %></td>
+      <td><%= f.text_field :toim_postitp, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :toim_maa %></th>
-      <td><%= f.text_field :toim_maa %></td>
+      <td><%= f.text_field :toim_maa, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :maa_maara %></th>
-      <td><%= f.text_field :maa_maara %></td>
+      <td><%= f.text_field :maa_maara, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sisamaan_kuljetus %></th>
-      <td><%= f.text_field :sisamaan_kuljetus %></td>
+      <td><%= f.text_field :sisamaan_kuljetus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sisamaan_kuljetus_kansallisuus %></th>
-      <td><%= f.text_field :sisamaan_kuljetus_kansallisuus %></td>
+      <td><%= f.text_field :sisamaan_kuljetus_kansallisuus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sisamaan_kuljetusmuoto %></th>
       <td><%= f.select :sisamaan_kuljetusmuoto, mode_of_transport_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kontti %></th>
       <td><%= f.select :kontti, container_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :aktiivinen_kuljetus %></th>
-      <td><%= f.text_field :aktiivinen_kuljetus %></td>
+      <td><%= f.text_field :aktiivinen_kuljetus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :aktiivinen_kuljetus_kansallisuus %></th>
-      <td><%= f.text_field :aktiivinen_kuljetus_kansallisuus %></td>
+      <td><%= f.text_field :aktiivinen_kuljetus_kansallisuus, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kauppatapahtuman_luonne %></th>
       <td><%= f.select :kauppatapahtuman_luonne, nature_of_transaction_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :kuljetusmuoto %></th>
       <td><%= f.select :kuljetusmuoto, mode_of_transport_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :poistumistoimipaikka_koodi %></th>
       <td><%= f.select :poistumistoimipaikka_koodi, customs_options,
-              { include_blank: t('administration.delivery_methods.edit.no_select') } %></td>
+              { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :ulkomaanlisa %></th>
-      <td><%= f.text_field :ulkomaanlisa %></td>
+      <td><%= f.text_field :ulkomaanlisa, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sallitut_maat %></th>
-      <td><%= f.text_field :sallitut_maat %></td>
+      <td><%= f.text_field :sallitut_maat, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :sallitut_alustat %></th>
-      <td><%= f.text_field :sallitut_alustat %></td>
+      <td><%= f.text_field :sallitut_alustat, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :lisakulu %></th>
-      <td><%= f.text_field :lisakulu %></td>
+      <td><%= f.text_field :lisakulu, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :lisakulu_summa %></th>
-      <td><%= f.text_field :lisakulu_summa %></td>
+      <td><%= f.text_field :lisakulu_summa, class: :large %></td>
     </tr>
     <tr>
       <th><%= f.label :jarjestys %></th>
-      <td><%= f.text_field :jarjestys %></td>
+      <td><%= f.text_field :jarjestys, class: :large %></td>
     </tr>
 
   <%= render 'administration/resource_timestamps_and_users', resource: @delivery_method %>
