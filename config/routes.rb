@@ -32,6 +32,7 @@ Pupesoft::Application.routes.draw do
     resources :packages
     resources :packing_areas
     resources :printers
+    resources :products
     resources :qualifier_cost_centers, path: :qualifiers, controller: :qualifiers
     resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
     resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
