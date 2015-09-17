@@ -3,6 +3,7 @@ require 'test_helper'
 # Create dummy class for testing Searchable concern using yhtio -table
 class DummyClass < ActiveRecord::Base
   include Searchable
+  has_many :products, foreign_key: :yhtio, primary_key: :yhtio
   self.table_name = :yhtio
 end
 
@@ -12,6 +13,19 @@ class DumberClass < ActiveRecord::Base
 end
 
 class SearchableTest < ActiveSupport::TestCase
+
+  fixtures %w(products)
+
+  test 'should search using relations' do
+    assert_equal 1, DummyClass.joins(:products).where_like("tuote.tuoteno", "hammer123").count
+  end
+
+  test 'should fail searching with invalid column syntax' do
+    assert_raises ArgumentError do
+      DummyClass.joins(:products).where_like("tuote.vasara.tuoteno", "hammer123")
+    end
+  end
+
   test 'test where_like search' do
     assert_equal 1, DummyClass.where_like(:yhtio, 'acme').count
     assert_equal 2, DummyClass.where_like(:nimi, 'orporati').count
@@ -43,6 +57,12 @@ class SearchableTest < ActiveSupport::TestCase
 
     params = { nimi: 'acm', muuttaja: 'johanna' }
     assert_equal 0, DummyClass.search_like(params).count
+
+    params = { "tuote.tuoteno" => "hammer123", "tuote.tuotemerkki" => "bosch" }
+    assert_equal 1, DummyClass.joins(:products).search_like(params).count
+
+    params = { "tuote.tuoteno" => "hammer123", "tuote.tuotemerkki" => "not_bosch" }
+    assert_equal 0, DummyClass.joins(:products).search_like(params).count
   end
 
   test 'should be able to search with db date' do
