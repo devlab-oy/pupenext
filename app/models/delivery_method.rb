@@ -130,71 +130,67 @@ class DeliveryMethod < BaseModel
 
   private
 
-    def permit_adr_shipments
-      DeliveryMethod.permit_adr.shipment.pluck(:selite)
-    end
-
     def mandatory_new_packaging_information
-      root = 'errors.delivery_method'
-      errors.add(:base, I18n.t("#{root}.mandatory_new_packaging_info_with_unifaun_waybill")) if rahtikirja.include? 'rahtikirja_unifaun'
+      if rahtikirja.include? 'rahtikirja_unifaun'
+        errors.add :base, I18n.t("errors.delivery_method.unifaun_info_missing")
+      end
     end
 
     def vak_kielto_validation
       allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite) + [ '', 'K' ]
-      errors.add :vak_kielto, I18n.t('errors.messages.inclusion') unless allowed.include? vak_kielto
+
+      unless allowed.include? vak_kielto
+        errors.add :vak_kielto, I18n.t('errors.messages.inclusion')
+      end
     end
 
     def vaihtoehtoinen_vak_toimitustapa_validation
-      allowed = permit_adr_shipments + [ '' ]
-      errors.add :vaihtoehtoinen_vak_toimitustapa, I18n.t('errors.messages.inclusion') unless allowed.include? vaihtoehtoinen_vak_toimitustapa
+      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite) + [ '' ]
+
+      unless allowed.include? vaihtoehtoinen_vak_toimitustapa
+        errors.add :vaihtoehtoinen_vak_toimitustapa, I18n.t('errors.messages.inclusion')
+      end
     end
 
     def check_relations
-      root = 'errors.delivery_method'
       allow_delete = true
 
       count = company.customers.where(toimitustapa: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_customers", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_customers", count: count)
         allow_delete = false
       end
 
       count = company.sales_orders.not_delivered.where(toimitustapa: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_sales_orders", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_sales_orders", count: count)
         allow_delete = false
       end
 
       count = company.sales_order_drafts.where(toimitustapa: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_sales_order_drafts", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_sales_order_drafts", count: count)
         allow_delete = false
       end
 
       count = company.freights.where(toimitustapa: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_freights", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_freights", count: count)
         allow_delete = false
       end
 
       count = company.freight_contracts.where(toimitustapa: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_freight_contracts", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_freight_contracts", count: count)
         allow_delete = false
       end
 
       count = company.customer_keywords.where(avainsana: selite).count
-
       if count.nonzero?
-        errors.add(:base, I18n.t("#{root}.in_use_customer_keywords", count: count))
+        errors.add :base, I18n.t("errors.delivery_method.in_use_customer_keywords", count: count)
         allow_delete = false
       end
 
-      return allow_delete
+      allow_delete
     end
 end

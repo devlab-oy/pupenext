@@ -824,7 +824,7 @@ fi:
       in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
       in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
-      mandatory_new_packaging_info_with_unifaun_waybill: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
+      unifaun_info_missing: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
     messages:
       accepted: täytyy olla hyväksytty
