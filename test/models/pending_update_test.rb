@@ -17,5 +17,7 @@ class PendingUpdateTest < ActiveSupport::TestCase
     @pending_update.key = :nimitys
     @pending_update.value = ''
     refute @pending_update.valid?, @pending_update.errors.messages
+
+    assert_equal 'Nimitys ei voi olla tyhjä', @pending_update.errors.first.second
   end
 end
