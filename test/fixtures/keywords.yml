@@ -37,16 +37,6 @@ brand_tools:
   laji: TUOTEMERKKI
   <<: *DEFAULTS
 
-waybill:
-  yhtio: acme
-  selite: rahtikirja.inc
-  selitetark: Yleisrahtikirja A4 teksti
-  laji: RAHTIKIRJA
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-
 mode_of_transport:
   yhtio: acme
   selite: 1

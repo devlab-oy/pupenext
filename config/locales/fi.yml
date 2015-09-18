@@ -568,6 +568,17 @@ fi:
         use_company_default: Yhtiön oletus
       update:
         update_success: Toimitustapa päivitettiin onnistuneesti
+      waybill_options:
+        dpd_ftp: DPD ftp-siirto
+        dpd_waybill: DPD A5 PDF-rahtikirja
+        generic_a4: Yleisrahtikirja A4 PDF
+        itella_a5: Postin A5 PDF-rahtikirja
+        itella_priority_foreign: Itella Priority Ulkomaa
+        itella_thermal: Postin lämpösiirto-rahtikirja
+        no_waybill: Rahtikirjaa ei tulosteta
+        unifaun_online: Unifaun Online
+        unifaun_print_server: Unifaun Print Server
+        ups_ftp: UPS ftp-siirto
       waybill_specification_options:
         no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
         print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely

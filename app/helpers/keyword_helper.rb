@@ -29,10 +29,6 @@ module KeywordHelper
     ]
   end
 
-  def waybill_options
-    Keyword::Waybill.pluck(:selitetark, :selite)
-  end
-
   def mode_of_transport_options
     Keyword::ModeOfTransport.pluck(:selitetark, :selite)
   end

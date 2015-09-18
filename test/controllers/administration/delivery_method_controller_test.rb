@@ -37,7 +37,7 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
         nouto: :shipment,
         ei_pakkaamoa: '1',
         extranet: :only_in_sales,
-        rahtikirja: 'rahtikirja.inc',
+        rahtikirja: 'generic_a4',
         jarjestys: 1
       }
 

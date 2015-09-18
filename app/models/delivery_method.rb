@@ -3,7 +3,6 @@ class DeliveryMethod < BaseModel
   include Searchable
 
   with_options foreign_key: :selite do |o|
-    o.has_many :waybills,               primary_key: :rahtikirja,                 class_name: 'Keyword::Waybill'
     o.has_many :mode_of_transports,     primary_key: :kuljetusmuoto,              class_name: 'Keyword::ModeOfTransport'
     o.has_many :nature_of_transactions, primary_key: :kauppatapahtuman_luonne,    class_name: 'Keyword::NatureOfTransaction'
     o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
@@ -65,6 +64,19 @@ class DeliveryMethod < BaseModel
   enum merahti: {
     receiver_freight_contract: '',
     sender_freight_contract: 'K',
+  }
+
+  enum rahtikirja: {
+    generic_a4: 'rahtikirja_pdf.inc',
+    itella_a5: 'rahtikirja_postitarra_pdf.inc',
+    itella_priority_foreign: 'rahtikirja_postitarra_ulkomaa_pdf.inc',
+    itella_thermal: 'rahtikirja_postitarra.inc',
+    unifaun_online: 'rahtikirja_unifaun_uo_siirto.inc',
+    unifaun_print_server: 'rahtikirja_unifaun_ps_siirto.inc',
+    dpd_waybill: 'rahtikirja_dpd.inc',
+    dpd_ftp: 'rahtikirja_dpd_siirto.inc',
+    ups_ftp: 'rahtikirja_ups_siirto.inc',
+    no_waybill: 'rahtikirja_tyhja.inc',
   }
 
   enum logy_rahtikirjanumerot: {
@@ -132,7 +144,7 @@ class DeliveryMethod < BaseModel
   private
 
     def mandatory_new_packaging_information
-      if rahtikirja.include? 'rahtikirja_unifaun'
+      if unifaun_online? || unifaun_print_server?
         errors.add :base, I18n.t("errors.delivery_method.unifaun_info_missing")
       end
     end

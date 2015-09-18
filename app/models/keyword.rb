@@ -21,7 +21,6 @@ class Keyword < BaseModel
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
-      'RAHTIKIRJA' => Keyword::Waybill,
       'S' => Product::Status,
       'TOIMTAPALP' => Keyword::SortingPoint,
       'TRY' => Product::Subcategory,

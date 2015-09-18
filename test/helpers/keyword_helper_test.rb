@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class KeywordHelperTest < ActionView::TestCase
-  test "should get waybill options" do
-    assert_kind_of Array, waybill_options
-    assert_equal 'rahtikirja.inc', waybill_options.first.second
-  end
-
   test "should get mode of transport options" do
     assert_kind_of Array, mode_of_transport_options
     assert_equal '1 - Merikuljetus (ml. auto- ja junalauttakuljetus)', mode_of_transport_options.first.first

@@ -121,4 +121,19 @@ module DeliveryMethodHelper
       [ t("#{ROOT}.transportation_insurance_type_options.#{key}"), key ]
     end
   end
+
+  def waybill_options
+    [
+      [ t('administration.delivery_methods.waybill_options.generic_a4'),              :generic_a4 ],
+      [ t('administration.delivery_methods.waybill_options.itella_a5'),               :itella_a5 ],
+      [ t('administration.delivery_methods.waybill_options.itella_thermal'),          :itella_thermal ],
+      [ t('administration.delivery_methods.waybill_options.itella_priority_foreign'), :itella_priority_foreign ],
+      [ t('administration.delivery_methods.waybill_options.unifaun_online'),          :unifaun_online ],
+      [ t('administration.delivery_methods.waybill_options.unifaun_print_server'),    :unifaun_print_server ],
+      [ t('administration.delivery_methods.waybill_options.dpd_waybill'),             :dpd_waybill ],
+      [ t('administration.delivery_methods.waybill_options.dpd_ftp'),                 :dpd_ftp ],
+      [ t('administration.delivery_methods.waybill_options.ups_ftp'),                 :ups_ftp ],
+      [ t('administration.delivery_methods.waybill_options.no_waybill'),              :no_waybill ],
+    ]
+  end
 end
