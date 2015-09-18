@@ -474,7 +474,6 @@ de:
         only_in_extranet: Lieferart wird nur im Extranet angezeigt
         only_in_sales: Lieferart wird nur im Verkauf angezeigt
       index:
-        button_new: Neue Lieferart
         button_search: Suchen
         header: Lieferarten
       label_options:
