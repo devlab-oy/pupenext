@@ -38,9 +38,9 @@ class DeliveryMethodHelperTest < ActionView::TestCase
   test "returns translated freight contract options valid for collection" do
     assert freight_contract_options.is_a? Array
 
-    text = I18n.t 'administration.delivery_methods.freight_contract_options.sender_freight_contract'
+    text = I18n.t 'administration.delivery_methods.freight_contract_options.receiver_freight_contract'
     assert_equal text, freight_contract_options.first.first
-    assert_equal 'sender_freight_contract', freight_contract_options.first.second
+    assert_equal 'receiver_freight_contract', freight_contract_options.first.second
   end
 
   test "returns translated logy waybill number options valid for collection" do
@@ -62,9 +62,9 @@ class DeliveryMethodHelperTest < ActionView::TestCase
   test "returns translated container options valid for collection" do
     assert container_options.is_a? Array
 
-    text = I18n.t 'administration.delivery_methods.container_options.includes_container'
+    text = I18n.t 'administration.delivery_methods.container_options.not_including_container'
     assert_equal text, container_options.first.first
-    assert_equal 'includes_container', container_options.first.second
+    assert_equal 'not_including_container', container_options.first.second
   end
 
   test "returns translated cash on delivery prohibition options valid for collection" do
