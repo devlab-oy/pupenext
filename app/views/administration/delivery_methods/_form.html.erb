@@ -16,7 +16,7 @@
       <td>
         <%= f.select :virallinen_selite,
             grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite),
-            { include_blank: true }, class: :large %>
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: :large %>
       </td>
     </tr>
     <tr>
