@@ -9,19 +9,17 @@ class DeliveryMethod < BaseModel
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
   end
 
-  validates :selite, uniqueness: true, length: { within: 1..50 }
-  validates :lahdon_selite, :sallitut_alustat, length: { within: 1..150 }, allow_blank: true
-  validates :rahti_tuotenumero, :rahtikirjakopio_email, :kuljetusvakuutus_tuotenumero, :toim_nimi,
-            :toim_nimitark, length: { within: 1..60 }, allow_blank: true
-  validates :sopimusnro, :sallitut_maat, length: { within: 1..50 }, allow_blank: true
+  validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
   validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
-  validates :toim_ovttunnus, length: { within: 1..25 }, allow_blank: true
-  validates :toim_osoite, length: { within: 1..55 }, allow_blank: true
-  validates :toim_postino, length: { within: 1..15 }, allow_blank: true
-  validates :toim_postitp, :toim_maa, length: { within: 1..35 }, allow_blank: true
-  validates :maa_maara, :sisamaan_kuljetus_kansallisuus, :aktiivinen_kuljetus_kansallisuus,
-            length: { within: 1..2 }, allow_blank: true
-  validates :sisamaan_kuljetus, :aktiivinen_kuljetus, length: { within: 1..30 }, allow_blank: true
+  validates :lahdon_selite, :sallitut_alustat, length: { maximum: 150 }
+  validates :rahti_tuotenumero, :rahtikirjakopio_email, :kuljetusvakuutus_tuotenumero, :toim_nimi, :toim_nimitark, length: { maximum: 60 }
+  validates :selite, uniqueness: true, presence: true, length: { maximum: 150 }
+  validates :sisamaan_kuljetus, :aktiivinen_kuljetus, length: { maximum: 30 }
+  validates :sopimusnro, :sallitut_maat, length: { maximum: 50 }
+  validates :toim_osoite, length: { maximum: 55 }
+  validates :toim_ovttunnus, length: { maximum: 25 }
+  validates :toim_postino, length: { maximum: 15 }
+  validates :toim_postitp, :toim_maa, length: { maximum: 35 }
 
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
