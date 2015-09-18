@@ -6,7 +6,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
   fixtures %w(sum_levels)
 
-  def setup
+  setup do
     login users(:joe)
     @sum_level = sum_levels(:external)
   end

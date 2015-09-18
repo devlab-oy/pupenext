@@ -3,7 +3,7 @@ require 'test_helper'
 class Administration::CurrenciesControllerTest < ActionController::TestCase
   fixtures %w(currencies)
 
-  def setup
+  setup do
     login users(:joe)
   end
 

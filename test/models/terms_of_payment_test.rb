@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class TermsOfPaymentTest < ActiveSupport::TestCase
-  fixtures %w(terms_of_payments customers bank_details factorings)
+  fixtures %w(terms_of_payments heads customers bank_details factorings)
 
-  def setup
+  setup do
     @top = terms_of_payments(:sixty_days_net)
     @cust = customers(:stubborn_customer)
   end
@@ -129,5 +129,12 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal options, TermsOfPayment.kaytossas # LOL!
 
     # no need to test enums more here, since we have tested them in "kateinen" enums test
+  end
+
+  test 'translations' do
+    assert_equal 2, @top.translations.count
+    assert_equal ["en", "se"], @top.translated_locales
+    assert_equal "60 days net", @top.name_translated(:en)
+    assert_equal @top.teksti, @top.name_translated('not_valid_locale')
   end
 end

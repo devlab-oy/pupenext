@@ -20,6 +20,15 @@ de:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Inbetriebnahmedatum
+      carrier:
+        koodi: 
+        luontiaika: Erstellt am
+        luottokortti: 
+        muutospvm: "Änderungsdatum"
+        muuttaja: 
+        neutraali: 
+        nimi: Name
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kasse
         kassaerotus: Kassendifferenz
@@ -130,6 +139,19 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      keyword:
+        kieli: Sprache
+      packing_area:
+        lokero: Fach
+        nimi: Name
+        printteri0: Auswahlliste
+        printteri1: Versandpapier
+        printteri2: Artikeletiketten
+        printteri3: Adressetikett
+        printteri4: Frachtbrief A5
+        printteri6: Frachtbrief A4
+        prio: Prio
+        varasto: Lager
       printer:
         ip: ip
         jarjestys: Sortierung
@@ -158,14 +180,40 @@ de:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktperson
+      qualifier:
+        nimi: Name
+        tunnus: Kennzeichen
+        tyyppi: Typ
+      terms_of_payment:
+        abs_pvm: Zahlungsdatum
+        jarjestys: Sortierung
+        jv: Nachnahme
+        kassa_alepros: Kassenrabattsprozent
+        kateinen: Barzahlung
+        kaytossa: Wird benutzt
+        laatija: Erstellt von
+        luontiaika: Erstellt am
+        pankkiyhteystiedot: Bankverbindungsdaten
     models:
       account: Konto
+      carrier: 
       cash_register: 
       currency: Währung
       fiscal_year: Rechnungsjahr
+      head/purchase_order: Kaufauftrag
+      head/sales_invoice: Verkaufsrechnung
+      head/sales_order: Auftrag
+      head/sales_order_draft: Aufrag nicht abgeschlossen
+      packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
       qualifier: Ergänzung
+      qualifier/cost_center: Kostenstelle
+      qualifier/project: Projekt
+      qualifier/target: Ziel
       sum_level: Ebene
+      sum_level/external: Extern
+      sum_level/internal: Intern
+      sum_level/vat: Umsatzsteuer
       terms_of_payment: Zahlungsbedingung
   administration:
     accounts:
@@ -205,6 +253,12 @@ de:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Suchen
+      neutraali_options:
+        neutral: Ja
+        not_neutral: Nein
     cash_registers:
       create:
         create_success: 
@@ -239,6 +293,13 @@ de:
         header: 
       update:
         update_success: 
+    packing_areas:
+      edit:
+        header: Packraum/Verpackungsabteilung
+      index:
+        button_new: Neue(r) Packraum-/Verpackungsabteilung
+        button_search: Suchen
+        header: Packräume/Verpackungsabteilungen
     printers:
       create:
         create_success: 
@@ -270,6 +331,13 @@ de:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Suchen
+        button_show_removed: Gelöschte anzeigen
+      kaytossa_options:
+        in_use: Ja
+        not_in_use: Nein
     sum_levels:
       create:
         create_success: 
@@ -303,7 +371,7 @@ de:
       edit:
         header: Zahlungsbedingung
         no_factoring: Wird nicht factoriert
-        use_company_defaults: 
+        use_company_defaults: Standarde der Firma verwenden
       in_use_options:
         active: Wird benutzt
         inactive: Gelöscht / Wird nicht benutzt
@@ -313,6 +381,8 @@ de:
         button_show_active: 
         button_show_removed: 
         header: 
+      translations:
+        link_new: Neue Übersetzung hinzufügen
       update:
         update_success: 
     update_access:

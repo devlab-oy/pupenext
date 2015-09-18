@@ -20,6 +20,15 @@ et:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Kasutuselevotu kuupäev
+      carrier:
+        koodi: Kood
+        luontiaika: Koostamise aeg
+        luottokortti: 
+        muutospvm: Muutmise kuupäev
+        muuttaja: Muutja
+        neutraali: 
+        nimi: Nimi
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Kassa
         kassaerotus: Kassa vahe
@@ -130,6 +139,17 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      keyword:
+        kieli: Keel
+      packing_area:
+        nimi: Nimi
+        printteri0: Komplekteerimisleht
+        printteri1: Saateleht
+        printteri2: Tootekleebised
+        printteri3: Aadressilipik
+        printteri4: Veokiri A5
+        printteri6: Veokiri A4
+        varasto: Ladu
       printer:
         ip: ip
         jarjestys: Järjekord
@@ -158,14 +178,34 @@ et:
         puhelin: Telefon
         unifaun_nimi: 
         yhteyshenkilo: Kontaktisik
+      qualifier:
+        nimi: Nimi
+        tyyppi: Tyyp
+      terms_of_payment:
+        abs_pvm: Maksepäev
+        jarjestys: Järjekord
+        kaytossa: Kasutusel
+        laatija: Koostaja
+        luontiaika: Koostamise aeg
+        pankkiyhteystiedot: Pangarekvisiidid
     models:
       account: Arve
+      carrier: 
       cash_register: Kassa
       currency: Valuuta
       fiscal_year: Aruandeperiood
+      head/purchase_order: Ostutellimus
+      head/sales_invoice: Myygiarve
+      head/sales_order: Myygitellimus
+      head/sales_order_draft: Myygitellimus pooleli
       printer: Printer
       qualifier: TÃ¤psustus
+      qualifier/cost_center: Kulukoht
+      qualifier/project: Projekt
+      qualifier/target: Objekt
       sum_level: Tase
+      sum_level/internal: Sisemine
+      sum_level/vat: Km
       terms_of_payment: Maksutingimus
   administration:
     accounts:
@@ -205,6 +245,12 @@ et:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Otsi
+      neutraali_options:
+        neutral: Jah
+        not_neutral: Ei
     cash_registers:
       create:
         create_success: 
@@ -239,6 +285,9 @@ et:
         header: Majandusaasta
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Otsi
     printers:
       create:
         create_success: 
@@ -270,6 +319,13 @@ et:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Otsi
+        button_show_removed: Näita tyhistatuid
+      kaytossa_options:
+        in_use: Jah
+        not_in_use: Ei
     sum_levels:
       create:
         create_success: 
@@ -303,7 +359,7 @@ et:
       edit:
         header: Maksutingimus
         no_factoring: Ei kasutata faktooringut
-        use_company_defaults: 
+        use_company_defaults: Kasuta firma vaikimisi programme
       in_use_options:
         active: Kasutusel
         inactive: Kustutatud/Ei ole kasutusel

@@ -1,7 +1,7 @@
 <% if resource.errors.any? %>
   <div id="error_explanation">
     <span class="message">
-      <%=t 'errors.template.header', count: resource.errors.count, model: resource.class %><br>
+      <%=t 'errors.template.header', count: resource.errors.count, model: resource.class.model_name.human %><br>
       <%=t 'errors.template.body', count: resource.errors.size %>
     </span>
 

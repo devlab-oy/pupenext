@@ -1,13 +1,15 @@
 require 'test_helper'
 
 class CommodityRowGeneratorTest < ActiveSupport::TestCase
-  fixtures %w(fixed_assets/commodities
-              fixed_assets/commodity_rows
-              accounts
-              heads
-              head/voucher_rows
-              fiscal_years
-              sum_levels)
+  fixtures %w(
+    fixed_assets/commodities
+    fixed_assets/commodity_rows
+    accounts
+    heads
+    head/voucher_rows
+    fiscal_years
+    sum_levels
+  )
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)

@@ -6,66 +6,84 @@
   <%= button_to t('.button_show_active'), terms_of_payments_path, method: :get %>
 <% else %>
   <%= button_to t('.button_show_removed'), terms_of_payments_path,
-                params: { not_used: :yes }, method: :get %>
+      params: { not_used: :yes }, method: :get %>
 <% end %>
 
 <br/><br/>
+
 <%= form_tag terms_of_payments_path, method: :get do %>
+
   <%= hidden_field_tag :not_used, :yes if showing_not_used? %>
+
   <table>
+
     <tr>
       <th>
-        <%= sortable 'teksti' %>
+        <%= sortable 'teksti', TermsOfPayment.human_attribute_name(:teksti) %>
         <br/>
         <%= text_field_tag :teksti, params[:teksti] %>
       </th>
+
       <th>
-        <%= sortable 'rel_pvm' %>
+        <%= sortable 'rel_pvm', TermsOfPayment.human_attribute_name(:rel_pvm) %>
         <br/>
         <%= text_field_tag :rel_pvm, params[:rel_pvm] %>
       </th>
+
       <th>
-        <%= sortable 'abs_pvm' %>
-        <br/>
-        <%= text_field_tag :abs_pvm, params[:abs_pvm] %>
-      </th>
-      <th>
-        <%= sortable 'kassa_relpvm' %>
+        <%= sortable 'kassa_relpvm', TermsOfPayment.human_attribute_name(:kassa_relpvm) %>
         <br/>
         <%= text_field_tag :kassa_relpvm, params[:kassa_relpvm] %>
       </th>
+
       <th>
-        <%= sortable 'kassa_abspvm' %>
-        <br/>
-        <%= text_field_tag :kassa_abspvm, params[:kassa_abspvm] %>
-      </th>
-      <th>
-        <%= sortable 'kassa_alepros' %>
+        <%= sortable 'kassa_alepros', TermsOfPayment.human_attribute_name(:kassa_alepros) %>
         <br/>
         <%= text_field_tag :kassa_alepros, params[:kassa_alepros] %>
       </th>
+
       <th>
-        <%= sortable 'jarjestys' %>
+        <%= sortable 'jarjestys', TermsOfPayment.human_attribute_name(:jarjestys) %>
         <br/>
         <%= text_field_tag :jarjestys, params[:jarjestys] %>
       </th>
-      <th class="back"><%= submit_tag t('.button_search') %></th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
     </tr>
 
     <% @terms_of_payments.each do |top| %>
       <tr>
-        <td><%= link_to top.teksti, edit_terms_of_payment_path(top.id) %></td>
-        <td><%= top.rel_pvm %></td>
-        <td><%= l top.abs_pvm unless top.abs_pvm.nil? %></td>
-        <td><%= top.kassa_relpvm %></td>
-        <td><%= l top.kassa_abspvm unless top.kassa_abspvm.nil? %></td>
-        <td><%= top.kassa_alepros %></td>
-        <td><%= top.jarjestys %></td>
-        <td class="back"></td>
+        <td>
+          <%= link_to top.teksti, edit_terms_of_payment_path(top.id) %>
+        </td>
+
+        <td>
+          <%= top.rel_pvm %>
+        </td>
+
+        <td>
+          <%= top.kassa_relpvm %>
+        </td>
+
+        <td>
+          <%= top.kassa_alepros %>
+        </td>
+
+        <td>
+          <%= top.jarjestys %>
+        </td>
+
+        <td class="back">
+        </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
+
 <br/>
 
 <%= button_to t('.button_new'), new_terms_of_payment_path, method: :get if update_access? %>

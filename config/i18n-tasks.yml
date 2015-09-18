@@ -37,3 +37,4 @@ ignore_unused:
 - 'administration.accounts.{manuaali_esto_options,tiliointi_tarkistus_options,toimijaliitos_options}.*'
 - 'administration.printers.{mediatyyppi_options,merkisto_options}.*'
 - 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
+- 'administration.qualifiers.{kaytossa_options}.*'

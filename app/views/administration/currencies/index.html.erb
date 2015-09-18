@@ -5,16 +5,17 @@
 <br/><br/>
 
 <%= form_tag currencies_path, method: :get do %>
+
   <table>
     <tr>
       <th>
-        <%= sortable 'nimi' %>
+        <%= sortable 'nimi', Currency.human_attribute_name(:nimi) %>
         <br/>
         <%= text_field_tag :nimi, params[:nimi] %>
       </th>
 
       <th>
-        <%= sortable 'kurssi' %>
+        <%= sortable 'kurssi', Currency.human_attribute_name(:kurssi) %>
         <br/>
         <%= text_field_tag :kurssi, params[:kurssi] %>
       </th>
@@ -45,6 +46,7 @@
   </table>
 
 <% end %>
+
 <br/>
 
 <%= button_to t('.button_new'), new_currency_path, method: :get if update_access? %>

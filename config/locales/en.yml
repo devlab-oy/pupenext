@@ -20,6 +20,15 @@ en:
       accounting/fixed_assets/commodity:
         evl_poistotyyppi: 
         kayttoonottopvm: Deployment date
+      carrier:
+        koodi: 
+        luontiaika: Created
+        luottokortti: 
+        muutospvm: Change date
+        muuttaja: Updated by
+        neutraali: 
+        nimi: Name
+        pakkauksen_sarman_minimimitta: 
       cash_register:
         kassa: Cash register
         kassaerotus: Cash difference
@@ -130,6 +139,11 @@ en:
         viivastyskorko: Penalty interest rate
         www: www
         ytunnus: VAT nr
+      packing_area:
+        nimi: Name
+        printteri1: Dispatch note
+        printteri3: Address label
+        varasto: Storage
       printer:
         ip: Ip
         jarjestys: Order
@@ -158,14 +172,29 @@ en:
         puhelin: Phone
         unifaun_nimi: Unifaun name
         yhteyshenkilo: Contact person
+      qualifier:
+        nimi: Name
+        tyyppi: Type
+      terms_of_payment:
+        abs_pvm: Date of payment
+        laatija: Created by
+        luontiaika: Date of creation
+        pankkiyhteystiedot: Bank accounts
     models:
       account: Account
+      carrier: 
       cash_register: Kassa
       currency: Currency
       fiscal_year: Fiscal year
+      head/purchase_order: Purchase order
+      head/sales_invoice: Invoice
+      head/sales_order: Order
+      head/sales_order_draft: Sales order has open issues
       printer: Printer
       qualifier: Cost, profit center, projects
+      qualifier/target: Target
       sum_level: Level
+      sum_level/vat: VAT
       terms_of_payment: Terms of payment
   administration:
     accounts:
@@ -205,6 +234,12 @@ en:
         update_success: 
     actions:
       button_saving: 
+    carriers:
+      index:
+        button_search: Search
+      neutraali_options:
+        neutral: true
+        not_neutral: false
     cash_registers:
       create:
         create_success: 
@@ -239,6 +274,9 @@ en:
         header: Fiscal periods
       update:
         update_success: 
+    packing_areas:
+      index:
+        button_search: Search
     printers:
       create:
         create_success: 
@@ -270,6 +308,13 @@ en:
         charset_utf8: 
       update:
         update_success: 
+    qualifiers:
+      index:
+        button_search: Search
+        button_show_removed: Show removed
+      kaytossa_options:
+        in_use: 'Yes'
+        not_in_use: 'No'
     sum_levels:
       create:
         create_success: 

@@ -5,14 +5,15 @@
 <br/><br/>
 
 <%= form_tag fiscal_years_path, method: :get do %>
+
   <table>
     <tr>
       <th>
-        <%= sortable 'tilikausi_alku' %>
+        <%= sortable 'tilikausi_alku', FiscalYear.human_attribute_name(:tilikausi_alku) %>
       </th>
 
       <th>
-        <%= sortable 'tilikausi_loppu' %>
+        <%= sortable 'tilikausi_loppu', FiscalYear.human_attribute_name(:tilikausi_loppu) %>
       </th>
 
       <th class="back">
@@ -29,12 +30,15 @@
             <%=l fiscal_year.tilikausi_alku %>
           <% end %>
         </td>
+
         <td>
           <%=l fiscal_year.tilikausi_loppu %>
         </td>
       </tr>
     <% end %>
+
   </table>
+
 <% end %>
 
 <br/>

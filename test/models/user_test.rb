@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  fixtures %w(users)
 
   setup do
     @joe = users(:joe)
