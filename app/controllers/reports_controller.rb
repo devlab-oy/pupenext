@@ -1,4 +1,8 @@
 class ReportsController < ApplicationController
+
+  def index
+  end
+
   def depreciations_balance_sheet
     # Tase-erittely sumu-poistoin
     @report = DepreciationsBalanceSheetReport.new(Current.company)
