@@ -1,0 +1,131 @@
+<%= render "header", text: t('.header') %>
+
+<%= form_tag pending_product_updates_path, method: :get do %>
+
+  <table>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :tuoteno, t('.sku') %>
+      </th>
+      <td>
+        <%= text_field_tag :tuoteno, params[:tuoteno] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :toim_tuoteno, t('.suppliers_sku') %>
+      </th>
+      <td>
+        <%= text_field_tag :toim_tuoteno, params[:toim_tuoteno] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :nimitys, t('.label') %>
+      </th>
+      <td>
+        <%= text_field_tag :nimitys, params[:nimitys] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :poistettu, t('.removed') %>
+      </th>
+      <td>
+        <%= check_box_tag :poistettu, params[:poistettu] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :ei_saldoa, t('.inventory_management_products') %>
+      </th>
+      <td>
+        <%= check_box_tag :ei_saldoa, params[:ei_saldoa] %>
+      </td>
+    </tr>
+
+  </table>
+
+  <div>
+    <%= label_tag 'osasto[]', t('.category') %>
+    <% Product::Category.all.each do |o| %>
+      <div>
+        <% chk = params[:osasto] && params[:osasto].include?(o.selite) ? true : false %>
+        <%= check_box_tag 'osasto[]', o.selite, chk %>
+        <%= o.selitetark %>
+      </div>
+    <% end %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= label_tag 'try[]', t('.subcategory') %>
+    <% subcategories_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
+      <div>
+        <% chk = params[:try] && params[:try].include?(o.selite) ? true : false %>
+        <%= check_box_tag 'try[]', o.selite, chk %>
+        <%= o.selitetark %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= label_tag 'tuotemerkki[]', t('.brand') %>
+    <% if params[:osasto] %>
+      <% Product::Category.brands(params[:osasto]).each do |o| %>
+        <div>
+          <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
+          <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
+          <%= o.selitetark %>
+        </div>
+      <% end %>
+    <% else %>
+      <% Product::Brand.all.each do |o| %>
+        <div>
+          <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
+          <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
+          <%= o.selitetark %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= submit_tag t('.search') %>
+
+<% end %>
+
+<br><br>
+
+<% if @products.present? %>
+
+  <table>
+
+  <tr>
+    <th>
+      <%= t('.sku') %>
+    </th>
+    <th>
+      <%= t('.label') %>
+    </th>
+  </tr>
+
+  <% @products.each do |p| %>
+    <tr>
+      <td>
+        <%= p.tuoteno %>
+      </td>
+      <td>
+        <%= p.nimitys %>
+      </td>
+    </tr>
+  <% end %>
+
+  </table>
+
+<% end %>
