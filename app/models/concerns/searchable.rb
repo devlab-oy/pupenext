@@ -14,6 +14,8 @@ module Searchable
           result = result.where key => true
         elsif value == "false"
           result = result.where key => false
+        elsif value.is_a? Array
+          result = result.where key => value
         else
           result = result.where_like key, value
         end
