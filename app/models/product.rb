@@ -1,6 +1,7 @@
 class Product < BaseModel
   has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
   has_many :suppliers, through: :product_suppliers
+  has_many :sales_invoice_rows, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Head::SalesInvoiceRow'
   has_many :pending_updates, as: :pending_updatable
 
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
@@ -12,6 +13,11 @@ class Product < BaseModel
   self.primary_key = :tunnus
 
   before_create :set_date_fields
+
+  enum ei_saldoa: {
+    manage_inventory: '',
+    no_inventory_management: 'o'
+  }
 
   private
 
