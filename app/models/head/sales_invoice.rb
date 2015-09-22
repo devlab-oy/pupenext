@@ -19,9 +19,11 @@ class Head::SalesInvoice < Head
     if maa == "FI"
       # The second to last char is a dash in a Finnish Y-tunnus
       formatted_ytunnus.insert 7, '-'
-    elsif maa != company.maa && ytunnus.trim.upcase[0,2] != maa
+    elsif maa != company.maa && ytunnus.strip.upcase[0,2] != maa
       # Swedish Y-tunnus SE-123467
-      "#{maa}-formatted_ytunnus"
+      "#{maa}-#{ytunnus}"
+    else
+      ytunnus
     end
   end
 
@@ -33,18 +35,21 @@ class Head::SalesInvoice < Head
   end
 
   def deliveryperiod_start
-    if company.parameter.no_manual_deliverydates?
-      rows.minimum(:toimitettuaika).to_date
-    else
-      rows.minimum(:toimaika)
-    end
+#    min = []
+#    rows.each do |row|
+#      min << row.delivery_date
+#    end
+#
+#    min = rows.map do |row|
+#      row.delivery_date
+#    end.min
+#
+#    min = rows.map { |row| row.delivery_date }.min
+
+    rows.map(&:delivery_date).min
   end
 
   def deliveryperiod_end
-    if company.parameter.no_manual_deliverydates?
-      rows.maximum(:toimitettuaika).to_date
-    else
-      rows.maximum(:toimaika)
-    end
+    rows.map(&:delivery_date).max
   end
 end
