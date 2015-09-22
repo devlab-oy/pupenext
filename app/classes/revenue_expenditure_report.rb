@@ -8,15 +8,13 @@ class RevenueExpenditureReport
 
   def data
     time_start = Time.at(0).to_date
-    time_stop = Date.today.beginning_of_week - 1.day
-    week_start = Date.today.beginning_of_week
     yesterday  = Date.today - 1.day
 
     {
-      history_revenue: myyntisaamiset(time_start, time_stop),
-      history_expenditure: ostovelat(time_start, time_stop),
-      overdue_accounts_payable: ostovelat(week_start, yesterday),
-      overdue_accounts_receivable: myyntisaamiset(week_start, yesterday),
+      history_revenue: myyntisaamiset(time_start, yesterday),
+      history_expenditure: ostovelat(time_start, yesterday),
+      history_concern_accounts_payable: konserni_ostovelat(time_start, yesterday),
+      history_concern_accounts_receivable: konserni_myyntisaamiset(time_start, yesterday),
       weekly: weekly,
       weekly_sum: weekly_sum,
     }
@@ -133,9 +131,12 @@ class RevenueExpenditureReport
       date_end = date_start + @period.months
 
       date_start.upto(date_end).map do |date|
+        beginning_of_week = date.beginning_of_week
+        beginning_of_week = Date.today if beginning_of_week == date_start
+
         [
           "#{date.cweek} / #{date.cwyear}",
-          date.beginning_of_week,
+          beginning_of_week,
           date.end_of_week
         ]
       end.uniq

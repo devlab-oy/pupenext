@@ -598,8 +598,8 @@ fi:
       accounts_payable: Ostovelat
       history_expenditure: Erääntyneet ostovelat historiassa
       history_revenue: Erääntyneet myyntisaamiset historiassa
-      overdue_accounts_payable: Erääntyneet ostovelat vko %{week}
-      overdue_accounts_receivable: Erääntyneet myyntisaamiset vko %{week}
+      history_concern_accounts_payable: Erääntyneet konserniostovelat historiassa
+      history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset historiassa
       period: Ajanjakso
       accounts_receivable: Myyntisaamiset
       summary: Yhteensä
