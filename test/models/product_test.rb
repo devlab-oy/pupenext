@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  fixtures %w(products keywords product/suppliers pending_updates suppliers)
+  fixtures %w(products keywords product/suppliers pending_updates suppliers head/sales_invoice_rows)
 
   setup do
     @product = products :hammer
@@ -31,5 +31,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal supplier.nimi, @product.suppliers.first.nimi
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
+
+    assert_not_equal 0, @product.sales_invoice_rows.count
   end
 end
