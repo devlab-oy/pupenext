@@ -13,7 +13,7 @@ class Parameter < BaseModel
 
   enum tilausrivien_toimitettuaika: {
     no_manual_deliverydates: '',
-    service_products_manual_deliverydates: 'K',
-    all_products_manual_deliverydates: 'X',
+    manual_deliverydates_when_product_inventory_not_managed: 'K',
+    manual_deliverydates_for_all_products: 'X',
   }
 end
