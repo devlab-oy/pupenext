@@ -8,11 +8,11 @@ class Product::Brand < Keyword
     'TUOTEMERKKI'
   end
 
-  def categories
-    company.categories.joins(:products).where(tuote: { tuotemerkki: selite })
+  def self.categories(merkki)
+    Current.company.categories.joins(:products).where(tuote: { tuotemerkki: merkki })
   end
 
-  def subcategories
-    company.subcategories.joins(:products).where(tuote: { tuotemerkki: selite })
+  def self.subcategories(merkki)
+    Current.company.subcategories.joins(:products).where(tuote: { tuotemerkki: merkki })
   end
 end

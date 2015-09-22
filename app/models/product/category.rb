@@ -9,11 +9,11 @@ class Product::Category < Keyword
     'OSASTO'
   end
 
-  def subcategories
-    company.subcategories.joins(:products).where(tuote: { osasto: selite })
+  def self.subcategories(osasto)
+    Current.company.subcategories.joins(:products).where(tuote: { osasto: osasto }).uniq
   end
 
-  def brands
-    company.brands.joins(:products).where(tuote: { osasto: selite })
+  def self.brands(osasto)
+    Current.company.brands.joins(:products).where(tuote: { osasto: osasto }).uniq
   end
 end

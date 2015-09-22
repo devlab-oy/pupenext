@@ -9,11 +9,15 @@ class Product::Subcategory < Keyword
     'TRY'
   end
 
-  def categories
-    company.categories.joins(:products).where(tuote: { try: selite })
+  def self.subcategories(try)
+    Current.company.subcategories.joins(:products).where(tuote: { try: try })
   end
 
-  def brands
-    company.brands.joins(:products).where(tuote: { try: selite })
+  def self.categories(try)
+    Current.company.categories.joins(:products).where(tuote: { try: try })
+  end
+
+  def self.brands(try)
+    Current.company.brands.joins(:products).where(tuote: { try: try })
   end
 end
