@@ -843,6 +843,18 @@ fi:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      brand: Merkki
+      category: Osasto
+      header: Tuotteen tulevat muutokset
+      inventory_management_products: Näytä vain saldolliset tuotteet
+      label: Nimitys
+      removed: Poistetut
+      search: Etsi
+      sku: Tuotenumero
+      subcategory: Ryhmä
+      suppliers_sku: Toimittajan tuotenumero
   shared:
     link_return_to: Palaa ohjelmaan
   simple_form:
