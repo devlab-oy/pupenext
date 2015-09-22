@@ -130,133 +130,6 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     assert_equal 128, response[:history_expenditure]
   end
 
-  test 'overdue accounts payable' do
-    # Let's save one invoice and delete the rest
-    invoice_one = heads(:pi_H).dup
-    Head::PurchaseInvoice.delete_all
-
-    # We must travel to friday, since accounts payable calculated between monday - yesterday.
-    # Otherwise these test would not work on mondays.
-    this_friday = Date.today.beginning_of_week.advance(days: 4)
-    travel_to this_friday
-
-    # First is unpaid and within current week
-    invoice_one.erpcm = Date.today - 1.day
-    invoice_one.mapvm = 0
-    invoice_one.save!
-
-    # Add two correct payable regular rows, others should be dismissed
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: -446.61, tapvm: invoice_one.tapvm)
-
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 106.78, response[:overdue_accounts_payable], "Weekstart #{Date.today.beginning_of_week} Today #{Date.today} Duedate #{invoice_one.erpcm} Yesterday #{Date.today - 1.day}"
-
-    # Second invoice is unpaid, but its overdue date is last week
-    invoice_two = invoice_one.dup
-    invoice_two.erpcm = Date.today - 1.week
-    invoice_two.mapvm = 0
-    invoice_two.save!
-
-    # Add two correct payable regular rows and others, should be dismissed because they're last week
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_two.tapvm)
-
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 106.78, response[:overdue_accounts_payable]
-
-    # Third invoice is paid
-    invoice_three = invoice_one.dup
-    invoice_three.erpcm = Date.today - 1.day
-    invoice_three.mapvm = Date.today - 1.day
-    invoice_three.save!
-
-    # Add two correct payable regular rows and others, all should be dismissed. as it is paid.
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_regular, summa: -53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: -53.39, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_three.tapvm)
-
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 106.78, response[:overdue_accounts_payable]
-  end
-
-  test 'overdue accounts receivable' do
-    # Let's save one invoice and delete the rest
-    invoice_one = heads(:si_one).dup
-    Head::SalesInvoice.delete_all
-
-    # We must travel to friday, since accounts receivable calculated between monday - yesterday.
-    # Otherwise these test would not work on mondays.
-    this_friday = Date.today.beginning_of_week.advance(days: 4)
-    travel_to this_friday
-
-    # First is unpaid, sent, and due yesterday, should be included
-    invoice_one.erpcm = Date.today - 1.day
-    invoice_one.mapvm = 0
-    invoice_one.alatila = 'X'
-    invoice_one.save!
-
-    # Only regular accounting rows should be included
-    invoice_one.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_one.tapvm)
-    invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_one.tapvm)
-
-    # overdue_accounts_receivable should include invoice one
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
-
-    # Second is unpaid, but is due last week, should not be included
-    invoice_two = invoice_one.dup
-    invoice_two.erpcm = Date.today - 1.week
-    invoice_two.mapvm = 0
-    invoice_two.save!
-
-    # None of these should be included
-    invoice_two.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_two.tapvm)
-    invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
-
-    # overdue_accounts_receivable should include invoice one
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
-
-    # Third invoice is unpaid but due today, should not be included
-    # as we should include invoices between week_start and yesterday
-    invoice_three = invoice_one.dup
-    invoice_three.erpcm = Date.today
-    invoice_three.mapvm = 0
-    invoice_three.save!
-
-    # None of these should be included
-    invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: 11, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_factoring, summa: 22, tapvm: invoice_three.tapvm)
-    invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 33, tapvm: invoice_three.tapvm)
-
-    # overdue_accounts_receivable should include invoice one
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable].to_f, "Weekstart #{Date.today.beginning_of_week} Today #{Date.today} Duedate #{invoice_three.erpcm} Yesterday #{Date.yesterday}"
-
-    # Fourth invoice is paid yesterday, should not be included
-    invoice_four = invoice_one.dup
-    invoice_four.erpcm = Date.today - 1.day
-    invoice_four.mapvm = Date.today - 1.day
-    invoice_four.save!
-
-    # None of these should be included
-    invoice_four.accounting_rows.create!(tilino: @receivable_regular, summa: 53.39, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_factoring, summa: 53.39, tapvm: invoice_four.tapvm)
-    invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_four.tapvm)
-
-    # overdue_accounts_receivable should include invoice one
-    response = RevenueExpenditureReport.new(1).data
-    assert_equal 53.39, response[:overdue_accounts_receivable].to_f
-  end
-
   test 'weekly sales' do
     # Weekly sales are grouped per week, we'll test the first/current week
     # We must travel to friday, since factoring accounts for "yesterday".
@@ -302,7 +175,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # only 30% of account row's sum is added
     # overdue date is on current week, but event date is not
     invoice_three = invoice_one.dup
-    invoice_three.erpcm = Date.today - 1.day
+    invoice_three.erpcm = Date.today
     invoice_three.tapvm = Date.today - 1.week
     invoice_three.save!
 
@@ -318,7 +191,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     # we should include 70% of factoring rows based on event date
     invoice_four = invoice_one.dup
     invoice_four.erpcm = Date.today + 1.week
-    invoice_four.tapvm = Date.today - 2.days
+    invoice_four.tapvm = Date.today - 1.days
     invoice_four.save!
 
     # 70% of facatoring rows should be included (42 * 0.7 = 29.4) * 2 = 58.8
