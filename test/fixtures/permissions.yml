@@ -13,6 +13,7 @@
     fiscal_years
     packages
     packing_areas
+    pending_product_updates
     printers
     products
     qualifiers
