@@ -9,7 +9,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     @receivable_regular   = invoice.company.myyntisaamiset
     @receivable_factoring = invoice.company.factoringsaamiset
-    @receivable_concern   = invoice.company.konsernisaamiset
+    @receivable_concern   = invoice.company.konsernimyyntisaamiset
 
     @payable_regular = invoice.company.ostovelat
     @payable_concern = invoice.company.konserniostovelat
