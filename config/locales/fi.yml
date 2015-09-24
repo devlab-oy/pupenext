@@ -596,10 +596,10 @@ fi:
       concern_accounts_receivable: Konsernimyyntisaamiset
       concern_accounts_payable: Konserniostovelat
       accounts_payable: Ostovelat
-      history_expenditure: Erääntyneet ostovelat historiassa
-      history_revenue: Erääntyneet myyntisaamiset historiassa
-      history_concern_accounts_payable: Erääntyneet konserniostovelat historiassa
-      history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset historiassa
+      history_expenditure: Erääntyneet ostovelat
+      history_revenue: Erääntyneet myyntisaamiset
+      history_concern_accounts_payable: Erääntyneet konserniostovelat
+      history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
       period: Ajanjakso
       accounts_receivable: Myyntisaamiset
       summary: Yhteensä
