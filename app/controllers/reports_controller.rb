@@ -1,6 +1,12 @@
 class ReportsController < ApplicationController
   def revenue_expenditure
-    @data = RevenueExpenditureReport.new(params[:period].to_i).data if params[:period]
+    period = params[:period].to_i
+    @data = RevenueExpenditureReport.new(period).data unless period.zero?
+
+    respond_to do |format|
+      format.html
+      format.xlsx
+    end
   end
 
   private
