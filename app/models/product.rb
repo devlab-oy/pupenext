@@ -19,6 +19,19 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
+  enum tuotetyyppi: {
+    expence: 'B',
+    material: 'R',
+    normal: '',
+    other: 'M',
+    per_diem: 'A',
+    service: 'K',
+  }
+
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
+  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
+
   private
 
     def set_date_fields
