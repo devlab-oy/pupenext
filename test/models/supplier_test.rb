@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SupplierTest < ActiveSupport::TestCase
-  fixtures %w(suppliers product/suppliers)
+  fixtures %w(suppliers products product/suppliers)
 
   setup do
     @supplier = suppliers :domestic_supplier

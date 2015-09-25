@@ -1,0 +1,44 @@
+<%= render "administration/form_errors", resource: @data %>
+
+<% url = @data.id ? revenue_expenditure_report_datum_path(@data) : revenue_expenditure_report_datum_index_path %>
+<%= form_for @data, as: :data, url: url do |f| %>
+
+  <table width='700'>
+
+    <tr>
+      <th width='30%'>
+        <%= f.label :selite %>
+      </th>
+
+      <td>
+      <%= f.select :selite, week_options(@data.selite) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :selitetark %>
+      </th>
+
+      <td>
+        <%= f.text_field :selitetark, class: :large %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :selitetark_2 %>
+      </th>
+
+      <td>
+        <%= f.text_field :selitetark_2, class: :large %>
+      </td>
+    </tr>
+
+    <%= render 'administration/resource_timestamps_and_users', resource: @data %>
+
+  </table>
+
+  <%= render 'administration/actions', f: f %>
+
+<% end %>

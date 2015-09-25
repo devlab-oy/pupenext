@@ -195,6 +195,10 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
+      keyword/revenue_expenditure_report_data:
+        selite: Viikko / Vuosi
+        selitetark: Kuvaus
+        selitetark_2: Määrä
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
@@ -312,6 +316,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/revenue_expenditure_report_data: Tulot- / Menot-raportin vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -525,6 +530,14 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
+    revenue_expenditure_report_datum:
+      edit:
+        button_remove: Poista meno
+        confirm_remove: Oletko varma, että haluat poistaa menon?
+        header: Tulot- / Menot-raportin vaihtoehtoinen meno
+      index:
+        button_new: Uusi vaihtoehtoinen meno
+        header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
@@ -574,6 +587,24 @@ fi:
       text: Käännös
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
+  reports:
+    revenue_expenditure_month:
+      one: '%{count} kuukausi'
+      other: '%{count} kuukautta'
+    revenue_expenditure:
+      button_make: Laadi
+      concern_accounts_receivable: Konsernimyyntisaamiset
+      concern_accounts_payable: Konserniostovelat
+      accounts_payable: Ostovelat
+      history_expenditure: Erääntyneet ostovelat
+      history_revenue: Erääntyneet myyntisaamiset
+      history_concern_accounts_payable: Erääntyneet konserniostovelat
+      history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
+      period: Ajanjakso
+      accounts_receivable: Myyntisaamiset
+      summary: Yhteensä
+      title:  Tulot- ja Menot-raportti
+      week: Viikko
   application:
     access_control:
       forbidden: Pääsy kielletty!

@@ -1296,6 +1296,7 @@ ActiveRecord::Schema.define(version: 20150917101315) do
   add_index "lasku", ["yhtio", "laskunro"], name: "lasno_index", using: :btree
   add_index "lasku", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
   add_index "lasku", ["yhtio", "tila", "alatila"], name: "tila_index", using: :btree
+  add_index "lasku", ["yhtio", "tila", "erpcm"], name: "index_lasku_on_yhtio_and_tila_and_erpcm", using: :btree
   add_index "lasku", ["yhtio", "tila", "factoringsiirtonumero"], name: "factoring", using: :btree
   add_index "lasku", ["yhtio", "tila", "kerayslista"], name: "yhtio_tila_kerayslista", using: :btree
   add_index "lasku", ["yhtio", "tila", "laskunro"], name: "yhtio_tila_laskunro", using: :btree
