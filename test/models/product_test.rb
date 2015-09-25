@@ -32,4 +32,12 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
   end
+
+  test 'scopes' do
+    company = @product.company
+
+    assert_not_equal 0, company.products.normal.count
+    assert_not_equal 0, company.products.viranomaistuotteet.count
+    assert_not_equal 0, company.products.active.count
+  end
 end
