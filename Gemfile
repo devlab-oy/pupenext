@@ -16,6 +16,8 @@ gem 'request_store'
 gem 'cocoon'
 gem 'simple_form'
 gem 'country_select'
+gem 'axlsx'
+gem 'axlsx_rails'
 
 group :assets do
   gem 'uglifier'

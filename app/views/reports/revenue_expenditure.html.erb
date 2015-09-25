@@ -28,6 +28,13 @@
 <% if @data %>
   <br>
 
+  <%= button_to "Excel",
+      revenue_expenditure_path,
+      params: { period: params[:period], format: :xlsx },
+      method: :get %>
+
+  <br><br>
+
   <table>
     <tr>
       <th><%= t('.history_revenue') %></th>
