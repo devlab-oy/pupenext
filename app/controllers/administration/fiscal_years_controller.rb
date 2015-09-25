@@ -44,7 +44,7 @@ class Administration::FiscalYearsController < AdministrationController
     def fiscal_year_params
       params.require(:fiscal_year).permit(
         tilikausi_alku:  [:day, :month, :year],
-        tilikausi_loppu: [:day, :month, :year]
+        tilikausi_loppu: [:day, :month, :year],
       )
     end
 

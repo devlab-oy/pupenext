@@ -2,6 +2,8 @@ class Dictionary < ActiveRecord::Base
   self.table_name = :sanakirja
   self.primary_key = :tunnus
 
+  SUPPORTED_LOCALES = %w{fi ee en no se de dk ru}
+
   def self.translate(string, language = 'fi')
     # Return the string if don't have the translation
     translate_raw(string, language) || string
@@ -24,6 +26,10 @@ class Dictionary < ActiveRecord::Base
 
     # Return nil if we don't have translation in correct languate
     t_string.present? ? t_string : nil
+  end
+
+  def self.locales
+    SUPPORTED_LOCALES
   end
 
   private

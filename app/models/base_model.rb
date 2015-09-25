@@ -8,6 +8,7 @@ class BaseModel < ActiveRecord::Base
       subclass.class_eval do
         include CurrentCompany
         include CurrentUser
+        include UserDefinedValidations
       end
     end
   end

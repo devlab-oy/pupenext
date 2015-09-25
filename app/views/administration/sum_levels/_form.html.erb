@@ -1,123 +1,41 @@
 <%= render "administration/form_errors", resource: @sum_level %>
 
-<%= form_for @sum_level, as: :sum_level do |f| %>
+<%= simple_form_for @sum_level, as: :sum_level, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
 
-  <table>
+  <table width='600px' class='admin-view-30'>
 
-    <tr>
-      <th><%= f.label :tyyppi %></th>
-      <td>
-        <%= f.select :tyyppi, sum_level_tyyppi_options, {}, { onchange: "submit()" } %>
-      </td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :summattava_taso %></th>
-      <td><%= f.text_field :summattava_taso %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :taso %></th>
-      <td><%= f.text_field :taso %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
+    <%= f.input :tyyppi, collection: sum_level_tyyppi_options, include_blank: false, input_html: { onchange: 'submit()' } %>
+    <%= f.input :nimi, input_html: { class: 'large' } %>
+    <%= f.input :taso %>
+    <%= f.input :summattava_taso %>
 
     <% if @sum_level.tyyppi != 'E' %>
-      <tr>
-        <th><%= f.label :oletusarvo %></th>
-        <td><%= f.text_field :oletusarvo %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :kerroin %></th>
-        <td><%= f.text_field :kerroin %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :jakaja %></th>
-        <td><%= f.text_field :jakaja %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :kumulatiivinen %></th>
-        <td>
-          <%= f.select :kumulatiivinen, kumulatiivinen_options %>
-        </td>
-      </tr>
+      <%= f.input :oletusarvo %>
+      <%= f.input :kerroin %>
+      <%= f.input :jakaja %>
+      <%= f.input :kumulatiivinen, collection: kumulatiivinen_options, include_blank: false, input_html: { class: 'large' }  %>
     <% end %>
 
     <% if @sum_level.tyyppi == "U" %>
-      <tr>
-        <th><%= f.label :kayttotarkoitus %></th>
-        <td>
-          <%= f.select :kayttotarkoitus, kayttotarkoitus_options %>
-        </td>
-      </tr>
+      <%= f.input :kayttotarkoitus, collection: kayttotarkoitus_options, include_blank: false %>
     <% end %>
 
     <% if @sum_level.tyyppi == 'E' %>
-      <tr>
-        <th><%= f.label :poisto_vastatili %></th>
-        <td>
-          <%= f.text_field :poisto_vastatili %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :poistoero_tili %></th>
-        <td>
-          <%= f.text_field :poistoero_tili %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :poistoero_vastatili %></th>
-        <td>
-          <%= f.text_field :poistoero_vastatili %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :planned_depreciation_type %></th>
-        <td>
-          <%= f.select :planned_depreciation_type, FixedAssets::Commodity.options_for_type, {}, { onchange: "submit()" } %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :planned_depreciation_amount %></th>
-        <td>
-          <%= f.text_field :planned_depreciation_amount %>
-          <%= @sum_level.planned_depreciation_type %>
-        </td>
-
-      </tr>
-
-      <tr>
-        <th><%= f.label :btl_depreciation_type %></th>
-        <td>
-          <%= f.select :btl_depreciation_type, FixedAssets::Commodity.options_for_type, {}, { onchange: "submit()" } %>
-        </td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :btl_depreciation_amount %></th>
-        <td>
-          <%= f.text_field :btl_depreciation_amount %>
-          <%= @sum_level.btl_depreciation_type %>
-        </td>
-      </tr>
-
+      <%= f.input :poisto_vastatili %>
+      <%= f.input :poistoero_tili %>
+      <%= f.input :poistoero_vastatili %>
+      <%= f.input :planned_depreciation_type, collection: FixedAssets::Commodity.options_for_type, include_blank: false %>
+      <%= f.input :planned_depreciation_amount %>
+      <%= f.input :btl_depreciation_type, collection: FixedAssets::Commodity.options_for_type, include_blank: false %>
+      <%= f.input :btl_depreciation_amount %>
     <% end %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @sum_level %>
 
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
 
 <% end %>

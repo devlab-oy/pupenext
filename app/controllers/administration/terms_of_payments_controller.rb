@@ -69,7 +69,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
         :rel_pvm,
         :sallitut_maat,
         :teksti,
-        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ]
+        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
       )
     end
 

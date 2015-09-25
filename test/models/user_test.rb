@@ -34,6 +34,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "can read" do
     assert @joe.can_read? '/customers'
+    assert @bob.can_read? '/customers'
     refute users(:max).can_read? '/test'
   end
 
@@ -43,6 +44,23 @@ class UserTest < ActiveSupport::TestCase
 
     assert @bob.can_update? '/currencies'
     assert @bob.can_update? '/companies'
+  end
+
+  test "classic permissions" do
+    refute @joe.can_read?   '/customers', classic: true
+    refute @bob.can_read?   '/customers', classic: true
+    refute @joe.can_update? '/customers', classic: true
+    refute @bob.can_update? '/customers', classic: true
+
+    refute @joe.can_read?   'tulosta_tuotetarrat.php'
+    refute @bob.can_read?   'tulosta_tuotetarrat.php'
+    refute @joe.can_update? 'tulosta_tuotetarrat.php'
+    refute @bob.can_update? 'tulosta_tuotetarrat.php'
+
+    assert @joe.can_read?   'tulosta_tuotetarrat.php', classic: true
+    assert @bob.can_read?   'tulosta_tuotetarrat.php', classic: true
+    refute @joe.can_update? 'tulosta_tuotetarrat.php', classic: true
+    assert @bob.can_update? 'tulosta_tuotetarrat.php', classic: true
   end
 
   test "user has correct css" do

@@ -1,0 +1,21 @@
+<%= render "administration/form_errors", resource: @package %>
+
+<%= form_for @package do |f| %>
+
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'basic', f: f %>
+  </div>
+
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render 'administration/translations', f: f %>
+
+    <br><br>
+
+    <%= render 'package_codes', f: f %>
+  </div>
+
+  <div style='clear: both;'>
+    <%= render 'administration/actions', f: f %>
+  </div>
+
+<% end %>

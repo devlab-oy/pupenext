@@ -15,7 +15,13 @@ class Keyword < BaseModel
     {
       'ALV' => Keyword::Vat,
       'ALVULK' => Keyword::ForeignVat,
-      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation
+      'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
+      'MYSQLALIAS' => Keyword::CustomAttribute,
+      'OSASTO' => Product::Category,
+      'PAKKAUSKV' => Keyword::PackageTranslation,
+      'S' => Product::Status,
+      'TRY' => Product::Subcategory,
+      'TUOTEMERKKI' => Product::Brand,
     }
   end
 end

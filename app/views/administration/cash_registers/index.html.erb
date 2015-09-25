@@ -1,10 +1,11 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>
 
 <br /><br />
 
 <%= form_tag cash_registers_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
   <table>
     <tr>
@@ -110,4 +111,4 @@
 
 <br />
 
-<%= button_to t('.button_new'), new_cash_register_path, method: :get if update_access? %>
+<%= button_to_new :cash_register %>

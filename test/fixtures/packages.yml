@@ -1,0 +1,12 @@
+steel_barrel:
+  yhtio: acme
+  pakkaus: 1A
+  pakkauskuvaus: Terästynnyri
+  leveys: 10
+  korkeus: 10
+  syvyys: 10
+  paino: 10
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laatija: joe
+  muuttaja: joe

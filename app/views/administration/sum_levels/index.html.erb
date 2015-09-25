@@ -1,10 +1,11 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to_new :sum_level %>
 
 <br/><br/>
 
 <%= form_tag sum_levels_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
   <table>
 
@@ -112,4 +113,4 @@
 
 <br/>
 
-<%= button_to t('.button_new'), new_sum_level_path, method: :get if update_access? %>
+<%= button_to_new :sum_level %>

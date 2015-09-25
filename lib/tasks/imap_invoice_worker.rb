@@ -80,10 +80,10 @@ class ImapInvoiceWorker
 
     # This is a "Travel expense"-mail
     # We assume format of something.username@ALLOWED_DOMAIN
-    if toaddress.include? "."
+    if toaddress.include? "+"
 
       # Extract username
-      te_user = toaddress.split('.').last
+      te_user = toaddress.split('+').last
 
       # Check if userdir exists
       te_userdir = "#{SAVE_DIRECTORY}/#{TRAVEL_DIRECTORY}/#{te_user}"
@@ -104,7 +104,7 @@ class ImapInvoiceWorker
       end
     end
 
-    if ALLOWED_DOMAIN.split.any? { |a| address.end_with? a }
+    if ALLOWED_DOMAIN.empty? || ALLOWED_DOMAIN.split.any? { |a| address.end_with? a }
 
       # Loop all attachments
       msg.attachments.each { |file| handle_file(msg, file, lang, attach_dir) }

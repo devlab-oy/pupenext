@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813115847) do
+ActiveRecord::Schema.define(version: 20150917101315) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -903,6 +903,7 @@ ActiveRecord::Schema.define(version: 20150813115847) do
     t.datetime "muutospvm"
   end
 
+  add_index "inventointilistarivi", ["yhtio", "otunnus", "tuoteno"], name: "index_inventointilistarivi_on_yhtio_and_otunnus_and_tuoteno", using: :btree
   add_index "inventointilistarivi", ["yhtio", "tuotepaikkatunnus"], name: "tuotepaikkatunnus", using: :btree
 
   create_table "kalenteri", primary_key: "tunnus", force: :cascade do |t|
@@ -1899,6 +1900,15 @@ ActiveRecord::Schema.define(version: 20150813115847) do
   add_index "panttitili", ["yhtio", "tuoteno", "asiakas", "status"], name: "yhtio_tuoteno_asiakas_status", using: :btree
   add_index "panttitili", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
 
+  create_table "pending_updates", force: :cascade do |t|
+    t.integer "pending_updatable_id",   limit: 4
+    t.string  "pending_updatable_type", limit: 255
+    t.string  "key",                    limit: 255
+    t.text    "value",                  limit: 65535
+  end
+
+  add_index "pending_updates", ["pending_updatable_id"], name: "index_pending_updates_on_pending_updatable_id", using: :btree
+
   create_table "perusalennus", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",      limit: 5,                          default: "",  null: false
     t.string   "ryhma",      limit: 15,                         default: "",  null: false
@@ -2570,6 +2580,7 @@ ActiveRecord::Schema.define(version: 20150813115847) do
     t.text     "kuvaus2",     limit: 65535
     t.string   "tilino",      limit: 6,     default: "", null: false
     t.integer  "kustp",       limit: 4,     default: 0,  null: false
+    t.string   "alv",         limit: 1,     default: "", null: false
     t.integer  "toimipaikka", limit: 4,     default: 0,  null: false
     t.string   "hyvak1",      limit: 50,    default: "", null: false
     t.string   "hyvak2",      limit: 50,    default: "", null: false
@@ -3621,6 +3632,7 @@ ActiveRecord::Schema.define(version: 20150813115847) do
     t.string   "ulkoinen_asiakasnumero", limit: 50,                 null: false
     t.string   "tilausyhteyshenkilo",    limit: 1,     default: "", null: false
     t.string   "oletusyhteyshenkilo",    limit: 1,     default: "", null: false
+    t.string   "aktivointikuittaus",     limit: 1,     default: "", null: false
     t.string   "laatija",                limit: 50,    default: "", null: false
     t.datetime "luontiaika",                                        null: false
     t.datetime "muutospvm",                                         null: false
@@ -4158,43 +4170,31 @@ ActiveRecord::Schema.define(version: 20150813115847) do
   add_index "yhtion_toimipaikat_parametrit", ["yhtio"], name: "yhtio_index", using: :btree
 
   create_table "yriti", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",                 limit: 5,                              default: "",  null: false
-    t.string   "kaytossa",              limit: 1,                              default: "",  null: false
-    t.string   "nimi",                  limit: 40,                             default: "",  null: false
-    t.string   "tilino",                limit: 35,                             default: "",  null: false
-    t.string   "iban",                  limit: 34,                             default: "",  null: false
-    t.string   "bic",                   limit: 11,                             default: "",  null: false
-    t.string   "valkoodi",              limit: 3,                              default: "",  null: false
-    t.string   "factoring",             limit: 1,                              default: "",  null: false
-    t.string   "asiakastunnus",         limit: 15,                             default: "",  null: false
-    t.decimal  "maksulimitti",                        precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "tilinylitys",           limit: 1,                              default: "",  null: false
-    t.string   "hyvak",                 limit: 50,                             default: "",  null: false
-    t.string   "oletus_kulutili",       limit: 6,                              default: "",  null: false
-    t.integer  "oletus_kustp",          limit: 4,                              default: 0,   null: false
-    t.integer  "oletus_kohde",          limit: 4,                              default: 0,   null: false
-    t.integer  "oletus_projekti",       limit: 4,                              default: 0,   null: false
-    t.string   "oletus_rahatili",       limit: 6,                              default: "",  null: false
-    t.string   "oletus_selvittelytili", limit: 6,                              default: "",  null: false
-    t.string   "pankkitarkenne",        limit: 8,                              default: "",  null: false
-    t.string   "asiakastarkenne",       limit: 8,                              default: "",  null: false
-    t.string   "pankki",                limit: 17,                             default: "",  null: false
-    t.string   "asiakas",               limit: 17,                             default: "",  null: false
-    t.text     "generointiavain",       limit: 65535
-    t.text     "salattukerta",          limit: 65535
-    t.text     "siemen",                limit: 65535
-    t.text     "kertaavain",            limit: 65535
-    t.integer  "sasukupolvi",           limit: 4,                              default: 0,   null: false
-    t.integer  "kasukupolvi",           limit: 4,                              default: 0,   null: false
-    t.text     "siirtoavain",           limit: 65535
-    t.text     "kayttoavain",           limit: 65535
-    t.integer  "nro",                   limit: 4,                              default: 0,   null: false
-    t.string   "laatija",               limit: 50,                             default: "",  null: false
-    t.datetime "luontiaika",                                                                 null: false
-    t.datetime "muutospvm",                                                                  null: false
-    t.string   "muuttaja",              limit: 50,                             default: "",  null: false
+    t.string   "yhtio",                 limit: 5,                           default: "",  null: false
+    t.string   "kaytossa",              limit: 1,                           default: "",  null: false
+    t.string   "nimi",                  limit: 40,                          default: "",  null: false
+    t.string   "tilino",                limit: 35,                          default: "",  null: false
+    t.string   "iban",                  limit: 34,                          default: "",  null: false
+    t.string   "bic",                   limit: 11,                          default: "",  null: false
+    t.string   "valkoodi",              limit: 3,                           default: "",  null: false
+    t.string   "factoring",             limit: 1,                           default: "",  null: false
+    t.string   "asiakastunnus",         limit: 15,                          default: "",  null: false
+    t.decimal  "maksulimitti",                     precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "tilinylitys",           limit: 1,                           default: "",  null: false
+    t.string   "hyvak",                 limit: 50,                          default: "",  null: false
+    t.string   "oletus_kulutili",       limit: 6,                           default: "",  null: false
+    t.integer  "oletus_kustp",          limit: 4,                           default: 0,   null: false
+    t.integer  "oletus_kohde",          limit: 4,                           default: 0,   null: false
+    t.integer  "oletus_projekti",       limit: 4,                           default: 0,   null: false
+    t.string   "oletus_rahatili",       limit: 6,                           default: "",  null: false
+    t.string   "oletus_selvittelytili", limit: 6,                           default: "",  null: false
+    t.string   "laatija",               limit: 50,                          default: "",  null: false
+    t.datetime "luontiaika",                                                              null: false
+    t.datetime "muutospvm",                                                               null: false
+    t.string   "muuttaja",              limit: 50,                          default: "",  null: false
   end
 
+  add_index "yriti", ["yhtio", "iban"], name: "index_yriti_on_yhtio_and_iban", using: :btree
   add_index "yriti", ["yhtio", "tilino"], name: "yhtio_tilino", unique: true, using: :btree
 
 end

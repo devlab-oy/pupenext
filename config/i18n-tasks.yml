@@ -38,3 +38,5 @@ ignore_unused:
 - 'administration.printers.{mediatyyppi_options,merkisto_options}.*'
 - 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
 - 'administration.qualifiers.{kaytossa_options}.*'
+- 'administration.packages.{erikoispakkaus_options,yksin_eraan_options}.*'
+- 'simple_form.*'

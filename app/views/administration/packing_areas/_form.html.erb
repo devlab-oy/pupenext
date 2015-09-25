@@ -1,72 +1,28 @@
 <%= render "administration/form_errors", resource: @packing_area %>
 
-<%= form_for @packing_area do |f| %>
+<%= simple_form_for @packing_area, builder: AdminFormBuilder, alias_set: params[:alias_set] do |f| %>
 
-  <table>
-    <tr>
-      <th><%= f.label :nimi %></th>
-      <td><%= f.text_field :nimi %></td>
-    </tr>
+  <table width='600' class='admin-view-30'>
 
-    <tr>
-      <th><%= f.label :lokero %></th>
-      <td><%= f.text_field :lokero %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :prio %></th>
-      <td><%= f.text_field :prio %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :pakkaamon_prio %></th>
-      <td><%= f.text_field :pakkaamon_prio %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :varasto %></th>
-      <td><%= f.select :varasto, varasto_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri0 %></th>
-      <td><%= f.select :printteri0, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri1 %></th>
-      <td><%= f.select :printteri1, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri2 %></th>
-      <td><%= f.select :printteri2, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri3 %></th>
-      <td><%= f.select :printteri3, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri4 %></th>
-      <td><%= f.select :printteri4, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri6 %></th>
-      <td><%= f.select :printteri6, printteri_options %></td>
-    </tr>
-
-    <tr>
-      <th><%= f.label :printteri7 %></th>
-      <td><%= f.select :printteri7, printteri_options %></td>
-    </tr>
+    <%= f.input :nimi, input_html: { class: :large } %>
+    <%= f.input :lokero, input_html: { class: :large } %>
+    <%= f.input :prio, input_html: { class: :small } %>
+    <%= f.input :pakkaamon_prio, input_html: { class: :small } %>
+    <%= f.input :varasto, collection: varasto_options, input_html: { class: :medium } %>
+    <%= f.input :printteri0, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri1, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri2, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri3, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri4, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri6, collection: printteri_options, input_html: { class: :medium } %>
+    <%= f.input :printteri7, collection: printteri_options, input_html: { class: :medium } %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @packing_area %>
 
   </table>
 
-  <%= render 'administration/actions', f: f %>
+  <br>
+
+  <%= f.button :submit %>
 
 <% end %>
