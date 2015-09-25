@@ -52,3 +52,4 @@ wb.add_worksheet(name: "Workbook") do |sheet|
   ]
 end
 
+render partial: 'reports/shared/report_information', locals: { wb: wb }

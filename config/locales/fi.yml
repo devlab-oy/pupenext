@@ -888,6 +888,11 @@ fi:
       suppliers_sku: Toimittajan tuotenumero
   shared:
     link_return_to: Palaa ohjelmaan
+    excel:
+      info_worksheet: Raportin tiedot
+      company: Yritystiedot
+      user: Käyttäjä
+      time: Ajoaika
   simple_form:
     'no': Ei
     required:
