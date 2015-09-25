@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+weekly = @data[:weekly]
+
+wb.add_worksheet(name: "Workbook") do |sheet|
+  weekly.each do |week|
+    sheet.add_row [
+      week[:week],
+      week[:sales],
+      week[:purchases],
+      week[:concern_accounts_receivable],
+      week[:concern_accounts_payable],
+    ]
+  end
+end
