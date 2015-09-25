@@ -2,6 +2,37 @@ wb = xlsx_package.workbook
 weekly = @data[:weekly]
 
 wb.add_worksheet(name: "Workbook") do |sheet|
+
+  sheet.add_row [
+    t('.history_revenue'),
+    @data[:history_revenue],
+  ]
+
+  sheet.add_row [
+    t('.history_concern_accounts_receivable'),
+    @data[:history_concern_accounts_receivable],
+  ]
+
+  sheet.add_row [
+    t('.history_expenditure'),
+    @data[:history_expenditure],
+  ]
+
+  sheet.add_row [
+    t('.history_concern_accounts_payable'),
+    @data[:history_concern_accounts_payable],
+  ]
+
+  sheet.add_row []
+
+  sheet.add_row [
+    t('.week'),
+    t('.accounts_receivable'),
+    t('.accounts_payable'),
+    t('.concern_accounts_receivable'),
+    t('.concern_accounts_payable'),
+  ]
+
   weekly.each do |week|
     sheet.add_row [
       week[:week],
@@ -11,4 +42,13 @@ wb.add_worksheet(name: "Workbook") do |sheet|
       week[:concern_accounts_payable],
     ]
   end
+
+  sheet.add_row [
+    t('.summary'),
+    @data[:weekly_sum][:sales],
+    @data[:weekly_sum][:purchases],
+    @data[:weekly_sum][:concern_accounts_receivable],
+    @data[:weekly_sum][:concern_accounts_payable],
+  ]
 end
+
