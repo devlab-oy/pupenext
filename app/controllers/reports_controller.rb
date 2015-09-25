@@ -4,7 +4,8 @@ class ReportsController < ApplicationController
   end
 
   def revenue_expenditure
-    period = params[:period].to_i
+    period = revenue_expenditure_params[:period].to_i
+
     @data = RevenueExpenditureReport.new(period).data unless period.zero?
 
     respond_to do |format|
