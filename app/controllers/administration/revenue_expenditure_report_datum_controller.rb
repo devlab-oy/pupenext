@@ -6,7 +6,8 @@ class Administration::RevenueExpenditureReportDatumController < AdministrationCo
   end
 
   def new
-    @data = Keyword::RevenueExpenditureReportData.new
+    current_week = "#{Date.today.cweek} / #{Date.today.year}"
+    @data = Keyword::RevenueExpenditureReportData.new selite: current_week
     render :edit
   end
 
