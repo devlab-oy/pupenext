@@ -51,7 +51,7 @@ Pupesoft::Application.routes.draw do
   end
 
   scope module: :reports do
-    get :revenue_expenditure, to: 'revenue_expenditure#index'
+    get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
   end
 
   root to: 'home#index'
