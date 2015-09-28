@@ -7,7 +7,17 @@ class PendingProductUpdateHelperTest < ActionView::TestCase
   end
 
   test 'returns correct subcategories' do
-    args = { osasto: '1000' }
-    assert_equal Product::Category.subcategories(args[:osasto]), subcategories_options(args)
+
+    args = {
+      osasto: '1000',
+      try: '2000',
+      tuotemerkki: 'Bosch'
+    }
+
+    expected = Product::Category.subcategories(args[:osasto]) +
+               Product::Subcategory.subcategories(args[:try]) +
+               Product::Brand.subcategories(args[:tuotemerkki])
+
+    assert_equal expected, subcategories_options(args)
   end
 end
