@@ -53,7 +53,7 @@
 
   <div>
     <%= label_tag 'osasto[]', t('.category') %>
-    <% Product::Category.all.each do |o| %>
+    <% categories_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
       <div>
         <% chk = params[:osasto] && params[:osasto].include?(o.selite) ? true : false %>
         <%= check_box_tag 'osasto[]', o.selite, chk %>
@@ -77,22 +77,12 @@
 
   <div>
     <%= label_tag 'tuotemerkki[]', t('.brand') %>
-    <% if params[:osasto] %>
-      <% Product::Category.brands(params[:osasto]).each do |o| %>
-        <div>
-          <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
-          <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
-          <%= o.selitetark %>
-        </div>
-      <% end %>
-    <% else %>
-      <% Product::Brand.all.each do |o| %>
-        <div>
-          <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
-          <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
-          <%= o.selitetark %>
-        </div>
-      <% end %>
+    <% brands_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
+      <div>
+        <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
+        <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
+        <%= o.selitetark %>
+      </div>
     <% end %>
   </div>
 
