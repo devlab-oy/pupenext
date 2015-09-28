@@ -299,6 +299,7 @@ fi:
         selitetark: Käännetty teksti
       transport:
         customer: Asiakas
+        customer_id: Asiakkaan tunnus
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
@@ -615,7 +616,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -641,7 +642,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
