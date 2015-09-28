@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Transports</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Hostname</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Path</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transports.each do |transport| %>
+      <tr>
+        <td><%= transport.customer %></td>
+        <td><%= transport.hostname %></td>
+        <td><%= transport.username %></td>
+        <td><%= transport.password %></td>
+        <td><%= transport.path %></td>
+        <td><%= link_to 'Show', transport %></td>
+        <td><%= link_to 'Edit', edit_transport_path(transport) %></td>
+        <td><%= link_to 'Destroy', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transport', new_transport_path %>
