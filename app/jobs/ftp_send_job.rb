@@ -26,7 +26,6 @@ class FtpSendJob < ActiveJob::Base
       rescue => e
         message = "FTP Error: #{e.message}"
 
-        STDERR.puts message
         Rails.logger.error message
 
         raise message
