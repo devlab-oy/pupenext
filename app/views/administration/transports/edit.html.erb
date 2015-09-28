@@ -1,6 +1,15 @@
-<h1>Editing Transport</h1>
+<%= return_link t('administration.transports.index.header'), transports_path %>
 
+<br/>
+
+<%= render 'administration/header', text: t('administration.transports.edit.header') %>
 <%= render 'form' %>
 
-<%= link_to 'Show', @transport %> |
-<%= link_to 'Back', transports_path %>
+<% if @transport.persisted? %>
+  <br/>
+
+  <%= button_to(t('.button_remove'),
+                transport_path(@transport),
+                data: { confirm: t('administration.transports.edit.confirm_remove') },
+                method: :delete) %>
+<% end %>
