@@ -39,7 +39,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_equal 0, @acme.heads.count
 
     assert_not_nil @acme.purchase_orders
-    assert_equal Head::PurchaseOrder.new.class, @acme.purchase_orders.first.class
+    assert_equal PurchaseOrder::Order.new.class, @acme.purchase_orders.first.class
     assert_not_equal 0, @acme.purchase_orders.count
     assert_equal ['O'], @acme.purchase_orders.collect(&:tila).uniq
 

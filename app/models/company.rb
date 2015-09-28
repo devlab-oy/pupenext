@@ -37,7 +37,7 @@ class Company < ActiveRecord::Base
     o.has_many :sum_level_commodities, class_name: 'SumLevel::Commodity'
 
     o.has_many :heads
-    o.has_many :purchase_orders,                       class_name: 'Head::PurchaseOrder'
+    o.has_many :purchase_orders,                       class_name: 'PurchaseOrder::Order'
     o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
     o.has_many :purchase_invoices_paid,                class_name: 'Head::PurchaseInvoice::Paid'
     o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'

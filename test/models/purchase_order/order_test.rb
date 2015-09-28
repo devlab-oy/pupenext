@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class Head::PurchaseOrderTest < ActiveSupport::TestCase
-  fixtures %w(heads head/voucher_rows)
+class PurchaseOrder::OrderTest < ActiveSupport::TestCase
+  fixtures %w(purchase_order/orders purchase_order/rows head/voucher_rows)
 
   setup do
-    @order = heads(:po_one)
+    @order = purchase_order_orders(:po_one)
   end
 
   test 'fixture should be valid' do
