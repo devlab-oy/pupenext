@@ -9,7 +9,7 @@
   <br/><br/>
 <% end %>
 
-<%= form_tag revenue_expenditure_path, method: :get do %>
+<%= form_tag revenue_expenditure_report_path, method: :get do %>
   <table>
     <tr>
       <th>
@@ -28,8 +28,8 @@
 <% if @data %>
   <br>
 
-  <%= button_to "Excel",
-      revenue_expenditure_path,
+  <%= button_to t('.button_excel'),
+      revenue_expenditure_report_path,
       params: { period: params[:period], format: :xlsx },
       method: :get %>
 
