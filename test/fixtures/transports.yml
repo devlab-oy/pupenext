@@ -1,0 +1,13 @@
+one:
+  customer: stubborn_customer
+  hostname: ftp.faraway.com
+  username: bob
+  password: obo
+  path: /
+
+two:
+  customer: stubborn_customer
+  hostname: localhost
+  username: jack
+  password: foobar
+  path: /path/to/out/dir
