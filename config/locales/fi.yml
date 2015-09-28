@@ -195,7 +195,7 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
-      keyword/revenue_expenditure_report_data:
+      keyword/revenue_expenditure:
         selite: Viikko / Vuosi
         selitetark: Kuvaus
         selitetark_2: Määrä
@@ -316,7 +316,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
-      keyword/revenue_expenditure_report_data: Tulot- / Menot-raportin vaihtoehtoinen meno
+      keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -534,7 +534,7 @@ fi:
       edit:
         button_remove: Poista meno
         confirm_remove: Oletko varma, että haluat poistaa menon?
-        header: Tulot- / Menot-raportin vaihtoehtoinen meno
+        header: Vaihtoehtoinen meno
       index:
         button_new: Uusi vaihtoehtoinen meno
         header: Tulot- / Menot-raportin vaihtoehtoiset menot
