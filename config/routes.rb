@@ -46,6 +46,7 @@ Pupesoft::Application.routes.draw do
     resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
+    resources :transports
   end
 
   scope module: :utilities do
