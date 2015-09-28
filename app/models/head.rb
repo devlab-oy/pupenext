@@ -31,7 +31,7 @@ class Head < BaseModel
       'M' => Head::PurchaseInvoice::Approved,
       'P' => Head::PurchaseInvoice::Transfer,
       'Q' => Head::PurchaseInvoice::Waiting,
-      'O' => Head::PurchaseOrder,
+      'O' => PurchaseOrder::Order,
       'U' => Head::SalesInvoice,
       'N' => Head::SalesOrderDraft,
       'L' => Head::SalesOrder,
