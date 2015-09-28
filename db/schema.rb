@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925111831) do
+ActiveRecord::Schema.define(version: 20150928081344) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -817,15 +817,24 @@ ActiveRecord::Schema.define(version: 20150925111831) do
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
 
   create_table "git_paivitykset", force: :cascade do |t|
+<<<<<<< HEAD
     t.string   "hash", limit: 50, null: false
     t.string   "ip",   limit: 15, null: false
     t.datetime "date",            null: false
+=======
+    t.string   "hash",          limit: 50, default: "", null: false
+    t.string   "hash_pupenext", limit: 50, default: "", null: false
+    t.string   "repository",    limit: 20, default: "pupesoft", null: false
+    t.string   "ip",            limit: 15,              null: false
+    t.datetime "date",                                  null: false
+>>>>>>> edc993b... Add pupenext-columns to pupe_changelog tables.
   end
 
   create_table "git_pulkkarit", force: :cascade do |t|
-    t.datetime "updated",                                null: false
-    t.datetime "merged",                                 null: false
-    t.integer  "feature",      limit: 4,     default: 0, null: false
+    t.string   "repository",   limit: 20, default: "pupesoft", null: false
+    t.datetime "updated",                               null: false
+    t.datetime "merged",                                null: false
+    t.integer  "feature",      limit: 4,  default: 0,   null: false
     t.text     "pull_request", limit: 65535
     t.text     "files",        limit: 65535
   end
