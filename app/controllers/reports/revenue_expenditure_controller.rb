@@ -1,4 +1,4 @@
-class ReportsController < ApplicationController
+class Reports::RevenueExpenditureController < ApplicationController
   def revenue_expenditure
     period = revenue_expenditure_params[:period].to_i
 
