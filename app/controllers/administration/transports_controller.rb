@@ -4,10 +4,12 @@ class Administration::TransportsController < AdministrationController
   end
 
   def show
+    render :edit
   end
 
   def new
     @transport = Transport.new
+    render :edit
   end
 
   def edit
@@ -19,7 +21,7 @@ class Administration::TransportsController < AdministrationController
     if @transport.save
       redirect_to transports_url
     else
-      render :new
+      render :edit
     end
   end
 
