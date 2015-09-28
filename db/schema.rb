@@ -817,17 +817,12 @@ ActiveRecord::Schema.define(version: 20150928081344) do
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
 
   create_table "git_paivitykset", force: :cascade do |t|
-<<<<<<< HEAD
-    t.string   "hash", limit: 50, null: false
-    t.string   "ip",   limit: 15, null: false
-    t.datetime "date",            null: false
-=======
     t.string   "hash",          limit: 50, default: "", null: false
+    t.string   "hash_pupesoft", limit: 50, default: "", null: false
     t.string   "hash_pupenext", limit: 50, default: "", null: false
     t.string   "repository",    limit: 20, default: "pupesoft", null: false
     t.string   "ip",            limit: 15,              null: false
     t.datetime "date",                                  null: false
->>>>>>> edc993b... Add pupenext-columns to pupe_changelog tables.
   end
 
   create_table "git_pulkkarit", force: :cascade do |t|
@@ -4045,14 +4040,9 @@ ActiveRecord::Schema.define(version: 20150928081344) do
     t.string   "tilausvahvistus_jttoimituksista",                  limit: 1,                              default: "",    null: false
     t.string   "jt_rivien_saapumisajan_nayttaminen",               limit: 1,                                              null: false
     t.string   "naytetaanko_osaston_ja_tryn_selite",               limit: 1,                              default: "",    null: false
-<<<<<<< HEAD
-    t.string   "naytetaanko_ale_peruste_tilausrivilla",            limit: 1,                                              null: false
-    t.string   "tilauksen_myyntieratiedot",                        limit: 1,                                              null: false
-=======
     t.string   "naytetaanko_ale_peruste_tilausrivilla",            limit: 1,                              default: "",    null: false
     t.string   "tilauksen_myyntieratiedot",                        limit: 1,                              default: "",    null: false
     t.string   "tilaukselle_mittatiedot",                          limit: 1,                              default: "",    null: false
->>>>>>> ec92d88... add tilaukselle mittatiedot parameter to company
     t.string   "livetuotehaku_tilauksella",                        limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_hakutapa",                           limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_poistetut",                          limit: 1,                              default: "",    null: false
