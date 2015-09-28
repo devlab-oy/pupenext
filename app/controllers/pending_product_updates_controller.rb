@@ -11,12 +11,12 @@ class PendingProductUpdatesController < ApplicationController
     end
 
     if search_params[:ei_saldoa]
-      @products = @products.where(ei_saldoa: '')
+      @products = @products.inventory_management
       params[:ei_saldoa] = ''
     end
 
     if search_params[:poistettu]
-      @products = @products.where(status: 'P')
+      @products = @products.deleted
       params[:poistettu] = ''
     end
 
