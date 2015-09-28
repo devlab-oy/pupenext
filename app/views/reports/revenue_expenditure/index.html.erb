@@ -1,0 +1,100 @@
+<h1 class="head">
+  <%= t('.title') %>
+</h1>
+
+<hr/>
+
+<% if notice %>
+  <%= notice %>
+  <br/><br/>
+<% end %>
+
+<%= form_tag revenue_expenditure_report_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= t('.period') %>
+      </th>
+      <td>
+        <%= select_tag :period, options_for_select(month_options, params[:period]) %>
+      </td>
+      <td class='back'>
+        <%= submit_tag t('.button_make') %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<% if @data %>
+  <br>
+
+  <%= button_to t('.button_excel'),
+      revenue_expenditure_report_path,
+      params: { period: params[:period], format: :xlsx },
+      method: :get %>
+
+  <br><br>
+
+  <table>
+    <tr>
+      <th><%= t('.history_revenue') %></th>
+      <td><%= @data[:history_revenue] %></td>
+    </tr>
+    <tr>
+      <th><%= t('.history_concern_accounts_receivable') %></th>
+      <td><%= @data[:history_concern_accounts_receivable] %></td>
+    </tr>
+    <tr>
+      <th><%= t('.history_expenditure') %></th>
+      <td><%= @data[:history_expenditure] %></td>
+    </tr>
+    <tr>
+      <th><%= t('.history_concern_accounts_payable') %></th>
+      <td><%= @data[:history_concern_accounts_payable] %></td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table id='revenue_expenditure_rows_table'>
+    <tr>
+      <th width='100' style='text-align: right;'><%= t('.week') %></th>
+      <th width='100' style='text-align: right;'><%= t('.accounts_receivable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.accounts_payable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.concern_accounts_receivable') %></th>
+      <th width='100' style='text-align: right;'><%= t('.concern_accounts_payable') %></th>
+      <th class='back'></th>
+    </tr>
+
+    <% @data[:weekly].each do |week| %>
+      <tr class='aktiivi'>
+        <td align='right'><%= week[:week] %></td>
+        <td align='right'><%= week[:sales] %></td>
+        <td align='right'><%= week[:purchases] %></td>
+        <td align='right'><%= week[:concern_accounts_receivable] %></td>
+        <td align='right'><%= week[:concern_accounts_payable] %></td>
+        <td class='back'>
+          <% if week[:alternative_expenditures].present? %>
+            <%= button_tag '+',
+                type: 'button',
+                class: 'custom_expenditure_rows',
+                id: sanitize_week(week[:week]) %>
+            <% end %>
+        </td>
+      </tr>
+
+      <%= render 'alternative_expenditures',
+          week_sanitized: sanitize_week(week[:week]),
+          alternative_expenditures: week[:alternative_expenditures] %>
+    <% end %>
+
+    <tr>
+      <th style='text-align: right;'><%= t('.summary') %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:sales] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:purchases] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:concern_accounts_receivable] %></th>
+      <th style='text-align: right;'><%= @data[:weekly_sum][:concern_accounts_payable] %></th>
+      <th class='back'></th>
+    </tr>
+  </table>
+<% end %>

@@ -195,6 +195,10 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
+      keyword/revenue_expenditure:
+        selite: Viikko / Vuosi
+        selitetark: Kuvaus
+        selitetark_2: Määrä
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
@@ -312,6 +316,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -525,6 +530,13 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
+    revenue_expenditures:
+      edit:
+        button_remove: Poista meno
+        confirm_remove: Oletko varma, että haluat poistaa menon?
+        header: Vaihtoehtoinen meno
+      index:
+        header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
@@ -855,7 +867,32 @@ fi:
       sku: Tuotenumero
       subcategory: Ryhmä
       suppliers_sku: Toimittajan tuotenumero
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_payable: Ostovelat
+        accounts_receivable: Myyntisaamiset
+        button_excel: Tallenna Excel
+        button_make: Laadi
+        concern_accounts_payable: Konserniostovelat
+        concern_accounts_receivable: Konsernimyyntisaamiset
+        history_concern_accounts_payable: Erääntyneet konserniostovelat
+        history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
+        history_expenditure: Erääntyneet ostovelat
+        history_revenue: Erääntyneet myyntisaamiset
+        period: Ajanjakso
+        summary: Yhteensä
+        title: Tulot- ja Menot-raportti
+        week: Viikko
+    revenue_expenditure_month:
+      one: "%{count} kuukausi"
+      other: "%{count} kuukautta"
   shared:
+    excel:
+      company: Yritystiedot
+      info_worksheet: Raportin tiedot
+      time: Ajoaika
+      user: Käyttäjä
     link_return_to: Palaa ohjelmaan
   simple_form:
     'no': Ei

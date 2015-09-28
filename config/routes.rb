@@ -38,6 +38,7 @@ Pupesoft::Application.routes.draw do
     resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
     resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
     resources :qualifiers
+    resources :revenue_expenditures
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
     resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
@@ -49,6 +50,10 @@ Pupesoft::Application.routes.draw do
 
   scope module: :utilities do
     get 'qr_codes/generate'
+  end
+
+  scope module: :reports do
+    get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
   end
 
   root to: 'home#index'

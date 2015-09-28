@@ -4,7 +4,7 @@ class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows)
 
   setup do
-    @tilat = Head::PurchaseInvoice::INVOICE_TYPES
+    @tilat = Head::PurchaseInvoice::TYPES
   end
 
   test 'fixtures should be valid' do
@@ -44,5 +44,10 @@ class Head::PurchaseInvoiceTest < ActiveSupport::TestCase
     company = companies(:acme)
     assert_equal 2, company.purchase_invoices_paid.find_by_account('4444').count
     assert_equal 3, company.purchase_invoices_paid.find_by_account(['4444', '4443', 'notcorretaccount']).count
+  end
+
+  test 'fetching all purchase invoice types' do
+    company = companies(:acme)
+    assert_equal @tilat.sort, company.heads.purchase_invoices.map(&:tila).uniq.sort
   end
 end
