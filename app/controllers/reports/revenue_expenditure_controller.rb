@@ -1,5 +1,5 @@
 class Reports::RevenueExpenditureController < ApplicationController
-  def revenue_expenditure
+  def index
     period = revenue_expenditure_params[:period].to_i
 
     @data = RevenueExpenditureReport.new(period).data unless period.zero?
