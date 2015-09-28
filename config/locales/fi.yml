@@ -536,7 +536,6 @@ fi:
         confirm_remove: Oletko varma, että haluat poistaa menon?
         header: Vaihtoehtoinen meno
       index:
-        button_new: Uusi vaihtoehtoinen meno
         header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
@@ -587,26 +586,6 @@ fi:
       text: Käännös
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
-  reports:
-    revenue_expenditure_month:
-      one: '%{count} kuukausi'
-      other: '%{count} kuukautta'
-    revenue_expenditure:
-      index:
-        button_make: Laadi
-        button_excel: Tallenna Excel
-        concern_accounts_receivable: Konsernimyyntisaamiset
-        concern_accounts_payable: Konserniostovelat
-        accounts_payable: Ostovelat
-        history_expenditure: Erääntyneet ostovelat
-        history_revenue: Erääntyneet myyntisaamiset
-        history_concern_accounts_payable: Erääntyneet konserniostovelat
-        history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
-        period: Ajanjakso
-        accounts_receivable: Myyntisaamiset
-        summary: Yhteensä
-        title:  Tulot- ja Menot-raportti
-        week: Viikko
   application:
     access_control:
       forbidden: Pääsy kielletty!
@@ -888,13 +867,33 @@ fi:
       sku: Tuotenumero
       subcategory: Ryhmä
       suppliers_sku: Toimittajan tuotenumero
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_payable: Ostovelat
+        accounts_receivable: Myyntisaamiset
+        button_excel: Tallenna Excel
+        button_make: Laadi
+        concern_accounts_payable: Konserniostovelat
+        concern_accounts_receivable: Konsernimyyntisaamiset
+        history_concern_accounts_payable: Erääntyneet konserniostovelat
+        history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
+        history_expenditure: Erääntyneet ostovelat
+        history_revenue: Erääntyneet myyntisaamiset
+        period: Ajanjakso
+        summary: Yhteensä
+        title: Tulot- ja Menot-raportti
+        week: Viikko
+    revenue_expenditure_month:
+      one: "%{count} kuukausi"
+      other: "%{count} kuukautta"
   shared:
-    link_return_to: Palaa ohjelmaan
     excel:
-      info_worksheet: Raportin tiedot
       company: Yritystiedot
-      user: Käyttäjä
+      info_worksheet: Raportin tiedot
       time: Ajoaika
+      user: Käyttäjä
+    link_return_to: Palaa ohjelmaan
   simple_form:
     'no': Ei
     required:
