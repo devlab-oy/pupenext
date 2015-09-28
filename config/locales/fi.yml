@@ -297,6 +297,13 @@ fi:
       translations:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
+      transport:
+        customer: Asiakas
+        customer_id: Asiakkaan tunnus
+        hostname: Palvelin
+        password: Salasana
+        path: Polku palvelimella
+        username: Käyttäjätunnus
     models:
       account: Tili
       bank_account: Pankkitili
@@ -332,6 +339,7 @@ fi:
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
       terms_of_payment: Maksuehto
+      transport: Tiedonsiirtoyhteys
   administration:
     accounts:
       create:
@@ -584,6 +592,13 @@ fi:
       language: Kieli
       link_new: Lisää uusi käännös
       text: Käännös
+    transports:
+      edit:
+        button_remove: Poista tiedonsiirtoyhteys
+        confirm_remove: Oletko varma, että haluat poistaa tiedonsiirtoyhteyden?
+        header: Tiedonsiirtoryhteys
+      index:
+        header: Tiedonsiirtoyhteydet
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   application:
@@ -601,7 +616,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -627,7 +642,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu

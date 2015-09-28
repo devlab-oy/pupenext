@@ -1,13 +1,20 @@
-<%%= simple_form_for(@<%= singular_table_name %>) do |f| %>
-  <%%= f.error_notification %>
+<%%= render 'administration/form_errors', resource: @<%= singular_table_name %> %>
 
-  <div class="form-inputs">
-  <%- attributes.each do |attribute| -%>
-    <%%= f.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %> %>
-  <%- end -%>
-  </div>
+<%%= simple_form_for @<%= singular_table_name %>,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
 
-  <div class="form-actions">
-    <%%= f.button :submit %>
-  </div>
+  <table width='600' class='admin-view-30'>
+
+    <%- attributes.each do |attribute| -%>
+      <%%= f.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %> %>
+    <%- end -%>
+
+  </table>
+
+  <br>
+
+  <%%= f.button :submit %>
+
 <%% end %>
