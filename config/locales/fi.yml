@@ -594,6 +594,7 @@ fi:
     revenue_expenditure:
       index:
         button_make: Laadi
+        button_excel: Tallenna Excel
         concern_accounts_receivable: Konsernimyyntisaamiset
         concern_accounts_payable: Konserniostovelat
         accounts_payable: Ostovelat

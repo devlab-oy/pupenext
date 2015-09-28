@@ -28,7 +28,7 @@
 <% if @data %>
   <br>
 
-  <%= button_to "Excel",
+  <%= button_to t('.button_excel'),
       revenue_expenditure_path,
       params: { period: params[:period], format: :xlsx },
       method: :get %>
