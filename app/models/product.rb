@@ -28,7 +28,13 @@ class Product < BaseModel
     service: 'K',
   }
 
+  enum ei_saldoa: {
+    inventory_management: '',
+    not_inventory_management: 'o'
+  }
+
   scope :not_deleted, -> { where.not(status: :P) }
+  scope :deleted, -> { where(status: :P) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
