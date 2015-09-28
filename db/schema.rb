@@ -817,19 +817,18 @@ ActiveRecord::Schema.define(version: 20150928081344) do
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
 
   create_table "git_paivitykset", force: :cascade do |t|
-    t.string   "hash",          limit: 50, default: "", null: false
-    t.string   "hash_pupesoft", limit: 50, default: "", null: false
-    t.string   "hash_pupenext", limit: 50, default: "", null: false
+    t.string   "hash_pupesoft", limit: 50, default: "",         null: false
+    t.string   "hash_pupenext", limit: 50, default: "",         null: false
     t.string   "repository",    limit: 20, default: "pupesoft", null: false
-    t.string   "ip",            limit: 15,              null: false
-    t.datetime "date",                                  null: false
+    t.string   "ip",            limit: 15,                      null: false
+    t.datetime "date",                                          null: false
   end
 
   create_table "git_pulkkarit", force: :cascade do |t|
-    t.string   "repository",   limit: 20, default: "pupesoft", null: false
-    t.datetime "updated",                               null: false
-    t.datetime "merged",                                null: false
-    t.integer  "feature",      limit: 4,  default: 0,   null: false
+    t.string   "repository",   limit: 20,    default: "pupesoft", null: false
+    t.datetime "updated",                                         null: false
+    t.datetime "merged",                                          null: false
+    t.integer  "feature",      limit: 4,     default: 0,          null: false
     t.text     "pull_request", limit: 65535
     t.text     "files",        limit: 65535
   end
