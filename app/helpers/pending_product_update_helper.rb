@@ -1,5 +1,5 @@
 module PendingProductUpdateHelper
-  def subcategories_options(args)
+  def subcategories_options(args = {})
     return Current.company.subcategories if args[:osasto].nil? && args[:try].nil? && args[:tuotemerkki].nil?
 
     Product::Subcategory.subcategories(args[:try]) +
