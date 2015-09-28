@@ -530,7 +530,7 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
-    revenue_expenditure_report_datum:
+    revenue_expenditures:
       edit:
         button_remove: Poista meno
         confirm_remove: Oletko varma, että haluat poistaa menon?

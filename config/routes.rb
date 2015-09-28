@@ -38,7 +38,7 @@ Pupesoft::Application.routes.draw do
     resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
     resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
     resources :qualifiers
-    resources :revenue_expenditure_report_datum
+    resources :revenue_expenditures
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
     resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
     resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
