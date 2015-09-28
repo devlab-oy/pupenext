@@ -9,7 +9,7 @@
   <br/><br/>
 <% end %>
 
-<%= form_tag revenue_expenditure_path, method: :get do %>
+<%= form_tag revenue_expenditures_path, method: :get do %>
   <table>
     <tr>
       <th>
@@ -29,7 +29,7 @@
   <br>
 
   <%= button_to t('.button_excel'),
-      revenue_expenditure_path,
+      revenue_expenditures_path,
       params: { period: params[:period], format: :xlsx },
       method: :get %>
 

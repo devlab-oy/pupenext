@@ -1,7 +1,7 @@
-<%= render "administration/form_errors", resource: @data %>
+<%= render "administration/form_errors", resource: @revenue_expenditure %>
 
-<% url = @data.id ? revenue_expenditure_report_datum_path(@data) : revenue_expenditure_report_datum_index_path %>
-<%= form_for @data, as: :data, url: url do |f| %>
+<% url = @revenue_expenditure.id ? revenue_expenditure_path(@revenue_expenditure) : revenue_expenditures_path %>
+<%= form_for @revenue_expenditure, as: :revenue_expenditure, url: url do |f| %>
 
   <table width='700'>
 
@@ -11,7 +11,7 @@
       </th>
 
       <td>
-      <%= f.select :selite, week_options(@data.selite) %>
+      <%= f.select :selite, week_options(@revenue_expenditure.selite) %>
       </td>
     </tr>
 
@@ -35,7 +35,7 @@
       </td>
     </tr>
 
-    <%= render 'administration/resource_timestamps_and_users', resource: @data %>
+    <%= render 'administration/resource_timestamps_and_users', resource: @revenue_expenditure %>
 
   </table>
 

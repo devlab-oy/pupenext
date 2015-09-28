@@ -1,0 +1,42 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to_new 'keyword/revenue_expenditure', new_revenue_expenditure_path %>
+
+<br><br>
+
+<table>
+  <tr>
+    <th>
+      <%= Keyword::RevenueExpenditure.human_attribute_name(:selite) %>
+    </th>
+
+    <th>
+      <%= Keyword::RevenueExpenditure.human_attribute_name(:selitetark) %>
+    </th>
+
+    <th>
+      <%= Keyword::RevenueExpenditure.human_attribute_name(:selitetark_2) %>
+    </th>
+  </tr>
+
+  <% @revenue_expenditures.each do |data| %>
+    <tr class='aktiivi'>
+      <td>
+        <%= link_to data.selite, edit_revenue_expenditure_path(data) %>
+      </td>
+
+      <td>
+        <%= data.selitetark %>
+      </td>
+
+      <td>
+        <%= data.selitetark_2 %>
+      </td>
+
+    </tr>
+  <% end %>
+</table>
+
+<br>
+
+<%= button_to_new 'keyword/revenue_expenditure', new_revenue_expenditure_path %>

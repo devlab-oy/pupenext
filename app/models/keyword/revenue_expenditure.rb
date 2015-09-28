@@ -1,4 +1,4 @@
-class Keyword::RevenueExpenditureReportData < Keyword
+class Keyword::RevenueExpenditure < Keyword
   include Searchable
 
   validates :selitetark, presence: true

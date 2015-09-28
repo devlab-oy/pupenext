@@ -215,7 +215,7 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Let's save one keyword and delete the rest
     keyword_one = keywords(:weekly_alternative_expenditure_one).dup
-    Keyword::RevenueExpenditureReportData.delete_all
+    Keyword::RevenueExpenditure.delete_all
 
     # First invoice is unpaid within current week
     invoice_one.erpcm = Date.today

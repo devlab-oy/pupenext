@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Keyword::RevenueExpenditureReportDataTest < ActiveSupport::TestCase
+class Keyword::RevenueExpenditureTest < ActiveSupport::TestCase
   fixtures %w(keywords)
 
   setup do
@@ -12,6 +12,6 @@ class Keyword::RevenueExpenditureReportDataTest < ActiveSupport::TestCase
   end
 
   test 'fetch data' do
-    assert_equal 1, Keyword::RevenueExpenditureReportData.all.count
+    assert_equal 1, Keyword::RevenueExpenditure.all.count
   end
 end
