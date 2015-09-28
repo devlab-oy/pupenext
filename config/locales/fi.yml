@@ -299,6 +299,7 @@ fi:
         selitetark: Käännetty teksti
       transport:
         customer: Asiakas
+        customer_id: Asiakkaan tunnus
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
