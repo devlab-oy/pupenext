@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928073300) do
+ActiveRecord::Schema.define(version: 20150928101859) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2614,6 +2614,18 @@ ActiveRecord::Schema.define(version: 20150928073300) do
   end
 
   add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
+
+  create_table "transports", force: :cascade do |t|
+    t.integer  "customer_id", limit: 4
+    t.string   "hostname",    limit: 255
+    t.string   "username",    limit: 255
+    t.string   "password",    limit: 255
+    t.string   "path",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "transports", ["customer_id"], name: "index_transports_on_customer_id", using: :btree
 
   create_table "tullinimike", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,     default: "", null: false
