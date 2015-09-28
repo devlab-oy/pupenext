@@ -15,4 +15,8 @@ class Product::Brand < Keyword
   def self.subcategories(merkki)
     Current.company.subcategories.joins(:products).where(tuote: { tuotemerkki: merkki })
   end
+
+  def self.brands(merkki)
+    Current.company.brands.joins(:products).where(tuote: { tuotemerkki: merkki })
+  end
 end
