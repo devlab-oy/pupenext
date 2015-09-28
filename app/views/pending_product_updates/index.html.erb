@@ -56,7 +56,7 @@
     <% categories_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
       <div>
         <% chk = params[:osasto] && params[:osasto].include?(o.selite) ? true : false %>
-        <%= check_box_tag 'osasto[]', o.selite, chk %>
+        <%= check_box_tag 'osasto[]', o.selite, chk, onchange: 'this.form.submit()' %>
         <%= o.selitetark %>
       </div>
     <% end %>
@@ -69,7 +69,7 @@
     <% subcategories_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
       <div>
         <% chk = params[:try] && params[:try].include?(o.selite) ? true : false %>
-        <%= check_box_tag 'try[]', o.selite, chk %>
+        <%= check_box_tag 'try[]', o.selite, chk, onchange: 'this.form.submit()' %>
         <%= o.selitetark %>
       </div>
     <% end %>
@@ -80,7 +80,7 @@
     <% brands_options({ osasto: params[:osasto], try: params[:try], tuotemerkki: params[:tuotemerkki] }).each do |o| %>
       <div>
         <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.selite) ? true : false %>
-        <%= check_box_tag 'tuotemerkki[]', o.selite, chk %>
+        <%= check_box_tag 'tuotemerkki[]', o.selite, chk, onchange: 'this.form.submit()' %>
         <%= o.selitetark %>
       </div>
     <% end %>
