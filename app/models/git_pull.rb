@@ -4,10 +4,7 @@ class GitPull < ActiveRecord::Base
 
   def self.update_pupenext_hash
     lastid = get_pupenext_hash
-
-    if lastid
-      update(lastid.id, :hash_pupenext => get_current_git_hash)
-    end
+    lastid.update(hash_pupenext: get_current_git_hash) if lastid
   end
 
   def self.get_pupenext_hash
