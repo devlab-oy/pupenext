@@ -52,7 +52,9 @@ Pupesoft::Application.routes.draw do
     get 'qr_codes/generate'
   end
 
-  get :revenue_expenditure, to: 'reports#revenue_expenditure'
+  scope module: :reports do
+    get :revenue_expenditure, to: 'revenue_expenditure#revenue_expenditure'
+  end
 
   root to: 'home#index'
   get '/test', to: 'home#test'
