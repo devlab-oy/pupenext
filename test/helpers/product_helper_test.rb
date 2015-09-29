@@ -10,13 +10,12 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct categories' do
     args = {
-      category: ['1000', '1001']
+      categories: ['1000', '1001']
     }
 
     categories = [
       ['1000', 'Tools'],
       ['1001', 'Gears'],
-      ['1005', 'Winter']
     ]
 
     assert_equal categories, categories_options(args)
@@ -29,7 +28,7 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct subcategories' do
     args = {
-      subcategory: ['2000', '2001'],
+      subcategories: ['2000', '2001'],
     }
 
     subcategories = [
@@ -47,7 +46,7 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct brands' do
     args = {
-      brand: ['Bosch', 'Alpinestars']
+      brands: ['Bosch', 'Alpinestars']
     }
 
     brands = ['Alpinestars', 'Bosch']
