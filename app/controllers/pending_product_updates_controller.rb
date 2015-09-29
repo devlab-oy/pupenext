@@ -5,19 +5,13 @@ class PendingProductUpdatesController < ApplicationController
 
     @products = Product.all
 
-    if search_params[:toim_tuoteno]
-      @products = @products.joins(:product_suppliers).where("tuotteen_toimittajat.toim_tuoteno like ?", '%'+search_params[:toim_tuoteno]+'%')
-      params[:toim_tuoteno] = ''
+    if search_params['tuotteen_toimittajat.toim_tuoteno']
+      @products = @products.joins(:product_suppliers).search_like(search_params)
     end
 
     if search_params[:ei_saldoa]
       @products = @products.inventory_management
       params[:ei_saldoa] = ''
-    end
-
-    if search_params[:poistettu]
-      @products = @products.deleted
-      params[:poistettu] = ''
     end
 
     @products = @products.search_like(search_params)
@@ -29,8 +23,8 @@ class PendingProductUpdatesController < ApplicationController
       params.permit(
         :tuoteno,
         :nimitys,
-        :toim_tuoteno,
-        :poistettu,
+        'tuotteen_toimittajat.toim_tuoteno',
+        :status,
         :ei_saldoa,
         osasto: [],
         try: [],
@@ -42,8 +36,8 @@ class PendingProductUpdatesController < ApplicationController
       [
         :tuoteno,
         :nimitys,
-        :toim_tuoteno,
-        :poistettu,
+        'tuotteen_toimittajat.toim_tuoteno',
+        :status,
         :ei_saldoa,
         osasto: [],
         try: [],
