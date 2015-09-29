@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ProductHelperTest < ActionView::TestCase
-
   fixtures %w(products)
 
   test "returns all of companys categories" do
@@ -10,14 +9,14 @@ class ProductHelperTest < ActionView::TestCase
   end
 
   test 'returns correct categories' do
-
     args = {
       category: ['1000', '1001']
     }
 
     categories = [
       ['1000', 'Tools'],
-      ['1001', 'Gears']
+      ['1001', 'Gears'],
+      ['1005', 'Winter']
     ]
 
     assert_equal categories, categories_options(args)
@@ -29,7 +28,6 @@ class ProductHelperTest < ActionView::TestCase
   end
 
   test 'returns correct subcategories' do
-
     args = {
       subcategory: ['2000', '2001'],
     }
@@ -48,7 +46,6 @@ class ProductHelperTest < ActionView::TestCase
   end
 
   test 'returns correct brands' do
-
     args = {
       brand: ['Bosch', 'Alpinestars']
     }
