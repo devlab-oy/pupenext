@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Product::CategoryTest < ActiveSupport::TestCase
-  fixtures %w(products keywords)
+  fixtures %w(products)
 
   setup do
     @category = keywords :category_tools
@@ -19,12 +19,12 @@ class Product::CategoryTest < ActiveSupport::TestCase
   end
 
   test 'fetch all subcategories' do
-    assert_equal Product::Subcategory, Product::Category.subcategories(@category[:selite]).first.class
+    assert_equal Array, Product::Category.subcategories(@category[:selite]).first.class
     assert_not_equal 0, Product::Category.subcategories(@category[:selite]).count
   end
 
   test 'fetch all brands' do
-    assert_equal Product::Brand, Product::Category.brands(@category[:selite]).first.class
+    assert_equal Array, Product::Category.brands(@category[:selite]).first.class
     assert_not_equal 0, Product::Category.brands(@category[:selite]).count
   end
 end
