@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PendingProductUpdateHelperTest < ActionView::TestCase
+class ProductHelperTest < ActionView::TestCase
 
   fixtures %w(products)
 

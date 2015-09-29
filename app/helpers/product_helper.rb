@@ -1,4 +1,4 @@
-module PendingProductUpdateHelper
+module ProductHelper
   def categories_options(args = {})
     return Current.company.categories if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
 
