@@ -31,6 +31,13 @@ category_gears:
   laji: OSASTO
   <<: *DEFAULTS
 
+category_winter:
+  yhtio: acme
+  selite: 1005
+  selitetark: Winter
+  laji: OSASTO
+  <<: *DEFAULTS
+
 subcategory_tools:
   yhtio: acme
   selite: 2000
