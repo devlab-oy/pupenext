@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.unscoped.find_by_session(cookies[:pupesoft_session])
   end
 
+  def current_company
+    @current_company ||= current_user.company
+  end
+
   def set_current_info
     Current.user = current_user
     Current.company = current_user.company
