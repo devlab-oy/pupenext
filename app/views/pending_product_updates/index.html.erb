@@ -1,4 +1,4 @@
-<%= render "header", text: t('.header') %>
+<%= render "administration/header", text: t('.header') %>
 
 <%= form_tag pending_product_updates_path, method: :get do %>
 
@@ -15,10 +15,10 @@
 
     <tr>
       <th align='right'>
-        <%= label_tag :toim_tuoteno, t('.suppliers_sku') %>
+        <%= label_tag 'tuotteen_toimittajat.toim_tuoteno', t('.suppliers_sku') %>
       </th>
       <td>
-        <%= text_field_tag :toim_tuoteno, params[:toim_tuoteno] %>
+        <%= text_field_tag 'tuotteen_toimittajat.toim_tuoteno', params['tuotteen_toimittajat.toim_tuoteno'] %>
       </td>
     </tr>
 
@@ -33,10 +33,10 @@
 
     <tr>
       <th align='right'>
-        <%= label_tag :poistettu, t('.removed') %>
+        <%= label_tag :status, t('.removed') %>
       </th>
       <td>
-        <%= check_box_tag :poistettu, params[:poistettu] %>
+        <%= check_box_tag :status, '@P', params[:status] %>
       </td>
     </tr>
 
