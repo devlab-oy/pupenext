@@ -19,6 +19,16 @@ hammer:
   status: A
   <<: *DEFAULTS
 
+helmet:
+  yhtio: acme
+  tuoteno: helmet123
+  nimitys: Street Hawk helmet
+  osasto: 1001
+  try: 2001
+  tuotemerkki: Alpinestars
+  status: A
+  <<: *DEFAULTS
+
 pr1:
   yhtio: acme
   tuoteno: PR1
