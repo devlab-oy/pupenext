@@ -19,7 +19,7 @@ class Keyword < BaseModel
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
-      'REVENUEREP' => Keyword::RevenueExpenditureReportData,
+      'REVENUEREP' => Keyword::RevenueExpenditure,
       'S' => Product::Status,
       'TRY' => Product::Subcategory,
       'TUOTEMERKKI' => Product::Brand,

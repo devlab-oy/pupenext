@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Administration::RevenueExpenditureReportDatumControllerTest < ActionController::TestCase
+class Administration::RevenueExpendituresControllerTest < ActionController::TestCase
   fixtures %w(keywords)
 
   setup do
@@ -33,11 +33,11 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
       selitetark_2: 1000,
     }
 
-    assert_difference("Keyword::RevenueExpenditureReportData.count") do
-      post :create, data: params
+    assert_difference("Keyword::RevenueExpenditure.count") do
+      post :create, revenue_expenditure: params
     end
 
-    assert_redirected_to revenue_expenditure_report_datum_index_path
+    assert_redirected_to revenue_expenditures_path
   end
 
   test 'should not create keyword' do
@@ -47,8 +47,8 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
       selitetark_2: 'kek',
     }
 
-    assert_no_difference("Keyword::RevenueExpenditureReportData.count") do
-      post :create, data: params
+    assert_no_difference("Keyword::RevenueExpenditure.count") do
+      post :create, revenue_expenditure: params
       assert_template :edit
     end
   end
@@ -56,22 +56,22 @@ class Administration::RevenueExpenditureReportDatumControllerTest < ActionContro
   test 'should update keyword' do
     params = { selitetark: "Here comes the boom" }
 
-    patch :update, id: @data.id, data: params
-    assert_redirected_to revenue_expenditure_report_datum_index_path
+    patch :update, id: @data.id, revenue_expenditure: params
+    assert_redirected_to revenue_expenditures_path
   end
 
   test 'should not update keyword' do
     params = { selitetark: '' }
 
-    patch :update, id: @data.id, data: params
+    patch :update, id: @data.id, revenue_expenditure: params
     assert_template :edit
   end
 
   test "should delete keyword" do
-    assert_difference("Keyword::RevenueExpenditureReportData.count", -1) do
+    assert_difference("Keyword::RevenueExpenditure.count", -1) do
       delete :destroy, id: @data.id
     end
 
-    assert_redirected_to revenue_expenditure_report_datum_index_path
+    assert_redirected_to revenue_expenditures_path
   end
 end

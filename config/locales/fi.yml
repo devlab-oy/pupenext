@@ -195,7 +195,7 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
-      keyword/revenue_expenditure_report_data:
+      keyword/revenue_expenditure:
         selite: Viikko / Vuosi
         selitetark: Kuvaus
         selitetark_2: Määrä
@@ -297,6 +297,13 @@ fi:
       translations:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
+      transport:
+        customer: Asiakas
+        customer_id: Asiakkaan tunnus
+        hostname: Palvelin
+        password: Salasana
+        path: Polku palvelimella
+        username: Käyttäjätunnus
     models:
       account: Tili
       bank_account: Pankkitili
@@ -316,7 +323,7 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
-      keyword/revenue_expenditure_report_data: Tulot- / Menot-raportin vaihtoehtoinen meno
+      keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -332,6 +339,7 @@ fi:
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
       terms_of_payment: Maksuehto
+      transport: Tiedonsiirtoyhteys
   administration:
     accounts:
       create:
@@ -530,13 +538,12 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
-    revenue_expenditure_report_datum:
+    revenue_expenditures:
       edit:
         button_remove: Poista meno
         confirm_remove: Oletko varma, että haluat poistaa menon?
-        header: Tulot- / Menot-raportin vaihtoehtoinen meno
+        header: Vaihtoehtoinen meno
       index:
-        button_new: Uusi vaihtoehtoinen meno
         header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
@@ -585,26 +592,15 @@ fi:
       language: Kieli
       link_new: Lisää uusi käännös
       text: Käännös
+    transports:
+      edit:
+        button_remove: Poista tiedonsiirtoyhteys
+        confirm_remove: Oletko varma, että haluat poistaa tiedonsiirtoyhteyden?
+        header: Tiedonsiirtoryhteys
+      index:
+        header: Tiedonsiirtoyhteydet
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
-  reports:
-    revenue_expenditure_month:
-      one: '%{count} kuukausi'
-      other: '%{count} kuukautta'
-    revenue_expenditure:
-      button_make: Laadi
-      concern_accounts_receivable: Konsernimyyntisaamiset
-      concern_accounts_payable: Konserniostovelat
-      accounts_payable: Ostovelat
-      history_expenditure: Erääntyneet ostovelat
-      history_revenue: Erääntyneet myyntisaamiset
-      history_concern_accounts_payable: Erääntyneet konserniostovelat
-      history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
-      period: Ajanjakso
-      accounts_receivable: Myyntisaamiset
-      summary: Yhteensä
-      title:  Tulot- ja Menot-raportti
-      week: Viikko
   application:
     access_control:
       forbidden: Pääsy kielletty!
@@ -874,7 +870,32 @@ fi:
     percentage:
       format:
         format: "%n %"
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_payable: Ostovelat
+        accounts_receivable: Myyntisaamiset
+        button_excel: Tallenna Excel
+        button_make: Laadi
+        concern_accounts_payable: Konserniostovelat
+        concern_accounts_receivable: Konsernimyyntisaamiset
+        history_concern_accounts_payable: Erääntyneet konserniostovelat
+        history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
+        history_expenditure: Erääntyneet ostovelat
+        history_revenue: Erääntyneet myyntisaamiset
+        period: Ajanjakso
+        summary: Yhteensä
+        title: Tulot- ja Menot-raportti
+        week: Viikko
+    revenue_expenditure_month:
+      one: "%{count} kuukausi"
+      other: "%{count} kuukautta"
   shared:
+    excel:
+      company: Yritystiedot
+      info_worksheet: Raportin tiedot
+      time: Ajoaika
+      user: Käyttäjä
     link_return_to: Palaa ohjelmaan
   simple_form:
     'no': Ei

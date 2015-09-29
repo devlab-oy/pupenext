@@ -1,8 +1,8 @@
 # list of permissions to create
 <% permississions = %w{
     accounts
-    bank_details
     bank_accounts
+    bank_details
     carriers
     cash_registers
     commodities
@@ -16,10 +16,12 @@
     printers
     products
     qualifiers
-    revenue_expenditure_report_datum
+    revenue_expenditure
+    revenue_expenditures
     sum_levels
     terms_of_payments
     test
+    transports
   }
 %>
 
