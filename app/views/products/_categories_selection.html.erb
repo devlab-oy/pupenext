@@ -1,0 +1,46 @@
+<div>
+  <%= label_tag 'osasto[]', t('.category') %>
+  <% categories_options({
+        category:    params[:osasto],
+        subcategory: params[:try],
+        brand:       params[:tuotemerkki]
+     }).each do |o| %>
+    <div>
+      <% chk = params[:osasto] && params[:osasto].include?(o.first) ? true : false %>
+      <%= check_box_tag 'osasto[]', o.first, chk, onchange: 'this.form.submit()' %>
+      <%= o.second %>
+    </div>
+  <% end %>
+</div>
+
+<br>
+
+<div>
+  <%= label_tag 'try[]', t('.subcategory') %>
+  <% subcategories_options({
+        category:    params[:osasto],
+        subcategory: params[:try],
+        brand:       params[:tuotemerkki]
+     }).each do |o| %>
+    <div>
+      <% chk = params[:try] && params[:try].include?(o.first) ? true : false %>
+      <%= check_box_tag 'try[]', o.first, chk, onchange: 'this.form.submit()' %>
+      <%= o.second %>
+    </div>
+  <% end %>
+</div>
+
+<div>
+  <%= label_tag 'tuotemerkki[]', t('.brand') %>
+  <% brands_options({
+        category:    params[:osasto],
+        subcategory: params[:try],
+        brand:       params[:tuotemerkki]
+     }).each do |o| %>
+    <div>
+      <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.first) ? true : false %>
+      <%= check_box_tag 'tuotemerkki[]', o.first, chk, onchange: 'this.form.submit()' %>
+      <%= o.first %>
+    </div>
+  <% end %>
+</div>

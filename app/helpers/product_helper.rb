@@ -1,6 +1,8 @@
 module ProductHelper
   def categories_options(args = {})
-    return Current.company.categories if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+    if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+      return Current.company.categories.pluck(:selite, :selitetark)
+    end
 
     result = Product::Subcategory.categories(args[:subcategory]) +
              Product::Category.categories(args[:category]) +
@@ -10,7 +12,9 @@ module ProductHelper
   end
 
   def subcategories_options(args = {})
-    return Current.company.subcategories if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+    if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+      return Current.company.subcategories.pluck(:selite, :selitetark)
+    end
 
     result = Product::Subcategory.subcategories(args[:subcategory]) +
              Product::Category.subcategories(args[:category]) +
@@ -20,7 +24,9 @@ module ProductHelper
   end
 
   def brands_options(args = {})
-    return Current.company.brands if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+    if args[:category].nil? && args[:subcategory].nil? && args[:brand].nil?
+      return Current.company.brands.pluck(:selite)
+    end
 
     result = Product::Subcategory.brands(args[:subcategory]) +
              Product::Category.brands(args[:category]) +
