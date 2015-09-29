@@ -872,16 +872,18 @@ fi:
         format: "%n %"
   pending_product_updates:
     index:
-      brand: Merkki
-      category: Osasto
       header: Tuotteen tulevat muutokset
       inventory_management_products: Näytä vain saldolliset tuotteet
       label: Nimitys
       removed: Poistetut
       search: Etsi
       sku: Tuotenumero
-      subcategory: Ryhmä
       suppliers_sku: Toimittajan tuotenumero
+  products:
+    categories_selection:
+      brand: Merkki
+      category: Osasto
+      subcategory: Ryhmä
   reports:
     revenue_expenditure:
       index:
