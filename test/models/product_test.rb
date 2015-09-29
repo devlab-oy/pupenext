@@ -19,7 +19,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal subcategory.description, @product.subcategory.description
 
     brand = keywords :brand_tools
-    assert_equal brand.tag, @product.brand.tag
+    assert_equal brand.name, @product.brand.name
 
     status = keywords :status_active
     assert_equal status.description, @product.status.description
