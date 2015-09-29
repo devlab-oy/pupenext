@@ -13,11 +13,10 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
     assert_template "index", "Template should be index"
 
-    hammer = products :hammer
     product_supplier = product_suppliers :domestic_product_supplier
 
     request = {
-      toim_tuoteno: product_supplier[:toim_tuoteno],
+      'tuotteen_toimittajat.toim_tuoteno' => product_supplier[:toim_tuoteno],
       ei_saldoa: 'true',
       poistettu: 'true'
     }
