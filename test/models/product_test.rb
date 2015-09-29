@@ -31,5 +31,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal supplier.nimi, @product.suppliers.first.nimi
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
+
+    assert @product.shelf_locations.count > 0
   end
 end
