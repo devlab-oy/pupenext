@@ -10,14 +10,14 @@ class Product::Subcategory < Keyword
   end
 
   def self.subcategories(try)
-    Current.company.subcategories.joins(:products).where(tuote: { try: try })
+    Current.company.subcategories.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
   end
 
   def self.categories(try)
-    Current.company.categories.joins(:products).where(tuote: { try: try })
+    Current.company.categories.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
   end
 
   def self.brands(try)
-    Current.company.brands.joins(:products).where(tuote: { try: try })
+    Current.company.brands.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
   end
 end
