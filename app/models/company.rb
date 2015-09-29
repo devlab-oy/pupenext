@@ -59,6 +59,7 @@ class Company < ActiveRecord::Base
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
   has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
+  has_many :transports, through: :customers
 
   self.table_name = :yhtio
   self.primary_key = :tunnus
