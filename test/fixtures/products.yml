@@ -24,8 +24,18 @@ helmet:
   tuoteno: helmet123
   nimitys: Street Hawk helmet
   osasto: 1001
-  try: 2001
+  try: 2000
   tuotemerkki: Alpinestars
+  status: A
+  <<: *DEFAULTS
+
+ski:
+  yhtio: acme
+  tuoteno: ski1
+  nimitys: Combosukset
+  osasto: 1005
+  try: 2001
+  tuotemerkki: Karhu
   status: A
   <<: *DEFAULTS
 
