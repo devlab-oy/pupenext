@@ -17,14 +17,4 @@ class Product::SubcategoryTest < ActiveSupport::TestCase
 
     assert_equal Product::Subcategory, @subcategory.class
   end
-
-  test 'fetch all categories' do
-    assert_equal Array, Product::Subcategory.categories(@subcategory[:selite]).first.class
-    assert_not_equal 0, Product::Subcategory.categories(@subcategory[:selite]).count
-  end
-
-  test 'fetch all brands' do
-    assert_equal Array, Product::Subcategory.brands(@subcategory[:selite]).first.class
-    assert_not_equal 0, Product::Subcategory.brands(@subcategory[:selite]).count
-  end
 end
