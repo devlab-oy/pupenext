@@ -1,63 +1,60 @@
 require 'test_helper'
 
 class PendingProductUpdateHelperTest < ActionView::TestCase
+
+  fixtures %w(products)
+
   test "returns all of companys categories" do
     args = {}
-    assert_equal Current.company.categories, categories_options(args)
+    assert_equal Current.company.categories.count, categories_options(args).count
   end
 
   test 'returns correct categories' do
 
     args = {
-      osasto: '1000',
-      try: '2000',
-      tuotemerkki: 'Bosch'
+      category: ['1000', '1001']
     }
 
-    expected = Product::Category.categories(args[:osasto]) +
-               Product::Subcategory.categories(args[:try]) +
-               Product::Brand.categories(args[:tuotemerkki])
+    categories = [
+      ['1000', 'Tools'],
+      ['1001', 'Gears']
+    ]
 
-    assert_equal expected, categories_options(args)
+    assert_equal categories, categories_options(args)
   end
 
   test "returns all of companys subcategories" do
     args = {}
-    assert_equal Current.company.subcategories, subcategories_options(args)
+    assert_equal Current.company.subcategories.count, subcategories_options(args).count
   end
 
   test 'returns correct subcategories' do
 
     args = {
-      osasto: '1000',
-      try: '2000',
-      tuotemerkki: 'Bosch'
+      subcategory: ['2000', '2001'],
     }
 
-    expected = Product::Category.subcategories(args[:osasto]) +
-               Product::Subcategory.subcategories(args[:try]) +
-               Product::Brand.subcategories(args[:tuotemerkki])
+    subcategories = [
+      ['2000', 'Power tools'],
+      ['2001', 'Full-face helmet'],
+    ]
 
-    assert_equal expected, subcategories_options(args)
+    assert_equal subcategories, subcategories_options(args)
   end
 
   test "returns all of companys brands" do
     args = {}
-    assert_equal Current.company.brands, brands_options(args)
+    assert_equal Current.company.brands.count, brands_options(args).count
   end
 
   test 'returns correct brands' do
 
     args = {
-      osasto: '1000',
-      try: '2000',
-      tuotemerkki: 'Bosch'
+      brand: ['Bosch', 'Alpinestars']
     }
 
-    expected = Product::Category.brands(args[:osasto]) +
-               Product::Subcategory.brands(args[:try]) +
-               Product::Brand.brands(args[:tuotemerkki])
+    brands = ['Alpinestars', 'Bosch']
 
-    assert_equal expected, brands_options(args)
+    assert_equal brands, brands_options(args)
   end
 end
