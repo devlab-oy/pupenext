@@ -10,14 +10,14 @@ class Product::Category < Keyword
   end
 
   def self.categories(osasto)
-    Current.company.categories.joins(:products).where(tuote: { osasto: osasto }).uniq
+    Current.company.categories.joins(:products).where(tuote: { osasto: osasto }).pluck(:selite, :selitetark)
   end
 
   def self.subcategories(osasto)
-    Current.company.subcategories.joins(:products).where(tuote: { osasto: osasto }).uniq
+    Current.company.subcategories.joins(:products).where(tuote: { osasto: osasto }).pluck(:selite, :selitetark)
   end
 
   def self.brands(osasto)
-    Current.company.brands.joins(:products).where(tuote: { osasto: osasto }).uniq
+    Current.company.brands.joins(:products).where(tuote: { osasto: osasto }).pluck(:selite, :selitetark)
   end
 end
