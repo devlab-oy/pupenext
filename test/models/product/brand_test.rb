@@ -17,14 +17,4 @@ class Product::BrandTest < ActiveSupport::TestCase
 
     assert_equal Product::Brand, @brand.class
   end
-
-  test 'fetch all categories' do
-    assert_equal String, Product::Brand.categories(@brand[:selite]).first.class
-    assert_not_equal 0, Product::Brand.categories(@brand[:selite]).count
-  end
-
-  test 'fetch all subcategories' do
-    assert_equal String, Product::Brand.subcategories(@brand[:selite]).first.class
-    assert_not_equal 0, Product::Brand.subcategories(@brand[:selite]).count
-  end
 end
