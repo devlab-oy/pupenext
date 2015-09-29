@@ -1,4 +1,6 @@
 class Product::Subcategory < Keyword
+  include CategoryFilter
+
   has_many :products, foreign_key: :try, primary_key: :selite
 
   alias_attribute :tag, :selite
@@ -7,17 +9,5 @@ class Product::Subcategory < Keyword
   # Rails requires sti_name method to return type column (laji) value
   def self.sti_name
     'TRY'
-  end
-
-  def self.subcategories(try)
-    Current.company.subcategories.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
-  end
-
-  def self.categories(try)
-    Current.company.categories.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
-  end
-
-  def self.brands(try)
-    Current.company.brands.joins(:products).where(tuote: { try: try }).pluck(:selite, :selitetark)
   end
 end
