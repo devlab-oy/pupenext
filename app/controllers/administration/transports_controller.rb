@@ -1,6 +1,6 @@
 class Administration::TransportsController < AdministrationController
   def index
-    @transports = Transport.all
+    @transports = current_company.transports
   end
 
   def show
@@ -8,7 +8,7 @@ class Administration::TransportsController < AdministrationController
   end
 
   def new
-    @transport = Transport.new
+    @transport = current_company.transports.new
     render :edit
   end
 
@@ -16,7 +16,7 @@ class Administration::TransportsController < AdministrationController
   end
 
   def create
-    @transport = Transport.new(transport_params)
+    @transport = current_company.transports.new transport_params
 
     if @transport.save
       redirect_to transports_url
@@ -41,7 +41,7 @@ class Administration::TransportsController < AdministrationController
   private
 
     def find_resource
-      @transport = Transport.find(params[:id])
+      @transport = current_company.transports.find params[:id]
     end
 
     def transport_params
