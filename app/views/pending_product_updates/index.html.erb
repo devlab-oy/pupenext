@@ -33,7 +33,7 @@
 
     <tr>
       <th align='right'>
-        <%= label_tag :status, t('.removed') %>
+        <%= label_tag :status, t('.deleted') %>
       </th>
       <td>
         <%= check_box_tag :status, '@P', params[:status] %>
@@ -45,7 +45,9 @@
         <%= label_tag :ei_saldoa, t('.inventory_management_products') %>
       </th>
       <td>
-        <%= check_box_tag :ei_saldoa, params[:ei_saldoa] %>
+        <% options = [[t('.yes'), '@'], [t('.no'), '@o']] %>
+        <%= select_tag :ei_saldoa,
+            options_for_select(options, params[:ei_saldoa]) %>
       </td>
     </tr>
 

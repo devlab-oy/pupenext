@@ -9,11 +9,6 @@ class PendingProductUpdatesController < ApplicationController
       @products = @products.joins(:product_suppliers).search_like(search_params)
     end
 
-    if search_params[:ei_saldoa]
-      @products = @products.inventory_management
-      params[:ei_saldoa] = ''
-    end
-
     @products = @products.search_like(search_params)
   end
 
