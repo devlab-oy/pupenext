@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class PurchaseOrder::OrderTest < ActiveSupport::TestCase
-  fixtures %w(purchase_order/orders purchase_order/rows head/voucher_rows)
+  fixtures %w(
+    head/voucher_rows
+    purchase_order/orders
+    purchase_order/rows
+  )
 
   setup do
     @order = purchase_order_orders(:po_one)
@@ -13,7 +17,7 @@ class PurchaseOrder::OrderTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
-    assert_equal 1, @order.accounting_rows.count
-    assert_equal 1, @order.rows.count
+    assert @order.accounting_rows.count > 0
+    assert @order.rows.count > 0
   end
 end
