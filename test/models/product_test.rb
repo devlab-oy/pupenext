@@ -7,6 +7,7 @@ class ProductTest < ActiveSupport::TestCase
     pending_updates
     product/suppliers
     products
+    purchase_order/rows
     sales_order/rows
     shelf_locations
     stock_transfer/rows
@@ -49,6 +50,7 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.manufacture_rows.count > 0
     assert @product.pending_updates.count > 0
     assert @product.product_suppliers.count > 0
+    assert @product.purchase_order_rows.count > 0
     assert @product.sales_order_rows.count > 0
     assert @product.shelf_locations.count > 0
     assert @product.stock_transfer_rows.count > 0
