@@ -74,4 +74,36 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal stock + 100, @product.stock
   end
+
+  test 'product reserved stock' do
+    # these rows should affect reserved stock, let's zero them out
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+    assert_equal 0, @product.reserved_stock
+
+    @product.sales_order_rows.first.update!(varattu: 10)
+    assert_equal 10, @product.reserved_stock
+
+    @product.manufacture_rows.first.update!(varattu: 5)
+    assert_equal 15, @product.reserved_stock
+
+    @product.stock_transfer_rows.first.update!(varattu: 6)
+    assert_equal 21, @product.reserved_stock
+  end
+
+  test 'product stock available' do
+    # these should affect stock available, let's zero them out
+    @product.shelf_locations.update_all(saldo: 0)
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+    assert_equal 0, @product.stock_available
+
+    @product.sales_order_rows.first.update!(varattu: 10)
+    assert_equal -10, @product.stock_available
+
+    @product.shelf_locations.first.update!(saldo: 100)
+    assert_equal 90, @product.stock_available
+  end
 end
