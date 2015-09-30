@@ -1,4 +1,6 @@
 class SalesOrder::Order < Head
+  has_many :rows, foreign_key: :otunnus, class_name: 'SalesOrder::Row'
+
   validates :tila, inclusion: { in: ['L'] }
 
   scope :not_delivered, -> { where(alatila: %w(A C)) }
