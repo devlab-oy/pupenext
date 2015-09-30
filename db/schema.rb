@@ -609,15 +609,18 @@ ActiveRecord::Schema.define(version: 20150928104830) do
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
 
   create_table "git_paivitykset", force: :cascade do |t|
-    t.string   "hash", limit: 50, default: "", null: false
-    t.string   "ip",   limit: 15,              null: false
-    t.datetime "date",                         null: false
+    t.string   "hash_pupesoft", limit: 50, default: "",         null: false
+    t.string   "hash_pupenext", limit: 50, default: "",         null: false
+    t.string   "repository",    limit: 20, default: "pupesoft", null: false
+    t.string   "ip",            limit: 15,                      null: false
+    t.datetime "date",                                          null: false
   end
 
   create_table "git_pulkkarit", force: :cascade do |t|
-    t.datetime "updated",                                null: false
-    t.datetime "merged",                                 null: false
-    t.integer  "feature",      limit: 4,     default: 0, null: false
+    t.string   "repository",   limit: 20,    default: "pupesoft", null: false
+    t.datetime "updated",                                         null: false
+    t.datetime "merged",                                          null: false
+    t.integer  "feature",      limit: 4,     default: 0,          null: false
     t.text     "pull_request", limit: 65535
     t.text     "files",        limit: 65535
   end
@@ -3596,6 +3599,7 @@ ActiveRecord::Schema.define(version: 20150928104830) do
     t.string   "naytetaanko_osaston_ja_tryn_selite",               limit: 1,                              default: "",    null: false
     t.string   "naytetaanko_ale_peruste_tilausrivilla",            limit: 1,                              default: "",    null: false
     t.string   "tilauksen_myyntieratiedot",                        limit: 1,                              default: "",    null: false
+    t.string   "tilaukselle_mittatiedot",                          limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_tilauksella",                        limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_hakutapa",                           limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_poistetut",                          limit: 1,                              default: "",    null: false
