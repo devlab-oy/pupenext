@@ -108,4 +108,17 @@ class ProductTest < ActiveSupport::TestCase
     @product.shelf_locations.first.update!(saldo: 100)
     assert_equal 90, @product.stock_available
   end
+
+  test 'active scope' do
+    # make all inactive
+    company = @product.company
+    company.products.update_all(status: 'P')
+
+    # activate two
+    two = @product.dup.update!(tuoteno: 'foo')
+    three = @product.dup.update!(tuoteno: 'bar')
+
+    assert_equal 2, company.products.active.count
+    assert_not_equal 2, company.products.count
+  end
 end
