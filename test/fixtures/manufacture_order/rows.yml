@@ -9,5 +9,6 @@ DEFAULTS: &DEFAULTS
 mo_row_one:
   yhtio: acme
   order: mo_one
+  tuoteno: hammer123
   tyyppi: V
   <<: *DEFAULTS

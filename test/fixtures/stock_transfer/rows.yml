@@ -9,5 +9,6 @@ DEFAULTS: &DEFAULTS
 st_row_one:
   yhtio: acme
   order: st_one
+  tuoteno: hammer123
   tyyppi: G
   <<: *DEFAULTS

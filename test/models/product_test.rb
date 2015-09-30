@@ -3,10 +3,12 @@ require 'test_helper'
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
     keywords
+    manufacture_order/rows
     pending_updates
     product/suppliers
     products
     shelf_locations
+    stock_transfer/rows
     suppliers
   )
 
@@ -39,7 +41,16 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
 
+    assert_equal 'OSASTO', @product.category.laji
+    assert_equal 'TRY', @product.subcategory.laji
+    assert_equal 'TUOTEMERKKI', @product.brand.laji
+    assert_equal 'S', @product.status.laji
+    assert @product.product_suppliers.count > 0
+    assert @product.suppliers.count > 0
+    assert @product.pending_updates.count > 0
     assert @product.shelf_locations.count > 0
+    assert @product.manufacture_rows.count > 0
+    assert @product.stock_transfer_rows.count > 0
   end
 
   test 'scopes' do
