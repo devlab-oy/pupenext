@@ -70,12 +70,12 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal ['Q'], @acme.purchase_invoices_waiting_for_payment.collect(&:tila).uniq
 
     assert_not_nil @acme.sales_orders
-    assert_equal Head::SalesOrder.new.class, @acme.sales_orders.first.class
+    assert_equal SalesOrder::Order.new.class, @acme.sales_orders.first.class
     assert_not_equal 0, @acme.sales_orders.count
     assert_equal ['L'], @acme.sales_orders.collect(&:tila).uniq
 
     assert_not_nil @acme.sales_order_drafts
-    assert_equal Head::SalesOrderDraft.new.class, @acme.sales_order_drafts.first.class
+    assert_equal SalesOrder::Draft.new.class, @acme.sales_order_drafts.first.class
     assert_not_equal 0, @acme.sales_order_drafts.count
     assert_equal ['N'], @acme.sales_order_drafts.collect(&:tila).uniq
 

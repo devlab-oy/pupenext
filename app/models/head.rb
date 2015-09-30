@@ -33,8 +33,8 @@ class Head < BaseModel
       'Q' => Head::PurchaseInvoice::Waiting,
       'O' => PurchaseOrder::Order,
       'U' => Head::SalesInvoice,
-      'N' => Head::SalesOrderDraft,
-      'L' => Head::SalesOrder,
+      'N' => SalesOrder::Draft,
+      'L' => SalesOrder::Order,
       'X' => Head::Voucher,
     }
   end
