@@ -20,6 +20,7 @@ class Head < BaseModel
 
   def self.child_class_names
     {
+      'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
       'L' => SalesOrder::Order,
       'M' => Head::PurchaseInvoice::Approved,
