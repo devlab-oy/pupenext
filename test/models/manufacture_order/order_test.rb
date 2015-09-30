@@ -17,5 +17,6 @@ class ManufactureOrder::OrderTest < ActiveSupport::TestCase
 
   test 'model relations' do
     assert @order.rows.count > 0
+    assert_equal "V", @order.rows.first.tyyppi
   end
 end
