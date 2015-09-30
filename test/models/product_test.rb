@@ -7,6 +7,7 @@ class ProductTest < ActiveSupport::TestCase
     pending_updates
     product/suppliers
     products
+    sales_order/rows
     shelf_locations
     stock_transfer/rows
     suppliers
@@ -25,12 +26,13 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'TRY', @product.subcategory.laji
     assert_equal 'TUOTEMERKKI', @product.brand.laji
     assert_equal 'S', @product.status.laji
-    assert @product.product_suppliers.count > 0
-    assert @product.suppliers.count > 0
-    assert @product.pending_updates.count > 0
-    assert @product.shelf_locations.count > 0
     assert @product.manufacture_rows.count > 0
+    assert @product.pending_updates.count > 0
+    assert @product.product_suppliers.count > 0
+    assert @product.sales_order_rows.count > 0
+    assert @product.shelf_locations.count > 0
     assert @product.stock_transfer_rows.count > 0
+    assert @product.suppliers.count > 0
   end
 
   test 'product stock' do
