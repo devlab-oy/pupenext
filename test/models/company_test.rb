@@ -34,6 +34,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_not_equal 0, @acme.warehouses.count
     assert_not_equal 0, @acme.transports.count
     assert_not_equal 0, @acme.manufacture_orders.count
+    assert_not_equal 0, @acme.stock_transfers.count
   end
 
   test "company has working STI headings" do
