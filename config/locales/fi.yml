@@ -881,6 +881,9 @@ fi:
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
       'yes': Kyllä
+    list:
+      label: Nimitys
+      sku: Tuotenumero
   products:
     categories_selection:
       brand: Merkki
