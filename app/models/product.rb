@@ -39,6 +39,10 @@ class Product < BaseModel
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
+  def stock
+    shelf_locations.sum(:saldo)
+  end
+
   private
 
     def set_date_fields
