@@ -37,7 +37,7 @@ class Company < ActiveRecord::Base
     o.has_many :sum_level_commodities, class_name: 'SumLevel::Commodity'
 
     o.has_many :heads
-    o.has_many :purchase_orders,                       class_name: 'Head::PurchaseOrder'
+    o.has_many :purchase_orders,                       class_name: 'PurchaseOrder::Order'
     o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
     o.has_many :purchase_invoices_paid,                class_name: 'Head::PurchaseInvoice::Paid'
     o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'
@@ -59,6 +59,7 @@ class Company < ActiveRecord::Base
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
   has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
+  has_many :transports, through: :customers
 
   self.table_name = :yhtio
   self.primary_key = :tunnus

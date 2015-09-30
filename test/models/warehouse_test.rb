@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WarehouseTest < ActiveSupport::TestCase
-  fixtures %w(warehouses packing_areas)
+  fixtures %w(warehouses packing_areas shelf_locations)
 
   setup do
     @veikkola = warehouses(:veikkola)
@@ -12,6 +12,7 @@ class WarehouseTest < ActiveSupport::TestCase
   end
 
   test "relations" do
-    assert_equal 2, @veikkola.packing_areas.count
+    assert @veikkola.packing_areas.count > 0
+    assert @veikkola.shelf_locations.count > 0
   end
 end

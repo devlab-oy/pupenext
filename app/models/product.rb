@@ -1,9 +1,10 @@
 class Product < BaseModel
   include Searchable
 
-  has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
-  has_many :suppliers, through: :product_suppliers
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
+  has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
+  has_many :shelf_locations, foreign_key: :tuoteno, primary_key: :tuoteno
+  has_many :suppliers, through: :product_suppliers
 
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
