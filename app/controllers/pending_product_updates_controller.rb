@@ -5,6 +5,11 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list
+
+    if params[:commit].blank?
+      render :index
+    end
+
     @products = Product.all
 
     if search_params['tuotteen_toimittajat.toim_tuoteno']
