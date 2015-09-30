@@ -54,16 +54,16 @@ class ProductTest < ActiveSupport::TestCase
     @product.sales_order_rows.update_all(varattu: 0)
     @product.manufacture_rows.update_all(varattu: 0)
     @product.stock_transfer_rows.update_all(varattu: 0)
-    assert_equal 0, @product.reserved_stock
+    assert_equal 0, @product.stock_reserved
 
     @product.sales_order_rows.first.update!(varattu: 10)
-    assert_equal 10, @product.reserved_stock
+    assert_equal 10, @product.stock_reserved
 
     @product.manufacture_rows.first.update!(varattu: 5)
-    assert_equal 15, @product.reserved_stock
+    assert_equal 15, @product.stock_reserved
 
     @product.stock_transfer_rows.first.update!(varattu: 6)
-    assert_equal 21, @product.reserved_stock
+    assert_equal 21, @product.stock_reserved
   end
 
   test 'product stock available' do
