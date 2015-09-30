@@ -1,0 +1,13 @@
+DEFAULTS: &DEFAULTS
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+mo_row_one:
+  yhtio: acme
+  order: mo_one
+  tyyppi: V
+  <<: *DEFAULTS

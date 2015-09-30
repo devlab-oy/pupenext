@@ -12,6 +12,7 @@ class Row < BaseModel
   def self.child_class_names
     {
       'O' => PurchaseOrder::Row,
+      'V' => ManufactureOrder::Row,
     }
   end
 end
