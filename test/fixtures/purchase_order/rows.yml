@@ -9,5 +9,6 @@ DEFAULTS: &DEFAULTS
 po_row_one:
   yhtio: acme
   order: po_one
+  tuoteno: hammer123
   tyyppi: O
   <<: *DEFAULTS
