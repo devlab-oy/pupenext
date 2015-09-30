@@ -11,7 +11,14 @@ class Row < BaseModel
 
   def self.child_class_names
     {
+      'G' => StockTransfer::Row,
       'O' => PurchaseOrder::Row,
+      'V' => ManufactureOrder::Row,
+      'L' => SalesOrder::Row,
     }
+  end
+
+  def self.reserved
+    where("tilausrivi.varattu > 0").sum(:varattu)
   end
 end

@@ -1,15 +1,22 @@
 class Product < BaseModel
   include Searchable
 
-  has_many :pending_updates, as: :pending_updatable, dependent: :destroy
-  has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
-  has_many :shelf_locations, foreign_key: :tuoteno, primary_key: :tuoteno
-  has_many :suppliers, through: :product_suppliers
-
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
   belongs_to :brand,        foreign_key: :tuotemerkki, primary_key: :selite,  class_name: 'Product::Brand'
   belongs_to :status,       foreign_key: :status,      primary_key: :selite,  class_name: 'Product::Status'
+
+  has_many :pending_updates, as: :pending_updatable, dependent: :destroy
+  has_many :suppliers, through: :product_suppliers
+
+  with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
+    o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
+    o.has_many :product_suppliers, class_name: 'Product::Supplier'
+    o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
+    o.has_many :sales_order_rows, class_name: 'SalesOrder::Row'
+    o.has_many :shelf_locations
+    o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
+  end
 
   accepts_nested_attributes_for :pending_updates, allow_destroy: true
 
@@ -19,6 +26,21 @@ class Product < BaseModel
   self.primary_key = :tunnus
 
   before_create :set_date_fields
+
+  def stock
+    shelf_locations.sum(:saldo)
+  end
+
+  def stock_reserved
+    stock_reserved  = sales_order_rows.reserved
+    stock_reserved += manufacture_rows.reserved
+    stock_reserved += stock_transfer_rows.reserved
+    stock_reserved
+  end
+
+  def stock_available
+    stock - stock_reserved
+  end
 
   private
 

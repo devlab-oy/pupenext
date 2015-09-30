@@ -1,14 +1,13 @@
 require 'test_helper'
 
-class PurchaseOrder::OrderTest < ActiveSupport::TestCase
+class SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(
-    head/voucher_rows
-    purchase_order/orders
-    purchase_order/rows
+    sales_order/orders
+    sales_order/rows
   )
 
   setup do
-    @order = purchase_order_orders(:po_one)
+    @order = sales_order_orders :so_one
   end
 
   test 'fixture should be valid' do
@@ -19,6 +18,6 @@ class PurchaseOrder::OrderTest < ActiveSupport::TestCase
   test 'model relations' do
     assert @order.accounting_rows.count > 0
     assert @order.rows.count > 0
-    assert_equal "O", @order.rows.first.tyyppi
+    assert_equal "L", @order.rows.first.tyyppi
   end
 end

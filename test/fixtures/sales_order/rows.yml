@@ -6,9 +6,9 @@ DEFAULTS: &DEFAULTS
   toimitettuaika: <%= Time.now %>
   laskutettuaika: <%= Time.now %>
 
-po_row_one:
+so_row_one:
   yhtio: acme
-  order: po_one
+  order: so_one
   tuoteno: hammer123
-  tyyppi: O
+  tyyppi: L
   <<: *DEFAULTS
