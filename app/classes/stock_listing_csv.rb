@@ -3,6 +3,7 @@ require 'csv'
 class StockListingCsv
   def initialize(company_id:)
     @company = Company.find company_id
+    Current.company = @company
   end
 
   def csv_data
