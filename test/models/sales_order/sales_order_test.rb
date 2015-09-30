@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Head::SalesOrderTest < ActiveSupport::TestCase
+class SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows)
 
   setup do
