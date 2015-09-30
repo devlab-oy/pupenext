@@ -2,7 +2,9 @@ class PendingProductUpdatesController < ApplicationController
   include ColumnSort
 
   def index
+  end
 
+  def list
     @products = Product.all
 
     if search_params['tuotteen_toimittajat.toim_tuoteno']
