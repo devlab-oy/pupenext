@@ -19,5 +19,6 @@ class PurchaseOrder::OrderTest < ActiveSupport::TestCase
   test 'model relations' do
     assert @order.accounting_rows.count > 0
     assert @order.rows.count > 0
+    assert_equal "O", @order.rows.first.tyyppi
   end
 end
