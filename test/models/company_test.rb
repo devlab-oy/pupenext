@@ -13,38 +13,33 @@ class CompanyTest < ActiveSupport::TestCase
 
   test "company relations" do
     assert_equal Parameter, @acme.parameter.class
-    assert_not_equal 0, @acme.accounts.count
-    assert_not_equal 0, @acme.brands.count
-    assert_not_equal 0, @acme.categories.count
-    assert_not_equal 0, @acme.commodities.count
-    assert_not_equal 0, @acme.cost_centers.count
-    assert_not_equal 0, @acme.currencies.count
-    assert_not_equal 0, @acme.fiscal_years.count
-    assert_not_equal 0, @acme.keywords.count
-    assert_not_equal 0, @acme.packing_areas.count
-    assert_not_equal 0, @acme.product_statuses.count
-    assert_not_equal 0, @acme.product_suppliers.count
-    assert_not_equal 0, @acme.products.count
-    assert_not_equal 0, @acme.projects.count
-    assert_not_equal 0, @acme.subcategories.count
-    assert_not_equal 0, @acme.suppliers.count
-    assert_not_equal 0, @acme.revenue_expenditures.count
-    assert_not_equal 0, @acme.targets.count
-    assert_not_equal 0, @acme.users.count
-    assert_not_equal 0, @acme.warehouses.count
-    assert_not_equal 0, @acme.transports.count
-    assert_not_equal 0, @acme.manufacture_orders.count
-    assert_not_equal 0, @acme.stock_transfers.count
+    assert @acme.accounts.count > 0
+    assert @acme.brands.count > 0
+    assert @acme.categories.count > 0
+    assert @acme.commodities.count > 0
+    assert @acme.cost_centers.count > 0
+    assert @acme.currencies.count > 0
+    assert @acme.fiscal_years.count > 0
+    assert @acme.keywords.count > 0
+    assert @acme.manufacture_orders.count > 0
+    assert @acme.packing_areas.count > 0
+    assert @acme.product_statuses.count > 0
+    assert @acme.product_suppliers.count > 0
+    assert @acme.products.count > 0
+    assert @acme.projects.count > 0
+    assert @acme.revenue_expenditures.count > 0
+    assert @acme.stock_transfers.count > 0
+    assert @acme.subcategories.count > 0
+    assert @acme.suppliers.count > 0
+    assert @acme.targets.count > 0
+    assert @acme.transports.count > 0
+    assert @acme.users.count > 0
+    assert @acme.warehouses.count > 0
   end
 
   test "company has working STI headings" do
     assert_not_nil @acme.heads
     assert_not_equal 0, @acme.heads.count
-
-    assert_not_nil @acme.purchase_orders
-    assert_equal PurchaseOrder::Order.new.class, @acme.purchase_orders.first.class
-    assert_not_equal 0, @acme.purchase_orders.count
-    assert_equal ['O'], @acme.purchase_orders.collect(&:tila).uniq
 
     assert_not_nil @acme.purchase_invoices_approval
     assert_equal Head::PurchaseInvoice::Approval.new.class, @acme.purchase_invoices_approval.first.class
@@ -70,16 +65,6 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal Head::PurchaseInvoice::Waiting.new.class, @acme.purchase_invoices_waiting_for_payment.first.class
     assert_not_equal 0, @acme.purchase_invoices_waiting_for_payment.count
     assert_equal ['Q'], @acme.purchase_invoices_waiting_for_payment.collect(&:tila).uniq
-
-    assert_not_nil @acme.sales_orders
-    assert_equal SalesOrder::Order.new.class, @acme.sales_orders.first.class
-    assert_not_equal 0, @acme.sales_orders.count
-    assert_equal ['L'], @acme.sales_orders.collect(&:tila).uniq
-
-    assert_not_nil @acme.sales_order_drafts
-    assert_equal SalesOrder::Draft.new.class, @acme.sales_order_drafts.first.class
-    assert_not_equal 0, @acme.sales_order_drafts.count
-    assert_equal ['N'], @acme.sales_order_drafts.collect(&:tila).uniq
 
     assert_not_nil @acme.sales_invoices
     assert_equal Head::SalesInvoice.new.class, @acme.sales_invoices.first.class

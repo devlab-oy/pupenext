@@ -16,6 +16,6 @@ class ManufactureOrder::OrderTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
-    assert_equal 1, @order.rows.count
+    assert @order.rows.count > 0
   end
 end

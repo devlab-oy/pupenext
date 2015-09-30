@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class SalesOrder::OrderTest < ActiveSupport::TestCase
-  fixtures %w(sales_order/orders head/voucher_rows)
+  fixtures %w(
+    sales_order/orders
+  )
 
   setup do
     @order = sales_order_orders(:so_one)
@@ -13,6 +15,6 @@ class SalesOrder::OrderTest < ActiveSupport::TestCase
   end
 
   test 'model relations' do
-    assert_equal 1, @order.accounting_rows.count
+    assert @order.accounting_rows.count > 0
   end
 end
