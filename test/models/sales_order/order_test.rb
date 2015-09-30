@@ -4,6 +4,7 @@ class SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(
     sales_order/orders
     sales_order/rows
+    head/voucher_rows
   )
 
   setup do
