@@ -30,6 +30,17 @@ class Product < BaseModel
     shelf_locations.sum(:saldo)
   end
 
+  def reserved_stock
+    reserved_stock  = sales_order_rows.reserved
+    reserved_stock += manufacture_rows.reserved
+    reserved_stock += stock_transfer_rows.reserved
+    reserved_stock
+  end
+
+  def stock_available
+    stock - reserved_stock
+  end
+
   private
 
     def set_date_fields

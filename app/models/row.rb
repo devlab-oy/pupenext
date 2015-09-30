@@ -17,4 +17,8 @@ class Row < BaseModel
       'L' => SalesOrder::Row,
     }
   end
+
+  def self.reserved
+    where("tilausrivi.varattu > 0").sum(:varattu)
+  end
 end
