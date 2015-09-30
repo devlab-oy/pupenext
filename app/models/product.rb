@@ -30,7 +30,7 @@ class Product < BaseModel
 
   enum ei_saldoa: {
     inventory_management: '',
-    not_inventory_management: 'o'
+    no_inventory_management: 'o'
   }
 
   scope :not_deleted, -> { where.not(status: :P) }

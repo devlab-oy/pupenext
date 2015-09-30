@@ -872,13 +872,15 @@ fi:
         format: "%n %"
   pending_product_updates:
     index:
+      deleted: Poistetut
       header: Tuotteen tulevat muutokset
-      inventory_management_products: Näytä vain saldolliset tuotteet
+      inventory_management_products: Näytä vain varastoitavat tuotteet
       label: Nimitys
-      removed: Poistetut
+      'no': Ei
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
+      'yes': Kyllä
   products:
     categories_selection:
       brand: Merkki
