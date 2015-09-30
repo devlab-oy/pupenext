@@ -1,7 +1,14 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  fixtures %w(products keywords product/suppliers pending_updates suppliers)
+  fixtures %w(
+    keywords
+    pending_updates
+    product/suppliers
+    products
+    shelf_locations
+    suppliers
+  )
 
   setup do
     @product = products :hammer
