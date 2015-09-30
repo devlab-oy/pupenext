@@ -14,6 +14,7 @@ class Row < BaseModel
       'G' => StockTransfer::Row,
       'O' => PurchaseOrder::Row,
       'V' => ManufactureOrder::Row,
+      'L' => SalesOrder::Row,
     }
   end
 end
