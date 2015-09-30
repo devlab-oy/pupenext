@@ -12,6 +12,7 @@ class Product < BaseModel
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
+    o.has_many :sales_order_rows, class_name: 'SalesOrder::Row'
     o.has_many :shelf_locations
     o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
   end
