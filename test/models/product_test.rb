@@ -41,4 +41,16 @@ class ProductTest < ActiveSupport::TestCase
 
     assert @product.shelf_locations.count > 0
   end
+
+  test 'product stock' do
+    stock = @product.stock
+    assert stock > 0
+
+    loc = @product.shelf_locations.first.dup
+    loc.saldo = 100
+    loc.hyllytaso = 'foo'
+    loc.save!
+
+    assert_equal stock + 100, @product.stock
+  end
 end

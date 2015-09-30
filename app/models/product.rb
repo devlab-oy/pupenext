@@ -20,6 +20,10 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
+  def stock
+    shelf_locations.sum(:saldo)
+  end
+
   private
 
     def set_date_fields
