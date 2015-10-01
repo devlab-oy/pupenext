@@ -54,10 +54,9 @@ class StockListingCsvTest < ActiveSupport::TestCase
 
   test 'saving report to file' do
     report = StockListingCsv.new(company_id: @company.id)
-    filename = 'kissa.csv'
+    filename = report.to_file
 
     # test we can make a file, and the content is same as csv data
-    assert report.csv_file filename
     assert File.exists? filename
     assert_equal report.csv_data, File.open(filename, "rb").read
 
