@@ -23,5 +23,8 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     get :list, commit: 'search'
     assert_template :list, "By pressing submit-button template should be list"
     assert_not_nil assigns(:products)
+
+    get :list, { commit: 'search', 'tuotteen_toimittajat.toim_tuoteno' => 'masterhammer' }
+    assert_select "td", { text: 'hammer123', count: 1 }
   end
 end
