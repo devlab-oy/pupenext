@@ -7,13 +7,13 @@ class PendingProductUpdatesController < ApplicationController
   def list
     render :index and return if params[:commit].blank?
 
-    @products = Product.all
+    products = Product.all
 
     if search_params['tuotteen_toimittajat.toim_tuoteno']
-      @products = @products.joins(:product_suppliers).search_like(search_params)
+      products = products.joins(:product_suppliers)
     end
 
-    @products = @products.search_like(search_params)
+    @products = products.search_like(search_params)
   end
 
   private
