@@ -7,10 +7,10 @@ class Reports::StockListingCsvController < ApplicationController
       user_id: current_user.id,
       report_class: 'StockListingCsv',
       report_params: { company_id: current_company.id },
-      report_name: 'Stock list'
+      report_name: t('reports.stock_listing_csv.index.header')
     )
 
-    flash[:notice] = 'Raporttia ajetaan! Valmis raporti löytyy omalta Download Areltasi'
+    flash[:notice] = t('reports.stock_listing_csv.index.running')
     redirect_to stock_listing_csv_path
   end
 end
