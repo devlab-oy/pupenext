@@ -18,7 +18,13 @@ class DownloadsControllerTest < ActionController::TestCase
   end
 
   test 'download file' do
+    login users(:joe)
     get :show, id: @file.id
     assert_response :success
+  end
+
+  test 'should not be able to download other users file' do
+    # this is joes file, should raise exception
+    assert_raises { get :show, id: @file.id }
   end
 end
