@@ -12,10 +12,14 @@ class StockListingCsv
     end
   end
 
-  def csv_file(filename)
+  def to_file
+    filename = Tempfile.new ["stock_listing-", ".csv"]
+
     CSV.open(filename, "wb") do |csv|
       data.map { |row| csv << row }
     end
+
+    filename
   end
 
   private
