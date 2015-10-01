@@ -5,10 +5,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list
-
-    if params[:commit].blank?
-      render :index
-    end
+    render :index and return if params[:commit].blank?
 
     @products = Product.all
 
