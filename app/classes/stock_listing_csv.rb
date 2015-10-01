@@ -40,7 +40,7 @@ class StockListingCsv
     end
 end
 
-class ProductRow
+class StockListingCsv::ProductRow
   def initialize(product)
     @product = product
   end
