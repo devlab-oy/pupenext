@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures %w(users download/downloads)
+  fixtures %w(
+    download/downloads
+    download/files
+    users
+  )
 
   setup do
     @joe = users(:joe)
@@ -19,6 +23,7 @@ class UserTest < ActiveSupport::TestCase
   test "relations" do
     assert_not_nil @joe.company
     assert @joe.downloads.count > 0
+    assert @joe.files.count > 0
   end
 
   test "user has update permissions" do
