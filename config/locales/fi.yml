@@ -919,6 +919,11 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_listing_csv:
+      index:
+        header: Varastosaldot CSV
+        run: Aja raportti
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
     excel:
       company: Yritystiedot
