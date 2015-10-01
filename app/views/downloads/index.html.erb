@@ -1,1 +1,29 @@
-index.html.erb
+<%= render "administration/header", text: t('.header') %>
+
+<table>
+
+  <tr>
+    <th><%=t '.report_name' %></th>
+    <th><%=t '.created_at' %></th>
+    <th><%=t '.files' %></th>
+  </tr>
+
+  <% @downloads.each do |download| %>
+    <tr class='aktiivi'>
+      <td>
+        <%= download.report_name %>
+      </td>
+
+      <td>
+        <%=l download.created_at %>
+      </td>
+
+      <td>
+        <% download.files.each do |file| %>
+          <%= link_to file.filename, download_file_path(file) %><br>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>

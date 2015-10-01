@@ -702,6 +702,12 @@ fi:
       month: kuukausi
       second: sekunti
       year: vuosi
+  downloads:
+    index:
+      created_at: Luontiaika
+      files: Tiedostot
+      header: Tiedostosi
+      report_name: Raportin nimi
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy
