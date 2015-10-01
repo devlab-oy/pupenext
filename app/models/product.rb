@@ -27,6 +27,8 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
+  scope :active, -> { where.not(status: 'P') }
+
   def stock
     shelf_locations.sum(:saldo)
   end

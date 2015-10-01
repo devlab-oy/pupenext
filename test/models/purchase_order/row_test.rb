@@ -14,4 +14,8 @@ class PurchaseOrder::RowTest < ActiveSupport::TestCase
   test 'relations' do
     assert_equal "O", @one.order.tila
   end
+
+  test 'open scope' do
+    assert_equal 0, @one.order.rows.open.count
+  end
 end
