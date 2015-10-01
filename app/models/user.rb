@@ -1,5 +1,6 @@
 class User < BaseModel
   has_many :permissions
+  has_many :downloads, class_name: 'Download::Download'
 
   self.table_name = :kuka
   self.primary_key = :tunnus

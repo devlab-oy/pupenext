@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001084357) do
+ActiveRecord::Schema.define(version: 20151001111050) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -479,6 +479,15 @@ ActiveRecord::Schema.define(version: 20151001084357) do
   add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, length: {"yhtio"=>nil, "kausi"=>nil, "tuoteno"=>nil, "osasto"=>50, "try"=>50}, using: :btree
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
+  create_table "downloads", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4
+    t.string   "report_name", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "downloads", ["user_id"], name: "index_downloads_on_user_id", using: :btree
+
   create_table "dynaaminen_puu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",             limit: 5,   default: "", null: false
     t.string   "nimi",              limit: 120, default: "", null: false
@@ -567,6 +576,16 @@ ActiveRecord::Schema.define(version: 20151001084357) do
     t.datetime "muutospvm",                                 null: false
     t.string   "muuttaja",       limit: 50,    default: "", null: false
   end
+
+  create_table "files", force: :cascade do |t|
+    t.integer  "download_id", limit: 4
+    t.string   "filename",    limit: 255
+    t.binary   "data",        limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "files", ["download_id"], name: "index_files_on_download_id", using: :btree
 
   create_table "fixed_assets_commodities", force: :cascade do |t|
     t.integer  "company_id",                      limit: 4
