@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911075529) do
+ActiveRecord::Schema.define(version: 20150928104830) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -609,15 +609,18 @@ ActiveRecord::Schema.define(version: 20150911075529) do
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
 
   create_table "git_paivitykset", force: :cascade do |t|
-    t.string   "hash", limit: 50, default: "", null: false
-    t.string   "ip",   limit: 15,              null: false
-    t.datetime "date",                         null: false
+    t.string   "hash_pupesoft", limit: 50, default: "",         null: false
+    t.string   "hash_pupenext", limit: 50, default: "",         null: false
+    t.string   "repository",    limit: 20, default: "pupesoft", null: false
+    t.string   "ip",            limit: 15,                      null: false
+    t.datetime "date",                                          null: false
   end
 
   create_table "git_pulkkarit", force: :cascade do |t|
-    t.datetime "updated",                                null: false
-    t.datetime "merged",                                 null: false
-    t.integer  "feature",      limit: 4,     default: 0, null: false
+    t.string   "repository",   limit: 20,    default: "pupesoft", null: false
+    t.datetime "updated",                                         null: false
+    t.datetime "merged",                                          null: false
+    t.integer  "feature",      limit: 4,     default: 0,          null: false
     t.text     "pull_request", limit: 65535
     t.text     "files",        limit: 65535
   end
@@ -695,6 +698,7 @@ ActiveRecord::Schema.define(version: 20150911075529) do
     t.datetime "muutospvm"
   end
 
+  add_index "inventointilistarivi", ["yhtio", "otunnus", "tuoteno"], name: "index_inventointilistarivi_on_yhtio_and_otunnus_and_tuoteno", using: :btree
   add_index "inventointilistarivi", ["yhtio", "tuotepaikkatunnus"], name: "tuotepaikkatunnus", using: :btree
 
   create_table "kalenteri", primary_key: "tunnus", force: :cascade do |t|
@@ -1295,6 +1299,7 @@ ActiveRecord::Schema.define(version: 20150911075529) do
   add_index "lasku", ["yhtio", "laskunro"], name: "lasno_index", using: :btree
   add_index "lasku", ["yhtio", "liitostunnus"], name: "yhtio_liitostunnus", using: :btree
   add_index "lasku", ["yhtio", "tila", "alatila"], name: "tila_index", using: :btree
+  add_index "lasku", ["yhtio", "tila", "erpcm"], name: "index_lasku_on_yhtio_and_tila_and_erpcm", using: :btree
   add_index "lasku", ["yhtio", "tila", "factoringsiirtonumero"], name: "factoring", using: :btree
   add_index "lasku", ["yhtio", "tila", "kerayslista"], name: "yhtio_tila_kerayslista", using: :btree
   add_index "lasku", ["yhtio", "tila", "laskunro"], name: "yhtio_tila_laskunro", using: :btree
@@ -1695,7 +1700,6 @@ ActiveRecord::Schema.define(version: 20150911075529) do
     t.integer "pending_updatable_id",   limit: 4
     t.string  "pending_updatable_type", limit: 255
     t.string  "key",                    limit: 255
-    t.text    "value_type",             limit: 65535
     t.text    "value",                  limit: 65535
   end
 
@@ -2613,6 +2617,18 @@ ActiveRecord::Schema.define(version: 20150911075529) do
   end
 
   add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
+
+  create_table "transports", force: :cascade do |t|
+    t.integer  "customer_id", limit: 4
+    t.string   "hostname",    limit: 255
+    t.string   "username",    limit: 255
+    t.string   "password",    limit: 255
+    t.string   "path",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "transports", ["customer_id"], name: "index_transports_on_customer_id", using: :btree
 
   create_table "tullinimike", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,     default: "", null: false
@@ -3583,6 +3599,7 @@ ActiveRecord::Schema.define(version: 20150911075529) do
     t.string   "naytetaanko_osaston_ja_tryn_selite",               limit: 1,                              default: "",    null: false
     t.string   "naytetaanko_ale_peruste_tilausrivilla",            limit: 1,                              default: "",    null: false
     t.string   "tilauksen_myyntieratiedot",                        limit: 1,                              default: "",    null: false
+    t.string   "tilaukselle_mittatiedot",                          limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_tilauksella",                        limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_hakutapa",                           limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_poistetut",                          limit: 1,                              default: "",    null: false

@@ -4,7 +4,7 @@ gem 'rails', '~> 4.2'
 
 gem 'bcrypt'
 gem 'jquery-rails'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 gem 'turbolinks'
 gem 'dotenv-rails'
 
@@ -16,6 +16,8 @@ gem 'request_store'
 gem 'cocoon'
 gem 'simple_form'
 gem 'country_select'
+gem 'axlsx'
+gem 'axlsx_rails'
 
 group :assets do
   gem 'uglifier'

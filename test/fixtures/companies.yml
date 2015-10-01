@@ -44,6 +44,11 @@ pullin_musiikki:
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
   myyntireskontrakausi_loppu: <%= Date.today %>
+  myyntisaamiset: 1700
+  factoringsaamiset: 1705
+  konsernimyyntisaamiset: 1710
+  ostovelat: 2870
+  konserniostovelat: 2890
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

@@ -1,9 +1,9 @@
 class Head::VoucherRow < BaseModel
   with_options foreign_key: :ltunnus do |o|
     o.belongs_to :purchase_invoice, class_name: 'Head::PurchaseInvoice'
-    o.belongs_to :purchase_order,   class_name: 'Head::PurchaseOrder'
+    o.belongs_to :purchase_order,   class_name: 'PurchaseOrder::Order'
     o.belongs_to :sales_invoice,    class_name: 'Head::SalesInvoice'
-    o.belongs_to :sales_order,      class_name: 'Head::SalesOrder'
+    o.belongs_to :sales_order,      class_name: 'SalesOrder::Order'
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 

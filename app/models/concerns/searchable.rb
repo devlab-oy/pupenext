@@ -9,12 +9,11 @@ module Searchable
 
       args.each do |key, value|
         if exact_search? value
-          value = exact_search value
-          result = result.where(key => value)
+          result = result.where key => exact_search(value)
         elsif value == "true"
-          result = result.where(key => true)
+          result = result.where key => true
         elsif value == "false"
-          result = result.where(key => false)
+          result = result.where key => false
         else
           result = result.where_like key, value
         end
@@ -24,7 +23,17 @@ module Searchable
     end
 
     def where_like(column, search_term)
-      where(self.arel_table[column].matches "%#{search_term}%")
+      table_column = column.to_s.split '.'
+      raise ArgumentError if table_column.length > 2
+
+      if table_column.length == 2
+        table = Arel::Table.new table_column.first
+        column = table_column.second
+      else
+        table = arel_table
+      end
+
+      where table[column].matches("%#{search_term}%")
     end
 
     private

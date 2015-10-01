@@ -1,5 +1,5 @@
 # Ostolaskut, tehdään yks jokaista "ostolaskutyyppiä"
-<% Head::PurchaseInvoice::INVOICE_TYPES.each do |i| %>
+<% Head::PurchaseInvoice::TYPES.each do |i| %>
 pi_<%= i %>:
   yhtio: acme
   tila: <%= i %>
@@ -26,32 +26,6 @@ pi_<%= i %>:
   popvm: <%= Time.now %>
 <% end %>
 
-# Ostotilaus
-po_one:
-  yhtio: acme
-  tila: O
-  luontiaika: <%= Time.now %>
-  laatija: joe
-  muutospvm: <%= Time.now %>
-  muuttaja: joe
-  tapvm: <%= Time.now %>
-  lapvm: <%= Time.now %>
-  kapvm: <%= Time.now %>
-  erpcm: <%= Time.now %>
-  olmapvm: <%= Time.now %>
-  kerayspvm: <%= Time.now %>
-  toimaika: <%= Time.now %>
-  maksuaika: <%= Time.now %>
-  lahetepvm: <%= Time.now %>
-  laskutettu: <%= Time.now %>
-  h1time: <%= Time.now %>
-  h2time: <%= Time.now %>
-  h3time: <%= Time.now %>
-  h4time: <%= Time.now %>
-  h5time: <%= Time.now %>
-  mapvm: <%= Time.now %>
-  popvm: <%= Time.now %>
-
 # Myyntilasku
 si_one:
   yhtio: acme
@@ -63,32 +37,6 @@ si_one:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   location: tuusula
-  tapvm: <%= Time.now %>
-  lapvm: <%= Time.now %>
-  kapvm: <%= Time.now %>
-  erpcm: <%= Time.now %>
-  olmapvm: <%= Time.now %>
-  kerayspvm: <%= Time.now %>
-  toimaika: <%= Time.now %>
-  maksuaika: <%= Time.now %>
-  lahetepvm: <%= Time.now %>
-  laskutettu: <%= Time.now %>
-  h1time: <%= Time.now %>
-  h2time: <%= Time.now %>
-  h3time: <%= Time.now %>
-  h4time: <%= Time.now %>
-  h5time: <%= Time.now %>
-  mapvm: <%= Time.now %>
-  popvm: <%= Time.now %>
-
-# Myyntitilaus
-so_one:
-  yhtio: acme
-  tila: L
-  luontiaika: <%= Time.now %>
-  laatija: joe
-  muutospvm: <%= Time.now %>
-  muuttaja: joe
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
