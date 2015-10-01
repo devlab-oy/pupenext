@@ -26,19 +26,49 @@ class StockListingCsv
 
     def data
       @data ||= company.products.active.find_each.map do |product|
-        stock = product.stock_available
-        next_purchase_order = product.purchase_order_rows.open.order(:toimaika).first
-        order_date = next_purchase_order ? next_purchase_order.toimaika : nil
-        stock_after = next_purchase_order ? (stock + next_purchase_order.varattu) : stock
+        row = ProductRow.new product
 
         [
-          product.tuoteno,
-          product.eankoodi,
-          product.nimitys,
-          stock < 0 ? 0.0 : stock,
-          order_date,
-          stock_after < 0 ? 0.0 : stock_after,
+          row.product.tuoteno,
+          row.product.eankoodi,
+          row.product.nimitys,
+          row.stock,
+          row.order_date,
+          row.stock_after_order,
         ]
       end
+    end
+end
+
+class ProductRow
+  def initialize(product)
+    @product = product
+  end
+
+  def product
+    @product
+  end
+
+  def stock
+    stock_raw < 0 ? 0.0 : stock_raw
+  end
+
+  def stock_after_order
+    stock = next_order ? (stock_raw + next_order.varattu) : stock_raw
+    stock < 0 ? 0.0 : stock
+  end
+
+  def order_date
+    next_order ? next_order.toimaika : nil
+  end
+
+  private
+
+    def stock_raw
+      @stock ||= product.stock_available
+    end
+
+    def next_order
+      @next_order ||= product.purchase_order_rows.open.order(:toimaika).first
     end
 end
