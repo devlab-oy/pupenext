@@ -17,21 +17,11 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
   test 'should get list' do
     get :list
     assert_response :success
-
     assert_template :index, "Without pressing submit-button template should be index"
+    assert_nil assigns(:products)
 
-    product_supplier = product_suppliers :domestic_product_supplier
-
-    request = {
-      'tuotteen_toimittajat.toim_tuoteno' => product_supplier[:toim_tuoteno],
-      ei_saldoa: 'true',
-      poistettu: 'true',
-      commit: 'search'
-    }
-
-    get :list, request
+    get :list, commit: 'search'
     assert_template :list, "By pressing submit-button template should be list"
     assert_not_nil assigns(:products)
   end
-
 end
