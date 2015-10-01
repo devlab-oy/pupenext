@@ -47,6 +47,9 @@ Pupesoft::Application.routes.draw do
     resources :transports
   end
 
+  get :downloads, to: 'downloads#index'
+  get 'downloads/:id', to: 'downloads#show', as: :download_file
+
   scope module: :utilities do
     get 'qr_codes/generate'
   end
