@@ -54,8 +54,8 @@ class ProductRow
   end
 
   def stock_after_order
-    stock = next_order ? (stock_raw + next_order.varattu) : stock_raw
-    stock < 0 ? 0.0 : stock
+    stock = next_order ? (stock_raw + next_order.varattu) : nil
+    stock && stock < 0 ? nil : stock
   end
 
   def order_date

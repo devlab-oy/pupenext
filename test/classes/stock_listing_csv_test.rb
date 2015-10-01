@@ -30,13 +30,13 @@ class StockListingCsvTest < ActiveSupport::TestCase
 
     # We should get product info and stock available 10
     report = StockListingCsv.new(company_id: @company.id)
-    output = "A1,FOO,BAR,10.0,,10.0\n"
+    output = "A1,FOO,BAR,10.0,,\n"
     assert_equal output, report.csv_data.lines.first
 
     # If stock is negative we should get zero stock
     product.shelf_locations.first.update!(tuoteno: 'A1', saldo: -10)
     report = StockListingCsv.new(company_id: @company.id)
-    output = "A1,FOO,BAR,0.0,,0.0\n"
+    output = "A1,FOO,BAR,0.0,,\n"
     assert_equal output, report.csv_data.lines.first
     assert_equal -10, product.stock
 
