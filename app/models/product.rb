@@ -1,9 +1,5 @@
 class Product < BaseModel
   include Searchable
-  has_many :product_suppliers, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Product::Supplier'
-  has_many :suppliers, through: :product_suppliers
-  has_many :sales_invoice_rows, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Head::SalesInvoiceRow'
-  has_many :pending_updates, as: :pending_updatable
 
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
@@ -18,6 +14,7 @@ class Product < BaseModel
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
     o.has_many :sales_order_rows, class_name: 'SalesOrder::Row'
+    o.has_many :sales_invoice_rows, foreign_key: :tuoteno, primary_key: :tuoteno, class_name: 'Head::SalesInvoiceRow'
     o.has_many :shelf_locations
     o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
   end

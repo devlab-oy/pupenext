@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  fixtures %w(products keywords product/suppliers pending_updates suppliers head/sales_invoice_rows)
   fixtures %w(
     keywords
     manufacture_order/rows
@@ -13,6 +12,7 @@ class ProductTest < ActiveSupport::TestCase
     shelf_locations
     stock_transfer/rows
     suppliers
+    head/sales_invoice_rows
   )
 
   setup do
@@ -36,6 +36,7 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.shelf_locations.count > 0
     assert @product.stock_transfer_rows.count > 0
     assert @product.suppliers.count > 0
+    assert @product.sales_invoice_rows.count > 0
   end
 
   test 'product stock' do
@@ -60,9 +61,6 @@ class ProductTest < ActiveSupport::TestCase
     @product.sales_order_rows.first.update!(varattu: 10)
     assert_equal 10, @product.stock_reserved
 
-    assert_equal @product.id, @product.pending_updates.first.pending_updatable_id
-
-    assert_not_equal 0, @product.sales_invoice_rows.count
     @product.manufacture_rows.first.update!(varattu: 5)
     assert_equal 15, @product.stock_reserved
 
