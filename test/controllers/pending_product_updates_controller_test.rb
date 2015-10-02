@@ -45,7 +45,7 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     }
 
     assert_difference 'PendingUpdate.count' do
-      post :create, id: product.id, pending_product_update: params
+      post :update, id: product.id, product: params
     end
   end
 end

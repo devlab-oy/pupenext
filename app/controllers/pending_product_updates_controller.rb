@@ -1,7 +1,7 @@
 class PendingProductUpdatesController < ApplicationController
   include ColumnSort
 
-  before_action :find_resource, only: [:create]
+  before_action :find_resource, only: [:update]
 
   def index
   end
@@ -18,7 +18,7 @@ class PendingProductUpdatesController < ApplicationController
     @products = products.search_like(search_params)
   end
 
-  def create
+  def update
     @product.update pending_update_params
 
     redirect_to pending_product_updates_path
@@ -31,7 +31,7 @@ class PendingProductUpdatesController < ApplicationController
     end
 
     def pending_update_params
-      params.require(:pending_product_update).permit(
+      params.require(:product).permit(
         pending_updates_attributes: [ :id, :key, :value, :_destroy ],
       )
     end

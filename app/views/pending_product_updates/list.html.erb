@@ -13,13 +13,27 @@
   </th>
 </tr>
 
-<% @products.each do |p| %>
+<% @products.each do |product| %>
   <tr>
     <td>
-      <%= p.tuoteno %>
+      <%= product.tuoteno %>
     </td>
     <td>
-      <%= p.nimitys %>
+      <%= product.nimitys %>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan='2'>
+      <% product.pending_updates.build %>
+
+      <%= form_for product do |product_form| %>
+        <%= fields_for product.pending_updates do |pending_fields| %>
+          <%= pending_fields.text_field :key %>
+        <% end %>
+
+        <%= product_form.submit %>
+      <% end %>
     </td>
   </tr>
 <% end %>
