@@ -38,3 +38,7 @@ group :test, :development do
   gem 'i18n-tasks'
   gem 'localeapp'
 end
+
+group :test do
+  gem 'fakeredis'
+end
