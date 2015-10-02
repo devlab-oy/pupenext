@@ -708,6 +708,7 @@ fi:
       files: Tiedostot
       header: Tiedostosi
       report_name: Raportin nimi
+      destroy: Poista
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy

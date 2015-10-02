@@ -6,6 +6,7 @@
     <th><%=t '.report_name' %></th>
     <th><%=t '.created_at' %></th>
     <th><%=t '.files' %></th>
+    <th></th>
   </tr>
 
   <% @downloads.each do |download| %>
@@ -22,6 +23,10 @@
         <% download.files.each do |file| %>
           <%= link_to file.filename, download_file_path(file) %><br>
         <% end %>
+      </td>
+
+      <td>
+        <%= link_to t('.destroy'), download_path(download), method: :delete %><br>
       </td>
     </tr>
   <% end %>

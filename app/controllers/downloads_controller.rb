@@ -13,4 +13,11 @@ class DownloadsController < ApplicationController
 
     send_data file.data, parameters
   end
+
+  def destroy
+    download = current_user.downloads.find params[:id]
+    download.destroy
+
+    redirect_to downloads_path
+  end
 end
