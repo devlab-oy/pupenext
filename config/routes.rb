@@ -4,8 +4,8 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/email', to: 'monitoring#nagios_resque_email'
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
-  resources :pending_product_updates
   get 'pending_product_updates/list', to: 'pending_product_updates#list'
+  resources :pending_product_updates
 
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
