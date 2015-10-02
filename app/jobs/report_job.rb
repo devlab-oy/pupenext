@@ -5,16 +5,20 @@ class ReportJob < ActiveJob::Base
 
   queue_as :reports
 
-  def perform(user_id:, report_class:, report_params:, report_name:)
+  def perform(company_id:, user_id:, report_class:, report_params:, report_name:)
+    # Fetch company
+    company = Company.find company_id
+    Current.company = company
+
+    # Fetch user
     user = User.find user_id
-    Current.company = user.company
 
     # Run the report
     filename = report_class.constantize.new(report_params).to_file
 
     # Save the resulting file to user's downloads list
     download = user.downloads.create! report_name: report_name
-    download.files.create! filename: filename, data: File.read(filename)
+    download.files.create! filename: File.basename(filename), data: File.read(filename)
 
     # Remove file
     File.delete(filename)
