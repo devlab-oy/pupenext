@@ -84,11 +84,20 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 90, @product.stock_available
   end
 
-  test 'scopes' do
+  test 'active scope' do
+    # make all inactive
     company = @product.company
+    company.products.update_all(status: 'P')
+
+    # activate two
+    two = @product.dup.update!(tuoteno: 'foo')
+    three = @product.dup.update!(tuoteno: 'bar')
+    four = @product.dup.update!(tuoteno: 'viranomaistuote XX', tuotetyyppi: 'A')
+
+    assert_equal 2, company.products.active.count
+    assert_not_equal 2, company.products.count
 
     assert_not_equal 0, company.products.normal.count
-    assert_not_equal 0, company.products.viranomaistuotteet.count
-    assert_not_equal 0, company.products.active.count
+    assert_equal 1, company.products.viranomaistuotteet.count
   end
 end

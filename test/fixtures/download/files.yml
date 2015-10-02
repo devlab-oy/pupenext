@@ -1,0 +1,4 @@
+one:
+  download: one
+  filename: sales.csv
+  data: foo;bar;baz\nfoo;bar;baz\n
