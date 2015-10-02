@@ -1,0 +1,58 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_tag pending_product_updates_list_path, method: :get do %>
+
+  <table>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :tuoteno, t('.sku') %>
+      </th>
+      <td>
+        <%= text_field_tag :tuoteno, params[:tuoteno] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag 'tuotteen_toimittajat.toim_tuoteno', t('.suppliers_sku') %>
+      </th>
+      <td>
+        <%= text_field_tag 'tuotteen_toimittajat.toim_tuoteno', params['tuotteen_toimittajat.toim_tuoteno'] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :nimitys, t('.label') %>
+      </th>
+      <td>
+        <%= text_field_tag :nimitys, params[:nimitys] %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :status, t('.deleted') %>
+      </th>
+      <td>
+        <%= select_tag :status, options_for_select(pending_status_options, params[:status]) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th align='right'>
+        <%= label_tag :ei_saldoa, t('.inventory_management_products') %>
+      </th>
+      <td>
+        <%= select_tag :ei_saldoa, options_for_select(pending_ei_saldoa_options, params[:ei_saldoa]) %>
+      </td>
+    </tr>
+
+  </table>
+
+  <%= render 'products/categories_selection' %>
+
+  <%= submit_tag t('.search') %>
+
+<% end %>

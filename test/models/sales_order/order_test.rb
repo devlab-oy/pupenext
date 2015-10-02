@@ -5,6 +5,7 @@ class SalesOrder::OrderTest < ActiveSupport::TestCase
     head/voucher_rows
     sales_order/orders
     sales_order/rows
+    head/voucher_rows
   )
 
   setup do

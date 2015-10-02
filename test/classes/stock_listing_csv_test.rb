@@ -23,7 +23,8 @@ class StockListingCsvTest < ActiveSupport::TestCase
   end
 
   test 'report output' do
-    product = @company.products.active.first
+    shelf = @company.shelf_locations.first
+    product = Product.find_by_tuoteno shelf.tuoteno
     product.shelf_locations.update_all(saldo: 0)
     product.shelf_locations.first.update!(tuoteno: 'A1', saldo: 10)
     product.update! tuoteno: 'A1', eankoodi: 'FOO', nimitys: 'BAR'
@@ -31,13 +32,13 @@ class StockListingCsvTest < ActiveSupport::TestCase
     # We should get product info and stock available 10
     report = StockListingCsv.new(company_id: @company.id)
     output = "A1,FOO,BAR,10.0,,\n"
-    assert_equal output, report.csv_data.lines.first
+    assert report.csv_data.lines.include? output
 
     # If stock is negative we should get zero stock
     product.shelf_locations.first.update!(tuoteno: 'A1', saldo: -10)
     report = StockListingCsv.new(company_id: @company.id)
     output = "A1,FOO,BAR,0.0,,\n"
-    assert_equal output, report.csv_data.lines.first
+    assert report.csv_data.lines.include? output
     assert_equal -10, product.stock
 
     # if we have upcoming orders, we should get the date and stock after
@@ -49,7 +50,7 @@ class StockListingCsvTest < ActiveSupport::TestCase
     )
     report = StockListingCsv.new(company_id: @company.id)
     output = "A1,FOO,BAR,0.0,2015-01-01,10.0\n"
-    assert_equal output, report.csv_data.lines.first
+    assert report.csv_data.lines.include? output
   end
 
   test 'saving report to file' do

@@ -56,6 +56,9 @@ class ProductTest < ActiveSupport::TestCase
     @product.stock_transfer_rows.update_all(varattu: 0)
     assert_equal 0, @product.stock_reserved
 
+    brand = keywords :brand_tools
+    assert_equal brand.name, @product.brand.name
+
     @product.sales_order_rows.first.update!(varattu: 10)
     assert_equal 10, @product.stock_reserved
 
@@ -89,8 +92,12 @@ class ProductTest < ActiveSupport::TestCase
     # activate two
     two = @product.dup.update!(tuoteno: 'foo')
     three = @product.dup.update!(tuoteno: 'bar')
+    four = @product.dup.update!(tuoteno: 'viranomaistuote XX', tuotetyyppi: 'A')
 
     assert_equal 2, company.products.active.count
     assert_not_equal 2, company.products.count
+
+    assert_not_equal 0, company.products.normal.count
+    assert_equal 1, company.products.viranomaistuotteet.count
   end
 end

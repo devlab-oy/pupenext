@@ -616,7 +616,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -642,7 +642,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -876,6 +876,29 @@ fi:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      deleted: Tila
+      header: Tuotteen tulevat muutokset
+      inventory_management_products: Varastokäsittely
+      label: Nimitys
+      search: Etsi
+      sku: Tuotenumero
+      suppliers_sku: Toimittajan tuotenumero
+    list:
+      label: Nimitys
+      sku: Tuotenumero
+    pending_ei_saldoa_options:
+      inventory_management: Listaa vain varastoitavia tuotteita
+      no_inventory_management: Listaa vain saldottomia tuotteita
+    pending_status_options:
+      active: Listaa vain aktiivisia tuotteita
+      deleted: Listaa vain poistettuja tuotteita
+  products:
+    categories_selection:
+      brand: Merkki
+      category: Osasto
+      subcategory: Ryhmä
   reports:
     revenue_expenditure:
       index:

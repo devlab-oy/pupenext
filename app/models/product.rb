@@ -27,7 +27,24 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
-  scope :active, -> { where.not(status: 'P') }
+  enum tuotetyyppi: {
+    expence: 'B',
+    material: 'R',
+    normal: '',
+    other: 'M',
+    per_diem: 'A',
+    service: 'K',
+  }
+
+  enum ei_saldoa: {
+    inventory_management: '',
+    no_inventory_management: 'o'
+  }
+
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :deleted, -> { where(status: :P) }
+  scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
+  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)
