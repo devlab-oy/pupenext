@@ -19,7 +19,7 @@ class StockListingCsv
       data.map { |row| csv << row }
     end
 
-    filename
+    filename.path
   end
 
   private
