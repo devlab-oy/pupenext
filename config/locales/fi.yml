@@ -616,7 +616,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -642,7 +642,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -705,11 +705,11 @@ fi:
   downloads:
     index:
       created_at: Luontiaika
+      destroy: Poista
       files: Tiedostot
       header: Tiedostosi
-      report_name: Raportin nimi
-      destroy: Poista
       no_downloads: Ei tiedostoja.
+      report_name: Raportin nimi
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy
