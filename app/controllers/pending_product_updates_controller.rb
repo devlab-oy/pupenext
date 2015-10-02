@@ -1,6 +1,8 @@
 class PendingProductUpdatesController < ApplicationController
   include ColumnSort
 
+  before_action :find_resource, only: [:create]
+
   def index
   end
 
@@ -16,18 +18,21 @@ class PendingProductUpdatesController < ApplicationController
     @products = products.search_like(search_params)
   end
 
+  def create
+    @product.update pending_update_params
+
+    redirect_to pending_product_updates_path
+  end
+
   private
 
-    def pending_params
-      params.permit(
-        :tuoteno,
-        :nimitys,
-        'tuotteen_toimittajat.toim_tuoteno',
-        :status,
-        :ei_saldoa,
-        osasto: [],
-        try: [],
-        tuotemerkki: [],
+    def find_resource
+      @product = Product.find params[:id]
+    end
+
+    def pending_update_params
+      params.require(:pending_product_update).permit(
+        pending_updates_attributes: [ :id, :key, :value, :_destroy ],
       )
     end
 
