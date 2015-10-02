@@ -705,11 +705,11 @@ fi:
   downloads:
     index:
       created_at: Luontiaika
+      destroy: Poista
       files: Tiedostot
       header: Tiedostosi
-      report_name: Raportin nimi
-      destroy: Poista
       no_downloads: Ei tiedostoja.
+      report_name: Raportin nimi
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy
