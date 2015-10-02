@@ -1,34 +1,44 @@
 <%= render "administration/header", text: t('.header') %>
 
-<table>
+<% if @downloads.empty? %>
 
-  <tr>
-    <th><%=t '.report_name' %></th>
-    <th><%=t '.created_at' %></th>
-    <th><%=t '.files' %></th>
-    <th></th>
-  </tr>
+  <font class='message'>
+    <%=t '.no_downloads' %>
+  </font>
 
-  <% @downloads.each do |download| %>
-    <tr class='aktiivi'>
-      <td>
-        <%= download.report_name %>
-      </td>
+<% else %>
 
-      <td>
-        <%=l download.created_at %>
-      </td>
+  <table>
 
-      <td>
-        <% download.files.each do |file| %>
-          <%= link_to file.filename, download_file_path(file) %><br>
-        <% end %>
-      </td>
-
-      <td>
-        <%= link_to t('.destroy'), download_path(download), method: :delete %><br>
-      </td>
+    <tr>
+      <th><%=t '.report_name' %></th>
+      <th><%=t '.created_at' %></th>
+      <th><%=t '.files' %></th>
+      <th></th>
     </tr>
-  <% end %>
 
-</table>
+    <% @downloads.each do |download| %>
+      <tr class='aktiivi'>
+        <td>
+          <%= download.report_name %>
+        </td>
+
+        <td>
+          <%=l download.created_at %>
+        </td>
+
+        <td>
+          <% download.files.each do |file| %>
+            <%= link_to file.filename, download_file_path(file) %><br>
+          <% end %>
+        </td>
+
+        <td>
+          <%= link_to t('.destroy'), download_path(download), method: :delete %><br>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
