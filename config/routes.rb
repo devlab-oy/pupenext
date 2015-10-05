@@ -64,6 +64,11 @@ Pupesoft::Application.routes.draw do
     post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
   end
 
+  scope :data_import do
+    get '/', to: 'data_import#index', as: :data_import
+    post :products, to: 'data_import#products', as: :product_import
+  end
+
   root to: 'home#index'
   get '/test', to: 'home#test'
 
