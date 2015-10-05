@@ -4,7 +4,7 @@ DEFAULTS: &DEFAULTS
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-one:
+webshopdesc:
   yhtio: acme
   selite: webshopdesc
   selitetark: Description of product for website

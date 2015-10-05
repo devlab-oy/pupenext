@@ -6,7 +6,7 @@ class Keyword::ProductParameterTypeTest < ActiveSupport::TestCase
   )
 
   setup do
-    @keyword = keyword_product_parameter_types :one
+    @keyword = keyword_product_parameter_types :color
   end
 
   test 'fixtures are valid' do

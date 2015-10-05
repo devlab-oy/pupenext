@@ -6,7 +6,7 @@ class Keyword::ProductInformationTypeTest < ActiveSupport::TestCase
   )
 
   setup do
-    @keyword = keyword_product_information_types :one
+    @keyword = keyword_product_information_types :material
   end
 
   test 'fixtures are valid' do
