@@ -5,6 +5,7 @@ class ProductTest < ActiveSupport::TestCase
     keywords
     manufacture_order/rows
     pending_updates
+    product/keywords
     product/suppliers
     products
     purchase_order/rows
@@ -27,6 +28,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'TRY', @product.subcategory.laji
     assert_equal 'TUOTEMERKKI', @product.brand.laji
     assert_equal 'S', @product.status.laji
+    assert @product.keywords.count > 0
     assert @product.manufacture_rows.count > 0
     assert @product.pending_updates.count > 0
     assert @product.product_suppliers.count > 0
