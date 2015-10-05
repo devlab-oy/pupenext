@@ -15,15 +15,18 @@ class Keyword < BaseModel
     {
       'ALV' => Keyword::Vat,
       'ALVULK' => Keyword::ForeignVat,
+      'LISATIETO' => Keyword::ProductInformationType,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
+      'PARAMETRI' => Keyword::ProductParameterType,
       'REVENUEREP' => Keyword::RevenueExpenditure,
       'S' => Product::Status,
       'TRY' => Product::Subcategory,
       'TUOTEMERKKI' => Product::Brand,
       'REVENUEREP' => Keyword::RevenueExpenditureReportData,
+      'TUOTEULK' => Keyword::ProductKeywordType,
     }
   end
 end
