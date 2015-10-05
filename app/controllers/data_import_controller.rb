@@ -2,7 +2,7 @@ class DataImportController < ApplicationController
   def index
   end
 
-  def products
+  def product_keywords
     if @spreadsheet = uploaded_spreadsheet
       render :results
     else

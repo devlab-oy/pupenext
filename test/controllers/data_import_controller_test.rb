@@ -13,12 +13,12 @@ class DataImportControllerTest < ActionController::TestCase
   test "should update products" do
     file = fixture_file_upload 'files/product_upload_test.xlsx'
 
-    post :products, file: file
+    post :product_keywords, file: file
     assert_response :success
   end
 
   test "should get error on invalid file" do
-    post :products
+    post :product_keywords
     assert_not_nil flash[:error]
     assert_redirected_to data_import_path
   end
