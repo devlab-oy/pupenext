@@ -6,7 +6,7 @@ class Keyword::ProductKeywordTypeTest < ActiveSupport::TestCase
   )
 
   setup do
-    @keyword = keyword_product_keyword_types :one
+    @keyword = keyword_product_keyword_types :webshopdesc
   end
 
   test 'fixtures are valid' do

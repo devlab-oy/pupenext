@@ -4,7 +4,7 @@ DEFAULTS: &DEFAULTS
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
-one:
+color:
   yhtio: acme
   selite: parametri_vari
   selitetark: Color of the product
