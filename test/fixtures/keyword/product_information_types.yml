@@ -1,0 +1,12 @@
+DEFAULTS: &DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+one:
+  yhtio: acme
+  selite: material
+  selitetark: Product material
+  laji: LISATIETO
+  <<: *DEFAULTS
