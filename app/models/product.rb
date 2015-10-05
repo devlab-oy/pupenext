@@ -10,6 +10,7 @@ class Product < BaseModel
   has_many :suppliers, through: :product_suppliers
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
+    o.has_many :keywords, class_name: 'Product::Keyword'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
