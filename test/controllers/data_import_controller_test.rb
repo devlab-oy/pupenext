@@ -14,7 +14,8 @@ class DataImportControllerTest < ActionController::TestCase
     file = fixture_file_upload 'files/product_upload_test.xlsx'
 
     post :product_keywords, file: file
-    assert_response :success
+    assert_not_nil flash[:notice]
+    assert_redirected_to data_import_path
   end
 
   test "should get error on invalid file" do
