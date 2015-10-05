@@ -2,6 +2,9 @@ require 'test_helper'
 
 class Product::KeywordTest < ActiveSupport::TestCase
   fixtures %w(
+    keyword/product_information_types
+    keyword/product_keyword_types
+    keyword/product_parameter_types
     product/keywords
     products
   )
