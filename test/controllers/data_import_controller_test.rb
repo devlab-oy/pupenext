@@ -11,7 +11,8 @@ class DataImportControllerTest < ActionController::TestCase
   end
 
   test "should update products" do
-    post :products
+    file = fixture_file_upload 'files/product_upload_test.xlsx'
+    post :products, file: file
     assert_redirected_to data_import_path
   end
 end
