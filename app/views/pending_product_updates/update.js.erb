@@ -1,6 +1,4 @@
-$('#notice')
-.append("<%= escape_javascript(render 'administration/notice', notice: 'update_success') %>")
-.show();
+$('#notice').append("<%=j render 'administration/notice', notice: t('.update_success') %>").show();
 
 setTimeout(function() {
   $('#notice').fadeOut();
