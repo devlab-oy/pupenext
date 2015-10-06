@@ -1,5 +1,8 @@
 <%= return_link t('pending_product_updates.index.header'), pending_product_updates_path %>
 
+<div id='notice' class='hidden'>
+</div>
+
 <br><br>
 
 <table>
@@ -25,11 +28,16 @@
 
   <tr>
     <td colspan='2'>
-      <% product.pending_updates.build %>
+      <% product.pending_updates.build if product.pending_updates.blank? %>
 
-      <%= form_for product do |product_form| %>
-        <%= fields_for product.pending_updates do |pending_fields| %>
+      <%= form_for product, url: pending_product_update_path(product.id), remote: true do |product_form| %>
+        <%= product_form.fields_for :pending_updates do |pending_fields| %>
+          <%= pending_fields.label :key, 'field' %>
           <%= pending_fields.text_field :key %>
+
+          <%= pending_fields.label :value, 'value' %>
+          <%= pending_fields.text_field :value %>
+          <br>
         <% end %>
 
         <%= product_form.submit %>

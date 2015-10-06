@@ -47,5 +47,7 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     assert_difference 'PendingUpdate.count' do
       post :update, id: product.id, product: params
     end
+
+    assert_template partial: 'update', count: 0
   end
 end
