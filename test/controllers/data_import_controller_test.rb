@@ -26,8 +26,8 @@ class DataImportControllerTest < ActionController::TestCase
       post :product_keywords, file: file
     end
 
-    assert_not_nil flash[:notice]
-    assert_redirected_to data_import_path
+    assert assigns(:spreadsheet)
+    assert_response :success
   end
 
   test "should get error on a invalid file" do
