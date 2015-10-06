@@ -28,7 +28,7 @@
 
   <tr>
     <td colspan='2'>
-      <% product.pending_updates.build if product.pending_updates.blank? %>
+      <% product.pending_updates.build %>
 
       <%= form_for product, url: pending_product_update_path(product.id), remote: true do |product_form| %>
         <%= product_form.fields_for :pending_updates do |pending_fields| %>
