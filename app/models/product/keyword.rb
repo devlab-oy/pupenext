@@ -6,6 +6,13 @@ class Product::Keyword < BaseModel
   self.table_name = :tuotteen_avainsanat
   self.primary_key = :tunnus
 
+  alias_attribute :description, :selitetark
+  alias_attribute :key, :laji
+  alias_attribute :locale, :kieli
+  alias_attribute :order, :jarjestys
+  alias_attribute :value, :selite
+  alias_attribute :visibility, :nakyvyys
+
   private
 
     def laji_value_inclusion
