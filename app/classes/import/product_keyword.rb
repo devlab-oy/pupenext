@@ -6,8 +6,16 @@ class Import::ProductKeyword
   private
 
     def setup_file(filename)
-      file = File.open filename.to_s
-      Roo::Spreadsheet.open file
+      # if we have an rails UploadedFile class
+      if filename.respond_to?(:original_filename)
+        file = filename.open
+        extension = File.extname filename.original_filename
+      else
+        file = File.open filename.to_s
+        extension = File.extname filename.to_s
+      end
+
+      Roo::Spreadsheet.open file, extension: extension
     ensure
       file.close if file
     end
