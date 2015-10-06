@@ -22,5 +22,9 @@ class DataImportControllerTest < ActionController::TestCase
     post :product_keywords
     assert_not_nil flash[:error]
     assert_redirected_to data_import_path
+
+    post :product_keywords, file: ''
+    assert_not_nil flash[:error]
+    assert_redirected_to data_import_path
   end
 end

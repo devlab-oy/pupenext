@@ -5,7 +5,9 @@ class DataImportController < ApplicationController
   end
 
   def product_keywords
-    if @uploaded_file
+    @spreadsheet = Import::ProductKeyword.new @uploaded_file
+
+    if @spreadsheet.import
       flash[:notice] = 'Data imported!'
       redirect_to data_import_path
     else
@@ -18,7 +20,7 @@ class DataImportController < ApplicationController
     def check_for_file
       @uploaded_file = params[:file]
 
-      unless @uploaded_file
+      if @uploaded_file.blank?
         flash[:error] = 'no file found!'
         redirect_to data_import_path
       end
