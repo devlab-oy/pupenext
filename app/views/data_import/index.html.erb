@@ -1,1 +1,16 @@
-index.html.erb
+<%= render "administration/header", text: t('.header') %>
+
+<table>
+  <tr class='aktiivi'>
+    <th>
+      <%= Product::Keyword.model_name.human %>
+    </th>
+
+    <td>
+      <%= form_for :data_import, url: product_keyword_import_path do |f| %>
+        <%= f.file_field :file %>
+        <%= f.submit t('.import') %>
+      <% end %>
+    </td>
+  </tr>
+</table>

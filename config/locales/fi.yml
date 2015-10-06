@@ -328,6 +328,7 @@ fi:
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
       printer: Kirjoitin
+      product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
@@ -606,6 +607,10 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  data_import:
+    index:
+      header: Tietojen sisäänluku
+      import: Sisäänlue
   date:
     abbr_day_names:
     - su
