@@ -3,6 +3,10 @@ class Import::ProductKeyword
     @file = setup_file filename
   end
 
+  def import
+    true
+  end
+
   private
 
     def setup_file(filename)
