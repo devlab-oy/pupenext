@@ -119,7 +119,7 @@ class RevenueExpenditureReport
     def weekly_sum
       {
         sales: weekly.map { |w| w[:sales] }.sum,
-        purchases: weekly.map { |w| w[:sales] }.sum,
+        purchases: weekly.map { |w| w[:purchases] }.sum,
         concern_accounts_receivable: weekly.map { |w| w[:concern_accounts_receivable] }.sum,
         concern_accounts_payable: weekly.map { |w| w[:concern_accounts_payable] }.sum,
       }
