@@ -23,7 +23,7 @@ class PendingProductUpdatesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to pending_product_updates_path }
-      format.js {}
+      format.js
     end
   end
 
