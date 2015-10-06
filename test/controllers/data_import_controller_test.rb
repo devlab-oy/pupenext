@@ -11,7 +11,7 @@ class DataImportControllerTest < ActionController::TestCase
   end
 
   test "should update products" do
-    file = fixture_file_upload 'files/product_upload_test.xlsx'
+    file = fixture_file_upload 'files/product_keyword_test.xlsx'
 
     post :product_keywords, file: file
     assert_not_nil flash[:notice]
