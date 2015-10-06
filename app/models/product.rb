@@ -19,7 +19,7 @@ class Product < BaseModel
     o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
   end
 
-  accepts_nested_attributes_for :pending_updates, allow_destroy: true
+  accepts_nested_attributes_for :pending_updates, allow_destroy: true, reject_if: :all_blank
 
   validates :nimitys, presence: true
 
