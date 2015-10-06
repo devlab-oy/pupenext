@@ -64,6 +64,8 @@ Pupesoft::Application.routes.draw do
     get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
     get :stock_listing_csv,  to: 'stock_listing_csv#index', as: :stock_listing_csv
     post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
+    get :stock_availability, to: 'stock_availability#index', as: :stock_availability
+    post :stock_availability, to: 'stock_availability#run', as: :run_stock_availability
   end
 
   scope :data_import do
