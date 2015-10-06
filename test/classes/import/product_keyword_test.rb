@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Import::ProductKeywordTest < ActiveSupport::TestCase
   setup do
-    @filename = Rails.root.join 'test', 'fixtures', 'files', 'product_upload_test.xlsx'
+    @filename = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_information_test.xlsx'
   end
 
   test 'initialize' do
