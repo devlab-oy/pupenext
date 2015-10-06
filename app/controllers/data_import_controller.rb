@@ -9,14 +9,9 @@ class DataImportController < ApplicationController
       company_id: current_company.id,
       user_id: current_user.id,
       filename: @uploaded_file,
-    )
+    ).import
 
-    if @spreadsheet.import
-      flash[:notice] = 'Data imported!'
-      redirect_to data_import_path
-    else
-      render :results
-    end
+    render :results
   end
 
   private
