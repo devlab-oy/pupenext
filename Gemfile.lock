@@ -79,6 +79,8 @@ GEM
       thread_safe
     erubis (2.7.0)
     execjs (2.6.0)
+    fakeredis (0.5.0)
+      redis (~> 3.0)
     gli (2.13.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -245,6 +247,7 @@ DEPENDENCIES
   dalli
   date_validator
   dotenv-rails
+  fakeredis
   i18n-tasks
   jquery-rails
   localeapp

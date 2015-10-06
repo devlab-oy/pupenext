@@ -1,6 +1,6 @@
 class Keyword::CustomAttribute < Keyword
   validates :label, presence: true
-  validates :set_name, uniqueness: { scope: [:selite] }, presence: true
+  validates :set_name, uniqueness: { scope: [:yhtio, :selite] }, presence: true
 
   validate :invalid_characters
 

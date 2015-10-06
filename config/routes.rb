@@ -52,6 +52,7 @@ Pupesoft::Application.routes.draw do
 
   get :downloads, to: 'downloads#index'
   get 'downloads/:id', to: 'downloads#show', as: :download_file
+  delete 'downloads/:id', to: 'downloads#destroy', as: :download
 
   scope module: :utilities do
     get 'qr_codes/generate'
@@ -59,6 +60,8 @@ Pupesoft::Application.routes.draw do
 
   scope module: :reports do
     get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
+    get :stock_listing_csv,  to: 'stock_listing_csv#index', as: :stock_listing_csv
+    post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
   end
 
   root to: 'home#index'
