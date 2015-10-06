@@ -6,9 +6,11 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
   end
 
   test 'initialize' do
+    rails_upload = Rack::Test::UploadedFile.new @filename
     wrong_format = Rails.root.join 'test', 'fixtures', 'companies.yml'
 
     assert Import::ProductKeyword.new @filename
+    assert Import::ProductKeyword.new rails_upload
     assert_raises { Import::ProductKeyword.new }
     assert_raises { Import::ProductKeyword.new nil }
     assert_raises { Import::ProductKeyword.new 'not_found_file.xls' }
