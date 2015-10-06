@@ -81,6 +81,13 @@ class Product < BaseModel
 
   def cover_image
     attachments.order(:jarjestys, :tunnus).first
+
+  def amount_sold(range)
+    sales_order_rows(toimaika: range).reserved
+  end
+
+  def amount_purchased(range)
+    purchase_order_rows(toimaika: range).reserved
   end
 
   private
