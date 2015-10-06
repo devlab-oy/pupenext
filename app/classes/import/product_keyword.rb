@@ -1,9 +1,10 @@
 class Import::ProductKeyword
-  def initialize(filename)
+  def initialize(company_id:, user_id:, filename:)
+    Current.company = Company.find_by company_id
+    Current.user = User.find_by user_id
+
     @file = setup_file filename
     @errors = []
-
-    Current.user = User.find_by kuka: 'joe'
   end
 
   def import

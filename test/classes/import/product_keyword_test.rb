@@ -11,22 +11,23 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
   setup do
     @filename = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_test.xlsx'
+    @user = users(:joe).id
+    @company = users(:joe).company.id
   end
 
   test 'initialize' do
     rails_upload = Rack::Test::UploadedFile.new @filename
     wrong_format = Rails.root.join 'test', 'fixtures', 'companies.yml'
 
-    assert Import::ProductKeyword.new @filename
-    assert Import::ProductKeyword.new rails_upload
-    assert_raises { Import::ProductKeyword.new }
-    assert_raises { Import::ProductKeyword.new nil }
-    assert_raises { Import::ProductKeyword.new 'not_found_file.xls' }
-    assert_raises { Import::ProductKeyword.new wrong_format }
+    assert Import::ProductKeyword.new company_id: @company, user_id: @user, filename: @filename
+    assert Import::ProductKeyword.new company_id: @company, user_id: @user, filename: rails_upload
+    assert_raises { Import::ProductKeyword.new company_id: @company, user_id: @user, filename: nil }
+    assert_raises { Import::ProductKeyword.new company_id: @company, user_id: @user, filename: 'not_found_file.xls' }
+    assert_raises { Import::ProductKeyword.new company_id: @company, user_id: @user, filename: wrong_format }
   end
 
   test 'first row contains column labels' do
-    keywords = Import::ProductKeyword.new(@filename)
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: @filename
     Product::Keyword.delete_all
 
     assert_difference 'Product::Keyword.count', 3 do
