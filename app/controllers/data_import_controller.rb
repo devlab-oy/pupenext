@@ -5,7 +5,11 @@ class DataImportController < ApplicationController
   end
 
   def product_keywords
-    @spreadsheet = Import::ProductKeyword.new @uploaded_file
+    @spreadsheet = Import::ProductKeyword.new(
+      company_id: current_company.id,
+      user_id: current_user.id,
+      filename: @uploaded_file,
+    )
 
     if @spreadsheet.import
       flash[:notice] = 'Data imported!'
