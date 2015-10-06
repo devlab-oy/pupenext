@@ -21,7 +21,10 @@ class PendingProductUpdatesController < ApplicationController
   def update
     @product.update pending_update_params
 
-    redirect_to pending_product_updates_path
+    respond_to do |format|
+      format.html { redirect_to pending_product_updates_path }
+      format.js {}
+    end
   end
 
   private
