@@ -461,8 +461,6 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
-    notice:
-      update_success: Päivitettiin onnistuneesti
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
@@ -898,6 +896,8 @@ fi:
     pending_status_options:
       active: Listaa vain aktiivisia tuotteita
       deleted: Listaa vain poistettuja tuotteita
+    update:
+      update_success: Päivitettiin onnistuneesti
   products:
     categories_selection:
       brand: Merkki
