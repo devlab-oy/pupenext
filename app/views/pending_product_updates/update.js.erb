@@ -1,15 +1,7 @@
 <% if @product.errors.any? %>
-  $('#notice').html("<%=j render 'administration/form_errors', resource: @product %><br><br>").show();
+  message = "<font class='error'><%= @product.errors.full_messages.join('<br>') %></font>"
 <% else %>
-  $('#notice').append("<%=j render 'administration/notice', notice: t('.update_success') %>").show();
-
-  $('.nested-fields').each(function() {
-    if ($(this).children('input:checkbox').is(':checked')) {
-      $(this).remove();
-    }
-  });
-
-  setTimeout(function() {
-    $('#notice').fadeOut().html('');
-  }, 5000);
+  message = "<font class='ok'><%= t('.update_success') %></font>"
 <% end %>
+
+$('<%= "#pending_updates_#{@product.id}" %> > .notifications').html(message + "<br><br>")
