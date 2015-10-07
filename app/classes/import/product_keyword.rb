@@ -4,30 +4,36 @@ class Import::ProductKeyword
     Current.user = User.find_by user_id
 
     @file = setup_file filename
-    @errors = []
   end
 
   def import
+    first_row = true
+
     spreadsheet.each(column_definitions) do |excel_row|
+
+      if first_row
+        response.add_headers names: excel_row.values
+        first_row = false
+        next
+      end
+
       row = Row.new excel_row
 
-      if row.product.nil?
-        add_error I18n.t('errors.messages.invalid')
-        next
-      end
+      errors = []
+      errors << I18n.t('errors.messages.invalid') if row.product.nil?
+      errors << row.keyword.errors.full_messages if row.product && !row.create
 
-      if !row.create
-        add_error row.keyword.errors.full_messages
-        next
-      end
+      response.add_row columns: excel_row.values, errors: errors
     end
-  end
 
-  def errors
-    @errors
+    response
   end
 
   private
+
+    def response
+      @response ||= Import::Response.new
+    end
 
     def spreadsheet
       @file.sheet(0)
