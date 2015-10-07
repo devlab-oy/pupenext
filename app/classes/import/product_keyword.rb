@@ -74,9 +74,9 @@ end
 
 class Import::ProductKeyword::Row
   def initialize(hash)
-    @tuoteno  = hash.delete :tuoteno
-    @toiminto = hash.delete :toiminto
-    @hash     = hash
+    @hash     = hash.dup
+    @tuoteno  = @hash.delete :tuoteno
+    @toiminto = @hash.delete :toiminto
   end
 
   def product
