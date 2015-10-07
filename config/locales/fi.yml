@@ -892,6 +892,7 @@ fi:
       label: Nimitys
       sku: Tuotenumero
       link_new: Lisää uusi tuleva päivitys
+      save: Tallenna muutokset
     pending_columns_options:
       sales_price: Myyntihinta
       short_description: Lyhytkuvaus
