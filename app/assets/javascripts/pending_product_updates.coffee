@@ -1,2 +1,3 @@
 $(document).on 'page:change', ->
-  $('tr.rows:odd').addClass('tumma')
+  $('.pending_update').on 'cocoon:after-insert', (e, added_row) ->
+    added_row.parent().parent().find(".submit").show()
