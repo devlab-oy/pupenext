@@ -13,7 +13,7 @@ class StockAvailabilityTest < ActiveSupport::TestCase
   setup do
     @company = companies :acme
     @sales_order = sales_order_orders :so_one
-    @purchase_order = purchase_order_orders :po_two
+    @purchase_order = purchase_order_orders :po_one
   end
 
   test 'report initialize' do
@@ -30,7 +30,21 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     product = Product.find_by_tuoteno shelf.tuoteno
     product.shelf_locations.first.update!(saldo: 10)
 
-    # Create past, future and current rows in purchase and sales orders
+    # Create past, now and future rows in purchase and sales orders
+    # Past
+    newporow = @purchase_order.rows.first.dup
+    newporow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 12 })
+    newporow.save!
+
+    # Now
+    newporow = @purchase_order.rows.first.dup
+    newporow.assign_attributes({ toimaika: Date.today, varattu: 3 })
+    newporow.save!
+
+    # Future
+    newporow = @purchase_order.rows.first.dup
+    newporow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 55 })
+    newporow.save!
 
 
     # We should get product info and stock available 10
