@@ -31,7 +31,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     Product::Keyword.delete_all
 
     assert_difference 'Product::Keyword.count', 3 do
-      keywords.import
+      response = keywords.import
+      assert_equal Import::Response, response.class
     end
   end
 end
