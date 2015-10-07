@@ -890,6 +890,9 @@ fi:
     list:
       label: Nimitys
       sku: Tuotenumero
+    pending_columns_options:
+      sales_price: Myyntihinta
+      short_description: Lyhytkuvaus
     pending_ei_saldoa_options:
       inventory_management: Listaa vain varastoitavia tuotteita
       no_inventory_management: Listaa vain saldottomia tuotteita
