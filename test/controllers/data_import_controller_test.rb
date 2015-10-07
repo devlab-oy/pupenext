@@ -23,7 +23,7 @@ class DataImportControllerTest < ActionController::TestCase
     Product::Keyword.delete_all
 
     assert_difference 'Product::Keyword.count', 3 do
-      post :product_keywords, file: file
+      post :product_keywords, data_import: { file: file }
     end
 
     assert assigns(:spreadsheet)
@@ -31,11 +31,7 @@ class DataImportControllerTest < ActionController::TestCase
   end
 
   test "should get error on a invalid file" do
-    post :product_keywords
-    assert_not_nil flash[:error]
-    assert_redirected_to data_import_path
-
-    post :product_keywords, file: ''
+    post :product_keywords, data_import: { file: '' }
     assert_not_nil flash[:error]
     assert_redirected_to data_import_path
   end

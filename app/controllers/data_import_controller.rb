@@ -17,11 +17,15 @@ class DataImportController < ApplicationController
   private
 
     def check_for_file
-      @uploaded_file = params[:file]
+      @uploaded_file = data_import_params[:file]
 
       if @uploaded_file.blank?
         flash[:error] = 'no file found!'
         redirect_to data_import_path
       end
+    end
+
+    def data_import_params
+      params.require(:data_import).permit(:file)
     end
 end
