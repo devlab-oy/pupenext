@@ -6,8 +6,8 @@ class Reports::StockAvailabilityController < ApplicationController
     ReportJob.perform_later(
       user_id: current_user.id,
       company_id: current_company.id,
-      report_class: 'StockAvailablity',
-      report_params: { company_id: current_company.id },
+      report_class: 'StockAvailability',
+      report_params: { company_id: current_company.id, baseline_week: params[:baseline] },
       report_name: t('reports.stock_availability.index.header')
     )
 
