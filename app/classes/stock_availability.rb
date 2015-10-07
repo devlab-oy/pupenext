@@ -1,4 +1,7 @@
 class StockAvailability
+  ProductStockAvailability = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
+    :tulevat, :viikkodata)
+
   def initialize(company_id:, baseline_week:)
     @company = Company.find company_id
     @baseline_week = baseline_week
@@ -27,12 +30,14 @@ class StockAvailability
         product_row = ProductRow.new product
         weekly_row_data = WeeklyRow.new product_row, @baseline_week
 
-        [
+        ProductStockAvailability.new(
           product_row.product.tuoteno,
           product_row.product.nimitys,
-          product_row.stock.to_s,
+          product_row.stock,
+          product_row.history_amount,
+          product_row.upcoming_amount(@baseline_week),
           weekly_row_data.data_rows
-        ]
+        )
       end
     end
 end
@@ -102,10 +107,30 @@ class StockAvailability::ProductRow
     stock_raw < 0 ? 0.0 : stock_raw
   end
 
+  def history_amount
+    sales = product.sales_order_rows.where('toimaika < ?', previous_weeks_end).reserved
+    purchases = product.purchase_order_rows.where('toimaika < ?', previous_weeks_end).reserved
+    [sales, purchases]
+  end
+
+  def upcoming_amount(baseline_week)
+    sales = product.sales_order_rows.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
+    purchases = product.purchase_order_rows.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
+    [sales, purchases]
+  end
+
   private
 
     def stock_raw
       @stock ||= product.stock_available
     end
 
+    def previous_weeks_end
+      Date.today.last_week.end_of_week.end_of_day
+    end
+
+    def baseline_weeks_end(baseline_week)
+      date_start = Date.today.beginning_of_week
+      date_start.advance(weeks: baseline_week).end_of_week.end_of_day
+    end
 end

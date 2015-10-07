@@ -26,3 +26,9 @@ po_one:
   yhtio: acme
   tila: O
   <<: *DEFAULTS
+
+# Ostotilaus 2 jolla on tilausriveja myos menneisyydessa ja tulevaisuudessa
+po_two:
+  yhtio: acme
+  tila: O
+  <<: *DEFAULTS
