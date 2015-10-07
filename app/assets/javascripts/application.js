@@ -19,4 +19,5 @@
 //= require toggle
 //= require cocoon
 //= require revenue_expenditure_report
+//= require pending_product_updates
 //= require update_title
