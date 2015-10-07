@@ -327,6 +327,7 @@ fi:
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
+      pending_update: Tuleva päivitys
       printer: Kirjoitin
       product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
@@ -900,6 +901,7 @@ fi:
     list:
       label: Nimitys
       sku: Tuotenumero
+      link_new: Lisää uusi tuleva päivitys
     pending_columns_options:
       sales_price: Myyntihinta
       short_description: Lyhytkuvaus
