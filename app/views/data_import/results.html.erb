@@ -4,16 +4,16 @@
     <th>#</th>
 
     <% @spreadsheet.headers.each do |name| %>
-      <td>
+      <th>
         <%= name %>
-      </td>
+      </th>
     <% end %>
 
-    <th></th>
+    <th>Status</th>
   </tr>
 
   <% @spreadsheet.rows.each do |row| %>
-    <tr>
+    <tr class="aktiivi">
       <th><%= row.number %></th>
 
       <% row.columns.each do |value| %>
