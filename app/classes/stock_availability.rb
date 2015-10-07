@@ -122,7 +122,7 @@ class StockAvailability::ProductRow
   private
 
     def stock_raw
-      @stock ||= product.stock_available
+      @stock ||= product.stock
     end
 
     def previous_weeks_end

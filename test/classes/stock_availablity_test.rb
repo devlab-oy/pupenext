@@ -28,7 +28,7 @@ class StockAvailabilityTest < ActiveSupport::TestCase
   test 'report output' do
     shelf = @company.shelf_locations.first
     product = Product.find_by_tuoteno shelf.tuoteno
-    product.shelf_locations.first.update!(saldo: 10)
+    product.shelf_locations.first.update!(saldo: 330)
 
     # Create past, now and future rows in purchase and sales orders
     # Past
@@ -36,16 +36,27 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     newporow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 12 })
     newporow.save!
 
+    newsorow = @sales_order.rows.first.dup
+    newsorow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 15 })
+    newsorow.save!
+
     # Now
     newporow = @purchase_order.rows.first.dup
     newporow.assign_attributes({ toimaika: Date.today, varattu: 3 })
     newporow.save!
+
+    newsorow = @sales_order.rows.first.dup
+    newsorow.assign_attributes({ toimaika:  Date.today, varattu: 7 })
+    newsorow.save!
 
     # Future
     newporow = @purchase_order.rows.first.dup
     newporow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 55 })
     newporow.save!
 
+    newsorow = @sales_order.rows.first.dup
+    newsorow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 14 })
+    newsorow.save!
 
     # We should get product info and stock available 10
     # undelivered_amount from past 12, upcoming_amount after the baseline
@@ -55,13 +66,14 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     TestObject = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
       :tulevat, :viikkodata)
 
-    testo = TestObject.new("hammer123", "All-around hammer", 10.0, [0.0, 12.0], [0.0, 55.0],
+    today = Date.today
+    testo = TestObject.new("hammer123", "All-around hammer", 330.0, [15.0, 12.0], [14.0, 55.0],
       [
-        ["41 / 2015", ["3.0", "0.0"]],
-        ["42 / 2015", ["0.0", "0.0"]],
-        ["43 / 2015", ["0.0", "0.0"]],
-        ["44 / 2015", ["0.0", "0.0"]],
-        ["45 / 2015", ["0.0", "0.0"]]
+        ["#{today.cweek} / #{today.year}", ["3.0", "7.0"]],
+        ["#{today.cweek+1} / #{today.year}", ["0.0", "0.0"]],
+        ["#{today.cweek+2} / #{today.year}", ["0.0", "0.0"]],
+        ["#{today.cweek+3} / #{today.year}", ["0.0", "0.0"]],
+        ["#{today.cweek+4} / #{today.year}", ["0.0", "0.0"]]
     ])
 
     assert_equal report.to_screen.second.tuoteno, testo.tuoteno
