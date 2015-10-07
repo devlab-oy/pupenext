@@ -1,3 +1,9 @@
+<%= render "administration/header", text: Product::Keyword.model_name.human %>
+
+<%= return_link t('data_import.index.header'), data_import_path %>
+
+<br><br>
+
 <table>
 
   <tr>
@@ -33,3 +39,7 @@
   <% end %>
 
 </table>
+
+<br>
+
+<%= return_link t('data_import.index.header'), data_import_path %>
