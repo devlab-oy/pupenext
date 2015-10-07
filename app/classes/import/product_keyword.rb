@@ -20,7 +20,7 @@ class Import::ProductKeyword
       row = Row.new excel_row
 
       errors = []
-      errors << I18n.t('errors.messages.invalid') if row.product.nil?
+      errors << I18n.t('errors.import.product_not_found', product: excel_row[:tuoteno]) if row.product.nil?
       errors << row.keyword.errors.full_messages if row.product && !row.create
 
       response.add_row columns: excel_row.values, errors: errors
