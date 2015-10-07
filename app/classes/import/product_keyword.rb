@@ -41,14 +41,14 @@ class Import::ProductKeyword
 
     def column_definitions
       {
-        jarjestys:  'jarjestys',
-        kieli:      'kieli',
+        tuoteno:    'tuoteno',
         laji:       'laji',
-        nakyvyys:   'nakyvyys',
         selite:     'selite',
         selitetark: 'selitetark',
+        kieli:      'kieli',
+        jarjestys:  'jarjestys',
+        nakyvyys:   'nakyvyys',
         toiminto:   'toiminto',
-        tuoteno:    'tuoteno',
       }
     end
 
