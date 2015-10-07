@@ -969,6 +969,11 @@ fi:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+    stock_availability:
+      index:
+        header: Varastotilanne
+        run: Aja raportti
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
     excel:
       company: Yritystiedot

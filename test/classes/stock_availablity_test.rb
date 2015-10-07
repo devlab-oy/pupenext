@@ -74,7 +74,8 @@ class StockAvailabilityTest < ActiveSupport::TestCase
         ["#{today.cweek+2} / #{today.year}", ["0.0", "0.0"]],
         ["#{today.cweek+3} / #{today.year}", ["0.0", "0.0"]],
         ["#{today.cweek+4} / #{today.year}", ["0.0", "0.0"]]
-    ])
+      ]
+    )
 
     assert_equal report.to_screen.second.tuoteno, testo.tuoteno
     assert_equal report.to_screen.second.nimitys, testo.nimitys
