@@ -1,1 +1,35 @@
-results.html.erb
+<table>
+
+  <tr>
+    <th>#</th>
+
+    <% @spreadsheet.headers.each do |name| %>
+      <td>
+        <%= name %>
+      </td>
+    <% end %>
+
+    <th></th>
+  </tr>
+
+  <% @spreadsheet.rows.each do |row| %>
+    <tr>
+      <th><%= row.number %></th>
+
+      <% row.columns.each do |value| %>
+        <td>
+          <%= value %>
+        </td>
+      <% end %>
+
+      <td>
+        <% if row.errors.present? %>
+          <font class="error"><%= row.errors.join('<br') %></font>
+        <% else %>
+          <font class="ok">Ok</font>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
