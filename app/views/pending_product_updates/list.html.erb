@@ -17,6 +17,9 @@
   <th>
     <%= t('.label') %>
   </th>
+  <th>
+    asdf
+  </th>
 </tr>
 
 <% @products.each do |product| %>
@@ -27,33 +30,22 @@
     <td>
       <%= product.nimitys %>
     </td>
-  </tr>
-
-  <tr>
-    <td colspan='2'>
+    <td>
       <%= form_for product, url: pending_product_update_path(product.id), remote: true do |f| %>
 
-        <div id='pending_updates_<%= product.id %>'>
+        <div id='<%= "pending_updates_#{product.id}" %>'>
 
-          <%= f.fields_for :pending_updates do |pending_fields| %>
-            <%= render 'pending_update_fields', f: pending_fields %>
+          <%= f.fields_for :pending_updates do |pending_update| %>
+            <%= render 'pending_update_fields', f: pending_update %>
           <% end %>
 
         </div>
 
         <%= link_to_add_association 'lisää uusi rivi', f, :pending_updates,
             data: { association_insertion_method: :append, association_insertion_node: "#pending_updates_#{product.id}"},
-            partial: 'pending_update_fields' %>
-
-        <br><br>
-
-        <%= f.submit %>
-
+            partial: 'pending_update_fields',
+            render_options: { class: 'button' } %>
       <% end %>
-
-      <div id='<%= product.id %>'>
-        <font class='error'></font>
-      </div>
     </td>
   </tr>
 <% end %>
