@@ -724,6 +724,8 @@ fi:
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     format: "%{attribute} %{message}"
+    import:
+      product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
