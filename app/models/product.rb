@@ -83,11 +83,11 @@ class Product < BaseModel
     attachments.order(:jarjestys, :tunnus).first
 
   def amount_sold(range)
-    sales_order_rows(toimaika: range).reserved
+    sales_order_rows.where(toimaika: range).reserved
   end
 
   def amount_purchased(range)
-    purchase_order_rows(toimaika: range).reserved
+    purchase_order_rows.where(toimaika: range).reserved
   end
 
   private
