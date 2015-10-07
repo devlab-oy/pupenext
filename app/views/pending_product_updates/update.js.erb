@@ -3,6 +3,12 @@
 <% else %>
   $('#notice').append("<%=j render 'administration/notice', notice: t('.update_success') %>").show();
 
+  $('.nested-fields').each(function() {
+    if ($(this).children('input:checkbox').is(':checked')) {
+      $(this).remove();
+    }
+  });
+
   setTimeout(function() {
     $('#notice').fadeOut().html('');
   }, 5000);
