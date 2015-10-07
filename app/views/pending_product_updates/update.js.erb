@@ -1,11 +1,9 @@
 <% if @product.errors.any? %>
-  $("#<%= @product.id %> > font").html("<%= @product.errors.full_messages %>").show();
-  $('#notice').append("<%=j render 'administration/form_errors', resource: @product %><br><br>").show();
+  $('#notice').html("<%=j render 'administration/form_errors', resource: @product %><br><br>").show();
 <% else %>
   $('#notice').append("<%=j render 'administration/notice', notice: t('.update_success') %>").show();
-<% end %>
 
-setTimeout(function() {
-  $('#notice').fadeOut().html('');
-  $("#<%= @product.id %> > font").fadeOut();
-}, 3000);
+  setTimeout(function() {
+    $('#notice').fadeOut().html('');
+  }, 5000);
+<% end %>
