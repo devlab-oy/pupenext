@@ -1,9 +1,12 @@
 <%= return_link t('pending_product_updates.index.header'), pending_product_updates_path %>
 
-<div id='notice' class='hidden'>
-</div>
-
 <br><br>
+
+<% @products.each do |product| %>
+  <%= render "administration/form_errors", resource: product %>
+<% end %>
+
+<div id='notice' class='hidden'></div>
 
 <table>
 
@@ -28,20 +31,29 @@
 
   <tr>
     <td colspan='2'>
-      <% product.pending_updates.build %>
+      <%= form_for product, url: pending_product_update_path(product.id), remote: true do |f| %>
 
-      <%= form_for product, url: pending_product_update_path(product.id), remote: true do |product_form| %>
-        <%= product_form.fields_for :pending_updates do |pending_fields| %>
-          <%= pending_fields.label :key, 'field' %>
-          <%= pending_fields.text_field :key %>
+        <div id='pending_updates_<%= product.id %>'>
 
-          <%= pending_fields.label :value, 'value' %>
-          <%= pending_fields.text_field :value %>
-          <br>
-        <% end %>
+          <%= f.fields_for :pending_updates do |pending_fields| %>
+            <%= render 'pending_update_fields', f: pending_fields %>
+          <% end %>
 
-        <%= product_form.submit %>
+        </div>
+
+        <%= link_to_add_association 'lisää uusi rivi', f, :pending_updates,
+            data: { association_insertion_method: :append, association_insertion_node: "#pending_updates_#{product.id}"},
+            partial: 'pending_update_fields' %>
+
+        <br><br>
+
+        <%= f.submit %>
+
       <% end %>
+
+      <div id='<%= product.id %>'>
+        <font class='error'></font>
+      </div>
     </td>
   </tr>
 <% end %>
