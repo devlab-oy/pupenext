@@ -1,4 +1,5 @@
 <div class='nested-fields'>
-  <%= f.select :key, pending_columns_options, include_blank: true %> <%= f.text_field :value %>
-  <%= f.check_box :_destroy %>
+  <%= f.select :key, pending_columns_options, include_blank: true %>
+  <%= f.text_field :value %>
+  <%= f.label :_destroy, t('.delete') %> <%= f.check_box :_destroy %>
 </div>
