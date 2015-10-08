@@ -84,8 +84,14 @@ class Import::ProductKeyword::Row
 
   def keyword
     return unless product
+    return @keyword if @keyword
 
-    @keyword ||= product.keywords.find_or_create_by(laji: values['laji'], kieli: values['kieli'])
+    if add_new?
+      @keyword = product.keywords.build
+    else
+      kieli = values['kieli'] ? values['kieli'] : product.company.kieli
+      @keyword = product.keywords.find_by(laji: values['laji'], kieli: kieli)
+    end
   end
 
   def create
