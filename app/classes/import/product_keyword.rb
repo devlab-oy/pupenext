@@ -9,8 +9,7 @@ class Import::ProductKeyword
   def import
     first_row = true
 
-    spreadsheet.each(column_definitions) do |excel_row|
-
+    spreadsheet.parse(header_search: header_definitions) do |excel_row|
       if first_row
         response.add_headers names: excel_row.values
         first_row = false
@@ -39,17 +38,17 @@ class Import::ProductKeyword
       @file.sheet(0)
     end
 
-    def column_definitions
-      {
-        tuoteno:    'tuoteno',
-        laji:       'laji',
-        selite:     'selite',
-        selitetark: 'selitetark',
-        kieli:      'kieli',
-        jarjestys:  'jarjestys',
-        nakyvyys:   'nakyvyys',
-        toiminto:   'toiminto',
-      }
+    def header_definitions
+      [
+        'tuoteno',
+        'laji',
+        'selite',
+        'selitetark',
+        'kieli',
+        'jarjestys',
+        'nakyvyys',
+        'toiminto',
+      ]
     end
 
     def add_error(message)
@@ -75,8 +74,8 @@ end
 class Import::ProductKeyword::Row
   def initialize(hash)
     @hash     = hash.dup
-    @tuoteno  = @hash.delete :tuoteno
-    @toiminto = @hash.delete :toiminto
+    @tuoteno  = @hash.delete 'tuoteno'
+    @toiminto = @hash.delete 'toiminto'
   end
 
   def product
@@ -86,7 +85,7 @@ class Import::ProductKeyword::Row
   def keyword
     return unless product
 
-    @keyword ||= product.keywords.find_or_create_by(laji: values[:laji], kieli: values[:kieli])
+    @keyword ||= product.keywords.find_or_create_by(laji: values['laji'], kieli: values['kieli'])
   end
 
   def create
