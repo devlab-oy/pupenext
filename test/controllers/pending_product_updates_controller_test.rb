@@ -49,6 +49,45 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     assert_template partial: 'update', count: 0
   end
 
+  test "should update pending update" do
+    product = products(:hammer)
+
+    params = {
+      pending_updates_attributes: {
+        "0" => {
+          key: 'myyntihinta',
+          value: '50.1'
+        }
+      }
+    }
+
+    xhr :patch, :update, id: product.id, product: params, format: :js
+    assert_response :success
+    assert_template partial: 'update', count: 0
+
+    assert '50.1', PendingUpdate.where(pending_updatable_id: product.id, key: 'myyntihinta').select(:value)
+  end
+
+  test "should destroy pending update" do
+    product = products(:hammer)
+
+    params = {
+      pending_updates_attributes: {
+        "0" => {
+          key: 'myyntihinta',
+          value: '50.1',
+          _destroy: true
+        }
+      }
+    }
+
+    xhr :patch, :update, id: product.id, product: params, format: :js
+    assert_response :success
+    assert_template partial: 'update', count: 0
+
+    assert 0, PendingUpdate.count
+  end
+
   test "make sure we have the needed elemets for updating with javascript" do
     get :list, commit: 'search'
 
