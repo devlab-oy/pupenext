@@ -11,6 +11,7 @@ module LegacyMethods
                    '-f',
                    'alehinta.php',
                    Current.company.yhtio,
+                   Current.user.kuka,
                    'asiakas',
                    customer_id.to_s,
                    product_id.to_s,
