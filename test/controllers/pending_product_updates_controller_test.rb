@@ -48,4 +48,11 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template partial: 'update', count: 0
   end
+
+  test "make sure we have the needed elemets for updating with javascript" do
+    get :list, commit: 'search'
+
+    text = I18n.t 'pending_product_updates.list.link_new'
+    assert_select 'a[data-association=pending_update]', { minimum: 1, html: text }, 'form must have data-association link'
+  end
 end
