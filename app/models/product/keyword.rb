@@ -6,6 +6,8 @@ class Product::Keyword < BaseModel
   self.table_name = :tuotteen_avainsanat
   self.primary_key = :tunnus
 
+  before_save :defaults
+
   alias_attribute :description, :selitetark
   alias_attribute :key, :laji
   alias_attribute :locale, :kieli
@@ -43,5 +45,9 @@ class Product::Keyword < BaseModel
         try
         varastopalautus
       )
+    end
+
+    def defaults
+      self.kieli ||= company.kieli
     end
 end
