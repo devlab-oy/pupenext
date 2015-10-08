@@ -1,7 +1,9 @@
 require 'test_helper'
+require 'minitest/mock'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
+    customers
     keywords
     manufacture_order/rows
     pending_updates
@@ -122,5 +124,13 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal 2, company.products.active.count
     assert_not_equal 2, company.products.count
+  end
+
+  test 'customer price' do
+    customer = customers(:stubborn_customer)
+
+    LegacyMethods.stub(:customer_price, 18) do
+      assert_equal 18, @product.customer_price(customer.id)
+    end
   end
 end
