@@ -13,6 +13,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     @filename = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_test.xlsx'
     @user = users(:joe).id
     @company = users(:joe).company.id
+
+    Product::Keyword.delete_all
   end
 
   test 'initialize' do
@@ -28,7 +30,6 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
   test 'imports keywords and returns response' do
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: @filename
-    Product::Keyword.delete_all
 
     assert_difference 'Product::Keyword.count', 3 do
       response = keywords.import
@@ -36,15 +37,66 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     end
   end
 
-  test 'works without all columns' do
-    file = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_limited_test.xlsx'
+  test 'toiminto lisaa and muuta' do
+    helmet = products :helmet
+    hammer = products :hammer
 
-    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: file
-    Product::Keyword.delete_all
+    spreadsheet = create_xlsx([
+      ['tuoteno',           'laji',    'selite', 'toiminto'],
+      ["#{helmet.tuoteno}", 'nimitys', 'foo',    'LISAA'   ],
+      ["#{hammer.tuoteno}", 'nimitys', 'bar 1',  'LISÄÄ'   ],
+      ["#{hammer.tuoteno}", 'nimitys', 'bar 2',  'muoKKAa' ],
+    ])
 
-    assert_difference 'Product::Keyword.count', 3 do
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+
+    assert_difference 'Product::Keyword.count', 2 do
       response = keywords.import
       assert response.rows.all? { |row| row.errors.empty? }
     end
+
+    assert_equal 'foo',   helmet.keywords.first.selite
+    assert_equal 'bar 2', hammer.keywords.first.selite
   end
+
+  test 'adding duplicate fails' do
+    helmet = products :helmet
+    hammer = products :hammer
+
+    spreadsheet = create_xlsx([
+      ['tuoteno',           'laji',    'selite', 'toiminto'],
+      ["#{helmet.tuoteno}", 'nimitys', 'foo',    'LISAA'   ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+
+    assert_difference 'Product::Keyword.count', 1 do
+      keywords.import
+    end
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+
+    assert_no_difference 'Product::Keyword.count' do
+      response = keywords.import
+      assert_equal "Laji on jo käytössä", response.rows.first.errors.first.first
+    end
+  end
+
+  private
+
+    def create_xlsx(array)
+      file = Tempfile.new(['example', '.xlsx'])
+      filename = file.path
+      file.unlink
+      file.close
+
+      Axlsx::Package.new do |p|
+        p.workbook.add_worksheet(name: "Sheet") do |sheet|
+          array.each { |row| sheet.add_row row }
+        end
+        p.serialize filename
+      end
+
+      filename
+    end
 end
