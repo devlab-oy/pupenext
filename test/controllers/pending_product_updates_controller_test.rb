@@ -50,4 +50,20 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
     assert_template partial: 'update', count: 0
   end
+
+  test "update javascript response" do
+    product = products(:hammer)
+
+    params = {
+      pending_updates_attributes: {
+        "0" => {
+          key: 'nimitys',
+          value: '123.0'
+        }
+      }
+    }
+
+    xhr :patch, :update, id: product.id, product: params, format: :js
+    assert_response :success
+  end
 end
