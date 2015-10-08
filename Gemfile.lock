@@ -243,6 +243,7 @@ DEPENDENCIES
   bcrypt
   cocoon
   codeclimate-test-reporter
+  coffee-rails
   country_select
   dalli
   date_validator
