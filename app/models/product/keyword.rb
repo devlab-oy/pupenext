@@ -6,6 +6,10 @@ class Product::Keyword < BaseModel
   self.table_name = :tuotteen_avainsanat
   self.primary_key = :tunnus
 
+  validates :laji, presence: true, uniqueness: { scope: [:yhtio, :tuoteno, :laji, :kieli] }
+  validates :product, presence: true
+  validates :selite, presence: true
+
   before_save :defaults
 
   alias_attribute :description, :selitetark
