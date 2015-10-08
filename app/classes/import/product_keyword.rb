@@ -19,8 +19,9 @@ class Import::ProductKeyword
       row = Row.new excel_row
 
       errors = []
-      errors << I18n.t('errors.import.product_not_found', product: excel_row['tuoteno']) if row.product.nil?
-      errors << row.keyword.errors.full_messages if row.product && !row.create
+      errors << I18n.t('errors.import.product_not_found', product: row.product_raw) if row.product.nil?
+      errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language) if row.keyword.nil?
+      errors << row.keyword.errors.full_messages if row.product && row.keyword && !row.create
 
       response.add_row columns: excel_row.values, errors: errors
     end
@@ -82,6 +83,21 @@ class Import::ProductKeyword::Row
     @product ||= Product.find_by tuoteno: @tuoteno
   end
 
+  def product_raw
+    @tuoteno
+  end
+
+  def key
+    values['laji']
+  end
+
+  def language
+    language = values['kieli']
+    return language unless product
+
+    values['kieli'] ? values['kieli'] : product.company.kieli
+  end
+
   def keyword
     return unless product
     return @keyword if @keyword
@@ -89,13 +105,14 @@ class Import::ProductKeyword::Row
     if add_new?
       @keyword = product.keywords.build
     else
-      kieli = values['kieli'] ? values['kieli'] : product.company.kieli
-      @keyword = product.keywords.find_by(laji: values['laji'], kieli: kieli)
+      @keyword = product.keywords.find_by(laji: values['laji'], kieli: language)
     end
   end
 
   def create
-    return unless product
+    return if !product || keyword.nil?
+
+    @hash[:kieli] = product && values['kieli'].blank? ? @product.company.kieli : language
 
     keyword.attributes = values
     keyword.save

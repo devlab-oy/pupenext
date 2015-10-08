@@ -725,6 +725,7 @@ fi:
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     format: "%{attribute} %{message}"
     import:
+      keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
