@@ -26,13 +26,25 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     assert_raises { Import::ProductKeyword.new company_id: @company, user_id: @user, filename: wrong_format }
   end
 
-  test 'imports keywords' do
+  test 'imports keywords and returns response' do
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: @filename
     Product::Keyword.delete_all
 
     assert_difference 'Product::Keyword.count', 3 do
       response = keywords.import
       assert_equal Import::Response, response.class
+    end
+  end
+
+  test 'works without all columns' do
+    file = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_limited_test.xlsx'
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: file
+    Product::Keyword.delete_all
+
+    assert_difference 'Product::Keyword.count', 3 do
+      response = keywords.import
+      assert response.rows.all? { |row| row.errors.empty? }
     end
   end
 end
