@@ -62,6 +62,10 @@ class Product < BaseModel
     stock - stock_reserved
   end
 
+  def customer_price(customer_id)
+    LegacyMethods.customer_price(customer_id, id)
+  end
+
   private
 
     def set_date_fields
