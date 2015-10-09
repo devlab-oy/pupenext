@@ -23,7 +23,7 @@ class Head::SalesInvoiceRowTest < ActiveSupport::TestCase
     assert_equal Date.parse("2015-01-02"), @row.delivery_date
 
     @row.company.parameter.tilausrivien_toimitettuaika = :manual_deliverydates_when_product_inventory_not_managed
-    @row.product.ei_saldoa = :manage_inventory
+    @row.product.ei_saldoa = :inventory_management
     assert_equal Date.parse("2015-01-02"), @row.delivery_date
 
     @row.company.parameter.tilausrivien_toimitettuaika = :manual_deliverydates_when_product_inventory_not_managed
