@@ -124,6 +124,53 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     assert_equal 'Avainsanaa "" kielellä "fi" ei löytynyt!', result.rows.first.errors.first
   end
 
+  test 'errors are correct' do
+    # Let's store one correct keyword
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'laji',    'selite', 'toiminto'],
+      ["#{@hammer.tuoteno}", 'nimitys', 'foo',    'lisää' ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 0, result.rows.first.errors.count
+
+    # Try adding with incorrect product
+    spreadsheet = create_xlsx([
+      ['tuoteno',     'selite', 'toiminto'],
+      ["not_correct", 'foo',    'lisää' ],
+    ])
+
+    # We get only one error
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 1, result.rows.first.errors.count
+    assert_equal 'Tuotetta "not_correct" ei löytynyt!', result.rows.first.errors.first
+
+    # Correct product, but missing required fields
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'selite', 'toiminto'],
+      ["#{@hammer.tuoteno}", 'foo',    'muokkaa' ],
+    ])
+
+    # We get only one error
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 1, result.rows.first.errors.count
+    assert_equal 'Avainsanaa "" kielellä "fi" ei löytynyt!', result.rows.first.errors.first
+
+    # Now we add required field, but laji already taken, and we'll get only one error
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'laji',    'selite', 'toiminto'],
+      ["#{@hammer.tuoteno}", 'nimitys', 'foo',    'lisää' ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 1, result.rows.first.errors.count
+    assert_equal 'Laji on jo käytössä', result.rows.first.errors.first
+  end
+
   private
 
     def create_xlsx(array)
