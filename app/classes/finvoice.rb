@@ -183,9 +183,6 @@ class Finvoice
     end
 
     def sellerinfodetails
-
-      puts @invoice.terms_of_payment.bank_account_details.inspect
-
       @invoice.terms_of_payment.bank_account_details.each do |account|
         doc.SellerAccountDetails {
           doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
