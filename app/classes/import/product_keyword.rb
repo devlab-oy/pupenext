@@ -28,7 +28,7 @@ class Import::ProductKeyword
         errors << row.keyword.errors.full_messages
       end
 
-      response.add_row columns: excel_row.values, errors: errors
+      response.add_row columns: excel_row.values, errors: errors.flatten
     end
 
     response
