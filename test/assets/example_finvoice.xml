@@ -60,15 +60,22 @@
     </BuyerPostalAddressDetails>
   </BuyerPartyDetails>
   <DeliveryDetails>
-    <DeliveryDate Format="CCYYMMDD">20130812</DeliveryDate>
+    <DeliveryPeriodDetails>
+      <StartDate Format="CCYYMMDD">20151003</StartDate>
+      <EndDate Format="CCYYMMDD">20151004</EndDate>
+    </DeliveryPeriodDetails>
+    <DeliveryMethodText>Posten Logistik</DeliveryMethodText>
+    <DeliveryTermsText>EXW Helsinki</DeliveryTermsText>
   </DeliveryDetails>
   <InvoiceDetails>
     <InvoiceTypeCode>INV01</InvoiceTypeCode>
     <InvoiceTypeText>Invoice</InvoiceTypeText>
     <OriginCode>Original</OriginCode>
     <InvoiceNumber>2013000018</InvoiceNumber>
-    <InvoiceDate Format="CCYYMMDD">20130814</InvoiceDate>
+    <InvoiceDate Format="CCYYMMDD">20151010</InvoiceDate>
+    <SellerReferenceIdentifier>1037272446</SellerReferenceIdentifier>
     <OrderIdentifier>20130801</OrderIdentifier>
+    <AgreementIdentifier>Hauki on kala</AgreementIdentifier>
     <InvoiceTotalVatExcludedAmount AmountCurrencyIdentifier="EUR">133,50</InvoiceTotalVatExcludedAmount>
     <InvoiceTotalVatAmount AmountCurrencyIdentifier="EUR">32,04</InvoiceTotalVatAmount>
     <InvoiceTotalVatIncludedAmount AmountCurrencyIdentifier="EUR">165,54</InvoiceTotalVatIncludedAmount>

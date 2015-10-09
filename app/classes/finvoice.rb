@@ -1,4 +1,6 @@
 class Finvoice
+  include ActionView::Helpers::NumberHelper
+
   def initialize(invoice_id:, soap: true)
     @invoice = Head::SalesInvoice.find invoice_id
     @soap = soap
@@ -37,42 +39,7 @@ class Finvoice
         deliverydetails
       }
       doc.InvoiceDetails {
-        doc.InvoiceTypeCode "INV01"
-        doc.InvoiceTypeText "Invoice"
-        doc.OriginCode "Original"
-        doc.InvoiceNumber "2013000018"
-        doc.InvoiceDate("Format" => "CCYYMMDD") {
-          doc.text("20130814")
-        }
-        doc.OrderIdentifier "20130801"
-        doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("133,50")
-        }
-        doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("32,04")
-        }
-        doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("165,54")
-        }
-        doc.VatSpecificationDetails {
-          doc.VatBaseAmount("AmountCurrencyIdentifier" => "EUR") {
-            doc.text("133,50")
-          }
-          doc.VatRatePercent "24,0"
-          doc.VatRateAmount("AmountCurrencyIdentifier" => "EUR") {
-            doc.text("32,04")
-          }
-        }
-        doc.PaymentTermsDetails {
-          doc.PaymentTermsFreeText "14 päivää netto"
-          doc.InvoiceDueDate("Format" => "CCYYMMDD") {
-            doc.text("20130828")
-          }
-          doc.PaymentOverDueFineDetails {
-            doc.PaymentOverDueFineFreeText "Viivästyskorko"
-            doc.PaymentOverDueFinePercent "7,5"
-          }
-        }
+        invoicedetails
       }
       doc.PaymentStatusDetails {
         doc.PaymentStatusCode "NOTPAID"
@@ -248,9 +215,73 @@ class Finvoice
     end
 
     def deliverydetails
-      doc.DeliveryDate("Format" => "CCYYMMDD") {
-        doc.text("20130812")
-    }
+      doc.DeliveryPeriodDetails {
+        doc.StartDate("Format" => "CCYYMMDD") {
+          doc.text(@invoice.deliveryperiod_start.strftime("%Y%m%d"))
+        }
+        doc.EndDate("Format" => "CCYYMMDD") {
+          doc.text(@invoice.deliveryperiod_end.strftime("%Y%m%d"))
+        }
+      }
+      doc.DeliveryMethodText @invoice.toimitustapa
+      doc.DeliveryTermsText @invoice.toimitusehto
+    end
+
+    def invoicedetails
+      if @invoice.credit?
+        doc.InvoiceTypeCode "INV02"
+        doc.InvoiceTypeText "HYVITYSLASKU"
+      else
+        doc.InvoiceTypeCode "INV01"
+        doc.InvoiceTypeText "LASKU"
+      end
+
+      doc.OriginCode "Original"
+      doc.InvoiceNumber @invoice.laskunro
+      doc.InvoiceDate("Format" => "CCYYMMDD") {
+        doc.text(@invoice.tapvm.strftime("%Y%m%d"))
+      }
+      doc.SellerReferenceIdentifier @invoice.tunnus
+
+      if @invoice.asiakkaan_tilausnumero.strip
+        doc.OrderIdentifier @invoice.asiakkaan_tilausnumero
+      else
+        doc.OrderIdentifier @invoice.viesti
+      end
+
+      doc.AgreementIdentifier @invoice.viesti
+
+      doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+        doc.text(number_to_currency(@invoice.arvo, separator: ",", format: "%n"))
+      }
+      doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+        alv = (@invoice.summa - @invoice.arvo).round(2)
+        doc.text(number_to_currency(alv, separator: ",", format: "%n"))
+      }
+      doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+        doc.text(number_to_currency(@invoice.summa, separator: ",", format: "%n"))
+      }
+
+      doc.VatSpecificationDetails {
+        doc.VatBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+          doc.text("133,50")
+        }
+        doc.VatRatePercent "24,0"
+        doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+          doc.text("32,04")
+        }
+      }
+
+      doc.PaymentTermsDetails {
+        doc.PaymentTermsFreeText "14 päivää netto"
+        doc.InvoiceDueDate("Format" => "CCYYMMDD") {
+          doc.text("20130828")
+        }
+        doc.PaymentOverDueFineDetails {
+          doc.PaymentOverDueFineFreeText "Viivästyskorko"
+          doc.PaymentOverDueFinePercent "7,5"
+        }
+      }
     end
 
     def rows

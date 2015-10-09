@@ -17,10 +17,10 @@ pulli1:
   tyyppi: L
   laatija: joe
   laadittu: <%= Time.now %>
-  toimaika: <%= Time.now %>
+  toimaika: 2015-10-01
   kerayspvm: <%= Time.now %>
   kerattyaika: <%= Time.now %>
-  toimitettuaika: <%= Time.now %>
+  toimitettuaika: 2015-10-03 15:25:30
   laskutettuaika: <%= Time.now %>
 
 pulli2:
@@ -29,8 +29,8 @@ pulli2:
   tyyppi: L
   laatija: joe
   laadittu: <%= Time.now %>
-  toimaika: <%= Time.now %>
+  toimaika: 2015-10-02
   kerayspvm: <%= Time.now %>
   kerattyaika: <%= Time.now %>
-  toimitettuaika: <%= Time.now %>
+  toimitettuaika: 2015-10-04 15:05:30
   laskutettuaika: <%= Time.now %>

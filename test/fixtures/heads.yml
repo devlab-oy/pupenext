@@ -153,11 +153,19 @@ si_pulli:
   maa: FI
   terms_of_payment: 14_days_net
   verkkotunnus: 0987654321@BANKFIHH
+  toimitustapa: Posten Logistik
+  toimitusehto: EXW Helsinki
+  laskunro: 2013000018
+  asiakkaan_tilausnumero: 20130801
+  viesti: Hauki on kala
+  summa: 165.54
+  arvo: 133.50
+  valkoodi: EUR
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
   muuttaja: joe
-  tapvm: <%= Time.now %>
+  tapvm: 2015-10-10
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
   erpcm: <%= Time.now %>

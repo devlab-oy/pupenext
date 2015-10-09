@@ -15,6 +15,10 @@ class Head::SalesInvoice < Head
     read_attribute(:maa).upcase
   end
 
+  def credit?
+    arvo < 0
+  end
+
   def ytunnus_human
     return ytunnus unless maa == "FI" || maa == "SE"
 
@@ -37,17 +41,6 @@ class Head::SalesInvoice < Head
   end
 
   def deliveryperiod_start
-#    min = []
-#    rows.each do |row|
-#      min << row.delivery_date
-#    end
-#
-#    min = rows.map do |row|
-#      row.delivery_date
-#    end.min
-#
-#    min = rows.map { |row| row.delivery_date }.min
-
     rows.map(&:delivery_date).min
   end
 
