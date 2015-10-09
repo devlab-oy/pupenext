@@ -17,12 +17,17 @@ class StockAvailabilityTest < ActiveSupport::TestCase
   end
 
   test 'report initialize' do
-    assert StockAvailability.new company_id: @company.id, baseline_week: 16
+    const = {
+      category: [],
+      subcategory: [],
+      brand: []
+    }
+    assert StockAvailability.new company_id: @company.id, baseline_week: 16, constraints: const
     assert_raises { StockAvailability.new }
     assert_raises { StockAvailability.new company_id: nil }
     assert_raises { StockAvailability.new company_id: -1 }
     assert_raises { StockAvailability.new company_id: @company.id, weeks: nil }
-    assert_raises { StockAvailability.new company_id: @company.id, weeks: 'kissa' }
+    assert_raises { StockAvailability.new company_id: @company.id, weeks: 'kissa', constraints: nil }
   end
 
   test 'report output' do
@@ -33,56 +38,63 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     # Create past, now and future rows in purchase and sales orders
     # Past
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 12 })
+    newporow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 12, laskutettuaika: 0 })
     newporow.save!
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 15 })
+    newsorow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 15, laskutettuaika: 0 })
     newsorow.save!
 
     # Now
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika: Date.today, varattu: 3 })
+    newporow.assign_attributes({ toimaika: Date.today, varattu: 3, laskutettuaika: 0 })
     newporow.save!
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today, varattu: 7 })
+    newsorow.assign_attributes({ toimaika:  Date.today, varattu: 7, laskutettuaika: 0 })
     newsorow.save!
 
     # Future
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 55 })
+    newporow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 55, laskutettuaika: 0 })
     newporow.save!
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 14 })
+    newsorow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 14, laskutettuaika: 0 })
     newsorow.save!
 
     # We should get product info and stock available 10
     # undelivered_amount from past 12, upcoming_amount after the baseline
     # plus 4 weeks worth of sold and purchased amounts
-    report = StockAvailability.new(company_id: @company.id, baseline_week: 4)
+    const = {
+      category: [],
+      subcategory: [],
+      brand: []
+    }
+    report = StockAvailability.new(company_id: @company.id, baseline_week: 4, constraints: const)
 
     TestObject = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-      :tulevat, :viikkodata)
+      :tulevat, :viikkodata, :loppusaldo)
 
     today = Date.today
     testo = TestObject.new("hammer123", "All-around hammer", 330.0, [15.0, 12.0], [14.0, 55.0],
       [
-        ["#{today.cweek} / #{today.year}", ["3.0", "7.0"]],
-        ["#{today.cweek+1} / #{today.year}", ["0.0", "0.0"]],
-        ["#{today.cweek+2} / #{today.year}", ["0.0", "0.0"]],
-        ["#{today.cweek+3} / #{today.year}", ["0.0", "0.0"]],
-        ["#{today.cweek+4} / #{today.year}", ["0.0", "0.0"]]
-      ]
+        ["#{today.cweek} / #{today.year}", ["7.0", "3.0", "326.0"]],
+        ["#{today.cweek+1} / #{today.year}", ["0.0", "0.0", "326.0"]],
+        ["#{today.cweek+2} / #{today.year}", ["0.0", "0.0", "326.0"]],
+        ["#{today.cweek+3} / #{today.year}", ["0.0", "0.0", "326.0"]],
+        ["#{today.cweek+4} / #{today.year}", ["0.0", "0.0", "326.0"]]
+      ],
+      326.0
     )
 
-    assert_equal report.to_screen.second.tuoteno, testo.tuoteno
-    assert_equal report.to_screen.second.nimitys, testo.nimitys
-    assert_equal report.to_screen.second.saldo, testo.saldo
-    assert_equal report.to_screen.second.myohassa, testo.myohassa
-    assert_equal report.to_screen.second.tulevat, testo.tulevat
-    assert_equal report.to_screen.second.viikkodata, testo.viikkodata
+    assert_equal report.to_screen.first.tuoteno, testo.tuoteno
+    assert_equal report.to_screen.first.nimitys, testo.nimitys
+    assert_equal report.to_screen.first.saldo, testo.saldo
+    assert_equal report.to_screen.first.myohassa, testo.myohassa
+    assert_equal report.to_screen.first.tulevat, testo.tulevat
+    assert_equal report.to_screen.first.viikkodata, testo.viikkodata
+    assert_equal report.to_screen.first.loppusaldo, testo.loppusaldo
   end
 
 end
