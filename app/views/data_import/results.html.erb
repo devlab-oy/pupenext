@@ -30,7 +30,7 @@
 
       <td>
         <% if row.errors.present? %>
-          <font class="error"><%= row.errors.join('<br') %></font>
+          <%= simple_format row.errors.flatten.join("\n"), { class: 'error' }, wrapper_tag: 'font' %>
         <% else %>
           <font class="ok">Ok</font>
         <% end %>
