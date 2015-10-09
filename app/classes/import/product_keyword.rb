@@ -138,7 +138,7 @@ class Import::ProductKeyword::Row
   end
 
   def add_new?
-    %w(lisää lisÄÄ lisaa).include? @toiminto.to_s.downcase
+    %w(lisää lisÄÄ lisäÄ lisÄä lisaa).include? @toiminto.to_s.downcase
   end
 
   def modify_row?
