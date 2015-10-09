@@ -1,10 +1,11 @@
 class StockAvailability
   ProductStockAvailability = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-    :tulevat, :viikkodata)
+    :tulevat, :viikkodata, :loppusaldo)
 
-  def initialize(company_id:, baseline_week:)
+  def initialize(company_id:, baseline_week:, constraints:)
     @company = Company.find company_id
     @baseline_week = baseline_week
+    @constraints = constraints
     Current.company = @company
   end
 
@@ -26,9 +27,13 @@ class StockAvailability
     end
 
     def data
-      @data ||= company.products.active.find_each.map do |product|
+      products = @company.products.active
+        .by_category(@constraints[:category])
+        .by_subcategory(@constraints[:subcategory])
+        .by_brand(@constraints[:brand])
+      @data ||= products.map do |product|
         product_row = ProductRow.new product
-        weekly_row_data = WeeklyRow.new product_row, @baseline_week
+        weekly_row_data = WeeklyRow.new product_row, @baseline_week, product.stock
 
         ProductStockAvailability.new(
           product_row.product.tuoteno,
@@ -36,16 +41,18 @@ class StockAvailability
           product_row.stock,
           product_row.history_amount,
           product_row.upcoming_amount(@baseline_week),
-          weekly_row_data.data_rows
+          weekly_row_data.data_rows,
+          weekly_row_data.total_stock
         )
       end
     end
 end
 
 class StockAvailability::WeeklyRow
-  def initialize(product_row, baseline_week)
+  def initialize(product_row, baseline_week, stock)
     @product_row = product_row
     @baseline_week = baseline_week
+    @tracked_stock = stock
   end
 
   def product_row
@@ -54,6 +61,10 @@ class StockAvailability::WeeklyRow
 
   def baseline_week
     @baseline_week
+  end
+
+  def total_stock
+    @tracked_stock
   end
 
   def data_rows
@@ -88,8 +99,8 @@ class StockAvailability::WeeklyRow
     def weekly_stock_values(range)
       amount_sold = @product_row.product.amount_sold(range)
       amount_purchased = @product_row.product.amount_purchased(range)
-
-      [amount_purchased.to_s, amount_sold.to_s]
+      @tracked_stock += amount_purchased - amount_sold
+      [amount_sold.to_s, amount_purchased.to_s, @tracked_stock.to_s]
     end
 
 end
@@ -108,14 +119,14 @@ class StockAvailability::ProductRow
   end
 
   def history_amount
-    sales = product.sales_order_rows.where('toimaika < ?', previous_weeks_end).reserved
-    purchases = product.purchase_order_rows.where('toimaika < ?', previous_weeks_end).reserved
+    sales = product.sales_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
+    purchases = product.purchase_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
     [sales, purchases]
   end
 
   def upcoming_amount(baseline_week)
-    sales = product.sales_order_rows.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
-    purchases = product.purchase_order_rows.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
+    sales = product.sales_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
+    purchases = product.purchase_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
     [sales, purchases]
   end
 
