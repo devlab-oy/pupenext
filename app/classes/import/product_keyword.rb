@@ -61,10 +61,6 @@ class Import::ProductKeyword
       ]
     end
 
-    def add_error(message)
-      @errors << message
-    end
-
     def setup_file(filename)
       # if we have an rails UploadedFile class
       if filename.respond_to?(:original_filename)
