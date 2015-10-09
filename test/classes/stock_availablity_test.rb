@@ -77,15 +77,15 @@ class StockAvailabilityTest < ActiveSupport::TestCase
       :tulevat, :viikkodata, :loppusaldo)
 
     today = Date.today
-    testo = TestObject.new("hammer123", "All-around hammer", 330.0, [15.0, 12.0], [14.0, 55.0],
+    testo = TestObject.new("hammer123", "All-around hammer", 330.0, [15.0, 12.0, 327.0], [14.0, 55.0, 364.0],
       [
-        ["#{today.cweek} / #{today.year}", ["7.0", "3.0", "326.0"]],
-        ["#{today.cweek+1} / #{today.year}", ["0.0", "0.0", "326.0"]],
-        ["#{today.cweek+2} / #{today.year}", ["0.0", "0.0", "326.0"]],
-        ["#{today.cweek+3} / #{today.year}", ["0.0", "0.0", "326.0"]],
-        ["#{today.cweek+4} / #{today.year}", ["0.0", "0.0", "326.0"]]
+        ["#{today.cweek} / #{today.year}", [7.0, 3.0, 323.0]],
+        ["#{today.cweek+1} / #{today.year}", [0.0, 0.0, 323.0]],
+        ["#{today.cweek+2} / #{today.year}", [0.0, 0.0, 323.0]],
+        ["#{today.cweek+3} / #{today.year}", [0.0, 0.0, 323.0]],
+        ["#{today.cweek+4} / #{today.year}", [0.0, 0.0, 323.0]]
       ],
-      326.0
+      364.0
     )
 
     assert_equal report.to_screen.first.tuoteno, testo.tuoteno
