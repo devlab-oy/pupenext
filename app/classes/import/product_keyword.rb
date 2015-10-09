@@ -117,7 +117,7 @@ class Import::ProductKeyword::Row
 
     if add_new?
       @keyword = product.keywords.build
-    else
+    elsif modify_row?
       @keyword = product.keywords.find_by(laji: values['laji'], kieli: language)
     end
   end
