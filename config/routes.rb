@@ -4,6 +4,9 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/email', to: 'monitoring#nagios_resque_email'
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
+  get 'pending_product_updates', to: 'pending_product_updates#index',     controller: :pending_product_updates
+  get 'pending_product_updates/list', to: 'pending_product_updates#list', controller: :pending_product_updates
+
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
       get :purchase_orders
@@ -47,12 +50,23 @@ Pupesoft::Application.routes.draw do
     resources :transports
   end
 
+  get :downloads, to: 'downloads#index'
+  get 'downloads/:id', to: 'downloads#show', as: :download_file
+  delete 'downloads/:id', to: 'downloads#destroy', as: :download
+
   scope module: :utilities do
     get 'qr_codes/generate'
   end
 
   scope module: :reports do
     get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
+    get :stock_listing_csv,  to: 'stock_listing_csv#index', as: :stock_listing_csv
+    post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
+  end
+
+  scope :data_import do
+    get '/', to: 'data_import#index', as: :data_import
+    post :product_keywords, to: 'data_import#product_keywords', as: :product_keyword_import
   end
 
   root to: 'home#index'

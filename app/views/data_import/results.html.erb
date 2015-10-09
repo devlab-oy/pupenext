@@ -1,0 +1,45 @@
+<%= render "administration/header", text: Product::Keyword.model_name.human %>
+
+<%= return_link t('data_import.index.header'), data_import_path %>
+
+<br><br>
+
+<table>
+
+  <tr>
+    <th>#</th>
+
+    <% @spreadsheet.headers.each do |name| %>
+      <th>
+        <%= name %>
+      </th>
+    <% end %>
+
+    <th>Status</th>
+  </tr>
+
+  <% @spreadsheet.rows.each do |row| %>
+    <tr class="aktiivi">
+      <th><%= row.number %></th>
+
+      <% row.columns.each do |value| %>
+        <td>
+          <%= value %>
+        </td>
+      <% end %>
+
+      <td>
+        <% if row.errors.present? %>
+          <%= simple_format row.errors.flatten.join("\n"), { class: 'error' }, wrapper_tag: 'font' %>
+        <% else %>
+          <font class="ok">Ok</font>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
+
+<br>
+
+<%= return_link t('data_import.index.header'), data_import_path %>

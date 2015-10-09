@@ -24,6 +24,20 @@ category_tools:
   laji: OSASTO
   <<: *DEFAULTS
 
+category_gears:
+  yhtio: acme
+  selite: 1001
+  selitetark: Gears
+  laji: OSASTO
+  <<: *DEFAULTS
+
+category_winter:
+  yhtio: acme
+  selite: 1005
+  selitetark: Winter
+  laji: OSASTO
+  <<: *DEFAULTS
+
 subcategory_tools:
   yhtio: acme
   selite: 2000
@@ -31,9 +45,22 @@ subcategory_tools:
   laji: TRY
   <<: *DEFAULTS
 
+subcategory_gears:
+  yhtio: acme
+  selite: 2001
+  selitetark: Full-face helmet
+  laji: TRY
+  <<: *DEFAULTS
+
 brand_tools:
   yhtio: acme
   selite: Bosch
+  laji: TUOTEMERKKI
+  <<: *DEFAULTS
+
+brand_gears:
+  yhtio: acme
+  selite: Alpinestars
   laji: TUOTEMERKKI
   <<: *DEFAULTS
 

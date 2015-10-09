@@ -328,6 +328,7 @@ fi:
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
       printer: Kirjoitin
+      product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
@@ -606,6 +607,10 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  data_import:
+    index:
+      header: Tietojen sisäänluku
+      import: Sisäänlue
   date:
     abbr_day_names:
     - su
@@ -616,7 +621,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -642,7 +647,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -702,6 +707,14 @@ fi:
       month: kuukausi
       second: sekunti
       year: vuosi
+  downloads:
+    index:
+      created_at: Luontiaika
+      destroy: Poista
+      files: Tiedostot
+      header: Tiedostosi
+      no_downloads: Ei tiedostoja.
+      report_name: Raportin nimi
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy
@@ -711,6 +724,11 @@ fi:
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     format: "%{attribute} %{message}"
+    import:
+      action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
+      action_missing: Toiminto -sarake puuttuu!
+      keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
+      product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
@@ -870,6 +888,29 @@ fi:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      deleted: Tila
+      header: Tuotteen tulevat muutokset
+      inventory_management_products: Varastokäsittely
+      label: Nimitys
+      search: Etsi
+      sku: Tuotenumero
+      suppliers_sku: Toimittajan tuotenumero
+    list:
+      label: Nimitys
+      sku: Tuotenumero
+    pending_ei_saldoa_options:
+      inventory_management: Listaa vain varastoitavia tuotteita
+      no_inventory_management: Listaa vain saldottomia tuotteita
+    pending_status_options:
+      active: Listaa vain aktiivisia tuotteita
+      deleted: Listaa vain poistettuja tuotteita
+  products:
+    categories_selection:
+      brand: Merkki
+      category: Osasto
+      subcategory: Ryhmä
   reports:
     revenue_expenditure:
       index:
@@ -890,6 +931,11 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_listing_csv:
+      index:
+        header: Varastosaldot CSV
+        run: Aja raportti
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
     excel:
       company: Yritystiedot

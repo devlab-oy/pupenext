@@ -79,6 +79,8 @@ GEM
       thread_safe
     erubis (2.7.0)
     execjs (2.6.0)
+    fakeredis (0.5.0)
+      redis (~> 3.0)
     gli (2.13.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -173,6 +175,11 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    roo (1.13.2)
+      nokogiri
+      rubyzip
+      spreadsheet (> 0.6.4)
+    ruby-ole (1.2.11.8)
     rubyzip (1.0.0)
     sass (3.4.18)
     sass-rails (5.0.4)
@@ -195,6 +202,8 @@ GEM
       tilt (>= 1.3, < 3)
     sort_alphabetical (1.0.2)
       unicode_utils (>= 1.2.2)
+    spreadsheet (1.0.7)
+      ruby-ole (>= 1.0)
     sprockets (3.3.5)
       rack (> 1, < 3)
     sprockets-rails (2.3.3)
@@ -245,6 +254,7 @@ DEPENDENCIES
   dalli
   date_validator
   dotenv-rails
+  fakeredis
   i18n-tasks
   jquery-rails
   localeapp
@@ -255,6 +265,7 @@ DEPENDENCIES
   request_store
   resque
   resque-web
+  roo
   simple_form
   therubyracer
   turbolinks

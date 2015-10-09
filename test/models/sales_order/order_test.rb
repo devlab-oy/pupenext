@@ -2,8 +2,10 @@ require 'test_helper'
 
 class SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(
+    head/voucher_rows
     sales_order/orders
     sales_order/rows
+    head/voucher_rows
   )
 
   setup do

@@ -10,6 +10,7 @@ class Product < BaseModel
   has_many :suppliers, through: :product_suppliers
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
+    o.has_many :keywords, class_name: 'Product::Keyword'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
@@ -28,10 +29,24 @@ class Product < BaseModel
 
   before_create :set_date_fields
 
+  enum tuotetyyppi: {
+    expence: 'B',
+    material: 'R',
+    normal: '',
+    other: 'M',
+    per_diem: 'A',
+    service: 'K',
+  }
+
   enum ei_saldoa: {
-    manage_inventory: '',
+    inventory_management: '',
     no_inventory_management: 'o'
   }
+
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :deleted, -> { where(status: :P) }
+  scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
+  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)

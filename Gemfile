@@ -16,6 +16,7 @@ gem 'request_store'
 gem 'cocoon'
 gem 'simple_form'
 gem 'country_select'
+gem 'roo'
 gem 'axlsx'
 gem 'axlsx_rails'
 
@@ -37,4 +38,8 @@ group :test, :development do
   gem 'codeclimate-test-reporter'
   gem 'i18n-tasks'
   gem 'localeapp'
+end
+
+group :test do
+  gem 'fakeredis'
 end

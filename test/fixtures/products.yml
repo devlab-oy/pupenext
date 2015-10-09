@@ -3,6 +3,11 @@ DEFAULTS: &DEFAULTS
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+  vihapvm: 0
+  epakurantti25pvm: 0
+  epakurantti50pvm: 0
+  epakurantti75pvm: 0
+  epakurantti100pvm: 0
 
 hammer:
   yhtio: acme
@@ -12,9 +17,31 @@ hammer:
   try: 2000
   tuotemerkki: Bosch
   status: A
-  vihapvm: 0
-  epakurantti25pvm: 0
-  epakurantti50pvm: 0
-  epakurantti75pvm: 0
-  epakurantti100pvm: 0
+  <<: *DEFAULTS
+
+helmet:
+  yhtio: acme
+  tuoteno: helmet123
+  nimitys: Street Hawk helmet
+  osasto: 1001
+  try: 2000
+  tuotemerkki: Alpinestars
+  status: A
+  <<: *DEFAULTS
+
+ski:
+  yhtio: acme
+  tuoteno: ski1
+  nimitys: Combosukset
+  osasto: 1005
+  try: 2001
+  tuotemerkki: Karhu
+  status: A
+  <<: *DEFAULTS
+
+pr1:
+  yhtio: acme
+  tuoteno: PR1
+  nimitys: Päiväraha
+  tuotetyyppi: A
   <<: *DEFAULTS

@@ -19,6 +19,7 @@ class Company < ActiveRecord::Base
     o.has_many :packages
     o.has_many :packing_areas
     o.has_many :printers
+    o.has_many :shelf_locations
     o.has_many :suppliers
     o.has_many :terms_of_payments
     o.has_many :users

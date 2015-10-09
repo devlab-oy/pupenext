@@ -10,14 +10,18 @@
     currencies
     custom_attributes
     customers
+    data_import
+    downloads
     fiscal_years
     packages
     packing_areas
+    pending_product_updates
     printers
     products
     qualifiers
     revenue_expenditure
     revenue_expenditures
+    stock_listing_csv
     sum_levels
     terms_of_payments
     test
