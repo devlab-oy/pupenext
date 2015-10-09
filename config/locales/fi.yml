@@ -725,6 +725,8 @@ fi:
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     format: "%{attribute} %{message}"
     import:
+      action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
+      action_missing: Toiminto -sarake puuttuu!
       keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
