@@ -100,7 +100,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
     assert_no_difference 'Product::Keyword.count' do
       response = keywords.import
-      assert_equal 'Tuotetta "" ei löytynyt!', response.rows.first.errors.first
+      error = I18n.t('errors.import.product_not_found', product: '')
+      assert_equal error, response.rows.first.errors.first
     end
   end
 
@@ -121,7 +122,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
     result = keywords.import
 
-    assert_equal 'Avainsanaa "" kielellä "fi" ei löytynyt!', result.rows.first.errors.first
+    error = I18n.t('errors.import.keyword_not_found', keyword: '', language: 'fi')
+    assert_equal error, result.rows.first.errors.first
   end
 
   test 'errors are correct' do
@@ -145,7 +147,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
     result = keywords.import
     assert_equal 1, result.rows.first.errors.count
-    assert_equal 'Tuotetta "not_correct" ei löytynyt!', result.rows.first.errors.first
+    error = I18n.t('errors.import.product_not_found', product: 'not_correct')
+    assert_equal error, result.rows.first.errors.first
 
     # Correct product, but missing required fields
     spreadsheet = create_xlsx([
@@ -157,7 +160,8 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
     result = keywords.import
     assert_equal 1, result.rows.first.errors.count
-    assert_equal 'Avainsanaa "" kielellä "fi" ei löytynyt!', result.rows.first.errors.first
+    error = I18n.t('errors.import.keyword_not_found', keyword: '', language: 'fi')
+    assert_equal error, result.rows.first.errors.first
 
     # Now we add required field, but laji already taken, and we'll get only one error
     spreadsheet = create_xlsx([
@@ -181,7 +185,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
     result = keywords.import
     assert_equal 1, result.rows.first.errors.count
-    assert_equal 'Toiminto -sarake puuttuu!', result.rows.first.errors.first
+    assert_equal I18n.t('errors.import.action_missing'), result.rows.first.errors.first
 
     # correct row, but toiminto column is incorrect
     spreadsheet = create_xlsx([
@@ -192,7 +196,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
     result = keywords.import
     assert_equal 1, result.rows.first.errors.count
-    assert_equal 'Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".', result.rows.first.errors.first
+    assert_equal I18n.t('errors.import.action_incorrect'), result.rows.first.errors.first
   end
 
   private
