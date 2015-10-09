@@ -972,8 +972,25 @@ fi:
     stock_availability:
       index:
         header: Varastotilanne
-        run: Aja raportti
+        run: Vie pdf
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+      form:
+        button_make: Aja ruudulle
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+        product_category: Osasto
+        product_subcategory: Tuoteryhmä
+        product_brand: Tuotemerkki
+      show_data:
+        available: Saatavilla
+        past: Myöhässä
+        future: Tulevat
+        product: Tuote
+        purchases: Tulossa
+        sales:  Menossa
+        stock: Varastosaldo
+        week: Viikko
+        total: Yhteensä
   shared:
     excel:
       company: Yritystiedot
