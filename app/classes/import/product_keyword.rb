@@ -19,9 +19,14 @@ class Import::ProductKeyword
       row = Row.new excel_row
 
       errors = []
-      errors << I18n.t('errors.import.product_not_found', product: row.product_raw) if row.product.nil?
-      errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language) if row.product && row.keyword.nil?
-      errors << row.keyword.errors.full_messages if row.product && row.keyword && !row.create
+
+      if row.product.nil?
+        errors << I18n.t('errors.import.product_not_found', product: row.product_raw)
+      elsif row.keyword.nil?
+        errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language)
+      elsif !row.create
+        errors << row.keyword.errors.full_messages
+      end
 
       response.add_row columns: excel_row.values, errors: errors
     end
