@@ -16,6 +16,7 @@ gem 'request_store'
 gem 'cocoon'
 gem 'simple_form'
 gem 'country_select'
+gem 'roo'
 gem 'axlsx'
 gem 'axlsx_rails'
 
