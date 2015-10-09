@@ -20,7 +20,11 @@ class Import::ProductKeyword
 
       errors = []
 
-      if row.product.nil?
+      if row.action.blank?
+        errors << I18n.t('errors.import.action_missing')
+      elsif !row.action_valid?
+        errors << I18n.t('errors.import.action_incorrect')
+      elsif row.product.nil?
         errors << I18n.t('errors.import.product_not_found', product: row.product_raw)
       elsif row.keyword.nil?
         errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language)
@@ -84,6 +88,14 @@ class Import::ProductKeyword::Row
     @toiminto = @hash.delete 'toiminto'
   end
 
+  def action
+    @toiminto
+  end
+
+  def action_valid?
+    add_new? || modify_row?
+  end
+
   def product
     @product ||= Product.find_by tuoteno: @tuoteno
   end
@@ -131,5 +143,9 @@ class Import::ProductKeyword::Row
 
   def add_new?
     %w(lisää lisÄÄ lisaa).include? @toiminto.to_s.downcase
+  end
+
+  def modify_row?
+    %w(muokkaa muuta).include? @toiminto.to_s.downcase
   end
 end
