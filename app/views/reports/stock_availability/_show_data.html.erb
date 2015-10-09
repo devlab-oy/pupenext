@@ -1,0 +1,50 @@
+<table>
+  <tr>
+    <th colspan='4'><%= current_company.nimi %></th>
+  <tr>
+  <tr>
+    <th><%= t('.product') %> <br/> <%= t('.week') %></th>
+    <th><%= t('.sales') %></th>
+    <th><%= t('.purchases') %></th>
+    <th><%= t('.stock') %> <br/> <%= t('.available') %></th>
+  </tr>
+
+  <% @data.each do |data| %>
+    <tr>
+      <td style='font-weight:bold;'><%= data.tuoteno %> - <%= data.nimitys %></td>
+      <td></td>
+      <td></td>
+      <td style='font-weight:bold;'><%= data.saldo %></td>
+    </tr>
+    <tr>
+      <td style='font-weight:bold;'><%= t('.past') %></td>
+      <td style='font-weight:bold;'><%= data.myohassa[0] %></td>
+      <td style='font-weight:bold;'><%= data.myohassa[1] %></td>
+      <td style='font-weight:bold;'><%= data.myohassa[2] %></td>
+    </tr>
+
+    <% data.viikkodata.each do |weekly_data| %>
+      <tr>
+        <td><%= weekly_data[0] %></td>
+        <td><%= weekly_data[1][0] %></td>
+        <td><%= weekly_data[1][1] %></td>
+        <td><%= weekly_data[1][2] %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td style='font-weight:bold;'><%= t('.future') %></td>
+      <td style='font-weight:bold;'><%= data.tulevat[0] %></td>
+      <td style='font-weight:bold;'><%= data.tulevat[1] %></td>
+      <td style='font-weight:bold;'><%= data.tulevat[2] %></td>
+    </tr>
+
+    <tr>
+      <td style='font-weight:bold;'><%= t('.total') %></td>
+      <td></td>
+      <td></td>
+      <td style='font-weight:bold;'><%= data.loppusaldo %></td>
+    </tr>
+  <% end %>
+
+</table>
