@@ -171,6 +171,30 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     assert_equal 'Laji on jo käytössä', result.rows.first.errors.first
   end
 
+  test 'toiminto is required field' do
+    # correct row, but toiminto column is missing
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'laji',    'selite'],
+      ["#{@hammer.tuoteno}", 'nimitys', 'foo',  ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 1, result.rows.first.errors.count
+    assert_equal 'Toiminto -sarake puuttuu!', result.rows.first.errors.first
+
+    # correct row, but toiminto column is incorrect
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'laji',    'selite', 'toiminto'],
+      ["#{@hammer.tuoteno}", 'nimitys', 'foo',    'bar'     ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+    assert_equal 1, result.rows.first.errors.count
+    assert_equal 'Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".', result.rows.first.errors.first
+  end
+
   private
 
     def create_xlsx(array)
