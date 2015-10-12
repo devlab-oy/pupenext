@@ -91,7 +91,14 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
   test "make sure we have the needed elemets for updating with javascript" do
     get :list, commit: 'search'
 
+    product = products :hammer
+
     text = I18n.t 'pending_product_updates.list.link_new'
     assert_select 'a[data-association=pending_update]', { minimum: 1, html: text }, 'form must have data-association link'
+
+    assert_select "td[class='ptop pending_update']", { minimum: 1 }, 'must have pending update td'
+    assert_select 'div[class=nested-fields]', { minimum: 1 }, 'must have nested-fields div'
+    assert_select 'div[class=notifications]', { minimum: 1 }, 'must have notifications div'
+    assert_select "div[id=pending_updates_#{product.id}]", { minimum: 1 }, 'must have product pending updates div'
   end
 end
