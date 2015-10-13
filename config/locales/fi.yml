@@ -238,6 +238,9 @@ fi:
         printteri7: JV-Lasku/-Kuitti
         prio: Prio
         varasto: Varasto
+      pending_updates:
+        key: Kenttä
+        value: Arvo
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -617,7 +620,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -643,7 +646,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -890,9 +893,9 @@ fi:
       suppliers_sku: Toimittajan tuotenumero
     list:
       label: Nimitys
-      sku: Tuotenumero
       link_new: Lisää uusi tuleva päivitys
       save: Tallenna muutokset
+      sku: Tuotenumero
     pending_columns_options:
       sales_price: Myyntihinta
       short_description: Lyhytkuvaus
