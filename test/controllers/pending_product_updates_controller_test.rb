@@ -2,6 +2,7 @@ require 'test_helper'
 
 class PendingProductUpdatesControllerTest < ActionController::TestCase
   fixtures %w(
+    pending_updates
     product/suppliers
     products
     suppliers
@@ -9,6 +10,9 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
   setup do
     login users(:joe)
+
+    @product = products :hammer
+    @pending = pending_updates :update_1
   end
 
   test 'should get index' do
@@ -33,59 +37,51 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
   end
 
   test "should create pending update" do
-    product = products(:hammer)
-
     params = {
-      pending_updates_attributes: {
-        "0" => {
-          key: 'nimitys',
-          value: '123.0'
-        }
-      }
+      pending_updates_attributes: [
+        { key: 'kuvaus', value: 'foo' },
+        { key: 'nimitys', value: '123.0' },
+      ]
     }
 
-    xhr :patch, :update, id: product.id, product: params, format: :js
-    assert_response :success
-    assert_template partial: 'update', count: 0
+    assert_difference 'PendingUpdate.count', 2 do
+      xhr :patch, :update, id: @product.id, product: params, format: :js
+      assert_response :success
+      assert_template partial: 'update', count: 0
+    end
+
+    assert_equal 'nimitys', @product.pending_updates.last.key
+    assert_equal '123.0', @product.pending_updates.last.value
   end
 
   test "should update pending update" do
-    product = products(:hammer)
-
     params = {
-      pending_updates_attributes: {
-        "0" => {
-          key: 'myyntihinta',
-          value: '50.1'
-        }
-      }
+      pending_updates_attributes: [
+        { id: @pending.id, key: 'myyntihinta', value: '50.1' }
+      ]
     }
 
-    xhr :patch, :update, id: product.id, product: params, format: :js
-    assert_response :success
-    assert_template partial: 'update', count: 0
+    assert_no_difference 'PendingUpdate.count' do
+      xhr :patch, :update, id: @product.id, product: params, format: :js
+      assert_response :success
+      assert_template partial: 'update', count: 0
+    end
 
-    assert '50.1', PendingUpdate.where(pending_updatable_id: product.id, key: 'myyntihinta').select(:value)
+    assert_equal '50.1', @pending.reload.value
   end
 
   test "should destroy pending update" do
-    product = products(:hammer)
-
     params = {
-      pending_updates_attributes: {
-        "0" => {
-          key: 'myyntihinta',
-          value: '50.1',
-          _destroy: true
-        }
-      }
+      pending_updates_attributes: [
+        { id: @pending.id, _destroy: true }
+      ]
     }
 
-    xhr :patch, :update, id: product.id, product: params, format: :js
-    assert_response :success
-    assert_template partial: 'update', count: 0
-
-    assert 0, PendingUpdate.count
+    assert_difference 'PendingUpdate.count', -1 do
+      xhr :patch, :update, id: @product.id, product: params, format: :js
+      assert_response :success
+      assert_template partial: 'update', count: 0
+    end
   end
 
   test "make sure we have the needed elemets for updating with javascript" do
