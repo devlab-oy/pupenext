@@ -112,4 +112,12 @@ class ProductTest < ActiveSupport::TestCase
       assert_equal 18, @product.customer_price(customer.id)
     end
   end
+
+  test 'customer subcategory price' do
+    customer = customers(:stubborn_customer)
+
+    LegacyMethods.stub(:customer_subcategory_price, 22) do
+      assert_equal 22, @product.customer_subcategory_price(customer.id)
+    end
+  end
 end
