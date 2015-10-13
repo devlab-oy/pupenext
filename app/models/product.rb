@@ -66,6 +66,10 @@ class Product < BaseModel
     LegacyMethods.customer_price(customer_id, id)
   end
 
+  def customer_subcategory_price(customer_subcategory_id)
+    LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
+  end
+
   private
 
     def set_date_fields
