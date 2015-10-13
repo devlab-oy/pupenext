@@ -238,6 +238,9 @@ fi:
         printteri7: JV-Lasku/-Kuitti
         prio: Prio
         varasto: Varasto
+      pending_updates:
+        key: Kenttä
+        value: Arvo
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -327,6 +330,7 @@ fi:
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
+      pending_update: Tuleva päivitys
       printer: Kirjoitin
       product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
@@ -899,13 +903,22 @@ fi:
       suppliers_sku: Toimittajan tuotenumero
     list:
       label: Nimitys
+      link_new: Lisää uusi tuleva päivitys
+      save: Tallenna muutokset
       sku: Tuotenumero
+    pending_columns_options:
+      sales_price: Myyntihinta
+      short_description: Lyhytkuvaus
     pending_ei_saldoa_options:
       inventory_management: Listaa vain varastoitavia tuotteita
       no_inventory_management: Listaa vain saldottomia tuotteita
     pending_status_options:
       active: Listaa vain aktiivisia tuotteita
       deleted: Listaa vain poistettuja tuotteita
+    pending_update_fields:
+      delete: Poista
+    update:
+      update_success: Päivitettiin onnistuneesti
   products:
     categories_selection:
       brand: Merkki

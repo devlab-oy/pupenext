@@ -1,4 +1,4 @@
-<div>
+<div style='float: left; padding: 10px; width: 460px;'>
   <%= label_tag 'osasto[]', t('.category') %>
   <% categories_options({
         categories:    params[:osasto],
@@ -15,7 +15,7 @@
 
 <br>
 
-<div>
+<div style='float: left; padding: 10px; width: 460px;'>
   <%= label_tag 'try[]', t('.subcategory') %>
   <% subcategories_options({
         categories:    params[:osasto],
@@ -30,7 +30,7 @@
   <% end %>
 </div>
 
-<div>
+<div style='float: left; padding: 10px; width: 460px;'>
   <%= label_tag 'tuotemerkki[]', t('.brand') %>
   <% brands_options({
         categories:    params[:osasto],

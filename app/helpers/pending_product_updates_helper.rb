@@ -13,4 +13,10 @@ module PendingProductUpdatesHelper
     ]
   end
 
+  def pending_columns_options
+    [
+      [t('pending_product_updates.pending_columns_options.sales_price'),  'myyntihinta'],
+      [t('pending_product_updates.pending_columns_options.short_description'), 'lyhytkuvaus']
+    ]
+  end
 end

@@ -42,10 +42,11 @@ class Product < BaseModel
     no_inventory_management: 'o'
   }
 
-  scope :not_deleted, -> { where.not(status: :P) }
+  scope :active, -> { not_deleted.regular }
   scope :deleted, -> { where(status: :P) }
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
-  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)
