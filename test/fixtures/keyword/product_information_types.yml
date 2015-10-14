@@ -10,3 +10,10 @@ material:
   selitetark: Tuotteen materiaali
   laji: LISATIETO
   <<: *DEFAULTS
+
+size:
+  yhtio: acme
+  selite: koko
+  selitetark: Tuotteen koko
+  laji: LISATIETO
+  <<: *DEFAULTS
