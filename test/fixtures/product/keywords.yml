@@ -11,3 +11,11 @@ one:
   kieli: fi
   selite: Vasara
   <<: *DEFAULTS
+
+two:
+  yhtio: acme
+  tuoteno: hammer123
+  laji: material
+  kieli: fi
+  selite: Aluminium
+  <<: *DEFAULTS
