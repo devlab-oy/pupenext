@@ -3,6 +3,10 @@ module Import::Base
 
   private
 
+    def spreadsheet
+      @file.sheet(0)
+    end
+
     def setup_file(filename)
       # if we have an rails UploadedFile class
       if filename.respond_to?(:original_filename)

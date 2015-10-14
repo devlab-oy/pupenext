@@ -23,20 +23,14 @@ class Import::ProductInformation
       converted_spreadsheet.each { |row| csv << row }
     end
 
-    reponse = Import::ProductKeyword.new(
+    Import::ProductKeyword.new(
       company_id: Current.company.id,
       user_id: Current.user.id,
       filename: filename.path,
     ).import
-
-    reponse
   end
 
   private
-
-    def spreadsheet
-      @file.sheet(0)
-    end
 
     def converted_spreadsheet
       # here we convert this special excel format to array of product keyword records
