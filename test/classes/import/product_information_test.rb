@@ -35,8 +35,8 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   end
 
   test 'imports example file' do
-    # adding 2, removing 1
-    assert_difference 'Product::Keyword.count', 1 do
+    # adding 4, removing 2
+    assert_difference 'Product::Keyword.count', 2 do
       response = Import::ProductInformation.new(@arguments).import
       assert_equal Import::Response, response.class
     end
