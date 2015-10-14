@@ -29,7 +29,7 @@
 
     <td>
       <%= form_for :data_import, url: product_information_import_path do |f| %>
-        <%= f.select :kieli, translatable_locales_options %>
+        <%= f.select :kieli, dictionary_languages_options %>
         <%= f.select :type, special_product_keyword_options %>
         <%= f.file_field :file %>
         <%= f.submit t('.import') %>
