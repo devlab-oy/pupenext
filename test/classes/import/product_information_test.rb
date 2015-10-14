@@ -60,4 +60,23 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
     row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
     assert_equal keywords, row.values
   end
+
+  test 'row converts removable rows correctly' do
+    # first row from the example file
+    data = {
+      "Tuotenumero"         => "ski1",
+      "Tuotteen materiaali" => "Sininen",
+      "Tuotteen koko"       => "XL",
+      "Poista"              => 'X',
+    }
+
+    # which should translate to product keywords like so
+    keywords = [
+      { tuoteno: 'ski1', laji: 'material', selite: 'Sininen', kieli: 'fi', toiminto: 'POISTA' },
+      { tuoteno: 'ski1', laji: 'koko',     selite: 'XL',      kieli: 'fi', toiminto: 'POISTA' }
+    ]
+
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
+    assert_equal keywords, row.values
+  end
 end
