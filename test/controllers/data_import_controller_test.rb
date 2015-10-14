@@ -40,7 +40,7 @@ class DataImportControllerTest < ActionController::TestCase
       type: 'information'
     }
 
-    assert_difference 'Product::Keyword.count', 3 do
+    assert_difference 'Product::Keyword.count', 2 do
       post :product_information, data_import: params
     end
 
