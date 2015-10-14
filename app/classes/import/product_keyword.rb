@@ -89,7 +89,7 @@ class Import::ProductKeyword::Row
   end
 
   def action_valid?
-    add_new? || modify_row? || add_or_modify?
+    add_new? || modify_row? || add_or_modify? || remove_row?
   end
 
   def product
@@ -119,13 +119,17 @@ class Import::ProductKeyword::Row
       @keyword = product.keywords.find_or_initialize_by(laji: values['laji'], kieli: language)
     elsif add_new?
       @keyword = product.keywords.build
-    elsif modify_row?
+    elsif modify_row? || remove_row?
       @keyword = product.keywords.find_by(laji: values['laji'], kieli: language)
     end
   end
 
   def create
     return if !product || keyword.nil?
+
+    if remove_row?
+      return keyword.destroy
+    end
 
     @hash[:kieli] = product && values['kieli'].blank? ? @product.company.kieli : language
 
@@ -155,5 +159,9 @@ class Import::ProductKeyword::Row
 
   def modify_row?
     %w(muokkaa muuta).include? @toiminto.to_s.downcase
+  end
+
+  def remove_row?
+    %w(poista).include? @toiminto.to_s.downcase
   end
 end
