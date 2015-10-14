@@ -1,8 +1,9 @@
 module Import::DataImportHelper
   def special_product_keyword_options
     [
-      [ 'Parametri',  'parameter'   ],
+      [ 'Avainsana',  'keyword'     ],
       [ 'Lisätieto',  'information' ],
+      [ 'Parametri',  'parameter'   ],
     ]
   end
 end

@@ -5,7 +5,7 @@ class Import::ProductInformation
     Current.company = Company.find company_id
     Current.user = User.find user_id
 
-    raise ArgumentError, "Invalid type" unless %w(information parameter).include?(type)
+    raise ArgumentError, "Invalid type" unless %w(information parameter keyword).include?(type)
     raise ArgumentError, "Invalid language" unless Dictionary.locales.include?(language)
 
     @file = setup_file filename
@@ -106,6 +106,8 @@ class Import::ProductInformation::Row
       Keyword::ProductInformationType.find_by(selitetark: value).try(:selite) || "LISÄTIETO: #{value}"
     when 'parameter'
       Keyword::ProductParameterType.find_by(selitetark: value).try(:selite) || "PARAMETRI: #{value}"
+    when 'keyword'
+      Keyword::ProductKeywordType.find_by(selitetark: value).try(:selite) || "AVAINSANA: #{value}"
     else
       raise ArgumentError
     end
