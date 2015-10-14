@@ -46,10 +46,6 @@ class Import::ProductKeyword
       @response ||= Import::Response.new
     end
 
-    def spreadsheet
-      @file.sheet(0)
-    end
-
     def header_definitions
       [
         'tuoteno',
