@@ -30,7 +30,7 @@ class DataImportControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should update product keywords special" do
+  test "should update product keywords special information" do
     file = fixture_file_upload 'files/product_keyword_information_test.xlsx'
     Product::Keyword.delete_all
 
@@ -41,6 +41,25 @@ class DataImportControllerTest < ActionController::TestCase
     }
 
     assert_difference 'Product::Keyword.count', 2 do
+      post :product_information, data_import: params
+    end
+
+    assert assigns(:spreadsheet)
+    assert_response :success
+  end
+
+  test "should update product keywords special parameters" do
+    file = fixture_file_upload 'files/product_keyword_parameter_test.xlsx'
+    Product::Keyword.delete_all
+
+    params = {
+      file: file,
+      language: 'fi',
+      type: 'parameter'
+    }
+
+    # should add 6, remove 2
+    assert_difference 'Product::Keyword.count', 4 do
       post :product_information, data_import: params
     end
 
