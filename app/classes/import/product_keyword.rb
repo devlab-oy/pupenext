@@ -89,7 +89,7 @@ class Import::ProductKeyword::Row
   end
 
   def action_valid?
-    add_new? || modify_row?
+    add_new? || modify_row? || add_or_modify?
   end
 
   def product
@@ -115,7 +115,9 @@ class Import::ProductKeyword::Row
     return unless product
     return @keyword if @keyword
 
-    if add_new?
+    if add_or_modify?
+      @keyword = product.keywords.find_or_initialize_by(laji: values['laji'], kieli: language)
+    elsif add_new?
       @keyword = product.keywords.build
     elsif modify_row?
       @keyword = product.keywords.find_by(laji: values['laji'], kieli: language)
@@ -135,6 +137,16 @@ class Import::ProductKeyword::Row
     hash = @hash
     hash.each { |k, v| hash[k] = '' if hash[k].nil? }
     hash
+  end
+
+  def add_or_modify?
+    %w(
+      muokkaa/lisää
+      muokkaa/lisÄÄ
+      muokkaa/lisäÄ
+      muokkaa/lisÄä
+      muokkaa/lisaa
+    ).include? @toiminto.to_s.downcase
   end
 
   def add_new?

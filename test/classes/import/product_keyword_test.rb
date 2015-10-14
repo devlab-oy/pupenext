@@ -45,17 +45,20 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
       ["#{@helmet.tuoteno}", 'nimitys', 'foo',    'LISAA'   ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 1',  'LISÄÄ'   ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 2',  'muoKKAa' ],
+      ["#{@hammer.tuoteno}", 'kuvaus',  'bar 2',  'muokkaa/lisää' ],
+      ["#{@hammer.tuoteno}", 'kuvaus',  'bar 3',  'muokkaa/lisää' ],
     ])
 
     keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
 
-    assert_difference 'Product::Keyword.count', 2 do
+    assert_difference 'Product::Keyword.count', 3 do
       response = keywords.import
       assert response.rows.all? { |row| row.errors.empty? }, response.rows.map(&:errors)
     end
 
     assert_equal 'foo',   @helmet.keywords.first.selite
     assert_equal 'bar 2', @hammer.keywords.first.selite
+    assert_equal 'bar 3', @hammer.keywords.last.selite
   end
 
   test 'adding duplicate fails' do
