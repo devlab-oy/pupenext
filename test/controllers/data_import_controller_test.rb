@@ -30,6 +30,24 @@ class DataImportControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should update product keywords special" do
+    file = fixture_file_upload 'files/product_keyword_information_test.xlsx'
+    Product::Keyword.delete_all
+
+    params = {
+      file: file,
+      language: 'fi',
+      type: 'information'
+    }
+
+    assert_difference 'Product::Keyword.count', 3 do
+      post :product_information, data_import: params
+    end
+
+    assert assigns(:spreadsheet)
+    assert_response :success
+  end
+
   test "should get error on a invalid file" do
     post :product_keywords, data_import: { file: '' }
     assert_not_nil flash[:error]
