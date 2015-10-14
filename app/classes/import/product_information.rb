@@ -1,6 +1,8 @@
 require 'csv'
 
 class Import::ProductInformation
+  include Import::Base
+
   def initialize(company_id:, user_id:, filename:, language:, type:)
     Current.company = Company.find company_id
     Current.user = User.find user_id
@@ -56,21 +58,6 @@ class Import::ProductInformation
       end
 
       excel
-    end
-
-    def setup_file(filename)
-      # if we have an rails UploadedFile class
-      if filename.respond_to?(:original_filename)
-        file = filename.open
-        extension = File.extname filename.original_filename
-      else
-        file = File.open filename.to_s
-        extension = File.extname filename.to_s
-      end
-
-      Roo::Spreadsheet.open file, extension: extension
-    ensure
-      file.close if file
     end
 end
 
