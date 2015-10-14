@@ -18,13 +18,12 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
 
     Product::Keyword.delete_all
 
-    @info_file = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_information_test.xlsx'
-    @param_file = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_parameter_test.xlsx'
+    file = Rails.root.join 'test', 'fixtures', 'files', 'product_keyword_information_test.xlsx'
 
     @arguments = {
       company_id: @company,
       user_id: @user,
-      filename: @info_file,
+      filename: file,
       language: 'fi',
       type: 'information',
     }
