@@ -26,7 +26,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
       user_id: @user,
       filename: @info_file,
       language: 'fi',
-      type: :information,
+      type: 'information',
     }
   end
 
@@ -57,7 +57,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
       { tuoteno: 'ski1', laji: 'koko',     selite: 'XL',      kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
     ]
 
-    row = Import::ProductInformation::Row.new data, language: 'fi', type: :information
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
     assert_equal keywords, row.values
   end
 end
