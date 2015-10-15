@@ -44,7 +44,6 @@
     <td>
       <table>
         <tr>
-
           <% if @customer %>
             <td>
               <ul class="list-unstyled">
@@ -119,16 +118,15 @@
 
         </tr>
         <tr>
-
           <% if @customer %>
             <td colspan="2">
+
               <ul class="list-unstyled">
                 <li><%= t('activerecord.models.terms_of_payment') %></li>
                 <li><%= @customer.terms_of_payment.teksti %></li>
               </ul>
             </td>
           <% end %>
-
         </tr>
       </table>
     </td>
@@ -193,7 +191,6 @@
         <% end %>
       </tr>
     <% end %>
-
   <% end %>
 
   </tbody>
