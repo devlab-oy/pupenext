@@ -35,3 +35,15 @@ td > table {
   margin: -2px;
   width:  101%;
 }
+
+thead {
+  display: table-header-group;
+}
+
+tfoot {
+  display: table-row-group;
+}
+
+tr {
+  page-break-inside: avoid;
+}
