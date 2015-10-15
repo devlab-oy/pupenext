@@ -21,6 +21,18 @@
   </tr>
 
   <tr>
+    <td colspan="2">
+      <% if params[:date_start].present? && params[:date_end].present? %>
+        <%= t('reports.customer_price_list.valid_text') %> <%= l Date.parse(params[:date_start]) %>
+        - <%= l Date.parse(params[:date_end]) %>
+      <% else %>
+        <%= t('reports.customer_price_list.valid_text') %> <%= t('reports.customer_price_list.indefinitely').downcase %>
+      <% end %>
+
+    </td>
+  </tr>
+
+  <tr>
     <td>
       <ul class="list-unstyled">
         <li><%= current_company.nimi %></li>
