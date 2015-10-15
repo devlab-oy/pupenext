@@ -2,6 +2,10 @@
 fi:
   activerecord:
     attributes:
+      product:
+        tuoteno: Tuotenumero
+        nimitys: Nimitys
+        voimassa: Voimassa
       account:
         alv_taso: ALV-laskelman verotaso
         kohde: Oletuskohde
@@ -179,6 +183,10 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      customer:
+        asiakasnumero: Asiakasnumero
+        toimitustapa: Toimitustapa
+        maksuehto: Maksuehto
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -307,6 +315,8 @@ fi:
         password: Salasana
         path: Polku palvelimella
         username: Käyttäjätunnus
+      user:
+        myyja: Myyjä
     models:
       account: Tili
       bank_account: Pankkitili
@@ -314,6 +324,9 @@ fi:
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
+      customer: Asiakas
+      customer_category: Asiakasosasto
+      customer_subcategory: Asiakasryhmä
       fiscal_year: Tilikausi
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
       head/purchase_invoice/approved: Ostolasku valmis maksatukseen
@@ -1011,6 +1024,23 @@ fi:
         unit: Kappaletta
         ordered_amount: Tilattu
         total_amount: Laskun summa
+    customer_price_lists:
+      index:
+        all_products: Kaikki tuotteet
+        contract_prices: Sopimushinnat
+        generate: Generoi
+        product_filter: Tuoterajaus
+        target: Kohde
+        target_type: Kohdetyyppi
+      report:
+    customer_price_list:
+      header: Asiakashinnasto
+      page: Sivu
+      running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+      printed: Tulostettu
+      price: Hinta
+      valid: Voimassa
+      sopimushinta: Sopimushinta
   shared:
     excel:
       company: Yritystiedot
