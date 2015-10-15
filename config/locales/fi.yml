@@ -1032,6 +1032,8 @@ fi:
         product_filter: Tuoterajaus
         target: Kohde
         target_type: Kohdetyyppi
+        date_start: Alkupvm
+        date_end: Loppupvm
       report:
     customer_price_list:
       header: Asiakashinnasto
@@ -1041,6 +1043,8 @@ fi:
       price: Hinta
       valid: Voimassa
       sopimushinta: Sopimushinta
+      valid_text: Hinnasto on voimassa
+      indefinitely: Toistaiseksi
   shared:
     excel:
       company: Yritystiedot
