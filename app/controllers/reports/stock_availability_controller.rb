@@ -28,9 +28,9 @@ class Reports::StockAvailabilityController < ApplicationController
 
     def report_selection
       @period_options = [4, 8, 16]
-      @category_options = current_company.categories.pluck(:selitetark, :selite)
-      @subcategory_options = current_company.subcategories.pluck(:selitetark, :selite)
-      @brand_options = current_company.brands.pluck(:selitetark, :selite)
+      @category_options = current_company.categories.pluck(:selitetark, :selite) || []
+      @subcategory_options = current_company.subcategories.pluck(:selitetark, :selite) || []
+      @brand_options = current_company.brands.pluck(:selite, :selite) || []
     end
 
     def parse_constraints
