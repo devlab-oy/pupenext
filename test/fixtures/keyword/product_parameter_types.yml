@@ -6,7 +6,7 @@ DEFAULTS: &DEFAULTS
 
 color:
   yhtio: acme
-  selite: parametri_vari
+  selite: vari
   selitetark: Tuotteen väri
   kieli: fi
   laji: PARAMETRI
@@ -14,7 +14,7 @@ color:
 
 collection:
   yhtio: acme
-  selite: parametri_mallisto
+  selite: mallisto
   selitetark: Malliston nimi
   kieli: fi
   laji: PARAMETRI

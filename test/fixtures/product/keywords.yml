@@ -15,7 +15,7 @@ one:
 two:
   yhtio: acme
   tuoteno: hammer123
-  laji: material
+  laji: parametri_mallisto
   kieli: fi
   selite: Aluminium
   <<: *DEFAULTS
