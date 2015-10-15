@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= t('reports.customer_price_lists.report.header') %></title>
+</head>
+<body>
+<table class="margin-bottom">
+
+  <tr>
+    <td>
+      <img src="data:image/jpg;base64,<%= Base64.encode64(File.read(Rails.root.join('app',
+                                                                                    'assets',
+                                                                                    'images',
+                                                                                    'facelift',
+                                                                                    'logo.png'))) %>"/>
+    </td>
+    <td>
+      <h1><%= t('reports.customer_price_list.header') %></h1>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul class="list-unstyled">
+        <li><%= current_company.nimi %></li>
+        <li><%= current_company.ytunnus %></li>
+        <li><%= current_company.osoite %></li>
+        <li><%= current_company.postino %> <%= current_company.postitp %></li>
+      </ul>
+    </td>
+    <td>
+      <table>
+        <tr>
+          <td>
+
+            <% if @customer %>
+              <ul class="list-unstyled">
+                <li><%= t('activerecord.models.customer') %></li>
+                <li><%= @customer.nimi %></li>
+                <li><%= @customer.osoite %></li>
+                <li><%= @customer.postino %> <%= @customer.postitp %></li>
+              </ul>
+            <% end %>
+
+          </td>
+          <td>
+
+            <% if @customer %>
+              <ul class="list-unstyled">
+                <li><%= t('activerecord.attributes.customer.asiakasnumero') %></li>
+                <li><%= @customer.asiakasnro %></li>
+                <li>
+                  <table class="no-border">
+                    <tr>
+                      <td><%= t('activerecord.models.customer_category') %></td>
+                      <td><%= t('activerecord.models.customer_subcategory') %></td>
+                    </tr>
+                    <tr>
+                      <td><%= @customer.osasto %></td>
+                      <td><%= @customer.ryhma %></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            <% end %>
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ul class="list-unstyled">
+              <li><%= t('activerecord.attributes.user.myyja') %></li>
+              <li><%= current_user.nimi %></li>
+            </ul>
+          </td>
+          <td>
+            <ul class="list-unstyled">
+              <li><%= t('reports.customer_price_list.printed') %></li>
+              <li><%= l Time.now %></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+
+            <% if @customer %>
+              <ul class="list-unstyled">
+                <li><%= t('activerecord.attributes.customer.toimitustapa') %></li>
+                <li><%= @customer.toimitustapa %></li>
+              </ul>
+            <% end %>
+
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+
+            <% if @customer %>
+              <ul class="list-unstyled">
+                <li><%= t('activerecord.models.terms_of_payment') %></li>
+                <li><%= @customer.terms_of_payment.teksti %></li>
+              </ul>
+            <% end %>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <%= Keyword::CustomerPriceListAttribute.message %>
+    </td>
+  </tr>
+
+</table>
+
+<table>
+  <thead>
+
+  <tr>
+    <th><%= t('activerecord.attributes.product.tuoteno') %></th>
+    <th><%= t('activerecord.attributes.product.nimitys') %></th>
+    <th></th>
+    <th><%= t('reports.customer_price_list.price') %></th>
+  </tr>
+
+  </thead>
+  <tbody>
+  <% @products.each do |p| %>
+
+    <tr>
+      <td><strong><%= p.tuoteno %></strong></td>
+      <td><strong><%= p.nimitys %></strong></td>
+      <td><%= t('reports.customer_price_list.sopimushinta') %></td>
+      <td><%= number_to_currency(p.customer_price(@customer.id)) %></td>
+    </tr>
+
+    <% if p.lyhytkuvaus.present? %>
+      <tr>
+        <td colspan="5"><%= p.lyhytkuvaus %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td>
+
+        <% if p.attachments.any? %>
+          <img src="data:image/jpg;base64,<%= Base64.encode64(p.attachments.first.data) %>"
+               style="width: 100%;"/>
+        <% end %></td>
+
+      <td colspan="4"><%= p.kuvaus %></td>
+    </tr>
+
+  <% end %>
+
+  </tbody>
+</table>
+
+</body>
+</html>
