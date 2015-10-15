@@ -2,8 +2,8 @@ class Import::ProductKeyword
   include Import::Base
 
   def initialize(company_id:, user_id:, filename:)
-    Current.company = Company.find_by company_id
-    Current.user = User.find_by user_id
+    Current.company = Company.find company_id
+    Current.user = User.find user_id
 
     @file = setup_file filename
   end
