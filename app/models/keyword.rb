@@ -27,7 +27,7 @@ class Keyword < BaseModel
       S:             Product::Status,
       TRY:           Product::Subcategory,
       TUOTEMERKKI:   Product::Brand,
-      TUOTEULK:      Keyword::ProductKeywordType,
+      TUOTEULK:      Keyword::ProductKeywordType
     }.stringify_keys
   end
 end
