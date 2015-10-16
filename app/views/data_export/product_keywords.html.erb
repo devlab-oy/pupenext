@@ -1,0 +1,6 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_tag product_keyword_export_path do %>
+  <%= render 'products/categories_selection' %>
+  <%= submit_tag t('.generate') %>
+<% end %>
