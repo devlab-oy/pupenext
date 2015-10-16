@@ -611,6 +611,10 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  data_export:
+    product_keywords:
+      header: Tuotteen avainsanat
+      generate: Tallenna Excel
   data_import:
     index:
       header: Tietojen sisäänluku
