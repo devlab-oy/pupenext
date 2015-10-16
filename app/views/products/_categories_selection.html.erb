@@ -1,41 +1,31 @@
-<%
-   categories = options_for_select(categories_options, params[:osasto])
-   subcategories = options_for_select(subcategories_options({ categories: params[:osasto],
-                                                              brands:     params[:tuotemerkki] }),
-                                      params[:try])
-   brands = options_for_select(brands_options({ categories:    params[:osasto],
-                                                subcategories: params[:try] }),
-                               params[:tuotemerkki])
-%>
-
 <div class="categories-selection">
-  <% if categories.present? %>
+  <% if categories_options.present? %>
     <div>
       <%= label_tag 'osasto[]', t('.category') %>
       <%= select_tag 'osasto[]',
-                     categories,
+                     categories_options,
                      class:    'chosen-select',
                      multiple: true,
                      data:     { placeholder: t('.choose_categories') } %>
     </div>
   <% end %>
 
-  <% if subcategories.present? %>
+  <% if subcategories_options.present? %>
     <div>
       <%= label_tag 'try[]', t('.subcategory') %>
       <%= select_tag 'try[]',
-                     subcategories,
+                     subcategories_options,
                      class:    'chosen-select',
                      multiple: true,
                      data:     { placeholder: t('.choose_subcategories') } %>
     </div>
   <% end %>
 
-  <% if brands.present? %>
+  <% if brands_options.present? %>
     <div>
       <%= label_tag 'tuotemerkki[]', t('.brand') %>
       <%= select_tag 'tuotemerkki[]',
-                     brands,
+                     brands_options,
                      class:    'chosen-select',
                      multiple: true,
                      data:     { placeholder: t('.choose_brands') } %>
