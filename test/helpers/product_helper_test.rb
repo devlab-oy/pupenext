@@ -10,12 +10,12 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct categories' do
     args = {
-      categories: ['1000', '1001']
+      categories: %w(1000 1001)
     }
 
     categories = [
-      ['1000', 'Tools'],
-      ['1001', 'Gears'],
+      %w(Tools 1000),
+      %w(Gears 1001),
     ]
 
     assert_equal categories, categories_options(args)
@@ -28,12 +28,12 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct subcategories' do
     args = {
-      subcategories: ['2000', '2001'],
+      subcategories: %w(2000 2001),
     }
 
     subcategories = [
-      ['2000', 'Power tools'],
-      ['2001', 'Full-face helmet'],
+      ['Power tools', '2000'],
+      ['Full-face helmet', '2001'],
     ]
 
     assert_equal subcategories, subcategories_options(args)
