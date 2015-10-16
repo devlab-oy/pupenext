@@ -14,14 +14,14 @@ module ProductHelper
   private
 
     def category_filter
-      Product::Category.pluck(:description, :tag).uniq
+      Product::Category.where(kieli: current_user.locale).pluck(:description, :tag).uniq
     end
 
     def subcatecory_filter
-      Product::Subcategory.filter(categories: params[:osasto]).pluck(:description, :tag).uniq
+      Product::Subcategory.where(kieli: current_user.locale).filter(categories: params[:osasto]).pluck(:description, :tag).uniq
     end
 
     def brand_filter
-      Product::Brand.filter(categories: params[:osasto], subcategories: params[:try]).pluck(:name).uniq
+      Product::Brand.where(kieli: current_user.locale).filter(categories: params[:osasto], subcategories: params[:try]).pluck(:name).uniq
     end
 end
