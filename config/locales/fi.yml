@@ -625,7 +625,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -651,7 +651,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -898,9 +898,12 @@ fi:
       header: Tuotteen tulevat muutokset
       inventory_management_products: Varastokäsittely
       label: Nimitys
+      list_all: Listaa kaikki tallennetut tulevat päivitykset
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
+    list_of_changes:
+      not_found: Yhtään tuotetta ei löytynyt
     list:
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
