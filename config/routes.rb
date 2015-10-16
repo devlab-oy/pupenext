@@ -70,6 +70,11 @@ Pupesoft::Application.routes.draw do
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
   end
 
+  scope :data_export do
+    get '/', to: 'data_export#index', as: :data_export
+    post :product_keywords, to: 'data_export#product_keywords', as: :product_keyword_export
+  end
+
   scope :data_import do
     get '/', to: 'data_import#index', as: :data_import
     post :product_keywords,    to: 'data_import#product_keywords',    as: :product_keyword_import

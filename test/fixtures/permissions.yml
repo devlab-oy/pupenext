@@ -10,6 +10,7 @@
     currencies
     custom_attributes
     customers
+    data_export
     data_import
     downloads
     fiscal_years
