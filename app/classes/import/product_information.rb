@@ -84,9 +84,11 @@ class Import::ProductInformation::Row
   def laji_value(value)
     case @type
     when 'information'
-      Keyword::ProductInformationType.find_by(selitetark: value).try(:selite) || "LISÄTIETO: #{value}"
+      key = Keyword::ProductInformationType.find_by(selitetark: value).try(:selite)
+      key ? "lisatieto_#{key}" : "LISÄTIETO: #{value}"
     when 'parameter'
-      Keyword::ProductParameterType.find_by(selitetark: value).try(:selite) || "PARAMETRI: #{value}"
+      key = Keyword::ProductParameterType.find_by(selitetark: value).try(:selite)
+      key ? "parametri_#{key}" : "PARAMETRI: #{value}"
     when 'keyword'
       Keyword::ProductKeywordType.find_by(selitetark: value).try(:selite) || "AVAINSANA: #{value}"
     else
