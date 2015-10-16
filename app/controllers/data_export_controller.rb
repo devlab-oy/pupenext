@@ -1,9 +1,9 @@
 class DataExportController < ApplicationController
-  def index
+  def product_keywords
     render nothing: true
   end
 
-  def product_keywords
+  def product_keywords_generate
     render nothing: true
   end
 end
