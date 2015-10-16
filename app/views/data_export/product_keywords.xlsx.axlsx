@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Workbook") do |sheet|
+
+  sheet.add_row [
+    Product.human_attribute_name(:tuoteno),
+    Product.human_attribute_name(:nimitys),
+  ]
+
+  @products.each do |product|
+    sheet.add_row [
+      product.tuoteno,
+      product.nimitys,
+    ]
+  end
+end
+
+render partial: 'reports/shared/report_information', locals: { wb: wb }
