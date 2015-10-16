@@ -18,6 +18,16 @@ class PendingProductUpdatesController < ApplicationController
     @products = products.search_like(search_params)
   end
 
+  def list_of_changes
+    @products = Product.regular.joins(:pending_updates)
+
+    if @products.present?
+      render :list
+    else
+      redirect_to pending_product_updates_path, notice: t('.not_found')
+    end
+  end
+
   def update
     @product.update pending_update_params
 
