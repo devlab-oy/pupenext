@@ -23,3 +23,4 @@
 //= require update_title
 //= require chosen.jquery
 //= require enable_chosen
+//= require categories_selection
