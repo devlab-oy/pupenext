@@ -67,8 +67,8 @@ Pupesoft::Application.routes.draw do
   end
 
   scope :data_export do
-    get '/', to: 'data_export#index', as: :data_export
-    post :product_keywords, to: 'data_export#product_keywords', as: :product_keyword_export
+    get  :product_keywords, to: 'data_export#product_keywords', as: :product_keyword_export
+    post :product_keywords, to: 'data_export#product_keywords_generate'
   end
 
   scope :data_import do

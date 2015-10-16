@@ -5,13 +5,13 @@ class DataExportControllerTest < ActionController::TestCase
     login users(:bob)
   end
 
-  test 'index' do
-    get :index
+  test 'product keywords ui' do
+    get :product_keywords
     assert_response :success
   end
 
   test 'product keyword export' do
-    post :product_keywords
+    post :product_keywords_generate
     assert_response :success
   end
 end
