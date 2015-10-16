@@ -21,4 +21,5 @@
 //= require revenue_expenditure_report
 //= require pending_product_updates
 //= require update_title
-//= require revenue_expenditure_report
+//= require chosen.jquery
+//= require enable_chosen
