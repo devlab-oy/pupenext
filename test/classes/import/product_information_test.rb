@@ -41,22 +41,41 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
     end
   end
 
-  test 'row converts excel to fields for product_keyword' do
+  test 'row converts excel to fields for product information keyword' do
     # first row from the example file
     data = {
       "Tuotenumero"         => "ski1",
-      "Tuotteen materiaali" => "Sininen",
+      "Tuotteen materiaali" => "Villa",
       "Tuotteen koko"       => "XL",
       "Poista"              => nil,
     }
 
     # which should translate to product keywords like so
     keywords = [
-      { tuoteno: 'ski1', laji: 'material', selite: 'Sininen', kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' },
-      { tuoteno: 'ski1', laji: 'koko',     selite: 'XL',      kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
+      { tuoteno: 'ski1', laji: 'lisatieto_material', selite: 'Villa', kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' },
+      { tuoteno: 'ski1', laji: 'lisatieto_koko',     selite: 'XL',    kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
     ]
 
     row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
+    assert_equal keywords, row.values
+  end
+
+  test 'row converts excel to fields for product information parameter' do
+    # first row from the example file
+    data = {
+      "Tuotenumero"    => "ski1",
+      "Tuotteen väri"  => "Sininen",
+      "Malliston nimi" => "Summer",
+      "Poista"         => nil,
+    }
+
+    # which should translate to product keywords like so
+    keywords = [
+      { tuoteno: 'ski1', laji: 'parametri_vari',     selite: 'Sininen', kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' },
+      { tuoteno: 'ski1', laji: 'parametri_mallisto', selite: 'Summer',  kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
+    ]
+
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'parameter'
     assert_equal keywords, row.values
   end
 
@@ -64,15 +83,15 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
     # first row from the example file
     data = {
       "Tuotenumero"         => "ski1",
-      "Tuotteen materiaali" => "Sininen",
+      "Tuotteen materiaali" => "Villa",
       "Tuotteen koko"       => "XL",
       "Poista"              => 'X',
     }
 
     # which should translate to product keywords like so
     keywords = [
-      { tuoteno: 'ski1', laji: 'material', selite: 'Sininen', kieli: 'fi', toiminto: 'POISTA' },
-      { tuoteno: 'ski1', laji: 'koko',     selite: 'XL',      kieli: 'fi', toiminto: 'POISTA' }
+      { tuoteno: 'ski1', laji: 'lisatieto_material', selite: 'Villa', kieli: 'fi', toiminto: 'POISTA' },
+      { tuoteno: 'ski1', laji: 'lisatieto_koko',     selite: 'XL',    kieli: 'fi', toiminto: 'POISTA' }
     ]
 
     row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
