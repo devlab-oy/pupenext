@@ -1,10 +1,10 @@
 module ProductHelper
   def categories_options(args = nil)
-    Product::Category.filter(args).pluck(:tag, :description).uniq
+    Product::Category.filter(args).pluck(:description, :tag).uniq
   end
 
   def subcategories_options(args = nil)
-    Product::Subcategory.filter(args).pluck(:tag, :description).uniq
+    Product::Subcategory.filter(args).pluck(:description, :tag).uniq
   end
 
   def brands_options(args = nil)
