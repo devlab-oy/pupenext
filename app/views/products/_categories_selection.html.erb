@@ -1,46 +1,34 @@
-<div style='float: left; padding: 10px; width: 460px;'>
-  <%= label_tag 'osasto[]', t('.category') %>
-  <% categories_options({
-        categories:    params[:osasto],
-        subcategories: params[:try],
-        brands:       params[:tuotemerkki]
-     }).each do |o| %>
+<div class="categories-selection">
+  <% if categories_options.present? %>
     <div>
-      <% chk = params[:osasto] && params[:osasto].include?(o.first) ? true : false %>
-      <%= check_box_tag 'osasto[]', o.first, chk, onchange: 'this.form.submit()' %>
-      <%= o.second %>
+      <%= label_tag 'osasto[]', t('.category') %>
+      <%= select_tag 'osasto[]',
+                     categories_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_categories') } %>
     </div>
   <% end %>
-</div>
 
-<br>
-
-<div style='float: left; padding: 10px; width: 460px;'>
-  <%= label_tag 'try[]', t('.subcategory') %>
-  <% subcategories_options({
-        categories:    params[:osasto],
-        subcategories: params[:try],
-        brands:       params[:tuotemerkki]
-     }).each do |o| %>
+  <% if subcategories_options.present? %>
     <div>
-      <% chk = params[:try] && params[:try].include?(o.first) ? true : false %>
-      <%= check_box_tag 'try[]', o.first, chk, onchange: 'this.form.submit()' %>
-      <%= o.second %>
+      <%= label_tag 'try[]', t('.subcategory') %>
+      <%= select_tag 'try[]',
+                     subcategories_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_subcategories') } %>
     </div>
   <% end %>
-</div>
 
-<div style='float: left; padding: 10px; width: 460px;'>
-  <%= label_tag 'tuotemerkki[]', t('.brand') %>
-  <% brands_options({
-        categories:    params[:osasto],
-        subcategories: params[:try],
-        brands:       params[:tuotemerkki]
-     }).each do |o| %>
+  <% if brands_options.present? %>
     <div>
-      <% chk = params[:tuotemerkki] && params[:tuotemerkki].include?(o.first) ? true : false %>
-      <%= check_box_tag 'tuotemerkki[]', o.first, chk, onchange: 'this.form.submit()' %>
-      <%= o.first %>
+      <%= label_tag 'tuotemerkki[]', t('.brand') %>
+      <%= select_tag 'tuotemerkki[]',
+                     brands_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_brands') } %>
     </div>
   <% end %>
 </div>

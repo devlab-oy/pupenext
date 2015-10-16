@@ -21,3 +21,6 @@
 //= require revenue_expenditure_report
 //= require pending_product_updates
 //= require update_title
+//= require chosen.jquery
+//= require enable_chosen
+//= require categories_selection

@@ -923,6 +923,9 @@ fi:
     categories_selection:
       brand: Merkki
       category: Osasto
+      choose_brands: Valitse merkit
+      choose_categories: Valitse osastot
+      choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
     revenue_expenditure:

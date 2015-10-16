@@ -4,53 +4,60 @@ class ProductHelperTest < ActionView::TestCase
   fixtures %w(products)
 
   test "returns all of companys categories" do
-    args = {}
-    assert_equal Current.company.categories.count, categories_options(args).count
+    @params = {}
+    assert_equal Current.company.categories.count, category_filter.count
   end
 
   test 'returns correct categories' do
-    args = {
-      categories: ['1000', '1001']
+    @params = {
+      osasto: %w(1000 1001)
     }
 
     categories = [
-      ['1000', 'Tools'],
-      ['1001', 'Gears'],
+      %w(Tools 1000),
+      %w(Gears 1001),
     ]
 
-    assert_equal categories, categories_options(args)
+    assert_equal categories, category_filter
   end
 
   test "returns all of companys subcategories" do
-    args = {}
-    assert_equal Current.company.subcategories.count, subcategories_options(args).count
+    @params = {}
+    assert_equal Current.company.subcategories.count, subcatecory_filter.count
   end
 
   test 'returns correct subcategories' do
-    args = {
-      subcategories: ['2000', '2001'],
+    @params = {
+      try: %w(2000 2001),
     }
 
     subcategories = [
-      ['2000', 'Power tools'],
-      ['2001', 'Full-face helmet'],
+      ['Power tools', '2000'],
+      ['Full-face helmet', '2001'],
     ]
 
-    assert_equal subcategories, subcategories_options(args)
+    assert_equal subcategories, subcatecory_filter
   end
 
   test "returns all of companys brands" do
-    args = {}
-    assert_equal Current.company.brands.count, brands_options(args).count
+    @params = {}
+    assert_equal Current.company.brands.count, brand_filter.count
   end
 
   test 'returns correct brands' do
-    args = {
-      brands: ['Bosch', 'Alpinestars']
+    @params = {
+      tuotemerkki: ['Bosch', 'Alpinestars']
     }
 
     brands = ['Alpinestars', 'Bosch']
 
-    assert_equal brands, brands_options(args)
+    assert_equal brands, brand_filter
   end
+
+  private
+
+    # mock request params, so we can test helper
+    def params
+      @params
+    end
 end

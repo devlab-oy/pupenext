@@ -1,0 +1,10 @@
+.categories-selection {
+  & > div {
+    margin:  5px;
+    display: inline-block;
+  }
+
+  select {
+    width: 200px;
+  }
+}
