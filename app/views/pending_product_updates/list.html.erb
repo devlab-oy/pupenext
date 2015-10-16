@@ -2,6 +2,15 @@
 
 <br><br>
 
+<%= form_for :pending_update, url: pending_product_updates_to_product_path, method: :post do |f| %>
+  <% @products.pluck(:tunnus).each do |id| %>
+    <%= f.hidden_field :product_ids, multiple: true, value: id %>
+  <% end %>
+  <%= f.submit t('.deploy_all') %>
+<% end %>
+
+<br><br>
+
 <table width='900'>
 
 <tr>

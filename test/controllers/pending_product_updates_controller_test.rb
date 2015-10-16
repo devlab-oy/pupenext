@@ -48,6 +48,52 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     assert_redirected_to pending_product_updates_path, "should redirect to index when there are no products with pending updates"
   end
 
+  test 'should move pending updates to product' do
+
+    hammer = products :hammer
+    helmet = products :helmet
+
+    ids = [hammer.id, helmet.id]
+
+    pending2 = @pending.dup
+    pending2.key = 'nimitys'
+    pending2.value = 'sledge'
+    pending2.save!
+
+    pending3 = @pending.dup
+    pending3.pending_updatable_id = helmet.id
+    pending3.key = 'nimitys'
+    pending3.value = 'sledge2'
+    pending3.save!
+
+    assert_difference 'PendingUpdate.count', -3 do
+      post :to_product, { pending_update:  { product_ids: ids } }
+      assert_equal 100.5, hammer.reload.myyntihinta
+      assert_equal 'sledge', hammer.nimitys
+      assert_equal 'sledge2', helmet.reload.nimitys
+    end
+
+    assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
+  end
+
+  test 'should not move pending updates to product and should get failed count and error messages' do
+    hammer = products :hammer
+    helmet = products :helmet
+
+    ids = [hammer.id, helmet.id]
+
+    @pending.update_columns key: 'nimitys', value: ''
+
+    assert_difference 'PendingUpdate.count', 0 do
+      post :to_product, { pending_update:  { product_ids: ids } }
+      assert_equal 'All-around hammer', hammer.reload.nimitys
+      assert_equal 1, assigns(:result).failed_count
+      refute assigns(:result).errors.empty?
+    end
+
+    assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
+  end
+
   test "should create pending update" do
     params = {
       pending_updates_attributes: [
