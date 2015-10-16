@@ -1,6 +1,6 @@
 <div class="categories-selection">
   <% if categories_options.present? %>
-    <div>
+    <div class='selection'>
       <%= label_tag 'osasto[]', t('.category') %>
       <%= select_tag 'osasto[]',
                      categories_options,
@@ -11,7 +11,7 @@
   <% end %>
 
   <% if subcategories_options.present? %>
-    <div>
+    <div class='selection'>
       <%= label_tag 'try[]', t('.subcategory') %>
       <%= select_tag 'try[]',
                      subcategories_options,
@@ -22,7 +22,7 @@
   <% end %>
 
   <% if brands_options.present? %>
-    <div>
+    <div class='selection'>
       <%= label_tag 'tuotemerkki[]', t('.brand') %>
       <%= select_tag 'tuotemerkki[]',
                      brands_options,
