@@ -625,7 +625,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -651,7 +651,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -922,11 +922,11 @@ fi:
   products:
     categories_selection:
       brand: Merkki
-      choose_brands: Valitse merkit
       category: Osasto
+      choose_brands: Valitse merkit
       choose_categories: Valitse osastot
-      subcategory: Ryhmä
       choose_subcategories: Valitse ryhmät
+      subcategory: Ryhmä
   reports:
     revenue_expenditure:
       index:
