@@ -5,7 +5,6 @@
                    options_for_select(categories_options, params[:osasto]),
                    class:    'chosen-select',
                    multiple: true,
-                   onchange: 'this.form.submit()',
                    data:     { placeholder: t('.choose_categories') } %>
   </div>
 
@@ -17,7 +16,6 @@
                                       params[:try]),
                    class:    'chosen-select',
                    multiple: true,
-                   onchange: 'this.form.submit()',
                    data:     { placeholder: t('.choose_subcategories') } %>
   </div>
 
@@ -29,7 +27,6 @@
                                       params[:tuotemerkki]),
                    class:    'chosen-select',
                    multiple: true,
-                   onchange: 'this.form.submit()',
                    data:     { placeholder: t('.choose_brands') } %>
   </div>
 </div>
