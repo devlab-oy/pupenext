@@ -22,6 +22,7 @@ class DataExportController < ApplicationController
 
     def searchable_columns
       [
+        extra_fields: [],
         osasto: [],
         try: [],
         tuotemerkki: [],
