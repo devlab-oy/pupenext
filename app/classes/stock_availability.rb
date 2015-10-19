@@ -31,6 +31,8 @@ class StockAvailability
         .by_category(@constraints[:category])
         .by_subcategory(@constraints[:subcategory])
         .by_brand(@constraints[:brand])
+        .order(:tuoteno)
+
       @data ||= products.map do |product|
         product_row = ProductRow.new product
         weekly_row_data = WeeklyRow.new product_row, @baseline_week
