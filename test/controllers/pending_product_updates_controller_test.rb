@@ -73,11 +73,10 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
     assert_difference 'PendingUpdate.count', 0 do
       post :to_product, { pending_update:  { product_ids: [hammer.id, helmet.id] } }
-      refute assigns(:result).errors.empty?
     end
 
     assert_equal 'All-around hammer', hammer.reload.nimitys
-    assert_equal 1, assigns(:result).failed_count
+    assert_match /Nimitys ei voi olla tyhjä/, flash[:notice]
     assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
   end
 
