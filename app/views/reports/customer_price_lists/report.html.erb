@@ -180,7 +180,7 @@
     <% if p.attachments.any? || p.kuvaus.present? %>
       <tr>
         <td>
-          <% if p.attachments.any? %>
+          <% if p.attachments.first && p.attachments.first.data %>
             <img src="data:image/jpg;base64,<%= Base64.encode64(p.attachments.first.data) %>"
                  style="width: 100%;"/>
           <% end %>

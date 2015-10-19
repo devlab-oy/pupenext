@@ -30,7 +30,7 @@ class Reports::CustomerPriceListsController < ApplicationController
       if params[:try]
         @products = @products.where(try: params[:try])
       end
-    elsif params[:contract_filter] == "1"
+    elsif params[:contract_filter] != "2"
       flash.now[:alert] = t('reports.customer_price_lists.index.no_filters_specified')
       return render "index"
     end
