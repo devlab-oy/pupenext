@@ -1,19 +1,30 @@
 .categories-selection {
-  padding-top: 10px;
+  padding-top: 5px;
 
   & > div {
     margin:  5px;
     display: inline-block;
   }
 
-  select {
-    width: 300px;
-  }
+  .selection {
+    width: 600px;
+    display: block;
 
-  label {
-    padding: 5px;
-    vertical-align: top;
-    display: inline-block;
+    label {
+      width: 25%;
+      padding: 5px;
+      vertical-align: top;
+      font-size: 15px;
+      display: inline-block;
+      font-weight: bolder;
+      border-top: 1px dashed #d0d0d0;
+      word-wrap: break-word;
+    }
+
+    select {
+      width: 70%;
+      padding: 10px 10px 10px 10px;
+    }
   }
 
   .selection {
