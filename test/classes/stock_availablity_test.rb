@@ -102,11 +102,11 @@ class StockAvailabilityTest < ActiveSupport::TestCase
 
     testo = TestObject.new("hammer123", "All-around hammer", 330.0, history_amounts, future_amounts,
       [
-        [week0.week, stock0],
-        [week1.week, stock1],
-        [week2.week, stock2],
-        [week3.week, stock3],
-        [week4.week, stock4]
+        [week0.week, week0.stock_values],
+        [week1.week, week1.stock_values],
+        [week2.week, week2.stock_values],
+        [week3.week, week3.stock_values],
+        [week4.week, week4.stock_values]
       ],
       364.0,
       36.0,
@@ -129,10 +129,10 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     # Viikkokohtainen data
     firstweek = report.to_screen.first.viikkodata.first
     assert_equal firstweek.week, week0.week
-    assert_equal firstweek.stock_values.amount_sold, stock0.amount_sold
-    assert_equal firstweek.stock_values.amount_purchased, stock0.amount_purchased
-    assert_equal firstweek.stock_values.total_stock_change, stock0.total_stock_change
-    assert_equal firstweek.stock_values.order_numbers, stock0.order_numbers
+    assert_equal firstweek.stock_values.amount_sold, week0.stock_values.amount_sold
+    assert_equal firstweek.stock_values.amount_purchased, week0.stock_values.amount_purchased
+    assert_equal firstweek.stock_values.total_stock_change, week0.stock_values.total_stock_change
+    assert_equal firstweek.stock_values.order_numbers, week0.stock_values.order_numbers
 
     # Yhteensä-sarake
     assert_equal report.to_screen.first.loppusaldo, testo.loppusaldo
