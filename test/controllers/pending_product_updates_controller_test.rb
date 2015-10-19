@@ -49,30 +49,19 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
   end
 
   test 'should move pending updates to product' do
-
     hammer = products :hammer
     helmet = products :helmet
 
-    ids = [hammer.id, helmet.id]
-
-    pending2 = @pending.dup
-    pending2.key = 'nimitys'
-    pending2.value = 'sledge'
-    pending2.save!
-
-    pending3 = @pending.dup
-    pending3.pending_updatable_id = helmet.id
-    pending3.key = 'nimitys'
-    pending3.value = 'sledge2'
-    pending3.save!
+    @pending.dup.update_attributes! key: 'nimitys', value: 'sledge'
+    @pending.dup.update_attributes! pending_updatable_id: helmet.id, key: 'nimitys', value: 'sledge2'
 
     assert_difference 'PendingUpdate.count', -3 do
-      post :to_product, { pending_update:  { product_ids: ids } }
-      assert_equal 100.5, hammer.reload.myyntihinta
-      assert_equal 'sledge', hammer.nimitys
-      assert_equal 'sledge2', helmet.reload.nimitys
+      post :to_product, { pending_update:  { product_ids: [hammer.id, helmet.id] } }
     end
 
+    assert_equal 100.5, hammer.reload.myyntihinta
+    assert_equal 'sledge', hammer.nimitys
+    assert_equal 'sledge2', helmet.reload.nimitys
     assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
   end
 
@@ -80,17 +69,15 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     hammer = products :hammer
     helmet = products :helmet
 
-    ids = [hammer.id, helmet.id]
-
     @pending.update_columns key: 'nimitys', value: ''
 
     assert_difference 'PendingUpdate.count', 0 do
-      post :to_product, { pending_update:  { product_ids: ids } }
-      assert_equal 'All-around hammer', hammer.reload.nimitys
-      assert_equal 1, assigns(:result).failed_count
+      post :to_product, { pending_update:  { product_ids: [hammer.id, helmet.id] } }
       refute assigns(:result).errors.empty?
     end
 
+    assert_equal 'All-around hammer', hammer.reload.nimitys
+    assert_equal 1, assigns(:result).failed_count
     assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
   end
 
