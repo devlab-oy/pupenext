@@ -625,7 +625,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -651,7 +651,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -902,14 +902,14 @@ fi:
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
-    list_of_changes:
-      not_found: Yhtään tuotetta ei löytynyt
     list:
       deploy_all: Aja listatut päivitykset tuotteille
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
       save: Tallenna muutokset
       sku: Tuotenumero
+    list_of_changes:
+      not_found: Yhtään tuotetta ei löytynyt
     pending_columns_options:
       sales_price: Myyntihinta
       short_description: Lyhytkuvaus
@@ -922,12 +922,12 @@ fi:
     pending_update_fields:
       delete: Poista
     to_product:
-      updated:
-        one: Päivitettiin yksi tuotteen kenttä
-        other: Päivitettiin %{count} tuotteen kenttää
       failed:
-        one: Yhtä tuotteen kenttää ei voitu päivittää, koska %{errors}
-        other: Päivitys epäonnistui %{count}:n kentän osalta, koska %{errors}"
+        one: Yhtä tuotteen kenttää ei voitu päivittää, koska %{errors}.
+        other: Päivitys epäonnistui %{count}:n kentän osalta, koska %{errors}".
+      updated:
+        one: Päivitettiin yksi tuotteen kenttä.
+        other: Päivitettiin %{count} tuotteen kenttää.
     update:
       update_success: Päivitettiin onnistuneesti
   products:
