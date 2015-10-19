@@ -1,6 +1,6 @@
 class StockAvailability
   ProductStockAvailability = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-    :tulevat, :viikkodata, :loppusaldo)
+    :tulevat, :viikkodata, :loppusaldo, :yhteensa_myyty, :yhteensa_ostettu)
 
   def initialize(company_id:, baseline_week:, constraints:)
     @company = Company.find company_id
@@ -42,16 +42,23 @@ class StockAvailability
         history_amounts = product_row.history_amount
         upcoming_amounts = product_row.upcoming_amount(@baseline_week)
 
-        final_stock += history_amounts[1] - history_amounts[0]
-        history_amounts[2] = final_stock
+        final_stock += history_amounts.purchases - history_amounts.sales
+        history_amounts.change = final_stock
+        final_sold = history_amounts.sales
+        final_purchased = history_amounts.purchases
 
         weekly_data.each do |row|
-          final_stock += row[1][2]
-          row[1][2] = final_stock
+          final_stock += row.stock_values.total_stock_change
+          row.stock_values.total_stock_change = final_stock
+
+          final_sold += row.stock_values.amount_sold
+          final_purchased += row.stock_values.amount_purchased
         end
 
-        final_stock += upcoming_amounts[1] - upcoming_amounts[0]
-        upcoming_amounts[2] = final_stock
+        final_stock += upcoming_amounts.purchases - upcoming_amounts.sales
+        upcoming_amounts.change = final_stock
+        final_sold += upcoming_amounts.sales
+        final_purchased += upcoming_amounts.purchases
 
         ProductStockAvailability.new(
           product_row.product.tuoteno,
@@ -60,13 +67,19 @@ class StockAvailability
           history_amounts,
           upcoming_amounts,
           weekly_data,
-          final_stock
+          final_stock,
+          final_sold,
+          final_purchased
         )
       end
     end
 end
 
 class StockAvailability::WeeklyRow
+  WeeklyData = Struct.new(:week, :stock_values)
+  StockValues = Struct.new(:amount_sold, :amount_purchased,
+    :total_stock_change)
+
   def initialize(product_row, baseline_week)
     @product_row = product_row
     @baseline_week = baseline_week
@@ -91,8 +104,14 @@ class StockAvailability::WeeklyRow
     all_weeks.map do |week_number, year|
       range = find_dates_for_week_and_year(week_number, year)
       stock_values = weekly_stock_values range
-      ["#{week_number} / #{year}", stock_values]
+
+      WeeklyData.new(
+        "#{week_number} / #{year}",
+        stock_values
+      )
     end
+
+
   end
 
   private
@@ -117,12 +136,14 @@ class StockAvailability::WeeklyRow
       amount_sold = @product_row.product.amount_sold(range)
       amount_purchased = @product_row.product.amount_purchased(range)
       amount_change = amount_purchased - amount_sold
-      [amount_sold, amount_purchased, amount_change]
+      StockValues.new(amount_sold, amount_purchased, amount_change)
     end
 
 end
 
 class StockAvailability::ProductRow
+  Amounts = Struct.new(:sales, :purchases, :change)
+
   def initialize(product)
     @product = product
   end
@@ -139,14 +160,14 @@ class StockAvailability::ProductRow
     sales = product.sales_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
     purchases = product.purchase_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
     change = purchases - sales
-    [sales, purchases, change]
+    Amounts.new(sales, purchases, change)
   end
 
   def upcoming_amount(baseline_week)
     sales = product.sales_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
     purchases = product.purchase_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
     change = purchases - sales
-    [sales, purchases, change]
+    Amounts.new(sales, purchases, change)
   end
 
   private

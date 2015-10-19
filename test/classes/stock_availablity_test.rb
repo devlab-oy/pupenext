@@ -74,27 +74,67 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     report = StockAvailability.new(company_id: @company.id, baseline_week: 4, constraints: const)
 
     TestObject = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-      :tulevat, :viikkodata, :loppusaldo)
-
+      :tulevat, :viikkodata, :loppusaldo, :yhteensa_myyty, :yhteensa_ostettu)
+    TestWeekObject = Struct.new(:week, :stock_values)
     today = Date.today
-    testo = TestObject.new("hammer123", "All-around hammer", 330.0, [15.0, 12.0, 327.0], [14.0, 55.0, 364.0],
+
+    TestStockObject = Struct.new(:amount_sold, :amount_purchased,
+      :total_stock_change)
+
+    stock0 = TestStockObject.new(7.0, 3.0, 323.0)
+    stock1 = TestStockObject.new(0.0, 0.0, 323.0)
+    stock2 = TestStockObject.new(0.0, 0.0, 323.0)
+    stock3 = TestStockObject.new(0.0, 0.0, 323.0)
+    stock4 = TestStockObject.new(0.0, 0.0, 323.0)
+
+    week0 = TestWeekObject.new("#{today.cweek} / #{today.year}", stock0)
+    week1 = TestWeekObject.new("#{today.cweek+1} / #{today.year}", stock1)
+    week2 = TestWeekObject.new("#{today.cweek+2} / #{today.year}", stock2)
+    week3 = TestWeekObject.new("#{today.cweek+3} / #{today.year}", stock3)
+    week4 = TestWeekObject.new("#{today.cweek+4} / #{today.year}", stock4)
+
+    TestAmounts = Struct.new(:sales, :purchases, :change)
+
+    history_amounts = TestAmounts.new(15.0, 12.0, 327.0)
+    future_amounts  = TestAmounts.new(14.0, 55.0, 364.0)
+
+    testo = TestObject.new("hammer123", "All-around hammer", 330.0, history_amounts, future_amounts,
       [
-        ["#{today.cweek} / #{today.year}", [7.0, 3.0, 323.0]],
-        ["#{today.cweek+1} / #{today.year}", [0.0, 0.0, 323.0]],
-        ["#{today.cweek+2} / #{today.year}", [0.0, 0.0, 323.0]],
-        ["#{today.cweek+3} / #{today.year}", [0.0, 0.0, 323.0]],
-        ["#{today.cweek+4} / #{today.year}", [0.0, 0.0, 323.0]]
+        [week0.week, stock0],
+        [week1.week, stock1],
+        [week2.week, stock2],
+        [week3.week, stock3],
+        [week4.week, stock4]
       ],
-      364.0
+      364.0,
+      36.0,
+      70.0
     )
 
     assert_equal report.to_screen.first.tuoteno, testo.tuoteno
     assert_equal report.to_screen.first.nimitys, testo.nimitys
     assert_equal report.to_screen.first.saldo, testo.saldo
-    assert_equal report.to_screen.first.myohassa, testo.myohassa
-    assert_equal report.to_screen.first.tulevat, testo.tulevat
-    assert_equal report.to_screen.first.viikkodata, testo.viikkodata
+
+    # Historia ja tulevat
+    assert_equal report.to_screen.first.myohassa.sales, testo.myohassa.sales
+    assert_equal report.to_screen.first.myohassa.purchases, testo.myohassa.purchases
+    assert_equal report.to_screen.first.myohassa.change, testo.myohassa.change
+
+    assert_equal report.to_screen.first.tulevat.sales, testo.tulevat.sales
+    assert_equal report.to_screen.first.tulevat.purchases, testo.tulevat.purchases
+    assert_equal report.to_screen.first.tulevat.change, testo.tulevat.change
+
+    # Viikkokohtainen data
+    firstweek = report.to_screen.first.viikkodata.first
+    assert_equal firstweek.week, week0.week
+    assert_equal firstweek.stock_values.amount_sold, stock0.amount_sold
+    assert_equal firstweek.stock_values.amount_purchased, stock0.amount_purchased
+    assert_equal firstweek.stock_values.total_stock_change, stock0.total_stock_change
+
+    # Yhteensä-sarake
     assert_equal report.to_screen.first.loppusaldo, testo.loppusaldo
+    assert_equal report.to_screen.first.yhteensa_myyty, testo.yhteensa_myyty
+    assert_equal report.to_screen.first.yhteensa_ostettu, testo.yhteensa_ostettu
   end
 
 end
