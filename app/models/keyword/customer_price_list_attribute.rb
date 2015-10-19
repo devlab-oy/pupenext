@@ -1,4 +1,7 @@
 class Keyword::CustomerPriceListAttribute < Keyword
+  validates :selite, presence: true
+  validates :selitetark, presence: true
+
   def self.sti_name
     'ASIAKHIN_ATTR'
   end
