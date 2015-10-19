@@ -10,22 +10,22 @@
       <td>
         <%= select_tag(:target_type,
                        options_for_select([[t('activerecord.models.customer'), 1],
-                                           [t('activerecord.models.customer_subcategory'), 2]])) %>
+                                           [t('activerecord.models.customer_subcategory'), 2]], params[:target_type])) %>
       </td>
     </tr>
 
     <tr>
       <th><%= label_tag :target, t('.target') %></th>
-      <td><%= number_field_tag :target, nil, required: true %></td>
+      <td><%= number_field_tag :target, params[:target], required: true %></td>
     </tr>
 
     <tr>
       <th><%= label_tag :date_start, t('.date_start') %></th>
-      <td><%= date_field_tag :date_start, nil, class: :pickadate %></td>
+      <td><%= date_field_tag :date_start, params[:date_start], class: :pickadate %></td>
     </tr>
     <tr>
       <th><%= label_tag :date_end, t('.date_end') %></th>
-      <td><%= date_field_tag :date_end, nil, class: :pickadate %></td>
+      <td><%= date_field_tag :date_end, params[:date_end], class: :pickadate %></td>
     </tr>
     <tr>
       <th><%= label_tag :product_filter, t('.product_filter') %></th>
