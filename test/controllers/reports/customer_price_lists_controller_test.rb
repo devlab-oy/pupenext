@@ -11,7 +11,6 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @hammer   = products(:hammer)
     @helmet   = products(:helmet)
 
-
     @params_customer = {
       commit:      true,
       target_type: 1,
