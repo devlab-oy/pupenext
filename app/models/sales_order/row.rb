@@ -3,7 +3,7 @@ class SalesOrder::Row < Row
 
   validates :tyyppi, inclusion: { in: ['L'] }
 
-  scope :open, -> { where("tilausrivi.varattu > 0 AND tilausrivi.laskutettuaika = '0000-00-00'") }
+  scope :open, -> { where("(tilausrivi.varattu + tilausrivi.jt) > 0 AND tilausrivi.laskutettuaika = '0000-00-00'") }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name

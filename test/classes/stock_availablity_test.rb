@@ -79,9 +79,11 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     today = Date.today
 
     TestStockObject = Struct.new(:amount_sold, :amount_purchased,
-      :total_stock_change)
+      :total_stock_change, :order_numbers)
 
-    stock0 = TestStockObject.new(7.0, 3.0, 323.0)
+    order_numbers0 = [newsorow.otunnus]
+
+    stock0 = TestStockObject.new(7.0, 3.0, 323.0, order_numbers0)
     stock1 = TestStockObject.new(0.0, 0.0, 323.0)
     stock2 = TestStockObject.new(0.0, 0.0, 323.0)
     stock3 = TestStockObject.new(0.0, 0.0, 323.0)
@@ -130,6 +132,7 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     assert_equal firstweek.stock_values.amount_sold, stock0.amount_sold
     assert_equal firstweek.stock_values.amount_purchased, stock0.amount_purchased
     assert_equal firstweek.stock_values.total_stock_change, stock0.total_stock_change
+    assert_equal firstweek.stock_values.order_numbers, stock0.order_numbers
 
     # Yhteensä-sarake
     assert_equal report.to_screen.first.loppusaldo, testo.loppusaldo

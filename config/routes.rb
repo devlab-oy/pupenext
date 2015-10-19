@@ -66,6 +66,7 @@ Pupesoft::Application.routes.draw do
     post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
     get :stock_availability, to: 'stock_availability#index', as: :stock_availability
     post :stock_availability, to: 'stock_availability#run', as: :run_stock_availability
+    get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
   end
 
   scope :data_import do

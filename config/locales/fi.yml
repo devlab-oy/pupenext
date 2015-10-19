@@ -995,6 +995,12 @@ fi:
         report_subcategory: Valitut tuoteryhmät %{selected}
         report_brand: Valitut tuotemerkit %{selected}
         report_period: Tarkasteluaika %{period} viikkoa
+      view_connected_sales_orders:
+        order_number: Tilausnumero
+        shipping_address: Toimitusosoite
+        information: Lisätietoja
+        delivery_date: Toimituspäivä
+        total_amount: Laskun summa
   shared:
     excel:
       company: Yritystiedot
