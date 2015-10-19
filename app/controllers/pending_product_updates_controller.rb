@@ -39,12 +39,12 @@ class PendingProductUpdatesController < ApplicationController
 
   def to_product
     ids = to_product_params[:product_ids]
-    @result = UpdatePendingProducts.new(company_id: current_company.id, product_ids: ids).update
+    result = UpdatePendingProducts.new(company_id: current_company.id, product_ids: ids).update
 
-    message = t('.updated', count: @result.update_count)
+    message = t('.updated', count: result.update_count)
 
-    if @result.failed_count
-      message << t('.failed', count: @result.failed_count, errors: @result.errors.join(', '))
+    if result.failed_count
+      message << ' ' + t('.failed', count: result.failed_count, errors: result.errors.join(', '))
     end
 
     redirect_to pending_product_updates_path, notice: message
