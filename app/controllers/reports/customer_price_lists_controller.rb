@@ -12,7 +12,7 @@ class Reports::CustomerPriceListsController < ApplicationController
 
       unless @customer
         flash.now[:alert] = t('reports.customer_price_lists.index.customer_not_found')
-        return render "index"
+        return render "index", status: :not_found
       end
 
       if params[:contract_filter] == "2"
