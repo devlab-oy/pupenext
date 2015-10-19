@@ -2,10 +2,6 @@
 fi:
   activerecord:
     attributes:
-      product:
-        tuoteno: Tuotenumero
-        nimitys: Nimitys
-        voimassa: Voimassa
       account:
         alv_taso: ALV-laskelman verotaso
         kohde: Oletuskohde
@@ -979,6 +975,7 @@ fi:
     customer_price_list:
       header: Asiakashinnasto
       indefinitely: Toistaiseksi
+      page: Sivu
       price: Hinta
       printed: Tulostettu
       running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
