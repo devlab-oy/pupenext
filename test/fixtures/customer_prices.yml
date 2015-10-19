@@ -1,5 +1,6 @@
 DEFAULTS: &DEFAULTS
   yhtio: acme
+  customer: stubborn_customer
   alkupvm: <%= Time.now %>
   loppupvm: <%= Time.now %>
   luontiaika: <%= Time.now %>
@@ -7,10 +8,8 @@ DEFAULTS: &DEFAULTS
 
 one:
   tuoteno: hammer123
-  customer: stubborn_customer
   <<: *DEFAULTS
 
 two:
   tuoteno: helmet123
-  customer: stubborn_customer
   <<: *DEFAULTS
