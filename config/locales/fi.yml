@@ -2,10 +2,6 @@
 fi:
   activerecord:
     attributes:
-      product:
-        tuoteno: Tuotenumero
-        nimitys: Nimitys
-        voimassa: Voimassa
       account:
         alv_taso: ALV-laskelman verotaso
         kohde: Oletuskohde
@@ -185,8 +181,8 @@ fi:
         ytunnus: Y-tunnus
       customer:
         asiakasnumero: Asiakasnumero
-        toimitustapa: Toimitustapa
         maksuehto: Maksuehto
+        toimitustapa: Toimitustapa
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -277,6 +273,10 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      product:
+        nimitys: Nimitys
+        tuoteno: Tuotenumero
+        voimassa: Voimassa
       qualifier:
         isa_tarkenne: Isätarkenne
         kaytossa: Käytössä
@@ -967,6 +967,28 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
+    customer_price_list:
+      header: Asiakashinnasto
+      indefinitely: Toistaiseksi
+      page: Sivu
+      price: Hinta
+      printed: Tulostettu
+      running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+      sopimushinta: Sopimushinta
+      valid: Voimassa
+      valid_text: Hinnasto on voimassa
+    customer_price_lists:
+      index:
+        all_products: Kaikki tuotteet
+        contract_prices: Sopimushinnat
+        customer_not_found: Asiakasta ei löydy
+        date_end: Loppupvm
+        date_start: Alkupvm
+        generate: Generoi
+        product_filter: Tuoterajaus
+        target: Kohde
+        target_type: Kohdetyyppi
+      report:
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
