@@ -998,7 +998,7 @@ fi:
       view_connected_sales_orders:
         order_number: Tilausnumero
         shipping_address: Toimitusosoite
-        information: Lisätietoja
+        information: Tilausviite
         delivery_date: Toimituspäivä
         total_amount: Laskun summa
   shared:
