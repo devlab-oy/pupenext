@@ -5,6 +5,8 @@ Pupesoft::Application.routes.draw do
   get 'monitoring/nagios/resque/failed', to: 'monitoring#nagios_resque_failed'
 
   get 'pending_product_updates/list', to: 'pending_product_updates#list'
+  get 'pending_product_updates/list_of_changes', to: 'pending_product_updates#list_of_changes'
+  post 'pending_product_updates/to_product', to: 'pending_product_updates#to_product'
   resources :pending_product_updates
 
   scope module: :fixed_assets do

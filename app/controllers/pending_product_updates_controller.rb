@@ -18,6 +18,16 @@ class PendingProductUpdatesController < ApplicationController
     @products = products.search_like(search_params)
   end
 
+  def list_of_changes
+    @products = Product.regular.joins(:pending_updates)
+
+    if @products.present?
+      render :list
+    else
+      redirect_to pending_product_updates_path, notice: t('.not_found')
+    end
+  end
+
   def update
     @product.update pending_update_params
 
@@ -25,6 +35,19 @@ class PendingProductUpdatesController < ApplicationController
       format.html { redirect_to pending_product_updates_path }
       format.js
     end
+  end
+
+  def to_product
+    ids = to_product_params[:product_ids]
+    result = UpdatePendingProducts.new(company_id: current_company.id, product_ids: ids).update
+
+    message = t('.updated', count: result.update_count)
+
+    if result.failed_count
+      message << ' ' + t('.failed', count: result.failed_count, errors: result.errors.join(', '))
+    end
+
+    redirect_to pending_product_updates_path, notice: message
   end
 
   private
@@ -36,6 +59,12 @@ class PendingProductUpdatesController < ApplicationController
     def pending_update_params
       params.require(:product).permit(
         pending_updates_attributes: [ :id, :key, :value, :_destroy ],
+      )
+    end
+
+    def to_product_params
+      params.require(:pending_update).permit(
+        product_ids: [],
       )
     end
 
