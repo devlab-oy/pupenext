@@ -27,9 +27,9 @@ class Product::Keyword < BaseModel
     end
 
     def allowed_laji_values
-      Keyword::ProductInformationType.pluck(:selite) +
+      Keyword::ProductInformationType.pluck(:selite).map { |a| "lisatieto_#{a}" } +
       Keyword::ProductKeywordType.pluck(:selite) +
-      Keyword::ProductParameterType.pluck(:selite) +
+      Keyword::ProductParameterType.pluck(:selite).map { |a| "parametri_#{a}" } +
       %w(
         ei_edi_ostotilaukseen
         hammastus
