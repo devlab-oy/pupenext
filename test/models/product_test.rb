@@ -42,6 +42,7 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.stock_transfer_rows.count > 0
     assert @product.suppliers.count > 0
     assert @product.attachments.count > 0
+    assert @product.customer_prices.count > 0
   end
 
   test 'product stock' do

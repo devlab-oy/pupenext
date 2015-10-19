@@ -1,0 +1,8 @@
+one:
+  yhtio: acme
+  tuoteno: hammer123
+  customer: stubborn_customer
+  alkupvm: <%= Time.now %>
+  loppupvm: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
