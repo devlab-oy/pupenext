@@ -988,6 +988,7 @@ fi:
         generate: Generoi
         no_filters_specified: Et antanut tuoterajauksia
         product_filter: Tuoterajaus
+        products_not_found: Tuotteita ei löytynyt määrittämilläsi hakuehdoilla
         target: Kohde
         target_type: Kohdetyyppi
       report:
