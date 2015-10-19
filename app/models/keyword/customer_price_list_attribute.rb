@@ -4,6 +4,6 @@ class Keyword::CustomerPriceListAttribute < Keyword
   end
 
   def self.message
-    find_by(selite: 'viesti').selitetark
+    find_by(selite: 'viesti').try(:selitetark)
   end
 end
