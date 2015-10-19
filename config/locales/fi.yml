@@ -613,8 +613,12 @@ fi:
       unauthorized: Kirjaudu sisään!
   data_export:
     product_keywords:
-      header: Tuotteen avainsanat
+      choose_extra_fields: Valitse lisäkentät
+      extra_fields: Lisäkentät
       generate: Tallenna Excel
+      header: Tuotteen avainsanat
+      language: Avainsanojen kieli
+      type: Avainsanatyyppi
   data_import:
     index:
       header: Tietojen sisäänluku
@@ -629,7 +633,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -655,7 +659,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
