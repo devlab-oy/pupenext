@@ -980,6 +980,7 @@ fi:
     customer_price_lists:
       index:
         all_products: Kaikki tuotteet
+        contract_filter: Sopimusrajaus
         contract_prices: Sopimushinnat
         customer_not_found: Asiakasta ei löydy
         date_end: Loppupvm
