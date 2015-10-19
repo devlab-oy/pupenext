@@ -5,20 +5,7 @@ class Reports::CustomerPriceListsController < ApplicationController
   def create
     return render "index" unless params[:commit].present?
 
-    if params[:product_filter] && (params[:osasto] || params[:try])
-      @products = Product.includes(:attachments).all
-
-      if params[:osasto]
-        @products = @products.where(osasto: params[:osasto])
-      end
-
-      if params[:try]
-        @products = @products.where(try: params[:try])
-      end
-    else
-      flash.now[:alert] = t('reports.customer_price_lists.index.no_filters_specified')
-      return render "index"
-    end
+    @products = Product.includes(:attachments).all
 
     if params[:target_type] == "1"
       @customer = Customer.find_by(tunnus: params[:target])
@@ -27,8 +14,30 @@ class Reports::CustomerPriceListsController < ApplicationController
         flash.now[:alert] = t('reports.customer_price_lists.index.customer_not_found')
         return render "index"
       end
+
+      if params[:contract_filter] == "2"
+        @products = @customer.products
+      end
     elsif params[:target_type] == "2"
       @customer_subcategory = params[:target]
+    end
+
+    if params[:osasto] || params[:try]
+      if params[:osasto]
+        @products = @products.where(osasto: params[:osasto])
+      end
+
+      if params[:try]
+        @products = @products.where(try: params[:try])
+      end
+    elsif params[:contract_filter] == "1"
+      flash.now[:alert] = t('reports.customer_price_lists.index.no_filters_specified')
+      return render "index"
+    end
+
+    if @products.empty?
+      flash.now[:alert] = t('reports.customer_price_lists.index.products_not_found')
+      return render "index"
     end
 
     ReportJob.perform_later(user_id:       current_user.id,
