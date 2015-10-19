@@ -10,12 +10,14 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct categories' do
     @params = {
-      osasto: %w(1000 1001)
+      osasto: %w(1000 1001),
+      try: %w(2000 2001),
     }
 
     categories = [
-      %w(Tools 1000),
-      %w(Gears 1001),
+      ['1000 - Tools', '1000'],
+      ['1001 - Gears', '1001'],
+      ["1005 - Winter", "1005"],
     ]
 
     assert_equal categories, category_filter
@@ -29,11 +31,12 @@ class ProductHelperTest < ActionView::TestCase
   test 'returns correct subcategories' do
     @params = {
       try: %w(2000 2001),
+      tuotemerkki: %w(Bosch Alpinestars),
     }
 
     subcategories = [
-      ['Power tools', '2000'],
-      ['Full-face helmet', '2001'],
+      ['2000 - Power tools', '2000'],
+      ['2001 - Full-face helmet', '2001'],
     ]
 
     assert_equal subcategories, subcatecory_filter
@@ -46,10 +49,10 @@ class ProductHelperTest < ActionView::TestCase
 
   test 'returns correct brands' do
     @params = {
-      tuotemerkki: ['Bosch', 'Alpinestars']
+      tuotemerkki: %w(Bosch Alpinestars)
     }
 
-    brands = ['Alpinestars', 'Bosch']
+    brands = %w(Alpinestars Bosch)
 
     assert_equal brands, brand_filter
   end
@@ -59,5 +62,10 @@ class ProductHelperTest < ActionView::TestCase
     # mock request params, so we can test helper
     def params
       @params
+    end
+
+    # mock current user, so we can test helper
+    def current_user
+      @current_user ||= users(:bob)
     end
 end
