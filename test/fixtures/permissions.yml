@@ -11,6 +11,7 @@
     custom_attributes
     customers
     data_export
+    customer_price_lists
     data_import
     downloads
     fiscal_years
