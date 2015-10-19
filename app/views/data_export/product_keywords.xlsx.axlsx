@@ -1,16 +1,14 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Workbook") do |sheet|
 
-  sheet.add_row [
-    Product.human_attribute_name(:tuoteno),
-    Product.human_attribute_name(:nimitys),
-  ]
+  header_row = @extra_fields.map { |field| Product.human_attribute_name(field.to_sym) }
+
+  sheet.add_row header_row
 
   @products.each do |product|
-    sheet.add_row [
-      product.tuoteno,
-      product.nimitys,
-    ]
+    row = @extra_fields.map { |field| product.send(field) }
+
+    sheet.add_row row
   end
 end
 
