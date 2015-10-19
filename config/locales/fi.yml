@@ -985,6 +985,7 @@ fi:
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
+        no_filters_specified: Et antanut tuoterajauksia
         product_filter: Tuoterajaus
         target: Kohde
         target_type: Kohdetyyppi
