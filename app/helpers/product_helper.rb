@@ -4,7 +4,7 @@ module ProductHelper
   end
 
   def subcategories_options
-    options_for_select subcatecory_filter, params[:try]
+    options_for_select subcategory_filter, params[:try]
   end
 
   def brands_options
@@ -13,23 +13,21 @@ module ProductHelper
 
   private
 
-    def args
-      {
-        categories:    params[:osasto],
-        subcategories: params[:try],
-        brands:        params[:tuotemerkki]
-      }
-    end
-
     def category_filter
-      Product::Category.filter(args).pluck(:description, :tag).uniq
+      Product::Category.where(kieli: current_user.locale)
+        .order(:jarjestys, :selite, :selitetark)
+        .map { |c| ["#{c.tag} - #{c.description}", c.tag] }.uniq
     end
 
-    def subcatecory_filter
-      Product::Subcategory.filter(args).pluck(:description, :tag).uniq
+    def subcategory_filter
+      Product::Subcategory.where(kieli: current_user.locale)
+        .filter(categories: params[:osasto])
+        .map { |c| ["#{c.tag} - #{c.description}", c.tag] }.uniq
     end
 
     def brand_filter
-      Product::Brand.filter(args).pluck(:name).uniq
+      Product::Brand.where(kieli: current_user.locale)
+        .filter(categories: params[:osasto], subcategories: params[:try])
+        .pluck(:name).uniq
     end
 end

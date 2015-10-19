@@ -21,6 +21,7 @@ category_tools:
   yhtio: acme
   selite: 1000
   selitetark: Tools
+  kieli: fi
   laji: OSASTO
   <<: *DEFAULTS
 
@@ -28,6 +29,7 @@ category_gears:
   yhtio: acme
   selite: 1001
   selitetark: Gears
+  kieli: fi
   laji: OSASTO
   <<: *DEFAULTS
 
@@ -35,6 +37,7 @@ category_winter:
   yhtio: acme
   selite: 1005
   selitetark: Winter
+  kieli: fi
   laji: OSASTO
   <<: *DEFAULTS
 
@@ -42,6 +45,7 @@ subcategory_tools:
   yhtio: acme
   selite: 2000
   selitetark: Power tools
+  kieli: fi
   laji: TRY
   <<: *DEFAULTS
 
@@ -49,18 +53,21 @@ subcategory_gears:
   yhtio: acme
   selite: 2001
   selitetark: Full-face helmet
+  kieli: fi
   laji: TRY
   <<: *DEFAULTS
 
 brand_tools:
   yhtio: acme
   selite: Bosch
+  kieli: fi
   laji: TUOTEMERKKI
   <<: *DEFAULTS
 
 brand_gears:
   yhtio: acme
   selite: Alpinestars
+  kieli: fi
   laji: TUOTEMERKKI
   <<: *DEFAULTS
 
