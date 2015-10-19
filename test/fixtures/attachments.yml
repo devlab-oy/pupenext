@@ -1,0 +1,6 @@
+product_attachment_1:
+  yhtio: acme
+  liitos: tuote
+  product: hammer
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

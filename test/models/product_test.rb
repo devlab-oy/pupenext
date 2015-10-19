@@ -3,6 +3,7 @@ require 'minitest/mock'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
+    attachments
     customers
     keywords
     manufacture_order/rows
@@ -59,6 +60,7 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.shelf_locations.count > 0
     assert @product.stock_transfer_rows.count > 0
     assert @product.suppliers.count > 0
+    assert @product.attachments.count > 0
   end
 
   test 'scopes' do
