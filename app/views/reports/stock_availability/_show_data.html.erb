@@ -18,31 +18,31 @@
     </tr>
     <tr>
       <td style='font-weight:bold;'><%= t('.past') %></td>
-      <td style='font-weight:bold;'><%= data.myohassa[0] %></td>
-      <td style='font-weight:bold;'><%= data.myohassa[1] %></td>
-      <td style='font-weight:bold;'><%= data.myohassa[2] %></td>
+      <td style='font-weight:bold;'><%= data.myohassa.sales %></td>
+      <td style='font-weight:bold;'><%= data.myohassa.purchases %></td>
+      <td style='font-weight:bold;'><%= data.myohassa.change %></td>
     </tr>
 
     <% data.viikkodata.each do |weekly_data| %>
       <tr>
-        <td><%= weekly_data[0] %></td>
-        <td><%= weekly_data[1][0] %></td>
-        <td><%= weekly_data[1][1] %></td>
-        <td><%= weekly_data[1][2] %></td>
+        <td><%= weekly_data.week %></td>
+        <td><%= weekly_data.stock_values.amount_sold %></td>
+        <td><%= weekly_data.stock_values.amount_purchased %></td>
+        <td><%= weekly_data.stock_values.total_stock_change %></td>
       </tr>
     <% end %>
 
     <tr>
       <td style='font-weight:bold;'><%= t('.future') %></td>
-      <td style='font-weight:bold;'><%= data.tulevat[0] %></td>
-      <td style='font-weight:bold;'><%= data.tulevat[1] %></td>
-      <td style='font-weight:bold;'><%= data.tulevat[2] %></td>
+      <td style='font-weight:bold;'><%= data.tulevat.sales %></td>
+      <td style='font-weight:bold;'><%= data.tulevat.purchases %></td>
+      <td style='font-weight:bold;'><%= data.tulevat.change %></td>
     </tr>
 
     <tr>
       <td style='font-weight:bold;'><%= t('.total') %></td>
-      <td></td>
-      <td></td>
+      <td style='font-weight:bold;'><%= data.yhteensa_myyty %></td>
+      <td style='font-weight:bold;'><%= data.yhteensa_ostettu %></td>
       <td style='font-weight:bold;'><%= data.loppusaldo %></td>
     </tr>
   <% end %>
