@@ -134,11 +134,13 @@
     </td>
   </tr>
 
-  <tr>
-    <td colspan="2">
-      <%= Keyword::CustomerPriceListAttribute.message %>
-    </td>
-  </tr>
+  <% if Keyword::CustomerPriceListAttribute.message.present? %>
+    <tr>
+      <td colspan="2">
+        <%= Keyword::CustomerPriceListAttribute.message %>
+      </td>
+    </tr>
+  <% end %>
 
 </table>
 
