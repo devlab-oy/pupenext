@@ -78,7 +78,7 @@ end
 class StockAvailability::WeeklyRow
   WeeklyData = Struct.new(:week, :stock_values)
   StockValues = Struct.new(:amount_sold, :amount_purchased,
-    :total_stock_change)
+    :total_stock_change, :order_numbers)
 
   def initialize(product_row, baseline_week)
     @product_row = product_row
@@ -133,10 +133,12 @@ class StockAvailability::WeeklyRow
     end
 
     def weekly_stock_values(range)
-      amount_sold = @product_row.product.amount_sold(range)
+      sales_data = @product_row.product.amount_sold(range)
+      amount_sold = sales_data[0]
+      order_numbers = sales_data[1]
       amount_purchased = @product_row.product.amount_purchased(range)
       amount_change = amount_purchased - amount_sold
-      StockValues.new(amount_sold, amount_purchased, amount_change)
+      StockValues.new(amount_sold, amount_purchased, amount_change, order_numbers)
     end
 
 end

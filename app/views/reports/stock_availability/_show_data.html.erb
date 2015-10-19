@@ -41,7 +41,15 @@
     <% data.viikkodata.each do |weekly_data| %>
       <tr>
         <td><%= weekly_data.week %></td>
-        <td><%= weekly_data.stock_values.amount_sold %></td>
+        <td>
+          <% if weekly_data.stock_values.amount_sold > 0 %>
+            <%= link_to view_connected_sales_orders_path(order_numbers: weekly_data.stock_values.order_numbers), :target => "_blank" do %>
+              <%= weekly_data.stock_values.amount_sold %>
+            <% end %>
+          <% else %>
+            <%= weekly_data.stock_values.amount_sold %>
+          <% end %>
+        </td>
         <td><%= weekly_data.stock_values.amount_purchased %></td>
         <td><%= weekly_data.stock_values.total_stock_change %></td>
       </tr>

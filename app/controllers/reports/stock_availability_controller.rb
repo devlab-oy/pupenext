@@ -9,19 +9,22 @@ class Reports::StockAvailabilityController < ApplicationController
     end
   end
 
-    def run
-      ReportJob.perform_later(
-        user_id: current_user.id,
-        company_id: current_company.id,
-        report_class: 'StockAvailability',
-        report_params: { company_id: current_company.id, baseline_week: params[:baseline],
-          constraints: parse_constraints },
-        report_name: t('reports.stock_availability.index.header')
-      )
+  def run
+    ReportJob.perform_later(
+      user_id: current_user.id,
+      company_id: current_company.id,
+      report_class: 'StockAvailability',
+      report_params: { company_id: current_company.id, baseline_week: params[:baseline],
+        constraints: parse_constraints },
+      report_name: t('reports.stock_availability.index.header')
+    )
+    flash[:notice] = t('reports.stock_availability.index.running')
+    redirect_to stock_availability_path
+  end
 
-      flash[:notice] = t('reports.stock_availability.index.running')
-      redirect_to stock_availability_path
-    end
+  def view_connected_sales_orders
+    @orders = current_company.sales_order_drafts.find(params[:order_numbers])
+  end
 
   private
 
