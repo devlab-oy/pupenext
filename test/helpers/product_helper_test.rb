@@ -12,6 +12,7 @@ class ProductHelperTest < ActionView::TestCase
     @params = {
       osasto: %w(1000 1001),
       try: %w(2000 2001),
+      tuotemerkki: %w(Bosch Alpinestars),
     }
 
     categories = [
@@ -20,12 +21,9 @@ class ProductHelperTest < ActionView::TestCase
       ["1005 - Winter", "1005"],
     ]
 
+    # categories always return all categories
     assert_equal categories, category_filter
-  end
-
-  test "returns all of companys subcategories" do
-    @params = {}
-    assert_equal Current.company.subcategories.count, subcatecory_filter.count
+    assert_equal Current.company.categories.count, category_filter.count
   end
 
   test 'returns correct subcategories' do
@@ -39,12 +37,9 @@ class ProductHelperTest < ActionView::TestCase
       ['2001 - Full-face helmet', '2001'],
     ]
 
-    assert_equal subcategories, subcatecory_filter
-  end
-
-  test "returns all of companys brands" do
-    @params = {}
-    assert_equal Current.company.brands.count, brand_filter.count
+    # if we don't filter by categories, we'll always get all subcategories
+    assert_equal subcategories, subcategory_filter
+    assert_equal Current.company.subcategories.count, subcategory_filter.count
   end
 
   test 'returns correct brands' do
@@ -54,7 +49,9 @@ class ProductHelperTest < ActionView::TestCase
 
     brands = %w(Alpinestars Bosch)
 
+    # if we don't filter by categories or subcategories, we'll always get all brands
     assert_equal brands, brand_filter
+    assert_equal Current.company.brands.count, brand_filter.count
   end
 
   private
