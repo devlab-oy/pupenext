@@ -28,8 +28,8 @@
       <td><%= date_field_tag :date_end, params[:date_end], class: :pickadate %></td>
     </tr>
     <tr>
-      <th><%= label_tag :product_filter, t('.product_filter') %></th>
-      <td><%= select_tag(:product_filter,
+      <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
+      <td><%= select_tag(:contract_filter,
                          options_for_select([[t('.all_products'), 1],
                                              [t('.contract_prices'), 2]])) %></td>
     </tr>
