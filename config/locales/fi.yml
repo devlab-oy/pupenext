@@ -991,6 +991,10 @@ fi:
         stock: Varastosaldo
         week: Viikko
         total: Yhteensä
+        report_category: Valitut osastot %{selected}
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        report_brand: Valitut tuotemerkit %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
   shared:
     excel:
       company: Yritystiedot

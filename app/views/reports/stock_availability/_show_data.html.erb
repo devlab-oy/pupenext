@@ -1,7 +1,22 @@
 <table>
   <tr>
     <th colspan='4'><%= current_company.nimi %></th>
+  </tr>
   <tr>
+    <td colspan='3'>
+      <%= t('.report_period', period: params[:period]) %> <br/>
+      <% unless params[:product_category].nil? %>
+        <%= t('.report_category', selected: params[:product_category].join(', ')) %> <br/>
+      <% end %>
+      <% unless params[:product_subcategory].nil? %>
+        <%= t('.report_subcategory', selected: params[:product_subcategory].join(', ')) %> <br/>
+      <% end %>
+      <% unless params[:product_brand].nil? %>
+        <%= t('.report_brand', selected: params[:product_brand].join(', ')) %> <br/>
+      <% end %>
+    </td>
+    <td><%= Date.today %></td>
+  </tr>
   <tr>
     <th><%= t('.product') %> <br/> <%= t('.week') %></th>
     <th><%= t('.sales') %></th>
@@ -45,6 +60,7 @@
       <td style='font-weight:bold;'><%= data.yhteensa_ostettu %></td>
       <td style='font-weight:bold;'><%= data.loppusaldo %></td>
     </tr>
+    <tr><td><br/><br/></td></tr>
   <% end %>
 
 </table>
