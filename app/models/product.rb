@@ -43,10 +43,11 @@ class Product < BaseModel
     no_inventory_management: 'o'
   }
 
-  scope :not_deleted, -> { where.not(status: :P) }
+  scope :active, -> { not_deleted.regular }
   scope :deleted, -> { where(status: :P) }
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
-  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)
@@ -61,6 +62,14 @@ class Product < BaseModel
 
   def stock_available
     stock - stock_reserved
+  end
+
+  def customer_price(customer_id)
+    LegacyMethods.customer_price(customer_id, id)
+  end
+
+  def customer_subcategory_price(customer_subcategory_id)
+    LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
   end
 
   private

@@ -3,7 +3,7 @@ class PendingUpdate < ActiveRecord::Base
 
   belongs_to :pending_updatable, polymorphic: true
 
-  validates :key, presence: true
+  validates :key, presence: true, uniqueness: { scope: :pending_updatable_id }
   validates :pending_updatable, presence: true
 
   validate :updatable_attributes

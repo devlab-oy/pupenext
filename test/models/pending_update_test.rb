@@ -20,4 +20,11 @@ class PendingUpdateTest < ActiveSupport::TestCase
 
     assert_equal 'Nimitys ei voi olla tyhjä', @pending_update.errors.first.second
   end
+
+  test "should fail for scope" do
+    pending_update_duplicate = @pending_update.dup
+
+    refute pending_update_duplicate.valid?, pending_update_duplicate.errors.messages
+    assert_equal 'on jo käytössä', pending_update_duplicate.errors.first.second
+  end
 end
