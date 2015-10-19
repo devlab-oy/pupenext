@@ -5,7 +5,6 @@ class Reports::StockAvailabilityController < ApplicationController
       report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
         constraints: parse_constraints
       @data = report.to_screen
-      params.delete(:period)
       render :index
     end
   end
