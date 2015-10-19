@@ -4,7 +4,7 @@ module ProductHelper
   end
 
   def subcategories_options
-    options_for_select subcatecory_filter, params[:try]
+    options_for_select subcategory_filter, params[:try]
   end
 
   def brands_options
@@ -19,7 +19,7 @@ module ProductHelper
         .map { |c| ["#{c.tag} - #{c.description}", c.tag] }.uniq
     end
 
-    def subcatecory_filter
+    def subcategory_filter
       Product::Subcategory.where(kieli: current_user.locale)
         .filter(categories: params[:osasto])
         .map { |c| ["#{c.tag} - #{c.description}", c.tag] }.uniq
