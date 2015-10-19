@@ -5,8 +5,9 @@ class DataExportController < ApplicationController
   end
 
   def product_keywords_generate
-    redirect_to product_keyword_export_path(search_params) and return if params[:commit].blank?
+    redirect_to product_keyword_export_path(keyword_params) and return if params[:commit].blank?
 
+    @extra_fields = keyword_params[:extra_fields]
     @products = Product.regular.includes(:keywords).search_like(search_params)
 
     respond_to do |format|
@@ -20,9 +21,17 @@ class DataExportController < ApplicationController
       []
     end
 
+    def keyword_params
+      params.permit(
+        extra_fields: [],
+        osasto: [],
+        try: [],
+        tuotemerkki: [],
+      )
+    end
+
     def searchable_columns
       [
-        extra_fields: [],
         osasto: [],
         try: [],
         tuotemerkki: [],
