@@ -23,7 +23,7 @@ class Reports::StockAvailabilityController < ApplicationController
   end
 
   def view_connected_sales_orders
-    @orders = current_company.sales_order_drafts.find(params[:order_numbers])
+    @orders = current_company.heads.sales_orders.find(params[:order_numbers])
   end
 
   private
