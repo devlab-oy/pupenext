@@ -5,21 +5,14 @@ class Reports::StockAvailabilityController < ApplicationController
       report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
         constraints: parse_constraints
       @data = report.to_screen
+
+      kit = PDFKit.new(render_to_string(:to_pdf, layout: false), :page_size => 'Letter')
+      pdf = kit.to_pdf
+      file = kit.to_file('/tmp/kissa.pdf')
+      flash[:notice] = t('reports.stock_availability.index.running')
+
       render :index
     end
-  end
-
-  def run
-    ReportJob.perform_later(
-      user_id: current_user.id,
-      company_id: current_company.id,
-      report_class: 'StockAvailability',
-      report_params: { company_id: current_company.id, baseline_week: params[:baseline],
-        constraints: parse_constraints },
-      report_name: t('reports.stock_availability.index.header')
-    )
-    flash[:notice] = t('reports.stock_availability.index.running')
-    redirect_to stock_availability_path
   end
 
   def view_connected_sales_orders

@@ -14,10 +14,6 @@
 <%= render 'form' %>
 <br/>
 
-<%= button_to t('.run'), run_stock_availability_path %>
-
-<br/>
-
 <% if @data.present? %>
   <%= render 'show_data' %>
 <% end %>
