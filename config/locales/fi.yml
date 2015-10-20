@@ -975,7 +975,6 @@ fi:
     customer_price_list:
       header: Asiakashinnasto
       indefinitely: Toistaiseksi
-      page: Sivu
       price: Hinta
       printed: Tulostettu
       running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
