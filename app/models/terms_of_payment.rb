@@ -62,7 +62,7 @@ class TermsOfPayment < BaseModel
       count = company.customers.where(maksuehto: tunnus).count
       errors.add(:base, I18n.t("#{root}.in_use_customers", count: count)) unless count.zero?
 
-      count = company.sales_orders.not_delivered.where(maksuehto: tunnus).count
+      count = company.sales_order_orders.not_delivered.where(maksuehto: tunnus).count
       errors.add(:base, I18n.t("#{root}.in_use_sales_orders", count: count)) unless count.zero?
 
       count = company.sales_order_drafts.where(maksuehto: tunnus).count
