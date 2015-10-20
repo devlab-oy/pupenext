@@ -56,3 +56,15 @@ pr1:
   nimitys: Päiväraha
   tuotetyyppi: A
   <<: *DEFAULTS
+
+pulli_nuotti:
+  yhtio: pulli
+  tuoteno: PNV
+  nimitys: Nuottivihko
+  <<: *DEFAULTS
+
+pulli_piano:
+  yhtio: pulli
+  tuoteno: PNP
+  nimitys: Piano
+  <<: *DEFAULTS

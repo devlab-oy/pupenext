@@ -47,4 +47,43 @@ class Head::SalesInvoice < Head
   def deliveryperiod_end
     rows.map(&:delivery_date).max
   end
+
+  def vat_specification
+    # We should return an array of hashes with amounts per tax class
+    vat_rates.map do |tax|
+     {
+       vat_rate: tax,
+       vat_code: vat_code(tax),
+       base_amount: vat_base(tax),
+       vat_amount: vat_amount(tax)
+     }
+    end
+  end
+
+  private
+    def vat_rates
+      rows.select(:alv).map(&:alv).uniq.sort
+    end
+
+    def vat_base(vat_rate)
+      rows.where(alv: vat_rate).to_a.sum(&:rivihinta).round(2)
+    end
+
+    def vat_amount(vat_rate)
+      rows.where(alv: vat_rate).to_a.sum { |r| r.rivihinta * r.vat_percent/100 }.round(2)
+    end
+
+    def vat_code(vat_rate)
+      if vat_rate >= 600
+        "AE" # VAT Reverse Charge
+      elsif vat_rate >= 500
+        "AB" # Exempt for resale
+      elsif vienti == "E"
+        "E" # Exempt from tax
+      elsif vienti == "K"
+        "G" # Free export item, tax not charged
+      else
+        "S" # Standard rate
+      end
+    end
 end

@@ -42,66 +42,13 @@ class Finvoice
         invoicedetails
       }
       doc.PaymentStatusDetails {
-        doc.PaymentStatusCode "NOTPAID"
+        paymentstatus
       }
-      doc.InvoiceRow {
-        doc.ArticleIdentifier "12"
-        doc.ArticleName "Nuottivihko"
-        doc.DeliveredQuantity("QuantityUnitCode" => "kpl") {
-          doc.text("89")
-        }
-        doc.OrderedQuantity "100"
-        doc.InvoicedQuantity("QuantityUnitCode" => "EUR") {
-          doc.text("165,54")
-        }
-        doc.UnitPriceAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("1,50")
-        }
-        doc.RowPositionIdentifier "1"
-        doc.RowFreeText "Puuttuvat toimitetaan mahdollisimman pian"
-        doc.RowVatRatePercent "24,0"
-        doc.RowVatAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("32,04")
-        }
-        doc.RowVatExcludedAmount("AmountCurrencyIdentifier" => "EUR") {
-          doc.text("133,50")
-        }
-      }
+
+      invoicerows
+
       doc.EpiDetails {
-        doc.EpiIdentificationDetails {
-          doc.EpiDate("Format" => "CCYYMMDD") {
-            doc.text("20130814")
-          }
-          doc.EpiReference "0"
-        }
-        doc.EpiPartyDetails {
-          doc.EpiBfiPartyDetails {
-            doc.EpiBfiIdentifier("IdentificationSchemeName" => "BIC") {
-              doc.text("BANKFIHH")
-            }
-          }
-          doc.EpiBeneficiaryPartyDetails {
-            doc.EpiNameAddressDetails "Pullin Musiikki Oy"
-            doc.EpiBei "5647382910"
-            doc.EpiAccountID("IdentificationSchemeName" => "IBAN") {
-              doc.text("FI3329501800008512")
-            }
-          }
-        }
-        doc.EpiPaymentInstructionDetails {
-          doc.EpiPaymentInstructionId "192837465"
-          doc.EpiRemittanceInfoIdentifier("IdentificationSchemeName" => "ISO") {
-            doc.text("RF471234567890")
-          }
-          doc.EpiInstructedAmount("AmountCurrencyIdentifier" => "EUR") {
-            doc.text("165,54")
-          }
-          doc.EpiCharge("ChargeOption" => "SLEV") {
-          }
-          doc.EpiDateOptionDate("Format" => "CCYYMMDD") {
-            doc.text("20130828")
-          }
-        }
+        epidetails
       }
     }
 
@@ -115,6 +62,10 @@ class Finvoice
   private
     def doc
       @document
+    end
+
+    def finvoice_number(num)
+      number_to_currency(num, separator: ",", delimiter: "", format: "%n")
     end
 
     def return_valid_xml
@@ -249,25 +200,27 @@ class Finvoice
       doc.AgreementIdentifier @invoice.viesti
 
       doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-        doc.text(number_to_currency(@invoice.arvo, separator: ",", format: "%n"))
+        doc.text(finvoice_number(@invoice.arvo))
       }
       doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
         alv = (@invoice.summa - @invoice.arvo).round(2)
-        doc.text(number_to_currency(alv, separator: ",", format: "%n"))
+        doc.text(finvoice_number(alv))
       }
       doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-        doc.text(number_to_currency(@invoice.summa, separator: ",", format: "%n"))
+        doc.text(finvoice_number(@invoice.summa))
       }
 
-      doc.VatSpecificationDetails {
-        doc.VatBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
-          doc.text("133,50")
+      @invoice.vat_specification.each do |vat|
+        doc.VatSpecificationDetails {
+          doc.VatBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+            doc.text(finvoice_number(vat[:base_amount]))
+          }
+          doc.VatRatePercent finvoice_number(vat[:vat_rate])
+          doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+           doc.text(finvoice_number(vat[:vat_amount]))
+          }
         }
-        doc.VatRatePercent "24,0"
-        doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
-          doc.text("32,04")
-        }
-      }
+      end
 
       doc.PaymentTermsDetails {
         doc.PaymentTermsFreeText "14 päivää netto"
@@ -281,10 +234,78 @@ class Finvoice
       }
     end
 
-    def rows
+    def paymentstatus
+      doc.PaymentStatusCode "NOTPAID"
+    end
+    def invoicerows
       @invoice.rows.each do |row|
-        row.tuoteno
-        row.nimitys
+        doc.InvoiceRow {
+          doc.ArticleIdentifier row.tuoteno
+          doc.ArticleName row.nimitys
+          doc.DeliveredQuantity("QuantityUnitCode" => row.yksikko) {
+            doc.text(finvoice_number(row.kpl))
+          }
+          doc.OrderedQuantity("QuantityUnitCode" => row.yksikko) {
+            doc.text(finvoice_number(row.tilkpl))
+          }
+          doc.UnitPriceAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+            doc.text(finvoice_number(row.hinta))
+          }
+
+          if row.tilaajanrivinro > 0
+            doc.RowIdentifier row.tilaajanrivinro
+          end
+
+          doc.RowPositionIdentifier "1"
+          doc.RowFreeText row.kommentti
+          doc.RowVatRatePercent finvoice_number(row.vat_percent)
+          doc.RowVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+            doc.text("32,04")
+          }
+          doc.RowVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+            doc.text(finvoice_number(row.rivihinta))
+          }
+        }
       end
+    end
+
+    def epidetails
+      doc.EpiIdentificationDetails {
+        doc.EpiDate("Format" => "CCYYMMDD") {
+          doc.text(@invoice.tapvm.strftime("%Y%m%d"))
+        }
+        doc.EpiReference @invoice.viite
+      }
+
+      bank_account = @invoice.terms_of_payment.bank_account_details.first
+
+      doc.EpiPartyDetails {
+        doc.EpiBfiPartyDetails {
+          doc.EpiBfiIdentifier("IdentificationSchemeName" => "BIC") {
+            doc.text(bank_account[:bic])
+          }
+        }
+        doc.EpiBeneficiaryPartyDetails {
+          doc.EpiNameAddressDetails @invoice.company.nimi
+          doc.EpiBei @invoice.company.ytunnus_human
+          doc.EpiAccountID("IdentificationSchemeName" => "IBAN") {
+            doc.text(bank_account[:iban])
+          }
+        }
+      }
+      doc.EpiPaymentInstructionDetails {
+        doc.EpiPaymentInstructionId "192837465"
+        doc.EpiRemittanceInfoIdentifier("IdentificationSchemeName" => "ISO") {
+          doc.text("RF471234567890")
+        }
+        doc.EpiInstructedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+          doc.text(finvoice_number(@invoice.summa))
+        }
+        doc.EpiCharge("ChargeOption" => "SLEV") {
+        }
+        doc.EpiDateOptionDate("Format" => "CCYYMMDD") {
+          doc.text(@invoice.erpcm.strftime("%Y%m%d"))
+        }
+      }
     end
 end

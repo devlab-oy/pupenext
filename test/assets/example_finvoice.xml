@@ -76,13 +76,13 @@
     <SellerReferenceIdentifier>1037272446</SellerReferenceIdentifier>
     <OrderIdentifier>20130801</OrderIdentifier>
     <AgreementIdentifier>Hauki on kala</AgreementIdentifier>
-    <InvoiceTotalVatExcludedAmount AmountCurrencyIdentifier="EUR">133,50</InvoiceTotalVatExcludedAmount>
-    <InvoiceTotalVatAmount AmountCurrencyIdentifier="EUR">32,04</InvoiceTotalVatAmount>
-    <InvoiceTotalVatIncludedAmount AmountCurrencyIdentifier="EUR">165,54</InvoiceTotalVatIncludedAmount>
+    <InvoiceTotalVatExcludedAmount AmountCurrencyIdentifier="EUR">1477,00</InvoiceTotalVatExcludedAmount>
+    <InvoiceTotalVatAmount AmountCurrencyIdentifier="EUR">354,48</InvoiceTotalVatAmount>
+    <InvoiceTotalVatIncludedAmount AmountCurrencyIdentifier="EUR">1831,48</InvoiceTotalVatIncludedAmount>
     <VatSpecificationDetails>
-      <VatBaseAmount AmountCurrencyIdentifier="EUR">133,50</VatBaseAmount>
-      <VatRatePercent>24,0</VatRatePercent>
-      <VatRateAmount AmountCurrencyIdentifier="EUR">32,04</VatRateAmount>
+      <VatBaseAmount AmountCurrencyIdentifier="EUR">1477,00</VatBaseAmount>
+      <VatRatePercent>24,00</VatRatePercent>
+      <VatRateAmount AmountCurrencyIdentifier="EUR">354,48</VatRateAmount>
     </VatSpecificationDetails>
     <PaymentTermsDetails>
       <PaymentTermsFreeText>14 p‰iv‰‰ netto</PaymentTermsFreeText>
@@ -97,22 +97,35 @@
     <PaymentStatusCode>NOTPAID</PaymentStatusCode>
   </PaymentStatusDetails>
   <InvoiceRow>
-    <ArticleIdentifier>12</ArticleIdentifier>
+    <ArticleIdentifier>PNV</ArticleIdentifier>
     <ArticleName>Nuottivihko</ArticleName>
-    <DeliveredQuantity QuantityUnitCode="kpl">89</DeliveredQuantity>
-    <OrderedQuantity>100</OrderedQuantity>
+    <DeliveredQuantity QuantityUnitCode="kpl">1,00</DeliveredQuantity>
+    <OrderedQuantity QuantityUnitCode="kpl">100,00</OrderedQuantity>
     <InvoicedQuantity QuantityUnitCode="EUR">165,54</InvoicedQuantity>
-    <UnitPriceAmount AmountCurrencyIdentifier="EUR">1,50</UnitPriceAmount>
+    <UnitPriceAmount AmountCurrencyIdentifier="EUR">133,50</UnitPriceAmount>
     <RowPositionIdentifier>1</RowPositionIdentifier>
     <RowFreeText>Puuttuvat toimitetaan mahdollisimman pian</RowFreeText>
     <RowVatRatePercent>24,0</RowVatRatePercent>
     <RowVatAmount AmountCurrencyIdentifier="EUR">32,04</RowVatAmount>
     <RowVatExcludedAmount AmountCurrencyIdentifier="EUR">133,50</RowVatExcludedAmount>
   </InvoiceRow>
+  <InvoiceRow>
+    <ArticleIdentifier>PNP</ArticleIdentifier>
+    <ArticleName>Piano</ArticleName>
+    <DeliveredQuantity QuantityUnitCode="kpl">1,00</DeliveredQuantity>
+    <OrderedQuantity QuantityUnitCode="kpl">1,00</OrderedQuantity>
+    <InvoicedQuantity QuantityUnitCode="EUR">1665,94</InvoicedQuantity>
+    <UnitPriceAmount AmountCurrencyIdentifier="EUR">1343,50</UnitPriceAmount>
+    <RowPositionIdentifier>2</RowPositionIdentifier>
+    <RowFreeText>Musta piano</RowFreeText>
+    <RowVatRatePercent>24,00</RowVatRatePercent>
+    <RowVatAmount AmountCurrencyIdentifier="EUR">322,44</RowVatAmount>
+    <RowVatExcludedAmount AmountCurrencyIdentifier="EUR">1343,50</RowVatExcludedAmount>
+  </InvoiceRow>
   <EpiDetails>
     <EpiIdentificationDetails>
-      <EpiDate Format="CCYYMMDD">20130814</EpiDate>
-      <EpiReference>0</EpiReference>
+      <EpiDate Format="CCYYMMDD">20151010</EpiDate>
+      <EpiReference>123</EpiReference>
     </EpiIdentificationDetails>
     <EpiPartyDetails>
       <EpiBfiPartyDetails>
@@ -120,16 +133,16 @@
       </EpiBfiPartyDetails>
       <EpiBeneficiaryPartyDetails>
         <EpiNameAddressDetails>Pullin Musiikki Oy</EpiNameAddressDetails>
-        <EpiBei>5647382910</EpiBei>
-        <EpiAccountID IdentificationSchemeName="IBAN">FI3329501800008512</EpiAccountID>
+        <EpiBei>9876543-0</EpiBei>
+        <EpiAccountID IdentificationSchemeName="IBAN">FI4819503000000010</EpiAccountID>
       </EpiBeneficiaryPartyDetails>
     </EpiPartyDetails>
     <EpiPaymentInstructionDetails>
       <EpiPaymentInstructionId>192837465</EpiPaymentInstructionId>
       <EpiRemittanceInfoIdentifier IdentificationSchemeName="ISO">RF471234567890</EpiRemittanceInfoIdentifier>
-      <EpiInstructedAmount AmountCurrencyIdentifier="EUR">165,54</EpiInstructedAmount>
+      <EpiInstructedAmount AmountCurrencyIdentifier="EUR">1831,48</EpiInstructedAmount>
       <EpiCharge ChargeOption="SLEV"/>
-      <EpiDateOptionDate Format="CCYYMMDD">20130828</EpiDateOptionDate>
+      <EpiDateOptionDate Format="CCYYMMDD">20151024</EpiDateOptionDate>
     </EpiPaymentInstructionDetails>
   </EpiDetails>
 </Finvoice>

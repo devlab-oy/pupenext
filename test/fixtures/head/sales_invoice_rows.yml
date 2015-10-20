@@ -3,6 +3,38 @@ one:
   invoice: si_one
   tuoteno: hammer123
   tyyppi: L
+  alv: 24
+  rivihinta: 100
+  laatija: joe
+  laadittu: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+two:
+  yhtio: acme
+  invoice: si_one
+  tuoteno: hammer123
+  tyyppi: L
+  alv: 500
+  rivihinta: 100
+  laatija: joe
+  laadittu: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+three:
+  yhtio: acme
+  invoice: si_one
+  tuoteno: hammer123
+  tyyppi: L
+  alv: 0
+  rivihinta: 100
   laatija: joe
   laadittu: <%= Time.now %>
   toimaika: <%= Time.now %>
@@ -15,6 +47,14 @@ pulli1:
   yhtio: pulli
   invoice: si_pulli
   tyyppi: L
+  tuoteno: PNV
+  nimitys: Nuottivihko
+  hinta: 133.50
+  kpl: 1
+  tilkpl: 100
+  yksikko: kpl
+  rivihinta: 133.50
+  alv: 24
   laatija: joe
   laadittu: <%= Time.now %>
   toimaika: 2015-10-01
@@ -27,6 +67,14 @@ pulli2:
   yhtio: pulli
   invoice: si_pulli
   tyyppi: L
+  tuoteno: PNP
+  nimitys: Piano
+  hinta: 1343.50
+  kpl: 1
+  tilkpl: 1
+  yksikko: kpl
+  rivihinta: 1343.50
+  alv: 24
   laatija: joe
   laadittu: <%= Time.now %>
   toimaika: 2015-10-02

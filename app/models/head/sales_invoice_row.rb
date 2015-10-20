@@ -18,4 +18,26 @@ class Head::SalesInvoiceRow < BaseModel
       toimitettuaika.to_date
     end
   end
+
+  def vat_percent
+    if alv >= 500
+      0.0.to_d
+    else
+      alv
+    end
+  end
+
+  def vat_code(vat_rate)
+    if vat_rate >= 600
+      "AE" # VAT Reverse Charge
+    elsif vat_rate >= 500
+      "AB" # Exempt for resale
+    elsif vienti == "E"
+      "E" # Exempt from tax
+    elsif vienti == "K"
+      "G" # Free export item, tax not charged
+    else
+      "S" # Standard rate
+    end
+  end
 end

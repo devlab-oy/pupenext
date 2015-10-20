@@ -148,7 +148,7 @@ si_pulli:
   ytunnus: 76543212
   nimi: Purjehdusseura Bitti ja Baatti ry
   osoite: Sempalokatu 2
-  postino: 00122
+  postino: "00122"
   postitp: Tampere
   maa: FI
   terms_of_payment: 14_days_net
@@ -158,8 +158,9 @@ si_pulli:
   laskunro: 2013000018
   asiakkaan_tilausnumero: 20130801
   viesti: Hauki on kala
-  summa: 165.54
-  arvo: 133.50
+  viite: 123
+  summa: 1831.48
+  arvo: 1477.00
   valkoodi: EUR
   luontiaika: <%= Time.now %>
   laatija: joe
@@ -168,7 +169,7 @@ si_pulli:
   tapvm: 2015-10-10
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
-  erpcm: <%= Time.now %>
+  erpcm: 2015-10-24
   olmapvm: <%= Time.now %>
   kerayspvm: <%= Time.now %>
   toimaika: <%= Time.now %>

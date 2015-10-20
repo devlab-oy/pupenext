@@ -83,4 +83,8 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     assert_equal Date.parse("2015-01-10"), @invoice.deliveryperiod_start
     assert_equal Date.parse("2015-01-13"), @invoice.deliveryperiod_end
   end
+
+  test 'vat_specification' do
+    assert_equal 1, @invoice.vat_specification
+  end
 end
