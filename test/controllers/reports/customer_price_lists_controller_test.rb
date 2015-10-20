@@ -9,6 +9,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
 
     @customer = customers(:stubborn_customer)
     @hammer   = products(:hammer)
+    @helmet   = products(:helmet)
 
 
     @params_customer = {
@@ -96,6 +97,22 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @params_customer[:contract_filter] = 2
     @params_customer[:osasto]          = nil
     @params_customer[:try]             = nil
+
+    LegacyMethods.stub(:customer_price, 22) do
+      post :create, @params_customer
+
+      assert_redirected_to customer_price_lists_url
+
+      products = assigns(:products)
+
+      assert_equal 2, products.count
+      assert_includes products, @hammer
+      assert_includes products, @helmet
+    end
+  end
+
+  test "customer prices with contract prices work with product filters" do
+    @params_customer[:contract_filter] = 2
 
     LegacyMethods.stub(:customer_price, 22) do
       post :create, @params_customer
