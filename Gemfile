@@ -20,6 +20,7 @@ gem 'country_select'
 gem 'roo'
 gem 'axlsx'
 gem 'axlsx_rails'
+gem 'pdfkit'
 
 group :assets do
   gem 'uglifier'
