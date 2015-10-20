@@ -18,7 +18,7 @@
   </td>
   <td><%= order.viesti %></td>
   <td><%= order.toimaika %></td>
-  <td><%= order.summa %></td>
+  <td><%= order.rows.sum(:'hinta * (varattu + jt)') %></td>
 </tr>
 <% end %>
 </table>
