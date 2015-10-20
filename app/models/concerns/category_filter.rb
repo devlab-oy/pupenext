@@ -3,12 +3,18 @@ module CategoryFilter
 
   module ClassMethods
     def filter(categories: nil, subcategories: nil, brands: nil)
-      products = Product.all
-      products = products.where(tuote: { osasto: categories }) if categories
-      products = products.where(tuote: { try: subcategories }) if subcategories
-      products = products.where(tuote: { tuotemerkki: brands }) if brands
+      products = Product
+      products = products.where(tuote: { osasto: categories }) if categories.present?
+      products = products.where(tuote: { try: subcategories }) if subcategories.present?
+      products = products.where(tuote: { tuotemerkki: brands }) if brands.present?
 
-      joins(:products).where(tuote: { tunnus: products })
+      if categories.present? || subcategories.present? || brands.present?
+        response = joins(:products).where(tuote: { tunnus: products })
+      else
+        response = all
+      end
+
+      response.order(:jarjestys, :selite, :selitetark)
     end
   end
 end

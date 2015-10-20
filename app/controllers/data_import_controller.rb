@@ -14,6 +14,18 @@ class DataImportController < ApplicationController
     render :results
   end
 
+  def product_information
+    @spreadsheet = Import::ProductInformation.new(
+      company_id: current_company.id,
+      user_id: current_user.id,
+      filename: @uploaded_file,
+      language: product_information_params[:language],
+      type: product_information_params[:type],
+    ).import
+
+    render :results
+  end
+
   private
 
     def check_for_file
@@ -27,5 +39,12 @@ class DataImportController < ApplicationController
 
     def data_import_params
       params.require(:data_import).permit(:file)
+    end
+
+    def product_information_params
+      params.require(:data_import).permit(
+        :language,
+        :type,
+      )
     end
 end

@@ -22,7 +22,7 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     assert_template :index, "Template should be index"
   end
 
-  test 'should get list' do
+  test 'should get list of products' do
     get :list
     assert_response :success
     assert_template :index, "Without pressing submit-button template should be index"
@@ -34,6 +34,50 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
     get :list, { commit: 'search', 'tuotteen_toimittajat.toim_tuoteno' => 'masterhammer' }
     assert_select "td", { text: 'hammer123', count: 1 }
+  end
+
+  test 'should get only a list of products with upcoming changes' do
+    get :list_of_changes
+    assert_response :success
+    assert_template :list, "should render list-view when having products with pending updates"
+  end
+
+  test 'should redirect to index if there are no products with upcoming changes' do
+    PendingUpdate.delete_all
+    get :list_of_changes
+    assert_redirected_to pending_product_updates_path, "should redirect to index when there are no products with pending updates"
+  end
+
+  test 'should move pending updates to product' do
+    hammer = products :hammer
+    helmet = products :helmet
+
+    @pending.dup.update_attributes! key: 'nimitys', value: 'sledge'
+    @pending.dup.update_attributes! pending_updatable_id: helmet.id, key: 'nimitys', value: 'sledge2'
+
+    assert_difference 'PendingUpdate.count', -3 do
+      post :to_product, { pending_update:  { product_ids: [hammer.id, helmet.id] } }
+    end
+
+    assert_equal 100.5, hammer.reload.myyntihinta
+    assert_equal 'sledge', hammer.nimitys
+    assert_equal 'sledge2', helmet.reload.nimitys
+    assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
+  end
+
+  test 'should not move pending updates to product and should get failed count and error messages' do
+    hammer = products :hammer
+    helmet = products :helmet
+
+    @pending.update_columns key: 'nimitys', value: ''
+
+    assert_difference 'PendingUpdate.count', 0 do
+      post :to_product, { pending_update:  { product_ids: [hammer.id, helmet.id] } }
+    end
+
+    assert_equal 'All-around hammer', hammer.reload.nimitys
+    assert_match /Nimitys ei voi olla tyhjä/, flash[:notice]
+    assert_redirected_to pending_product_updates_path, "should render index-view after moving pending updates to product"
   end
 
   test "should create pending update" do

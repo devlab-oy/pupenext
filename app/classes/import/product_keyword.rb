@@ -1,7 +1,9 @@
 class Import::ProductKeyword
+  include Import::Base
+
   def initialize(company_id:, user_id:, filename:)
-    Current.company = Company.find_by company_id
-    Current.user = User.find_by user_id
+    Current.company = Company.find company_id
+    Current.user = User.find user_id
 
     @file = setup_file filename
   end
@@ -44,10 +46,6 @@ class Import::ProductKeyword
       @response ||= Import::Response.new
     end
 
-    def spreadsheet
-      @file.sheet(0)
-    end
-
     def header_definitions
       [
         'tuoteno',
@@ -59,21 +57,6 @@ class Import::ProductKeyword
         'nakyvyys',
         'toiminto',
       ]
-    end
-
-    def setup_file(filename)
-      # if we have an rails UploadedFile class
-      if filename.respond_to?(:original_filename)
-        file = filename.open
-        extension = File.extname filename.original_filename
-      else
-        file = File.open filename.to_s
-        extension = File.extname filename.to_s
-      end
-
-      Roo::Spreadsheet.open file, extension: extension
-    ensure
-      file.close if file
     end
 end
 
@@ -89,7 +72,7 @@ class Import::ProductKeyword::Row
   end
 
   def action_valid?
-    add_new? || modify_row?
+    add_new? || modify_row? || add_or_modify? || remove_row?
   end
 
   def product
@@ -115,15 +98,21 @@ class Import::ProductKeyword::Row
     return unless product
     return @keyword if @keyword
 
-    if add_new?
+    if add_or_modify?
+      @keyword = product.keywords.find_or_initialize_by(laji: values['laji'], kieli: language)
+    elsif add_new?
       @keyword = product.keywords.build
-    elsif modify_row?
+    elsif modify_row? || remove_row?
       @keyword = product.keywords.find_by(laji: values['laji'], kieli: language)
     end
   end
 
   def create
     return if !product || keyword.nil?
+
+    if remove_row?
+      return keyword.destroy
+    end
 
     @hash[:kieli] = product && values['kieli'].blank? ? @product.company.kieli : language
 
@@ -137,11 +126,25 @@ class Import::ProductKeyword::Row
     hash
   end
 
+  def add_or_modify?
+    %w(
+      muokkaa/lisää
+      muokkaa/lisÄÄ
+      muokkaa/lisäÄ
+      muokkaa/lisÄä
+      muokkaa/lisaa
+    ).include? @toiminto.to_s.downcase
+  end
+
   def add_new?
     %w(lisää lisÄÄ lisäÄ lisÄä lisaa).include? @toiminto.to_s.downcase
   end
 
   def modify_row?
     %w(muokkaa muuta).include? @toiminto.to_s.downcase
+  end
+
+  def remove_row?
+    %w(poista).include? @toiminto.to_s.downcase
   end
 end

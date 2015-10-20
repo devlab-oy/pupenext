@@ -10,15 +10,17 @@ class Product::KeywordTest < ActiveSupport::TestCase
   )
 
   setup do
-    @keyword = product_keywords :one
+    @nimitys = product_keywords :one
+    @material = product_keywords :two
   end
 
   test 'all fixtures should be valid' do
-    assert @keyword.valid?
+    assert @nimitys.valid?, @nimitys.errors.full_messages
+    assert @material.valid?, @material.errors.full_messages
   end
 
   test 'relations' do
-    assert_equal Product, @keyword.product.class
-    assert_equal String, @keyword.product.nimitys.class
+    assert_equal Product, @nimitys.product.class
+    assert_equal String, @nimitys.product.nimitys.class
   end
 end

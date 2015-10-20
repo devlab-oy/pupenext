@@ -898,14 +898,18 @@ fi:
       header: Tuotteen tulevat muutokset
       inventory_management_products: Varastokäsittely
       label: Nimitys
+      list_all: Listaa kaikki tallennetut tulevat päivitykset
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
     list:
+      deploy_all: Aja listatut päivitykset tuotteille
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
       save: Tallenna muutokset
       sku: Tuotenumero
+    list_of_changes:
+      not_found: Yhtään tuotetta ei löytynyt
     pending_columns_options:
       sales_price: Myyntihinta
       short_description: Lyhytkuvaus
@@ -917,6 +921,13 @@ fi:
       deleted: Listaa vain poistettuja tuotteita
     pending_update_fields:
       delete: Poista
+    to_product:
+      failed:
+        one: Yhtä tuotteen kenttää ei voitu päivittää, koska %{errors}.
+        other: Päivitys epäonnistui %{count}:n kentän osalta, koska %{errors}".
+      updated:
+        one: Päivitettiin yksi tuotteen kenttä.
+        other: Päivitettiin %{count} tuotteen kenttää.
     update:
       update_success: Päivitettiin onnistuneesti
   products:

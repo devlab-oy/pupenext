@@ -1,4 +1,5 @@
 <%= render "administration/header", text: t('.header') %>
+<%= render "administration/notice" %>
 
 <%= form_tag pending_product_updates_list_path, method: :get do %>
 
@@ -55,4 +56,10 @@
 
   <%= submit_tag t('.search') %>
 
+<% end %>
+
+<br>
+
+<%= form_tag pending_product_updates_list_of_changes_path, method: :get do %>
+  <%= submit_tag t('.list_all') %>
 <% end %>
