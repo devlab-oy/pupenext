@@ -2,11 +2,14 @@ require 'test_helper'
 require 'minitest/mock'
 
 class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
-  fixtures %w(customers)
+  fixtures %w(customers products customer_prices)
 
   setup do
     login users(:joe)
+
     @customer = customers(:stubborn_customer)
+    @hammer   = products(:hammer)
+
 
     @params_customer = {
       commit:      true,
@@ -86,6 +89,23 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
 
       assert_response :not_found
       assert_template :index
+    end
+  end
+
+  test "customer prices with contract prices work without product filters" do
+    @params_customer[:contract_filter] = 2
+    @params_customer[:osasto]          = nil
+    @params_customer[:try]             = nil
+
+    LegacyMethods.stub(:customer_price, 22) do
+      post :create, @params_customer
+
+      assert_redirected_to customer_price_lists_url
+
+      products = assigns(:products)
+
+      assert_equal 1, products.count
+      assert_includes products, @hammer
     end
   end
 end
