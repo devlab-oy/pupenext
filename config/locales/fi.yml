@@ -970,12 +970,10 @@ fi:
     customer_price_list:
       header: Asiakashinnasto
       indefinitely: Toistaiseksi
-      page: Sivu
       price: Hinta
       printed: Tulostettu
       running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
       sopimushinta: Sopimushinta
-      valid: Voimassa
       valid_text: Hinnasto on voimassa
     customer_price_lists:
       index:
@@ -987,11 +985,11 @@ fi:
         date_start: Alkupvm
         generate: Generoi
         no_filters_specified: Et antanut tuoterajauksia
-        product_filter: Tuoterajaus
         products_not_found: Tuotteita ei löytynyt määrittämilläsi hakuehdoilla
         target: Kohde
         target_type: Kohdetyyppi
       report:
+        header: Asiakashinnasto
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
