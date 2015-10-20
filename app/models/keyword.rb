@@ -17,15 +17,19 @@ class Keyword < BaseModel
       'ALVULK' => Keyword::ForeignVat,
       'KM' => Keyword::ModeOfTransport,
       'KT' => Keyword::NatureOfTransaction,
+      'LISATIETO' => Keyword::ProductInformationType,
       'MAKSUEHTOKV' => Keyword::TermsOfPaymentTranslation,
       'MYSQLALIAS' => Keyword::CustomAttribute,
       'OSASTO' => Product::Category,
       'PAKKAUSKV' => Keyword::PackageTranslation,
+      'PARAMETRI' => Keyword::ProductParameterType,
+      'REVENUEREP' => Keyword::RevenueExpenditure,
       'S' => Product::Status,
       'TOIMTAPALP' => Keyword::SortingPoint,
       'TRY' => Product::Subcategory,
       'TULLI' => Keyword::Customs,
       'TUOTEMERKKI' => Product::Brand,
+      'TUOTEULK' => Keyword::ProductKeywordType,
     }
   end
 end

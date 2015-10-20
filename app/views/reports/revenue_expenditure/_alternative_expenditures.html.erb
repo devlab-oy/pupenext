@@ -1,0 +1,16 @@
+<% alternative_expenditures.each do |e| %>
+  <tr class='custom_expenditure hidden <%= week_sanitized %>'>
+    <td class='back'>
+    </td>
+
+    <td class='spec' align='right'>
+      <%= e[:description] %>
+    </td>
+
+    <td class='spec' align='right'>
+      <%= e[:amount] %>
+    </td>
+
+    <td class='back' colspan='2'></td>
+  </tr>
+<% end %>

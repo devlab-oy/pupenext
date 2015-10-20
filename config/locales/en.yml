@@ -176,9 +176,6 @@ en:
         viivastyskorko: Penalty interest rate
         www: www
         ytunnus: VAT nr
-      delivery_method:
-        merahti: Freight contract
-        selite: Product name
       keyword:
         jarjestys: 
         kieli: 
@@ -195,6 +192,8 @@ en:
         required: 
         set_name: 
         visibility: 
+      keyword/revenue_expenditure:
+        selitetark_2: Quantity
       package:
         erikoispakkaus: 
         jarjestys: 
@@ -300,7 +299,6 @@ en:
       carrier: 
       cash_register: Kassa
       currency: Currency
-      delivery_method: Delivery
       fiscal_year: Fiscal year
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -439,15 +437,6 @@ en:
       visibility_options:
         hidden: 
         visible: 
-    delivery_methods:
-      container_options:
-        includes_container: 'Yes'
-        not_including_container: 'No'
-      edit:
-        header: Delivery
-        no_select: Any
-      index:
-        button_search: Search
     fiscal_years:
       create:
         create_success: 
@@ -859,7 +848,14 @@ en:
     percentage:
       format:
         format: "%n%"
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_receivable: Accounts receivable
+        summary: Total
   shared:
+    excel:
+      user: User
     link_return_to: Go back to the program
   simple_form:
     'no': 'No'

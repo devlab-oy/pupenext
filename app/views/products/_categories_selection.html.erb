@@ -1,0 +1,34 @@
+<div class="categories-selection">
+  <% if categories_options.present? %>
+    <div class='selection'>
+      <%= label_tag 'osasto[]', t('.category') %>
+      <%= select_tag 'osasto[]',
+                     categories_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_categories') } %>
+    </div>
+  <% end %>
+
+  <% if subcategories_options.present? %>
+    <div class='selection'>
+      <%= label_tag 'try[]', t('.subcategory') %>
+      <%= select_tag 'try[]',
+                     subcategories_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_subcategories') } %>
+    </div>
+  <% end %>
+
+  <% if brands_options.present? %>
+    <div class='selection'>
+      <%= label_tag 'tuotemerkki[]', t('.brand') %>
+      <%= select_tag 'tuotemerkki[]',
+                     brands_options,
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_brands') } %>
+    </div>
+  <% end %>
+</div>

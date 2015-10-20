@@ -1,0 +1,16 @@
+wb.add_worksheet(name: t('shared.excel.info_worksheet')) do |sheet|
+  sheet.add_row [
+    t('shared.excel.company'),
+    current_user.company.nimi
+  ]
+
+  sheet.add_row [
+    t('shared.excel.user'),
+    current_user.nimi
+  ]
+
+  sheet.add_row [
+    t('shared.excel.time'),
+    l(Time.now)
+  ]
+end

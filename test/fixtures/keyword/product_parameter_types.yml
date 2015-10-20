@@ -1,0 +1,21 @@
+DEFAULTS: &DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+color:
+  yhtio: acme
+  selite: vari
+  selitetark: Tuotteen väri
+  kieli: fi
+  laji: PARAMETRI
+  <<: *DEFAULTS
+
+collection:
+  yhtio: acme
+  selite: mallisto
+  selitetark: Malliston nimi
+  kieli: fi
+  laji: PARAMETRI
+  <<: *DEFAULTS

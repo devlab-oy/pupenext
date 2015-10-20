@@ -249,6 +249,10 @@ fi:
         required: Pakollisuus
         set_name: Ryhmän nimi
         visibility: Näkyvyys
+      keyword/revenue_expenditure:
+        selite: Viikko / Vuosi
+        selitetark: Kuvaus
+        selitetark_2: Määrä
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
@@ -288,6 +292,9 @@ fi:
         printteri7: JV-Lasku/-Kuitti
         prio: Prio
         varasto: Varasto
+      pending_updates:
+        key: Kenttä
+        value: Arvo
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -347,6 +354,13 @@ fi:
       translations:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
+      transport:
+        customer: Asiakas
+        customer_id: Asiakkaan tunnus
+        hostname: Palvelin
+        password: Salasana
+        path: Polku palvelimella
+        username: Käyttäjätunnus
     models:
       account: Tili
       bank_account: Pankkitili
@@ -367,10 +381,13 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
+      pending_update: Tuleva päivitys
       printer: Kirjoitin
+      product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
@@ -382,6 +399,7 @@ fi:
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
       terms_of_payment: Maksuehto
+      transport: Tiedonsiirtoyhteys
   administration:
     accounts:
       create:
@@ -669,6 +687,13 @@ fi:
         not_in_use: Ei
       update:
         update_success: Tarkenne päivitettiin onnistuneesti
+    revenue_expenditures:
+      edit:
+        button_remove: Poista meno
+        confirm_remove: Oletko varma, että haluat poistaa menon?
+        header: Vaihtoehtoinen meno
+      index:
+        header: Tulot- / Menot-raportin vaihtoehtoiset menot
     sum_levels:
       create:
         create_success: Taso perustettiin onnistuneesti
@@ -716,6 +741,13 @@ fi:
       language: Kieli
       link_new: Lisää uusi käännös
       text: Käännös
+    transports:
+      edit:
+        button_remove: Poista tiedonsiirtoyhteys
+        confirm_remove: Oletko varma, että haluat poistaa tiedonsiirtoyhteyden?
+        header: Tiedonsiirtoryhteys
+      index:
+        header: Tiedonsiirtoyhteydet
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   application:
@@ -723,6 +755,10 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  data_import:
+    index:
+      header: Tietojen sisäänluku
+      import: Sisäänlue
   date:
     abbr_day_names:
     - su
@@ -819,6 +855,14 @@ fi:
       month: kuukausi
       second: sekunti
       year: vuosi
+  downloads:
+    index:
+      created_at: Luontiaika
+      destroy: Poista
+      files: Tiedostot
+      header: Tiedostosi
+      no_downloads: Ei tiedostoja.
+      report_name: Raportin nimi
   errors:
     cash_register:
       kassa_missing: Kassatili puuttuu tai sitä ei löydy
@@ -836,6 +880,11 @@ fi:
       in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
       unifaun_info_missing: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
+    import:
+      action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
+      action_missing: Toiminto -sarake puuttuu!
+      keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
+      product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
@@ -995,7 +1044,83 @@ fi:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      deleted: Tila
+      header: Tuotteen tulevat muutokset
+      inventory_management_products: Varastokäsittely
+      label: Nimitys
+      list_all: Listaa kaikki tallennetut tulevat päivitykset
+      search: Etsi
+      sku: Tuotenumero
+      suppliers_sku: Toimittajan tuotenumero
+    list:
+      deploy_all: Aja listatut päivitykset tuotteille
+      label: Nimitys
+      link_new: Lisää uusi tuleva päivitys
+      save: Tallenna muutokset
+      sku: Tuotenumero
+    list_of_changes:
+      not_found: Yhtään tuotetta ei löytynyt
+    pending_columns_options:
+      sales_price: Myyntihinta
+      short_description: Lyhytkuvaus
+    pending_ei_saldoa_options:
+      inventory_management: Listaa vain varastoitavia tuotteita
+      no_inventory_management: Listaa vain saldottomia tuotteita
+    pending_status_options:
+      active: Listaa vain aktiivisia tuotteita
+      deleted: Listaa vain poistettuja tuotteita
+    pending_update_fields:
+      delete: Poista
+    to_product:
+      failed:
+        one: Yhtä tuotteen kenttää ei voitu päivittää, koska %{errors}.
+        other: Päivitys epäonnistui %{count}:n kentän osalta, koska %{errors}".
+      updated:
+        one: Päivitettiin yksi tuotteen kenttä.
+        other: Päivitettiin %{count} tuotteen kenttää.
+    update:
+      update_success: Päivitettiin onnistuneesti
+  products:
+    categories_selection:
+      brand: Merkki
+      category: Osasto
+      choose_brands: Valitse merkit
+      choose_categories: Valitse osastot
+      choose_subcategories: Valitse ryhmät
+      subcategory: Ryhmä
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_payable: Ostovelat
+        accounts_receivable: Myyntisaamiset
+        button_excel: Tallenna Excel
+        button_make: Laadi
+        concern_accounts_payable: Konserniostovelat
+        concern_accounts_receivable: Konsernimyyntisaamiset
+        history_concern_accounts_payable: Erääntyneet konserniostovelat
+        history_concern_accounts_receivable: Erääntyneet konsernimyyntisaamiset
+        history_expenditure: Erääntyneet ostovelat
+        history_revenue: Erääntyneet myyntisaamiset
+        period: Ajanjakso
+        summary: Yhteensä
+        title: Tulot- ja Menot-raportti
+        week: Viikko
+    revenue_expenditure_month:
+      one: "%{count} kuukausi"
+      other: "%{count} kuukautta"
+    stock_listing_csv:
+      index:
+        header: Varastosaldot CSV
+        run: Aja raportti
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
+    excel:
+      company: Yritystiedot
+      info_worksheet: Raportin tiedot
+      time: Ajoaika
+      user: Käyttäjä
     link_return_to: Palaa ohjelmaan
   simple_form:
     'no': Ei

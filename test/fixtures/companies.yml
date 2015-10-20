@@ -2,12 +2,18 @@ acme:
   yhtio: acme
   nimi: Acme Corporation
   maa: FI
+  kieli: fi
   tilikausi_alku: <%= Date.today.beginning_of_year %>
   tilikausi_loppu: <%= Date.today.end_of_year %>
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
   myyntireskontrakausi_loppu: <%= Date.today %>
+  myyntisaamiset: 1700
+  factoringsaamiset: 1705
+  konsernimyyntisaamiset: 1710
+  ostovelat: 2870
+  konserniostovelat: 2890
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

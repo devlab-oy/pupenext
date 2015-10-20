@@ -176,13 +176,6 @@ sv:
         viivastyskorko: 
         www: web
         ytunnus: Org.Nr
-      delivery_method:
-        jarjestys: Ordning
-        jvkulu: Postförskottsavgift
-        kuluprosentti: Kostprocent
-        merahti: Fraktkontrakt
-        selite: Benämning
-        tulostustapa: Utskriftsmetod
       keyword:
         jarjestys: Ordning
         kieli: Språk
@@ -199,6 +192,8 @@ sv:
         required: 
         set_name: 
         visibility: 
+      keyword/revenue_expenditure:
+        selitetark_2: Antal
       package:
         erikoispakkaus: 
         jarjestys: Ordning
@@ -304,7 +299,6 @@ sv:
       carrier: 
       cash_register: 
       currency: Valuta
-      delivery_method: Leveranssätt
       fiscal_year: Räkenskapsår
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -443,18 +437,6 @@ sv:
       visibility_options:
         hidden: 
         visible: 
-    delivery_methods:
-      container_options:
-        includes_container: Ja
-        not_including_container: Nej
-      edit:
-        header: Leveranssätt
-        no_select: Inget val
-      index:
-        button_search: Sök
-        header: Leveranssätt
-      label_options:
-        normal_label: Normal
     fiscal_years:
       create:
         create_success: 
@@ -860,7 +842,16 @@ sv:
     percentage:
       format:
         format: "%n%"
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_receivable: Försäljningsfordringar
+        summary: Totalt
+        week: Vecka
   shared:
+    excel:
+      time: Körtid
+      user: Användare
     link_return_to: "Återgå till"
   simple_form:
     'no': Nej

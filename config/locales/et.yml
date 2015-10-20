@@ -176,13 +176,6 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
-      delivery_method:
-        jarjestys: Järjekord
-        jvkulu: Lunamaksekulu
-        kuluprosentti: Kuluprotsent
-        merahti: Veoleping
-        selite: Nimetus
-        tulostustapa: Väljastamisviis
       keyword:
         jarjestys: Järjekord
         kieli: Keel
@@ -199,6 +192,8 @@ et:
         required: 
         set_name: 
         visibility: 
+      keyword/revenue_expenditure:
+        selitetark_2: Kogus
       package:
         erikoispakkaus: 
         jarjestys: Järjekord
@@ -304,7 +299,6 @@ et:
       carrier: 
       cash_register: Kassa
       currency: Valuuta
-      delivery_method: Kohaletoimetamise viis
       fiscal_year: Aruandeperiood
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -443,18 +437,6 @@ et:
       visibility_options:
         hidden: 
         visible: 
-    delivery_methods:
-      container_options:
-        includes_container: Jah
-        not_including_container: Ei
-      edit:
-        header: Kohaletoimetamise viis
-        no_select: Valikut ei ole
-      index:
-        button_search: Otsi
-        header: Tarnimisviisid
-      label_options:
-        normal_label: Normaalne
     fiscal_years:
       create:
         create_success: 
@@ -858,7 +840,15 @@ et:
     percentage:
       format:
         format: 
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_receivable: Laekumised myygist
+        summary: Kokku
+        week: Nädal
   shared:
+    excel:
+      user: Kasutaja
     link_return_to: Tagasi programmi
   simple_form:
     'no': Ei

@@ -1,7 +1,14 @@
 require 'test_helper'
 
 class Head::VoucherRowTest < ActiveSupport::TestCase
-  fixtures %w(accounts heads head/voucher_rows fixed_assets/commodities)
+  fixtures %w(
+    accounts
+    fixed_assets/commodities
+    head/voucher_rows
+    heads
+    purchase_order/orders
+    sales_order/orders
+  )
 
   setup do
     @row = head_voucher_rows(:one)

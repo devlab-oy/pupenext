@@ -2,6 +2,8 @@ class Customer < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
   belongs_to :delivery_method,  foreign_key: :toimitustapa, primary_key: :selite
 
+  has_many :transports
+
   default_scope { where.not(laji: %w(P R)) }
 
   self.table_name = :asiakas

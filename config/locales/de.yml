@@ -176,25 +176,6 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
-      delivery_method:
-        aktiivinen_kuljetus: Standard aktiver Transport
-        aktiivinen_kuljetus_kansallisuus: Standard Nationalität des aktiven Transport
-        jarjestys: Sortierung
-        jvkulu: Nachnahmekosten
-        kauppatapahtuman_luonne: Standard Geschäftsart
-        kontti: Standard Container
-        kuljetusmuoto: Standard Transportart
-        kuluprosentti: Kostenprozent
-        lisakulu: Zusatzkosten
-        maa_maara: Standard Zielland
-        merahti: Frachtvertrag
-        poistumistoimipaikka_koodi: Standard Code des Abtrittgeschäftsstelle
-        rahtikirja: Frachtbrieftyp
-        selite: Bezeichnung
-        sisamaan_kuljetus: Standard Inlandtransport
-        sisamaan_kuljetus_kansallisuus: Standard Nationalität des Inlandtransport
-        sisamaan_kuljetusmuoto: Standard Inlandtransportart
-        tulostustapa: Ausdruckart
       keyword:
         jarjestys: Sortierung
         kieli: Sprache
@@ -211,6 +192,8 @@ de:
         required: 
         set_name: 
         visibility: 
+      keyword/revenue_expenditure:
+        selitetark_2: Anzahl
       package:
         erikoispakkaus: 
         jarjestys: Sortierung
@@ -316,7 +299,6 @@ de:
       carrier: 
       cash_register: 
       currency: Währung
-      delivery_method: Versandart
       fiscal_year: Rechnungsjahr
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -455,55 +437,6 @@ de:
       visibility_options:
         hidden: 
         visible: 
-    delivery_methods:
-      adr_prohibition_options:
-        adr_prohibition: Liefern der ADR-Produkte nicht erlaubt bei der Lieferart
-        adr_shipment: ADR-Produkte werden geliefert mit der Lieferart
-        permit_adr: Liefern der ADR-Produkte erlaubt bei der Lieferart
-      cash_on_delivery_prohibition_options:
-        cash_on_delivery_permitted: Liefern der Nachnahmen erlaubt bei der Lieferart
-        cash_on_delivery_prohibition: Liefern der Nachnahmen nicht erlaubt bei der Lieferart
-      container_options:
-        includes_container: Ja
-        not_including_container: Nein
-      edit:
-        header: Versandart
-        no_select: Beliebig
-      extranet_options:
-        both_in_sales_and_extranet: Lieferart wird in beiden angezeigt
-        only_in_extranet: Lieferart wird nur im Extranet angezeigt
-        only_in_sales: Lieferart wird nur im Verkauf angezeigt
-      index:
-        button_search: Suchen
-        header: Lieferarten
-      label_options:
-        compact_label: Komprimiert
-        intrade_label: Intrade
-        normal_label: Normal
-      packing_line_prohibition_options:
-        not_reserving_packing_line: Aufträge der Lieferart reservieren kein Packraum-/Verpackungsabteilungsfach
-        reserve_packing_line: Aufträge der Lieferart reservieren Packraum-/Verpackungsabteilungsfach
-      pickup_options:
-        pickup: Der Kunde holt die Aufträge ab
-        shipment: Aufträge werden an den Kunden geliefert
-      print_method_options:
-        batch: Losausdrucken
-        collective_batch: Sammel-Losausdrucken
-        collective_instant: Sammel-Sofortausdrucken
-        instant: Sofortausdrucken
-        skip_print: Frachbriefeingabe und -ausdrucken werden überholt
-      saturday_delivery_options:
-        not_saturday_delivery: Keine Samstagsdistribution
-      special_packaging_prohibition_options:
-        special_packaging_permitted: Liefern der Spezialverpackungen erlaubt bei der Lieferart
-        special_packaging_prohibition: Liefern der Spezialverpackungen nicht erlaubt bei der Lieferart
-      transport_unit_options:
-        not_transport_unit: Keinen Transporteinheittransport
-      transportation_insurance_type_options:
-        use_company_default: Standard der Firma
-      waybill_specification_options:
-        no_waybill_specification: Keine Frachtbriefspezifikation für die Lieferart ausdrucken
-        print_waybill_specification: Frachtbriefspezifikation für die Lieferart ausdrucken
     fiscal_years:
       create:
         create_success: 
@@ -919,7 +852,21 @@ de:
     percentage:
       format:
         format: "%n %"
+  reports:
+    revenue_expenditure:
+      index:
+        accounts_payable: Verbindlichkeiten aus Lieferungen und Leistungen
+        accounts_receivable: Forderungen aus Lieferungen und Leistungen
+        button_excel: Excel speichern
+        concern_accounts_payable: Konzernverbindlichkeiten aus Lieferungen und Leistungen
+        concern_accounts_receivable: Konzernforderungen aus Lieferungen und Leistungen
+        summary: Gesamt
+        week: Woche
   shared:
+    excel:
+      company: Firmendaten
+      time: Fahrzeit
+      user: Benutzer
     link_return_to: Zurück ins Programm
   simple_form:
     'no': Nein

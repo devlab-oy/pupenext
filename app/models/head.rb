@@ -8,6 +8,9 @@ class Head < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
 
+  scope :paid, -> { where.not(mapvm: 0) }
+  scope :unpaid, -> { where(mapvm: 0) }
+
   before_create :set_date_fields
   after_create :fix_datetime_fields
 
@@ -17,17 +20,23 @@ class Head < BaseModel
 
   def self.child_class_names
     {
+      'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
-      'Y' => Head::PurchaseInvoice::Paid,
+      'L' => SalesOrder::Order,
       'M' => Head::PurchaseInvoice::Approved,
+      'N' => SalesOrder::Draft,
+      'O' => PurchaseOrder::Order,
       'P' => Head::PurchaseInvoice::Transfer,
       'Q' => Head::PurchaseInvoice::Waiting,
-      'O' => Head::PurchaseOrder,
       'U' => Head::SalesInvoice,
-      'N' => Head::SalesOrderDraft,
-      'L' => Head::SalesOrder,
+      'V' => ManufactureOrder::Order,
       'X' => Head::Voucher,
+      'Y' => Head::PurchaseInvoice::Paid,
     }
+  end
+
+  def self.purchase_invoices
+    where(tila: Head::PurchaseInvoice::TYPES)
   end
 
   private
@@ -73,6 +82,6 @@ class Head < BaseModel
       params[:popvm]      = zero if popvm      == epoch
 
       # update_columns skips all validations and updates values directly with sql
-      update_columns params
+      update_columns params if params.present?
     end
 end
