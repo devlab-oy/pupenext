@@ -1,4 +1,4 @@
-class SalesOrder::Draft < Head
+class Head::SalesOrder::Draft < Head::SalesOrder
   validates :tila, inclusion: { in: ['N'] }
 
   # Rails requires sti_name method to return type column (tyyppi) value

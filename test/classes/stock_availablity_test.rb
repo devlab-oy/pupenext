@@ -5,14 +5,14 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     products
     purchase_order/orders
     purchase_order/rows
-    sales_order/orders
-    sales_order/rows
+    head/sales_order/orders
+    head/sales_order/rows
     shelf_locations
   )
 
   setup do
     @company = companies :acme
-    @sales_order = sales_order_orders :so_one
+    @sales_order = head_sales_order_orders :so_one
     @purchase_order = purchase_order_orders :po_one
   end
 

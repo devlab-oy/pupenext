@@ -1,15 +1,14 @@
 require 'test_helper'
 
-class SalesOrder::OrderTest < ActiveSupport::TestCase
+class Head::SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(
-    head/voucher_rows
-    sales_order/orders
-    sales_order/rows
+    head/sales_order/orders
+    head/sales_order/rows
     head/voucher_rows
   )
 
   setup do
-    @order = sales_order_orders :so_one
+    @order = head_sales_order_orders :so_one
   end
 
   test 'fixture should be valid' do
