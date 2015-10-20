@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
   fixtures %w(
+    customer_prices
     customers
     keyword/customer_subcategories
     products
