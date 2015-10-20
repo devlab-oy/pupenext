@@ -973,9 +973,9 @@ fi:
       index:
         header: Varastotilanne
         run: Vie pdf
-        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+        running: Raporttia viedään myös pdf:ksi! Valmis raportti löytyy omalta download arealtasi!
       form:
-        button_make: Aja ruudulle
+        button_make: Aja raportti
         period: Tarkasteluaika
         weeks: Viikon ajalta
         product_category: Osasto
