@@ -19,7 +19,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list_of_changes
-    @products = Product.regular.joins(:pending_updates)
+    @products = Product.regular.joins(:pending_updates).group(:tuoteno).order(:tuoteno)
 
     if @products.present?
       render :list
