@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class Head::SalesInvoiceRowTest < ActiveSupport::TestCase
-  fixtures %w(heads head/sales_invoice_rows products)
+  fixtures %w(
+    heads
+    head/sales_invoice_rows
+    products
+  )
 
   setup do
     @row = head_sales_invoice_rows(:one)
@@ -18,7 +22,7 @@ class Head::SalesInvoiceRowTest < ActiveSupport::TestCase
 
   test 'delivery date' do
     @row.toimaika =  Date.parse("2015-01-01")
-    @row.toimitettuaika = Date.parse("2015-01-02")
+    @row.toimitettuaika = Date.parse("2015-01-02 12:00:50")
     @row.company.parameter.tilausrivien_toimitettuaika = :no_manual_deliverydates
     assert_equal Date.parse("2015-01-02"), @row.delivery_date
 

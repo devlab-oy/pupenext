@@ -26,21 +26,31 @@ class Finvoice
           messagedetails
         }
       }
+
       doc.SellerPartyDetails {
         sellerpartydetails
       }
+
+      sellerinfo
+
       doc.SellerInformationDetails {
         sellerinfodetails
       }
+
+      recipientdetails
+
       doc.BuyerPartyDetails {
         buyerpartydetails
       }
+
       doc.DeliveryDetails {
         deliverydetails
       }
+
       doc.InvoiceDetails {
         invoicedetails
       }
+
       doc.PaymentStatusDetails {
         paymentstatus
       }
@@ -68,6 +78,26 @@ class Finvoice
       number_to_currency(num, separator: ",", delimiter: "", format: "%n")
     end
 
+    def company_contact_details
+      if @invoice.location
+        # Invoice has specific location
+        {
+          puhelin: @invoice.location.puhelin,
+          fax:     @invoice.location.fax,
+          email:   @invoice.location.email,
+          www:     @invoice.location.www,
+        }
+      else
+        # Default sender details
+        {
+          puhelin: @invoice.company.puhelin,
+          fax:     @invoice.company.fax,
+          email:   @invoice.company.email,
+          www:     @invoice.company.www,
+        }
+      end
+    end
+
     def return_valid_xml
       file = Rails.root.join 'vendor', 'assets', 'finvoice', 'Finvoice2.01.xsd'
       xsd = Nokogiri::XML::Schema(File.read(file))
@@ -78,7 +108,68 @@ class Finvoice
         puts error.message
       end
 
-      doc.to_xml
+      File.write("/tmp/finvoice201.xml", doc.to_xml)
+    end
+
+    def print_service_code(senderintermediator)
+      case senderintermediator
+      when "NDEAFIHH"
+        return "tulostukseen"
+      when "PSPBFIHH"
+        return "003718062728810P"
+      when "DABAFIHH"
+        return "003718062728810P"
+      when "HELSFIHH"
+        return "TULOSTUSPALVELU"
+      when "OKOYFIHH"
+        return "TULOSTUSPALVELU"
+      when "003710948874"
+        return "EKIRJE"
+      when "003723327487"
+        return "TULOSTUS"
+      when "003721291126"
+        return "PRINT"
+      when "ITELFIHH"
+        return "TULOSTUSPALVELU"
+      else
+        return nil
+      end
+    end
+
+    def receiver_details
+      receiverpartyid = ""
+      receiverintermediator = ""
+
+      if @invoice.company.parameter.ipost?
+        # Posti Ipost
+        receiverpartyid = @invoice.verkkotunnus
+        receiverintermediator = "003710948874"
+      elsif @invoice.verkkotunnus.index("@")
+        receiverpartyid, receiverintermediator = @invoice.verkkotunnus.split("@")
+      else
+        receiverpartyid = @invoice.verkkotunnus
+        receiverintermediator = ""
+      end
+
+      # If we are using Apix and we have no receiverintermediator,
+      # we put Apix's OVT as receiverintermediator
+      if receiverintermediator.empty? && @invoice.company.parameter.apix?
+        receiverintermediator = "003723327487"
+      end
+
+      # If we are still missing the receiverintermediator, we put the sender's
+      # senderintermediator as the receiverintermediator
+      # If we are using Maventa, we can leave the receiverintermediator empty
+      if receiverintermediator.empty? && !@invoice.company.parameter.maventa?
+        receiverintermediator = @invoice.company.parameter.finvoice_senderintermediator
+      end
+
+      # If we have no receiverpartyid, or our invoice is going to print service
+      if (receiverpartyid.empty? && !@invoice.company.parameter.apix?) || @invoice.finvoice_printservice?
+        receiverpartyid = print_service_code(receiverintermediator)
+      end
+
+      [receiverpartyid, receiverintermediator]
     end
 
     def senderdetails
@@ -90,7 +181,7 @@ class Finvoice
     end
 
     def receiverdetails
-      toid, toint = FinvoiceDetail.receiver_details @invoice
+      toid, toint = receiver_details
       doc.ToIdentifier toid
       doc.ToIntermediator toint
     end
@@ -105,35 +196,40 @@ class Finvoice
     end
 
     def sellerpartydetails
-      if @invoice.location
-        # Invoice has specific location
-        y_puhelin   = @invoice.location.puhelin
-        y_fax       = @invoice.location.fax
-        y_email     = @invoice.location.email
-        y_www       = @invoice.location.www
-      else
-        # Default sender details
-        y_puhelin = @invoice.company.puhelin
-        y_fax     = @invoice.company.fax
-        y_email   = @invoice.company.email
-        y_www     = @invoice.company.www
-      end
-
       doc.SellerPartyIdentifier @invoice.company.ytunnus_human
-      doc.SellerPartyIdentifierUrlText ""
       doc.SellerOrganisationName @invoice.yhtio_nimi
-      doc.SellerOrganisationDepartment ""
-      doc.SellerOrganisationDepartment ""
-      doc.SellerOrganisationTaxCode @invoice.company.vatnumber_human
+      doc.SellerOrganisationTaxCode @invoice.company_vatnumber_human
       doc.SellerPostalAddressDetails {
         doc.SellerStreetName @invoice.yhtio_osoite
         doc.SellerTownName @invoice.yhtio_postitp
         doc.SellerPostCodeIdentifier @invoice.yhtio_postino
         doc.CountryCode @invoice.yhtio_maa
+        doc.CountryName @invoice.yhtio_maa
+      }
+    end
+
+    def sellerinfo
+      companyinfo = company_contact_details
+
+      doc.SellerOrganisationUnitNumber @invoice.yhtio_ovttunnus
+      doc.SellerContactPersonName @invoice.seller.nimi
+
+      doc.SellerCommunicationDetails {
+       doc.SellerPhoneNumberIdentifier companyinfo[:puhelin]
+       doc.SellerEmailaddressIdentifier companyinfo[:email]
       }
     end
 
     def sellerinfodetails
+      companyinfo = company_contact_details
+
+      doc.SellerHomeTownName @invoice.yhtio_kotipaikka
+      doc.SellerVatRegistrationText "Alv.Rek"
+      doc.SellerPhoneNumber companyinfo[:puhelin]
+      doc.SellerFaxNumber companyinfo[:fax]
+      doc.SellerCommonEmailaddressIdentifier companyinfo[:email]
+      doc.SellerWebaddressIdentifier companyinfo[:www]
+
       @invoice.terms_of_payment.bank_account_details.each do |account|
         doc.SellerAccountDetails {
           doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
@@ -144,6 +240,31 @@ class Finvoice
           }
         }
       end
+    end
+
+    def recipientdetails
+      doc.InvoiceRecipientPartyDetails {
+        doc.InvoiceRecipientPartyIdentifier @invoice.ytunnus_human
+        doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimi
+        doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimitark
+
+
+        if @invoice.company.verkkolasku_lah != "maventa"
+          # Maventa ei salli tyhjänä, optionaalinen
+          doc.InvoiceRecipientOrganisationTaxCode @invoice.vatnumber_human
+        end
+
+        doc.InvoiceRecipientPostalAddressDetails {
+          doc.InvoiceRecipientStreetName @invoice.extra.laskutus_osoite
+          doc.InvoiceRecipientTownName @invoice.extra.laskutus_postitp
+          doc.InvoiceRecipientPostCodeIdentifier @invoice.extra.laskutus_postino
+          doc.CountryCode @invoice.extra.laskutus_maa
+          doc.CountryName @invoice.extra.laskutus_maa
+          doc.InvoiceRecipientPostOfficeBoxIdentifier ""
+        }
+      }
+
+      doc.InvoiceRecipientOrganisationUnitNumber @invoice.ovttunnus
     end
 
     def buyerpartydetails
@@ -237,6 +358,7 @@ class Finvoice
     def paymentstatus
       doc.PaymentStatusCode "NOTPAID"
     end
+
     def invoicerows
       @invoice.rows.each do |row|
         doc.InvoiceRow {

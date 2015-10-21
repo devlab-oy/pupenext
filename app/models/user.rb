@@ -1,6 +1,7 @@
 class User < BaseModel
   has_many :downloads, class_name: 'Download::Download'
   has_many :files, through: :downloads, class_name: 'Download::File'
+  has_many :sales_invoices, foreign_key: :myyja, primary_key: :tunnus, class_name: 'Head::SalesInvoice'
   has_many :permissions
 
   self.table_name = :kuka

@@ -3,6 +3,8 @@ class Head::SalesInvoice < Head
 
   validates :tila, inclusion: { in: ['U'] }
   has_many :rows, foreign_key: :uusiotunnus, class_name: 'Head::SalesInvoiceRow'
+  has_one :extra, foreign_key: :otunnus, primary_key: :tunnus, class_name: 'Head::SalesInvoiceExtra'
+  has_one :seller, foreign_key: :tunnus, primary_key: :myyja, class_name: 'User'
 
   scope :sent, -> { where(alatila: :X) }
 
@@ -38,6 +40,13 @@ class Head::SalesInvoice < Head
 
     # FI+ytunnus makes up the Finnish VAT-number
     "FI#{formatted_ytunnus}"
+  end
+
+  def company_vatnumber_human
+    return yhtio_ovttunnus unless maa == "FI"
+
+    # FI+ytunnus makes up the Finnish VAT-number
+    "FI#{formatted_company_vatnumber}"
   end
 
   def deliveryperiod_start

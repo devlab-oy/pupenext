@@ -7,6 +7,7 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     heads
     locations
     products
+    users
   )
 
   setup do
@@ -20,7 +21,7 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
 
   test 'model relations' do
     assert_equal 1, @invoice.accounting_rows.count
-    assert_equal 1, @invoice.rows.count
+    assert_equal 3, @invoice.rows.count
     assert_equal Location, @invoice.location.class
   end
 
@@ -60,6 +61,11 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
 
     @invoice.arvo = -100
     assert @invoice.credit?
+  end
+
+  test 'seller' do
+    @invoice.myyja = User.find_by(kuka: 'joe').id
+    assert_equal "Joe Danger", @invoice.seller.nimi
   end
 
   test 'delivery period test' do

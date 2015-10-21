@@ -6,6 +6,8 @@ class FinvoiceTest < ActiveSupport::TestCase
     heads
     terms_of_payments
     head/sales_invoice_rows
+    head/sales_invoice_extras
+    users
   )
 
   setup do
@@ -19,6 +21,9 @@ class FinvoiceTest < ActiveSupport::TestCase
   end
 
   test 'should generate finvoice xml' do
+    @invoice.myyja = User.find_by(kuka: 'maxpulli').id
+    @invoice.save
+
     example = File.read Rails.root.join('test', 'assets', 'example_finvoice.xml')
     finvoice = Finvoice.new(invoice_id: @invoice.id)
 

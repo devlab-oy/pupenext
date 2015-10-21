@@ -10,12 +10,15 @@ class Head::SalesInvoiceRow < BaseModel
   self.primary_key = :tunnus
 
   def delivery_date
-    if company.parameter.manual_deliverydates_for_all_products? ||
+    if (company.parameter.manual_deliverydates_for_all_products? ||
       (company.parameter.manual_deliverydates_when_product_inventory_not_managed? &&
-        product.no_inventory_management?)
+        product.no_inventory_management?)) &&
       toimaika
-    else
+      toimaika
+    elsif toimitettuaika
       toimitettuaika.to_date
+    else
+      laskutettuaika
     end
   end
 
