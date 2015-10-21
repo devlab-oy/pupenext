@@ -12,7 +12,11 @@
 <br><br>
 
 <%= form_tag pending_product_updates_list_path, method: :get do %>
-  <%= hidden_field_tag :commit, 'yes' %>
+
+  <% params.each do |k,v| %>
+    <%= hidden_field_tag k, v %>
+  <% end %>
+
   <%= label_tag :hinta, t('.price') %>
   <%= select_tag :hinta, options_for_select(pending_price_options, params[:hinta]), { class: 'price-select' } %>
 <% end %>
