@@ -274,6 +274,8 @@ fi:
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
       product:
+        kuvaus: Kuvaus
+        lyhytkuvaus: Lyhytkuvaus
         nimitys: Nimitys
         tuoteno: Tuotenumero
         voimassa: Voimassa
@@ -632,6 +634,9 @@ fi:
       header: Tuotteen avainsanat
       language: Avainsanojen kieli
       type: Avainsanatyyppi
+  customer_price_lists_helper:
+    all_products: All products
+    contract_prices: Contract prices
   data_import:
     index:
       header: Tietojen sisäänluku
@@ -977,16 +982,13 @@ fi:
       valid_text: Hinnasto on voimassa
     customer_price_lists:
       index:
-        all_products: Kaikki tuotteet
         contract_filter: Sopimusrajaus
-        contract_prices: Sopimushinnat
         customer_not_found: Asiakasta ei löydy
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
         no_filters_specified: Et antanut tuoterajauksia
         products_not_found: Tuotteita ei löytynyt määrittämilläsi hakuehdoilla
-        target: Kohde
         target_type: Kohdetyyppi
       report:
         header: Asiakashinnasto
