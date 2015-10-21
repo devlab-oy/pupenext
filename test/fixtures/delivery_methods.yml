@@ -1,23 +1,22 @@
-kaukokiito:
+DEFAULTS: &DEFAULTS
   yhtio: acme
-  selite: Kaukokiito
-  tulostustapa: H
-  rahtikirja: rahtikirja.inc
-  rahdinkuljettaja: Kaukokiito
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+kaukokiito:
   kuljetusmuoto: 1
   osoitelappu: tiivistetty
-  laatija: 'joe'
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: 'joe'
+  rahdinkuljettaja: Kaukokiito
+  rahtikirja: rahtikirja.inc
+  selite: Kaukokiito
+  tulostustapa: H
+  <<: *DEFAULTS
 
 kiitolinja:
-  yhtio: acme
+  rahdinkuljettaja: Kiitolinja
+  rahtikirja: rahtikirja_pdf.inc
   selite: Kiitolinja
   tulostustapa: H
-  rahtikirja: rahtikirja_pdf.inc
-  rahdinkuljettaja: Kiitolinja
-  laatija: 'joe'
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: 'joe'
+  <<: *DEFAULTS
