@@ -972,16 +972,17 @@ fi:
     stock_availability:
       index:
         header: Varastotilanne
-        run: Vie pdf
-        running: Raporttia viedään myös pdf:ksi! Valmis raportti löytyy omalta download arealtasi!
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
       form:
-        button_make: Aja raportti
+        button_make: Ruudulle
+        button_run: Pdf
         period: Tarkasteluaika
         weeks: Viikon ajalta
         product_category: Osasto
         product_subcategory: Tuoteryhmä
         product_brand: Tuotemerkki
       show_data:
+        header: Varastotilanne
         available: Saatavilla
         past: Myöhässä
         future: Tulevat
