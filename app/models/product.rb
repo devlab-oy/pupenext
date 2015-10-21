@@ -15,6 +15,8 @@ class Product < BaseModel
   delegate :images, to: :attachments
   delegate :thumbnails, to: :attachments
 
+  has_many :attachments, -> { where liitos: 'tuote' }, foreign_key: :liitostunnus
+
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :keywords, class_name: 'Product::Keyword'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
