@@ -43,7 +43,7 @@ class PendingProductUpdatesController < ApplicationController
 
     message = t('.updated', count: result.update_count)
 
-    if result.failed_count
+    if result.failed_count.nonzero?
       message << ' ' + t('.failed', count: result.failed_count, errors: result.errors.join(', '))
     end
 
