@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Keyword::CustomerSubcategoryTest < ActiveSupport::TestCase
-  fixtures %w(keyword/customer_subcategories)
+  fixtures %w(keyword/customer_subcategories customers)
 
   setup do
     @one = keyword_customer_subcategories :customer_subcategory_1
