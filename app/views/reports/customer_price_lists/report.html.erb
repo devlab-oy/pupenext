@@ -173,7 +173,7 @@
       </td>
     </tr>
 
-    <% if p.lyhytkuvaus.present? %>
+    <% if params[:lyhytkuvaus] && p.lyhytkuvaus.present? %>
       <tr>
         <td colspan="5"><%= p.lyhytkuvaus %></td>
       </tr>
@@ -181,14 +181,16 @@
 
     <% if p.attachments.any? || p.kuvaus.present? %>
       <tr>
-        <td>
-          <% if p.attachments.first && p.attachments.first.data %>
+        <% if p.attachments.first && p.attachments.first.data %>
+          <td>
             <img src="data:image/jpg;base64,<%= Base64.encode64(p.attachments.first.data) %>"
                  style="width: 100%;"/>
-          <% end %>
+          </td>
+        <% end %>
 
-        </td>
-        <td colspan="4"><%= p.kuvaus %></td>
+        <% if params[:kuvaus] && p.kuvaus.present? %>
+          <td colspan="4"><%= p.kuvaus %></td>
+        <% end %>
       </tr>
     <% end %>
 
