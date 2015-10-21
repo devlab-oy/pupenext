@@ -5,6 +5,7 @@ class ProductTest < ActiveSupport::TestCase
   fixtures %w(
     attachment/product_attachments
     customers
+    customer_prices
     keywords
     manufacture_order/rows
     pending_updates
