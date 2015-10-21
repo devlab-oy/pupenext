@@ -15,6 +15,8 @@
 
 <tr>
   <th width='100'>
+  </th>
+  <th width='100'>
     <%= t('.sku') %>
   </th>
   <th width='250'>
@@ -26,6 +28,12 @@
 
 <% @products.each do |product| %>
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
+    <td class='ptop'>
+      <% if product.attachments.present? %>
+        <img src="data:image/jpg;base64,<%= Base64.encode64(product.attachments.first.data) %>" style="width: 100%;"/>
+      <% end %>
+    </td>
+
     <td class='ptop'>
       <%= product.tuoteno %>
     </td>
