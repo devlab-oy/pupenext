@@ -15,8 +15,17 @@
     </tr>
 
     <tr>
-      <th><%= label_tag :target, t('.target') %></th>
-      <td><%= number_field_tag :target, params[:target], required: true %></td>
+      <% if params[:target_type] == '2' %>
+        <th><%= label_tag :target, t('activerecord.models.customer_subcategory') %></th>
+        <td><%= select_tag :target,
+                           options_from_collection_for_select(Keyword::CustomerSubcategory.all,
+                                                              :selite,
+                                                              :selitetark),
+                           required: true %></td>
+      <% else %>
+        <th><%= label_tag :target, t('activerecord.models.customer') %></th>
+        <td><%= number_field_tag :target, params[:target], required: true %></td>
+      <% end %>
     </tr>
 
     <tr>
@@ -31,7 +40,8 @@
       <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
       <td><%= select_tag(:contract_filter,
                          options_for_select([[t('.all_products'), 1],
-                                             [t('.contract_prices'), 2]])) %></td>
+                                             [t('.contract_prices'), 2]],
+                                            params[:contract_filter])) %></td>
     </tr>
 
     <tr>
