@@ -150,7 +150,6 @@
   <tr>
     <th><%= t('activerecord.attributes.product.tuoteno') %></th>
     <th><%= t('activerecord.attributes.product.nimitys') %></th>
-    <th></th>
     <th><%= t('reports.customer_price_list.price') %></th>
   </tr>
 
@@ -162,13 +161,12 @@
       <td><strong><%= p.tuoteno %></strong></td>
       <td><strong><%= p.nimitys %></strong></td>
       <td>
-        <% if @customer && @customer.contract_price?(p) %>
-          <%= t('reports.customer_price_list.sopimushinta') %>
-        <% end %>
-      </td>
-      <td>
         <% if @customer %>
           <%= number_to_currency(p.customer_price(@customer.id)) %>
+
+          <% if @customer && @customer.contract_price?(p) %>
+            (<%= t('reports.customer_price_list.sopimushinta') %>)
+          <% end %>
         <% else %>
           <%= number_to_currency(p.customer_subcategory_price(@customer_subcategory)) %>
         <% end %>
