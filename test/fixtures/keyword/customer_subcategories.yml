@@ -1,0 +1,15 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laji: ASIAKASRYHMA
+
+customer_subcategory_1:
+  selite: 10
+  selitetark: Yleinen
+  <<: *DEFAULTS
+
+customer_subcategory_2:
+  selite: 20
+  selitetark: Internet
+  <<: *DEFAULTS
