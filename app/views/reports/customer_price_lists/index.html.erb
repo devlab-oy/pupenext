@@ -7,21 +7,13 @@
 
     <tr>
       <th><%= label_tag(:target_type, t('.target_type')) %></th>
-      <td>
-        <%= select_tag(:target_type,
-                       options_for_select([[t('activerecord.models.customer'), 1],
-                                           [t('activerecord.models.customer_subcategory'), 2]], params[:target_type])) %>
-      </td>
+      <td><%= select_tag(:target_type, target_type_options(params[:target_type])) %></td>
     </tr>
 
     <tr>
       <% if params[:target_type] == '2' %>
         <th><%= label_tag :target, t('activerecord.models.customer_subcategory') %></th>
-        <td><%= select_tag :target,
-                           options_from_collection_for_select(Keyword::CustomerSubcategory.all,
-                                                              :selite,
-                                                              :selitetark),
-                           required: true %></td>
+        <td><%= select_tag :target, customer_subcategory_options(params[:target]), required: true %></td>
       <% else %>
         <th><%= label_tag :target, t('activerecord.models.customer') %></th>
         <td><%= number_field_tag :target, params[:target], required: true %></td>
@@ -38,10 +30,7 @@
     </tr>
     <tr>
       <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
-      <td><%= select_tag(:contract_filter,
-                         options_for_select([[t('.all_products'), 1],
-                                             [t('.contract_prices'), 2]],
-                                            params[:contract_filter])) %></td>
+      <td><%= select_tag(:contract_filter, contract_filter_options(params[:contract_filter])) %></td>
     </tr>
 
     <tr>
