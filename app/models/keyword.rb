@@ -26,7 +26,6 @@ class Keyword < BaseModel
       TRY:           Product::Subcategory,
       TUOTEMERKKI:   Product::Brand,
       TUOTEULK:      Keyword::ProductKeywordType,
-      ASIAKHIN_ATTR: Keyword::CustomerPriceListAttribute,
       ASIAKASRYHMA:  Keyword::CustomerSubcategory
     }.stringify_keys
   end
