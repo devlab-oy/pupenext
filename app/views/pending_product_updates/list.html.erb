@@ -11,10 +11,10 @@
 
 <br><br>
 
-<%= form_for :price_select, url: pending_product_updates_list_path, method: :get do |f| %>
-  <%= f.label :hinta, t('.price') %>
-  <% selected = params[:price_select].present? ? params[:price_select][:hinta] : '' %>
-  <%= f.select :hinta, options_for_select(pending_price_options, selected), {}, { class: 'price-select' } %>
+<%= form_tag pending_product_updates_list_path, method: :get do %>
+  <%= hidden_field_tag :commit, 'yes' %>
+  <%= label_tag :hinta, t('.price') %>
+  <%= select_tag :hinta, options_for_select(pending_price_options, params[:hinta]), { class: 'price-select' } %>
 <% end %>
 
 <br><br>
@@ -54,7 +54,7 @@
     </td>
 
     <td class='ptop'>
-      <% if params[:price_select].present? && params[:price_select][:hinta] == 'myymalahinta' %>
+      <% if params[:hinta] == 'myymalahinta' %>
         <%= product.myymalahinta %>
       <% else %>
         <%= product.myyntihinta %>

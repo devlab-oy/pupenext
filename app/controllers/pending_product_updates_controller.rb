@@ -7,7 +7,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list
-    render :index and return if params[:commit].blank? && params[:price_select].blank?
+    render :index and return if params[:commit].blank?
 
     products = Product.regular
 
@@ -15,7 +15,7 @@ class PendingProductUpdatesController < ApplicationController
       products = products.joins(:product_suppliers)
     end
 
-    @products = products.search_like(search_params)
+    @products = products.search_like(search_params.except(:hinta))
   end
 
   def list_of_changes
@@ -68,12 +68,6 @@ class PendingProductUpdatesController < ApplicationController
       )
     end
 
-    def price_params
-      params.require(:price_select).permit(
-        :hinta
-      )
-    end
-
     def sortable_columns
       [
         :tuoteno,
@@ -81,6 +75,7 @@ class PendingProductUpdatesController < ApplicationController
         'tuotteen_toimittajat.toim_tuoteno',
         :status,
         :ei_saldoa,
+        :hinta,
         osasto: [],
         try: [],
         tuotemerkki: [],
