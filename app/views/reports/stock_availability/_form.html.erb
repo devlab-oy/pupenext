@@ -43,9 +43,12 @@
       </tr>
     <% end %>
 
-    <tr>
-      <td class='back'>
+    <tr class='back'>
+      <td>
         <%= submit_tag t('.button_make') %>
+      </td>
+      <td>
+        <%= submit_tag t('.button_run'), formaction: :run_stock_availability %>
       </td>
     </tr>
   </table>
