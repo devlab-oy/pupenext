@@ -7,7 +7,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list
-    render :index and return if params[:commit].blank? && params[:pending_update][:commit].blank?
+    render :index and return if params[:commit].blank? && params[:price_select].blank?
 
     products = Product.regular
 
@@ -69,8 +69,7 @@ class PendingProductUpdatesController < ApplicationController
     end
 
     def price_params
-      params.require(:pending_update).permit(
-        :commit,
+      params.require(:price_select).permit(
         :hinta
       )
     end
