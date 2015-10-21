@@ -18,7 +18,9 @@
   <% end %>
 
   <%= label_tag :hinta, t('.price') %>
-  <%= select_tag :hinta, options_for_select(pending_price_options, params[:hinta]), { class: 'price-select' } %>
+  <%= select_tag :hinta,
+                  options_for_select(pending_price_options, params[:hinta]),
+                  { class: 'chosen-select price-select' } %>
 <% end %>
 
 <br><br>
