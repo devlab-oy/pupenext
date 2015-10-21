@@ -24,10 +24,12 @@
       <th><%= label_tag :date_start, t('.date_start') %></th>
       <td><%= date_field_tag :date_start, params[:date_start], class: :pickadate %></td>
     </tr>
+
     <tr>
       <th><%= label_tag :date_end, t('.date_end') %></th>
       <td><%= date_field_tag :date_end, params[:date_end], class: :pickadate %></td>
     </tr>
+
     <tr>
       <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
       <td><%= select_tag(:contract_filter, contract_filter_options(params[:contract_filter])) %></td>
