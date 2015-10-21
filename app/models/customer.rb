@@ -13,4 +13,8 @@ class Customer < BaseModel
   self.table_name = :asiakas
   self.primary_key = :tunnus
   self.record_timestamps = false
+
+  def contract_price?(product)
+    product.in? products
+  end
 end
