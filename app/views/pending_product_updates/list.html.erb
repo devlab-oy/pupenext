@@ -11,7 +11,16 @@
 
 <br><br>
 
-<table width='900'>
+<%= form_for :pending_update, url: pending_product_updates_list_path, method: :get do |f| %>
+  <%= f.hidden_field :commit, value: 'yes' %>
+  <%= f.label :hinta, t('.price') %>
+  <% selected = params[:pending_update].present? ? params[:pending_update][:hinta] : '' %>
+  <%= f.select :hinta, options_for_select(pending_price_options, selected), {}, { class: 'price-select' } %>
+<% end %>
+
+<br><br>
+
+<table width='1100'>
 
 <tr>
   <th width='100'>
@@ -21,6 +30,9 @@
   </th>
   <th width='250'>
     <%= t('.label') %>
+  </th>
+  <th width='100'>
+    <%= t('.price') %>
   </th>
   <th width='450'>
   </th>
@@ -40,6 +52,14 @@
 
     <td class='ptop'>
       <%= product.nimitys %>
+    </td>
+
+    <td class='ptop'>
+      <% if params[:pending_update].present? && params[:pending_update][:hinta] == 'myymalahinta' %>
+        <%= product.myymalahinta %>
+      <% else %>
+        <%= product.myyntihinta %>
+      <% end %>
     </td>
 
     <td class='ptop pending_update'>
