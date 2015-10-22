@@ -2,9 +2,11 @@ require 'test_helper'
 
 class DeliveryMethodTest < ActiveSupport::TestCase
   fixtures %w(
+    customers
     delivery_methods
     heads
-    customers
+    sales_order/orders
+    sales_order/drafts
   )
 
   def setup
@@ -61,6 +63,14 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     deli2.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
     deli2.save!
 
+    order = sales_order_orders :not_delivered_order_1
+    order.toimitustapa = @delivery_method.selite
+    order.save!
+
+    draft = sales_order_drafts :not_finished_order
+    draft.toimitustapa = @delivery_method.selite
+    draft.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -75,5 +85,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     # customers
     cust = customers :stubborn_customer
     assert_equal 'Kaukokiito3', cust.reload.toimitustapa
+
+    # sales orders
+    assert_equal 'Kaukokiito3', order.reload.toimitustapa
+    assert_equal 'Kaukokiito3', draft.reload.toimitustapa
   end
 end

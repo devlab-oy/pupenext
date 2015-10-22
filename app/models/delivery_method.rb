@@ -147,6 +147,8 @@ class DeliveryMethod < BaseModel
         company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
         company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
         company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
       end
       true
     end
