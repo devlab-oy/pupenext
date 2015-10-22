@@ -26,6 +26,7 @@ class DeliveryMethod < BaseModel
   validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
 
   before_save :defaults
+  after_save :update_relations
   before_destroy :check_relations
 
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
@@ -141,6 +142,15 @@ class DeliveryMethod < BaseModel
 
   private
 
+    def update_relations
+      if selite_was.present?
+        company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
+        company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
+        company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+      end
+      true
+    end
+
     def mandatory_new_packaging_information
       if unifaun_online? || unifaun_print_server?
         errors.add :base, I18n.t("errors.delivery_method.unifaun_info_missing")
@@ -148,7 +158,7 @@ class DeliveryMethod < BaseModel
     end
 
     def vak_kielto_validation
-      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite) + [ '', 'K' ]
+      allowed = company.delivery_methods.permit_adr.shipment.pluck(:selite) + [ '', 'K' ]
 
       unless allowed.include? vak_kielto
         errors.add :vak_kielto, I18n.t('errors.messages.inclusion')
@@ -156,7 +166,7 @@ class DeliveryMethod < BaseModel
     end
 
     def vaihtoehtoinen_vak_toimitustapa_validation
-      allowed = DeliveryMethod.permit_adr.shipment.pluck(:selite) + [ '' ]
+      allowed = company.delivery_methods.permit_adr.shipment.pluck(:selite) + [ '' ]
 
       unless allowed.include? vaihtoehtoinen_vak_toimitustapa
         errors.add :vaihtoehtoinen_vak_toimitustapa, I18n.t('errors.messages.inclusion')

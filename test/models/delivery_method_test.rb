@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class DeliveryMethodTest < ActiveSupport::TestCase
-  fixtures %w(delivery_methods heads customers)
+  fixtures %w(
+    delivery_methods
+    heads
+    customers
+  )
 
   def setup
     @delivery_method = delivery_methods(:kaukokiito)
@@ -47,5 +51,29 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_no_difference('DeliveryMethod.count') do
       @delivery_method.destroy
     end
+  end
+
+  test 'should update relations when updating selite' do
+    deli2 = @delivery_method.dup
+    deli2.selite = 'Kaukokiito2'
+    deli2.rahdinkuljettaja = 'Kaukokiito2'
+    deli2.vak_kielto = @delivery_method.selite
+    deli2.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
+    deli2.save!
+
+    assert_equal 'Kaukokiito', deli2.vak_kielto
+
+    @delivery_method.selite = 'Kaukokiito3'
+    @delivery_method.save!
+    @delivery_method.reload
+    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+
+    # delivery_method
+    assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
+    assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
+
+    # customers
+    cust = customers :stubborn_customer
+    assert_equal 'Kaukokiito3', cust.reload.toimitustapa
   end
 end
