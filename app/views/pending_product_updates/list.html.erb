@@ -17,7 +17,7 @@
     <%= hidden_field_tag k, v %>
   <% end %>
 
-  <%= label_tag :hinta, t('.price') %>
+  <%= label_tag :hinta, t('.show_price') %>
   <%= select_tag :hinta,
                   options_for_select(pending_price_options, params[:hinta]),
                   { class: 'chosen-select price-select' } %>
