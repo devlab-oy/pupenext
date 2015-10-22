@@ -88,9 +88,9 @@ class Product < BaseModel
   # Avoimet myyntirivit ja niiden laskutunnukset
   def amount_sold(range)
     rivit = sales_order_rows.open.where(toimaika: range)
-    kappalemaara = rivit.reserved
-    laskutunnukset = rivit.pluck(:otunnus).uniq
-    [kappalemaara, laskutunnukset]
+    sold_amount = rivit.reserved
+    order_ids = rivit.pluck(:otunnus).uniq
+    [sold_amount, order_ids]
   end
 
   # Avoimet ostorivit
