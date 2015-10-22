@@ -1,0 +1,21 @@
+DEFAULTS: &DEFAULTS
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muuttaja: joe
+  muutospvm: <%= Time.now %>
+
+one:
+  yhtio: acme
+  tuoteno: hammer123
+  laji: nimitys
+  kieli: fi
+  selite: Vasara
+  <<: *DEFAULTS
+
+two:
+  yhtio: acme
+  tuoteno: hammer123
+  laji: parametri_mallisto
+  kieli: fi
+  selite: Aluminium
+  <<: *DEFAULTS

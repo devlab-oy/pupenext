@@ -1,0 +1,12 @@
+DEFAULTS: &DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+webshopdesc:
+  yhtio: acme
+  selite: webshopdesc
+  selitetark: Description of product for website
+  laji: TUOTEULK
+  <<: *DEFAULTS

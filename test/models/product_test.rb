@@ -1,10 +1,13 @@
 require 'test_helper'
+require 'minitest/mock'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
+    customers
     keywords
     manufacture_order/rows
     pending_updates
+    product/keywords
     product/suppliers
     products
     purchase_order/rows
@@ -27,6 +30,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'TRY', @product.subcategory.laji
     assert_equal 'TUOTEMERKKI', @product.brand.laji
     assert_equal 'S', @product.status.laji
+    assert @product.keywords.count > 0
     assert @product.manufacture_rows.count > 0
     assert @product.pending_updates.count > 0
     assert @product.product_suppliers.count > 0
@@ -99,5 +103,21 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_not_equal 0, company.products.normal.count
     assert_equal 1, company.products.viranomaistuotteet.count
+  end
+
+  test 'customer price' do
+    customer = customers(:stubborn_customer)
+
+    LegacyMethods.stub(:customer_price, 18) do
+      assert_equal 18, @product.customer_price(customer.id)
+    end
+  end
+
+  test 'customer subcategory price' do
+    customer = customers(:stubborn_customer)
+
+    LegacyMethods.stub(:customer_subcategory_price, 22) do
+      assert_equal 22, @product.customer_subcategory_price(customer.id)
+    end
   end
 end

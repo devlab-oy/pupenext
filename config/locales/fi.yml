@@ -238,6 +238,9 @@ fi:
         printteri7: JV-Lasku/-Kuitti
         prio: Prio
         varasto: Varasto
+      pending_updates:
+        key: Kenttä
+        value: Arvo
       printer:
         ip: Ip
         jarjestys: Järjestys
@@ -327,7 +330,9 @@ fi:
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
+      pending_update: Tuleva päivitys
       printer: Kirjoitin
+      product/keyword: Tuotteen avainsanat
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
@@ -606,6 +611,10 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  data_import:
+    index:
+      header: Tietojen sisäänluku
+      import: Sisäänlue
   date:
     abbr_day_names:
     - su
@@ -719,6 +728,11 @@ fi:
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     format: "%{attribute} %{message}"
+    import:
+      action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
+      action_missing: Toiminto -sarake puuttuu!
+      keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
+      product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
@@ -884,22 +898,45 @@ fi:
       header: Tuotteen tulevat muutokset
       inventory_management_products: Varastokäsittely
       label: Nimitys
+      list_all: Listaa kaikki tallennetut tulevat päivitykset
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
     list:
+      deploy_all: Aja listatut päivitykset tuotteille
       label: Nimitys
+      link_new: Lisää uusi tuleva päivitys
+      save: Tallenna muutokset
       sku: Tuotenumero
+    list_of_changes:
+      not_found: Yhtään tuotetta ei löytynyt
+    pending_columns_options:
+      sales_price: Myyntihinta
+      short_description: Lyhytkuvaus
     pending_ei_saldoa_options:
       inventory_management: Listaa vain varastoitavia tuotteita
       no_inventory_management: Listaa vain saldottomia tuotteita
     pending_status_options:
       active: Listaa vain aktiivisia tuotteita
       deleted: Listaa vain poistettuja tuotteita
+    pending_update_fields:
+      delete: Poista
+    to_product:
+      failed:
+        one: Yhtä tuotteen kenttää ei voitu päivittää, koska %{errors}.
+        other: Päivitys epäonnistui %{count}:n kentän osalta, koska %{errors}".
+      updated:
+        one: Päivitettiin yksi tuotteen kenttä.
+        other: Päivitettiin %{count} tuotteen kenttää.
+    update:
+      update_success: Päivitettiin onnistuneesti
   products:
     categories_selection:
       brand: Merkki
       category: Osasto
+      choose_brands: Valitse merkit
+      choose_categories: Valitse osastot
+      choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
     revenue_expenditure:

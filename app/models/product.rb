@@ -10,6 +10,7 @@ class Product < BaseModel
   has_many :suppliers, through: :product_suppliers
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
+    o.has_many :keywords, class_name: 'Product::Keyword'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
@@ -41,10 +42,11 @@ class Product < BaseModel
     no_inventory_management: 'o'
   }
 
-  scope :not_deleted, -> { where.not(status: :P) }
+  scope :active, -> { not_deleted.regular }
   scope :deleted, -> { where(status: :P) }
+  scope :not_deleted, -> { where.not(status: :P) }
+  scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
-  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)
@@ -59,6 +61,14 @@ class Product < BaseModel
 
   def stock_available
     stock - stock_reserved
+  end
+
+  def customer_price(customer_id)
+    LegacyMethods.customer_price(customer_id, id)
+  end
+
+  def customer_subcategory_price(customer_subcategory_id)
+    LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
   end
 
   private
