@@ -1,11 +1,12 @@
 class Reports::StockAvailabilityController < ApplicationController
   before_action :report_selection, only: [:index]
-  before_action :run_report, only: [:index, :run]
 
   def index
+    run_report(params[:period])
   end
 
   def run
+    run_report(params[:period])
     if @data
       kit = PDFKit.new(render_to_string(:to_pdf, layout: false), :page_size => 'Letter')
       kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
@@ -69,9 +70,9 @@ class Reports::StockAvailabilityController < ApplicationController
       }
     end
 
-    def run_report
-      return false unless params[:period].present?
-      report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
+    def run_report(period)
+      return false unless period.present?
+      report = StockAvailability.new company_id: current_company.id, baseline_week: period.to_i,
         constraints: parse_constraints
 
       @data = report.to_screen

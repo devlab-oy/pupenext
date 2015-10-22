@@ -59,10 +59,10 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
     }
 
     get :index, params
-    assert_equal assigns(:data), false
+    assert_nil assigns(:data)
 
     get :run, params
-    assert_equal assigns(:data), false
+    assert_nil assigns(:data)
     assert_redirected_to stock_availability_path
   end
 
