@@ -73,8 +73,8 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     }
     report = StockAvailability.new(company_id: @company.id, baseline_week: 4, constraints: const)
 
-    TestObject = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-      :tulevat, :viikkodata, :loppusaldo, :yhteensa_myyty, :yhteensa_ostettu)
+    TestObject = Struct.new(:sku, :label, :initial_stock, :overdue,
+      :upcoming, :weekly_data, :total_stock, :total_amount_sold, :total_amount_purchased)
     TestWeekObject = Struct.new(:week, :stock_values)
     today = Date.today
 
@@ -113,21 +113,21 @@ class StockAvailabilityTest < ActiveSupport::TestCase
       70.0
     )
 
-    assert_equal report.to_screen.first.tuoteno, testo.tuoteno
-    assert_equal report.to_screen.first.nimitys, testo.nimitys
-    assert_equal report.to_screen.first.saldo, testo.saldo
+    assert_equal report.to_screen.first.sku, testo.sku
+    assert_equal report.to_screen.first.label, testo.label
+    assert_equal report.to_screen.first.initial_stock, testo.initial_stock
 
-    # Historia ja tulevat
-    assert_equal report.to_screen.first.myohassa.sales, testo.myohassa.sales
-    assert_equal report.to_screen.first.myohassa.purchases, testo.myohassa.purchases
-    assert_equal report.to_screen.first.myohassa.change, testo.myohassa.change
+    # Historia ja upcoming
+    assert_equal report.to_screen.first.overdue.sales, testo.overdue.sales
+    assert_equal report.to_screen.first.overdue.purchases, testo.overdue.purchases
+    assert_equal report.to_screen.first.overdue.change, testo.overdue.change
 
-    assert_equal report.to_screen.first.tulevat.sales, testo.tulevat.sales
-    assert_equal report.to_screen.first.tulevat.purchases, testo.tulevat.purchases
-    assert_equal report.to_screen.first.tulevat.change, testo.tulevat.change
+    assert_equal report.to_screen.first.upcoming.sales, testo.upcoming.sales
+    assert_equal report.to_screen.first.upcoming.purchases, testo.upcoming.purchases
+    assert_equal report.to_screen.first.upcoming.change, testo.upcoming.change
 
     # Viikkokohtainen data
-    firstweek = report.to_screen.first.viikkodata.first
+    firstweek = report.to_screen.first.weekly_data.first
     assert_equal firstweek.week, week0.week
     assert_equal firstweek.stock_values.amount_sold, week0.stock_values.amount_sold
     assert_equal firstweek.stock_values.amount_purchased, week0.stock_values.amount_purchased
@@ -135,9 +135,9 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     assert_equal firstweek.stock_values.order_numbers, week0.stock_values.order_numbers
 
     # Yhteensä-sarake
-    assert_equal report.to_screen.first.loppusaldo, testo.loppusaldo
-    assert_equal report.to_screen.first.yhteensa_myyty, testo.yhteensa_myyty
-    assert_equal report.to_screen.first.yhteensa_ostettu, testo.yhteensa_ostettu
+    assert_equal report.to_screen.first.total_stock, testo.total_stock
+    assert_equal report.to_screen.first.total_amount_sold, testo.total_amount_sold
+    assert_equal report.to_screen.first.total_amount_purchased, testo.total_amount_purchased
   end
 
 end

@@ -1,6 +1,6 @@
 class StockAvailability
-  ProductStockAvailability = Struct.new(:tuoteno, :nimitys, :saldo, :myohassa,
-    :tulevat, :viikkodata, :loppusaldo, :yhteensa_myyty, :yhteensa_ostettu)
+  ProductStockAvailability = Struct.new(:sku, :label, :initial_stock, :overdue,
+    :upcoming, :weekly_data, :total_stock, :total_amount_sold, :total_amount_purchased)
 
   def initialize(company_id:, baseline_week:, constraints:)
     @company = Company.find company_id
@@ -109,7 +109,7 @@ class StockAvailability::WeeklyRow
   def data_rows
     all_weeks = find_week_numbers_until_baseline
 
-    # myöhässä(past), menossa, tulossa, vapaana, tulevat(future)
+    # myöhässä(past), menossa, tulossa, vapaana, upcoming(future)
     all_weeks.map do |week_number, year|
       range = find_dates_for_week_and_year(week_number, year)
       stock_values = weekly_stock_values range

@@ -30,19 +30,19 @@
 
   <% @data.each do |data| %>
     <tr>
-      <td style='font-weight:bold;'><%= data.tuoteno %> - <%= data.nimitys %></td>
+      <td style='font-weight:bold;'><%= data.sku %> - <%= data.label %></td>
       <td></td>
       <td></td>
-      <td style='font-weight:bold;'><%= data.saldo %></td>
+      <td style='font-weight:bold;'><%= data.initial_stock %></td>
     </tr>
     <tr>
       <td style='font-weight:bold;'><%= t('.past') %></td>
-      <td style='font-weight:bold;'><%= data.myohassa.sales %></td>
-      <td style='font-weight:bold;'><%= data.myohassa.purchases %></td>
-      <td style='font-weight:bold;'><%= data.myohassa.change %></td>
+      <td style='font-weight:bold;'><%= data.overdue.sales %></td>
+      <td style='font-weight:bold;'><%= data.overdue.purchases %></td>
+      <td style='font-weight:bold;'><%= data.overdue.change %></td>
     </tr>
 
-    <% data.viikkodata.each do |weekly_data| %>
+    <% data.weekly_data.each do |weekly_data| %>
       <tr>
         <td><%= weekly_data.week %></td>
         <td>
@@ -61,16 +61,16 @@
 
     <tr>
       <td style='font-weight:bold;'><%= t('.future') %></td>
-      <td style='font-weight:bold;'><%= data.tulevat.sales %></td>
-      <td style='font-weight:bold;'><%= data.tulevat.purchases %></td>
-      <td style='font-weight:bold;'><%= data.tulevat.change %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.sales %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.purchases %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.change %></td>
     </tr>
 
     <tr>
       <td style='font-weight:bold;'><%= t('.total') %></td>
-      <td style='font-weight:bold;'><%= data.yhteensa_myyty %></td>
-      <td style='font-weight:bold;'><%= data.yhteensa_ostettu %></td>
-      <td style='font-weight:bold;'><%= data.loppusaldo %></td>
+      <td style='font-weight:bold;'><%= data.total_amount_sold %></td>
+      <td style='font-weight:bold;'><%= data.total_amount_purchased %></td>
+      <td style='font-weight:bold;'><%= data.total_stock %></td>
     </tr>
     <tr class='back'><td colspan='4'><br/></td></tr>
   <% end %>
