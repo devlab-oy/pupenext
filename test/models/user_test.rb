@@ -4,12 +4,17 @@ class UserTest < ActiveSupport::TestCase
   fixtures %w(
     download/downloads
     download/files
+    heads
     users
   )
 
   setup do
     @joe = users(:joe)
     @bob = users(:bob)
+
+    @invoice = heads(:si_one)
+    @invoice.myyja = @joe.id
+    @invoice.save
   end
 
   test "user model" do
@@ -24,6 +29,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @joe.company
     assert @joe.downloads.count > 0
     assert @joe.files.count > 0
+    assert @joe.invoices.count > 0
   end
 
   test "user has update permissions" do

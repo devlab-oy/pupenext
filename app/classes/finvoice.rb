@@ -39,9 +39,7 @@ class Finvoice
 
       recipientdetails
 
-      doc.BuyerPartyDetails {
-        buyerpartydetails
-      }
+      buyerpartydetails
 
       doc.DeliveryDetails {
         deliverydetails
@@ -109,7 +107,6 @@ class Finvoice
       end
 
       File.write("/tmp/finvoice201.xml", doc.to_xml)
-
       doc.to_xml
     end
 
@@ -261,7 +258,6 @@ class Finvoice
           doc.InvoiceRecipientPostCodeIdentifier @invoice.extra.laskutus_postino
           doc.CountryCode @invoice.extra.laskutus_maa
           doc.CountryName @invoice.extra.laskutus_maa
-          doc.InvoiceRecipientPostOfficeBoxIdentifier ""
         }
       }
 
@@ -269,10 +265,10 @@ class Finvoice
     end
 
     def buyerpartydetails
-      doc.BuyerPartyIdentifier @invoice.ytunnus_human
+      doc.BuyerPartyDetails {
+        doc.BuyerPartyIdentifier @invoice.ytunnus_human
         doc.BuyerOrganisationName @invoice.nimi
-        doc.BuyerOrganisationDepartment ""
-        doc.BuyerOrganisationDepartment ""
+        doc.BuyerOrganisationName @invoice.nimitark
         doc.BuyerOrganisationTaxCode @invoice.vatnumber_human
         doc.BuyerPostalAddressDetails {
           doc.BuyerStreetName @invoice.osoite
@@ -280,8 +276,12 @@ class Finvoice
           doc.BuyerPostCodeIdentifier @invoice.postino
           doc.CountryCode @invoice.maa
           doc.CountryName @invoice.maa
-          doc.BuyerPostOfficeBoxIdentifier ""
         }
+      }
+
+      doc.BuyerOrganisationUnitNumber @invoice.ovttunnus
+      doc.BuyerContactPersonName @invoice.maa
+
     end
 
     def deliverydetails

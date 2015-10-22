@@ -2,6 +2,7 @@ class Head::SalesInvoice < Head
   include AuthorityTidy
 
   validates :tila, inclusion: { in: ['U'] }
+  has_many :orders, foreign_key: :laskunro, primary_key: :laskunro, class_name: 'SalesOrder::Order'
   has_many :rows, foreign_key: :uusiotunnus, class_name: 'Head::SalesInvoiceRow'
   has_one :extra, foreign_key: :otunnus, primary_key: :tunnus, class_name: 'Head::SalesInvoiceExtra'
   has_one :seller, foreign_key: :tunnus, primary_key: :myyja, class_name: 'User'
