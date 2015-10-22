@@ -119,8 +119,6 @@ class StockAvailability::WeeklyRow
         stock_values
       )
     end
-
-
   end
 
   private

@@ -1,22 +1,12 @@
 class Reports::StockAvailabilityController < ApplicationController
-  def index
-    report_selection
-    if params[:period].present?
-      report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
-        constraints: parse_constraints
-      @data = report.to_screen
+  before_action :report_selection, only: [:index]
+  before_action :run_report, only: [:index, :run]
 
-      render :index
-    end
+  def index
   end
 
   def run
-    report_selection
-    if params[:period].present?
-      report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
-        constraints: parse_constraints
-      @data = report.to_screen
-
+    if @data
       kit = PDFKit.new(render_to_string(:to_pdf, layout: false), :page_size => 'Letter')
       kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
 
@@ -26,11 +16,12 @@ class Reports::StockAvailabilityController < ApplicationController
       }
 
       send_data kit.to_pdf, options
+    else
+      redirect_to stock_availability_path
     end
   end
 
   def to_worker
-    report_selection
     if params[:period].present?
       ReportJob.perform_later(
         user_id: current_user.id,
@@ -50,15 +41,15 @@ class Reports::StockAvailabilityController < ApplicationController
   end
 
   def view_connected_sales_orders
-    @orders = current_company.heads.sales_orders.find(params[:order_numbers])
+    if params[:order_numbers].present?
+      @orders = current_company.heads.sales_orders.find(params[:order_numbers])
+    else
+      render nothing: true
+    end
   end
 
   def read_access?
     @read_access ||= current_user.can_read?("/stock_availability", classic: false)
-  end
-
-  def update_access?
-    @update_access ||= current_user.can_update?("/stock_availability", classic: false)
   end
 
   private
@@ -76,5 +67,13 @@ class Reports::StockAvailabilityController < ApplicationController
         subcategory: params[:product_subcategory] || [],
         brand: params[:product_brand] || []
       }
+    end
+
+    def run_report
+      return false unless params[:period].present?
+      report = StockAvailability.new company_id: current_company.id, baseline_week: params[:period].to_i,
+        constraints: parse_constraints
+
+      @data = report.to_screen
     end
 end
