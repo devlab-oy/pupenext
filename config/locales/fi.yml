@@ -625,7 +625,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -651,7 +651,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -906,8 +906,8 @@ fi:
       deploy_all: Aja listatut päivitykset tuotteille
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
-      price: Hinta
       save: Tallenna muutokset
+      show_price: Näytä hinta
       sku: Tuotenumero
     list_of_changes:
       not_found: Yhtään tuotetta ei löytynyt
