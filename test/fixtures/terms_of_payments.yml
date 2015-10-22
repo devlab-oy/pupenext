@@ -81,28 +81,3 @@ not_in_use_net:
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: joe
-
-factoring_enabled:
-  yhtio: acme
-  factoring: Sampo
-  teksti: 110 pv factoring
-  rel_pvm: 110
-  abs_pvm: <%= Date.today %>
-  kassa_relpvm: 14
-  kassa_abspvm: <%= Date.today %>
-  kassa_alepros: 0.00
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
-
-14_days_net:
-  yhtio: pulli
-  teksti: 14 pv netto
-  rel_pvm: 14
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe

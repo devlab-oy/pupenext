@@ -109,6 +109,8 @@ class Finvoice
       end
 
       File.write("/tmp/finvoice201.xml", doc.to_xml)
+
+      doc.to_xml
     end
 
     def print_service_code(senderintermediator)
@@ -248,8 +250,7 @@ class Finvoice
         doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimi
         doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimitark
 
-
-        if @invoice.company.verkkolasku_lah != "maventa"
+        if @invoice.company.parameter.verkkolasku_lah != "maventa"
           # Maventa ei salli tyhjänä, optionaalinen
           doc.InvoiceRecipientOrganisationTaxCode @invoice.vatnumber_human
         end

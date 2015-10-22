@@ -11,8 +11,8 @@ class FinvoiceTest < ActiveSupport::TestCase
   )
 
   setup do
-    Current.company = companies(:pullin_musiikki)
-    @invoice = heads(:si_pulli)
+    Current.company = companies(:acme)
+    @invoice = heads(:si_one)
   end
 
   test 'should initialize class with invoice' do
@@ -21,7 +21,7 @@ class FinvoiceTest < ActiveSupport::TestCase
   end
 
   test 'should generate finvoice xml' do
-    @invoice.myyja = User.find_by(kuka: 'maxpulli').id
+    @invoice.myyja = User.find_by(kuka: 'joe').id
     @invoice.save
 
     example = File.read Rails.root.join('test', 'assets', 'example_finvoice.xml')

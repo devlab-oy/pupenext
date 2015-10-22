@@ -33,15 +33,3 @@ max:
   lastlogin: <%= Time.now %>
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-
-maxpulli:
-  yhtio: pulli
-  kuka: maxpulli
-  salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
-  nimi: Maxwell Pronto
-  session: OZDROQPMPVZKNFTTMOHOMBRBU
-  muuttaja: bob
-  laatija: bob
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>

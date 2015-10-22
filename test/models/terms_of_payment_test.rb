@@ -160,7 +160,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     assert_equal "FI5432122", @top.bank_account_details.last[:iban]
 
     @top.pankkiyhteystiedot = 0
-    assert_equal 1, @top.bank_account_details.count
-    assert_equal "FI123456", @top.bank_account_details.first[:iban]
+    assert_equal 2, @top.bank_account_details.count
+    assert_equal "FI4819503000000010", @top.bank_account_details.first[:iban]
   end
 end

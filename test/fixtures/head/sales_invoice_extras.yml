@@ -1,12 +1,17 @@
-
-pulli1:
-  yhtio: pulli
-  laskutus_nimi: Pullin Musiikki Oy
+si_one_extra:
+  yhtio: acme
+  invoice: si_one
+  laskutus_nimi: Laskutusosoite Oy
   laskutus_nimitark: LASKUT
   laskutus_osoite: Skannauskatu 1
   laskutus_postitp: Helsinki
   laskutus_postino: "00150"
   laskutus_maa: FI
+  rahlaskelma_ekaerpcm: <%= Time.now %>
+  vakuutushak_alkamispaiva: <%= Time.now %>
+  sopimus_alkupvm: <%= Time.now %>
+  sopimus_loppupvm: <%= Time.now %>
+  satamavahvistus_pvm: <%= Time.now %>
   laatija: joe
   luontiaika: <%= Time.now %>
   muuttaja: joe

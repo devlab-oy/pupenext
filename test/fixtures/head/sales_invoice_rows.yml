@@ -1,84 +1,19 @@
 one:
   yhtio: acme
   invoice: si_one
+  tyyppi: L
   tuoteno: hammer123
-  tyyppi: L
-  alv: 24
-  rivihinta: 100
-  laatija: joe
-  laadittu: <%= Time.now %>
-  toimaika: <%= Time.now %>
-  kerayspvm: <%= Time.now %>
-  kerattyaika: <%= Time.now %>
-  toimitettuaika: <%= Time.now %>
-  laskutettuaika: <%= Time.now %>
-
-two:
-  yhtio: acme
-  invoice: si_one
-  tuoteno: hammer123
-  tyyppi: L
-  alv: 500
-  rivihinta: 100
-  laatija: joe
-  laadittu: <%= Time.now %>
-  toimaika: <%= Time.now %>
-  kerayspvm: <%= Time.now %>
-  kerattyaika: <%= Time.now %>
-  toimitettuaika: <%= Time.now %>
-  laskutettuaika: <%= Time.now %>
-
-three:
-  yhtio: acme
-  invoice: si_one
-  tuoteno: hammer123
-  tyyppi: L
-  alv: 0
-  rivihinta: 100
-  laatija: joe
-  laadittu: <%= Time.now %>
-  toimaika: <%= Time.now %>
-  kerayspvm: <%= Time.now %>
-  kerattyaika: <%= Time.now %>
-  toimitettuaika: <%= Time.now %>
-  laskutettuaika: <%= Time.now %>
-
-pulli1:
-  yhtio: pulli
-  invoice: si_pulli
-  tyyppi: L
-  tuoteno: PNV
-  nimitys: Nuottivihko
-  hinta: 133.50
+  nimitys: Vasara
+  hinta: 100.00
   kpl: 1
-  tilkpl: 100
+  tilkpl: 3
   yksikko: kpl
-  rivihinta: 133.50
+  rivihinta: 100.00
   alv: 24
   laatija: joe
   laadittu: <%= Time.now %>
-  toimaika: 2015-10-01
+  toimaika: <%= Time.now %>
   kerayspvm: <%= Time.now %>
   kerattyaika: <%= Time.now %>
-  toimitettuaika: 2015-10-03 15:25:30
-  laskutettuaika: <%= Time.now %>
-
-pulli2:
-  yhtio: pulli
-  invoice: si_pulli
-  tyyppi: L
-  tuoteno: PNP
-  nimitys: Piano
-  hinta: 1343.50
-  kpl: 1
-  tilkpl: 1
-  yksikko: kpl
-  rivihinta: 1343.50
-  alv: 24
-  laatija: joe
-  laadittu: <%= Time.now %>
-  toimaika: 2015-10-02
-  kerayspvm: <%= Time.now %>
-  kerattyaika: <%= Time.now %>
-  toimitettuaika: 2015-10-04 15:05:30
+  toimitettuaika: <%= Time.now %>
   laskutettuaika: <%= Time.now %>

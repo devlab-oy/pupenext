@@ -21,7 +21,9 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
 
   test 'model relations' do
     assert_equal 1, @invoice.accounting_rows.count
-    assert_equal 3, @invoice.rows.count
+    assert_equal 1, @invoice.rows.count
+
+    @invoice.location = Location.first
     assert_equal Location, @invoice.location.class
   end
 
@@ -91,6 +93,11 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
   end
 
   test 'vat_specification' do
-    assert_equal 1, @invoice.vat_specification
+    vatspec = @invoice.vat_specification.first
+
+    assert_equal 24,  vatspec[:vat_rate]
+    assert_equal "S", vatspec[:vat_code]
+    assert_equal 100, vatspec[:base_amount]
+    assert_equal 24,  vatspec[:vat_amount]
   end
 end

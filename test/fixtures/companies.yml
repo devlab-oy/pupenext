@@ -2,29 +2,9 @@ acme:
   yhtio: acme
   nimi: Acme Corporation
   maa: FI
-  kieli: fi
-  ytunnus: 1234567-8
-  pankkinimi1: Nordea
-  pankkitili1: 123456
-  pankkiiban1: FI123456
-  pankkiswift1: NDEAFIHH
-  tilikausi_alku: <%= Date.today.beginning_of_year %>
-  tilikausi_loppu: <%= Date.today.end_of_year %>
-  ostoreskontrakausi_alku: <%= Date.today %>
-  ostoreskontrakausi_loppu: <%= Date.today %>
-  myyntireskontrakausi_alku: <%= Date.today %>
-  myyntireskontrakausi_loppu: <%= Date.today %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: joe
-  laatija: joe
-
-pullin_musiikki:
-  yhtio: pulli
-  nimi: Pullin Musiikki Oy
-  maa: FI
+  kieli: FI
   ytunnus: 9876543-0
-  osoite: StreetName 99
+  osoite: Asvalttikatu 99
   postino: "00100"
   postitp: Helsinki
   maa: FI
@@ -36,20 +16,17 @@ pullin_musiikki:
   pankkinimi2: PANKKI2
   pankkiiban2: FI3819503000086423
   pankkiswift2: BANKFIHH
-  pankkinimi3: PANKKI3
-  pankkiiban3: FI7429501800000014
-  pankkiswift3: BANKFIHH
+  myyntisaamiset: 1700
+  factoringsaamiset: 1705
+  konsernimyyntisaamiset: 1710
+  ostovelat: 2870
+  konserniostovelat: 2890
   tilikausi_alku: <%= Date.today.beginning_of_year %>
   tilikausi_loppu: <%= Date.today.end_of_year %>
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
   myyntireskontrakausi_loppu: <%= Date.today %>
-  myyntisaamiset: 1700
-  factoringsaamiset: 1705
-  konsernimyyntisaamiset: 1710
-  ostovelat: 2870
-  konserniostovelat: 2890
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
