@@ -280,8 +280,15 @@ class Finvoice
       }
 
       doc.BuyerOrganisationUnitNumber @invoice.ovttunnus
-      doc.BuyerContactPersonName @invoice.maa
 
+      if @invoice.company.parameter.tilauksen_yhteyshenkilot == "K"
+        @invoice.orders.each do |order|
+          doc.BuyerContactPersonName order.extra.commercial_contact
+          doc.BuyerContactPersonName order.extra.technical_contact
+        end
+      else
+        doc.BuyerContactPersonName @invoice.tilausyhteyshenkilo
+      end
     end
 
     def deliverydetails

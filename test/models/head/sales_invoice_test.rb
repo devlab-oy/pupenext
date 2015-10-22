@@ -7,6 +7,7 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     heads
     locations
     products
+    sales_order/orders
     users
   )
 
@@ -68,6 +69,15 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
   test 'seller' do
     @invoice.myyja = User.find_by(kuka: 'joe').id
     assert_equal "Joe Danger", @invoice.seller.nimi
+  end
+
+  test 'sales_order' do
+    @order = sales_order_orders(:so_one)
+    @order.alatila = 'X'
+    @order.laskunro = @invoice.laskunro
+    @order.save
+
+    assert_equal @invoice.laskunro, @invoice.orders.invoiced.first.laskunro
   end
 
   test 'delivery period test' do

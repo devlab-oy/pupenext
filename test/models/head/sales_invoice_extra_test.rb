@@ -2,8 +2,10 @@ require 'test_helper'
 
 class Head::SalesInvoiceExtraTest < ActiveSupport::TestCase
   fixtures %w(
-    heads
+    contact_persons
     head/sales_invoice_extras
+    heads
+    sales_order/orders
   )
 
   setup do
@@ -12,5 +14,13 @@ class Head::SalesInvoiceExtraTest < ActiveSupport::TestCase
 
   test 'model relations' do
     assert_equal "Purjehdusseura Bitti ja Baatti ry", @invoiceextra.invoice.nimi
+  end
+
+  test 'contact_persons' do
+    pirkko = contact_persons(:pirkko)
+
+    @invoiceextra.yhteyshenkilo_tekninen =  pirkko.id
+
+    assert_equal "Pirkko", @invoiceextra.technical_contact.nimi
   end
 end

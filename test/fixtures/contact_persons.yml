@@ -1,0 +1,18 @@
+DEFAULTS: &DEFAULTS
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+pirkko:
+  yhtio: acme
+  tyyppi: A
+  nimi: Pirkko
+  <<: *DEFAULTS
+
+pekka:
+  yhtio: acme
+  tyyppi: A
+  nimi: Pekka
+  <<: *DEFAULTS
+

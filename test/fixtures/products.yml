@@ -33,7 +33,7 @@ consulting:
   yhtio: acme
   tuoteno: consulting
   nimitys: One hour of consulting service
-  osasto: 1001
+  osasto: 100
   try: 3000
   tuotemerkki: Service
   ei_saldoa: o
