@@ -15,7 +15,7 @@ class PendingProductUpdatesController < ApplicationController
       products = products.joins(:product_suppliers)
     end
 
-    @products = products.search_like(search_params.except(:hinta))
+    @products = products.search_like(search_params)
   end
 
   def list_of_changes
@@ -75,7 +75,6 @@ class PendingProductUpdatesController < ApplicationController
         'tuotteen_toimittajat.toim_tuoteno',
         :status,
         :ei_saldoa,
-        :hinta,
         osasto: [],
         try: [],
         tuotemerkki: [],
