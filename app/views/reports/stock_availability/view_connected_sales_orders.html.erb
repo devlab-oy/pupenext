@@ -4,6 +4,10 @@
   <th><%= t('.shipping_address') %></th>
   <th><%= t('.information') %></th>
   <th><%= t('.delivery_date') %></th>
+  <th>
+    <%= t('.product_info') %> <br/>
+    <%= t('.ordered_amount') %>
+  </th>
   <th><%= t('.total_amount') %></th>
 </tr>
 
@@ -18,6 +22,11 @@
   </td>
   <td><%= order.viesti %></td>
   <td><%= order.toimaika %></td>
+  <td>
+    <%= params[:product_sku] %> <br/>
+    <%= order.rows.open.where(tuoteno: params[:product_sku]).sum(:'varattu + jt') %>
+    <%= t('.unit') %>
+  </td>
   <td><%= order.rows.sum(:'hinta * (varattu + jt)') %></td>
 </tr>
 <% end %>

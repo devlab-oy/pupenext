@@ -47,7 +47,7 @@
         <td><%= weekly_data.week %></td>
         <td>
           <% if weekly_data.stock_values.amount_sold > 0 %>
-            <%= link_to view_connected_sales_orders_path(order_numbers: weekly_data.stock_values.order_numbers), :target => "_blank" do %>
+            <%= link_to view_connected_sales_orders_path(order_numbers: weekly_data.stock_values.order_numbers, product_sku: data.sku), :target => "_blank" do %>
               <%= weekly_data.stock_values.amount_sold %>
             <% end %>
           <% else %>
