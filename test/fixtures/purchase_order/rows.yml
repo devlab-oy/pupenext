@@ -12,4 +12,3 @@ po_row_one:
   tuoteno: hammer123
   tyyppi: O
   <<: *DEFAULTS
-
