@@ -3,6 +3,7 @@ class Customer < BaseModel
   belongs_to :delivery_method,  foreign_key: :toimitustapa, primary_key: :selite
 
   has_many :transports
+  has_many :customer_keywords, foreign_key: :liitostunnus
 
   default_scope { where.not(laji: %w(P R)) }
 

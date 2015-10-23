@@ -7,6 +7,7 @@ class DeliveryMethod < BaseModel
     o.has_many :nature_of_transactions, primary_key: :kauppatapahtuman_luonne,    class_name: 'Keyword::NatureOfTransaction'
     o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
+    o.has_many :customer_keywords,      primary_key: :avainsana
   end
 
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
@@ -26,7 +27,6 @@ class DeliveryMethod < BaseModel
   validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
 
   before_save :defaults
-  after_save :update_relations
   before_destroy :check_relations
 
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
@@ -140,17 +140,35 @@ class DeliveryMethod < BaseModel
     []
   end
 
+  def relation_update
+    update_relations
+  end
+
   private
 
     def update_relations
-      if selite_was.present?
-        company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
-        company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
-        company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+      msg = []
+
+      if previous_changes.include?('selite')
+        cnt = company.delivery_methods.where(vak_kielto: previous_changes['selite'].first).update_all(vak_kielto: selite)
+        msg << "päivitettiin #{cnt} toimitustapaa" if cnt.nonzero?
+
+        cnt = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: previous_changes['selite'].first).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
+        msg << "päivitettiin #{cnt} vaihtoehtoista vak toimitustapaa" if cnt.nonzero?
+
+        cnt = company.customers.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} asiakasta" if cnt.nonzero?
+
+        cnt = company.sales_orders.not_delivered.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} myyntitilaus otsikkoa" if cnt.nonzero?
+
+        cnt = company.sales_order_drafts.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} myyntitilaus kesken otsikkoa" if cnt.nonzero?
+
+        cnt = company.customer_keywords.where(avainsana: previous_changes['selite'].first).update_all(avainsana: selite)
+        msg << "päivitettiin #{cnt} asiakkaan avainsanaa" if cnt.nonzero?
       end
-      true
+      msg.join(', ')
     end
 
     def mandatory_new_packaging_information

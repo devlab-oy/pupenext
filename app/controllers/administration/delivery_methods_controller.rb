@@ -27,7 +27,13 @@ class Administration::DeliveryMethodsController < AdministrationController
 
   def update
     if @delivery_method.update delivery_method_params
-      redirect_to delivery_methods_path, notice: t('.update_success')
+      if @delivery_method.previous_changes.include?('selite')
+        relation_update_notices = @delivery_method.relation_update
+      else
+        relation_update_notices = ''
+      end
+
+      redirect_to delivery_methods_path, notice: relation_update_notices
     else
       render :edit
     end

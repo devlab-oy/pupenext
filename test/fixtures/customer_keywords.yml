@@ -1,0 +1,10 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+keyword_1:
+  avainsana: Kaukokiito
+  <<: *DEFAULTS
