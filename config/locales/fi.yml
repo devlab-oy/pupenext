@@ -1001,6 +1001,9 @@ fi:
         shipping_address: Toimitusosoite
         information: Tilausviite
         delivery_date: Toimituspäivä
+        product_info: Tuotenumero
+        unit: Kappaletta
+        ordered_amount: Tilattu
         total_amount: Laskun summa
   shared:
     excel:
