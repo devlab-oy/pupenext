@@ -4,7 +4,6 @@ class Customer < BaseModel
              class_name:  'Keyword::CustomerSubcategory',
              foreign_key: :ryhma,
              primary_key: :selite
-
   has_many :transports
   has_many :prices, foreign_key: :asiakas, class_name: 'CustomerPrice'
   has_many :products, through: :prices
