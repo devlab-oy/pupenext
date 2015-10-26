@@ -46,7 +46,7 @@
 <% @products.each do |product| %>
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
     <td class='ptop'>
-      <% if product.cover_image.present? && product.cover_image.data.present? %>
+      <% if product.cover_image.present? %>
         <img src="data:image/jpg;base64,<%= Base64.encode64(product.cover_image.data) %>" style="width: 100%;"/>
       <% end %>
     </td>

@@ -1,6 +1,7 @@
 DEFAULTS: &DEFAULTS
   yhtio: acme
   liitos: tuote
+  data: foo
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
