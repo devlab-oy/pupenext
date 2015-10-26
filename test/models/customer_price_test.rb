@@ -3,7 +3,8 @@ require 'test_helper'
 class CustomerPriceTest < ActiveSupport::TestCase
   fixtures %w(
     customer_prices
-    customers products
+    customers
+    products
   )
 
   setup do
