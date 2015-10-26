@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
-  fixtures %w(customers products transports keyword/customer_subcategories)
+  fixtures %w(
+    customers
+    keyword/customer_subcategories
+    products
+    transports
+  )
 
   setup do
     @one                    = customers :stubborn_customer
