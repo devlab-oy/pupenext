@@ -8,7 +8,7 @@ class Product < BaseModel
 
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
   has_many :suppliers, through: :product_suppliers
-  has_many :attachments, -> { where liitos: 'tuote' }, foreign_key: :liitostunnus
+  has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :keywords, class_name: 'Product::Keyword'

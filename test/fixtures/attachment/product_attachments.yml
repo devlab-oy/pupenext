@@ -1,16 +1,15 @@
 DEFAULTS: &DEFAULTS
   yhtio: acme
+  liitos: tuote
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
 product_image_1:
-  liitos: tuote
   product: hammer
   kayttotarkoitus: tk
   <<: *DEFAULTS
 
 thumbnail_1:
-  liitos: tuote
   product: hammer
   kayttotarkoitus: th
   <<: *DEFAULTS
