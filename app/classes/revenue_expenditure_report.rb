@@ -11,7 +11,7 @@ class RevenueExpenditureReport
     yesterday  = Date.today - 1.day
 
     {
-      history_revenue: myyntisaamiset(time_start, yesterday),
+      history_revenue: myyntisaamiset(time_start, yesterday) + factoring_myyntisaamiset_sum(time_start, yesterday),
       history_expenditure: ostovelat(time_start, yesterday),
       history_concern_accounts_payable: konserni_ostovelat(time_start, yesterday),
       history_concern_accounts_receivable: konserni_myyntisaamiset(time_start, yesterday),
@@ -31,6 +31,12 @@ class RevenueExpenditureReport
         .where(tiliointi: { tilino: company.myyntisaamiset })
         .where(erpcm: start..stop)
         .sum("tiliointi.summa")
+    end
+
+    def factoring_myyntisaamiset_sum(start, stop)
+      sum = factoring_myyntisaamiset(start, stop) * 0.3
+      sum += factoring_myyntisaamiset_tapvm(start - 1, stop - 1) * 0.7
+      sum
     end
 
     def factoring_myyntisaamiset(start, stop)
@@ -96,8 +102,7 @@ class RevenueExpenditureReport
         # Factoring myynnistä 70% kuuluu laittaa viikolle tapahtumapäivän (+ 1pv) mukaan
         # ja loput 30% eräpäivän mukaan.
         sales  = myyntisaamiset(start, stop)
-        sales += factoring_myyntisaamiset(start, stop) * 0.3
-        sales += factoring_myyntisaamiset_tapvm(start - 1, stop - 1) * 0.7
+        sales += factoring_myyntisaamiset_sum(start, stop)
 
         # Ostovelat sellaisenaan
         # Mukaan lisätään extrakulut, jota voi syöttää oman käyttöliittymän kautta viikkotasolla
@@ -119,7 +124,7 @@ class RevenueExpenditureReport
     def weekly_sum
       {
         sales: weekly.map { |w| w[:sales] }.sum,
-        purchases: weekly.map { |w| w[:sales] }.sum,
+        purchases: weekly.map { |w| w[:purchases] }.sum,
         concern_accounts_receivable: weekly.map { |w| w[:concern_accounts_receivable] }.sum,
         concern_accounts_payable: weekly.map { |w| w[:concern_accounts_payable] }.sum,
       }
