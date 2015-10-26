@@ -1,14 +1,22 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Workbook") do |sheet|
 
-  header_row = @extra_fields.map { |field| Product.human_attribute_name(field.to_sym) }
-
-  sheet.add_row header_row
+  header_row = [Product.human_attribute_name(:tuoteno)]
+  header_row << @extra_fields.map { |field| Product.human_attribute_name(field.to_sym) }
+  header_row << @keywords.map(&:selitetark)
+  sheet.add_row header_row.flatten
 
   @products.each do |product|
-    row = @extra_fields.map { |field| product.send(field) }
+    row = [product.tuoteno]
+    row << @extra_fields.map { |field| product.send(field) }
+    row << @keywords.map do |keyword|
+      product.keywords.where(
+        laji: keyword.product_key,
+        kieli: keyword.kieli
+      ).pluck(:selite)
+    end
 
-    sheet.add_row row
+    sheet.add_row row.flatten
   end
 end
 
