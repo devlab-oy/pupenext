@@ -26,7 +26,6 @@ class CustomerTest < ActiveSupport::TestCase
     assert_equal @customer_subcategory_1, @one.subcategory
     assert @one.prices.count > 0
     assert @one.products.count > 0
-    assert_equal @customer_subcategory_1, @one.subcategory
   end
 
   test 'contract_price?' do
