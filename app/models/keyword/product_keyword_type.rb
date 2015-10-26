@@ -3,4 +3,8 @@ class Keyword::ProductKeywordType < Keyword
   def self.sti_name
     'TUOTEULK'
   end
+
+  def product_key
+    selite
+  end
 end
