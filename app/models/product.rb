@@ -9,6 +9,8 @@ class Product < BaseModel
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
   has_many :suppliers, through: :product_suppliers
   has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
+  has_many :customer_prices, foreign_key: :tuoteno, primary_key: :tuoteno
+  has_many :customers, through: :customer_prices
 
   delegate :images, to: :attachments
   delegate :thumbnails, to: :attachments
