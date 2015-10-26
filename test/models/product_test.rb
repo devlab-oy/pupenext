@@ -147,5 +147,14 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'cover image' do
     assert_equal @product_image, @product.cover_image
+
+    Attachment.delete_all
+
+    assert_nil @product.cover_image
+  end
+
+  test 'delegated methods' do
+    assert_equal @product.attachments.images, @product.images
+    assert_equal @product.attachments.thumbnails, @product.thumbnails
   end
 end
