@@ -4,8 +4,9 @@ require 'minitest/mock'
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
     attachment/product_attachments
-    customers
     customer_prices
+    customers
+    customers
     keywords
     manufacture_order/rows
     pending_updates
