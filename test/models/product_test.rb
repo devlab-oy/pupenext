@@ -20,6 +20,7 @@ class ProductTest < ActiveSupport::TestCase
 
   setup do
     @product = products :hammer
+    @product_image = attachment_product_attachments(:product_image_2)
   end
 
   test 'all fixtures should be valid' do
@@ -142,5 +143,9 @@ class ProductTest < ActiveSupport::TestCase
     LegacyMethods.stub(:customer_subcategory_price, 22) do
       assert_equal 22, @product.customer_subcategory_price(customer.id)
     end
+  end
+
+  test 'cover image' do
+    assert_equal @product_image, @product.cover_image
   end
 end

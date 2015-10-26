@@ -25,7 +25,7 @@ class Attachment::ProductAttachmentTest < ActiveSupport::TestCase
   end
 
   test "product images scope works" do
-    assert_equal 1, Attachment::ProductAttachment.product_images.count
+    assert_equal 2, Attachment::ProductAttachment.product_images.count
   end
 
   test "thumbnails scope works" do
