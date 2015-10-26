@@ -1,0 +1,16 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  alkupvm: <%= Time.now %>
+  loppupvm: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+one:
+  tuoteno: hammer123
+  customer: stubborn_customer
+  <<: *DEFAULTS
+
+two:
+  tuoteno: helmet123
+  customer: stubborn_customer
+  <<: *DEFAULTS

@@ -633,7 +633,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -659,7 +659,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -914,16 +914,22 @@ fi:
       deploy_all: Aja listatut päivitykset tuotteille
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
+      price: hinta
       save: Tallenna muutokset
+      show_price: Näytä hinta
       sku: Tuotenumero
     list_of_changes:
       not_found: Yhtään tuotetta ei löytynyt
     pending_columns_options:
       sales_price: Myyntihinta
+      shop_price: Myymälähinta
       short_description: Lyhytkuvaus
     pending_ei_saldoa_options:
       inventory_management: Listaa vain varastoitavia tuotteita
       no_inventory_management: Listaa vain saldottomia tuotteita
+    pending_price_options:
+      sales_price: Myyntihinta
+      shop_price: Myymälähinta
     pending_status_options:
       active: Listaa vain aktiivisia tuotteita
       deleted: Listaa vain poistettuja tuotteita

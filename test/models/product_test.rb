@@ -3,6 +3,9 @@ require 'minitest/mock'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
+    attachment/product_attachments
+    customer_prices
+    customers
     customers
     keywords
     manufacture_order/rows
@@ -19,10 +22,12 @@ class ProductTest < ActiveSupport::TestCase
 
   setup do
     @product = products :hammer
+    @product_image = attachment_product_attachments(:product_image_2)
   end
 
   test 'all fixtures should be valid' do
     assert @product.valid?
+    assert @product_image.valid?
   end
 
   test 'relations' do
@@ -39,6 +44,9 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.shelf_locations.count > 0
     assert @product.stock_transfer_rows.count > 0
     assert @product.suppliers.count > 0
+    assert @product.attachments.count > 0
+    assert @product.customer_prices.count > 0
+    assert @product.customers.count > 0
   end
 
   test 'product stock' do
@@ -119,5 +127,18 @@ class ProductTest < ActiveSupport::TestCase
     LegacyMethods.stub(:customer_subcategory_price, 22) do
       assert_equal 22, @product.customer_subcategory_price(customer.id)
     end
+  end
+
+  test 'cover image' do
+    assert_equal @product_image, @product.cover_image
+
+    Attachment.delete_all
+
+    assert_nil @product.cover_image
+  end
+
+  test 'delegated methods' do
+    assert_equal @product.attachments.images, @product.images
+    assert_equal @product.attachments.thumbnails, @product.thumbnails
   end
 end
