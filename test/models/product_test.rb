@@ -27,7 +27,8 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'all fixtures should be valid' do
     assert @product.valid?
-  end
+    assert @product_image.valid?
+    end
 
   test 'relations' do
     category = keywords :category_tools
