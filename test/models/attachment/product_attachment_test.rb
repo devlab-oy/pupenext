@@ -24,8 +24,8 @@ class Attachment::ProductAttachmentTest < ActiveSupport::TestCase
     assert_not_respond_to @product_image_1.becomes(Attachment), :product
   end
 
-  test "product images scope works" do
-    assert_equal 2, Attachment::ProductAttachment.product_images.count
+  test "images scope works" do
+    assert_equal 2, Attachment::ProductAttachment.images.count
   end
 
   test "thumbnails scope works" do

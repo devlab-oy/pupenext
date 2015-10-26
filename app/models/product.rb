@@ -10,6 +10,9 @@ class Product < BaseModel
   has_many :suppliers, through: :product_suppliers
   has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
 
+  delegate :images, to: :attachments
+  delegate :thumbnails, to: :attachments
+
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :keywords, class_name: 'Product::Keyword'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'

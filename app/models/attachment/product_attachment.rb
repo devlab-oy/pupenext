@@ -5,6 +5,6 @@ class Attachment::ProductAttachment < Attachment
 
   belongs_to :product, foreign_key: :liitostunnus
 
-  scope :product_images, -> { where(kayttotarkoitus: :tk) }
+  scope :images, -> { where(kayttotarkoitus: :tk) }
   scope :thumbnails, -> { where(kayttotarkoitus: :th) }
 end
