@@ -5,8 +5,8 @@ class Customer < BaseModel
              foreign_key: :ryhma,
              primary_key: :selite
   has_many :transports
-  has_many :customer_prices, foreign_key: :asiakas
-  has_many :products, through: :customer_prices
+  has_many :prices, foreign_key: :asiakas, class_name: 'CustomerPrice'
+  has_many :products, through: :prices
 
   default_scope { where.not(laji: %w(P R)) }
 

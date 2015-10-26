@@ -23,7 +23,7 @@ class CustomerTest < ActiveSupport::TestCase
   test 'relations' do
     assert_not_equal 0, @one.transports.count
     assert_equal @customer_subcategory_1, @one.subcategory
-    assert @one.customer_prices.count > 0
+    assert @one.prices.count > 0
     assert @one.products.count > 0
   end
 
