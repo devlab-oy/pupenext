@@ -14,6 +14,6 @@ class CustomerTest < ActiveSupport::TestCase
 
   test 'relations' do
     assert_not_equal 0, @one.transports.count
-    assert_equal @customer_subcategory_1, @one.customer_subcategory
+    assert_equal @customer_subcategory_1, @one.subcategory
   end
 end
