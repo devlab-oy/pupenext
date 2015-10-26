@@ -1,0 +1,22 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  liitos: tuote
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+product_image_1:
+  product: hammer
+  kayttotarkoitus: tk
+  jarjestys: 1
+  <<: *DEFAULTS
+
+product_image_2:
+  product: hammer
+  kayttotarkoitus: tk
+  jarjestys: 0
+  <<: *DEFAULTS
+
+thumbnail_1:
+  product: hammer
+  kayttotarkoitus: th
+  <<: *DEFAULTS
