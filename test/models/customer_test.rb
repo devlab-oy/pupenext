@@ -10,10 +10,11 @@ class CustomerTest < ActiveSupport::TestCase
   )
 
   setup do
-    @one    = customers :stubborn_customer
-    @hammer = products :hammer
-    @helmet = products :helmet
-    @ski    = products :ski
+    @one                    = customers :stubborn_customer
+    @hammer                 = products :hammer
+    @helmet                 = products :helmet
+    @ski                    = products :ski
+    @customer_subcategory_1 = keyword_customer_subcategories :customer_subcategory_1
   end
 
   test 'fixtures are valid' do
