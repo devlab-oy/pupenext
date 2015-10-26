@@ -7,7 +7,7 @@ class DataExportController < ApplicationController
   def product_keywords_generate
     redirect_to product_keyword_export_path(keyword_params) and return if params[:commit].blank?
 
-    @extra_fields = keyword_params[:extra_fields]
+    @extra_fields = keyword_params[:extra_fields] || []
     @keywords = product_keywords
     @products = Product.regular.includes(:keywords).search_like(search_params)
 
