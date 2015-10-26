@@ -72,6 +72,10 @@ class Product < BaseModel
     LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
   end
 
+  def cover_image
+    attachments.order(:jarjestys, :tunnus).first
+  end
+
   private
 
     def set_date_fields
