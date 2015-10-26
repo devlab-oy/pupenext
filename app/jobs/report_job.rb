@@ -16,11 +16,7 @@ class ReportJob < ActiveJob::Base
     # Run the report
     filename = report_class.constantize.new(report_params).to_file
 
-    if report_params[:binary]
-      data = File.open(filename, 'rb') { |f| f.read }
-    else
-      data = File.read filename
-    end
+    data = File.open(filename, 'rb') { |f| f.read }
 
     # Save the resulting file to user's downloads list
     download = user.downloads.create! report_name: report_name
