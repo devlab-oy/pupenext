@@ -27,6 +27,7 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'all fixtures should be valid' do
     assert @product.valid?
+    assert @product_image.valid?
   end
 
   test 'relations' do

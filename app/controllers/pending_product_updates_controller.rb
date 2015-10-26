@@ -19,7 +19,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def list_of_changes
-    @products = Product.regular.joins(:pending_updates)
+    @products = Product.regular.joins(:pending_updates).group(:tuoteno).order(:tuoteno)
 
     if @products.present?
       render :list
@@ -43,7 +43,7 @@ class PendingProductUpdatesController < ApplicationController
 
     message = t('.updated', count: result.update_count)
 
-    if result.failed_count
+    if result.failed_count.nonzero?
       message << ' ' + t('.failed', count: result.failed_count, errors: result.errors.join(', '))
     end
 
