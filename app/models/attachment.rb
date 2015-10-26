@@ -1,9 +1,17 @@
 class Attachment < BaseModel
-  self.table_name  = :liitetiedostot
-  self.primary_key = :tunnus
+  include PupenextSingleTableInheritance
 
-  belongs_to :product, foreign_key: :liitostunnus
+  self.table_name         = :liitetiedostot
+  self.primary_key        = :tunnus
+  self.inheritance_column = :liitos
 
-  scope :product_images, -> { where(kayttotarkoitus: :tk) }
-  scope :thumbnails, -> { where(kayttotarkoitus: :th) }
+  def self.child_class_names
+    {
+      tuote: Attachment::ProductAttachment
+    }.stringify_keys
+  end
+
+  def self.default_child_instance
+    child_class :ProductAttachment
+  end
 end
