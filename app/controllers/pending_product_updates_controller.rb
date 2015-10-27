@@ -50,6 +50,11 @@ class PendingProductUpdatesController < ApplicationController
     redirect_to pending_product_updates_path, notice: message
   end
 
+  def gallery
+    attachment = Attachment.find params[:id]
+    send_data attachment.data, disposition: 'inline', type: attachment.filetype
+  end
+
   private
 
     def find_resource
