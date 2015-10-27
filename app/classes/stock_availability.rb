@@ -13,20 +13,10 @@ class StockAvailability
     data
   end
 
-  def render_html
-    ac = ApplicationController.new
-    ac.instance_variable_set('@data', data)
-    ac.instance_variable_set('params', @constraints)
-    ac.render_to_string(template: 'reports/stock_availability/to_pdf', layout: false, partial: 'reports/stock_availability/show_data')
-  end
-
-  def to_file
-    kit = PDFKit.new render_html
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
-
-    filename = Tempfile.new(%w(stock_availability- .pdf)).path
-
-    kit.to_file(filename).path
+  def to_file(html)
+    kit = PDFKit.new(html, :page_size => 'Letter')
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'reports', 'pdf_styles.css')
+    kit.to_pdf
   end
 
   private
