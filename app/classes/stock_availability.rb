@@ -129,7 +129,7 @@ class StockAvailability::WeeklyRow
   private
 
     def find_dates_for_week_and_year(week_number, year)
-      year ||= Date.today.year
+      year = Date.today.year
       week_begin = Date.commercial(year, week_number, 1).beginning_of_day
       week_end = Date.commercial(year, week_number, 7).end_of_day
       week_begin..week_end
