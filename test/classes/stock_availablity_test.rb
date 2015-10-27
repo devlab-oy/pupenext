@@ -31,6 +31,12 @@ class StockAvailabilityTest < ActiveSupport::TestCase
   end
 
   test 'report output' do
+    TestObject = Struct.new(:sku, :label, :initial_stock, :overdue, :upcoming, :weekly_data, :total_stock, :total_amount_sold, :total_amount_purchased)
+    TestWeekObject = Struct.new(:week, :stock_values)
+    TestStockObject = Struct.new(:amount_sold, :amount_purchased, :total_stock_change, :order_numbers)
+    TestAmounts = Struct.new(:sales, :purchases, :change)
+
+    today = Date.today
     shelf = @company.shelf_locations.first
     product = Product.find_by_tuoteno shelf.tuoteno
     product.shelf_locations.first.update!(saldo: 330)
@@ -38,30 +44,24 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     # Create past, now and future rows in purchase and sales orders
     # Past
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 12, laskutettuaika: 0 })
-    newporow.save!
+    newporow.update_attributes! toimaika: today.advance(days: -10), varattu: 12, laskutettuaika: 0
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today.advance(days: -10), varattu: 15, laskutettuaika: 0 })
-    newsorow.save!
+    newsorow.update_attributes! toimaika: today.advance(days: -10), varattu: 15, laskutettuaika: 0
 
     # Now
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika: Date.today, varattu: 3, laskutettuaika: 0 })
-    newporow.save!
+    newporow.update_attributes! toimaika: today, varattu: 3, laskutettuaika: 0
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today, varattu: 7, laskutettuaika: 0 })
-    newsorow.save!
+    newsorow.update_attributes! toimaika: today, varattu: 7, laskutettuaika: 0
 
     # Future
     newporow = @purchase_order.rows.first.dup
-    newporow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 55, laskutettuaika: 0 })
-    newporow.save!
+    newporow.update_attributes! toimaika: today.advance(weeks: 10), varattu: 55, laskutettuaika: 0
 
     newsorow = @sales_order.rows.first.dup
-    newsorow.assign_attributes({ toimaika:  Date.today.advance(weeks: 10), varattu: 14, laskutettuaika: 0 })
-    newsorow.save!
+    newsorow.update_attributes! toimaika: today.advance(weeks: 10), varattu: 14, laskutettuaika: 0
 
     # We should get product info and stock available 10
     # undelivered_amount from past 12, upcoming_amount after the baseline
@@ -72,14 +72,6 @@ class StockAvailabilityTest < ActiveSupport::TestCase
       brand: []
     }
     report = StockAvailability.new(company_id: @company.id, baseline_week: 4, constraints: const)
-
-    TestObject = Struct.new(:sku, :label, :initial_stock, :overdue,
-      :upcoming, :weekly_data, :total_stock, :total_amount_sold, :total_amount_purchased)
-    TestWeekObject = Struct.new(:week, :stock_values)
-    today = Date.today
-
-    TestStockObject = Struct.new(:amount_sold, :amount_purchased,
-      :total_stock_change, :order_numbers)
 
     order_numbers0 = [newsorow.otunnus]
 
@@ -94,8 +86,6 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     week2 = TestWeekObject.new("#{today.cweek+2} / #{today.year}", stock2)
     week3 = TestWeekObject.new("#{today.cweek+3} / #{today.year}", stock3)
     week4 = TestWeekObject.new("#{today.cweek+4} / #{today.year}", stock4)
-
-    TestAmounts = Struct.new(:sales, :purchases, :change)
 
     history_amounts = TestAmounts.new(15.0, 12.0, 327.0)
     future_amounts  = TestAmounts.new(14.0, 55.0, 364.0)
@@ -139,5 +129,4 @@ class StockAvailabilityTest < ActiveSupport::TestCase
     assert_equal report.to_screen.first.total_amount_sold, testo.total_amount_sold
     assert_equal report.to_screen.first.total_amount_purchased, testo.total_amount_purchased
   end
-
 end
