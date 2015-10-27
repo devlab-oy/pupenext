@@ -58,6 +58,72 @@ class Head::SalesInvoice < Head
     rows.map(&:delivery_date).max
   end
 
+  def has_separate_invoice_recipient
+    buyer="#{nimi}#{osoite}#{postino}#{postitp}#{maa}"
+    recipient="#{extra.laskutus_nimi}#{extra.laskutus_osoite}#{extra.laskutus_postino}#{extra.laskutus_postitp}#{extra.laskutus_maa}"
+
+    extra.laskutus_nimi.present? && buyer != recipient
+  end
+
+  def contact_person_name
+    if company.parameter.multiple_order_contact_persons?
+      orders.each do |order|
+        if order.extra.commercial_contact.nimi.present?
+          return order.extra.commercial_contact.nimi
+        end
+      end
+      orders.each do |order|
+        if order.extra.technical_contact.nimi.present?
+          return order.extra.technical_contact.nimi
+        end
+      end
+    end
+
+    return tilausyhteyshenkilo
+  end
+
+  def reverse_charge
+    vat_rates.map do |tax|
+      if tax >= 600
+        return true
+      end
+    end
+  end
+
+  // Hoidetaan pyöristys sekä valuuttakäsittely
+  if ($lasrow["valkoodi"] != '' and trim(strtoupper($lasrow["valkoodi"])) != trim(strtoupper($yhtiorow["valkoodi"]))) {
+    $lasrow["kasumma"]   = $lasrow["kasumma_valuutassa"];
+    $lasrow["summa"]     = $lasrow["summa_valuutassa"];
+    $lasrow["arvo"]      = $lasrow["arvo_valuutassa"];
+    $lasrow["pyoristys"] = $lasrow["pyoristys_valuutassa"];
+  }
+
+  def public_comment
+    komm = ""
+
+    if !reverse_charge.nil?
+      komm += "VAT Reverse Charge" #t_avainsana("KAANTALVVIESTI", $laskun_kieli, "", "", "", "selitetark");
+    end
+
+    if tilausyhteyshenkilo.present?
+      komm += "\nTilaaja: #{tilausyhteyshenkilo}"
+    end
+
+    if asiakkaan_tilausnumero.present?
+      komm += "\nTilauksenne: #{asiakkaan_tilausnumero}"
+    end
+
+    if kohde.present?
+      komm += "\nKohde: #{kohde}"
+    end
+
+    if sisviesti1.present?
+      komm += "\nKommentti: #{sisviesti1}"
+    end
+
+    return komm
+  end
+
   def vat_specification
     # We should return an array of hashes with amounts per tax class
     vat_rates.map do |tax|

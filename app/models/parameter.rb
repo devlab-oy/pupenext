@@ -16,4 +16,11 @@ class Parameter < BaseModel
     manual_deliverydates_when_product_inventory_not_managed: 'K',
     manual_deliverydates_for_all_products: 'X',
   }
+
+  enum tilauksen_yhteyshenkilot: {
+    optional_order_contact_person: '',
+    mandatory_order_contact_person: 'P',
+    multiple_order_contact_persons: 'K',
+  }
+
 end

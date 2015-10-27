@@ -41,6 +41,8 @@ class Finvoice
 
       buyerpartydetails
 
+      deliverypartydetails
+
       doc.DeliveryDetails {
         deliverydetails
       }
@@ -242,26 +244,28 @@ class Finvoice
     end
 
     def recipientdetails
-      doc.InvoiceRecipientPartyDetails {
-        doc.InvoiceRecipientPartyIdentifier @invoice.ytunnus_human
-        doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimi
-        doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimitark
+      if @invoice.has_separate_invoice_recipient
+        doc.InvoiceRecipientPartyDetails {
+          doc.InvoiceRecipientPartyIdentifier @invoice.ytunnus_human
+          doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimi
+          doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimitark
 
-        if @invoice.company.parameter.verkkolasku_lah != "maventa"
-          # Maventa ei salli tyhjänä, optionaalinen
-          doc.InvoiceRecipientOrganisationTaxCode @invoice.vatnumber_human
-        end
+          if @invoice.company.parameter.maventa?
+            # Maventa ei salli tyhjänä, optionaalinen
+            doc.InvoiceRecipientOrganisationTaxCode @invoice.vatnumber_human
+          end
 
-        doc.InvoiceRecipientPostalAddressDetails {
-          doc.InvoiceRecipientStreetName @invoice.extra.laskutus_osoite
-          doc.InvoiceRecipientTownName @invoice.extra.laskutus_postitp
-          doc.InvoiceRecipientPostCodeIdentifier @invoice.extra.laskutus_postino
-          doc.CountryCode @invoice.extra.laskutus_maa
-          doc.CountryName @invoice.extra.laskutus_maa
+          doc.InvoiceRecipientPostalAddressDetails {
+            doc.InvoiceRecipientStreetName @invoice.extra.laskutus_osoite
+            doc.InvoiceRecipientTownName @invoice.extra.laskutus_postitp
+            doc.InvoiceRecipientPostCodeIdentifier @invoice.extra.laskutus_postino
+            doc.CountryCode @invoice.extra.laskutus_maa
+            doc.CountryName @invoice.extra.laskutus_maa
+          }
         }
-      }
 
-      doc.InvoiceRecipientOrganisationUnitNumber @invoice.ovttunnus
+        doc.InvoiceRecipientOrganisationUnitNumber @invoice.ovttunnus
+      end
     end
 
     def buyerpartydetails
@@ -280,15 +284,25 @@ class Finvoice
       }
 
       doc.BuyerOrganisationUnitNumber @invoice.ovttunnus
+      doc.BuyerContactPersonName @invoice.contact_person_name
+    end
 
-      if @invoice.company.parameter.tilauksen_yhteyshenkilot == "K"
-        @invoice.orders.each do |order|
-          doc.BuyerContactPersonName order.extra.commercial_contact
-          doc.BuyerContactPersonName order.extra.technical_contact
-        end
-      else
-        doc.BuyerContactPersonName @invoice.tilausyhteyshenkilo
-      end
+    def deliverypartydetails
+      doc.DeliveryPartyDetails {
+        doc.DeliveryPartyIdentifier @invoice.ytunnus_human
+        doc.DeliveryOrganisationName @invoice.toim_nimi
+        doc.DeliveryOrganisationName @invoice.toim_nimitark
+        doc.DeliveryOrganisationTaxCode @invoice.vatnumber_human
+        doc.DeliveryPostalAddressDetails {
+          doc.DeliveryStreetName @invoice.toim_osoite
+          doc.DeliveryTownName @invoice.toim_postitp
+          doc.DeliveryPostCodeIdentifier @invoice.toim_postino
+          doc.CountryCode @invoice.toim_maa
+          doc.CountryName @invoice.toim_maa
+        }
+      }
+
+      doc.DeliveryOrganisationUnitNumber @invoice.toim_ovttunnus
     end
 
     def deliverydetails
@@ -351,14 +365,16 @@ class Finvoice
         }
       end
 
+      doc.InvoiceFreeText @invoice.public_comment
+
       doc.PaymentTermsDetails {
-        doc.PaymentTermsFreeText "14 päivää netto"
+        doc.PaymentTermsFreeText @invoice.terms_of_payment.teksti
         doc.InvoiceDueDate("Format" => "CCYYMMDD") {
-          doc.text("20130828")
+          doc.text(@invoice.erpcm.strftime("%Y%m%d"))
         }
         doc.PaymentOverDueFineDetails {
-          doc.PaymentOverDueFineFreeText "Viivästyskorko"
-          doc.PaymentOverDueFinePercent "7,5"
+          doc.PaymentOverDueFineFreeText "Viivästyskorko #{@invoice.viikorkopros}%"
+          doc.PaymentOverDueFinePercent @invoice.viikorkopros
         }
       }
     end

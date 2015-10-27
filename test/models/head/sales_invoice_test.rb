@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Head::SalesInvoiceTest < ActiveSupport::TestCase
   fixtures %w(
+    head/sales_invoice_extras
     head/sales_invoice_rows
     head/voucher_rows
     heads
@@ -13,6 +14,11 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
 
   setup do
     @invoice = heads(:si_one)
+
+    @order = sales_order_orders(:so_one)
+    @order.alatila = 'X'
+    @order.laskunro = @invoice.laskunro
+    @order.save
   end
 
   test 'fixture should be valid' do
@@ -72,11 +78,6 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
   end
 
   test 'sales_order' do
-    @order = sales_order_orders(:so_one)
-    @order.alatila = 'X'
-    @order.laskunro = @invoice.laskunro
-    @order.save
-
     assert_equal @invoice.laskunro, @invoice.orders.invoiced.first.laskunro
   end
 
@@ -110,4 +111,25 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     assert_equal 100, vatspec[:base_amount]
     assert_equal 24,  vatspec[:vat_amount]
   end
+
+  test 'has_separate_recipient_address' do
+    @invoice.extra.laskutus_nimi =  "Batman's bat cave"
+    assert @invoice.has_separate_invoice_recipient
+
+    @invoice.extra.laskutus_nimi =  @invoice.nimi
+    @invoice.extra.laskutus_nimitark = @invoice.nimitark
+    @invoice.extra.laskutus_osoite = @invoice.osoite
+    @invoice.extra.laskutus_postitp =  @invoice.postitp
+    @invoice.extra.laskutus_postino = @invoice.postino
+    refute @invoice.has_separate_invoice_recipient
+
+    @invoice.extra.laskutus_nimi =  ""
+    refute @invoice.has_separate_invoice_recipient
+  end
+
+  test 'concat_person_name' do
+    @invoice.tilausyhteyshenkilo = "Batman"
+    assert_equal "Batman", @invoice.contact_person_name
+  end
+
 end
