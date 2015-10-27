@@ -35,16 +35,30 @@ class StockAvailability
       @company
     end
 
-    def data
-      category = @constraints[:category]
-      subcategory = @constraints[:subcategory]
-      brand = @constraints[:brand]
+    def products
+      return @products if @products
 
-      products = @company.products.active.order(:tuoteno)
+      products = company.products.active.order(:tuoteno)
       products = products.where(category: category) if category.present?
       products = products.where(subcategory: subcategory) if subcategory.present?
       products = products.where(brand: brand) if brand.present?
 
+      @products = products
+    end
+
+    def category
+      @constraints[:category]
+    end
+
+    def subcategory
+      @constraints[:subcategory]
+    end
+
+    def brand
+      @constraints[:brand]
+    end
+
+    def data
       @data ||= products.map do |product|
         product_row = ProductRow.new product
         weekly_row_data = WeeklyRow.new product_row, @baseline_week
@@ -110,8 +124,6 @@ class StockAvailability::WeeklyRow
   end
 
   def data_rows
-    all_weeks = find_week_numbers_until_baseline
-
     # myöhässä(past), menossa, tulossa, vapaana, upcoming(future)
     all_weeks.map do |week_number, year|
       range = find_dates_for_week_and_year(week_number, year)
@@ -133,7 +145,7 @@ class StockAvailability::WeeklyRow
       week_begin..week_end
     end
 
-    def find_week_numbers_until_baseline
+    def all_weeks
       date_start = Date.today.beginning_of_week
       date_end = date_start.advance(weeks: @baseline_week)
 
@@ -143,11 +155,12 @@ class StockAvailability::WeeklyRow
     end
 
     def weekly_stock_values(range)
-      sales_data = @product_row.product.open_sales_order_rows_between(range)
-      amount_sold = sales_data.reserved
-      order_numbers = sales_data.pluck(:otunnus).uniq
-      amount_purchased = @product_row.product.open_purchase_order_rows_between(range).reserved
-      amount_change = amount_purchased - amount_sold
+      sales_data       = product_row.product.open_sales_order_rows_between(range)
+      amount_sold      = sales_data.reserved
+      order_numbers    = sales_data.pluck(:otunnus).uniq
+      amount_purchased = product_row.product.open_purchase_order_rows_between(range).reserved
+      amount_change    = amount_purchased - amount_sold
+
       StockValues.new(amount_sold, amount_purchased, amount_change, order_numbers)
     end
 
@@ -169,23 +182,24 @@ class StockAvailability::ProductRow
   end
 
   def history_amount
-    sales = product.sales_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
-    purchases = product.purchase_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
-    change = purchases - sales
-    Amounts.new(sales, purchases, change)
+    change = purchases_history - sales_history
+
+    Amounts.new(sales_history, purchases_history, change)
   end
 
   def upcoming_amount(baseline_week)
-    sales = product.sales_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
-    purchases = product.purchase_order_rows.open.where('toimaika > ?', baseline_weeks_end(baseline_week)).reserved
-    change = purchases - sales
+    date      = baseline_weeks_end(baseline_week)
+    sales     = upcoming_sales_after(date)
+    purchases = upcoming_purchases_after(date)
+    change    = purchases - sales
+
     Amounts.new(sales, purchases, change)
   end
 
   private
 
     def stock_raw
-      @stock ||= product.stock
+      @stock_raw ||= product.stock
     end
 
     def previous_weeks_end
@@ -195,5 +209,21 @@ class StockAvailability::ProductRow
     def baseline_weeks_end(baseline_week)
       date_start = Date.today.beginning_of_week
       date_start.advance(weeks: baseline_week).end_of_week.end_of_day
+    end
+
+    def sales_history
+      product.sales_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
+    end
+
+    def purchases_history
+      product.purchase_order_rows.open.where('toimaika < ?', previous_weeks_end).reserved
+    end
+
+    def upcoming_sales_after(date)
+      product.sales_order_rows.open.where('toimaika > ?', date).reserved
+    end
+
+    def upcoming_purchases_after(date)
+      product.purchase_order_rows.open.where('toimaika > ?', date).reserved
     end
 end
