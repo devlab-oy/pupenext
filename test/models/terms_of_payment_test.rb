@@ -6,8 +6,8 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
     customers
     factorings
     heads
-    sales_order/base/drafts
-    sales_order/base/orders
+    sales_order/drafts
+    sales_order/orders
     terms_of_payments
   )
 
