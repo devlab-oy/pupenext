@@ -54,9 +54,6 @@ class Product < BaseModel
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
-  scope :by_category, lambda { |categories| where(category: categories) unless categories.empty? }
-  scope :by_subcategory, lambda { |subcategories| where(subcategory: subcategories) unless subcategories.empty? }
-  scope :by_brand, lambda { |brands| where(brand: brands) unless brands.empty? }
 
   def stock
     shelf_locations.sum(:saldo)

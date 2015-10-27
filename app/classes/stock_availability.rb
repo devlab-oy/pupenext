@@ -36,11 +36,14 @@ class StockAvailability
     end
 
     def data
-      products = @company.products.active
-        .by_category(@constraints[:category])
-        .by_subcategory(@constraints[:subcategory])
-        .by_brand(@constraints[:brand])
-        .order(:tuoteno)
+      category = @constraints[:category]
+      subcategory = @constraints[:subcategory]
+      brand = @constraints[:brand]
+
+      products = @company.products.active.order(:tuoteno)
+      products = products.where(category: category) if category.present?
+      products = products.where(subcategory: subcategory) if subcategory.present?
+      products = products.where(brand: brand) if brand.present?
 
       @data ||= products.map do |product|
         product_row = ProductRow.new product
