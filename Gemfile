@@ -21,6 +21,7 @@ gem 'roo'
 gem 'axlsx'
 gem 'axlsx_rails'
 gem 'pdfkit'
+gem 'lightbox2-rails'
 
 group :assets do
   gem 'uglifier'
