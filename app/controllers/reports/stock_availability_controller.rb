@@ -8,7 +8,7 @@ class Reports::StockAvailabilityController < ApplicationController
     run_report(params[:period])
     if @data
       kit = PDFKit.new(render_to_string(:to_pdf, layout: false), :page_size => 'Letter')
-      kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
+      kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'reports', 'pdf_styles.css')
 
       options = {
         filename: 'stock_availability.pdf',
