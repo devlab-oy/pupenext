@@ -28,9 +28,9 @@ class Head < BaseModel
     {
       'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
-      'L' => SalesOrder::Base::Order,
+      'L' => SalesOrder::Order,
       'M' => Head::PurchaseInvoice::Approved,
-      'N' => SalesOrder::Base::Draft,
+      'N' => SalesOrder::Draft,
       'O' => PurchaseOrder::Order,
       'P' => Head::PurchaseInvoice::Transfer,
       'Q' => Head::PurchaseInvoice::Waiting,

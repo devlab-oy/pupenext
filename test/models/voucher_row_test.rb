@@ -7,7 +7,7 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
     head/voucher_rows
     heads
     purchase_order/orders
-    sales_order/base/orders
+    sales_order/orders
   )
 
   setup do

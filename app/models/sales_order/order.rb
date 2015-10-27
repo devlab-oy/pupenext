@@ -1,4 +1,4 @@
-class SalesOrder::Base::Order < SalesOrder::Base
+class SalesOrder::Order < SalesOrder::Base
   validates :tila, inclusion: { in: ['L'] }
 
   scope :not_delivered, -> { where(alatila: %w(A C)) }

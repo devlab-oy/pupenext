@@ -5,7 +5,7 @@ class StockListingCsvTest < ActiveSupport::TestCase
     products
     purchase_order/orders
     purchase_order/rows
-    sales_order/base/orders
+    sales_order/orders
     sales_order/rows
     shelf_locations
   )
