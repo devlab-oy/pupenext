@@ -1,5 +1,4 @@
 class Reports::StockAvailabilityController < ApplicationController
-  before_action :report_selection, only: [:index]
 
   def index
     run_report(params[:period])
@@ -55,22 +54,16 @@ class Reports::StockAvailabilityController < ApplicationController
 
   private
 
-    def report_selection
-      @period_options = 3..16
-      @category_options = current_company.categories.pluck(:selitetark, :selite) || []
-      @subcategory_options = current_company.subcategories.pluck(:selitetark, :selite) || []
-      @brand_options = current_company.brands.pluck(:selite, :selite) || []
-    end
-
     def parse_constraints
       {
-        category: params[:product_category] || [],
-        subcategory: params[:product_subcategory] || [],
-        brand: params[:product_brand] || []
+        category: params[:osasto] || [],
+        subcategory: params[:try] || [],
+        brand: params[:tuotemerkki] || []
       }
     end
 
     def run_report(period)
+      render :index and return if params[:commit].blank?
       return false unless period.present?
       report = StockAvailability.new company_id: current_company.id, baseline_week: period.to_i,
         constraints: parse_constraints

@@ -9,14 +9,14 @@
   <tr>
     <td colspan='4'>
       <%= t('.report_period', period: params[:period]) %> <br/>
-      <% unless params[:product_category].nil? %>
-        <%= t('.report_category', selected: params[:product_category].join(', ')) %> <br/>
+      <% unless params[:osasto].nil? %>
+        <%= t('.report_category', selected: params[:osasto].join(', ')) %> <br/>
       <% end %>
-      <% unless params[:product_subcategory].nil? %>
-        <%= t('.report_subcategory', selected: params[:product_subcategory].join(', ')) %> <br/>
+      <% unless params[:try].nil? %>
+        <%= t('.report_subcategory', selected: params[:try].join(', ')) %> <br/>
       <% end %>
-      <% unless params[:product_brand].nil? %>
-        <%= t('.report_brand', selected: params[:product_brand].join(', ')) %> <br/>
+      <% unless params[:tuotemerkki].nil? %>
+        <%= t('.report_brand', selected: params[:tuotemerkki].join(', ')) %> <br/>
       <% end %>
     </td>
 

@@ -981,6 +981,7 @@ fi:
         product_category: Osasto
         product_subcategory: Tuoteryhmä
         product_brand: Tuotemerkki
+        constraints: Rajaus
       show_data:
         header: Varastotilanne
         available: Saatavilla
