@@ -7,7 +7,7 @@ class Reports::StockListingCsvController < ApplicationController
       user_id: current_user.id,
       company_id: current_company.id,
       report_class: 'StockListingCsv',
-      report_params: { company_id: current_company.id },
+      report_params: { company_id: current_company.id, column_separator: ';' },
       report_name: t('reports.stock_listing_csv.index.header')
     )
 
