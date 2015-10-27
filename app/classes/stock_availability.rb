@@ -143,10 +143,10 @@ class StockAvailability::WeeklyRow
     end
 
     def weekly_stock_values(range)
-      sales_data = @product_row.product.amount_sold(range)
-      amount_sold = sales_data[0]
-      order_numbers = sales_data[1]
-      amount_purchased = @product_row.product.amount_purchased(range)
+      sales_data = @product_row.product.open_sales_order_rows_between(range)
+      amount_sold = sales_data.reserved
+      order_numbers = sales_data.pluck(:otunnus).uniq
+      amount_purchased = @product_row.product.open_purchase_order_rows_between(range).reserved
       amount_change = amount_purchased - amount_sold
       StockValues.new(amount_sold, amount_purchased, amount_change, order_numbers)
     end
