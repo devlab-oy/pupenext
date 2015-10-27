@@ -4,44 +4,20 @@
       <th>
         <%= t('.period') %>
       </th>
+      <th>
+        <%= t('.constraints') %>
+      </th>
+    </tr>
+    <tr>
       <td>
-        <%= select_tag :period, options_for_select(@period_options, params[:period]) %>
+        <%= select_tag :period, options_for_select(3..16, params[:period]) %>
         <%= t('.weeks') %>
       </td>
+
+      <td>
+        <%= render 'products/categories_selection' %>
+      </td>
     </tr>
-
-    <% unless @category_options.empty? %>
-      <tr>
-        <th>
-          <%= t('.product_category') %>
-        </th>
-        <td>
-          <%= select_tag :product_category, options_for_select(@category_options,   params[:product_category]), multiple: true %>
-        </td>
-      </tr>
-    <% end %>
-
-    <% unless @subcategory_options.empty? %>
-      <tr>
-        <th>
-          <%= t('.product_subcategory') %>
-        </th>
-        <td>
-          <%= select_tag :product_subcategory, options_for_select(@subcategory_options, params[:product_subcategory]), multiple: true %>
-        </td>
-      </tr>
-    <% end %>
-
-    <% unless @brand_options.empty? %>
-      <tr>
-        <th>
-          <%= t('.product_brand') %>
-        </th>
-        <td>
-          <%= select_tag :product_brand, options_for_select(@brand_options, params[:product_brand]), multiple: true %>
-        </td>
-      </tr>
-    <% end %>
 
     <tr class='back'>
       <td>

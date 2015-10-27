@@ -17,10 +17,6 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
   test 'get report index and report selection' do
     get :index
     assert_response :success
-    assert assigns(:period_options)
-    assert assigns(:category_options)
-    assert assigns(:subcategory_options)
-    assert assigns(:brand_options)
   end
 
   test 'executing report to screen' do
@@ -28,7 +24,8 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
       period: 4,
       product_category: [],
       product_subcategory: [],
-      product_brand: []
+      product_brand: [],
+      commit: 'Ruudulle'
     }
     get :index, params
     assert assigns(:data)
@@ -42,7 +39,8 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
       period: 4,
       product_category: [],
       product_subcategory: [],
-      product_brand: []
+      product_brand: [],
+      commit: 'Pdf'
     }
     get :run, params
     assert_not_nil assigns(:data)
@@ -55,7 +53,8 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
     params = {
       product_category: [],
       product_subcategory: [],
-      product_brand: []
+      product_brand: [],
+      commit: 'Ruudulle'
     }
 
     get :index, params
