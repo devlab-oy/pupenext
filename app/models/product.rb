@@ -84,17 +84,14 @@ class Product < BaseModel
     attachments.order(:jarjestys, :tunnus).first
   end
 
-  # Avoimet myyntirivit ja niiden laskutunnukset
-  def amount_sold(range)
-    rivit = sales_order_rows.open.where(toimaika: range)
-    sold_amount = rivit.reserved
-    order_ids = rivit.pluck(:otunnus).uniq
-    [sold_amount, order_ids]
+  # Avoimet myyntirivit
+  def open_sales_order_rows_between(range)
+    sales_order_rows.open.where(toimaika: range)
   end
 
   # Avoimet ostorivit
-  def amount_purchased(range)
-    purchase_order_rows.open.where(toimaika: range).reserved
+  def open_purchase_order_rows_between(range)
+    purchase_order_rows.open.where(toimaika: range)
   end
 
   private
