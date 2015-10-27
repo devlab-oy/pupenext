@@ -5,8 +5,8 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
     products
     purchase_order/orders
     purchase_order/rows
-    head/sales_order/orders
-    head/sales_order/rows
+    sales_order/base/orders
+    sales_order/rows
     shelf_locations
   )
 
@@ -67,7 +67,7 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
   end
 
   test 'viewing connected sales orders' do
-    order = head_sales_order_orders :so_one
+    order = sales_order_base_orders :so_one
     params = {
       order_numbers: [order.id]
     }

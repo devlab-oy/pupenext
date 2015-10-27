@@ -14,7 +14,7 @@ class ProductTest < ActiveSupport::TestCase
     product/suppliers
     products
     purchase_order/rows
-    head/sales_order/rows
+    sales_order/rows
     shelf_locations
     stock_transfer/rows
     suppliers
