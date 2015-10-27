@@ -1,13 +1,15 @@
 require 'csv'
 
 class StockListingCsv
-  def initialize(company_id:)
+  def initialize(company_id:, column_separator: ',')
     @company = Company.find company_id
     Current.company = @company
+
+    @options = { col_sep: column_separator }
   end
 
   def csv_data
-    CSV.generate do |csv|
+    CSV.generate(@options) do |csv|
       data.map { |row| csv << row }
     end
   end
