@@ -49,7 +49,12 @@ class StockListingCsvTest < ActiveSupport::TestCase
     )
     report = StockListingCsv.new(company_id: @company.id)
     output = "A1,FOO,BAR,0.0,2015-01-01,10.0\n"
-    assert_equal output, report.csv_data.lines.first
+
+    assert report.csv_data.lines.include? output
+
+    report = StockListingCsv.new(company_id: @company.id, column_separator: ';')
+    output = "A1;FOO;BAR;0.0;2015-01-01;10.0\n"
+    assert report.csv_data.lines.include? output
   end
 
   test 'saving report to file' do
