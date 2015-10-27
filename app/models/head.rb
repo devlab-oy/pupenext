@@ -22,9 +22,9 @@ class Head < BaseModel
     {
       'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
-      'L' => Head::SalesOrder::Order,
+      'L' => SalesOrder::Base::Order,
       'M' => Head::PurchaseInvoice::Approved,
-      'N' => Head::SalesOrder::Draft,
+      'N' => SalesOrder::Base::Draft,
       'O' => PurchaseOrder::Order,
       'P' => Head::PurchaseInvoice::Transfer,
       'Q' => Head::PurchaseInvoice::Waiting,
@@ -40,7 +40,7 @@ class Head < BaseModel
   end
 
   def self.sales_orders
-    where(tila: Head::SalesOrder::TYPES)
+    where(tila: SalesOrder::Base::TYPES)
   end
 
   private

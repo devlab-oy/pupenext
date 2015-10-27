@@ -1,5 +1,5 @@
-class Head::SalesOrder::Row < Row
-  belongs_to :order, foreign_key: :otunnus, class_name: 'Head::SalesOrder'
+class SalesOrder::Row < Row
+  belongs_to :order, foreign_key: :otunnus, class_name: 'SalesOrder::Base'
 
   validates :tyyppi, inclusion: { in: ['L'] }
 
