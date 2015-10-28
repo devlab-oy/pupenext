@@ -12,9 +12,10 @@ class Reports::StockAvailabilityController < ApplicationController
       constraints: parse_constraints
     )
 
+    @data = report.to_screen
+
     respond_to do |format|
       format.html do
-        @data = report.to_screen
         render :index
       end
 
