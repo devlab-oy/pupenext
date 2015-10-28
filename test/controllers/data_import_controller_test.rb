@@ -72,4 +72,12 @@ class DataImportControllerTest < ActionController::TestCase
     assert_not_nil flash[:error]
     assert_redirected_to data_import_path
   end
+
+  test "should get error on a invalid file type" do
+    file = fixture_file_upload 'files/text_file.txt'
+
+    post :product_keywords, data_import: { file: file }
+    assert_not_nil flash[:error]
+    assert_redirected_to data_import_path
+  end
 end
