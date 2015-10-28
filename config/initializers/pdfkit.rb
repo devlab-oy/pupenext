@@ -1,3 +1,10 @@
 PDFKit.configure do |config|
-  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+  options = [
+    '/usr/bin/wkhtmltopdf',
+    '/usr/local/bin/wkhtmltopdf'
+  ].each do |dir|
+    if File.exists?(dir)
+      config.wkhtmltopdf = dir
+    end
+  end
 end

@@ -972,15 +972,11 @@ fi:
     stock_availability:
       index:
         header: Varastotilanne
-        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
       form:
         button_make: Ruudulle
         button_run: Pdf
         period: Tarkasteluaika
         weeks: Viikon ajalta
-        product_category: Osasto
-        product_subcategory: Tuoteryhmä
-        product_brand: Tuotemerkki
         constraints: Rajaus
       show_data:
         header: Varastotilanne
