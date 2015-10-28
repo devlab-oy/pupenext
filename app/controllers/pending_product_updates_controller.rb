@@ -51,7 +51,7 @@ class PendingProductUpdatesController < ApplicationController
   end
 
   def gallery
-    attachment = Attachment.find params[:id]
+    attachment = Attachment::ProductAttachment.images.find params[:id]
     send_data attachment.data, disposition: 'inline', type: attachment.filetype
   end
 
