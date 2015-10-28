@@ -22,12 +22,13 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
   test 'executing report to screen' do
     params = {
       period: 4,
-      product_category: [],
-      product_subcategory: [],
-      product_brand: [],
-      commit: 'Ruudulle'
+      try: [],
+      osasto: [],
+      tuotemerkki: [],
+      commit: 'Ruudulle',
+      format: :html
     }
-    get :index, params
+    get :run, params
     assert assigns(:data)
     assert_not_nil assigns(:data)
     assert_template :_show_data
@@ -40,7 +41,8 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
       product_category: [],
       product_subcategory: [],
       product_brand: [],
-      commit: 'Pdf'
+      commit: 'Pdf',
+      format: :pdf
     }
     get :run, params
     assert_not_nil assigns(:data)
@@ -54,11 +56,9 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
       product_category: [],
       product_subcategory: [],
       product_brand: [],
-      commit: 'Ruudulle'
+      commit: 'Ruudulle',
+      format: :html
     }
-
-    get :index, params
-    assert_nil assigns(:data)
 
     get :run, params
     assert_nil assigns(:data)
