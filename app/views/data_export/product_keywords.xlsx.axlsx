@@ -10,10 +10,12 @@ wb.add_worksheet(name: "Workbook") do |sheet|
     row = [product.tuoteno]
     row << @extra_fields.map { |field| product.send(field) }
     row << @keywords.map do |keyword|
-      product.keywords.where(
+      value = product.keywords.where(
         laji: keyword.product_key,
         kieli: keyword.kieli
       ).pluck(:selite)
+
+      value.empty? ? " " : value
     end
 
     sheet.add_row row.flatten
