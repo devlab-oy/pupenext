@@ -21,10 +21,10 @@
 
     <tr class='back'>
       <td>
-        <%= submit_tag t('.button_make') %>
+        <%= submit_tag t('.button_make'), formaction: "run_stock_availability.html" %>
       </td>
       <td>
-        <%= submit_tag t('.button_run'), formaction: :run_stock_availability %>
+        <%= submit_tag t('.button_run'), formaction: "run_stock_availability.pdf" %>
       </td>
     </tr>
   </table>

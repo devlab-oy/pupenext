@@ -1,20 +1,22 @@
 class Reports::StockAvailabilityController < ApplicationController
 
   def index
-    run_report(params[:period])
   end
 
   def run
     run_report(params[:period])
     if @data
-      html = render_to_string(:to_pdf, layout: false)
-
-      options = {
-        filename: 'stock_availability.pdf',
-        type: 'application/pdf'
-      }
-
-      send_data @report.to_file(html), options
+      respond_to do |format|
+        format.html { render :index }
+        format.pdf do
+          html = render_to_string(:to_pdf, layout: false, formats: [:html])
+          options = {
+            filename: 'stock_availability.pdf',
+            type: 'application/pdf'
+          }
+          send_data @report.to_file(html), options
+        end
+      end
     else
       redirect_to stock_availability_path
     end
