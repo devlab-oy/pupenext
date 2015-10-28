@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class DataExportControllerTest < ActionController::TestCase
+  include SpreadsheetsHelper
+
   fixtures %w(
     keyword/product_information_types
     keyword/product_keyword_types
@@ -45,17 +47,4 @@ class DataExportControllerTest < ActionController::TestCase
     row = ["hammer123", "Aluminium", " "]
     assert_equal row, excel.row(2)
   end
-
-  private
-
-    def open_excel(response)
-      filename = Tempfile.new('spreadsheet').path
-      File.open(filename, 'wb') { |file| file.write(response) }
-
-      xlsx = Roo::Spreadsheet.open(filename, extension: :xlsx)
-
-      File.delete(filename)
-
-      xlsx.sheet(0)
-    end
 end
