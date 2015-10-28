@@ -14,7 +14,11 @@
 <%= form_tag pending_product_updates_list_path, method: :get do %>
 
   <% params.each do |k,v| %>
-    <%= hidden_field_tag k, v %>
+    <% if v.is_a? Array %>
+      <%= hidden_field_tag "#{k}[]", v %>
+    <% else %>
+      <%= hidden_field_tag k, v %>
+    <% end %>
   <% end %>
 
   <%= label_tag :hinta, t('.show_price') %>
