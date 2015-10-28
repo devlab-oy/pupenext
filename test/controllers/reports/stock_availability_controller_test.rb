@@ -30,7 +30,6 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
     }
     get :run, params
     assert assigns(:data)
-    assert_not_nil assigns(:data)
     assert_template :_show_data
     assert_not_equal response.header['Content-Type'], 'application/pdf'
   end
@@ -45,8 +44,7 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
       format: :pdf
     }
     get :run, params
-    assert_not_nil assigns(:data)
-    assert_template :_show_data
+
     assert_template :to_pdf
     assert_equal response.header['Content-Type'], 'application/pdf'
   end
@@ -61,7 +59,6 @@ class Reports::StockAvailabilityControllerTest < ActionController::TestCase
     }
 
     get :run, params
-    assert_nil assigns(:data)
     assert_redirected_to stock_availability_path
   end
 

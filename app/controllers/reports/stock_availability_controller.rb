@@ -4,21 +4,28 @@ class Reports::StockAvailabilityController < ApplicationController
   end
 
   def run
-    run_report(params[:period])
-    if @data
-      respond_to do |format|
-        format.html { render :index }
-        format.pdf do
-          html = render_to_string(:to_pdf, layout: false, formats: [:html])
-          options = {
-            filename: 'stock_availability.pdf',
-            type: 'application/pdf'
-          }
-          send_data @report.to_file(html), options
-        end
+    redirect_to stock_availability_path(stock_params) and return if invalid_parameters?
+
+    report = StockAvailability.new(
+      company_id: current_company.id,
+      baseline_week: stock_params[:period].to_i,
+      constraints: parse_constraints
+    )
+
+    respond_to do |format|
+      format.html do
+        @data = report.to_screen
+        render :index
       end
-    else
-      redirect_to stock_availability_path
+
+      format.pdf do
+        html = render_to_string(:to_pdf, layout: false, formats: [:html])
+        options = {
+          filename: 'stock_availability.pdf',
+          type: 'application/pdf'
+        }
+        send_data report.to_file(html), options
+      end
     end
   end
 
@@ -38,17 +45,22 @@ class Reports::StockAvailabilityController < ApplicationController
 
     def parse_constraints
       {
-        category: params[:osasto] || [],
-        subcategory: params[:try] || [],
-        brand: params[:tuotemerkki] || []
+        category: stock_params[:osasto] || [],
+        subcategory: stock_params[:try] || [],
+        brand: stock_params[:tuotemerkki] || []
       }
     end
 
-    def run_report(period)
-      render :index and return if params[:commit].blank?
-      return false unless period.present?
-      @report = StockAvailability.new company_id: current_company.id, baseline_week: period.to_i,
-        constraints: parse_constraints
-      @data = @report.to_screen
+    def stock_params
+      params.permit(
+        :period,
+        osasto: [],
+        try: [],
+        tuotemerkki: [],
+      )
+    end
+
+    def invalid_parameters?
+      params[:commit].blank? || stock_params[:period].blank?
     end
 end
