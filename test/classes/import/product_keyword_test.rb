@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Import::ProductKeywordTest < ActiveSupport::TestCase
+  include SpreadsheetsHelper
+
   fixtures %w(
     keyword/product_information_types
     keyword/product_keyword_types
@@ -203,22 +205,4 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     assert_equal 1, result.rows.first.errors.count
     assert_equal I18n.t('errors.import.action_incorrect'), result.rows.first.errors.first
   end
-
-  private
-
-    def create_xlsx(array)
-      file = Tempfile.new(['example', '.xlsx'])
-      filename = file.path
-      file.unlink
-      file.close
-
-      Axlsx::Package.new do |p|
-        p.workbook.add_worksheet(name: "Sheet") do |sheet|
-          array.each { |row| sheet.add_row row }
-        end
-        p.serialize filename
-      end
-
-      filename
-    end
 end
