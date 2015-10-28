@@ -52,6 +52,10 @@ class StockListingCsvTest < ActiveSupport::TestCase
 
     assert report.csv_data.lines.include? output
 
+    report = StockListingCsv.new(company_id: @company.id, column_separator: '|')
+    output = "A1|FOO|BAR|0.0|2015-01-01|10.0\n"
+    assert report.csv_data.lines.include? output
+
     report = StockListingCsv.new(company_id: @company.id, column_separator: ';')
     output = "A1;FOO;BAR;0.0;2015-01-01;10.0\n"
     assert report.csv_data.lines.include? output
