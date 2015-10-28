@@ -29,6 +29,8 @@
 
 <tr>
   <th width='100'>
+  </th>
+  <th width='100'>
     <%= t('.sku') %>
   </th>
   <th width='250'>
@@ -43,6 +45,17 @@
 
 <% @products.each do |product| %>
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
+    <td class='ptop'>
+      <% if product.cover_image.present? %>
+        <% product.attachments.order(:jarjestys, :tunnus).each_with_index do |f, i| %>
+          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
+            <% klass = i > 0 ? 'hidden' : '' %>
+            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" class='<%= klass %>' />
+          </a>
+        <% end %>
+      <% end %>
+    </td>
+
     <td class='ptop'>
       <%= product.tuoteno %>
     </td>
@@ -84,18 +97,6 @@
       <% end %>
     </td>
   </tr>
-
-  <% if product.cover_image.present? %>
-    <tr>
-      <td class='ptop' colspan='4'>
-        <% product.attachments.order(:jarjestys, :tunnus).each do |f| %>
-          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
-            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" />
-          </a>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
 <% end %>
 
 </table>
