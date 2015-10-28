@@ -3,4 +3,8 @@ class Keyword::ProductParameterType < Keyword
   def self.sti_name
     'PARAMETRI'
   end
+
+  def product_key
+    "PARAMETRI_#{selite}"
+  end
 end

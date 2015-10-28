@@ -12,4 +12,8 @@ class Keyword::ProductInformationTypeTest < ActiveSupport::TestCase
   test 'fixtures are valid' do
     assert @keyword.valid?
   end
+
+  test 'product keyword' do
+    assert_equal "LISATIETO_material", @keyword.product_key
+  end
 end

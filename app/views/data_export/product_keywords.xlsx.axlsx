@@ -1,0 +1,25 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Workbook") do |sheet|
+
+  header_row = [Product.human_attribute_name(:tuoteno)]
+  header_row << @extra_fields.map { |field| Product.human_attribute_name(field.to_sym) }
+  header_row << @keywords.map(&:selitetark)
+  sheet.add_row header_row.flatten
+
+  @products.each do |product|
+    row = [product.tuoteno]
+    row << @extra_fields.map { |field| product.send(field) }
+    row << @keywords.map do |keyword|
+      value = product.keywords.where(
+        laji: keyword.product_key,
+        kieli: keyword.kieli
+      ).pluck(:selite)
+
+      value.empty? ? " " : value
+    end
+
+    sheet.add_row row.flatten
+  end
+end
+
+render partial: 'reports/shared/report_information', locals: { wb: wb }
