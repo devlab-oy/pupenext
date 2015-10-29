@@ -9,11 +9,11 @@
 
   <tr>
     <td>
-      <img src="data:image/jpg;base64,<%= Base64.encode64(File.read(Rails.root.join('app',
-                                                                                    'assets',
-                                                                                    'images',
-                                                                                    'facelift',
-                                                                                    'logo.png'))) %>"/>
+      <% logo = Attachment::AdministrationAttachment.logo %>
+
+      <% if logo %>
+        <img src="data:image/jpg;base64,<%= Base64.encode64 logo.data %>"/>
+      <% end %>
     </td>
     <td>
       <h1><%= t('reports.customer_price_list.header') %></h1>
