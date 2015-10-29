@@ -82,8 +82,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.relation_update
 
     # delivery_method
-    assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
-    assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
+    # assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
+    # assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
 
     # # customers
     # cust = customers :stubborn_customer
