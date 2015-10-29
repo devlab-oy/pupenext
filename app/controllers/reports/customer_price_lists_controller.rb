@@ -1,6 +1,6 @@
 class Reports::CustomerPriceListsController < ApplicationController
   def create
-    return render "index" unless params[:commit].present?
+    return render :index unless params[:commit].present?
 
     @products = Product.includes(:attachments).all
 
@@ -9,7 +9,7 @@ class Reports::CustomerPriceListsController < ApplicationController
 
       unless @customer
         flash.now[:alert] = t('.customer_not_found')
-        return render "index", status: :not_found
+        return render :index, status: :not_found
       end
 
       if params[:contract_filter] == "2"
@@ -29,15 +29,15 @@ class Reports::CustomerPriceListsController < ApplicationController
       end
     elsif params[:contract_filter] != "2"
       flash.now[:alert] = t('.no_filters_specified')
-      return render "index"
+      return render :index
     end
 
     if @products.empty?
       flash.now[:alert] = t('.products_not_found')
-      return render "index"
+      return render :index
     end
 
-    kit = PDFKit.new render_to_string('report', layout: false),
+    kit = PDFKit.new render_to_string(:report, layout: false),
                      header_right: "#{t('.page')} [page]/[toPage]"
 
     kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
