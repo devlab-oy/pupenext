@@ -12,21 +12,14 @@ class Reports::CustomerPriceListsController < ApplicationController
         return render :index, status: :not_found
       end
 
-      if params[:contract_filter] == "2"
-        @products = @customer.products
-      end
+      @products = @customer.products if params[:contract_filter] == "2"
     elsif params[:target_type] == "2"
       @customer_subcategory = params[:target]
     end
 
     if params[:osasto] || params[:try]
-      if params[:osasto]
-        @products = @products.where(osasto: params[:osasto])
-      end
-
-      if params[:try]
-        @products = @products.where(try: params[:try])
-      end
+      @products = @products.where(osasto: params[:osasto]) if params[:osasto]
+      @products = @products.where(try: params[:try]) if params[:try]
     elsif params[:contract_filter] != "2"
       flash.now[:alert] = t('.no_filters_specified')
       return render :index
