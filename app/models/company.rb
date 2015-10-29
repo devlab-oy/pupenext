@@ -57,6 +57,7 @@ class Company < ActiveRecord::Base
     o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
     o.has_many :voucher_rows,                          class_name: 'Head::VoucherRow'
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
+    o.has_many :work_orders,                           class_name: 'WorkOrder::Order'
 
     o.has_many :qualifiers
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'

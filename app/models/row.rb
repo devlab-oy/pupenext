@@ -11,6 +11,7 @@ class Row < BaseModel
 
   def self.child_class_names
     {
+      'A' => WorkOrder::Row,
       'E' => Preorder::Row,
       'G' => StockTransfer::Row,
       'L' => SalesOrder::Row,
