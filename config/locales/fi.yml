@@ -981,6 +981,8 @@ fi:
       sopimushinta: Sopimushinta
       valid_text: Hinnasto on voimassa
     customer_price_lists:
+      create:
+        page: Sivu
       index:
         contract_filter: Sopimusrajaus
         customer_not_found: Asiakasta ei löydy
