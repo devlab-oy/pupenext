@@ -41,16 +41,6 @@
     </tr>
 
     <tr>
-      <th><%= label_tag :lyhytkuvaus, t('activerecord.attributes.product.lyhytkuvaus') %></th>
-      <td><%= check_box_tag :lyhytkuvaus, "1", params[:lyhytkuvaus] %></td>
-    </tr>
-
-    <tr>
-      <th><%= label_tag :kuvaus, t('activerecord.attributes.product.kuvaus') %></th>
-      <td><%= check_box_tag :kuvaus, "1", params[:kuvaus] %></td>
-    </tr>
-
-    <tr>
       <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
       <td><%= select_tag(:contract_filter, contract_filter_options(params[:contract_filter])) %></td>
     </tr>
