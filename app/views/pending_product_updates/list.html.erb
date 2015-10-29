@@ -11,14 +11,37 @@
 
 <br><br>
 
-<table width='900'>
+<%= form_tag pending_product_updates_list_path, method: :get do %>
+
+  <% params.each do |k,v| %>
+    <% if v.is_a? Array %>
+      <%= hidden_field_tag "#{k}[]", v %>
+    <% else %>
+      <%= hidden_field_tag k, v %>
+    <% end %>
+  <% end %>
+
+  <%= label_tag :hinta, t('.show_price') %>
+  <%= select_tag :hinta,
+                  options_for_select(pending_price_options, params[:hinta]),
+                  { class: 'chosen-select price-select' } %>
+<% end %>
+
+<br><br>
+
+<table width='1100'>
 
 <tr>
+  <th width='100'>
+  </th>
   <th width='100'>
     <%= t('.sku') %>
   </th>
   <th width='250'>
     <%= t('.label') %>
+  </th>
+  <th width='100'>
+    <%= t('.price') %>
   </th>
   <th width='450'>
   </th>
@@ -27,11 +50,30 @@
 <% @products.each do |product| %>
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
     <td class='ptop'>
+      <% if product.cover_image.present? %>
+        <% product.attachments.images.order(:jarjestys, :tunnus).each_with_index do |f, i| %>
+          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
+            <% klass = i > 0 ? 'hidden' : '' %>
+            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" class='<%= klass %>' />
+          </a>
+        <% end %>
+      <% end %>
+    </td>
+
+    <td class='ptop'>
       <%= product.tuoteno %>
     </td>
 
     <td class='ptop'>
       <%= product.nimitys %>
+    </td>
+
+    <td class='ptop'>
+      <% if params[:hinta] == 'myymalahinta' %>
+        <%= product.myymalahinta %>
+      <% else %>
+        <%= product.myyntihinta %>
+      <% end %>
     </td>
 
     <td class='ptop pending_update'>

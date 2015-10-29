@@ -37,7 +37,9 @@
         <%= label_tag :status, t('.deleted') %>
       </th>
       <td>
-        <%= select_tag :status, options_for_select(pending_status_options, params[:status]) %>
+        <%= select_tag :status,
+                       options_for_select(pending_status_options, params[:status]),
+                       { class: 'chosen-select' } %>
       </td>
     </tr>
 
@@ -46,7 +48,9 @@
         <%= label_tag :ei_saldoa, t('.inventory_management_products') %>
       </th>
       <td>
-        <%= select_tag :ei_saldoa, options_for_select(pending_ei_saldoa_options, params[:ei_saldoa]) %>
+        <%= select_tag :ei_saldoa,
+                       options_for_select(pending_ei_saldoa_options, params[:ei_saldoa]),
+                       { class: 'chosen-select' } %>
       </td>
     </tr>
 

@@ -16,9 +16,11 @@ class ReportJob < ActiveJob::Base
     # Run the report
     filename = report_class.constantize.new(report_params).to_file
 
+    data = File.open(filename, 'rb') { |f| f.read }
+
     # Save the resulting file to user's downloads list
     download = user.downloads.create! report_name: report_name
-    download.files.create! filename: File.basename(filename), data: File.read(filename)
+    download.files.create! filename: File.basename(filename), data: data
 
     # Remove file
     File.delete(filename)

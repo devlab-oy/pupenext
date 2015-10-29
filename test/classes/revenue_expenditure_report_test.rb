@@ -68,21 +68,21 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 120.15, tapvm: invoice_four.tapvm)
     invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 230.20, tapvm: invoice_four.tapvm)
 
-    # Fifth invoice is unpaid, correct week, but has factoring receivable (should not matter)
+    # Fifth invoice is unpaid, correct week, but has factoring receivable
     invoice_five = invoice_one.dup
     invoice_five.erpcm = Date.today - 1.week
     invoice_five.mapvm = 0
     invoice_five.summa = 84.1
     invoice_five.save!
 
-    # Add factoring receivable vourcher rows (which should not matter)
+    # Add factoring receivable vourcher rows
     invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 29.3, tapvm: invoice_five.tapvm)
     invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 11.5, tapvm: invoice_five.tapvm)
     invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 43.3, tapvm: invoice_five.tapvm)
 
     # history_revenue should include invoice one and four.
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 153.39, response[:history_revenue]
+    assert_equal 178.62, response[:history_revenue]
   end
 
   test 'history expenditure' do

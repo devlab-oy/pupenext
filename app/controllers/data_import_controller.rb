@@ -34,6 +34,9 @@ class DataImportController < ApplicationController
       if @uploaded_file.blank?
         flash[:error] = 'no file found!'
         redirect_to data_import_path
+      elsif !allowed_extension?(@uploaded_file.original_filename)
+        flash[:error] = 'invalid file type!'
+        redirect_to data_import_path
       end
     end
 
@@ -46,5 +49,9 @@ class DataImportController < ApplicationController
         :language,
         :type,
       )
+    end
+
+    def allowed_extension?(filename)
+      %w(.csv .xlsx .xls .ods).include? File.extname(filename)
     end
 end

@@ -8,6 +8,12 @@ class Product < BaseModel
 
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
   has_many :suppliers, through: :product_suppliers
+  has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
+  has_many :customer_prices, foreign_key: :tuoteno, primary_key: :tuoteno
+  has_many :customers, through: :customer_prices
+
+  delegate :images, to: :attachments
+  delegate :thumbnails, to: :attachments
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :keywords, class_name: 'Product::Keyword'
@@ -69,6 +75,10 @@ class Product < BaseModel
 
   def customer_subcategory_price(customer_subcategory_id)
     LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
+  end
+
+  def cover_image
+    attachments.order(:jarjestys, :tunnus).first
   end
 
   private

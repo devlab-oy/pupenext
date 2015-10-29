@@ -1,5 +1,11 @@
-stubborn_customer:
+DEFAULTS: &DEFAULTS
   yhtio: acme
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+stubborn_customer:
   ytunnus: FI12345678
   ovttunnus: 003712345678
   nimi: Very stubborn customer
@@ -13,7 +19,5 @@ stubborn_customer:
   valkoodi: eur
   terms_of_payment: sixty_days_net
   toimitustapa: Kaukokiito
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  ryhma: 10
+  <<: *DEFAULTS
