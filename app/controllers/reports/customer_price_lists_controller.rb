@@ -40,15 +40,12 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render "index"
     end
 
-    ReportJob.perform_later(user_id:       current_user.id,
-                            company_id:    current_company.id,
-                            report_class:  'CustomerPriceListReport',
-                            report_params: { company_id: current_company.id,
-                                             user_id:    current_user.id,
-                                             html:       render_to_string('report', layout: false),
-                                             binary:     true },
-                            report_name:   t('reports.customer_price_list.header'))
+    kit = PDFKit.new render_to_string('report', layout: false)
 
-    redirect_to customer_price_lists_url, notice: t('reports.customer_price_list.running')
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
+
+    send_data kit.to_pdf,
+              disposition: :inline,
+              filename:    "#{t('reports.customer_price_list.filename')}.pdf"
   end
 end
