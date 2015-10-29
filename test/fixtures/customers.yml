@@ -12,6 +12,7 @@ stubborn_customer:
   kieli: fi
   valkoodi: eur
   terms_of_payment: sixty_days_net
+  osasto: 1
   ryhma: 10
   laatija: joe
   luontiaika: <%= Date.today %>
