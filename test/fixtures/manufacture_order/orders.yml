@@ -1,4 +1,5 @@
 DEFAULTS: &DEFAULTS
+  yhtio: acme
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -22,6 +23,5 @@ DEFAULTS: &DEFAULTS
   popvm: <%= Time.now %>
 
 mo_one:
-  yhtio: acme
   tila: V
   <<: *DEFAULTS
