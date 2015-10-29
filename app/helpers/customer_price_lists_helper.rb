@@ -1,7 +1,7 @@
 module CustomerPriceListsHelper
   def target_type_options(selected)
-    options_for_select([[t('activerecord.models.customer'), 1],
-                        [t('activerecord.models.customer_subcategory'), 2]], selected)
+    options_for_select([[Customer.model_name.human, 1],
+                        [Keyword::CustomerSubcategory.model_name.human, 2]], selected)
   end
 
   def customer_subcategory_options(selected)

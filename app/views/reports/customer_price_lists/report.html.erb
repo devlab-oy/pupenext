@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= t('reports.customer_price_lists.report.header') %></title>
+  <title><%= t('.header') %></title>
 </head>
 <body>
 <table class="margin-bottom">
@@ -16,17 +16,17 @@
       <% end %>
     </td>
     <td>
-      <h1><%= t('reports.customer_price_list.header') %></h1>
+      <h1><%= t('.header') %></h1>
     </td>
   </tr>
 
   <tr>
     <td colspan="2">
       <% if params[:date_start].present? && params[:date_end].present? %>
-        <%= t('reports.customer_price_list.valid_text') %> <%= l Date.parse(params[:date_start]) %>
+        <%= t('.valid_text') %> <%= l Date.parse(params[:date_start]) %>
         - <%= l Date.parse(params[:date_end]) %>
       <% else %>
-        <%= t('reports.customer_price_list.valid_text') %> <%= t('reports.customer_price_list.indefinitely').downcase %>
+        <%= t('.valid_text') %> <%= t('.indefinitely').downcase %>
       <% end %>
 
     </td>
@@ -47,7 +47,7 @@
           <% if @customer %>
             <td>
               <ul class="list-unstyled">
-                <li><%= t('activerecord.models.customer') %></li>
+                <li><%= Customer.model_name.human %></li>
                 <li><%= @customer.nimi %></li>
                 <li><%= @customer.osoite %></li>
                 <li><%= @customer.postino %> <%= @customer.postitp %></li>
@@ -58,13 +58,13 @@
           <% if @customer %>
             <td>
               <ul class="list-unstyled">
-                <li><%= t('activerecord.attributes.customer.asiakasnumero') %></li>
+                <li><%= Customer.human_attribute_name :asiakasnro %></li>
                 <li><%= @customer.asiakasnro %></li>
                 <li>
                   <table class="no-border">
                     <tr>
-                      <td><%= t('activerecord.models.customer_category') %></td>
-                      <td><%= t('activerecord.models.customer_subcategory') %></td>
+                      <td><%= Keyword::CustomerCategory.model_name.human %></td>
+                      <td><%= Keyword::CustomerSubcategory.model_name.human %></td>
                     </tr>
                     <tr>
                       <td><%= @customer.osasto %></td>
@@ -80,7 +80,7 @@
                 <li>
                   <table class="no-border">
                     <tr>
-                      <td><%= t('activerecord.models.customer_subcategory') %></td>
+                      <td><%= CustomerSubcategory.model_name.human %></td>
                     </tr>
                     <tr>
                       <td><%= @customer_subcategory %></td>
@@ -94,13 +94,13 @@
         <tr>
           <td>
             <ul class="list-unstyled">
-              <li><%= t('activerecord.attributes.user.myyja') %></li>
+              <li><%= User.human_attribute_name :myyja %></li>
               <li><%= current_user.nimi %></li>
             </ul>
           </td>
           <td>
             <ul class="list-unstyled">
-              <li><%= t('reports.customer_price_list.printed') %></li>
+              <li><%= t('.printed') %></li>
               <li><%= l Time.now %></li>
             </ul>
           </td>
@@ -110,7 +110,7 @@
           <% if @customer %>
             <td colspan="2">
               <ul class="list-unstyled">
-                <li><%= t('activerecord.attributes.customer.toimitustapa') %></li>
+                <li><%= Customer.human_attribute_name :toimitustapa %></li>
                 <li><%= @customer.toimitustapa %></li>
               </ul>
             </td>
@@ -122,7 +122,7 @@
             <td colspan="2">
 
               <ul class="list-unstyled">
-                <li><%= t('activerecord.models.terms_of_payment') %></li>
+                <li><%= TermsOfPayment.model_name.human %></li>
                 <li><%= @customer.terms_of_payment.teksti %></li>
               </ul>
             </td>
@@ -146,9 +146,9 @@
   <thead>
 
   <tr>
-    <th><%= t('activerecord.attributes.product.tuoteno') %></th>
-    <th><%= t('activerecord.attributes.product.nimitys') %></th>
-    <th><%= t('reports.customer_price_list.price') %></th>
+    <th><%= Product.human_attribute_name :tuoteno %></th>
+    <th><%= Product.human_attribute_name :nimitys %></th>
+    <th><%= t('.price') %></th>
   </tr>
 
   </thead>
@@ -164,7 +164,7 @@
           <%= number_to_currency(p.customer_price(@customer.id)) %>
 
           <% if @customer && @customer.contract_price?(p) %>
-            (<%= t('reports.customer_price_list.sopimushinta') %>)
+            (<%= t('.contract_price') %>)
           <% end %>
         <% else %>
           <%= number_to_currency(p.customer_subcategory_price(@customer_subcategory)) %>

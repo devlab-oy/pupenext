@@ -12,10 +12,10 @@
 
     <tr>
       <% if params[:target_type] == '2' %>
-        <th><%= label_tag :target, t('activerecord.models.customer_subcategory') %></th>
+        <th><%= label_tag :target, CustomerSubcategory.model_name.human %></th>
         <td><%= select_tag :target, customer_subcategory_options(params[:target]), required: true %></td>
       <% else %>
-        <th><%= label_tag :target, t('activerecord.models.customer') %></th>
+        <th><%= label_tag :target, Customer.model_name.human %></th>
         <td><%= number_field_tag :target, params[:target], required: true %></td>
       <% end %>
     </tr>
@@ -31,12 +31,12 @@
     </tr>
 
     <tr>
-      <th><%= label_tag :lyhytkuvaus, t('activerecord.attributes.product.lyhytkuvaus') %></th>
+      <th><%= label_tag :lyhytkuvaus, Product.human_attribute_name(:lyhytkuvaus) %></th>
       <td><%= check_box_tag :lyhytkuvaus, "1", params[:lyhytkuvaus] %></td>
     </tr>
 
     <tr>
-      <th><%= label_tag :kuvaus, t('activerecord.attributes.product.kuvaus') %></th>
+      <th><%= label_tag :kuvaus, Product.human_attribute_name(:kuvaus) %></th>
       <td><%= check_box_tag :kuvaus, "1", params[:kuvaus] %></td>
     </tr>
 

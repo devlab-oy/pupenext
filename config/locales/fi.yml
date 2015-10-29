@@ -327,8 +327,6 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       customer: Asiakas
-      customer_category: Asiakasosasto
-      customer_subcategory: Asiakasryhmä
       fiscal_year: Tilikausi
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
       head/purchase_invoice/approved: Ostolasku valmis maksatukseen
@@ -341,6 +339,8 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/customer_category: Asiakasosasto
+      keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
@@ -972,29 +972,27 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
-    customer_price_list:
-      filename: asiakashinnasto
-      header: Asiakashinnasto
-      indefinitely: Toistaiseksi
-      price: Hinta
-      printed: Tulostettu
-      sopimushinta: Sopimushinta
-      valid_text: Hinnasto on voimassa
     customer_price_lists:
       create:
+        customer_not_found: Asiakasta ei löydy
+        filename: asiakashinnasto
+        no_filters_specified: Et antanut tuoterajauksia
         page: Sivu
+        products_not_found: Tuotteita ei löytynyt
       index:
         contract_filter: Sopimusrajaus
-        customer_not_found: Asiakasta ei löydy
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
-        no_filters_specified: Et antanut tuoterajauksia
         product_filter: Tuoterajaus
-        products_not_found: Tuotteita ei löytynyt määrittämilläsi hakuehdoilla
         target_type: Kohdetyyppi
       report:
+        contract_price: Sopimushinta
         header: Asiakashinnasto
+        indefinitely: Toistaiseksi
+        price: Hinta
+        printed: Tulostettu
+        valid_text: Hinnasto on voimassa
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat

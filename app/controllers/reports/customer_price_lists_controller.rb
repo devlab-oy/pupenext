@@ -11,7 +11,7 @@ class Reports::CustomerPriceListsController < ApplicationController
       @customer = Customer.find_by(tunnus: params[:target])
 
       unless @customer
-        flash.now[:alert] = t('reports.customer_price_lists.index.customer_not_found')
+        flash.now[:alert] = t('.customer_not_found')
         return render "index", status: :not_found
       end
 
@@ -31,12 +31,12 @@ class Reports::CustomerPriceListsController < ApplicationController
         @products = @products.where(try: params[:try])
       end
     elsif params[:contract_filter] != "2"
-      flash.now[:alert] = t('reports.customer_price_lists.index.no_filters_specified')
+      flash.now[:alert] = t('.no_filters_specified')
       return render "index"
     end
 
     if @products.empty?
-      flash.now[:alert] = t('reports.customer_price_lists.index.products_not_found')
+      flash.now[:alert] = t('.products_not_found')
       return render "index"
     end
 
@@ -47,6 +47,6 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     send_data kit.to_pdf,
               disposition: :inline,
-              filename:    "#{t('reports.customer_price_list.filename')}.pdf"
+              filename:    "#{t('.filename')}.pdf"
   end
 end
