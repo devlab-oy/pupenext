@@ -129,6 +129,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     # offer order orders
     assert_equal 'Kaukokiito3', offer.reload.toimitustapa
 
+    # manufacture order orders
+    assert_equal 'Kaukokiito3', manufacture.reload.toimitustapa
+
     # work order orders
     assert_equal 'Kaukokiito3', work.reload.toimitustapa
   end
