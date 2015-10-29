@@ -76,7 +76,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     deli2 = @delivery_method.dup
     deli2.selite = 'Kaukokiito2'
     deli2.rahdinkuljettaja = 'Kaukokiito2'
-    deli2.vak_kielto = @delivery_method.selite
+    deli2.vak_kielto = ''
     deli2.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
     deli2.save!
 
@@ -128,15 +128,12 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     waybill.toimitustapa = @delivery_method.selite
     waybill.save!
 
-    assert_equal 'Kaukokiito', deli2.vak_kielto
-
     @delivery_method.selite = 'Kaukokiito3'
     @delivery_method.save!
-    @delivery_method.reload
     assert @delivery_method.valid?, @delivery_method.errors.full_messages
 
     # delivery_method
-    assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
+    deli2.reload
     assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
 
     # customers
