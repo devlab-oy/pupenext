@@ -215,8 +215,8 @@ class DeliveryMethod < BaseModel
         errors.add :vak_kielto, I18n.t('errors.messages.inclusion')
       end
 
-      if vak_kielto.present?
-        count = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: vak_kielto).count
+      if vak_kielto_was.present? && vak_kielto.empty?
+        count = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite).count
 
         if count > 0
           errors.add :vak_kielto, I18n.t('errors.delivery_method.in_use_adr')

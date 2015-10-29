@@ -45,8 +45,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     deli2 = delivery_methods :kiitolinja
     deli2.vaihtoehtoinen_vak_toimitustapa = 'Kaukokiito'
-    deli2.save
+    deli2.save!
     @delivery_method.vak_kielto = 'K'
+    @delivery_method.save
+    @delivery_method.vak_kielto = ''
     refute @delivery_method.valid?, @delivery_method.errors.full_messages
   end
 
