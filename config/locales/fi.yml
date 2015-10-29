@@ -277,7 +277,7 @@ fi:
         kuvaus: Kuvaus
         lyhytkuvaus: Lyhytkuvaus
         nimitys: Nimitys
-        tuoteno: Tuotenumero
+        tuoteno: Tuoteno
         voimassa: Voimassa
       qualifier:
         isa_tarkenne: Isätarkenne
