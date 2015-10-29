@@ -40,7 +40,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       assert_equal Product.where(osasto: 1000, try: 2000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
-      assert_redirected_to customer_price_lists_path
+      assert_response :success
     end
   end
 
@@ -53,7 +53,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       assert_equal Product.where(osasto: 1000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
-      assert_redirected_to customer_price_lists_path
+      assert_response :success
     end
   end
 
@@ -66,7 +66,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       assert_equal Product.where(try: 2000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
-      assert_redirected_to customer_price_lists_path
+      assert_response :success
     end
   end
 
@@ -77,7 +77,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       assert_equal Product.where(osasto: 1000, try: 2000), assigns(:products)
       assert_equal @customer.ryhma, assigns(:customer_subcategory)
 
-      assert_redirected_to customer_price_lists_path
+      assert_response :success
     end
   end
 
@@ -100,7 +100,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price, 22) do
       post :create, @params_customer
 
-      assert_redirected_to customer_price_lists_url
+      assert_response :success
 
       products = assigns(:products)
 
@@ -116,7 +116,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price, 22) do
       post :create, @params_customer
 
-      assert_redirected_to customer_price_lists_url
+      assert_response :success
 
       products = assigns(:products)
 
