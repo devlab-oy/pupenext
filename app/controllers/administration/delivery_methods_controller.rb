@@ -27,13 +27,15 @@ class Administration::DeliveryMethodsController < AdministrationController
 
   def update
     if @delivery_method.update delivery_method_params
-      if @delivery_method.previous_changes.include?('selite')
-        relation_update_notices = @delivery_method.relation_update
-      else
-        relation_update_notices = ''
+
+      msg = []
+      msg << t('.update_success')
+
+      if @delivery_method.flash_notice.present?
+        msg << @delivery_method.flash_notice
       end
 
-      redirect_to delivery_methods_path, notice: relation_update_notices
+      redirect_to delivery_methods_path, notice: msg.join(', ')
     else
       render :edit
     end
