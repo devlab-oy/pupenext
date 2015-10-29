@@ -8,6 +8,7 @@ class DeliveryMethod < BaseModel
     o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
     o.has_many :customer_keywords,      primary_key: :avainsana
+    o.has_many :waybills,               primary_key: :toimitustapa
   end
 
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
@@ -194,6 +195,9 @@ class DeliveryMethod < BaseModel
 
         cnt = company.freight_contracts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} rahtisopimusta" if cnt.nonzero?
+
+        cnt = company.waybills.not_printed.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} tulostamatonta rahtikirjaa" if cnt.nonzero?
       end
       flash_notice = msg.join(', ')
     end
@@ -298,6 +302,12 @@ class DeliveryMethod < BaseModel
       count = company.reclamation_orders.active.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_reclamation_orders", count: count)
+        allow_delete = false
+      end
+
+      count = company.waybills.not_printed.active.where(toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_waybills", count: count)
         allow_delete = false
       end
 

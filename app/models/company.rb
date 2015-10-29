@@ -26,6 +26,7 @@ class Company < ActiveRecord::Base
     o.has_many :terms_of_payments
     o.has_many :users
     o.has_many :warehouses
+    o.has_many :waybills
 
     o.has_many :products
     o.has_many :brands,            class_name: 'Product::Brand'

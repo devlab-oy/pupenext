@@ -16,6 +16,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     sales_order/drafts
     sales_order/orders
     stock_transfer/orders
+    waybills
     work_order/orders
   )
 
@@ -117,6 +118,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     freight_contract.toimitustapa = @delivery_method.selite
     freight_contract.save!
 
+    waybill = waybills :waybill_one
+    waybill.toimitustapa = @delivery_method.selite
+    waybill.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -166,5 +171,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # freight_contract
     assert_equal 'Kaukokiito3', freight_contract.reload.toimitustapa
+
+    # waybill
+    assert_equal 'Kaukokiito3', waybill.reload.toimitustapa
   end
 end
