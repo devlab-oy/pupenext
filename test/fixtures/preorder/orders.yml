@@ -21,8 +21,8 @@ DEFAULTS: &DEFAULTS
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
 
-st_one:
+# Ostotilaus
+pre_one:
   yhtio: acme
-  tila: G
-  toimitustapa: Kaukokiito
+  tila: E
   <<: *DEFAULTS

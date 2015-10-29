@@ -43,6 +43,7 @@ class Company < ActiveRecord::Base
 
     o.has_many :heads
     o.has_many :manufacture_orders,                    class_name: 'ManufactureOrder::Order'
+    o.has_many :preorders,                             class_name: 'Preorder::Order'
     o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
     o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'
     o.has_many :purchase_invoices_paid,                class_name: 'Head::PurchaseInvoice::Paid'

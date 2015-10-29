@@ -29,10 +29,14 @@ class DeliveryMethod < BaseModel
   before_save :defaults
   before_destroy :check_relations
 
+  after_save :update_relations
+
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
                 :lisakulu, :lisakulu_summa
 
   scope :permit_adr, -> { where(vak_kielto: '') }
+
+  attr_accessor :flash_notice
 
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
@@ -140,35 +144,37 @@ class DeliveryMethod < BaseModel
     []
   end
 
-  def relation_update
-    update_relations
-  end
-
   private
 
     def update_relations
       msg = []
 
-      if previous_changes.include?('selite')
-        cnt = company.delivery_methods.where(vak_kielto: previous_changes['selite'].first).update_all(vak_kielto: selite)
+      if selite_was.present?
+        cnt = company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
         msg << "päivitettiin #{cnt} toimitustapaa" if cnt.nonzero?
 
-        cnt = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: previous_changes['selite'].first).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
+        cnt = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
         msg << "päivitettiin #{cnt} vaihtoehtoista vak toimitustapaa" if cnt.nonzero?
 
-        cnt = company.customers.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        cnt = company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} asiakasta" if cnt.nonzero?
 
-        cnt = company.sales_orders.not_delivered.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        cnt = company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} myyntitilaus otsikkoa" if cnt.nonzero?
 
-        cnt = company.sales_order_drafts.where(toimitustapa: previous_changes['selite'].first).update_all(toimitustapa: selite)
+        cnt = company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} myyntitilaus kesken otsikkoa" if cnt.nonzero?
 
-        cnt = company.customer_keywords.where(avainsana: previous_changes['selite'].first).update_all(avainsana: selite)
+        cnt = company.customer_keywords.where(avainsana: selite_was).update_all(avainsana: selite)
         msg << "päivitettiin #{cnt} asiakkaan avainsanaa" if cnt.nonzero?
+
+        cnt = company.stock_transfers.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} siirtolistan otsikkoa" if cnt.nonzero?
+
+        cnt = company.preorders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} ennakkotilauksen otsikkoa" if cnt.nonzero?
       end
-      msg.join(', ')
+      flash_notice = msg.join(', ')
     end
 
     def mandatory_new_packaging_information
@@ -229,6 +235,18 @@ class DeliveryMethod < BaseModel
       count = company.customer_keywords.where(avainsana: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_customer_keywords", count: count)
+        allow_delete = false
+      end
+
+      count = company.stock_transfers.not_delivered.where(toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_stock_transfers", count: count)
+        allow_delete = false
+      end
+
+      count = company.preorders.where(toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_preorders", count: count)
         allow_delete = false
       end
 

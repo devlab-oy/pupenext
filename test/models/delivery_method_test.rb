@@ -6,8 +6,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     customers
     delivery_methods
     heads
-    sales_order/orders
+    preorder/orders
     sales_order/drafts
+    sales_order/orders
+    stock_transfer/orders
   )
 
   def setup
@@ -72,6 +74,14 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     draft.toimitustapa = @delivery_method.selite
     draft.save!
 
+    stock = stock_transfer_orders :st_one
+    stock.toimitustapa = @delivery_method.selite
+    stock.save!
+
+    preorder = preorder_orders :pre_one
+    preorder.toimitustapa = @delivery_method.selite
+    preorder.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -79,23 +89,26 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.reload
     assert @delivery_method.valid?, @delivery_method.errors.full_messages
 
-    @delivery_method.relation_update
-
     # delivery_method
-    # assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
-    # assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
+    assert_equal 'Kaukokiito3', deli2.reload.vak_kielto
+    assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
 
-    # # customers
-    # cust = customers :stubborn_customer
-    # assert_equal 'Kaukokiito3', cust.reload.toimitustapa
+    # customers
+    cust = customers :stubborn_customer
+    assert_equal 'Kaukokiito3', cust.reload.toimitustapa
 
-    # # customer keywords
-    # cust_key = customer_keywords :keyword_1
-    # puts "foo: #{cust_key.inspect}"
-    # assert_equal 'Kaukokiito3', cust_key.reload.avainsana
+    # customer keywords
+    cust_key = customer_keywords :keyword_1
+    assert_equal 'Kaukokiito3', cust_key.reload.avainsana
 
-    # # sales orders
-    # assert_equal 'Kaukokiito3', order.reload.toimitustapa
-    # assert_equal 'Kaukokiito3', draft.reload.toimitustapa
+    # sales orders
+    assert_equal 'Kaukokiito3', order.reload.toimitustapa
+    assert_equal 'Kaukokiito3', draft.reload.toimitustapa
+
+    # stock transfer orders
+    assert_equal 'Kaukokiito3', stock.reload.toimitustapa
+
+    # stock transfer orders
+    assert_equal 'Kaukokiito3', preorder.reload.toimitustapa
   end
 end

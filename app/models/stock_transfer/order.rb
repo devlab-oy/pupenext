@@ -3,6 +3,8 @@ class StockTransfer::Order < Head
 
   validates :tila, inclusion: { in: ['G'] }
 
+  scope :not_delivered, -> { where(alatila: %W(#{} J KJ A C T P)) }
+
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     "G"
