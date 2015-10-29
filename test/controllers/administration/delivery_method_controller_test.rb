@@ -82,11 +82,10 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   test "should delete delivery method" do
     login users(:bob)
 
-    @delivery_method.selite = 'Random delivery method'
-    @delivery_method.save
+    deli2 = delivery_methods :kiitolinja
 
     assert_difference("DeliveryMethod.count", -1) do
-      delete :destroy, id: @delivery_method.id
+      delete :destroy, id: deli2.id
     end
 
     assert_redirected_to delivery_methods_path
