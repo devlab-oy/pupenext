@@ -175,7 +175,7 @@ class DeliveryMethod < BaseModel
         msg << "päivitettiin #{cnt} ennakkotilauksen otsikkoa" if cnt.nonzero?
 
         cnt = company.offer_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << "päivitettiin #{cnt} ennakkotilauksen otsikkoa" if cnt.nonzero?
+        msg << "päivitettiin #{cnt} tarjouksen otsikkoa" if cnt.nonzero?
       end
       flash_notice = msg.join(', ')
     end
