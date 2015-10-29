@@ -173,6 +173,9 @@ class DeliveryMethod < BaseModel
 
         cnt = company.preorders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} ennakkotilauksen otsikkoa" if cnt.nonzero?
+
+        cnt = company.offer_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} ennakkotilauksen otsikkoa" if cnt.nonzero?
       end
       flash_notice = msg.join(', ')
     end
@@ -247,6 +250,12 @@ class DeliveryMethod < BaseModel
       count = company.preorders.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_preorders", count: count)
+        allow_delete = false
+      end
+
+      count = company.offer_orders.where(toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_offer_orders", count: count)
         allow_delete = false
       end
 

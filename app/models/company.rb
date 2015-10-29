@@ -43,6 +43,7 @@ class Company < ActiveRecord::Base
 
     o.has_many :heads
     o.has_many :manufacture_orders,                    class_name: 'ManufactureOrder::Order'
+    o.has_many :offer_orders,                          class_name: 'OfferOrder::Order'
     o.has_many :preorders,                             class_name: 'Preorder::Order'
     o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
     o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'
@@ -53,9 +54,9 @@ class Company < ActiveRecord::Base
     o.has_many :sales_invoices,                        class_name: 'Head::SalesInvoice'
     o.has_many :sales_order_drafts,                    class_name: 'SalesOrder::Draft'
     o.has_many :sales_orders,                          class_name: 'SalesOrder::Order'
+    o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
     o.has_many :voucher_rows,                          class_name: 'Head::VoucherRow'
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
-    o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
 
     o.has_many :qualifiers
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'

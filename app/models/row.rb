@@ -13,9 +13,10 @@ class Row < BaseModel
     {
       'E' => Preorder::Row,
       'G' => StockTransfer::Row,
-      'O' => PurchaseOrder::Row,
-      'V' => ManufactureOrder::Row,
       'L' => SalesOrder::Row,
+      'O' => PurchaseOrder::Row,
+      'T' => OfferOrder::Row,
+      'V' => ManufactureOrder::Row,
     }
   end
 

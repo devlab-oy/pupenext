@@ -6,6 +6,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     customers
     delivery_methods
     heads
+    offer_order/orders
     preorder/orders
     sales_order/drafts
     sales_order/orders
@@ -82,6 +83,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     preorder.toimitustapa = @delivery_method.selite
     preorder.save!
 
+    offer = offer_order_orders :offer_one
+    offer.toimitustapa = @delivery_method.selite
+    offer.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -110,5 +115,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # stock transfer orders
     assert_equal 'Kaukokiito3', preorder.reload.toimitustapa
+
+    # offer order orders
+    assert_equal 'Kaukokiito3', offer.reload.toimitustapa
   end
 end

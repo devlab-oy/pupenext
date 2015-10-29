@@ -22,7 +22,7 @@ DEFAULTS: &DEFAULTS
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
 
-# Ennakkotilaus
-pre_one:
-  tila: E
+# Tarjoustilaus
+offer_one:
+  tila: T
   <<: *DEFAULTS
