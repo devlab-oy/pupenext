@@ -52,6 +52,7 @@ class Company < ActiveRecord::Base
     o.has_many :purchase_invoices_ready_for_transfer,  class_name: 'Head::PurchaseInvoice::Transfer'
     o.has_many :purchase_invoices_waiting_for_payment, class_name: 'Head::PurchaseInvoice::Waiting'
     o.has_many :purchase_orders,                       class_name: 'PurchaseOrder::Order'
+    o.has_many :reclamation_orders,                    class_name: 'ReclamationOrder::Order'
     o.has_many :sales_invoices,                        class_name: 'Head::SalesInvoice'
     o.has_many :sales_order_drafts,                    class_name: 'SalesOrder::Draft'
     o.has_many :sales_orders,                          class_name: 'SalesOrder::Order'

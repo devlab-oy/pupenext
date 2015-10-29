@@ -185,6 +185,9 @@ class DeliveryMethod < BaseModel
 
         cnt = company.project_orders.active.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} projektin otsikkoa" if cnt.nonzero?
+
+        cnt = company.reclamation_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} reklamaation otsikkoa" if cnt.nonzero?
       end
       flash_notice = msg.join(', ')
     end
@@ -283,6 +286,12 @@ class DeliveryMethod < BaseModel
       count = company.project_orders.active.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_project_orders", count: count)
+        allow_delete = false
+      end
+
+      count = company.reclamation_orders.active.where(toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_reclamation_orders", count: count)
         allow_delete = false
       end
 

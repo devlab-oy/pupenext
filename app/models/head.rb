@@ -21,6 +21,7 @@ class Head < BaseModel
   def self.child_class_names
     {
       'A' => WorkOrder::Order,
+      'C' => ReclamationOrder::Order,
       'E' => Preorder::Order,
       'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
