@@ -626,6 +626,9 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  customer_price_lists_helper:
+    all_products: Kaikki tuotteet
+    contract_prices: Sopimushinnat
   data_export:
     product_keywords:
       choose_extra_fields: Valitse lisäkentät
@@ -634,9 +637,6 @@ fi:
       header: Tuotteen avainsanat
       language: Avainsanojen kieli
       type: Avainsanatyyppi
-  customer_price_lists_helper:
-    all_products: All products
-    contract_prices: Contract prices
   data_import:
     index:
       header: Tietojen sisäänluku
@@ -973,11 +973,11 @@ fi:
       subcategory: Ryhmä
   reports:
     customer_price_list:
+      filename: asiakashinnasto
       header: Asiakashinnasto
       indefinitely: Toistaiseksi
       price: Hinta
       printed: Tulostettu
-      running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
       sopimushinta: Sopimushinta
       valid_text: Hinnasto on voimassa
     customer_price_lists:
