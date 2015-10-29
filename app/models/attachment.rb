@@ -9,7 +9,8 @@ class Attachment < BaseModel
 
   def self.child_class_names
     {
-      tuote: Attachment::ProductAttachment
+      tuote:    Attachment::ProductAttachment,
+      Yllapito: Attachment::AdministrationAttachment
     }.stringify_keys
   end
 
