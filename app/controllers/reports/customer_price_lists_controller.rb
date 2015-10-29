@@ -1,7 +1,4 @@
 class Reports::CustomerPriceListsController < ApplicationController
-  def index
-  end
-
   def create
     return render "index" unless params[:commit].present?
 
