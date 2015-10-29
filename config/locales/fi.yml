@@ -212,7 +212,7 @@ fi:
         rahdinkuljettaja: Kuljetusyhtiö
         rahti_tuotenumero: Rahtiveloitus tuotenumero
         rahtikirja: Rahtikirjatyyppi
-        rahtikirjakopio_email: 
+        rahtikirjakopio_email:
         sallitut_alustat: Sallitut keräilyalustat
         sallitut_maat: Sallitut maat
         selite: Nimitys
@@ -884,8 +884,16 @@ fi:
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
       in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
+      in_use_manufacture_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} valmistuksella'
+      in_use_offer_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} tarjouksella'
+      in_use_preorders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} ennakkotilauksella'
+      in_use_project_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} projektilla'
+      in_use_reclamation_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} reklamaatiolla'
       in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+      in_use_stock_transfers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} siirtolistalla'
+      in_use_waybills: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtikirjalla'
+      in_use_work_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} työmääräyksellä'
       unifaun_info_missing: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
     import:
