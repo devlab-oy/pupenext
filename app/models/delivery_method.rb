@@ -26,6 +26,8 @@ class DeliveryMethod < BaseModel
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
   validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
+  validate :freight_sku, if: :has_freight_sku?
+  validate :cargo_insurance_sku, if: :has_cargo_insurance_sku?
 
   before_save :defaults
   before_destroy :check_relations
@@ -146,6 +148,24 @@ class DeliveryMethod < BaseModel
   end
 
   private
+
+    def has_freight_sku?
+      rahti_tuotenumero.present?
+    end
+
+    def freight_sku
+      cnt = company.products.no_inventory_management.where(tuoteno: rahti_tuotenumero).count
+      errors.add :rahti_tuotenumero, I18n.t('errors.delivery_method.product_not_in_inventory_management') if cnt.zero?
+    end
+
+    def has_cargo_insurance_sku?
+      kuljetusvakuutus_tuotenumero.present?
+    end
+
+    def cargo_insurance_sku
+      cnt = company.products.no_inventory_management.where(tuoteno: kuljetusvakuutus_tuotenumero).count
+      errors.add :kuljetusvakuutus_tuotenumero, I18n.t('errors.delivery_method.product_not_in_inventory_management') if cnt.zero?
+    end
 
     def update_relations
       msg = []

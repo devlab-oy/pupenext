@@ -44,7 +44,7 @@ class DataExportControllerTest < ActionController::TestCase
     header = ["Tuoteno", "Malliston nimi", "Tuotteen väri"]
     assert_equal header, excel.row(1)
 
-    row = ["hammer123", "Aluminium", " "]
+    row = ["non_inventory_manageable_product", " ", " "]
     assert_equal row, excel.row(2)
   end
 end

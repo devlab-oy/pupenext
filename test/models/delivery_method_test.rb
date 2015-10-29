@@ -11,6 +11,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     manufacture_order/orders
     offer_order/orders
     preorder/orders
+    products
     project_order/orders
     reclamation_order/orders
     sales_order/drafts
@@ -49,6 +50,22 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.vak_kielto = 'K'
     @delivery_method.save
     @delivery_method.vak_kielto = ''
+    refute @delivery_method.valid?, @delivery_method.errors.full_messages
+  end
+
+  test 'should validate freight sku' do
+    @delivery_method.rahti_tuotenumero = 'non_inventory_manageable_product'
+    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+
+    @delivery_method.rahti_tuotenumero = 'hammer123'
+    refute @delivery_method.valid?, @delivery_method.errors.full_messages
+  end
+
+  test 'should validate cargo insurance sku' do
+    @delivery_method.kuljetusvakuutus_tuotenumero = 'non_inventory_manageable_product'
+    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+
+    @delivery_method.kuljetusvakuutus_tuotenumero = 'hammer123'
     refute @delivery_method.valid?, @delivery_method.errors.full_messages
   end
 

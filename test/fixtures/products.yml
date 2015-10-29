@@ -46,3 +46,10 @@ pr1:
   nimitys: Päiväraha
   tuotetyyppi: A
   <<: *DEFAULTS
+
+non_manageable:
+  yhtio: acme
+  tuoteno: non_inventory_manageable_product
+  nimitys: Jarrusatula
+  ei_saldoa: o
+  <<: *DEFAULTS

@@ -880,6 +880,7 @@ fi:
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     delivery_method:
+      product_not_in_inventory_management: 'Tuotetta ei löydy / tuote pitää olla saldoton'
       in_use_adr: 'HUOM: Et voi asettaa toimitustavalle VAK-kieltoa, sillä muut toimitustavat käyttävät tätä toimitustapaa vaihtoehtoisena VAK-toimitustapana'
       in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
