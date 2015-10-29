@@ -9,6 +9,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     manufacture_order/orders
     offer_order/orders
     preorder/orders
+    project_order/orders
     sales_order/drafts
     sales_order/orders
     stock_transfer/orders
@@ -97,6 +98,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     work.toimitustapa = @delivery_method.selite
     work.save!
 
+    project = project_order_orders :project_one
+    project.toimitustapa = @delivery_method.selite
+    project.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -134,5 +139,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # work order orders
     assert_equal 'Kaukokiito3', work.reload.toimitustapa
+
+    # project order orders
+    assert_equal 'Kaukokiito3', project.reload.toimitustapa
   end
 end
