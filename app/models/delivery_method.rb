@@ -214,6 +214,12 @@ class DeliveryMethod < BaseModel
       unless allowed.include? vak_kielto
         errors.add :vak_kielto, I18n.t('errors.messages.inclusion')
       end
+
+      count = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite).count
+
+      if count > 0
+        errors.add :vak_kielto, I18n.t('errors.delivery_method.in_use_adr')
+      end
     end
 
     def vaihtoehtoinen_vak_toimitustapa_validation
