@@ -299,13 +299,13 @@ class DeliveryMethod < BaseModel
         allow_delete = false
       end
 
-      count = company.reclamation_orders.active.where(toimitustapa: selite).count
+      count = company.reclamation_orders.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_reclamation_orders", count: count)
         allow_delete = false
       end
 
-      count = company.waybills.not_printed.active.where(toimitustapa: selite).count
+      count = company.waybills.not_printed.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_waybills", count: count)
         allow_delete = false
