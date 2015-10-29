@@ -5,6 +5,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     customer_keywords
     customers
     delivery_methods
+    freight_contracts
     freights
     heads
     manufacture_order/orders
@@ -112,6 +113,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     freight.toimitustapa = @delivery_method.selite
     freight.save!
 
+    freight_contract = freight_contracts :kaukokiito_freight_contract
+    freight_contract.toimitustapa = @delivery_method.selite
+    freight_contract.save!
+
     assert_equal 'Kaukokiito', deli2.vak_kielto
 
     @delivery_method.selite = 'Kaukokiito3'
@@ -158,5 +163,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # freights
     assert_equal 'Kaukokiito3', freight.reload.toimitustapa
+
+    # freight_contract
+    assert_equal 'Kaukokiito3', freight_contract.reload.toimitustapa
   end
 end

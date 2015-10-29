@@ -191,6 +191,9 @@ class DeliveryMethod < BaseModel
 
         cnt = company.freights.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << "päivitettiin #{cnt} rahtimaksua" if cnt.nonzero?
+
+        cnt = company.freight_contracts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
+        msg << "päivitettiin #{cnt} rahtisopimusta" if cnt.nonzero?
       end
       flash_notice = msg.join(', ')
     end
