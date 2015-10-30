@@ -1,0 +1,78 @@
+<table>
+  <tr>
+    <th colspan='4'>
+      <%= t('.header') %><br/>
+      <%= current_company.nimi %><br/>
+      <%= I18n.l Time.now %><br/>
+    </th>
+  </tr>
+  <tr>
+    <td colspan='4'>
+      <%= t('.report_period', period: params[:period]) %> <br/>
+      <% unless params[:osasto].nil? %>
+        <%= t('.report_category', selected: params[:osasto].join(', ')) %> <br/>
+      <% end %>
+      <% unless params[:try].nil? %>
+        <%= t('.report_subcategory', selected: params[:try].join(', ')) %> <br/>
+      <% end %>
+      <% unless params[:tuotemerkki].nil? %>
+        <%= t('.report_brand', selected: params[:tuotemerkki].join(', ')) %> <br/>
+      <% end %>
+    </td>
+
+  </tr>
+  <tr>
+    <th><%= t('.product') %> <br/> <%= t('.week') %></th>
+    <th><%= t('.sales') %></th>
+    <th><%= t('.purchases') %></th>
+    <th><%= t('.stock') %> <br/> <%= t('.available') %></th>
+  </tr>
+
+  <% @data.each do |data| %>
+    <tr>
+      <td style='font-weight:bold;'><%= data.sku %> - <%= data.label %></td>
+      <td></td>
+      <td></td>
+      <td style='font-weight:bold;'><%= data.initial_stock %></td>
+    </tr>
+    <tr>
+      <td style='font-weight:bold;'><%= t('.past') %></td>
+      <td style='font-weight:bold;'><%= data.overdue.sales %></td>
+      <td style='font-weight:bold;'><%= data.overdue.purchases %></td>
+      <td style='font-weight:bold;'><%= data.overdue.change %></td>
+    </tr>
+
+    <% data.weekly_data.each do |weekly_data| %>
+      <tr>
+        <td><%= weekly_data.week %></td>
+        <td>
+          <% if weekly_data.stock_values.amount_sold > 0 %>
+            <%= link_to view_connected_sales_orders_path(order_numbers: weekly_data.stock_values.order_numbers, product_sku: data.sku), :target => "_blank" do %>
+              <%= weekly_data.stock_values.amount_sold %>
+            <% end %>
+          <% else %>
+            <%= weekly_data.stock_values.amount_sold %>
+          <% end %>
+        </td>
+        <td><%= weekly_data.stock_values.amount_purchased %></td>
+        <td><%= weekly_data.stock_values.total_stock_change %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td style='font-weight:bold;'><%= t('.future') %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.sales %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.purchases %></td>
+      <td style='font-weight:bold;'><%= data.upcoming.change %></td>
+    </tr>
+
+    <tr>
+      <td style='font-weight:bold;'><%= t('.total') %></td>
+      <td style='font-weight:bold;'><%= data.total_amount_sold %></td>
+      <td style='font-weight:bold;'><%= data.total_amount_purchased %></td>
+      <td style='font-weight:bold;'><%= data.total_stock %></td>
+    </tr>
+    <tr class='back'><td colspan='4'><br/></td></tr>
+  <% end %>
+
+</table>

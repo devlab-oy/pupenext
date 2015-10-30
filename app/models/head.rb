@@ -44,6 +44,10 @@ class Head < BaseModel
     where(tila: Head::PurchaseInvoice::TYPES)
   end
 
+  def self.sales_orders
+    where(tila: SalesOrder::Base::TYPES)
+  end
+
   private
 
     def set_date_fields

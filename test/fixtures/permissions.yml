@@ -24,6 +24,7 @@
     revenue_expenditure
     revenue_expenditures
     stock_listing_csv
+    stock_availability
     sum_levels
     terms_of_payments
     test

@@ -1,0 +1,19 @@
+<%= render "administration/header", text: t('.header') %>
+
+<% if notice %>
+  <font class='ok'>
+    <%= notice %>
+  </font>
+
+  <br><br>
+
+  <hr>
+<% end %>
+
+<br/>
+<%= render 'form' %>
+<br/>
+
+<% if @data.present? %>
+  <%= render 'show_data' %>
+<% end %>

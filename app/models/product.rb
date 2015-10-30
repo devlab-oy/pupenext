@@ -53,6 +53,7 @@ class Product < BaseModel
   scope :not_deleted, -> { where.not(status: :P) }
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
+  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
     shelf_locations.sum(:saldo)
@@ -79,6 +80,16 @@ class Product < BaseModel
 
   def cover_image
     attachments.order(:jarjestys, :tunnus).first
+  end
+
+  # Avoimet myyntirivit
+  def open_sales_order_rows_between(range)
+    sales_order_rows.open.where(toimaika: range)
+  end
+
+  # Avoimet ostorivit
+  def open_purchase_order_rows_between(range)
+    purchase_order_rows.open.where(toimaika: range)
   end
 
   private
