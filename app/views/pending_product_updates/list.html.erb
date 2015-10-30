@@ -33,6 +33,8 @@
 
 <tr>
   <th width='100'>
+  </th>
+  <th width='100'>
     <%= t('.sku') %>
   </th>
   <th width='250'>
@@ -99,18 +101,6 @@
       <% end %>
     </td>
   </tr>
-
-  <% if product.cover_image.present? %>
-    <tr>
-      <td class='ptop' colspan='4'>
-        <% product.attachments.order(:jarjestys, :tunnus).each do |f| %>
-          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
-            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" />
-          </a>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
 <% end %>
 
 </table>
