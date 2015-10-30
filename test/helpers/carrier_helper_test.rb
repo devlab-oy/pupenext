@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class CarrierHelperTest < ActionView::TestCase
+  fixtures %w(carriers)
+
   test "returns translated neutraali options valid for collection" do
     assert neutraali_options.is_a? Array
 
