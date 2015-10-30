@@ -25,4 +25,5 @@ DEFAULTS: &DEFAULTS
 # Tarjoustilaus
 offer_one:
   tila: T
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

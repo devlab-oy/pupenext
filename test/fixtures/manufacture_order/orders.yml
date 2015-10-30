@@ -24,4 +24,5 @@ DEFAULTS: &DEFAULTS
 
 mo_one:
   tila: V
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

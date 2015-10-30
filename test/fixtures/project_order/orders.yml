@@ -25,4 +25,5 @@ DEFAULTS: &DEFAULTS
 # Projektitilaus
 project_one:
   tila: R
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

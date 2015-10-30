@@ -25,4 +25,5 @@ DEFAULTS: &DEFAULTS
 # Työmääräystilaus
 work_one:
   tila: A
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

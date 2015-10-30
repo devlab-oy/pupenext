@@ -31,6 +31,7 @@ not_delivered_order_1:
   tila: L
   alatila: A
   terms_of_payment: eighty_days_net
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS
 
 not_delivered_order_2:

@@ -25,4 +25,5 @@ DEFAULTS: &DEFAULTS
 # Ennakkotilaus
 pre_one:
   tila: E
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

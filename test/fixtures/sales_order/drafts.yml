@@ -26,4 +26,5 @@ not_finished_order:
   tila: N
   alatila: ''
   terms_of_payment: hundred_days_net
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

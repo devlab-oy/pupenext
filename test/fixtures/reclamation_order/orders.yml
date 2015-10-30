@@ -25,4 +25,5 @@ DEFAULTS: &DEFAULTS
 # Reklamaatiotilaus
 reclamation_one:
   tila: C
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS
