@@ -6,6 +6,7 @@ Pupesoft::Application.routes.draw do
 
   get 'pending_product_updates/list', to: 'pending_product_updates#list'
   get 'pending_product_updates/list_of_changes', to: 'pending_product_updates#list_of_changes'
+  get 'pending_product_updates/gallery/:id', to: 'pending_product_updates#gallery'
   post 'pending_product_updates/to_product', to: 'pending_product_updates#to_product'
   resources :pending_product_updates
 
@@ -64,6 +65,12 @@ Pupesoft::Application.routes.draw do
     get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
     get :stock_listing_csv,  to: 'stock_listing_csv#index', as: :stock_listing_csv
     post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
+  end
+
+  scope :data_export do
+    get  '/', to: redirect('/data_export/product_keywords') # temporary placeholder
+    get  :product_keywords, to: 'data_export#product_keywords', as: :product_keyword_export
+    post :product_keywords, to: 'data_export#product_keywords_generate'
   end
 
   scope :data_import do
