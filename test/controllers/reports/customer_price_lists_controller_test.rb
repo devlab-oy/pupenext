@@ -2,7 +2,12 @@ require 'test_helper'
 require 'minitest/mock'
 
 class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
-  fixtures %w(customers products customer_prices)
+  fixtures %w(
+    customer_prices
+    customers
+    products
+    terms_of_payments
+  )
 
   setup do
     login users(:joe)
