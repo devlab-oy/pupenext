@@ -143,10 +143,6 @@ class DeliveryMethod < BaseModel
     simple_label: 'oslap_mg'
   }
 
-  def permitted_packaging_options
-    []
-  end
-
   private
 
     def has_freight_sku?
