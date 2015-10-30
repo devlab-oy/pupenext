@@ -216,7 +216,7 @@
             checked: @delivery_method.sallitut_alustat.split(',') do |b| %>
           <div>
             <%= b.check_box %>
-            <%= b.label %>
+            <%= b.label { b.object.pakkaus + " " + b.object.translated_description(get_locale) } %>
           </div>
         <% end %>
       </td>

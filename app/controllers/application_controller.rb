@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :current_company
   helper_method :update_access?
+  helper_method :get_locale
 
   def current_user
     @current_user ||= User.unscoped.find_by_session(cookies[:pupesoft_session])
@@ -32,6 +33,10 @@ class ApplicationController < ActionController::Base
 
   def update_access?
     @update_access ||= current_user.can_update?(request_path, alias_set: alias_set)
+  end
+
+  def get_locale
+    users_locale
   end
 
   protected
