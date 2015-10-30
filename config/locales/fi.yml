@@ -1012,65 +1012,44 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_availability:
+      form:
+        button_make: Ruudulle
+        button_run: Pdf
+        constraints: Rajaus
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+      index:
+        header: Varastotilanne
+      show_data:
+        available: Saatavilla
+        future: Tulevat
+        header: Varastotilanne
+        past: Myöhässä
+        product: Tuote
+        purchases: Tulossa
+        report_brand: Valitut tuotemerkit %{selected}
+        report_category: Valitut osastot %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        sales: Menossa
+        stock: Varastosaldo
+        total: Yhteensä
+        week: Viikko
+      view_connected_sales_orders:
+        delivery_date: Toimituspäivä
+        information: Tilausviite
+        order_number: Tilausnumero
+        ordered_amount: Tilattu
+        product_info: Tuotenumero
+        shipping_address: Toimitusosoite
+        total_amount: Laskun summa
+        unit: Kappaletta
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
-    stock_availability:
-      index:
-        header: Varastotilanne
-      form:
-        button_make: Ruudulle
-        button_run: Pdf
-        period: Tarkasteluaika
-        weeks: Viikon ajalta
-        constraints: Rajaus
-      show_data:
-        header: Varastotilanne
-        available: Saatavilla
-        past: Myöhässä
-        future: Tulevat
-        product: Tuote
-        purchases: Tulossa
-        sales:  Menossa
-        stock: Varastosaldo
-        week: Viikko
-        total: Yhteensä
-        report_category: Valitut osastot %{selected}
-        report_subcategory: Valitut tuoteryhmät %{selected}
-        report_brand: Valitut tuotemerkit %{selected}
-        report_period: Tarkasteluaika %{period} viikkoa
-      view_connected_sales_orders:
-        order_number: Tilausnumero
-        shipping_address: Toimitusosoite
-        information: Tilausviite
-        delivery_date: Toimituspäivä
-        product_info: Tuotenumero
-        unit: Kappaletta
-        ordered_amount: Tilattu
-        total_amount: Laskun summa
-    customer_price_lists:
-      index:
-        all_products: Kaikki tuotteet
-        contract_prices: Sopimushinnat
-        generate: Generoi
-        product_filter: Tuoterajaus
-        target: Kohde
-        target_type: Kohdetyyppi
-        date_start: Alkupvm
-        date_end: Loppupvm
-      report:
-    customer_price_list:
-      header: Asiakashinnasto
-      page: Sivu
-      running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
-      printed: Tulostettu
-      price: Hinta
-      valid: Voimassa
-      sopimushinta: Sopimushinta
-      valid_text: Hinnasto on voimassa
-      indefinitely: Toistaiseksi
   shared:
     excel:
       company: Yritystiedot
