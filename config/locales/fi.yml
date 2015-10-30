@@ -585,6 +585,54 @@ fi:
         use_company_default: Yhtiön oletus
       update:
         update_success: Toimitustapa päivitettiin onnistuneesti
+        delivery_methods:
+            one: Päivitettiin %{count} toimitustapa
+            other: Päivitettiin %{count} toimitustapaa
+        alternative_adr_delivery_methods:
+            one: Päivitettiin %{count} vaihtoehtoista vak toimitustapa
+            other: Päivitettiin %{count} vaihtoehtoista vak toimitustapaa
+        customers:
+            one: Päivitettiin %{count} asiakas
+            other: Päivitettiin %{count} asiakasta
+        not_delivered_sales_orders:
+            one: Päivitettiin %{count} myyntitilauksen otsikko
+            other: Päivitettiin %{count} myyntitilauksen otsikkoa
+        sales_order_drafts:
+            one: Päivitettiin %{count} kesken oleva myyntitilauksen otsikko
+            other: Päivitettiin %{count} kesken olevaa myyntitilauksen otsikkoa
+        customer_keywords:
+            one: Päivitettiin %{count} asiakkaan avainsana
+            other: Päivitettiin %{count} asiakkaan avainsanaa
+        not_delivered_stock_transfers:
+            one: Päivitettiin %{count} siirtolistan otsikko
+            other: Päivitettiin %{count} siirtolistan otsikkoa
+        preorders:
+            one: Päivitettiin %{count} ennakkotilauksen otsikko
+            other: Päivitettiin %{count} ennakkotilauksen otsikkoa
+        offer_orders:
+            one: Päivitettiin %{count} tarjouksen otsikko
+            other: Päivitettiin %{count} tarjouksen otsikkoa
+        not_manufactured_manufacture_orders:
+            one: Päivitettiin %{count} valmistuksen otsikko
+            other: Päivitettiin %{count} valmistuksen otsikkoa
+        work_orders:
+            one: Päivitettiin %{count} työmääräyksen otsikko
+            other: Päivitettiin %{count} työmääräyksen otsikkoa
+        project_orders:
+            one: Päivitettiin %{count} projektin otsikko
+            other: Päivitettiin %{count} projektin otsikkoa
+        reclamation_orders:
+            one: Päivitettiin %{count} reklamaation otsikko
+            other: Päivitettiin %{count} reklamaation otsikkoa
+        freights:
+            one: Päivitettiin %{count} rahtimaksu
+            other: Päivitettiin %{count} rahtimaksua
+        freight_contracts:
+            one: Päivitettiin %{count} rahtisopimus
+            other: Päivitettiin %{count} rahtisopimusta
+        not_printed_waybills:
+            one: Päivitettiin %{count} tulostamaton rahtikirja
+            other: Päivitettiin %{count} tulostamatonta rahtikirjaa
       waybill_options:
         dpd_ftp: DPD ftp-siirto
         dpd_waybill: DPD A5 PDF-rahtikirja
