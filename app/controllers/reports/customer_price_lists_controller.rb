@@ -33,7 +33,7 @@ class Reports::CustomerPriceListsController < ApplicationController
     kit = PDFKit.new render_to_string(:report, layout: false),
                      header_right: "#{t('.page')} [page]/[toPage]"
 
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'report.css')
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'reports', 'pdf_styles.css')
 
     send_data kit.to_pdf,
               disposition: :inline,
