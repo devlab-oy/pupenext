@@ -12,4 +12,8 @@ class Keyword::ProductKeywordTypeTest < ActiveSupport::TestCase
   test 'fixtures are valid' do
     assert @keyword.valid?
   end
+
+  test 'product keyword' do
+    assert_equal "webshopdesc", @keyword.product_key
+  end
 end

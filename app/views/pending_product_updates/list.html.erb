@@ -14,7 +14,11 @@
 <%= form_tag pending_product_updates_list_path, method: :get do %>
 
   <% params.each do |k,v| %>
-    <%= hidden_field_tag k, v %>
+    <% if v.is_a? Array %>
+      <%= hidden_field_tag "#{k}[]", v %>
+    <% else %>
+      <%= hidden_field_tag k, v %>
+    <% end %>
   <% end %>
 
   <%= label_tag :hinta, t('.show_price') %>
@@ -43,6 +47,17 @@
 
 <% @products.each do |product| %>
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
+    <td class='ptop'>
+      <% if product.cover_image.present? %>
+        <% product.attachments.images.order(:jarjestys, :tunnus).each_with_index do |f, i| %>
+          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
+            <% klass = i > 0 ? 'hidden' : '' %>
+            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" class='<%= klass %>' />
+          </a>
+        <% end %>
+      <% end %>
+    </td>
+
     <td class='ptop'>
       <%= product.tuoteno %>
     </td>

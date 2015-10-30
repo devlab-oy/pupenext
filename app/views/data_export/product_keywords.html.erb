@@ -1,0 +1,30 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_tag product_keyword_export_path(format: :xlsx) do %>
+  <div class="categories-selection">
+    <div class='selection'>
+      <%= label_tag :language, t('.language') %>
+      <%= select_tag :language, options_for_select(dictionary_languages_options, params[:language]) %>
+    </div>
+
+    <div class='selection'>
+      <%= label_tag :type, t('.type') %>
+      <%= select_tag :type, options_for_select(special_product_keyword_options, params[:type]) %>
+    </div>
+
+    <div class='selection'>
+      <%= label_tag :extra_fields, t('.extra_fields') %>
+      <%= select_tag :extra_fields,
+                     options_for_select(product_export_fields, params[:extra_fields]),
+                     class:    'chosen-select',
+                     multiple: true,
+                     data:     { placeholder: t('.choose_extra_fields') } %>
+    </div>
+  </div>
+
+  <%= render 'products/categories_selection' %>
+
+  <br>
+
+  <%= submit_tag t('.generate') %>
+<% end %>
