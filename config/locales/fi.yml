@@ -212,7 +212,7 @@ fi:
         rahdinkuljettaja: Kuljetusyhtiö
         rahti_tuotenumero: Rahtiveloitus tuotenumero
         rahtikirja: Rahtikirjatyyppi
-        rahtikirjakopio_email:
+        rahtikirjakopio_email: 
         sallitut_alustat: Sallitut keräilyalustat
         sallitut_maat: Sallitut maat
         selite: Nimitys
@@ -584,55 +584,55 @@ fi:
         percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
         use_company_default: Yhtiön oletus
       update:
-        update_success: Toimitustapa päivitettiin onnistuneesti
-        delivery_methods:
-            one: Päivitettiin %{count} toimitustapa
-            other: Päivitettiin %{count} toimitustapaa
         alternative_adr_delivery_methods:
-            one: Päivitettiin %{count} vaihtoehtoista vak toimitustapa
-            other: Päivitettiin %{count} vaihtoehtoista vak toimitustapaa
-        customers:
-            one: Päivitettiin %{count} asiakas
-            other: Päivitettiin %{count} asiakasta
-        not_delivered_sales_orders:
-            one: Päivitettiin %{count} myyntitilauksen otsikko
-            other: Päivitettiin %{count} myyntitilauksen otsikkoa
-        sales_order_drafts:
-            one: Päivitettiin %{count} kesken oleva myyntitilauksen otsikko
-            other: Päivitettiin %{count} kesken olevaa myyntitilauksen otsikkoa
+          one: Päivitettiin %{count} vaihtoehtoista vak toimitustapa
+          other: Päivitettiin %{count} vaihtoehtoista vak toimitustapaa
         customer_keywords:
-            one: Päivitettiin %{count} asiakkaan avainsana
-            other: Päivitettiin %{count} asiakkaan avainsanaa
-        not_delivered_stock_transfers:
-            one: Päivitettiin %{count} siirtolistan otsikko
-            other: Päivitettiin %{count} siirtolistan otsikkoa
-        preorders:
-            one: Päivitettiin %{count} ennakkotilauksen otsikko
-            other: Päivitettiin %{count} ennakkotilauksen otsikkoa
-        offer_orders:
-            one: Päivitettiin %{count} tarjouksen otsikko
-            other: Päivitettiin %{count} tarjouksen otsikkoa
-        not_manufactured_manufacture_orders:
-            one: Päivitettiin %{count} valmistuksen otsikko
-            other: Päivitettiin %{count} valmistuksen otsikkoa
-        work_orders:
-            one: Päivitettiin %{count} työmääräyksen otsikko
-            other: Päivitettiin %{count} työmääräyksen otsikkoa
-        project_orders:
-            one: Päivitettiin %{count} projektin otsikko
-            other: Päivitettiin %{count} projektin otsikkoa
-        reclamation_orders:
-            one: Päivitettiin %{count} reklamaation otsikko
-            other: Päivitettiin %{count} reklamaation otsikkoa
-        freights:
-            one: Päivitettiin %{count} rahtimaksu
-            other: Päivitettiin %{count} rahtimaksua
+          one: Päivitettiin %{count} asiakkaan avainsana
+          other: Päivitettiin %{count} asiakkaan avainsanaa
+        customers:
+          one: Päivitettiin %{count} asiakas
+          other: Päivitettiin %{count} asiakasta
+        delivery_methods:
+          one: Päivitettiin %{count} toimitustapa
+          other: Päivitettiin %{count} toimitustapaa
         freight_contracts:
-            one: Päivitettiin %{count} rahtisopimus
-            other: Päivitettiin %{count} rahtisopimusta
+          one: Päivitettiin %{count} rahtisopimus
+          other: Päivitettiin %{count} rahtisopimusta
+        freights:
+          one: Päivitettiin %{count} rahtimaksu
+          other: Päivitettiin %{count} rahtimaksua
+        not_delivered_sales_orders:
+          one: Päivitettiin %{count} myyntitilauksen otsikko
+          other: Päivitettiin %{count} myyntitilauksen otsikkoa
+        not_delivered_stock_transfers:
+          one: Päivitettiin %{count} siirtolistan otsikko
+          other: Päivitettiin %{count} siirtolistan otsikkoa
+        not_manufactured_manufacture_orders:
+          one: Päivitettiin %{count} valmistuksen otsikko
+          other: Päivitettiin %{count} valmistuksen otsikkoa
         not_printed_waybills:
-            one: Päivitettiin %{count} tulostamaton rahtikirja
-            other: Päivitettiin %{count} tulostamatonta rahtikirjaa
+          one: Päivitettiin %{count} tulostamaton rahtikirja
+          other: Päivitettiin %{count} tulostamatonta rahtikirjaa
+        offer_orders:
+          one: Päivitettiin %{count} tarjouksen otsikko
+          other: Päivitettiin %{count} tarjouksen otsikkoa
+        preorders:
+          one: Päivitettiin %{count} ennakkotilauksen otsikko
+          other: Päivitettiin %{count} ennakkotilauksen otsikkoa
+        project_orders:
+          one: Päivitettiin %{count} projektin otsikko
+          other: Päivitettiin %{count} projektin otsikkoa
+        reclamation_orders:
+          one: Päivitettiin %{count} reklamaation otsikko
+          other: Päivitettiin %{count} reklamaation otsikkoa
+        sales_order_drafts:
+          one: Päivitettiin %{count} kesken oleva myyntitilauksen otsikko
+          other: Päivitettiin %{count} kesken olevaa myyntitilauksen otsikkoa
+        update_success: Toimitustapa päivitettiin onnistuneesti
+        work_orders:
+          one: Päivitettiin %{count} työmääräyksen otsikko
+          other: Päivitettiin %{count} työmääräyksen otsikkoa
       waybill_options:
         dpd_ftp: DPD ftp-siirto
         dpd_waybill: DPD A5 PDF-rahtikirja
@@ -825,7 +825,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -851,7 +851,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -928,7 +928,6 @@ fi:
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
     delivery_method:
-      product_not_in_inventory_management: 'Tuotetta ei löydy / tuote pitää olla saldoton'
       in_use_adr: 'HUOM: Et voi asettaa toimitustavalle VAK-kieltoa, sillä muut toimitustavat käyttävät tätä toimitustapaa vaihtoehtoisena VAK-toimitustapana'
       in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
@@ -944,6 +943,7 @@ fi:
       in_use_stock_transfers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} siirtolistalla'
       in_use_waybills: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtikirjalla'
       in_use_work_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} työmääräyksellä'
+      product_not_in_inventory_management: Tuotetta ei löydy / tuote pitää olla saldoton
       unifaun_info_missing: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
     import:
@@ -1182,44 +1182,44 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_availability:
+      form:
+        button_make: Ruudulle
+        button_run: Pdf
+        constraints: Rajaus
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+      index:
+        header: Varastotilanne
+      show_data:
+        available: Saatavilla
+        future: Tulevat
+        header: Varastotilanne
+        past: Myöhässä
+        product: Tuote
+        purchases: Tulossa
+        report_brand: Valitut tuotemerkit %{selected}
+        report_category: Valitut osastot %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        sales: Menossa
+        stock: Varastosaldo
+        total: Yhteensä
+        week: Viikko
+      view_connected_sales_orders:
+        delivery_date: Toimituspäivä
+        information: Tilausviite
+        order_number: Tilausnumero
+        ordered_amount: Tilattu
+        product_info: Tuotenumero
+        shipping_address: Toimitusosoite
+        total_amount: Laskun summa
+        unit: Kappaletta
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
-    stock_availability:
-      index:
-        header: Varastotilanne
-      form:
-        button_make: Ruudulle
-        button_run: Pdf
-        period: Tarkasteluaika
-        weeks: Viikon ajalta
-        constraints: Rajaus
-      show_data:
-        header: Varastotilanne
-        available: Saatavilla
-        past: Myöhässä
-        future: Tulevat
-        product: Tuote
-        purchases: Tulossa
-        sales:  Menossa
-        stock: Varastosaldo
-        week: Viikko
-        total: Yhteensä
-        report_category: Valitut osastot %{selected}
-        report_subcategory: Valitut tuoteryhmät %{selected}
-        report_brand: Valitut tuotemerkit %{selected}
-        report_period: Tarkasteluaika %{period} viikkoa
-      view_connected_sales_orders:
-        order_number: Tilausnumero
-        shipping_address: Toimitusosoite
-        information: Tilausviite
-        delivery_date: Toimituspäivä
-        product_info: Tuotenumero
-        unit: Kappaletta
-        ordered_amount: Tilattu
-        total_amount: Laskun summa
   shared:
     excel:
       company: Yritystiedot
