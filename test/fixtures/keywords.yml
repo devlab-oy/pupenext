@@ -127,6 +127,14 @@ top_locale_en:
   laji: MAKSUEHTOKV
   <<: *DEFAULTS
 
+deliverymethod_locale_en:
+  yhtio: acme
+  selite: <%= ActiveRecord::FixtureSet.identify(:kaukokiito) %>
+  selitetark: Kaukokiito Logistics
+  kieli: en
+  laji: TOIMTAPAKV
+  <<: *DEFAULTS
+
 mysql_alias_1:
   yhtio: acme
   laji: MYSQLALIAS

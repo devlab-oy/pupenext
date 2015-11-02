@@ -11,6 +11,8 @@ class DeliveryMethod < BaseModel
     o.has_many :waybills,               primary_key: :toimitustapa
   end
 
+  has_many :translations, foreign_key: :selite, class_name: 'Keyword::DeliveryMethodTranslation'
+
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
   validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
   validates :lahdon_selite, :sallitut_alustat, length: { maximum: 150 }
@@ -36,6 +38,8 @@ class DeliveryMethod < BaseModel
 
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
                 :lisakulu, :lisakulu_summa
+
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
 
@@ -142,6 +146,14 @@ class DeliveryMethod < BaseModel
     compact_label: 'tiivistetty',
     simple_label: 'oslap_mg'
   }
+
+  def translated_locales
+    translations.map(&:kieli)
+  end
+
+  def name_translated(locale)
+    translations.find_by(kieli: locale).try(:selitetark) || selite
+  end
 
   private
 

@@ -26,6 +26,7 @@ class Keyword < BaseModel
       PARAMETRI:     Keyword::ProductParameterType,
       REVENUEREP:    Keyword::RevenueExpenditure,
       S:             Product::Status,
+      TOIMTAPAKV:    Keyword::DeliveryMethodTranslation,
       TOIMTAPALP:    Keyword::SortingPoint,
       TRY:           Product::Subcategory,
       TULLI:         Keyword::Customs,
