@@ -18,6 +18,27 @@ class Head::SalesInvoice < Head
     read_attribute(:maa).upcase
   end
 
+  def valkoodi
+    val = read_attribute(:valkoodi).strip.upcase
+    val.blank? ? company.valkoodi : val
+  end
+
+  def summa_valuutassa
+    foreign_currency ? read_attribute(:summa_valuutassa) : summa
+  end
+
+  def arvo_valuutassa
+    foreign_currency ? read_attribute(:arvo_valuutassa) : arvo
+  end
+
+  def kasumma_valuutassa
+    foreign_currency ? read_attribute(:kasumma_valuutassa) : kasumma
+  end
+
+  def pyoristys_valuutassa
+    foreign_currency ? read_attribute(:pyoristys_valuutassa) : pyoristys
+  end
+
   def credit?
     arvo < 0
   end
@@ -88,20 +109,18 @@ class Head::SalesInvoice < Head
         return true
       end
     end
+
+    return false
   end
 
-  // Hoidetaan pyöristys sekä valuuttakäsittely
-  if ($lasrow["valkoodi"] != '' and trim(strtoupper($lasrow["valkoodi"])) != trim(strtoupper($yhtiorow["valkoodi"]))) {
-    $lasrow["kasumma"]   = $lasrow["kasumma_valuutassa"];
-    $lasrow["summa"]     = $lasrow["summa_valuutassa"];
-    $lasrow["arvo"]      = $lasrow["arvo_valuutassa"];
-    $lasrow["pyoristys"] = $lasrow["pyoristys_valuutassa"];
-  }
+  def foreign_currency
+    valkoodi.present? && valkoodi != company.valkoodi
+  end
 
   def public_comment
     komm = ""
 
-    if !reverse_charge.nil?
+    if reverse_charge
       komm += "VAT Reverse Charge" #t_avainsana("KAANTALVVIESTI", $laskun_kieli, "", "", "", "selitetark");
     end
 
@@ -142,11 +161,11 @@ class Head::SalesInvoice < Head
     end
 
     def vat_base(vat_rate)
-      rows.where(alv: vat_rate).to_a.sum(&:rivihinta).round(2)
+      rows.where(alv: vat_rate).to_a.sum(&:rivihinta_valuutassa).round(2)
     end
 
     def vat_amount(vat_rate)
-      rows.where(alv: vat_rate).to_a.sum { |r| r.rivihinta * r.vat_percent/100 }.round(2)
+      rows.where(alv: vat_rate).to_a.sum { |r| r.rivihinta_valuutassa * r.vat_percent/100 }.round(2)
     end
 
     def vat_code(vat_rate)

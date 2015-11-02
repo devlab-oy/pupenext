@@ -93,6 +93,14 @@ class Company < ActiveRecord::Base
     read_attribute(:maa).upcase
   end
 
+  def valkoodi
+    read_attribute(:valkoodi).strip.upcase
+  end
+
+  def hintapyoristys
+    hintapyoristys < 1 ? 1 : hintapyoristys
+  end
+
   def ytunnus_human
     return ytunnus unless maa == "FI"
 

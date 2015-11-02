@@ -3,6 +3,7 @@ acme:
   nimi: Acme Corporation
   maa: FI
   kieli: fi
+  valkoodi: EUR
   ytunnus: 9876543-0
   osoite: Asvalttikatu 99
   postino: "00100"

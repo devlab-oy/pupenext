@@ -334,7 +334,7 @@ class Finvoice
       }
       doc.SellerReferenceIdentifier @invoice.tunnus
 
-      if @invoice.asiakkaan_tilausnumero.strip
+      if @invoice.asiakkaan_tilausnumero.strip.present?
         doc.OrderIdentifier @invoice.asiakkaan_tilausnumero
       else
         doc.OrderIdentifier @invoice.viesti
@@ -343,14 +343,14 @@ class Finvoice
       doc.AgreementIdentifier @invoice.viesti
 
       doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-        doc.text(finvoice_number(@invoice.arvo))
+        doc.text(finvoice_number(@invoice.arvo_valuutassa))
       }
       doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-        alv = (@invoice.summa - @invoice.arvo).round(2)
+        alv = (@invoice.summa_valuutassa - @invoice.arvo_valuutassa).round(2)
         doc.text(finvoice_number(alv))
       }
       doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-        doc.text(finvoice_number(@invoice.summa))
+        doc.text(finvoice_number(@invoice.summa_valuutassa))
       }
 
       @invoice.vat_specification.each do |vat|
@@ -362,6 +362,10 @@ class Finvoice
           doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
            doc.text(finvoice_number(vat[:vat_amount]))
           }
+
+          if @invoice.reverse_charge
+            doc.VatFreeText "Ostaja verovelvollinen AVL 8c §"
+          end
         }
       end
 
@@ -373,8 +377,10 @@ class Finvoice
           doc.text(@invoice.erpcm.strftime("%Y%m%d"))
         }
         doc.PaymentOverDueFineDetails {
-          doc.PaymentOverDueFineFreeText "Viivästyskorko #{@invoice.viikorkopros}%"
-          doc.PaymentOverDueFinePercent @invoice.viikorkopros
+          korko = finvoice_number(@invoice.viikorkopros)
+
+          doc.PaymentOverDueFineFreeText "Viivästyskorko #{korko}%"
+          doc.PaymentOverDueFinePercent korko
         }
       }
     end
@@ -395,21 +401,39 @@ class Finvoice
             doc.text(finvoice_number(row.tilkpl))
           }
           doc.UnitPriceAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-            doc.text(finvoice_number(row.hinta))
+            doc.text(finvoice_number(row.hinta_valuutassa))
           }
 
           if row.tilaajanrivinro > 0
             doc.RowIdentifier row.tilaajanrivinro
           end
 
-          doc.RowPositionIdentifier "1"
-          doc.RowFreeText row.kommentti
+          if row.order.luontiaika.strftime("%Y%m%d") < row.delivery_date.strftime("%Y%m%d")
+            doc.RowIdentifierDate("Format" => "CCYYMMDD") {
+              doc.text(row.order.luontiaika.strftime("%Y%m%d"))
+            }
+          end
+
+          doc.RowDeliveryIdentifier row.order.id
+
+          doc.RowDeliveryDate("Format" => "CCYYMMDD") {
+            doc.text(row.delivery_date.strftime("%Y%m%d"))
+          }
+
+          if row.invoice_comment.present?
+            doc.RowFreeText row.invoice_comment
+          end
+
+          doc.RowDiscountPercent finvoice_number(row.total_discount)
           doc.RowVatRatePercent finvoice_number(row.vat_percent)
           doc.RowVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-            doc.text("32,04")
+            doc.text(finvoice_number(row.vat_amount))
           }
           doc.RowVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-            doc.text(finvoice_number(row.rivihinta))
+            doc.text(finvoice_number(row.rivihinta_valuutassa))
+          }
+          doc.RowAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+            doc.text(finvoice_number(row.rivihinta_verollinen))
           }
         }
       end
@@ -445,7 +469,7 @@ class Finvoice
           doc.text("RF471234567890")
         }
         doc.EpiInstructedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
-          doc.text(finvoice_number(@invoice.summa))
+          doc.text(finvoice_number(@invoice.summa_valuutassa))
         }
         doc.EpiCharge("ChargeOption" => "SLEV") {
         }

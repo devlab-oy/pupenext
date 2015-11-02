@@ -11,6 +11,11 @@ class Parameter < BaseModel
     servinet: 'servinet',
   }
 
+  enum alv_kasittely: {
+    price_incl_tax: '',
+    price_excl_tax: 'o',
+ }
+
   enum tilausrivien_toimitettuaika: {
     no_manual_deliverydates: '',
     manual_deliverydates_when_product_inventory_not_managed: 'K',

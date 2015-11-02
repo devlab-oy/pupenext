@@ -132,4 +132,13 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     assert_equal "Batman", @invoice.contact_person_name
   end
 
+  test 'foreign_currency' do
+    @invoice.valkoodi = "EUR"
+    @invoice.company.valkoodi = "EUR"
+    refute @invoice.foreign_currency
+
+    @invoice.valkoodi = "SEK"
+    assert @invoice.foreign_currency
+  end
+
 end
