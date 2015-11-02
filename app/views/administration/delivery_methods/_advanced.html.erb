@@ -1,0 +1,79 @@
+<table width='460' class='admin-view-30'>
+  <tr>
+    <th><%= f.label :uudet_pakkaustiedot %></th>
+    <td><%= f.select :uudet_pakkaustiedot, new_packaging_information_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :lajittelupiste %></th>
+    <td><%= f.select :lajittelupiste, sorting_point_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :maa_maara %></th>
+    <td><%= f.text_field :maa_maara, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sisamaan_kuljetus %></th>
+    <td><%= f.text_field :sisamaan_kuljetus, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sisamaan_kuljetus_kansallisuus %></th>
+    <td><%= f.text_field :sisamaan_kuljetus_kansallisuus, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sisamaan_kuljetusmuoto %></th>
+    <td><%= f.select :sisamaan_kuljetusmuoto, mode_of_transport_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :kontti %></th>
+    <td><%= f.select :kontti, container_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :aktiivinen_kuljetus %></th>
+    <td><%= f.text_field :aktiivinen_kuljetus, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :aktiivinen_kuljetus_kansallisuus %></th>
+    <td><%= f.text_field :aktiivinen_kuljetus_kansallisuus, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :kauppatapahtuman_luonne %></th>
+    <td><%= f.select :kauppatapahtuman_luonne, nature_of_transaction_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :kuljetusmuoto %></th>
+    <td><%= f.select :kuljetusmuoto, mode_of_transport_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :poistumistoimipaikka_koodi %></th>
+    <td><%= f.select :poistumistoimipaikka_koodi, customs_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :ulkomaanlisa %></th>
+    <td><%= f.text_field :ulkomaanlisa, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sallitut_alustat %></th>
+    <td>
+      <%= f.collection_check_boxes :sallitut_alustat, Package.all, :tunnus, :pakkauskuvaus,
+          checked: @delivery_method.sallitut_alustat.split(',') do |b| %>
+        <div>
+          <%= b.check_box %>
+          <%= b.label { b.object.pakkaus + " " + b.object.translated_description(get_locale) } %>
+        </div>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th><%= f.label :lisakulu %></th>
+    <td><%= f.text_field :lisakulu, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :lisakulu_summa %></th>
+    <td><%= f.text_field :lisakulu_summa, class: :large %></td>
+  </tr>
+</table>

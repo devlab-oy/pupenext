@@ -1,0 +1,102 @@
+<table width='800' class='admin-view-30'>
+  <tr>
+    <th><%= f.label :selite %></th>
+    <td><%= f.text_field :selite, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :lahdon_selite %></th>
+    <td><%= f.text_field :lahdon_selite, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :virallinen_selite %></th>
+    <td>
+      <%= f.select :virallinen_selite,
+          grouped_options_for_select(PostalOfficialLegend.options, @delivery_method.virallinen_selite),
+          { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %>
+    </td>
+  </tr>
+  <tr>
+    <th><%= f.label :tulostustapa %></th>
+    <td><%= f.select :tulostustapa, print_method_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :rahtikirja %></th>
+    <td><%= f.select :rahtikirja, waybill_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :logy_rahtikirjanumerot %></th>
+    <td><%= f.select :logy_rahtikirjanumerot, logy_waybill_number_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :osoitelappu %></th>
+    <td><%= f.select :osoitelappu, label_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :rahdinkuljettaja %></th>
+    <td><%= f.select :rahdinkuljettaja, carrier_options,
+            { include_blank: t('administration.delivery_methods.edit.no_select') }, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :rahti_tuotenumero %></th>
+    <td><%= f.text_field :rahti_tuotenumero, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sopimusnro %></th>
+    <td><%= f.text_field :sopimusnro, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :rahtikirjakopio_email %></th>
+    <td><%= f.text_field :rahtikirjakopio_email, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :erikoispakkaus_kielto %></th>
+    <td><%= f.select :erikoispakkaus_kielto, special_packaging_prohibition_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :nouto %></th>
+    <td><%= f.select :nouto, pickup_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :lauantai %></th>
+    <td><%= f.select :lauantai, saturday_delivery_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :kuljyksikko %></th>
+    <td><%= f.select :kuljyksikko, transport_unit_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :erilliskasiteltavakulu %></th>
+    <td><%= f.text_field :erilliskasiteltavakulu, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :merahti %></th>
+    <td><%= f.select :merahti, freight_contract_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :extranet %></th>
+    <td><%= f.select :extranet, extranet_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :ei_pakkaamoa %></th>
+    <td><%= f.select :ei_pakkaamoa, packing_line_prohibition_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :erittely %></th>
+    <td><%= f.select :erittely, waybill_specification_options, {}, class: 'chosen-select' %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :kuluprosentti %></th>
+    <td><%= f.text_field :kuluprosentti, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :sallitut_maat %></th>
+    <td><%= f.text_field :sallitut_maat, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :jarjestys %></th>
+    <td><%= f.text_field :jarjestys, class: :large %></td>
+  </tr>
+
+<%= render 'administration/resource_timestamps_and_users', resource: @delivery_method %>
+
+</table>

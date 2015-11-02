@@ -1,0 +1,10 @@
+<table width='460' class='admin-view-30'>
+  <tr>
+    <th><%= f.label :jvkulu %></th>
+    <td><%= f.text_field :jvkulu, class: :large %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :jvkielto %></th>
+    <td><%= f.select :jvkielto, cash_on_delivery_prohibition_options, {}, class: 'chosen-select' %></td>
+  </tr>
+</table>
