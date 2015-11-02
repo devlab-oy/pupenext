@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
-  fixtures %w(delivery_methods packages)
+  fixtures %w(
+    delivery_methods
+    packages
+  )
 
   def setup
     login users(:joe)
@@ -102,5 +105,55 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     assert_redirected_to delivery_methods_path
 
     assert_equal "#{package_one},#{package_two}", @delivery_method.reload.sallitut_alustat
+  end
+
+  test "should add translations" do
+    login users(:bob)
+
+    params = {
+      translations_attributes: {
+        "0" => {
+          kieli: 'no',
+          selitetark: 'Kaukokiito Transports',
+        }
+      }
+    }
+
+    assert_difference 'Keyword::DeliveryMethodTranslation.count' do
+      patch :update, id: @delivery_method.id, delivery_method: params
+    end
+  end
+
+  test "should update and destroy translations" do
+    login users(:bob)
+    translated = keywords :deliverymethod_locale_en
+
+    params = {
+      translations_attributes: {
+        "0" => {
+          id: translated.id,
+          selitetark: 'a translation',
+        }
+      }
+    }
+
+    assert_no_difference('Keyword::DeliveryMethodTranslation.count') do
+      patch :update, id: translated.delivery_method.id, delivery_method: params
+    end
+
+    assert_equal 'a translation', translated.reload.selitetark
+
+    params = {
+      translations_attributes: {
+        "0" => {
+          id: translated.id,
+          _destroy: 'true',
+        }
+      }
+    }
+
+    assert_difference('Keyword::DeliveryMethodTranslation.count', -1) do
+      patch :update, id: translated.delivery_method.id, delivery_method: params
+    end
   end
 end
