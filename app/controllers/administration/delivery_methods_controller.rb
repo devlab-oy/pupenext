@@ -77,6 +77,7 @@ class Administration::DeliveryMethodsController < AdministrationController
           :viimeinen_tilausaika,
           :terminaalialue,
           :asiakasluokka,
+          :varasto,
           :_destroy
         ],
       )
