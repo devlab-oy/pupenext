@@ -47,3 +47,8 @@ tfoot {
 tr {
   page-break-inside: avoid;
 }
+
+.logo {
+  max-width:  150px;
+  max-height: 100px;
+}

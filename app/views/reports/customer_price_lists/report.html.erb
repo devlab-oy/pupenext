@@ -12,7 +12,7 @@
       <% logo = Attachment::AdministrationAttachment.logo %>
 
       <% if logo %>
-        <img src="data:image/jpg;base64,<%= Base64.encode64 logo.data %>"/>
+        <img class="logo" src="data:image/jpg;base64,<%= Base64.encode64 logo.data %>"/>
       <% end %>
     </td>
     <td>
