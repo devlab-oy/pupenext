@@ -985,6 +985,7 @@ fi:
         date_start: Alkupvm
         generate: Generoi
         product_filter: Tuoterajaus
+        product_image: Tuotekuva
         target_type: Kohdetyyppi
       report:
         contract_price: Sopimushinta
