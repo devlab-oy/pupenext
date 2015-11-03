@@ -161,6 +161,24 @@
          price = p.customer_subcategory_price_with_info(@customer_subcategory)
        end
 
+       if params[:product_image] && p.attachments.first && p.attachments.first.data
+         image = p.attachments.first.data
+       else
+         image = false
+       end
+
+       if params[:lyhytkuvaus] && p.lyhytkuvaus.present?
+         lyhytkuvaus = p.lyhytkuvaus
+       else
+         lyhytkuvaus = false
+       end
+
+       if params[:kuvaus] && p.kuvaus.present?
+         kuvaus = p.kuvaus
+       else
+         kuvaus = ""
+       end
+
        next if params[:contract_filter].to_i == 2 && price[:hinta_peruste].to_i == 18
     %>
 
@@ -177,24 +195,21 @@
       </td>
     </tr>
 
-    <% if params[:lyhytkuvaus] && p.lyhytkuvaus.present? %>
+    <% if lyhytkuvaus %>
       <tr>
-        <td colspan="5"><%= p.lyhytkuvaus %></td>
+        <td colspan="5"><%= lyhytkuvaus %></td>
       </tr>
     <% end %>
 
-    <% if p.attachments.any? || p.kuvaus.present? %>
+    <% if image || kuvaus %>
       <tr>
-        <% if params[:product_image] && p.attachments.first && p.attachments.first.data %>
+        <% if image %>
           <td>
-            <img src="data:image/jpg;base64,<%= Base64.encode64(p.attachments.first.data) %>"
-                 style="width: 100%;"/>
+            <img src="data:image/jpg;base64,<%= Base64.encode64(image) %>" style="width: 100%;"/>
           </td>
         <% end %>
 
-        <% if params[:kuvaus] && p.kuvaus.present? %>
-          <td colspan="4"><%= p.kuvaus %></td>
-        <% end %>
+        <td colspan="4"><%= kuvaus %></td>
       </tr>
     <% end %>
   <% end %>
