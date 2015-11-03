@@ -1,5 +1,9 @@
 class Customer < BaseModel
   belongs_to :delivery_method,  foreign_key: :toimitustapa, primary_key: :selite
+  belongs_to :category,
+             class_name:  'Keyword::CustomerCategory',
+             foreign_key: :luokka,
+             primary_key: :selite
   belongs_to :subcategory,
              class_name:  'Keyword::CustomerSubcategory',
              foreign_key: :ryhma,

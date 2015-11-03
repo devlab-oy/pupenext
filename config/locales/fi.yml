@@ -212,7 +212,7 @@ fi:
         rahdinkuljettaja: Kuljetusyhtiö
         rahti_tuotenumero: Rahtiveloitus tuotenumero
         rahtikirja: Rahtikirjatyyppi
-        rahtikirjakopio_email: 
+        rahtikirjakopio_email:
         sallitut_alustat: Sallitut keräilyalustat
         sallitut_maat: Sallitut maat
         selite: Nimitys
@@ -512,6 +512,14 @@ fi:
         hidden: Kenttää ei näytetä näkymässä
         visible: Kenttä näytetään näkymässä
     delivery_methods:
+      departures:
+        kerailyn_aloitusaika: Keräilyn aloitusaika
+        lahdon_viikonpvm: Lähdön viikonpäivä
+        lahdon_kellonaika: Lähdön kellonaika
+        viimeinen_tilausaika: Viimeinen tilausaika
+        terminaalialue: Terminaalialue
+        asiakasluokka: Asiakasluokka
+        link_new: Lisää uusi lähtö
       adr_prohibition_options:
         adr_prohibition: Toimitustavalla ei saa toimittaa VAK-tuotteita
         adr_shipment: VAK-tuotteet toimitetaan toimitustavalla
@@ -825,7 +833,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -851,7 +859,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu

@@ -4,15 +4,17 @@ class KeywordTest < ActiveSupport::TestCase
   fixtures %w(keywords)
 
   setup do
-    @vat = keywords(:vat)
-    @foreign_vat = keywords(:foreign_vat)
-    @top_translation = keywords(:top_locale_se)
-    @dm_translation = keywords(:deliverymethod_locale_en)
+    @vat = keywords :vat
+    @foreign_vat = keywords :foreign_vat
+    @terminal_area = keywords :terminal_area
+    @top_translation = keywords :top_locale_se
+    @dm_translation = keywords :deliverymethod_locale_en
   end
 
   test "fixtures are valid" do
     assert @vat.valid?, @vat.errors.full_messages
     assert @foreign_vat.valid?, @foreign_vat.errors.full_messages
+    assert @terminal_area.valid?, @terminal_area.errors.full_messages
     assert @top_translation.valid?, @top_translation.errors.full_messages
     assert @dm_translation.valid?, @dm_translation.errors.full_messages
     assert keywords(:top_locale_en).valid?

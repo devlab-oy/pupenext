@@ -20,4 +20,5 @@ stubborn_customer:
   terms_of_payment: sixty_days_net
   toimitustapa: Kaukokiito
   ryhma: 10
+  luokka: 100
   <<: *DEFAULTS
