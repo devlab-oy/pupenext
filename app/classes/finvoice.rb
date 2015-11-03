@@ -376,6 +376,20 @@ class Finvoice
         doc.InvoiceDueDate("Format" => "CCYYMMDD") {
           doc.text(@invoice.erpcm.strftime("%Y%m%d"))
         }
+
+        if @invoice.kasumma_valuutassa != 0
+          doc.CashDiscountDate("Format" => "CCYYMMDD") {
+            doc.text(@invoice.kapvm.strftime("%Y%m%d"))
+          }
+          doc.CashDiscountBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+            doc.text(finvoice_number(@invoice.summa_valuutassa))
+          }
+          doc.CashDiscountPercent finvoice_number(@invoice.terms_of_payment.kassa_alepros)
+          doc.CashDiscountAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+            doc.text(finvoice_number(@invoice.kasumma_valuutassa))
+          }
+        end
+
         doc.PaymentOverDueFineDetails {
           korko = finvoice_number(@invoice.viikorkopros)
 
