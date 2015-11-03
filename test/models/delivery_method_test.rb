@@ -4,6 +4,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   fixtures %w(
     customer_keywords
     customers
+    delivery_method/departures
     delivery_methods
     freight_contracts
     freights
@@ -22,11 +23,13 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   )
 
   def setup
-    @delivery_method = delivery_methods(:kaukokiito)
+    @delivery_method = delivery_methods :kaukokiito
+    @departure = delivery_method_departures :departure_one
   end
 
   test "fixtures should be valid" do
     assert @delivery_method.valid?, @delivery_method.errors.messages
+    assert @departure.valid?, @departure.errors.full_messages
   end
 
   test "selite should be unique" do
@@ -196,5 +199,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # waybill
     assert_equal 'Kaukokiito3', waybill.reload.toimitustapa
+  end
+
+  test 'should have departure' do
+    assert_equal 1, @delivery_method.departures.count
   end
 end

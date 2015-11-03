@@ -9,9 +9,10 @@ class DeliveryMethod < BaseModel
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
     o.has_many :customer_keywords,      primary_key: :avainsana
     o.has_many :waybills,               primary_key: :toimitustapa
+    o.has_many :translations,                                                     class_name: 'Keyword::DeliveryMethodTranslation'
   end
 
-  has_many :translations, foreign_key: :selite, class_name: 'Keyword::DeliveryMethodTranslation'
+  has_many :departures, foreign_key: :liitostunnus, class_name: 'DeliveryMethod::Departure'
 
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
   validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
