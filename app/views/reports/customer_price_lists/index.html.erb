@@ -43,6 +43,11 @@
     </tr>
 
     <tr>
+      <th><%= label_tag :product_image, t('.product_image') %></th>
+      <td><%= check_box_tag :product_image, "1", params[:product_image] %></td>
+    </tr>
+
+    <tr>
       <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
       <td><%= select_tag(:contract_filter, contract_filter_options(params[:contract_filter])) %></td>
     </tr>
