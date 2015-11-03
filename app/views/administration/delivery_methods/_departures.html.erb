@@ -1,0 +1,16 @@
+<table id='departures' width='100%'>
+  <tr>
+    <th><%= label_tag t('administration.delivery_methods.departures.kerailyn_aloitusaika') %></th>
+    <th><%= label_tag t('helpers.submit.destroy', model: '') %></th>
+  </tr>
+
+  <%= f.fields_for :departures do |departure| %>
+    <%= render 'departure_fields', f: departure %>
+  <% end %>
+</table>
+
+<br>
+
+<%= link_to_add_association t('administration.delivery_methods.departures.link_new'), f, :departures,
+    data: { association_insertion_method: :append, association_insertion_node: '#departures'},
+    partial: 'departure_fields' %>

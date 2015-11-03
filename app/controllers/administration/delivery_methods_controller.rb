@@ -69,6 +69,7 @@ class Administration::DeliveryMethodsController < AdministrationController
         :toim_postino, :toim_postitp, :tulostustapa, :ulkomaanlisa, :uudet_pakkaustiedot,
         :vaihtoehtoinen_vak_toimitustapa, :vak_kielto, :virallinen_selite,
         translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
+        departures_attributes: [ :id, :kerailyn_aloitusaika, :_destroy ],
       )
     end
 
