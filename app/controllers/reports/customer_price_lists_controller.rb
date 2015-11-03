@@ -2,7 +2,7 @@ class Reports::CustomerPriceListsController < ApplicationController
   def create
     return render :index unless params[:commit].present?
 
-    @products = Product.includes(:attachments).all
+    @products = Product.includes(:attachments).active
 
     if params[:target_type] == "1"
       @customer = Customer.find_by(tunnus: params[:target])
@@ -11,8 +11,6 @@ class Reports::CustomerPriceListsController < ApplicationController
         flash.now[:alert] = t('.customer_not_found')
         return render :index, status: :not_found
       end
-
-      @products = @customer.products if params[:contract_filter] == "2"
     elsif params[:target_type] == "2"
       @customer_subcategory = params[:target]
     end
