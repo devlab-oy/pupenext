@@ -160,6 +160,8 @@
        else
          price = p.customer_subcategory_price_with_info(@customer_subcategory)
        end
+
+       next if params[:contract_filter].to_i == 2 && price[:hinta_peruste].to_i == 18
     %>
 
     <tr>
