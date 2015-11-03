@@ -185,7 +185,7 @@
 
     <% if p.attachments.any? || p.kuvaus.present? %>
       <tr>
-        <% if p.attachments.first && p.attachments.first.data %>
+        <% if params[:product_image] && p.attachments.first && p.attachments.first.data %>
           <td>
             <img src="data:image/jpg;base64,<%= Base64.encode64(p.attachments.first.data) %>"
                  style="width: 100%;"/>
