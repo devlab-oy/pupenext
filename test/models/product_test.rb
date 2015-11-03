@@ -121,11 +121,29 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
+  test 'customer price with info' do
+    customer = customers(:stubborn_customer)
+    price    = { hinta: 18, hinta_peruste: 1, ale_peruste: 2 }
+
+    LegacyMethods.stub(:customer_price_with_info, price) do
+      assert_equal price, @product.customer_price_with_info(customer.id)
+    end
+  end
+
   test 'customer subcategory price' do
     customer = customers(:stubborn_customer)
 
     LegacyMethods.stub(:customer_subcategory_price, 22) do
       assert_equal 22, @product.customer_subcategory_price(customer.id)
+    end
+  end
+
+  test 'customer subcategory price with info' do
+    customer = customers(:stubborn_customer)
+    price    = { hinta: 18, hinta_peruste: 1, ale_peruste: 2 }
+
+    LegacyMethods.stub(:customer_subcategory_price_with_info, price) do
+      assert_equal price, @product.customer_subcategory_price_with_info(customer.id)
     end
   end
 

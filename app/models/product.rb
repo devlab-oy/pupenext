@@ -74,8 +74,16 @@ class Product < BaseModel
     LegacyMethods.customer_price(customer_id, id)
   end
 
+  def customer_price_with_info(customer_id)
+    LegacyMethods.customer_price_with_info(customer_id, id)
+  end
+
   def customer_subcategory_price(customer_subcategory_id)
     LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
+  end
+
+  def customer_subcategory_price_with_info(customer_subcategory_id)
+    LegacyMethods.customer_subcategory_price_with_info(customer_subcategory_id, id)
   end
 
   def cover_image

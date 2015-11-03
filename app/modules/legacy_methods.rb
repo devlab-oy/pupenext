@@ -7,13 +7,21 @@ module LegacyMethods
     discount_price('asiakas', customer_id, product_id)
   end
 
+  def self.customer_price_with_info(customer_id, product_id)
+    discount_price('asiakas', customer_id, product_id, info: true)
+  end
+
   def self.customer_subcategory_price(customer_subcategory_id, product_id)
     discount_price('asiakasryhma', customer_subcategory_id, product_id)
   end
 
+  def self.customer_subcategory_price_with_info(customer_subcategory_id, product_id)
+    discount_price('asiakasryhma', customer_subcategory_id, product_id, info: true)
+  end
+
   private
 
-    def self.discount_price(target, target_id, product_id)
+    def self.discount_price(target, target_id, product_id, info: false)
       Open3.popen2('php',
                    '-f',
                    'alehinta.php',
@@ -24,7 +32,12 @@ module LegacyMethods
                    product_id.to_s,
                    chdir: LEGACY_API_DIR) do |_i, o, _t|
         price = JSON.parse(o.gets, symbolize_names: true)
-        price[:hinta].to_s.to_d
+
+        if info
+          price
+        else
+          price[:hinta].to_s.to_d
+        end
       end
     end
 end
