@@ -31,6 +31,8 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       osasto:      1000,
       try:         2000
     }
+
+    @price = { hinta: 22, hinta_peruste: 18, ale_peruste: 3 }
   end
 
   test "should get index" do
@@ -39,10 +41,10 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   end
 
   test "customer prices with product filters work with osasto and try" do
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.where(osasto: 1000, try: 2000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000, try: 2000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -52,10 +54,10 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   test "customer prices with product filters work with osasto" do
     @params_customer[:try] = nil
 
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.where(osasto: 1000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -65,10 +67,10 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   test "customer prices with product filters work with try" do
     @params_customer[:osasto] = nil
 
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.where(try: 2000), assigns(:products)
+      assert_equal Product.active.where(try: 2000), assigns(:products)
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -76,10 +78,10 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   end
 
   test "customer group prices with product filters work with osasto and try" do
-    LegacyMethods.stub(:customer_subcategory_price, 30) do
+    LegacyMethods.stub(:customer_subcategory_price_with_info, @price) do
       post :create, @params_customer_subcategory
 
-      assert_equal Product.where(osasto: 1000, try: 2000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000, try: 2000), assigns(:products)
       assert_equal @customer.ryhma, assigns(:customer_subcategory)
 
       assert_response :success
@@ -89,7 +91,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   test "correct behaviour when customer cannot be found" do
     @params_customer[:target] = 921
 
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
       assert_response :not_found
@@ -102,14 +104,14 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @params_customer[:osasto]          = nil
     @params_customer[:try]             = nil
 
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
       assert_response :success
 
       products = assigns(:products)
 
-      assert_equal 2, products.count
+      assert_equal 3, products.count
       assert_includes products, @hammer
       assert_includes products, @helmet
     end
@@ -118,7 +120,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   test "customer prices with contract prices work with product filters" do
     @params_customer[:contract_filter] = 2
 
-    LegacyMethods.stub(:customer_price, 22) do
+    LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
       assert_response :success
