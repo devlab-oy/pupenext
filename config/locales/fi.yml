@@ -977,6 +977,39 @@ fi:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+    stock_availability:
+      index:
+        header: Varastotilanne
+      form:
+        button_make: Ruudulle
+        button_run: Pdf
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+        constraints: Rajaus
+      show_data:
+        header: Varastotilanne
+        available: Saatavilla
+        past: Myöhässä
+        future: Tulevat
+        product: Tuote
+        purchases: Tulossa
+        sales:  Menossa
+        stock: Varastosaldo
+        week: Viikko
+        total: Yhteensä
+        report_category: Valitut osastot %{selected}
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        report_brand: Valitut tuotemerkit %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
+      view_connected_sales_orders:
+        order_number: Tilausnumero
+        shipping_address: Toimitusosoite
+        information: Tilausviite
+        delivery_date: Toimituspäivä
+        product_info: Tuotenumero
+        unit: Kappaletta
+        ordered_amount: Tilattu
+        total_amount: Laskun summa
   shared:
     excel:
       company: Yritystiedot

@@ -1,6 +1,7 @@
 one:
   yhtio: acme
   invoice: si_one
+  order: so_one
   tyyppi: L
   tuoteno: hammer123
   nimitys: Vasara

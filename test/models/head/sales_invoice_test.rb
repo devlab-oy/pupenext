@@ -95,7 +95,7 @@ class Head::SalesInvoiceTest < ActiveSupport::TestCase
     assert_equal Date.parse("2015-01-10"), @invoice.deliveryperiod_start
     assert_equal Date.parse("2015-01-12"), @invoice.deliveryperiod_end
 
-    row.update_attributes! tuoteno: "consulting"
+    row.update_attributes! tuoteno: "x-consulting"
 
     @invoice.company.parameter.update_attributes! tilausrivien_toimitettuaika: :manual_deliverydates_when_product_inventory_not_managed
     @invoice.reload

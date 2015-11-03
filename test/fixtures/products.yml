@@ -32,7 +32,7 @@ helmet:
 
 consulting:
   yhtio: acme
-  tuoteno: consulting
+  tuoteno: x-consulting
   nimitys: One hour of consulting service
   osasto: 100
   try: 3000
