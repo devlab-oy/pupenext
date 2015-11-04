@@ -5,8 +5,8 @@ class InvoicesControllerTest < ActionController::TestCase
     login users(:bob)
   end
 
-  test "should get show" do
-    get :show
+  test "should get xml" do
+    get :show, format: :xml
     assert_response :success
   end
 end
