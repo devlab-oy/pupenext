@@ -3,7 +3,10 @@ class SalesInvoicesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.xml { render :finvoice }
+      format.xml do
+        @finvoice = Finvoice.new invoice_id: @sales_invoice.id
+        render :finvoice
+      end
     end
   end
 
