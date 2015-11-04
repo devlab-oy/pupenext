@@ -212,7 +212,7 @@ fi:
         rahdinkuljettaja: Kuljetusyhtiö
         rahti_tuotenumero: Rahtiveloitus tuotenumero
         rahtikirja: Rahtikirjatyyppi
-        rahtikirjakopio_email:
+        rahtikirjakopio_email: 
         sallitut_alustat: Sallitut keräilyalustat
         sallitut_maat: Sallitut maat
         selite: Nimitys
@@ -543,9 +543,10 @@ fi:
         last_ordering_time: Viimeinen tilausaika
         link_new: Lisää uusi lähtö
         no_selected:
+          customer_category: Ei asiakasluokkaa
           day: Ei valittua päivää
           terminal_area: Ei terminaalialuetta
-          customer_category: Ei asiakasluokkaa
+          warehouse: Ei varastoa
         start_date: Alkamispäivämäärä
         status: Tila
         terminal_area: Terminaalialue
@@ -849,7 +850,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -875,7 +876,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

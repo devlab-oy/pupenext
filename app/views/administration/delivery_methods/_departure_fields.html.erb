@@ -24,7 +24,7 @@
   </td>
 
   <td>
-    <%= f.text_field :varasto, class: :large %>
+    <%= f.select :varasto, warehouse_options, { include_blank: t('administration.delivery_methods.departures.no_selected.warehouse') }, class: 'chosen-select' %>
   </td>
 
   <td>
@@ -36,7 +36,7 @@
   </td>
 
   <td>
-    <%= f.pupenext_date_field :alkupvm, class: :large %>
+    <%= f.text_field :alkupvm, class: :large %>
   </td>
 
   <td>

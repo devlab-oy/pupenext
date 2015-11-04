@@ -19,4 +19,10 @@ module Administration::DepartureHelper
       [ c.label, c.code ]
     end
   end
+
+  def warehouse_options
+    Warehouse.order(:nimitys).pluck(:nimitys, :tunnus) do |c|
+      [ c.nimitys, c.tunnus ]
+    end
+  end
 end

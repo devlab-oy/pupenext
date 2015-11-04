@@ -9,17 +9,23 @@ class Administration::DepartureHelperTest < ActionView::TestCase
     assert_equal 1, day_of_the_week_options.first.second
   end
 
-  test "returns translated terminal area options valid for collection" do
+  test "returns terminal area options valid for collection" do
     assert terminal_area_options.is_a? Array
 
     assert_equal 'Lastauslaituri', terminal_area_options.first.first
     assert_equal 'LASTAUS', terminal_area_options.first.second
   end
 
-  test "returns translated customer category options valid for collection" do
+  test "returns customer category options valid for collection" do
     assert customer_category_options.is_a? Array
 
     assert_equal 'Täysi-ikäinen', customer_category_options.first.first
     assert_equal '18', customer_category_options.first.second
+  end
+
+  test "returns warehouse options valid for collection" do
+    assert warehouse_options.is_a? Array
+
+    assert_equal 'Veikkolan varasto', warehouse_options.first.first
   end
 end
