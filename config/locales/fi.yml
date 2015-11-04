@@ -532,8 +532,17 @@ fi:
         control_character: Ohjausmerkki
         customer_category: Asiakasluokka
         day_of_the_week: Lähdön viikonpäivä
+        day_of_the_week_options:
+          friday: Perjantai
+          monday: Maanantai
+          saturday: Lauantai
+          sunday: Sunnuntai
+          thursday: Torstai
+          tuesday: Tiistai
+          wednesday: Keskiviikko
         last_ordering_time: Viimeinen tilausaika
         link_new: Lisää uusi lähtö
+        no_selected_day: Ei valittua päivää
         start_date: Alkamispäivämäärä
         status: Tila
         terminal_area: Terminaalialue

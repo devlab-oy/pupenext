@@ -1,6 +1,6 @@
 <tr class='nested-fields'>
   <td>
-    <%= f.text_field :lahdon_viikonpvm, class: :large %>
+    <%= f.select :lahdon_viikonpvm, day_of_the_week_options, { include_blank: t('administration.delivery_methods.departures.no_selected_day') }, class: 'chosen-select' %>
   </td>
 
   <td>
