@@ -68,7 +68,7 @@ class Administration::DeliveryMethodsController < AdministrationController
         :toim_maa, :toim_nimi, :toim_nimitark, :toim_osoite, :toim_ovttunnus,
         :toim_postino, :toim_postitp, :tulostustapa, :ulkomaanlisa, :uudet_pakkaustiedot,
         :vaihtoehtoinen_vak_toimitustapa, :vak_kielto, :virallinen_selite,
-        translations_attributes: [ :id, :kieli, :selitetark, :_destroy ],
+        translations_attributes: [:id, :kieli, :selitetark, :_destroy],
         departures_attributes: [
           :id,
           :kerailyn_aloitusaika,
@@ -78,6 +78,9 @@ class Administration::DeliveryMethodsController < AdministrationController
           :terminaalialue,
           :asiakasluokka,
           :varasto,
+          :aktiivi,
+          :ohjausmerkki,
+          {alkupvm: [:day, :month, :year]},
           :_destroy
         ],
       )

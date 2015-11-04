@@ -528,14 +528,17 @@ fi:
       create:
         create_success: Toimitustapa luotiin onnistuneesti
       departures:
-        asiakasluokka: Asiakasluokka
-        kerailyn_aloitusaika: Keräilyn aloitusaika
-        lahdon_kellonaika: Lähdön kellonaika
-        lahdon_viikonpvm: Lähdön viikonpäivä
+        collecting_start_time: Keräilyn aloitusaika
+        control_character: Ohjausmerkki
+        customer_category: Asiakasluokka
+        day_of_the_week: Lähdön viikonpäivä
+        last_ordering_time: Viimeinen tilausaika
         link_new: Lisää uusi lähtö
-        terminaalialue: Terminaalialue
-        varasto: Varasto
-        viimeinen_tilausaika: Viimeinen tilausaika
+        start_date: Alkamispäivämäärä
+        status: Tila
+        terminal_area: Terminaalialue
+        time: Lähdön kellonaika
+        warehouse: Varasto
       destroy:
         destroy_success: Toimitustapa poistettiin onnistuneesti
       edit:
