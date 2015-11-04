@@ -10,7 +10,7 @@ Pupesoft::Application.routes.draw do
   post 'pending_product_updates/to_product', to: 'pending_product_updates#to_product'
   resources :pending_product_updates
 
-  get 'invoices/show'
+  resources :sales_invoices
 
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
