@@ -542,8 +542,10 @@ fi:
           wednesday: Keskiviikko
         last_ordering_time: Viimeinen tilausaika
         link_new: Lisää uusi lähtö
-        no_selected_day: Ei valittua päivää
-        no_selected_terminal_area: Ei terminaalialuetta
+        no_selected:
+          day: Ei valittua päivää
+          terminal_area: Ei terminaalialuetta
+          customer_category: Ei asiakasluokkaa
         start_date: Alkamispäivämäärä
         status: Tila
         terminal_area: Terminaalialue

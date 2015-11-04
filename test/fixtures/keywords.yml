@@ -81,6 +81,12 @@ terminal_area:
   laji: TERMINAALIALUE
   <<: *DEFAULTS
 
+customer_category:
+  selite: 18
+  selitetark: Täysi-ikäinen
+  laji: ASIAKASLUOKKA
+  <<: *DEFAULTS
+
 customs:
   selite: FI001000
   selitetark: Helsinki Postitulli

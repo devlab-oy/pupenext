@@ -13,4 +13,10 @@ module Administration::DepartureHelper
       [ c.label, c.code ]
     end
   end
+
+  def customer_category_options
+    Keyword::CustomerCategory.order(:label, :code).pluck(:label, :code) do |c|
+      [ c.label, c.code ]
+    end
+  end
 end

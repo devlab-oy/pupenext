@@ -1,6 +1,6 @@
 <tr class='nested-fields'>
   <td>
-    <%= f.select :lahdon_viikonpvm, day_of_the_week_options, { include_blank: t('administration.delivery_methods.departures.no_selected_day') }, class: 'chosen-select' %>
+    <%= f.select :lahdon_viikonpvm, day_of_the_week_options, { include_blank: t('administration.delivery_methods.departures.no_selected.day') }, class: 'chosen-select' %>
   </td>
 
   <td>
@@ -16,11 +16,11 @@
   </td>
 
   <td>
-    <%= f.select :terminaalialue, terminal_area_options, { include_blank: t('administration.delivery_methods.departures.no_selected_terminal_area') }, class: 'chosen-select' %>
+    <%= f.select :terminaalialue, terminal_area_options, { include_blank: t('administration.delivery_methods.departures.no_selected.terminal_area') }, class: 'chosen-select' %>
   </td>
 
   <td>
-    <%= f.text_field :asiakasluokka, class: :large %>
+    <%= f.select :asiakasluokka, customer_category_options, { include_blank: t('administration.delivery_methods.departures.no_selected.customer_category') }, class: 'chosen-select' %>
   </td>
 
   <td>
