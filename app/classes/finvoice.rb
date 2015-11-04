@@ -13,29 +13,29 @@ class Finvoice
     doc.Finvoice(
       "Version" => "2.01",
       "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-      "xsi:noNamespaceSchemaLocation" => "Finvoice2.01.xsd") {
+      "xsi:noNamespaceSchemaLocation" => "Finvoice2.01.xsd") do
 
-      doc.MessageTransmissionDetails {
-        doc.MessageSenderDetails {
+      doc.MessageTransmissionDetails do
+        doc.MessageSenderDetails do
           senderdetails
-        }
-        doc.MessageReceiverDetails {
+        end
+        doc.MessageReceiverDetails do
           receiverdetails
-        }
-        doc.MessageDetails {
+        end
+        doc.MessageDetails do
           messagedetails
-        }
-      }
+        end
+      end
 
-      doc.SellerPartyDetails {
+      doc.SellerPartyDetails do
         sellerpartydetails
-      }
+      end
 
       sellerinfo
 
-      doc.SellerInformationDetails {
+      doc.SellerInformationDetails do
         sellerinfodetails
-      }
+      end
 
       recipientdetails
 
@@ -43,24 +43,24 @@ class Finvoice
 
       deliverypartydetails
 
-      doc.DeliveryDetails {
+      doc.DeliveryDetails do
         deliverydetails
-      }
+      end
 
-      doc.InvoiceDetails {
+      doc.InvoiceDetails do
         invoicedetails
-      }
+      end
 
-      doc.PaymentStatusDetails {
+      doc.PaymentStatusDetails do
         paymentstatus
-      }
+      end
 
       invoicerows
 
-      doc.EpiDetails {
+      doc.EpiDetails do
         epidetails
-      }
-    }
+      end
+    end
 
     procinst = Nokogiri::XML::ProcessingInstruction.new(doc.doc, "xml-stylesheet",
                                                  'href="Finvoice.xsl" type="text/xsl" ')
@@ -200,13 +200,14 @@ class Finvoice
       doc.SellerPartyIdentifier @invoice.company.ytunnus_human
       doc.SellerOrganisationName @invoice.yhtio_nimi
       doc.SellerOrganisationTaxCode @invoice.company_vatnumber_human
-      doc.SellerPostalAddressDetails {
+
+      doc.SellerPostalAddressDetails do
         doc.SellerStreetName @invoice.yhtio_osoite
         doc.SellerTownName @invoice.yhtio_postitp
         doc.SellerPostCodeIdentifier @invoice.yhtio_postino
         doc.CountryCode @invoice.yhtio_maa
         doc.CountryName @invoice.yhtio_maa
-      }
+      end
     end
 
     def sellerinfo
@@ -215,10 +216,10 @@ class Finvoice
       doc.SellerOrganisationUnitNumber @invoice.yhtio_ovttunnus
       doc.SellerContactPersonName @invoice.seller.nimi
 
-      doc.SellerCommunicationDetails {
+      doc.SellerCommunicationDetails do
        doc.SellerPhoneNumberIdentifier companyinfo[:puhelin]
        doc.SellerEmailaddressIdentifier companyinfo[:email]
-      }
+      end
     end
 
     def sellerinfodetails
@@ -232,20 +233,21 @@ class Finvoice
       doc.SellerWebaddressIdentifier companyinfo[:www]
 
       @invoice.terms_of_payment.bank_account_details.each do |account|
-        doc.SellerAccountDetails {
-          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") {
+        doc.SellerAccountDetails do
+          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") do
             doc.text(account[:iban])
-          }
-          doc.SellerBic("IdentificationSchemeName" => "BIC") {
+          end
+
+          doc.SellerBic("IdentificationSchemeName" => "BIC") do
             doc.text(account[:bic])
-          }
-        }
+          end
+        end
       end
     end
 
     def recipientdetails
       if @invoice.has_separate_invoice_recipient
-        doc.InvoiceRecipientPartyDetails {
+        doc.InvoiceRecipientPartyDetails do
           doc.InvoiceRecipientPartyIdentifier @invoice.ytunnus_human
           doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimi
           doc.InvoiceRecipientOrganisationName @invoice.extra.laskutus_nimitark
@@ -255,65 +257,69 @@ class Finvoice
             doc.InvoiceRecipientOrganisationTaxCode @invoice.vatnumber_human
           end
 
-          doc.InvoiceRecipientPostalAddressDetails {
+          doc.InvoiceRecipientPostalAddressDetails do
             doc.InvoiceRecipientStreetName @invoice.extra.laskutus_osoite
             doc.InvoiceRecipientTownName @invoice.extra.laskutus_postitp
             doc.InvoiceRecipientPostCodeIdentifier @invoice.extra.laskutus_postino
             doc.CountryCode @invoice.extra.laskutus_maa
             doc.CountryName @invoice.extra.laskutus_maa
-          }
-        }
+          end
+        end
 
         doc.InvoiceRecipientOrganisationUnitNumber @invoice.ovttunnus
       end
     end
 
     def buyerpartydetails
-      doc.BuyerPartyDetails {
+      doc.BuyerPartyDetails do
         doc.BuyerPartyIdentifier @invoice.ytunnus_human
         doc.BuyerOrganisationName @invoice.nimi
         doc.BuyerOrganisationName @invoice.nimitark
         doc.BuyerOrganisationTaxCode @invoice.vatnumber_human
-        doc.BuyerPostalAddressDetails {
+
+        doc.BuyerPostalAddressDetails do
           doc.BuyerStreetName @invoice.osoite
           doc.BuyerTownName @invoice.postitp
           doc.BuyerPostCodeIdentifier @invoice.postino
           doc.CountryCode @invoice.maa
           doc.CountryName @invoice.maa
-        }
-      }
+        end
+      end
 
       doc.BuyerOrganisationUnitNumber @invoice.ovttunnus
       doc.BuyerContactPersonName @invoice.contact_person_name
     end
 
     def deliverypartydetails
-      doc.DeliveryPartyDetails {
+      doc.DeliveryPartyDetails do
         doc.DeliveryPartyIdentifier @invoice.ytunnus_human
         doc.DeliveryOrganisationName @invoice.toim_nimi
         doc.DeliveryOrganisationName @invoice.toim_nimitark
         doc.DeliveryOrganisationTaxCode @invoice.vatnumber_human
-        doc.DeliveryPostalAddressDetails {
+
+        doc.DeliveryPostalAddressDetails do
           doc.DeliveryStreetName @invoice.toim_osoite
           doc.DeliveryTownName @invoice.toim_postitp
           doc.DeliveryPostCodeIdentifier @invoice.toim_postino
           doc.CountryCode @invoice.toim_maa
           doc.CountryName @invoice.toim_maa
-        }
-      }
+        end
+      end
 
       doc.DeliveryOrganisationUnitNumber @invoice.toim_ovttunnus
     end
 
     def deliverydetails
-      doc.DeliveryPeriodDetails {
-        doc.StartDate("Format" => "CCYYMMDD") {
+      doc.DeliveryPeriodDetails do
+        doc.StartDate("Format" => "CCYYMMDD") do
           doc.text(@invoice.deliveryperiod_start.strftime("%Y%m%d"))
-        }
-        doc.EndDate("Format" => "CCYYMMDD") {
+        end
+
+        doc.EndDate("Format" => "CCYYMMDD") do
           doc.text(@invoice.deliveryperiod_end.strftime("%Y%m%d"))
-        }
-      }
+        end
+      end
+
       doc.DeliveryMethodText @invoice.toimitustapa
       doc.DeliveryTermsText @invoice.toimitusehto
     end
@@ -329,9 +335,11 @@ class Finvoice
 
       doc.OriginCode "Original"
       doc.InvoiceNumber @invoice.laskunro
-      doc.InvoiceDate("Format" => "CCYYMMDD") {
+
+      doc.InvoiceDate("Format" => "CCYYMMDD") do
         doc.text(@invoice.tapvm.strftime("%Y%m%d"))
-      }
+      end
+
       doc.SellerReferenceIdentifier @invoice.tunnus
 
       if @invoice.asiakkaan_tilausnumero.strip.present?
@@ -342,61 +350,69 @@ class Finvoice
 
       doc.AgreementIdentifier @invoice.viesti
 
-      doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+      doc.InvoiceTotalVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
         doc.text(finvoice_number(@invoice.arvo_valuutassa))
-      }
-      doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+      end
+
+      doc.InvoiceTotalVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
         alv = (@invoice.summa_valuutassa - @invoice.arvo_valuutassa).round(2)
         doc.text(finvoice_number(alv))
-      }
-      doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+      end
+
+      doc.InvoiceTotalVatIncludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
         doc.text(finvoice_number(@invoice.summa_valuutassa))
-      }
+      end
 
       @invoice.vat_specification.each do |vat|
-        doc.VatSpecificationDetails {
-          doc.VatBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+        doc.VatSpecificationDetails do
+          doc.VatBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) do
             doc.text(finvoice_number(vat[:base_amount]))
-          }
+          end
+
           doc.VatRatePercent finvoice_number(vat[:vat_rate])
-          doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
+
+          doc.VatRateAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) do
            doc.text(finvoice_number(vat[:vat_amount]))
-          }
+          end
 
           if @invoice.reverse_charge
             doc.VatFreeText "Ostaja verovelvollinen AVL 8c §"
           end
-        }
+        end
       end
 
       doc.InvoiceFreeText @invoice.public_comment
 
-      doc.PaymentTermsDetails {
+      doc.PaymentTermsDetails do
         doc.PaymentTermsFreeText @invoice.terms_of_payment.teksti
-        doc.InvoiceDueDate("Format" => "CCYYMMDD") {
-          doc.text(@invoice.erpcm.strftime("%Y%m%d"))
-        }
 
-        if @invoice.kasumma_valuutassa != 0
-          doc.CashDiscountDate("Format" => "CCYYMMDD") {
-            doc.text(@invoice.kapvm.strftime("%Y%m%d"))
-          }
-          doc.CashDiscountBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
-            doc.text(finvoice_number(@invoice.summa_valuutassa))
-          }
-          doc.CashDiscountPercent finvoice_number(@invoice.terms_of_payment.kassa_alepros)
-          doc.CashDiscountAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) {
-            doc.text(finvoice_number(@invoice.kasumma_valuutassa))
-          }
+        doc.InvoiceDueDate("Format" => "CCYYMMDD") do
+          doc.text(@invoice.erpcm.strftime("%Y%m%d"))
         end
 
-        doc.PaymentOverDueFineDetails {
+        if @invoice.kasumma_valuutassa != 0
+          doc.CashDiscountDate("Format" => "CCYYMMDD") do
+            doc.text(@invoice.kapvm.strftime("%Y%m%d"))
+          end
+
+          doc.CashDiscountBaseAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) do
+            doc.text(finvoice_number(@invoice.summa_valuutassa))
+          end
+
+          doc.CashDiscountPercent finvoice_number(@invoice.terms_of_payment.kassa_alepros)
+
+          doc.CashDiscountAmount("AmountCurrencyIdentifier" =>  @invoice.valkoodi) do
+            doc.text(finvoice_number(@invoice.kasumma_valuutassa))
+          end
+        end
+
+        doc.PaymentOverDueFineDetails do
           korko = finvoice_number(@invoice.viikorkopros)
 
           doc.PaymentOverDueFineFreeText "Viivästyskorko #{korko}%"
           doc.PaymentOverDueFinePercent korko
-        }
-      }
+        end
+      end
     end
 
     def paymentstatus
@@ -405,34 +421,37 @@ class Finvoice
 
     def invoicerows
       @invoice.rows.each do |row|
-        doc.InvoiceRow {
+        doc.InvoiceRow do
           doc.ArticleIdentifier row.tuoteno
           doc.ArticleName row.nimitys
-          doc.DeliveredQuantity("QuantityUnitCode" => row.yksikko) {
+
+          doc.DeliveredQuantity("QuantityUnitCode" => row.yksikko) do
             doc.text(finvoice_number(row.kpl))
-          }
-          doc.OrderedQuantity("QuantityUnitCode" => row.yksikko) {
+          end
+
+          doc.OrderedQuantity("QuantityUnitCode" => row.yksikko) do
             doc.text(finvoice_number(row.tilkpl))
-          }
-          doc.UnitPriceAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+          end
+
+          doc.UnitPriceAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
             doc.text(finvoice_number(row.hinta_valuutassa))
-          }
+          end
 
           if row.tilaajanrivinro > 0
             doc.RowIdentifier row.tilaajanrivinro
           end
 
           if row.order.luontiaika.strftime("%Y%m%d") < row.delivery_date.strftime("%Y%m%d")
-            doc.RowIdentifierDate("Format" => "CCYYMMDD") {
+            doc.RowIdentifierDate("Format" => "CCYYMMDD") do
               doc.text(row.order.luontiaika.strftime("%Y%m%d"))
-            }
+            end
           end
 
           doc.RowDeliveryIdentifier row.order.id
 
-          doc.RowDeliveryDate("Format" => "CCYYMMDD") {
+          doc.RowDeliveryDate("Format" => "CCYYMMDD") do
             doc.text(row.delivery_date.strftime("%Y%m%d"))
-          }
+          end
 
           if row.invoice_comment.present?
             doc.RowFreeText row.invoice_comment
@@ -440,56 +459,68 @@ class Finvoice
 
           doc.RowDiscountPercent finvoice_number(row.total_discount)
           doc.RowVatRatePercent finvoice_number(row.vat_percent)
-          doc.RowVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+
+          doc.RowVatAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
             doc.text(finvoice_number(row.vat_amount))
-          }
-          doc.RowVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+          end
+
+          doc.RowVatExcludedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
             doc.text(finvoice_number(row.rivihinta_valuutassa))
-          }
-          doc.RowAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+          end
+
+          doc.RowAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
             doc.text(finvoice_number(row.rivihinta_verollinen))
-          }
-        }
+          end
+        end
       end
     end
 
     def epidetails
-      doc.EpiIdentificationDetails {
-        doc.EpiDate("Format" => "CCYYMMDD") {
+      doc.EpiIdentificationDetails do
+
+        doc.EpiDate("Format" => "CCYYMMDD") do
           doc.text(@invoice.tapvm.strftime("%Y%m%d"))
-        }
+        end
+
         doc.EpiReference @invoice.viite
-      }
+      end
 
       bank_account = @invoice.terms_of_payment.bank_account_details.first
 
-      doc.EpiPartyDetails {
-        doc.EpiBfiPartyDetails {
-          doc.EpiBfiIdentifier("IdentificationSchemeName" => "BIC") {
+      doc.EpiPartyDetails do
+        doc.EpiBfiPartyDetails do
+          doc.EpiBfiIdentifier("IdentificationSchemeName" => "BIC") do
             doc.text(bank_account[:bic])
-          }
-        }
-        doc.EpiBeneficiaryPartyDetails {
+          end
+        end
+
+        doc.EpiBeneficiaryPartyDetails do
           doc.EpiNameAddressDetails @invoice.company.nimi
           doc.EpiBei @invoice.company.ytunnus_human
-          doc.EpiAccountID("IdentificationSchemeName" => "IBAN") {
+
+          doc.EpiAccountID("IdentificationSchemeName" => "IBAN") do
             doc.text(bank_account[:iban])
-          }
-        }
-      }
-      doc.EpiPaymentInstructionDetails {
+          end
+        end
+      end
+
+      doc.EpiPaymentInstructionDetails do
         doc.EpiPaymentInstructionId "192837465"
-        doc.EpiRemittanceInfoIdentifier("IdentificationSchemeName" => "ISO") {
+
+        doc.EpiRemittanceInfoIdentifier("IdentificationSchemeName" => "ISO") do
           doc.text("RF471234567890")
-        }
-        doc.EpiInstructedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) {
+        end
+
+        doc.EpiInstructedAmount("AmountCurrencyIdentifier" => @invoice.valkoodi) do
           doc.text(finvoice_number(@invoice.summa_valuutassa))
-        }
-        doc.EpiCharge("ChargeOption" => "SLEV") {
-        }
-        doc.EpiDateOptionDate("Format" => "CCYYMMDD") {
+        end
+
+        doc.EpiCharge("ChargeOption" => "SLEV") do
+        end
+
+        doc.EpiDateOptionDate("Format" => "CCYYMMDD") do
           doc.text(@invoice.erpcm.strftime("%Y%m%d"))
-        }
-      }
+        end
+      end
     end
 end
