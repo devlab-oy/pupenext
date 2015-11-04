@@ -549,6 +549,9 @@ fi:
           warehouse: Ei varastoa
         start_date: Alkamispäivämäärä
         status: Tila
+        status_options:
+          in_use: Käytössä
+          not_in_use: Ei käytössä
         terminal_area: Terminaalialue
         time: Lähdön kellonaika
         warehouse: Varasto

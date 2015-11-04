@@ -25,4 +25,11 @@ module Administration::DepartureHelper
       [ c.nimitys, c.tunnus ]
     end
   end
+
+  def status_options
+    [
+      [ t("#{ROOT}.status_options.in_use"), :in_use ],
+      [ t("#{ROOT}.status_options.not_in_use"), :not_in_use ],
+    ]
+  end
 end

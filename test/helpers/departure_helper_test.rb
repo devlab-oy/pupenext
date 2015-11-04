@@ -28,4 +28,11 @@ class Administration::DepartureHelperTest < ActionView::TestCase
 
     assert_equal 'Veikkolan varasto', warehouse_options.first.first
   end
+
+  test "returns status options valid for collection" do
+    assert status_options.is_a? Array
+
+    assert_equal 'Ei käytössä', status_options.second.first
+    assert_equal :not_in_use, status_options.second.second
+  end
 end
