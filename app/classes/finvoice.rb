@@ -9,12 +9,13 @@ class Finvoice
   end
 
   def to_xml
-
-    doc.Finvoice(
+    params = {
       "Version" => "2.01",
       "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-      "xsi:noNamespaceSchemaLocation" => "Finvoice2.01.xsd") do
+      "xsi:noNamespaceSchemaLocation" => "Finvoice2.01.xsd"
+    }
 
+    doc.Finvoice(params) do
       doc.MessageTransmissionDetails do
         doc.MessageSenderDetails do
           senderdetails
@@ -62,8 +63,7 @@ class Finvoice
       end
     end
 
-    procinst = Nokogiri::XML::ProcessingInstruction.new(doc.doc, "xml-stylesheet",
-                                                 'href="Finvoice.xsl" type="text/xsl" ')
+    procinst = Nokogiri::XML::ProcessingInstruction.new(doc.doc, 'xml-stylesheet', 'href="Finvoice.xsl" type="text/xsl"')
     doc.doc.root.add_previous_sibling procinst
 
     return_valid_xml
