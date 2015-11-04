@@ -16,7 +16,7 @@
   </td>
 
   <td>
-    <%= f.text_field :terminaalialue, class: :large %>
+    <%= f.select :terminaalialue, terminal_area_options, { include_blank: t('administration.delivery_methods.departures.no_selected_terminal_area') }, class: 'chosen-select' %>
   </td>
 
   <td>

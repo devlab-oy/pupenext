@@ -7,4 +7,10 @@ module Administration::DepartureHelper
       result << [t("#{ROOT}.day_of_the_week_options.#{day.first}"), index]
     end
   end
+
+  def terminal_area_options
+    Keyword::TerminalArea.order(:label, :code).pluck(:label, :code) do |c|
+      [ c.label, c.code ]
+    end
+  end
 end

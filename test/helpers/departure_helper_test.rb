@@ -8,4 +8,11 @@ class Administration::DepartureHelperTest < ActionView::TestCase
     assert_equal text, day_of_the_week_options.first.first
     assert_equal 1, day_of_the_week_options.first.second
   end
+
+  test "returns translated terminal area options valid for collection" do
+    assert terminal_area_options.is_a? Array
+
+    assert_equal 'Lastauslaituri', terminal_area_options.first.first
+    assert_equal 'LASTAUS', terminal_area_options.first.second
+  end
 end
