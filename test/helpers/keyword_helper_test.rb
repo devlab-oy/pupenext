@@ -13,7 +13,7 @@ class KeywordHelperTest < ActionView::TestCase
 
   test "should get customs options" do
     assert_kind_of Array, customs_options
-    assert_equal 'FI001000', customs_options.first.second
+    assert_equal 'FI0', customs_options.first.second
   end
 
   test "should get sorting point options" do
