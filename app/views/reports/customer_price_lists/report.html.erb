@@ -41,7 +41,7 @@
         <li><%= current_company.postino %> <%= current_company.postitp %></li>
       </ul>
     </td>
-    <td>
+    <td class="inner-table-container">
       <table>
         <tr>
           <% if @customer %>
@@ -183,35 +183,41 @@
     %>
 
     <tr>
-      <td><strong><%= p.tuoteno %></strong></td>
-      <td><strong><%= p.nimitys %></strong></td>
+      <td colspan="3" class="inner-table-container">
+        <table>
+          <tr>
+            <td><strong><%= p.tuoteno %></strong></td>
+            <td><strong><%= p.nimitys %></strong></td>
 
-      <td>
-        <%= number_to_currency(price[:hinta]) %>
+            <td>
+              <%= number_to_currency(price[:hinta]) %>
 
-        <% unless price[:hinta_peruste].to_i == 18 %>
-          (<%= t('.contract_price') %>)
-        <% end %>
+              <% unless price[:hinta_peruste].to_i == 18 %>
+                (<%= t('.contract_price') %>)
+              <% end %>
+            </td>
+          </tr>
+
+          <% if lyhytkuvaus %>
+            <tr>
+              <td colspan="5"><%= lyhytkuvaus %></td>
+            </tr>
+          <% end %>
+
+          <% if image || kuvaus %>
+            <tr>
+              <% if image %>
+                <td>
+                  <img src="data:image/jpg;base64,<%= Base64.encode64(image) %>" style="width: 100%;"/>
+                </td>
+              <% end %>
+
+              <td colspan="4"><%= kuvaus %></td>
+            </tr>
+          <% end %>
+        </table>
       </td>
     </tr>
-
-    <% if lyhytkuvaus %>
-      <tr>
-        <td colspan="5"><%= lyhytkuvaus %></td>
-      </tr>
-    <% end %>
-
-    <% if image || kuvaus %>
-      <tr>
-        <% if image %>
-          <td>
-            <img src="data:image/jpg;base64,<%= Base64.encode64(image) %>" style="width: 100%;"/>
-          </td>
-        <% end %>
-
-        <td colspan="4"><%= kuvaus %></td>
-      </tr>
-    <% end %>
   <% end %>
 
   </tbody>
