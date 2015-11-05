@@ -35,7 +35,7 @@ module DeliveryMethodHelper
       [ t("#{ROOT}.label_options.#{key}"), key ]
     end
 
-    options.reject { |_,key| !Current.company.parameter.use_kerayserat? && key == 'simple_label' }
+    options.reject { |_,key| !Current.company.parameter.collection_batch_based_on_dimensions? && key == 'simple_label' }
   end
 
   def pickup_options
