@@ -14,18 +14,6 @@ class DeliveryMethod::Departure < BaseModel
 
   splittable_dates :alkupvm
 
-  def kerailyn_aloitusaika
-    TimeOfDay.new(time: read_attribute(:kerailyn_aloitusaika))
-  end
-
-  def lahdon_kellonaika
-    TimeOfDay.new(time: read_attribute(:lahdon_kellonaika))
-  end
-
-  def viimeinen_tilausaika
-    TimeOfDay.new(time: read_attribute(:viimeinen_tilausaika))
-  end
-
   self.table_name = :toimitustavan_lahdot
   self.primary_key = :tunnus
 
