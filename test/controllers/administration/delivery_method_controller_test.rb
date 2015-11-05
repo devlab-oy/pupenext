@@ -3,6 +3,7 @@ require 'test_helper'
 class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   fixtures %w(
     delivery_methods
+    delivery_method/departures
     packages
   )
 
