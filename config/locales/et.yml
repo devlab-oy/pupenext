@@ -176,6 +176,13 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      delivery_method:
+        jarjestys: Järjekord
+        jvkulu: Lunamaksekulu
+        kuluprosentti: Kuluprotsent
+        merahti: Veoleping
+        selite: Nimetus
+        tulostustapa: Väljastamisviis
       keyword:
         jarjestys: Järjekord
         kieli: Keel
@@ -233,6 +240,8 @@ et:
         printteri7: 
         prio: 
         varasto: Ladu
+      pending_updates:
+        value: Väärtus
       printer:
         ip: ip
         jarjestys: Järjekord
@@ -292,6 +301,10 @@ et:
       translations:
         kieli: 
         selitetark: 
+      transport:
+        customer: Klient
+        password: Parool
+        username: Kasutajatunnus
     models:
       account: Arve
       bank_account: Pangakonto
@@ -299,6 +312,7 @@ et:
       carrier: 
       cash_register: Kassa
       currency: Valuuta
+      delivery_method: Kohaletoimetamise viis
       fiscal_year: Aruandeperiood
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -315,6 +329,7 @@ et:
       package_code: 
       packing_area: 
       printer: Printer
+      product/keyword: Toote märksonad
       qualifier: TÃ¤psustus
       qualifier/cost_center: Kulukoht
       qualifier/project: Projekt
@@ -437,6 +452,32 @@ et:
       visibility_options:
         hidden: 
         visible: 
+    delivery_methods:
+      container_options:
+        includes_container: Jah
+        not_including_container: Ei
+      departures:
+        day_of_the_week_options:
+          friday: Reede
+          monday: Esmaspäev
+          saturday: Laupäev
+          sunday: Pyhapäev
+          thursday: Neljapäev
+          tuesday: Teisipäev
+          wednesday: Kolmapäev
+        status: Staatus
+        status_options:
+          in_use: Kasutusel
+          not_in_use: Ei ole kasutusel
+        warehouse: Ladu
+      edit:
+        header: Kohaletoimetamise viis
+        no_select: Valikut ei ole
+      index:
+        button_search: Otsi
+        header: Tarnimisviisid
+      label_options:
+        normal_label: Normaalne
     fiscal_years:
       create:
         create_success: 
@@ -578,6 +619,9 @@ et:
       forbidden: 
     authorize:
       unauthorized: 
+  data_export:
+    product_keywords:
+      header: Toote märksonad
   date:
     abbr_day_names:
     - P
@@ -674,6 +718,10 @@ et:
       month: Kuu
       second: Sekundit
       year: Aasta
+  downloads:
+    index:
+      created_at: Koostamise aeg
+      destroy: Kustuta
   errors:
     cash_register:
       kassa_missing: 
@@ -840,12 +888,54 @@ et:
     percentage:
       format:
         format: 
+  pending_product_updates:
+    index:
+      deleted: Staatus
+      label: Nimetus
+      search: Otsi
+      sku: Tootenumber
+      suppliers_sku: Tarnija tootenumber
+    list:
+      label: Nimetus
+      price: hind
+      save: Salvesta muudatused
+      sku: Tootenumber
+    list_of_changes:
+      not_found: Yhtki toodet ei leitud
+    pending_columns_options:
+      sales_price: Myygihind
+    pending_price_options:
+      sales_price: Myygihind
+    pending_update_fields:
+      delete: Kustuta
+  products:
+    categories_selection:
+      brand: Märk
+      category: Osakond
   reports:
     revenue_expenditure:
       index:
         accounts_receivable: Laekumised myygist
         summary: Kokku
         week: Nädal
+    stock_availability:
+      form:
+        constraints: Piiritlemine
+      show_data:
+        product: Toode
+        stock: Laosaldo
+        total: Kokku
+        week: Nädal
+      view_connected_sales_orders:
+        information: Tellimuse viide
+        order_number: Tellimuse number
+        ordered_amount: Tellitud
+        product_info: Tootenumber
+        shipping_address: Tarne sihtaadress
+        total_amount: Arve summa
+    stock_listing_csv:
+      index:
+        run: Käita aruannet
   shared:
     excel:
       user: Kasutaja

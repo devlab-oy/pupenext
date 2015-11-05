@@ -176,6 +176,9 @@ en:
         viivastyskorko: Penalty interest rate
         www: www
         ytunnus: VAT nr
+      delivery_method:
+        merahti: Freight contract
+        selite: Product name
       keyword:
         jarjestys: 
         kieli: 
@@ -233,6 +236,8 @@ en:
         printteri7: 
         prio: 
         varasto: Storage
+      pending_updates:
+        value: Value excl VAT
       printer:
         ip: Ip
         jarjestys: Order
@@ -292,6 +297,10 @@ en:
       translations:
         kieli: 
         selitetark: 
+      transport:
+        customer: Customer
+        password: Passwd
+        username: User
     models:
       account: Account
       bank_account: 
@@ -299,6 +308,7 @@ en:
       carrier: 
       cash_register: Kassa
       currency: Currency
+      delivery_method: Delivery
       fiscal_year: Fiscal year
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -437,6 +447,24 @@ en:
       visibility_options:
         hidden: 
         visible: 
+    delivery_methods:
+      container_options:
+        includes_container: 'Yes'
+        not_including_container: 'No'
+      departures:
+        day_of_the_week_options:
+          friday: Friday
+          monday: Monday
+          thursday: Thursday
+          tuesday: Tuesday
+          wednesday: Wednesday
+        status: Status
+        warehouse: Storage
+      edit:
+        header: Delivery
+        no_select: Any
+      index:
+        button_search: Search
     fiscal_years:
       create:
         create_success: 
@@ -674,6 +702,10 @@ en:
       month: Month
       second: Seconds
       year: Year
+  downloads:
+    index:
+      created_at: Date of creation
+      destroy: Delete
   errors:
     cash_register:
       kassa_missing: 
@@ -848,11 +880,51 @@ en:
     percentage:
       format:
         format: "%n%"
+  pending_product_updates:
+    index:
+      deleted: Status
+      label: Product name
+      search: Search
+      sku: Product number
+      suppliers_sku: Vendor product nr
+    list:
+      label: Product name
+      price: price
+      sku: Product number
+    list_of_changes:
+      not_found: No products found
+    pending_columns_options:
+      sales_price: Sales price
+      short_description: Short description
+    pending_price_options:
+      sales_price: Sales price
+    pending_update_fields:
+      delete: Delete
+  products:
+    categories_selection:
+      brand: Brand
+      category: Department
   reports:
     revenue_expenditure:
       index:
         accounts_receivable: Accounts receivable
         summary: Total
+    stock_availability:
+      show_data:
+        product: Product
+        purchases: Ordered, not received
+        total: Total
+      view_connected_sales_orders:
+        delivery_date: Delivery Date
+        information: Reference text
+        order_number: Order number
+        ordered_amount: Ordered
+        product_info: Product number
+        shipping_address: Delivery customer
+        total_amount: Amount
+    stock_listing_csv:
+      index:
+        run: Execute report
   shared:
     excel:
       user: User

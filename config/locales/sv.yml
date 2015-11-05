@@ -176,6 +176,13 @@ sv:
         viivastyskorko: 
         www: web
         ytunnus: Org.Nr
+      delivery_method:
+        jarjestys: Ordning
+        jvkulu: Postförskottsavgift
+        kuluprosentti: Kostprocent
+        merahti: Fraktkontrakt
+        selite: Benämning
+        tulostustapa: Utskriftsmetod
       keyword:
         jarjestys: Ordning
         kieli: Språk
@@ -233,6 +240,8 @@ sv:
         printteri7: 
         prio: Prio
         varasto: Lager
+      pending_updates:
+        value: Värde
       printer:
         ip: ip
         jarjestys: Ordning
@@ -292,6 +301,10 @@ sv:
       translations:
         kieli: 
         selitetark: 
+      transport:
+        customer: Kund
+        password: Lösenord
+        username: Användarnamn
     models:
       account: Konto
       bank_account: Bankkonto
@@ -299,6 +312,7 @@ sv:
       carrier: 
       cash_register: 
       currency: Valuta
+      delivery_method: Leveranssätt
       fiscal_year: Räkenskapsår
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -315,6 +329,7 @@ sv:
       package_code: 
       packing_area: 
       printer: Skrivare
+      product/keyword: Nyckelord Artiklar
       qualifier: Specifikation
       qualifier/cost_center: Kostnadsställe
       qualifier/project: Projekt
@@ -437,6 +452,32 @@ sv:
       visibility_options:
         hidden: 
         visible: 
+    delivery_methods:
+      container_options:
+        includes_container: Ja
+        not_including_container: Nej
+      departures:
+        customer_category: kundklass
+        day_of_the_week_options:
+          friday: Fredag
+          monday: Måndag
+          saturday: Lördag
+          sunday: Söndag
+          thursday: Torsdag
+          tuesday: Tisdag
+          wednesday: Onsdag
+        status: Status
+        status_options:
+          not_in_use: ej i bruk
+        warehouse: Lager
+      edit:
+        header: Leveranssätt
+        no_select: Inget val
+      index:
+        button_search: Sök
+        header: Leveranssätt
+      label_options:
+        normal_label: Normal
     fiscal_years:
       create:
         create_success: 
@@ -578,6 +619,9 @@ sv:
       forbidden: 
     authorize:
       unauthorized: 
+  data_export:
+    product_keywords:
+      header: Nyckelord Artiklar
   date:
     abbr_day_names:
     - sön
@@ -674,6 +718,10 @@ sv:
       month: Månad
       second: Sekund
       year: "År"
+  downloads:
+    index:
+      created_at: Skapad
+      destroy: Radera
   errors:
     cash_register:
       kassa_missing: 
@@ -842,12 +890,61 @@ sv:
     percentage:
       format:
         format: "%n%"
+  pending_product_updates:
+    index:
+      deleted: Status
+      label: Benämning
+      search: Sök
+      sku: Artikelnummer
+      suppliers_sku: Leverantörs Art Nr
+    list:
+      label: Benämning
+      price: Pris
+      save: Spara ändringarna
+      sku: Artikelnummer
+    list_of_changes:
+      not_found: Inga artiklar hittades
+    pending_columns_options:
+      sales_price: "ÅfNetto"
+      shop_price: Butikpris
+      short_description: Kort beskrivning
+    pending_price_options:
+      sales_price: "ÅfNetto"
+      shop_price: Butikpris
+    pending_update_fields:
+      delete: Radera
+  products:
+    categories_selection:
+      brand: Märke
+      category: Avdelning
+      subcategory: Grupp
   reports:
     revenue_expenditure:
       index:
         accounts_receivable: Försäljningsfordringar
         summary: Totalt
         week: Vecka
+    stock_availability:
+      form:
+        constraints: Begränsning
+      show_data:
+        past: Försenat
+        product: Artikel
+        purchases: På kommande
+        stock: Lagersaldo
+        total: Totalt
+        week: Vecka
+      view_connected_sales_orders:
+        delivery_date: Leveransdatum
+        information: Orderreferens
+        order_number: Ordernummer
+        ordered_amount: Beställda
+        product_info: Artikelnummer
+        shipping_address: Leveransadress
+        total_amount: Fakturabelopp
+    stock_listing_csv:
+      index:
+        run: Kör rapport
   shared:
     excel:
       time: Körtid

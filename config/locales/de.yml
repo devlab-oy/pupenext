@@ -176,6 +176,25 @@ de:
         viivastyskorko: 
         www: www
         ytunnus: Steuernummer
+      delivery_method:
+        aktiivinen_kuljetus: Standard aktiver Transport
+        aktiivinen_kuljetus_kansallisuus: Standard Nationalität des aktiven Transport
+        jarjestys: Sortierung
+        jvkulu: Nachnahmekosten
+        kauppatapahtuman_luonne: Standard Geschäftsart
+        kontti: Standard Container
+        kuljetusmuoto: Standard Transportart
+        kuluprosentti: Kostenprozent
+        lisakulu: Zusatzkosten
+        maa_maara: Standard Zielland
+        merahti: Frachtvertrag
+        poistumistoimipaikka_koodi: Standard Code des Abtrittgeschäftsstelle
+        rahtikirja: Frachtbrieftyp
+        selite: Bezeichnung
+        sisamaan_kuljetus: Standard Inlandtransport
+        sisamaan_kuljetus_kansallisuus: Standard Nationalität des Inlandtransport
+        sisamaan_kuljetusmuoto: Standard Inlandtransportart
+        tulostustapa: Ausdruckart
       keyword:
         jarjestys: Sortierung
         kieli: Sprache
@@ -233,6 +252,8 @@ de:
         printteri7: 
         prio: Prio
         varasto: Lager
+      pending_updates:
+        value: Wert
       printer:
         ip: ip
         jarjestys: Sortierung
@@ -292,6 +313,10 @@ de:
       translations:
         kieli: 
         selitetark: 
+      transport:
+        customer: Kunde
+        password: Passwort
+        username: Benutzername
     models:
       account: Konto
       bank_account: Bankkonto
@@ -299,6 +324,7 @@ de:
       carrier: 
       cash_register: 
       currency: Währung
+      delivery_method: Versandart
       fiscal_year: Rechnungsjahr
       head/purchase_invoice/approval: 
       head/purchase_invoice/approved: 
@@ -315,6 +341,7 @@ de:
       package_code: 
       packing_area: Packraum/Verpackungsabteilung
       printer: Drucker
+      product/keyword: Schlüsselwörter des Artikels
       qualifier: Ergänzung
       qualifier/cost_center: Kostenstelle
       qualifier/project: Projekt
@@ -437,6 +464,72 @@ de:
       visibility_options:
         hidden: 
         visible: 
+    delivery_methods:
+      adr_prohibition_options:
+        adr_prohibition: Liefern der ADR-Produkte nicht erlaubt bei der Lieferart
+        adr_shipment: ADR-Produkte werden geliefert mit der Lieferart
+        permit_adr: Liefern der ADR-Produkte erlaubt bei der Lieferart
+      cash_on_delivery_prohibition_options:
+        cash_on_delivery_permitted: Liefern der Nachnahmen erlaubt bei der Lieferart
+        cash_on_delivery_prohibition: Liefern der Nachnahmen nicht erlaubt bei der Lieferart
+      container_options:
+        includes_container: Ja
+        not_including_container: Nein
+      departures:
+        customer_category: Kundenklasse
+        day_of_the_week_options:
+          friday: Freitag
+          monday: Montag
+          saturday: Samstag
+          sunday: Sonntag
+          thursday: Donnerstag
+          tuesday: Dienstag
+          wednesday: Mittwoch
+        no_selected:
+          warehouse: Kein Lager
+        status: Status
+        status_options:
+          in_use: Wird benutzt
+          not_in_use: Wird nicht benutzt
+        warehouse: Lager
+      edit:
+        header: Versandart
+        no_select: Beliebig
+      extranet_options:
+        both_in_sales_and_extranet: Lieferart wird in beiden angezeigt
+        only_in_extranet: Lieferart wird nur im Extranet angezeigt
+        only_in_sales: Lieferart wird nur im Verkauf angezeigt
+      index:
+        button_search: Suchen
+        header: Lieferarten
+      label_options:
+        compact_label: Komprimiert
+        intrade_label: Intrade
+        normal_label: Normal
+      packing_line_prohibition_options:
+        not_reserving_packing_line: Aufträge der Lieferart reservieren kein Packraum-/Verpackungsabteilungsfach
+        reserve_packing_line: Aufträge der Lieferart reservieren Packraum-/Verpackungsabteilungsfach
+      pickup_options:
+        pickup: Der Kunde holt die Aufträge ab
+        shipment: Aufträge werden an den Kunden geliefert
+      print_method_options:
+        batch: Losausdrucken
+        collective_batch: Sammel-Losausdrucken
+        collective_instant: Sammel-Sofortausdrucken
+        instant: Sofortausdrucken
+        skip_print: Frachbriefeingabe und -ausdrucken werden überholt
+      saturday_delivery_options:
+        not_saturday_delivery: Keine Samstagsdistribution
+      special_packaging_prohibition_options:
+        special_packaging_permitted: Liefern der Spezialverpackungen erlaubt bei der Lieferart
+        special_packaging_prohibition: Liefern der Spezialverpackungen nicht erlaubt bei der Lieferart
+      transport_unit_options:
+        not_transport_unit: Keinen Transporteinheittransport
+      transportation_insurance_type_options:
+        use_company_default: Standard der Firma
+      waybill_specification_options:
+        no_waybill_specification: Keine Frachtbriefspezifikation für die Lieferart ausdrucken
+        print_waybill_specification: Frachtbriefspezifikation für die Lieferart ausdrucken
     fiscal_years:
       create:
         create_success: 
@@ -578,6 +671,10 @@ de:
       forbidden: 
     authorize:
       unauthorized: 
+  data_export:
+    product_keywords:
+      generate: Excel speichern
+      header: Schlüsselwörter des Artikels
   date:
     abbr_day_names:
     - So
@@ -674,6 +771,10 @@ de:
       month: Monat
       second: Sekunde
       year: Jahr //all are in singular now
+  downloads:
+    index:
+      created_at: Erstellt am
+      destroy: Löschen
   errors:
     cash_register:
       kassa_missing: 
@@ -852,6 +953,32 @@ de:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      deleted: Status
+      label: Bezeichnung
+      search: Suchen
+      sku: Artikelnummer
+      suppliers_sku: Artikelnummer des Lieferanten
+    list:
+      label: Bezeichnung
+      price: Preis
+      save: "Änderungen speichern"
+      sku: Artikelnummer
+    list_of_changes:
+      not_found: Kein Artikel gefunden
+    pending_columns_options:
+      sales_price: Verkaufspreis
+      short_description: Kurzbeschreibung
+    pending_price_options:
+      sales_price: Verkaufspreis
+    pending_update_fields:
+      delete: Löschen
+  products:
+    categories_selection:
+      brand: Marke
+      category: Abteilung
+      subcategory: Gruppe
   reports:
     revenue_expenditure:
       index:
@@ -862,6 +989,27 @@ de:
         concern_accounts_receivable: Konzernforderungen aus Lieferungen und Leistungen
         summary: Gesamt
         week: Woche
+    stock_availability:
+      form:
+        button_run: Pdf
+        constraints: Begrenzung
+      show_data:
+        past: Verspätet
+        product: Artikel
+        purchases: Bestellt, noch nicht erhalten
+        stock: Lagerbestand
+        total: Gesamt
+        week: Woche
+      view_connected_sales_orders:
+        information: Referenz
+        order_number: Auftragsnummer
+        ordered_amount: Bestellt
+        product_info: Artikelnummer
+        shipping_address: Lieferadresse
+        total_amount: Gesamtsumme der Rechnung
+    stock_listing_csv:
+      index:
+        run: Bericht ausführen
   shared:
     excel:
       company: Firmendaten
