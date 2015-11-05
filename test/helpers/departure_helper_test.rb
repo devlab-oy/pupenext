@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Administration::DepartureHelperTest < ActionView::TestCase
+  fixtures %w(
+    warehouses
+  )
+
   test "returns translated departure options valid for collection" do
     assert day_of_the_week_options.is_a? Array
 
