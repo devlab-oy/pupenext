@@ -47,6 +47,7 @@ class FinvoiceTest < ActiveSupport::TestCase
     assert_equal "00100", finvoice.seller_post_code_identifier
     assert_equal "FI", finvoice.seller_country_code
     assert_equal "FI", finvoice.seller_country_name
+    assert_equal "Joe Danger", finvoice.seller_contact_person_name
 
     ##############################
     ## SellerInformationDetails ##

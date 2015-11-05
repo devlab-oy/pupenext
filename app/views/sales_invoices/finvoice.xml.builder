@@ -39,6 +39,14 @@ xml.Finvoice(attributes) do
     end
   end
 
+  xml.SellerOrganisationUnitNumber @finvoice.seller_organisation_tax_code
+  xml.SellerContactPersonName @finvoice.seller_contact_person_name
+
+  xml.SellerCommunicationDetails do
+    xml.SellerPhoneNumberIdentifier @finvoice.seller_phone_number
+    xml.SellerEmailaddressIdentifier @finvoice.seller_common_emailaddress_identifier
+  end
+
   xml.SellerInformationDetails do
     xml.SellerHomeTownName @finvoice.seller_home_town_name
     xml.SellerVatRegistrationText @finvoice.seller_vat_registration_text

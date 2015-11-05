@@ -74,6 +74,10 @@ class Finvoice
     invoice.yhtio_maa
   end
 
+  def seller_contact_person_name
+    invoice.seller.try(:nimi)
+  end
+
   ##############################
   ## SellerInformationDetails ##
   ##############################
@@ -153,64 +157,11 @@ class Finvoice
   end
 
   def to_xml
-    params = {
-      "Version" => "2.01",
-      "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-      "xsi:noNamespaceSchemaLocation" => "Finvoice2.01.xsd"
-    }
+    view_path = 'app/views/sales_invoices'
+    variables = { finvoice: self }
+    template  = 'finvoice.xml.builder'
 
-    doc.Finvoice(params) do
-      doc.MessageTransmissionDetails do
-        doc.MessageSenderDetails do
-          senderdetails
-        end
-        doc.MessageReceiverDetails do
-          receiverdetails
-        end
-        doc.MessageDetails do
-          messagedetails
-        end
-      end
-
-      doc.SellerPartyDetails do
-        sellerpartydetails
-      end
-
-      sellerinfo
-
-      doc.SellerInformationDetails do
-        sellerinfodetails
-      end
-
-      recipientdetails
-
-      buyerpartydetails
-
-      deliverypartydetails
-
-      doc.DeliveryDetails do
-        deliverydetails
-      end
-
-      doc.InvoiceDetails do
-        invoicedetails
-      end
-
-      doc.PaymentStatusDetails do
-        paymentstatus
-      end
-
-      invoicerows
-
-      doc.EpiDetails do
-        epidetails
-      end
-    end
-
-    procinst = Nokogiri::XML::ProcessingInstruction.new(doc.doc, 'xml-stylesheet', 'href="Finvoice.xsl" type="text/xsl"')
-    doc.doc.root.add_previous_sibling procinst
-
-    return_valid_xml
+    ActionView::Base.new(view_path, variables, ActionController::Base.new).render(file: template)
   end
 
   private
@@ -322,78 +273,6 @@ class Finvoice
       [receiverpartyid, receiverintermediator]
     end
 
-    def senderdetails
-      sndid = @invoice.company.parameter.finvoice_senderpartyid
-      doc.FromIdentifier sndid
-
-      sndint = @invoice.company.parameter.finvoice_senderintermediator
-      doc.FromIntermediator sndint
-    end
-
-    def receiverdetails
-      toid, toint = receiver_details
-      doc.ToIdentifier toid
-      doc.ToIntermediator toint
-    end
-
-    def messagedetails
-      timenow = Time.now.strftime("%Y%m%d%H%M%S")
-      mid = "#{timenow}-#{@invoice.laskunro}";
-      tstamp = Time.now.strftime("%Y-%m-%dT%H:%M:%S")
-
-      doc.MessageIdentifier mid
-      doc.MessageTimeStamp tstamp
-    end
-
-    def sellerpartydetails
-      doc.SellerPartyIdentifier @invoice.company.ytunnus_human
-      doc.SellerOrganisationName @invoice.yhtio_nimi
-      doc.SellerOrganisationTaxCode @invoice.company_vatnumber_human
-
-      doc.SellerPostalAddressDetails do
-        doc.SellerStreetName @invoice.yhtio_osoite
-        doc.SellerTownName @invoice.yhtio_postitp
-        doc.SellerPostCodeIdentifier @invoice.yhtio_postino
-        doc.CountryCode @invoice.yhtio_maa
-        doc.CountryName @invoice.yhtio_maa
-      end
-    end
-
-    def sellerinfo
-      companyinfo = company_contact_details
-
-      doc.SellerOrganisationUnitNumber @invoice.yhtio_ovttunnus
-      doc.SellerContactPersonName @invoice.seller.nimi
-
-      doc.SellerCommunicationDetails do
-       doc.SellerPhoneNumberIdentifier companyinfo[:puhelin]
-       doc.SellerEmailaddressIdentifier companyinfo[:email]
-      end
-    end
-
-    def sellerinfodetails
-      companyinfo = company_contact_details
-
-      doc.SellerHomeTownName @invoice.yhtio_kotipaikka
-      doc.SellerVatRegistrationText "Alv.Rek"
-      doc.SellerPhoneNumber companyinfo[:puhelin]
-      doc.SellerFaxNumber companyinfo[:fax]
-      doc.SellerCommonEmailaddressIdentifier companyinfo[:email]
-      doc.SellerWebaddressIdentifier companyinfo[:www]
-
-      @invoice.terms_of_payment.bank_account_details.each do |account|
-        doc.SellerAccountDetails do
-          doc.SellerAccountID("IdentificationSchemeName" => "IBAN") do
-            doc.text(account[:iban])
-          end
-
-          doc.SellerBic("IdentificationSchemeName" => "BIC") do
-            doc.text(account[:bic])
-          end
-        end
-      end
-    end
-
     def recipientdetails
       if @invoice.has_separate_invoice_recipient
         doc.InvoiceRecipientPartyDetails do
@@ -417,26 +296,6 @@ class Finvoice
 
         doc.InvoiceRecipientOrganisationUnitNumber @invoice.ovttunnus
       end
-    end
-
-    def buyerpartydetails
-      doc.BuyerPartyDetails do
-        doc.BuyerPartyIdentifier @invoice.ytunnus_human
-        doc.BuyerOrganisationName @invoice.nimi
-        doc.BuyerOrganisationName @invoice.nimitark
-        doc.BuyerOrganisationTaxCode @invoice.vatnumber_human
-
-        doc.BuyerPostalAddressDetails do
-          doc.BuyerStreetName @invoice.osoite
-          doc.BuyerTownName @invoice.postitp
-          doc.BuyerPostCodeIdentifier @invoice.postino
-          doc.CountryCode @invoice.maa
-          doc.CountryName @invoice.maa
-        end
-      end
-
-      doc.BuyerOrganisationUnitNumber @invoice.ovttunnus
-      doc.BuyerContactPersonName @invoice.contact_person_name
     end
 
     def deliverypartydetails
