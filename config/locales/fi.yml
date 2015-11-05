@@ -560,8 +560,12 @@ fi:
       edit:
         button_remove: Poista toimitustapa
         confirm_remove: Oletko varma, että haluat poistaa toimitustavan?
+        departures:
+          header: Toimitustavan lähdöt
         header: Toimitustapa
         no_select: Ei valintaa
+        translations:
+          header: Toimitustavan käännökset
       extranet_options:
         both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
         only_in_extranet: Toimitustapa näytetään vain extranetissä

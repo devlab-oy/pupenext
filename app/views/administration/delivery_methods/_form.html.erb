@@ -2,15 +2,17 @@
 
 <%= form_for @delivery_method do |f| %>
 
-  <div style='float: left; padding: 10px; width: 800px;'>
+  <div style='float: left; padding: 10px; width: 870px;'>
     <%= render 'basic', f: f %>
   </div>
 
   <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render "administration/header", text: t('administration.delivery_methods.edit.translations.header') %>
     <%= render 'administration/translations', f: f %>
   </div>
 
-  <div style='float: left; padding: 10px; width: 800px;'>
+  <div style='float: left; padding: 10px; width: 1000px;'>
+    <%= render "administration/header", text: t('administration.delivery_methods.edit.departures.header') %>
     <%= render 'departures', f: f %>
   </div>
 
