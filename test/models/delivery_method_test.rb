@@ -27,13 +27,20 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @departure = delivery_method_departures :departure_one
   end
 
+  test 'relations' do
+    assert_not_equal 0, @delivery_method.mode_of_transports.count
+    assert_not_equal 0, @delivery_method.nature_of_transactions.count
+    assert_not_equal 0, @delivery_method.customs.count
+  end
+
   test "fixtures should be valid" do
     assert @delivery_method.valid?, @delivery_method.errors.messages
     assert @departure.valid?, @departure.errors.full_messages
   end
 
   test 'departure should have valid time' do
-    assert_equal '12:00:00', @departure.kerailyn_aloitusaika.to_s, @departure.errors.full_messages
+    assert_equal '12:00:00', @departure.kerailyn_aloitusaika.strftime('%H:%M:%S'), @departure.errors.full_messages
+    assert_equal '13:24:59', @departure.lahdon_kellonaika.strftime('%H:%M:%S'), @departure.errors.full_messages
   end
 
   test "selite should be unique" do
