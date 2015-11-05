@@ -7,7 +7,7 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   )
 
   def setup
-    login users(:joe)
+    login users(:bob)
     @delivery_method = delivery_methods(:kaukokiito)
   end
 
@@ -29,8 +29,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should create delivery method' do
-    login users(:bob)
-
     assert_difference('DeliveryMethod.count', 1, response.body) do
 
       params = {
@@ -50,8 +48,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should not create delivery method' do
-    login users(:bob)
-
     assert_no_difference('DeliveryMethod.count') do
 
       params = {
@@ -65,8 +61,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should update delivery method' do
-    login users(:bob)
-
     params = { tulostustapa: :collective_batch }
 
     patch :update, id: @delivery_method.id, delivery_method: params
@@ -74,8 +68,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should not update delivery method' do
-    login users(:bob)
-
     params = { selite: 'Kiitolinja' }
 
     patch :update, id: @delivery_method.id, delivery_method: params
@@ -83,8 +75,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test "should delete delivery method" do
-    login users(:bob)
-
     deli2 = delivery_methods :kiitolinja
 
     assert_difference("DeliveryMethod.count", -1) do
@@ -95,7 +85,6 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test 'should save sallitut_alustat array as string' do
-    login users(:bob)
     package_one = packages(:steel_barrel).id
     package_two = packages(:oak_barrel).id
 
@@ -108,15 +97,10 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test "should add translations" do
-    login users(:bob)
-
     params = {
-      translations_attributes: {
-        "0" => {
-          kieli: 'no',
-          selitetark: 'Kaukokiito Transports',
-        }
-      }
+      translations_attributes: [
+        { kieli: 'no', selitetark: 'Kaukokiito Transports' }
+      ]
     }
 
     assert_difference 'Keyword::DeliveryMethodTranslation.count' do
@@ -125,16 +109,12 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
   end
 
   test "should update and destroy translations" do
-    login users(:bob)
     translated = keywords :deliverymethod_locale_en
 
     params = {
-      translations_attributes: {
-        "0" => {
-          id: translated.id,
-          selitetark: 'a translation',
-        }
-      }
+      translations_attributes: [
+        { id: translated.id, selitetark: 'a translation' }
+      ]
     }
 
     assert_no_difference('Keyword::DeliveryMethodTranslation.count') do
@@ -144,16 +124,56 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     assert_equal 'a translation', translated.reload.selitetark
 
     params = {
-      translations_attributes: {
-        "0" => {
-          id: translated.id,
-          _destroy: 'true',
-        }
-      }
+      translations_attributes: [
+        { id: translated.id, _destroy: 'true' }
+      ]
     }
 
     assert_difference('Keyword::DeliveryMethodTranslation.count', -1) do
       patch :update, id: translated.delivery_method.id, delivery_method: params
+    end
+  end
+
+  test "should update departure date" do
+    params = {
+      departures_attributes: [
+        { id: @delivery_method.departures.first.id, alkupvm: { day: '12', month: '10', year: '2015' } }
+      ]
+    }
+
+    patch :update, id: @delivery_method.id, delivery_method: params
+
+    assert_equal '2015-10-12', @delivery_method.departures.first.reload.alkupvm.to_s
+  end
+
+  test "should create departure" do
+    params = {
+      departures_attributes: [
+        {
+          alkupvm: { day: '12', month: '10', year: '2015' },
+          kerailyn_aloitusaika: '12:00:00',
+          lahdon_kellonaika: '13:20:56',
+          viimeinen_tilausaika: '23:59:59',
+          lahdon_viikonpvm: 1,
+          varasto: 10
+        }
+      ]
+    }
+
+    assert_difference('DeliveryMethod::Departure.count', 1) do
+      patch :update, id: @delivery_method.id, delivery_method: params
+    end
+  end
+
+  test 'should destroy departure' do
+    params = {
+      departures_attributes: [
+        { id: @delivery_method.departures.first.id, _destroy: 'true' }
+      ]
+    }
+
+    assert_difference('DeliveryMethod::Departure.count', -1) do
+      patch :update, id: @delivery_method.id, delivery_method: params
     end
   end
 end
