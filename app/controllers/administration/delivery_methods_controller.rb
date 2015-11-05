@@ -80,8 +80,8 @@ class Administration::DeliveryMethodsController < AdministrationController
           :varasto,
           :aktiivi,
           :ohjausmerkki,
-          { alkupvm: [:day, :month, :year] },
-          :_destroy
+          :_destroy,
+          alkupvm: [:day, :month, :year],
         ],
       )
     end

@@ -41,6 +41,7 @@ class DeliveryMethod < BaseModel
                 :lisakulu, :lisakulu_summa
 
   accepts_nested_attributes_for :translations, allow_destroy: true
+  accepts_nested_attributes_for :departures, allow_destroy: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
 
