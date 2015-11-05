@@ -43,6 +43,15 @@ table.no-border td {
   border-right: none;
 }
 
+.inner-table-container {
+  padding: 0;
+  height:  100px;
+}
+
+.inner-table-container table {
+  height: 100%;
+}
+
 h1 {
   margin:  0;
   padding: 0;
@@ -61,4 +70,8 @@ ul.list-unstyled {
 
 .margin-bottom {
   margin-bottom: 40px;
+}
+
+.width-100 {
+  width: 100px;
 }

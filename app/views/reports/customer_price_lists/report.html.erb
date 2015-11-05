@@ -146,9 +146,9 @@
   <thead>
 
   <tr>
-    <th><%= Product.human_attribute_name :tuoteno %></th>
+    <th class="width-100"><%= Product.human_attribute_name :tuoteno %></th>
     <th><%= Product.human_attribute_name :nimitys %></th>
-    <th><%= t('.price') %></th>
+    <th class="width-100"><%= t('.price') %></th>
   </tr>
 
   </thead>
@@ -186,10 +186,10 @@
       <td colspan="3" class="inner-table-container">
         <table>
           <tr>
-            <td><strong><%= p.tuoteno %></strong></td>
+            <td class="width-100"><strong><%= p.tuoteno %></strong></td>
             <td><strong><%= p.nimitys %></strong></td>
 
-            <td>
+            <td class="width-100">
               <%= number_to_currency(price[:hinta]) %>
 
               <% unless price[:hinta_peruste].to_i == 18 %>
