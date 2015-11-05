@@ -10,71 +10,67 @@ attributes = {
 xml.Finvoice(attributes) do
   xml.MessageTransmissionDetails do
     xml.MessageSenderDetails do
-      xml.FromIdentifier "1234567890"
-      xml.FromIntermediator "HELSFIHH"
+      xml.FromIdentifier @finvoice.from_identifier
+      xml.FromIntermediator @finvoice.from_intermediator
     end
 
     xml.MessageReceiverDetails do
-      xml.ToIdentifier "0987654321"
-      xml.ToIntermediator "BANKFIHH"
+      xml.ToIdentifier @finvoice.to_identifier
+      xml.ToIntermediator @finvoice.to_intermediator
     end
 
     xml.MessageDetails do
-      xml.MessageIdentifier "123"
-      xml.MessageTimeStamp "2013-08-14T12:17:50"
+      xml.MessageIdentifier @finvoice.message_identifier
+      xml.MessageTimeStamp @finvoice.message_time_stamp
     end
   end
 
   xml.SellerPartyDetails do
-    xml.SellerPartyIdentifier "9876543-0"
-    xml.SellerPartyIdentifierUrlText nil
-    xml.SellerOrganisationName "Pullin Musiikki oy"
-    xml.SellerOrganisationName "Pullis Musik Ab"
-    xml.SellerOrganisationDepartment nil
-    xml.SellerOrganisationDepartment nil
-    xml.SellerOrganisationTaxCode "FI98765430"
+    xml.SellerPartyIdentifier @finvoice.seller_party_identifier
+    xml.SellerOrganisationName @finvoice.seller_organisation_name
+    xml.SellerOrganisationTaxCode @finvoice.seller_organisation_tax_code
 
     xml.SellerPostalAddressDetails do
-      xml.SellerStreetName "StreetName 99"
-      xml.SellerTownName "Helsinki"
-      xml.SellerPostCodeIdentifier "00100"
-      xml.CountryCode "FI"
+      xml.SellerStreetName @finvoice.seller_street_name
+      xml.SellerTownName @finvoice.seller_town_name
+      xml.SellerPostCodeIdentifier @finvoice.seller_post_code_identifier
+      xml.CountryCode @finvoice.seller_country_code
+      xml.CountryName @finvoice.seller_country_name
     end
   end
 
   xml.SellerInformationDetails do
-    xml.SellerAccountDetails do
-      xml.SellerAccountID "FI4819503000000010", "IdentificationSchemeName" => "IBAN"
-      xml.SellerBic "BANKFIHH", "IdentificationSchemeName" => "BIC"
-    end
+    xml.SellerHomeTownName @finvoice.seller_home_town_name
+    xml.SellerVatRegistrationText @finvoice.seller_vat_registration_text
+    xml.SellerPhoneNumber @finvoice.seller_phone_number
+    xml.SellerFaxNumber @finvoice.seller_fax_number
+    xml.SellerCommonEmailaddressIdentifier @finvoice.seller_common_emailaddress_identifier
+    xml.SellerWebaddressIdentifier @finvoice.seller_webaddress_identifier
 
-    xml.SellerAccountDetails do
-      xml.SellerAccountID "FI3819503000086423", "IdentificationSchemeName" => "IBAN"
-      xml.SellerBic "BANKFIHH", "IdentificationSchemeName" => "BIC"
-    end
-
-    xml.SellerAccountDetails do
-      xml.SellerAccountID "FI7429501800000014", "IdentificationSchemeName" => "IBAN"
-      xml.SellerBic "BANKFIHH", "IdentificationSchemeName" => "BIC"
+    @finvoice.seller_account_details.each do |detail|
+      xml.SellerAccountDetails do
+        xml.SellerAccountID detail.iban, "IdentificationSchemeName" => "IBAN"
+        xml.SellerBic detail.bic, "IdentificationSchemeName" => "BIC"
+      end
     end
   end
 
   xml.BuyerPartyDetails do
-    xml.BuyerPartyIdentifier "7654321-2"
-    xml.BuyerOrganisationName "Purjehdusseura Bitti ja Baatti ry"
-    xml.BuyerOrganisationDepartment nil
-    xml.BuyerOrganisationDepartment nil
-    xml.BuyerOrganisationTaxCode "FI76543212"
+    xml.BuyerPartyIdentifier @finvoice.buyer_party_identifier
+    xml.BuyerOrganisationName @finvoice.buyer_organisation_name
+    xml.BuyerOrganisationTaxCode @finvoice.buyer_organisation_tax_code
 
     xml.BuyerPostalAddressDetails do
-      xml.BuyerStreetName "Sempalokatu 2"
-      xml.BuyerTownName "Tampere"
-      xml.BuyerPostCodeIdentifier "00122"
-      xml.CountryCode "FI"
-      xml.CountryName "Suomi"
-      xml.BuyerPostOfficeBoxIdentifier nil
+      xml.BuyerStreetName @finvoice.buyer_street_name
+      xml.BuyerTownName @finvoice.buyer_town_name
+      xml.BuyerPostCodeIdentifier @finvoice.buyer_post_code_identifier
+      xml.CountryCode @finvoice.buyer_country_code
+      xml.CountryName @finvoice.buyer_country_name
     end
   end
+
+  xml.BuyerOrganisationUnitNumber @finvoice.buyer_organisation_unit_number
+  xml.BuyerContactPersonName @finvoice.buyer_contact_person_name
 
   xml.DeliveryDetails do
     xml.DeliveryPeriodDetails do

@@ -1,11 +1,155 @@
 class Finvoice
   include ActionView::Helpers::NumberHelper
 
-  def initialize(invoice_id:, soap: true)
-    @invoice = Head::SalesInvoice.find invoice_id
-    @soap = soap
-    @document = Nokogiri::XML::Builder.new(encoding: 'ISO-8859-15') do |xml|
+  SellerAccountDetail = Struct.new(:iban, :bic)
+
+  def initialize(invoice_id:)
+    @invoice  = Head::SalesInvoice.find invoice_id
+    @time_now = Time.now
+  end
+
+  ################################
+  ## MessageTransmissionDetails ##
+  ################################
+
+  def from_identifier
+    invoice.company.parameter.finvoice_senderpartyid
+  end
+
+  def from_intermediator
+    invoice.company.parameter.finvoice_senderintermediator
+  end
+
+  def to_identifier
+    toid, toint = receiver_details
+    toid
+  end
+
+  def to_intermediator
+    toid, toint = receiver_details
+    toint
+  end
+
+  def message_identifier
+    "#{@time_now.strftime("%Y%m%d%H%M%S")}-#{@invoice.laskunro}"
+  end
+
+  def message_time_stamp
+    @time_now.strftime "%Y-%m-%dT%H:%M:%S"
+  end
+
+  ########################
+  ## SellerPartyDetails ##
+  ########################
+
+  def seller_party_identifier
+    invoice.company.ytunnus_human
+  end
+
+  def seller_organisation_name
+    invoice.yhtio_nimi
+  end
+
+  def seller_organisation_tax_code
+    invoice.company_vatnumber_human
+  end
+
+  def seller_street_name
+    invoice.yhtio_osoite
+  end
+
+  def seller_town_name
+    invoice.yhtio_postitp
+  end
+
+  def seller_post_code_identifier
+    invoice.yhtio_postino
+  end
+
+  def seller_country_code
+    invoice.yhtio_maa
+  end
+
+  def seller_country_name
+    invoice.yhtio_maa
+  end
+
+  ##############################
+  ## SellerInformationDetails ##
+  ##############################
+
+  def seller_home_town_name
+    invoice.yhtio_kotipaikka
+  end
+
+  def seller_vat_registration_text
+    "Alv.Rek"
+  end
+
+  def seller_phone_number
+    invoice.location ? invoice.location.puhelin : invoice.company.puhelin
+  end
+
+  def seller_fax_number
+    invoice.location ? invoice.location.fax : invoice.company.fax
+  end
+
+  def seller_common_emailaddress_identifier
+    invoice.location ? invoice.location.email : invoice.company.email
+  end
+
+  def seller_webaddress_identifier
+    invoice.location ? invoice.location.www : invoice.company.www
+  end
+
+  def seller_account_details
+    invoice.terms_of_payment.bank_account_details.map do |account|
+      SellerAccountDetail.new account[:iban], account[:bic]
     end
+  end
+
+  #######################
+  ## BuyerPartyDetails ##
+  #######################
+
+  def buyer_party_identifier
+    invoice.ytunnus_human
+  end
+
+  def buyer_organisation_name
+    invoice.nimi
+  end
+
+  def buyer_organisation_tax_code
+    invoice.vatnumber_human
+  end
+
+  def buyer_street_name
+    invoice.osoite
+  end
+
+  def buyer_town_name
+    invoice.postitp
+  end
+
+  def buyer_post_code_identifier
+    invoice.postino
+  end
+
+  def buyer_country_code
+    invoice.maa
+  end
+
+  def buyer_country_name
+    invoice.maa
+  end
+
+  def buyer_organisation_unit_number
+    invoice.ovttunnus
+  end
+
+  def buyer_contact_person_name
+    invoice.contact_person_name
   end
 
   def to_xml
@@ -70,6 +214,11 @@ class Finvoice
   end
 
   private
+
+    def invoice
+      @invoice
+    end
+
     def doc
       @document
     end
