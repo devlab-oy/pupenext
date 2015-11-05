@@ -32,7 +32,8 @@ class Administration::DepartureHelperTest < ActionView::TestCase
   test "returns status options valid for collection" do
     assert status_options.is_a? Array
 
-    assert_equal 'Ei käytössä', status_options.second.first
+    text = I18n.t 'administration.delivery_methods.departures.status_options.not_in_use', :fi
+    assert_equal text, status_options.second.first
     assert_equal :not_in_use, status_options.second.second
   end
 end
