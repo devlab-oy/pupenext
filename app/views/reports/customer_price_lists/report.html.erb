@@ -200,7 +200,7 @@
 
           <% if lyhytkuvaus %>
             <tr>
-              <td colspan="5"><%= lyhytkuvaus %></td>
+              <td colspan="5"><%= lyhytkuvaus.truncate 500 %></td>
             </tr>
           <% end %>
 
@@ -212,7 +212,7 @@
                 </td>
               <% end %>
 
-              <td colspan="4"><%= kuvaus %></td>
+              <td colspan="4"><%= kuvaus.truncate 500 %></td>
             </tr>
           <% end %>
         </table>
