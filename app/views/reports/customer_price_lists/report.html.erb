@@ -182,7 +182,7 @@
        next if params[:contract_filter].to_i == 2 && price[:hinta_peruste].to_i == 18
     %>
 
-    <tr>
+    <tr class="container">
       <td colspan="3" class="inner-table-container">
         <table>
           <tr>
@@ -200,7 +200,7 @@
 
           <% if lyhytkuvaus %>
             <tr>
-              <td colspan="5"><%= lyhytkuvaus.truncate 500 %></td>
+              <td colspan="5"><%= lyhytkuvaus.truncate 1500 %></td>
             </tr>
           <% end %>
 
@@ -212,7 +212,7 @@
                 </td>
               <% end %>
 
-              <td colspan="4"><%= kuvaus.truncate 500 %></td>
+              <td colspan="4"><%= kuvaus.truncate 1500 %></td>
             </tr>
           <% end %>
         </table>
