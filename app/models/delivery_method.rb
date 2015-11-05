@@ -7,11 +7,25 @@ class DeliveryMethod < BaseModel
     o.has_many :nature_of_transactions, primary_key: :kauppatapahtuman_luonne,    class_name: 'Keyword::NatureOfTransaction'
     o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
-    o.has_many :customer_keywords,      primary_key: :avainsana
-    o.has_many :waybills,               primary_key: :toimitustapa
     o.has_many :translations,                                                     class_name: 'Keyword::DeliveryMethodTranslation'
   end
 
+  with_options foreign_key: :toimitustapa, primary_key: :selite do |o|
+    o.has_many :freights
+    o.has_many :manufacture_orders, class_name: 'ManufactureOrder::Order'
+    o.has_many :offer_orders,       class_name: 'OfferOrder::Order'
+    o.has_many :preorders,          class_name: 'Preorder::Order'
+    o.has_many :project_orders,     class_name: 'ProjectOrder::Order'
+    o.has_many :reclamation_orders, class_name: 'ReclamationOrder::Order'
+    o.has_many :sales_order_drafts, class_name: 'SalesOrder::Draft'
+    o.has_many :sales_orders,       class_name: 'SalesOrder::Order'
+    o.has_many :stock_transfers,    class_name: 'StockTransfer::Order'
+    o.has_many :waybills
+    o.has_many :work_orders,        class_name: 'WorkOrder::Order'
+    o.has_many :freight_contracts
+  end
+
+  has_many :customer_keywords,  foreign_key: :avainsana,     primary_key: :selite
   has_many :departures, foreign_key: :liitostunnus, class_name: 'DeliveryMethod::Departure'
 
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true

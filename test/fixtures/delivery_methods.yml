@@ -8,6 +8,7 @@ DEFAULTS: &DEFAULTS
 kaukokiito:
   kauppatapahtuman_luonne: 11
   poistumistoimipaikka_koodi: FI0
+  lajittelupiste: FIVAT
   kuljetusmuoto: 1
   osoitelappu: tiivistetty
   rahdinkuljettaja: Kaukokiito
