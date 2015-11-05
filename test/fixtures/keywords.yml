@@ -88,7 +88,7 @@ customer_category:
   <<: *DEFAULTS
 
 customs:
-  selite: FI001000
+  selite: FI0
   selitetark: Helsinki Postitulli
   laji: TULLI
   <<: *DEFAULTS

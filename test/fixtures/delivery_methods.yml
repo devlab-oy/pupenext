@@ -6,6 +6,8 @@ DEFAULTS: &DEFAULTS
   muutospvm: <%= Time.now %>
 
 kaukokiito:
+  kauppatapahtuman_luonne: 11
+  poistumistoimipaikka_koodi: FI0
   kuljetusmuoto: 1
   osoitelappu: tiivistetty
   rahdinkuljettaja: Kaukokiito
