@@ -90,6 +90,10 @@ class Product < BaseModel
     attachments.order(:jarjestys, :tunnus).first
   end
 
+  def cover_thumbnail
+    thumbnails.order(:jarjestys, :tunnus).first
+  end
+
   # Avoimet myyntirivit
   def open_sales_order_rows_between(range)
     sales_order_rows.open.where(toimaika: range)

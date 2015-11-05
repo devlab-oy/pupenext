@@ -7,7 +7,7 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render :index
     end
 
-    @products = Product.includes(:attachments).active
+    @products = Product.active
 
     case params[:target_type].to_i
     when 1 # Customer

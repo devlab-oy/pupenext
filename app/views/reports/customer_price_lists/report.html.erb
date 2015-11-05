@@ -161,8 +161,8 @@
          price = p.customer_subcategory_price_with_info(@customer_subcategory)
        end
 
-       if params[:product_image] && p.attachments.first && p.attachments.first.data
-         image = p.attachments.first.data
+       if params[:product_image] && p.cover_thumbnail
+         image = p.cover_thumbnail.data
        else
          image = false
        end
