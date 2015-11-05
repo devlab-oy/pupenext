@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class FinvoiceTest < ActiveSupport::TestCase
-
   fixtures %w(
     heads
     sales_order/orders
@@ -12,8 +11,8 @@ class FinvoiceTest < ActiveSupport::TestCase
   )
 
   setup do
-    Current.company = companies(:acme)
-    @invoice = heads(:si_one)
+    Current.company = companies :acme
+    @invoice = heads :si_one
   end
 
   test 'should initialize class with invoice' do
@@ -22,13 +21,14 @@ class FinvoiceTest < ActiveSupport::TestCase
   end
 
   test 'should generate finvoice xml' do
-    @invoice.myyja = User.find_by(kuka: 'joe').id
-    @invoice.save
+    example = File.read Rails.root.join('test', 'assets', 'example_finvoice.xml')
+    finvoice = Finvoice.new(invoice_id: @invoice.id).to_xml
 
     example = File.read Rails.root.join('test', 'assets', 'example_finvoice.xml')
-    finvoice = Finvoice.new(invoice_id: @invoice.id)
+    xml_example = Nokogiri::XML example
+    xml_response = Nokogiri::XML finvoice
 
-    assert finvoice.to_xml != ""
-    #assert_equal example, finvoice.to_xml
+    # assert_equal xml_example.to_s, xml_response.to_s
+    refute_empty finvoice
   end
 end

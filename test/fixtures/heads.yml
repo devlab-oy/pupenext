@@ -45,6 +45,7 @@ si_one:
   postino: "00122"
   postitp: Tampere
   maa: FI
+  myyja: <%= ActiveRecord::FixtureSet.identify(:joe) %>
   terms_of_payment: sixty_days_net
   verkkotunnus: 0987654321@BANKFIHH
   toimitustapa: Posten Logistik
