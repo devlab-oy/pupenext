@@ -1,21 +1,18 @@
+require File.expand_path('test/permission_helper')
+include PermissionHelper
+
 class UpdateDeliveryMethodPermissions < ActiveRecord::Migration
   def up
-    Company.find_each do |company|
-      Current.company = company.yhtio
-
-      Permission.where(nimi: 'yllapito.php', alanimi: 'toimitustapa').find_each do |permission|
-        permission.update(nimi: 'pupenext/delivery_methods', alanimi: '')
-      end
-    end
+    PermissionHelper.add_item(
+      program: 'Ylläpito',
+      name: 'Toimitustavat',
+      uri: 'pupenext/delivery_methods'
+    )
   end
 
   def down
-    Company.find_each do |company|
-      Current.company = company.yhtio
-
-      Permission.where(nimi: 'pupenext/delivery_methods', alanimi: '').find_each do |permission|
-        permission.update(nimi: 'yllapito.php', alanimi: 'toimitustapa')
-      end
-    end
+    PermissionHelper.remove_all(
+      uri: 'pupenext/delivery_methods'
+    )
   end
 end
