@@ -16,5 +16,6 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'relations' do
     assert_equal 'Acme Corporation', @tokyo.company.nimi
+    assert @tokyo.delivery_methods.count > 0
   end
 end

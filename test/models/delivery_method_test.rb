@@ -9,6 +9,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     freight_contracts
     freights
     heads
+    locations
     manufacture_order/orders
     offer_order/orders
     preorder/orders
@@ -47,6 +48,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_not_equal 0, @delivery_method.waybills.count
     assert_not_equal 0, @delivery_method.work_orders.count
     assert_not_equal 0, @delivery_method.freight_contracts.count
+    assert_not_equal 0, @delivery_method.locations.count
   end
 
   test "fixtures should be valid" do

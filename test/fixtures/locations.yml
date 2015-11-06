@@ -9,4 +9,5 @@ tokyo:
   nimi: Acme Tokyo Headquarters
   osoite: Shibuya
   maa: JP
+  delivery_methods: kaukokiito, kiitolinja
   <<: *DEFAULTS
