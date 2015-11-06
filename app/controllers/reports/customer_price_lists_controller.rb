@@ -38,6 +38,7 @@ class Reports::CustomerPriceListsController < ApplicationController
                                              'stylesheets',
                                              'reports',
                                              'pdf_styles.css'),
-           header:           { right: "#{t('.page')} [page] / [toPage]" }
+           header:           { right: "#{t('.page')} [page] / [toPage]" },
+           footer:           { html: { template: 'reports/customer_price_lists/footer.html.erb' } }
   end
 end
