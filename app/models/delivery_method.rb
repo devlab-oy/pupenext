@@ -196,7 +196,7 @@ class DeliveryMethod < BaseModel
     def update_relations
       msg = []
 
-      if selite_was.present?
+      if selite_changed?
         cnt = company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
         msg << I18n.t('administration.delivery_methods.update.delivery_methods', count: cnt) if cnt.nonzero?
 
