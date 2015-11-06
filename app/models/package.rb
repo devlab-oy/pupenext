@@ -38,6 +38,8 @@ class Package < BaseModel
   end
 
   def translated_description(locale)
+    return pakkauskuvaus if locale.downcase == Current.company.kieli.downcase
+
     translations.find_by(kieli: locale).try(:selitetark) || pakkauskuvaus
   end
 
