@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= t('.header') %></title>
+  <title><%= t('reports.customer_price_lists.report.header') %></title>
 </head>
 <body>
 <table class="margin-bottom">
@@ -16,17 +16,19 @@
       <% end %>
     </td>
     <td>
-      <h1><%= t('.header') %></h1>
+      <h1><%= t('reports.customer_price_lists.report.header') %></h1>
     </td>
   </tr>
 
   <tr>
     <td colspan="2">
       <% if params[:date_start].present? && params[:date_end].present? %>
-        <%= t('.valid_text') %> <%= l Date.parse(params[:date_start]) %>
+        <%= t('reports.customer_price_lists.report.valid_text') %>
+        <%= l Date.parse(params[:date_start]) %>
         - <%= l Date.parse(params[:date_end]) %>
       <% else %>
-        <%= t('.valid_text') %> <%= t('.indefinitely').downcase %>
+        <%= t('reports.customer_price_lists.report.valid_text') %>
+        <%= t('reports.customer_price_lists.report.indefinitely').downcase %>
       <% end %>
 
     </td>
@@ -100,7 +102,7 @@
           </td>
           <td>
             <ul class="list-unstyled">
-              <li><%= t('.printed') %></li>
+              <li><%= t('reports.customer_price_lists.report.printed') %></li>
               <li><%= l Time.now %></li>
             </ul>
           </td>
@@ -148,7 +150,7 @@
   <tr>
     <th class="width-100"><%= Product.human_attribute_name :tuoteno %></th>
     <th><%= Product.human_attribute_name :nimitys %></th>
-    <th class="width-100"><%= t('.price') %></th>
+    <th class="width-100"><%= t('reports.customer_price_lists.report.price') %></th>
   </tr>
 
   </thead>
@@ -193,7 +195,7 @@
               <%= number_to_currency(price[:hinta]) %>
 
               <% unless price[:hinta_peruste].to_i == 18 %>
-                (<%= t('.contract_price') %>)
+                (<%= t('reports.customer_price_lists.report.contract_price') %>)
               <% end %>
             </td>
           </tr>
