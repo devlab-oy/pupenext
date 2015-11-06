@@ -89,9 +89,9 @@ class Administration::DeliveryMethodsController < AdministrationController
 
     def searchable_columns
       [
+        :jarjestys,
         :selite,
         :sopimusnro,
-        :jarjestys,
       ]
     end
 
