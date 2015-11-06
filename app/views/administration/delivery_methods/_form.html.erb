@@ -11,10 +11,12 @@
     <%= render 'administration/translations', f: f %>
   </div>
 
-  <div style='float: left; padding: 10px; width: 1000px;'>
-    <%= render "administration/header", text: t('administration.delivery_methods.edit.departures.header') %>
-    <%= render 'departures', f: f %>
-  </div>
+  <% if current_company.parameter.collection_batch_based_on_dimensions? %>
+    <div style='float: left; padding: 10px;'>
+      <%= render "administration/header", text: t('administration.delivery_methods.edit.departures.header') %>
+      <%= render 'departures', f: f %>
+    </div>
+  <% end %>
 
   <div style='clear: both;'>
     <%= render 'administration/actions', f: f %>
