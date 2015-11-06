@@ -37,6 +37,7 @@ class Reports::CustomerPriceListsController < ApplicationController
                                              'assets',
                                              'stylesheets',
                                              'reports',
-                                             'pdf_styles.css')
+                                             'pdf_styles.css'),
+           header:           { right: "#{t('.page')} [page] / [toPage]" }
   end
 end
