@@ -225,8 +225,10 @@
       </th>
       <td>
         <%= f.collection_check_boxes :location_ids, current_company.locations, :tunnus, :nimi do |b| %>
-          <%= b.check_box %>
-          <%= b.label %> <br>
+          <div>
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
         <% end %>
       </td>
     </tr>
