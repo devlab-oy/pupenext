@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019065817) do
+ActiveRecord::Schema.define(version: 20151106070812) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -800,8 +800,8 @@ ActiveRecord::Schema.define(version: 20151019065817) do
     t.integer  "profit_account_id",               limit: 4
     t.integer  "sales_account_id",                limit: 4
     t.integer  "voucher_id",                      limit: 4
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.datetime "created_at",                                                                        null: false
+    t.datetime "updated_at",                                                                        null: false
     t.date     "activated_at"
     t.date     "deactivated_at"
     t.string   "name",                            limit: 255
@@ -1782,23 +1782,24 @@ ActiveRecord::Schema.define(version: 20151019065817) do
   add_index "muisti", ["yhtio", "kuka", "haku", "nimi", "var"], name: "haut", unique: true, using: :btree
 
   create_table "oikeu", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "kuka",       limit: 50,  default: "", null: false
-    t.integer  "user_id",    limit: 4
-    t.string   "sovellus",   limit: 50,  default: "", null: false
-    t.string   "nimi",       limit: 100, default: "", null: false
-    t.string   "alanimi",    limit: 100, default: "", null: false
-    t.string   "paivitys",   limit: 1,   default: "", null: false
-    t.string   "lukittu",    limit: 1,   default: "", null: false
-    t.string   "nimitys",    limit: 60,               null: false
-    t.integer  "jarjestys",  limit: 4,   default: 0,  null: false
-    t.integer  "jarjestys2", limit: 4,   default: 0,  null: false
-    t.string   "profiili",   limit: 100, default: "", null: false
-    t.string   "yhtio",      limit: 5,   default: "", null: false
-    t.string   "hidden",     limit: 1,   default: "", null: false
-    t.string   "laatija",    limit: 10,  default: "", null: false
-    t.datetime "luontiaika",                          null: false
-    t.datetime "muutospvm",                           null: false
-    t.string   "muuttaja",   limit: 10,  default: "", null: false
+    t.string   "kuka",          limit: 50,  default: "", null: false
+    t.integer  "user_id",       limit: 4
+    t.string   "sovellus",      limit: 50,  default: "", null: false
+    t.string   "nimi",          limit: 100, default: "", null: false
+    t.string   "alanimi",       limit: 100, default: "", null: false
+    t.string   "paivitys",      limit: 1,   default: "", null: false
+    t.string   "lukittu",       limit: 1,   default: "", null: false
+    t.string   "nimitys",       limit: 60,  default: "", null: false
+    t.integer  "jarjestys",     limit: 4,   default: 0,  null: false
+    t.integer  "jarjestys2",    limit: 4,   default: 0,  null: false
+    t.string   "profiili",      limit: 100, default: "", null: false
+    t.string   "yhtio",         limit: 5,   default: "", null: false
+    t.string   "hidden",        limit: 1,   default: "", null: false
+    t.string   "usermanualurl", limit: 255, default: "", null: false
+    t.string   "laatija",       limit: 10,  default: "", null: false
+    t.datetime "luontiaika",                             null: false
+    t.datetime "muutospvm",                              null: false
+    t.string   "muuttaja",      limit: 10,  default: "", null: false
   end
 
   add_index "oikeu", ["user_id"], name: "user_id", using: :btree
@@ -2892,8 +2893,8 @@ ActiveRecord::Schema.define(version: 20151019065817) do
     t.string   "username",    limit: 255
     t.string   "password",    limit: 255
     t.string   "path",        limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "transports", ["customer_id"], name: "index_transports_on_customer_id", using: :btree
