@@ -5,6 +5,7 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     delivery_methods
     delivery_method/departures
     packages
+    locations
   )
 
   def setup
@@ -176,5 +177,34 @@ class Administration::DeliveryMethodsControllerTest < ActionController::TestCase
     assert_difference('DeliveryMethod::Departure.count', -1) do
       patch :update, id: @delivery_method.id, delivery_method: params
     end
+  end
+
+  test 'should add locations' do
+    @delivery_method.locations.delete_all
+
+    params = {
+      id: @delivery_method.id,
+      delivery_method: {
+        location_ids: [@delivery_method.company.locations.first.id]
+      }
+    }
+
+    assert_difference('@delivery_method.locations.count', 1) do
+      patch :update, params
+    end
+  end
+
+  test 'should remove locations' do
+    assert_equal 1, @delivery_method.locations.count
+
+    params = {
+      id: @delivery_method.id,
+      delivery_method: {
+        location_ids: []
+      }
+    }
+
+    patch :update, params
+    assert_equal 0, @delivery_method.locations.count
   end
 end
