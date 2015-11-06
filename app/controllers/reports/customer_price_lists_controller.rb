@@ -1,10 +1,10 @@
 class Reports::CustomerPriceListsController < ApplicationController
   def create
-    return render :index unless params[:commit].present?
+    return render :index, formats: :html unless params[:commit].present?
 
     unless params[:osasto] || params[:try]
       flash.now[:alert] = t('.no_filters_specified')
-      return render :index
+      return render :index, formats: :html
     end
 
     @products = Product.active
@@ -15,12 +15,12 @@ class Reports::CustomerPriceListsController < ApplicationController
 
       unless @customer
         flash.now[:alert] = t('.customer_not_found')
-        return render :index, status: :not_found
+        return render :index, status: :not_found, formats: :html
       end
     when 2 # Customer subcategory
       @customer_subcategory = params[:target]
     else
-      return render :index, status: :bad_request
+      return render :index, status: :bad_request, formats: :html
     end
 
     @products = @products.where(osasto: params[:osasto]) if params[:osasto]
@@ -28,14 +28,15 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     if @products.empty?
       flash.now[:alert] = t('.products_not_found')
-      return render :index
+      return render :index, formats: :html
     end
 
-    kit = PDFKit.new render_to_string(:report, layout: false),
-                     header_right: "#{t('.page')} [page]/[toPage]"
-
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'reports', 'pdf_styles.css')
-
-    send_data kit.to_pdf, filename: "#{t('.filename')}.pdf"
+    render pdf:              t('.filename'),
+           template:         'reports/customer_price_lists/report.html.erb',
+           user_style_sheet: Rails.root.join('app',
+                                             'assets',
+                                             'stylesheets',
+                                             'reports',
+                                             'pdf_styles.css')
   end
 end
