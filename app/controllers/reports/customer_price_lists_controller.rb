@@ -11,7 +11,7 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     case params[:target_type].to_i
     when 1 # Customer
-      @customer = Customer.find_by(tunnus: params[:target])
+      @customer = Customer.find_by(asiakasnro: params[:target])
 
       unless @customer
         flash.now[:alert] = t('.customer_not_found')

@@ -17,7 +17,7 @@
         <th><%= label_tag :target, Keyword::CustomerSubcategory.model_name.human %></th>
         <td><%= select_tag :target, customer_subcategory_options(params[:target]), required: true %></td>
       <% else %>
-        <th><%= label_tag :target, Customer.model_name.human %></th>
+        <th><%= label_tag :target, Customer.human_attribute_name(:asiakasnro) %></th>
         <td><%= number_field_tag :target, params[:target], required: true %></td>
       <% end %>
     </tr>
