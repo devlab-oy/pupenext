@@ -242,6 +242,7 @@ GEM
     unicode_utils (1.4.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    wicked_pdf (1.0.0)
     ya2yaml (0.31)
 
 PLATFORMS
@@ -276,6 +277,7 @@ DEPENDENCIES
   therubyracer
   turbolinks
   uglifier
+  wicked_pdf
 
 BUNDLED WITH
    1.10.6
