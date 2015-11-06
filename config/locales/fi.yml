@@ -203,6 +203,7 @@ fi:
         lauantai: Lauantaijakelu
         lisakulu: Lisäkulu
         lisakulu_summa: Lisäkulusumma
+        locations: Sallitut toimipaikat
         logy_rahtikirjanumerot: LOGY rahtikirjanumerot
         maa_maara: Oletus määrämaa
         merahti: Rahtisopimus
