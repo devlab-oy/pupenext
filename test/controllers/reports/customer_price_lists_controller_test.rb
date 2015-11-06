@@ -19,7 +19,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @params_customer = {
       commit:      true,
       target_type: 1,
-      target:      @customer.id,
+      target:      @customer.asiakasnro,
       osasto:      1000,
       try:         2000
     }
@@ -96,24 +96,6 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
 
       assert_response :not_found
       assert_template :index
-    end
-  end
-
-  test "customer prices with contract prices work without product filters" do
-    @params_customer[:contract_filter] = 2
-    @params_customer[:osasto]          = nil
-    @params_customer[:try]             = nil
-
-    LegacyMethods.stub(:customer_price_with_info, @price) do
-      post :create, @params_customer
-
-      assert_response :success
-
-      products = assigns(:products)
-
-      assert_equal 3, products.count
-      assert_includes products, @hammer
-      assert_includes products, @helmet
     end
   end
 
