@@ -1,0 +1,12 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+tokyo:
+  nimi: Acme Tokyo Headquarters
+  osoite: Shibuya
+  maa: JP
+  <<: *DEFAULTS
