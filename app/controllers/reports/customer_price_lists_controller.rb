@@ -39,6 +39,7 @@ class Reports::CustomerPriceListsController < ApplicationController
                                              'reports',
                                              'pdf_styles.css'),
            header:           { right: "#{t('.page')} [page] / [toPage]" },
-           footer:           { html: { template: 'reports/customer_price_lists/footer.html.erb' } }
+           footer:           { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
+           margin:           { top: 10, bottom: 25 }
   end
 end
