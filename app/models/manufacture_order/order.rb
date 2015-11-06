@@ -3,7 +3,7 @@ class ManufactureOrder::Order < Head
 
   validates :tila, inclusion: { in: ['V'] }
 
-  scope :not_manufactured, -> { where(alatila: %W(#{} K J A C)) }
+  scope :not_manufactured, -> { where(alatila: ['', :K, :J, :A, :C]) }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name

@@ -3,7 +3,7 @@ class OfferOrder::Order < Head
 
   validates :tila, inclusion: { in: ['T'] }
 
-  scope :printed_and_accepted, -> { where(alatila: %W(#{} A B)) }
+  scope :printed_and_accepted, -> { where(alatila: ['', :A, :B]) }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name

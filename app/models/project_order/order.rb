@@ -3,7 +3,7 @@ class ProjectOrder::Order < Head
 
   validates :tila, inclusion: { in: ['R'] }
 
-  scope :active, -> { where(alatila: %W(#{} A)) }
+  scope :active, -> { where(alatila: ['', :A]) }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
