@@ -626,6 +626,9 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  customer_price_lists_helper:
+    all_products: Kaikki tuotteet
+    contract_prices: Sopimushinnat
   data_export:
     product_keywords:
       choose_extra_fields: Valitse lisäkentät
@@ -648,7 +651,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -674,7 +677,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -976,10 +979,13 @@ fi:
         no_filters_specified: Et antanut tuoterajauksia
         page: Sivu
         products_not_found: Tuotteita ei löytynyt
+      footer:
+        business_id: Y-tunnus
+        domicile: Kotipaikka
+        email: Sähköposti
+        phone: Puhelin
       index:
-        all_products: Kaikki tuotteet
         contract_filter: Sopimusrajaus
-        contract_prices: Sopimushinnat
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
