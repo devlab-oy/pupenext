@@ -140,12 +140,35 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     refute @delivery_method.valid?, "Invalid vaihtoehtoinen_vak_toimitustapa value"
   end
 
-  test 'mandatory new packaging information' do
-    @delivery_method.tulostustapa = 'L'
-    @delivery_method.uudet_pakkaustiedot = ''
-    @delivery_method.rahtikirja = 'rahtikirja_unifaun_uo_siirto.inc'
+  test 'unifaun info is present' do
+    error = I18n.t 'errors.delivery_method.unifaun_info_missing'
 
-    refute @delivery_method.valid?, "New packaging info is mandatory with collective batch and Unifaun Online"
+    # If we have collective_batch and package_info_entry_denied we cannot use unifaun online
+    @delivery_method.tulostustapa = :collective_batch
+    @delivery_method.uudet_pakkaustiedot = :package_info_entry_denied
+    @delivery_method.rahtikirja = :unifaun_online
+
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors.messages[:base].first
+
+    # If we have collective_batch and package_info_entry_denied we cannot use unifaun print server
+    @delivery_method.rahtikirja = :unifaun_print_server
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors.messages[:base].first
+
+    # Not using unifaun is ok
+    @delivery_method.rahtikirja = :generic_a4
+    assert @delivery_method.valid?
+
+    # Unifaun with package_info_entry_allowed is ok
+    @delivery_method.rahtikirja = :unifaun_print_server
+    @delivery_method.uudet_pakkaustiedot = :package_info_entry_allowed
+    assert @delivery_method.valid?
+
+    # Unifaun with batch is ok
+    @delivery_method.uudet_pakkaustiedot = :package_info_entry_denied
+    @delivery_method.tulostustapa = :batch
+    assert @delivery_method.valid?
   end
 
   test 'should be in use' do

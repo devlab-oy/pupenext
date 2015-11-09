@@ -44,7 +44,7 @@ class DeliveryMethod < BaseModel
 
   validate :cargo_insurance_sku, if: :has_cargo_insurance_sku?
   validate :freight_sku, if: :has_freight_sku?
-  validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
+  validate :unifaun_required_parameters
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
 
@@ -249,8 +249,11 @@ class DeliveryMethod < BaseModel
       flash_notice = msg.join(', ')
     end
 
-    def mandatory_new_packaging_information
-      if unifaun_online? || unifaun_print_server?
+    def unifaun_required_parameters
+      # Koontierätulostus ei toimi Unifaunin kanssa ilman "uusia pakkaustietoja"
+      return unless unifaun_online? || unifaun_print_server?
+
+      if !package_info_entry_allowed? && collective_batch?
         errors.add :base, I18n.t("errors.delivery_method.unifaun_info_missing")
       end
     end
