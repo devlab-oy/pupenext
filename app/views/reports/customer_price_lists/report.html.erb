@@ -181,7 +181,7 @@
          kuvaus = ""
        end
 
-       next if params[:contract_filter].to_i == 2 && price[:hinta_peruste].to_i == 18
+       next if params[:contract_filter].to_i == 2 && (price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?(['', '13']))
     %>
 
     <tr class="container">
@@ -194,8 +194,8 @@
             <td class="width-100">
               <%= number_to_currency(price[:hinta]) %>
 
-              <% unless price[:hinta_peruste].to_i == 18 %>
-                (<%= t('reports.customer_price_lists.report.contract_price') %>)
+              <% unless price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?(['', '13']) %>
+                <small>(<%= t('reports.customer_price_lists.report.contract_price') %>)</small>
               <% end %>
             </td>
           </tr>
