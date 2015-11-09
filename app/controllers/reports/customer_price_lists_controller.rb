@@ -23,7 +23,7 @@ class Reports::CustomerPriceListsController < ApplicationController
         return render :index, status: :not_found, formats: :html
       end
     when 2 # Customer subcategory
-      @customer_subcategory = Keyword::CustomerSubcategory.find(params[:target])
+      @customer_subcategory = Keyword::CustomerSubcategory.find_by(tunnus: params[:target])
 
       if @customer_subcategory
         target = @customer_subcategory
