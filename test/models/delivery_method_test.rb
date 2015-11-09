@@ -29,26 +29,26 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'relations' do
-    assert_not_equal 0, @delivery_method.customer_keywords.count
-    assert_not_equal 0, @delivery_method.customs.count
-    assert_not_equal 0, @delivery_method.departures.count
-    assert_not_equal 0, @delivery_method.freights.count
-    assert_not_equal 0, @delivery_method.manufacture_orders.count
-    assert_not_equal 0, @delivery_method.mode_of_transports.count
-    assert_not_equal 0, @delivery_method.nature_of_transactions.count
-    assert_not_equal 0, @delivery_method.offer_orders.count
-    assert_not_equal 0, @delivery_method.preorders.count
-    assert_not_equal 0, @delivery_method.project_orders.count
-    assert_not_equal 0, @delivery_method.reclamation_orders.count
-    assert_not_equal 0, @delivery_method.sales_order_drafts.count
-    assert_not_equal 0, @delivery_method.sales_orders.not_delivered.count
-    assert_not_equal 0, @delivery_method.sorting_point.count
-    assert_not_equal 0, @delivery_method.stock_transfers.not_delivered.count
-    assert_not_equal 0, @delivery_method.translations.count
-    assert_not_equal 0, @delivery_method.waybills.count
-    assert_not_equal 0, @delivery_method.work_orders.count
-    assert_not_equal 0, @delivery_method.freight_contracts.count
-    assert_not_equal 0, @delivery_method.locations.count
+    assert @delivery_method.customer_keywords.count > 0
+    assert @delivery_method.customs.count > 0
+    assert @delivery_method.departures.count > 0
+    assert @delivery_method.freight_contracts.count > 0
+    assert @delivery_method.freights.count > 0
+    assert @delivery_method.locations.count > 0
+    assert @delivery_method.manufacture_orders.count > 0
+    assert @delivery_method.mode_of_transports.count > 0
+    assert @delivery_method.nature_of_transactions.count > 0
+    assert @delivery_method.offer_orders.count > 0
+    assert @delivery_method.preorders.count > 0
+    assert @delivery_method.project_orders.count > 0
+    assert @delivery_method.reclamation_orders.count > 0
+    assert @delivery_method.sales_order_drafts.count > 0
+    assert @delivery_method.sales_orders.not_delivered.count > 0
+    assert @delivery_method.sorting_point.count > 0
+    assert @delivery_method.stock_transfers.not_delivered.count > 0
+    assert @delivery_method.translations.count > 0
+    assert @delivery_method.waybills.count > 0
+    assert @delivery_method.work_orders.count > 0
   end
 
   test "fixtures should be valid" do
