@@ -34,6 +34,8 @@ module LegacyMethods
         price = JSON.parse(o.gets, symbolize_names: true)
 
         if info
+          price[:contract_price] = !(price[:hinta_peruste].to_i == 18 &&
+            price[:ale_peruste].in?(['', '13']))
           price
         else
           price[:hinta].to_s.to_d
