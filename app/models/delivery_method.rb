@@ -28,7 +28,7 @@ class DeliveryMethod < BaseModel
   has_many :customer_keywords,  foreign_key: :avainsana,     primary_key: :selite
   has_many :departures, foreign_key: :liitostunnus, class_name: 'DeliveryMethod::Departure'
 
-  has_and_belongs_to_many :locations, join_table: 'toimitustavat_toimipaikat', association_foreign_key: 'toimipaikka_tunnus', foreign_key: 'toimitustapa_tunnus'
+  has_and_belongs_to_many :locations, join_table: :toimitustavat_toimipaikat, association_foreign_key: :toimipaikka_tunnus, foreign_key: :toimitustapa_tunnus
 
   validates :aktiivinen_kuljetus_kansallisuus, :maa_maara, :sisamaan_kuljetus_kansallisuus, inclusion: { in: Country.pluck(:koodi) }, allow_blank: true
   validates :jarjestys, numericality: { only_integer: true }, allow_blank: true
