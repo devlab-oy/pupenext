@@ -42,8 +42,8 @@ class DeliveryMethod < BaseModel
   validates :toim_postino, length: { maximum: 15 }
   validates :toim_postitp, :toim_maa, length: { maximum: 35 }
 
-  validate :cargo_insurance_sku, if: :has_cargo_insurance_sku?
-  validate :freight_sku, if: :has_freight_sku?
+  validate :cargo_insurance_sku
+  validate :freight_sku
   validate :unifaun_required_parameters
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
@@ -175,20 +175,16 @@ class DeliveryMethod < BaseModel
 
   private
 
-    def has_freight_sku?
-      rahti_tuotenumero.present?
-    end
-
     def freight_sku
+      return unless rahti_tuotenumero.present?
+
       cnt = company.products.no_inventory_management.where(tuoteno: rahti_tuotenumero).count
       errors.add :rahti_tuotenumero, I18n.t('errors.delivery_method.product_not_in_inventory_management') if cnt.zero?
     end
 
-    def has_cargo_insurance_sku?
-      kuljetusvakuutus_tuotenumero.present?
-    end
-
     def cargo_insurance_sku
+      return unless kuljetusvakuutus_tuotenumero.present?
+
       cnt = company.products.no_inventory_management.where(tuoteno: kuljetusvakuutus_tuotenumero).count
       errors.add :kuljetusvakuutus_tuotenumero, I18n.t('errors.delivery_method.product_not_in_inventory_management') if cnt.zero?
     end
