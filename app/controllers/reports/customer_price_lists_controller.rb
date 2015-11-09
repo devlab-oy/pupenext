@@ -25,6 +25,7 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     @products = @products.where(osasto: params[:osasto]) if params[:osasto]
     @products = @products.where(try: params[:try]) if params[:try]
+    @products = @products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
 
     if @products.empty?
       flash.now[:alert] = t('.products_not_found')
