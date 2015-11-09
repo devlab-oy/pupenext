@@ -5,6 +5,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
   fixtures %w(
     customer_prices
     customers
+    keyword/customer_subcategories
     products
     terms_of_payments
   )
@@ -27,12 +28,12 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @params_customer_subcategory = {
       commit:      true,
       target_type: 2,
-      target:      @customer.ryhma,
+      target:      @customer.subcategory.id,
       osasto:      1000,
       try:         2000
     }
 
-    @price = { hinta: 22, hinta_peruste: 18, ale_peruste: 3 }
+    @price = { hinta: 22, hinta_peruste: 18, ale_peruste: 3, contract_price: true }
   end
 
   test "should get index" do
@@ -82,7 +83,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
       post :create, @params_customer_subcategory
 
       assert_equal Product.active.where(osasto: 1000, try: 2000), assigns(:products)
-      assert_equal @customer.ryhma, assigns(:customer_subcategory)
+      assert_equal @customer.subcategory, assigns(:customer_subcategory)
 
       assert_response :success
     end
