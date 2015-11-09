@@ -57,8 +57,11 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test "selite should be unique" do
-    @delivery_method.selite = "Kiitolinja"
-    refute @delivery_method.valid?, "Delivery method already exists"
+    error = I18n.t 'errors.messages.taken'
+    @delivery_method.selite = 'Kiitolinja'
+
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors[:selite].first
   end
 
   test 'valid vak_kielto values' do
@@ -73,28 +76,24 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # should allow the name of any other delivery method that accepts adr
     dm = delivery_methods :kiitolinja
-    dm.vak_kielto = ''
-    dm.save!
+    dm.update! vak_kielto: ''
 
     @delivery_method.vak_kielto = dm.selite
     assert @delivery_method.valid?
 
     # should NOT allow the name of delivery method if it does not accept adr
-    dm.vak_kielto = 'K'
-    dm.save!
+    dm.update! vak_kielto: 'K'
 
     refute @delivery_method.valid?
   end
 
   test 'should not allow changing vak_kielto if used as alternative adr method' do
     # set kaukokiito to allow adr shipments
-    @delivery_method.vak_kielto = ''
-    @delivery_method.save!
+    @delivery_method.update! vak_kielto: ''
 
     # set kiitolinja to have kaukokiito as alternative adr shipping method
     dm = delivery_methods :kiitolinja
-    dm.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
-    dm.save!
+    dm.update! vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
 
     # try to change kaukokiito to deny adr shipments
     @delivery_method.vak_kielto = 'K'
@@ -107,7 +106,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
   test 'should validate freight sku' do
     @delivery_method.rahti_tuotenumero = 'non_inventory_manageable_product'
-    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+    assert @delivery_method.valid?
 
     error = I18n.t 'errors.delivery_method.product_not_in_inventory_management'
     @delivery_method.rahti_tuotenumero = 'hammer123'
@@ -168,7 +167,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert @delivery_method.valid?
   end
 
-  test 'should be in use' do
+  test 'do not delete delivery method if it is in use' do
     assert_no_difference('DeliveryMethod.count') do
       @delivery_method.destroy
     end
@@ -239,9 +238,5 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
     # we should not have a flash notice
     assert_empty @delivery_method.flash_notice
-  end
-
-  test 'should have departure' do
-    assert_equal 1, @delivery_method.departures.count
   end
 end
