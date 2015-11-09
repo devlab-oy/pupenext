@@ -136,8 +136,10 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     @delivery_method.vaihtoehtoinen_vak_toimitustapa = ''
     assert @delivery_method.valid?
 
+    error = I18n.t 'errors.messages.inclusion'
     @delivery_method.vaihtoehtoinen_vak_toimitustapa = 'neko'
-    refute @delivery_method.valid?, "Invalid vaihtoehtoinen_vak_toimitustapa value"
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors[:vaihtoehtoinen_vak_toimitustapa].first
   end
 
   test 'unifaun info is present' do
