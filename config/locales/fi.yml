@@ -651,7 +651,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -677,7 +677,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -975,6 +975,7 @@ fi:
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy
+        customer_subcategory_not_found: Asiakasryhmää ei löytynyt
         filename: asiakashinnasto
         no_filters_specified: Et antanut tuoterajauksia
         page: Sivu
@@ -989,6 +990,7 @@ fi:
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
+        loading: Ladataan...
         product_filter: Tuoterajaus
         product_image: Tuotekuva
         target_type: Kohdetyyppi
