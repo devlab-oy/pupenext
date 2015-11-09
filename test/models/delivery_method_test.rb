@@ -56,11 +56,6 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert @departure.valid?, @departure.errors.full_messages
   end
 
-  test 'departure should have valid time' do
-    assert_equal '12:00:00', @departure.kerailyn_aloitusaika.strftime('%H:%M:%S'), @departure.errors.full_messages
-    assert_equal '13:24:59', @departure.lahdon_kellonaika.strftime('%H:%M:%S'), @departure.errors.full_messages
-  end
-
   test "selite should be unique" do
     @delivery_method.selite = "Kiitolinja"
     refute @delivery_method.valid?, "Delivery method already exists"
