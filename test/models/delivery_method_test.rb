@@ -180,56 +180,45 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'should update relations when updating selite' do
-    # Set delivery method to all available relations
-    dm = delivery_methods :kiitolinja
-    dm.update! vak_kielto: @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
-
-    cust = customers :stubborn_customer
-    cust.update! toimitustapa: @delivery_method.selite
-
-    cust_key = customer_keywords :keyword_1
-    cust_key.update! avainsana: @delivery_method.selite
-
-    order = sales_order_orders :not_delivered_order_1
-    order.update! toimitustapa: @delivery_method.selite
-
-    draft = sales_order_drafts :not_finished_order
-    draft.update! toimitustapa: @delivery_method.selite
-
-    stock = stock_transfer_orders :st_one
-    stock.update! toimitustapa: @delivery_method.selite
-
-    preorder = preorder_orders :pre_one
-    preorder.update! toimitustapa: @delivery_method.selite
-
-    offer = offer_order_orders :offer_one
-    offer.update! toimitustapa: @delivery_method.selite
-
+    # setup all delivery method fixtures
+    dm          = delivery_methods :kiitolinja
+    cust        = customers :stubborn_customer
+    cust_key    = customer_keywords :keyword_1
+    order       = sales_order_orders :not_delivered_order_1
+    draft       = sales_order_drafts :not_finished_order
+    stock       = stock_transfer_orders :st_one
+    preorder    = preorder_orders :pre_one
+    offer       = offer_order_orders :offer_one
     manufacture = manufacture_order_orders :mo_one
-    manufacture.update! toimitustapa: @delivery_method.selite
-
-    work = work_order_orders :work_one
-    work.update! toimitustapa: @delivery_method.selite
-
-    project = project_order_orders :project_one
-    project.update! toimitustapa: @delivery_method.selite
-
+    work        = work_order_orders :work_one
+    project     = project_order_orders :project_one
     reclamation = reclamation_order_orders :reclamation_one
+    freight     = freights :kaukokiito_freight
+    contract    = freight_contracts :kaukokiito_freight_contract
+    waybill     = waybills :waybill_one
+
+    # set delivery method to all available relations
+    dm.update!          vak_kielto:   @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
+    cust.update!        toimitustapa: @delivery_method.selite
+    cust_key.update!    avainsana:    @delivery_method.selite
+    order.update!       toimitustapa: @delivery_method.selite
+    draft.update!       toimitustapa: @delivery_method.selite
+    stock.update!       toimitustapa: @delivery_method.selite
+    preorder.update!    toimitustapa: @delivery_method.selite
+    offer.update!       toimitustapa: @delivery_method.selite
+    manufacture.update! toimitustapa: @delivery_method.selite
+    work.update!        toimitustapa: @delivery_method.selite
+    project.update!     toimitustapa: @delivery_method.selite
     reclamation.update! toimitustapa: @delivery_method.selite
-
-    freight = freights :kaukokiito_freight
-    freight.update! toimitustapa: @delivery_method.selite
-
-    freight_contract = freight_contracts :kaukokiito_freight_contract
-    freight_contract.update! toimitustapa: @delivery_method.selite
-
-    waybill = waybills :waybill_one
-    waybill.update! toimitustapa: @delivery_method.selite
+    freight.update!     toimitustapa: @delivery_method.selite
+    contract.update!    toimitustapa: @delivery_method.selite
+    waybill.update!     toimitustapa: @delivery_method.selite
 
     # Change delivery method name
     new_name = 'Kaukokiito kolmoinen'
     @delivery_method.update! selite: new_name
 
+    # We should have flash notice
     assert_not_equal "", @delivery_method.flash_notice
 
     # Should change everywhere
@@ -247,11 +236,13 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_equal new_name, project.reload.toimitustapa
     assert_equal new_name, reclamation.reload.toimitustapa
     assert_equal new_name, freight.reload.toimitustapa
-    assert_equal new_name, freight_contract.reload.toimitustapa
+    assert_equal new_name, contract.reload.toimitustapa
     assert_equal new_name, waybill.reload.toimitustapa
 
-    # Change something elsta than the delivery method name
+    # Change something else than the delivery method name
     @delivery_method.update! virallinen_selite: new_name
+
+    # We should not a have flash notice
     assert_equal "", @delivery_method.flash_notice
   end
 
