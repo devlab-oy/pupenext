@@ -2,6 +2,8 @@ class DeliveryMethod < BaseModel
   include AttributeSanitator
   include Searchable
 
+  attr_accessor :flash_notice
+
   with_options foreign_key: :selite do |o|
     o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :mode_of_transports,     primary_key: :kuljetusmuoto,              class_name: 'Keyword::ModeOfTransport'
@@ -60,8 +62,6 @@ class DeliveryMethod < BaseModel
   accepts_nested_attributes_for :translations, allow_destroy: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
-
-  attr_accessor :flash_notice
 
   self.table_name = :toimitustapa
   self.primary_key = :tunnus
@@ -202,14 +202,14 @@ class DeliveryMethod < BaseModel
         cnt = company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << I18n.t('administration.delivery_methods.update.customers', count: cnt) if cnt.nonzero?
 
+        cnt = company.customer_keywords.where(avainsana: selite_was).update_all(avainsana: selite)
+        msg << I18n.t('administration.delivery_methods.update.customer_keywords', count: cnt) if cnt.nonzero?
+
         cnt = company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << I18n.t('administration.delivery_methods.update.not_delivered_sales_orders', count: cnt) if cnt.nonzero?
 
         cnt = company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << I18n.t('administration.delivery_methods.update.sales_order_drafts', count: cnt) if cnt.nonzero?
-
-        cnt = company.customer_keywords.where(avainsana: selite_was).update_all(avainsana: selite)
-        msg << I18n.t('administration.delivery_methods.update.customer_keywords', count: cnt) if cnt.nonzero?
 
         cnt = company.stock_transfers.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
         msg << I18n.t('administration.delivery_methods.update.not_delivered_stock_transfers', count: cnt) if cnt.nonzero?
@@ -242,7 +242,7 @@ class DeliveryMethod < BaseModel
         msg << I18n.t('administration.delivery_methods.update.not_printed_waybills', count: cnt) if cnt.nonzero?
       end
 
-      flash_notice = msg.join(', ')
+      self.flash_notice = msg.to_sentence
     end
 
     def unifaun_parameters

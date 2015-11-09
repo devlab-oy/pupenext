@@ -180,110 +180,79 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'should update relations when updating selite' do
-    deli2 = @delivery_method.dup
-    deli2.selite = 'Kaukokiito2'
-    deli2.rahdinkuljettaja = 'Kaukokiito2'
-    deli2.vak_kielto = ''
-    deli2.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
-    deli2.save!
+    # Set delivery method to all available relations
+    dm = delivery_methods :kiitolinja
+    dm.update! vak_kielto: @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
+
+    cust = customers :stubborn_customer
+    cust.update! toimitustapa: @delivery_method.selite
+
+    cust_key = customer_keywords :keyword_1
+    cust_key.update! avainsana: @delivery_method.selite
 
     order = sales_order_orders :not_delivered_order_1
-    order.toimitustapa = @delivery_method.selite
-    order.save!
+    order.update! toimitustapa: @delivery_method.selite
 
     draft = sales_order_drafts :not_finished_order
-    draft.toimitustapa = @delivery_method.selite
-    draft.save!
+    draft.update! toimitustapa: @delivery_method.selite
 
     stock = stock_transfer_orders :st_one
-    stock.toimitustapa = @delivery_method.selite
-    stock.save!
+    stock.update! toimitustapa: @delivery_method.selite
 
     preorder = preorder_orders :pre_one
-    preorder.toimitustapa = @delivery_method.selite
-    preorder.save!
+    preorder.update! toimitustapa: @delivery_method.selite
 
     offer = offer_order_orders :offer_one
-    offer.toimitustapa = @delivery_method.selite
-    offer.save!
+    offer.update! toimitustapa: @delivery_method.selite
 
     manufacture = manufacture_order_orders :mo_one
-    manufacture.toimitustapa = @delivery_method.selite
-    manufacture.save!
+    manufacture.update! toimitustapa: @delivery_method.selite
 
     work = work_order_orders :work_one
-    work.toimitustapa = @delivery_method.selite
-    work.save!
+    work.update! toimitustapa: @delivery_method.selite
 
     project = project_order_orders :project_one
-    project.toimitustapa = @delivery_method.selite
-    project.save!
+    project.update! toimitustapa: @delivery_method.selite
 
     reclamation = reclamation_order_orders :reclamation_one
-    reclamation.toimitustapa = @delivery_method.selite
-    reclamation.save!
+    reclamation.update! toimitustapa: @delivery_method.selite
 
     freight = freights :kaukokiito_freight
-    freight.toimitustapa = @delivery_method.selite
-    freight.save!
+    freight.update! toimitustapa: @delivery_method.selite
 
     freight_contract = freight_contracts :kaukokiito_freight_contract
-    freight_contract.toimitustapa = @delivery_method.selite
-    freight_contract.save!
+    freight_contract.update! toimitustapa: @delivery_method.selite
 
     waybill = waybills :waybill_one
-    waybill.toimitustapa = @delivery_method.selite
-    waybill.save!
+    waybill.update! toimitustapa: @delivery_method.selite
 
-    @delivery_method.selite = 'Kaukokiito3'
-    @delivery_method.save!
-    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+    # Change delivery method name
+    new_name = 'Kaukokiito kolmoinen'
+    @delivery_method.update! selite: new_name
 
-    # delivery_method
-    deli2.reload
-    assert_equal 'Kaukokiito3', deli2.vaihtoehtoinen_vak_toimitustapa
+    assert_not_equal "", @delivery_method.flash_notice
 
-    # customers
-    cust = customers :stubborn_customer
-    assert_equal 'Kaukokiito3', cust.reload.toimitustapa
+    # Should change everywhere
+    assert_equal new_name, dm.reload.vak_kielto
+    assert_equal new_name, dm.vaihtoehtoinen_vak_toimitustapa
+    assert_equal new_name, cust.reload.toimitustapa
+    assert_equal new_name, cust_key.reload.avainsana
+    assert_equal new_name, order.reload.toimitustapa
+    assert_equal new_name, draft.reload.toimitustapa
+    assert_equal new_name, stock.reload.toimitustapa
+    assert_equal new_name, preorder.reload.toimitustapa
+    assert_equal new_name, offer.reload.toimitustapa
+    assert_equal new_name, manufacture.reload.toimitustapa
+    assert_equal new_name, work.reload.toimitustapa
+    assert_equal new_name, project.reload.toimitustapa
+    assert_equal new_name, reclamation.reload.toimitustapa
+    assert_equal new_name, freight.reload.toimitustapa
+    assert_equal new_name, freight_contract.reload.toimitustapa
+    assert_equal new_name, waybill.reload.toimitustapa
 
-    # customer keywords
-    cust_key = customer_keywords :keyword_1
-    assert_equal 'Kaukokiito3', cust_key.reload.avainsana
-
-    # sales orders
-    assert_equal 'Kaukokiito3', order.reload.toimitustapa
-    assert_equal 'Kaukokiito3', draft.reload.toimitustapa
-
-    # stock transfer orders
-    assert_equal 'Kaukokiito3', stock.reload.toimitustapa
-
-    # stock transfer orders
-    assert_equal 'Kaukokiito3', preorder.reload.toimitustapa
-
-    # offer order orders
-    assert_equal 'Kaukokiito3', offer.reload.toimitustapa
-
-    # manufacture order orders
-    assert_equal 'Kaukokiito3', manufacture.reload.toimitustapa
-
-    # work order orders
-    assert_equal 'Kaukokiito3', work.reload.toimitustapa
-
-    # project order orders
-    assert_equal 'Kaukokiito3', project.reload.toimitustapa
-
-    # reclamation order orders
-    assert_equal 'Kaukokiito3', reclamation.reload.toimitustapa
-
-    # freights
-    assert_equal 'Kaukokiito3', freight.reload.toimitustapa
-
-    # freight_contract
-    assert_equal 'Kaukokiito3', freight_contract.reload.toimitustapa
-
-    # waybill
-    assert_equal 'Kaukokiito3', waybill.reload.toimitustapa
+    # Change something elsta than the delivery method name
+    @delivery_method.update! virallinen_selite: new_name
+    assert_equal "", @delivery_method.flash_notice
   end
 
   test 'should have departure' do
