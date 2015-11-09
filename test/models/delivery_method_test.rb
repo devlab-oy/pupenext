@@ -107,24 +107,29 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     # should not be allowed
     error = I18n.t 'errors.delivery_method.in_use_adr'
     refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages.first.second.first
-    assert_equal :vak_kielto, @delivery_method.errors.messages.first.first
+    assert_equal error, @delivery_method.errors.messages[:vak_kielto].first
   end
 
   test 'should validate freight sku' do
     @delivery_method.rahti_tuotenumero = 'non_inventory_manageable_product'
     assert @delivery_method.valid?, @delivery_method.errors.full_messages
 
+    error = I18n.t 'errors.delivery_method.product_not_in_inventory_management'
     @delivery_method.rahti_tuotenumero = 'hammer123'
-    refute @delivery_method.valid?, @delivery_method.errors.full_messages
+
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors.messages[:rahti_tuotenumero].first
   end
 
   test 'should validate cargo insurance sku' do
     @delivery_method.kuljetusvakuutus_tuotenumero = 'non_inventory_manageable_product'
-    assert @delivery_method.valid?, @delivery_method.errors.full_messages
+    assert @delivery_method.valid?
 
+    error = I18n.t 'errors.delivery_method.product_not_in_inventory_management'
     @delivery_method.kuljetusvakuutus_tuotenumero = 'hammer123'
-    refute @delivery_method.valid?, @delivery_method.errors.full_messages
+
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors.messages[:kuljetusvakuutus_tuotenumero].first
   end
 
   test 'should validate alternative adr prohibition' do
