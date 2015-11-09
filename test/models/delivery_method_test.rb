@@ -214,14 +214,14 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     contract.update!    toimitustapa: @delivery_method.selite
     waybill.update!     toimitustapa: @delivery_method.selite
 
-    # Change delivery method name
-    new_name = 'Kaukokiito kolmoinen'
+    # change the delivery method name
+    new_name = 'Kaukokiito kakkoinen'
     @delivery_method.update! selite: new_name
 
-    # We should have flash notice
-    assert_not_equal "", @delivery_method.flash_notice
+    # we should have a flash notice
+    assert_not_empty @delivery_method.flash_notice
 
-    # Should change everywhere
+    # should change everywhere
     assert_equal new_name, dm.reload.vak_kielto
     assert_equal new_name, dm.vaihtoehtoinen_vak_toimitustapa
     assert_equal new_name, cust.reload.toimitustapa
@@ -239,11 +239,11 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_equal new_name, contract.reload.toimitustapa
     assert_equal new_name, waybill.reload.toimitustapa
 
-    # Change something else than the delivery method name
+    # change something else than the delivery method name
     @delivery_method.update! virallinen_selite: new_name
 
-    # We should not a have flash notice
-    assert_equal "", @delivery_method.flash_notice
+    # we should not have a flash notice
+    assert_empty @delivery_method.flash_notice
   end
 
   test 'should have departure' do
