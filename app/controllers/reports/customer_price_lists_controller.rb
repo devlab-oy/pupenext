@@ -2,7 +2,7 @@ class Reports::CustomerPriceListsController < ApplicationController
   def create
     return render :index, formats: :html unless params[:commit].present?
 
-    unless params[:osasto] || params[:try]
+    unless params[:osasto] || params[:try] || params[:tuotemerkki]
       flash.now[:alert] = t('.no_filters_specified')
       return render :index, formats: :html
     end
