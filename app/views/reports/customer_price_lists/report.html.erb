@@ -155,73 +155,7 @@
 
   </thead>
   <tbody>
-  <% @products.each do |p| %>
-    <%
-       if @customer
-         price = p.customer_price_with_info(@customer.id)
-       else
-         price = p.customer_subcategory_price_with_info(@customer_subcategory)
-       end
-
-       if params[:product_image] && p.cover_thumbnail
-         image = p.cover_thumbnail.data
-       else
-         image = false
-       end
-
-       if params[:lyhytkuvaus] && p.lyhytkuvaus.present?
-         lyhytkuvaus = p.lyhytkuvaus
-       else
-         lyhytkuvaus = false
-       end
-
-       if params[:kuvaus] && p.kuvaus.present?
-         kuvaus = p.kuvaus
-       else
-         kuvaus = ""
-       end
-
-       next if params[:contract_filter].to_i == 2 && (price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?(['', '13']))
-    %>
-
-    <tr class="container">
-      <td colspan="3" class="inner-table-container">
-        <table>
-          <tr>
-            <td class="width-100"><strong><%= p.tuoteno %></strong></td>
-            <td><strong><%= p.nimitys %></strong></td>
-
-            <td class="width-100">
-              <%= number_to_currency(price[:hinta]) %>
-
-              <% unless price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?(['', '13']) %>
-                <small>(<%= t('reports.customer_price_lists.report.contract_price') %>)</small>
-              <% end %>
-            </td>
-          </tr>
-
-          <% if lyhytkuvaus %>
-            <tr>
-              <td colspan="5"><%= lyhytkuvaus.truncate 2500 %></td>
-            </tr>
-          <% end %>
-
-          <% if image || kuvaus.present? %>
-            <tr>
-              <% if image %>
-                <td>
-                  <img src="data:image/jpg;base64,<%= Base64.encode64(image) %>" style="width: 100%;"/>
-                </td>
-              <% end %>
-
-              <td colspan="4"><%= kuvaus.truncate 2500 %></td>
-            </tr>
-          <% end %>
-        </table>
-      </td>
-    </tr>
-  <% end %>
-
+  <%= render partial: "product", collection: @products, as: :p %>
   </tbody>
 </table>
 
