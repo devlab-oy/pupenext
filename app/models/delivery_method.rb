@@ -42,11 +42,11 @@ class DeliveryMethod < BaseModel
   validates :toim_postino, length: { maximum: 15 }
   validates :toim_postitp, :toim_maa, length: { maximum: 35 }
 
+  validate :adr_handling
+  validate :alternative_adr_delivery_method
   validate :cargo_insurance_sku
   validate :freight_sku
-  validate :unifaun_required_parameters
-  validate :vaihtoehtoinen_vak_toimitustapa_validation
-  validate :vak_kielto_validation
+  validate :unifaun_parameters
 
   before_save :defaults
   before_destroy :check_relations
@@ -245,7 +245,7 @@ class DeliveryMethod < BaseModel
       flash_notice = msg.join(', ')
     end
 
-    def unifaun_required_parameters
+    def unifaun_parameters
       # Koontierätulostus ei toimi Unifaunin kanssa ilman "uusia pakkaustietoja"
       return unless unifaun_online? || unifaun_print_server?
 
@@ -254,7 +254,7 @@ class DeliveryMethod < BaseModel
       end
     end
 
-    def vak_kielto_validation
+    def adr_handling
       allowed = company.delivery_methods.permit_adr.shipment.pluck(:selite) + [ '', 'K' ]
 
       unless allowed.include? vak_kielto
@@ -270,7 +270,7 @@ class DeliveryMethod < BaseModel
       end
     end
 
-    def vaihtoehtoinen_vak_toimitustapa_validation
+    def alternative_adr_delivery_method
       allowed = company.delivery_methods.permit_adr.shipment.pluck(:selite) + [ '' ]
 
       unless allowed.include? vaihtoehtoinen_vak_toimitustapa
