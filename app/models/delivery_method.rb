@@ -3,14 +3,15 @@ class DeliveryMethod < BaseModel
   include Searchable
 
   with_options foreign_key: :selite do |o|
+    o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :mode_of_transports,     primary_key: :kuljetusmuoto,              class_name: 'Keyword::ModeOfTransport'
     o.has_many :nature_of_transactions, primary_key: :kauppatapahtuman_luonne,    class_name: 'Keyword::NatureOfTransaction'
-    o.has_many :customs,                primary_key: :poistumistoimipaikka_koodi, class_name: 'Keyword::Customs'
     o.has_many :sorting_point,          primary_key: :lajittelupiste,             class_name: 'Keyword::SortingPoint'
     o.has_many :translations,                                                     class_name: 'Keyword::DeliveryMethodTranslation'
   end
 
   with_options foreign_key: :toimitustapa, primary_key: :selite do |o|
+    o.has_many :freight_contracts
     o.has_many :freights
     o.has_many :manufacture_orders, class_name: 'ManufactureOrder::Order'
     o.has_many :offer_orders,       class_name: 'OfferOrder::Order'
@@ -22,7 +23,6 @@ class DeliveryMethod < BaseModel
     o.has_many :stock_transfers,    class_name: 'StockTransfer::Order'
     o.has_many :waybills
     o.has_many :work_orders,        class_name: 'WorkOrder::Order'
-    o.has_many :freight_contracts
   end
 
   has_many :customer_keywords,  foreign_key: :avainsana,     primary_key: :selite
@@ -42,11 +42,11 @@ class DeliveryMethod < BaseModel
   validates :toim_postino, length: { maximum: 15 }
   validates :toim_postitp, :toim_maa, length: { maximum: 35 }
 
+  validate :cargo_insurance_sku, if: :has_cargo_insurance_sku?
+  validate :freight_sku, if: :has_freight_sku?
+  validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
   validate :vaihtoehtoinen_vak_toimitustapa_validation
   validate :vak_kielto_validation
-  validate :mandatory_new_packaging_information if :package_info_entry_denied && :collective_batch
-  validate :freight_sku, if: :has_freight_sku?
-  validate :cargo_insurance_sku, if: :has_cargo_insurance_sku?
 
   before_save :defaults
   before_destroy :check_relations
@@ -56,8 +56,8 @@ class DeliveryMethod < BaseModel
   float_columns :jvkulu, :erilliskasiteltavakulu, :kuljetusvakuutus, :kuluprosentti, :ulkomaanlisa,
                 :lisakulu, :lisakulu_summa
 
-  accepts_nested_attributes_for :translations, allow_destroy: true
   accepts_nested_attributes_for :departures, allow_destroy: true
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   scope :permit_adr, -> { where(vak_kielto: '') }
 
