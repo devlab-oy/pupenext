@@ -66,23 +66,49 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     refute @delivery_method.valid?, "Delivery method already exists"
   end
 
-  test 'should validate adr prohibition' do
+  test 'valid vak_kielto values' do
     @delivery_method.vak_kielto = ''
     assert @delivery_method.valid?
 
     @delivery_method.vak_kielto = 'K'
     assert @delivery_method.valid?
 
-    @delivery_method.vak_kielto = 'neko'
-    refute @delivery_method.valid?, "Invalid vak_kielto value"
+    @delivery_method.vak_kielto = 'not valid'
+    refute @delivery_method.valid?
 
-    deli2 = delivery_methods :kiitolinja
-    deli2.vaihtoehtoinen_vak_toimitustapa = 'Kaukokiito'
-    deli2.save!
-    @delivery_method.vak_kielto = 'K'
-    @delivery_method.save
+    # should allow the name of any other delivery method that accepts adr
+    dm = delivery_methods :kiitolinja
+    dm.vak_kielto = ''
+    dm.save!
+
+    @delivery_method.vak_kielto = dm.selite
+    assert @delivery_method.valid?
+
+    # should NOT allow the name of delivery method if it does not accept adr
+    dm.vak_kielto = 'K'
+    dm.save!
+
+    refute @delivery_method.valid?
+  end
+
+  test 'should not allow changing vak_kielto if used as alternative adr method' do
+    # set kaukokiito to allow adr shipments
     @delivery_method.vak_kielto = ''
-    refute @delivery_method.valid?, @delivery_method.errors.full_messages
+    @delivery_method.save!
+
+    # set kiitolinja to have kaukokiito as alternative adr shipping method
+    dm = delivery_methods :kiitolinja
+    dm.vaihtoehtoinen_vak_toimitustapa = @delivery_method.selite
+    dm.save!
+
+    # try to change kaukokiito to deny adr shipments
+    @delivery_method.vak_kielto = 'K'
+
+    # should not be allowed
+    error = I18n.t 'errors.delivery_method.in_use_adr'
+    refute @delivery_method.valid?
+    assert_equal error, @delivery_method.errors.messages.first.second.first
+    assert_equal :vak_kielto, @delivery_method.errors.messages.first.first
   end
 
   test 'should validate freight sku' do
