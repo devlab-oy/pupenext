@@ -104,6 +104,16 @@ class Product < BaseModel
     purchase_order_rows.open.where(toimaika: range)
   end
 
+  def contract_price?(target)
+    if target.is_a? Customer
+      self.customer_price_with_info(target.id)[:contract_price]
+    elsif target.is_a? ::Keyword::CustomerSubcategory
+      self.customer_subcategory_price_with_info(target.id)[:contract_price]
+    else
+      false
+    end
+  end
+
   private
 
     def set_date_fields
