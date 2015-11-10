@@ -26,6 +26,23 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   def setup
     @delivery_method = delivery_methods :kaukokiito
     @departure = delivery_method_departures :departure_one
+
+    # setup fixtures for all delivery method relations
+    @dm          = delivery_methods :kiitolinja
+    @cust        = customers :stubborn_customer
+    @cust_key    = customer_keywords :keyword_1
+    @order       = sales_order_orders :not_delivered_order_1
+    @draft       = sales_order_drafts :not_finished_order
+    @stock       = stock_transfer_orders :st_one
+    @preorder    = preorder_orders :pre_one
+    @offer       = offer_order_orders :offer_one
+    @manufacture = manufacture_order_orders :mo_one
+    @work        = work_order_orders :work_one
+    @project     = project_order_orders :project_one
+    @reclamation = reclamation_order_orders :reclamation_one
+    @freight     = freights :kaukokiito_freight
+    @contract    = freight_contracts :kaukokiito_freight_contract
+    @waybill     = waybills :waybill_one
   end
 
   test 'relations' do
@@ -174,39 +191,22 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'should update relations when updating selite' do
-    # setup all delivery method fixtures
-    dm          = delivery_methods :kiitolinja
-    cust        = customers :stubborn_customer
-    cust_key    = customer_keywords :keyword_1
-    order       = sales_order_orders :not_delivered_order_1
-    draft       = sales_order_drafts :not_finished_order
-    stock       = stock_transfer_orders :st_one
-    preorder    = preorder_orders :pre_one
-    offer       = offer_order_orders :offer_one
-    manufacture = manufacture_order_orders :mo_one
-    work        = work_order_orders :work_one
-    project     = project_order_orders :project_one
-    reclamation = reclamation_order_orders :reclamation_one
-    freight     = freights :kaukokiito_freight
-    contract    = freight_contracts :kaukokiito_freight_contract
-    waybill     = waybills :waybill_one
-
     # set delivery method to all available relations
-    dm.update!          vak_kielto:   @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
-    cust.update!        toimitustapa: @delivery_method.selite
-    cust_key.update!    avainsana:    @delivery_method.selite
-    order.update!       toimitustapa: @delivery_method.selite
-    draft.update!       toimitustapa: @delivery_method.selite
-    stock.update!       toimitustapa: @delivery_method.selite
-    preorder.update!    toimitustapa: @delivery_method.selite
-    offer.update!       toimitustapa: @delivery_method.selite
-    manufacture.update! toimitustapa: @delivery_method.selite
-    work.update!        toimitustapa: @delivery_method.selite
-    project.update!     toimitustapa: @delivery_method.selite
-    reclamation.update! toimitustapa: @delivery_method.selite
-    freight.update!     toimitustapa: @delivery_method.selite
-    contract.update!    toimitustapa: @delivery_method.selite
-    waybill.update!     toimitustapa: @delivery_method.selite
+    @dm.update!          vak_kielto:   @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
+    @cust.update!        toimitustapa: @delivery_method.selite
+    @cust_key.update!    avainsana:    @delivery_method.selite
+    @order.update!       toimitustapa: @delivery_method.selite
+    @draft.update!       toimitustapa: @delivery_method.selite
+    @stock.update!       toimitustapa: @delivery_method.selite
+    @preorder.update!    toimitustapa: @delivery_method.selite
+    @offer.update!       toimitustapa: @delivery_method.selite
+    @manufacture.update! toimitustapa: @delivery_method.selite
+    @work.update!        toimitustapa: @delivery_method.selite
+    @project.update!     toimitustapa: @delivery_method.selite
+    @reclamation.update! toimitustapa: @delivery_method.selite
+    @freight.update!     toimitustapa: @delivery_method.selite
+    @contract.update!    toimitustapa: @delivery_method.selite
+    @waybill.update!     toimitustapa: @delivery_method.selite
 
     # change the delivery method name
     new_name = 'Kaukokiito kakkoinen'
@@ -216,22 +216,22 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_not_empty @delivery_method.flash_notice
 
     # should change everywhere
-    assert_equal new_name, dm.reload.vak_kielto
-    assert_equal new_name, dm.vaihtoehtoinen_vak_toimitustapa
-    assert_equal new_name, cust.reload.toimitustapa
-    assert_equal new_name, cust_key.reload.avainsana
-    assert_equal new_name, order.reload.toimitustapa
-    assert_equal new_name, draft.reload.toimitustapa
-    assert_equal new_name, stock.reload.toimitustapa
-    assert_equal new_name, preorder.reload.toimitustapa
-    assert_equal new_name, offer.reload.toimitustapa
-    assert_equal new_name, manufacture.reload.toimitustapa
-    assert_equal new_name, work.reload.toimitustapa
-    assert_equal new_name, project.reload.toimitustapa
-    assert_equal new_name, reclamation.reload.toimitustapa
-    assert_equal new_name, freight.reload.toimitustapa
-    assert_equal new_name, contract.reload.toimitustapa
-    assert_equal new_name, waybill.reload.toimitustapa
+    assert_equal new_name, @dm.reload.vak_kielto
+    assert_equal new_name, @dm.vaihtoehtoinen_vak_toimitustapa
+    assert_equal new_name, @cust.reload.toimitustapa
+    assert_equal new_name, @cust_key.reload.avainsana
+    assert_equal new_name, @order.reload.toimitustapa
+    assert_equal new_name, @draft.reload.toimitustapa
+    assert_equal new_name, @stock.reload.toimitustapa
+    assert_equal new_name, @preorder.reload.toimitustapa
+    assert_equal new_name, @offer.reload.toimitustapa
+    assert_equal new_name, @manufacture.reload.toimitustapa
+    assert_equal new_name, @work.reload.toimitustapa
+    assert_equal new_name, @project.reload.toimitustapa
+    assert_equal new_name, @reclamation.reload.toimitustapa
+    assert_equal new_name, @freight.reload.toimitustapa
+    assert_equal new_name, @contract.reload.toimitustapa
+    assert_equal new_name, @waybill.reload.toimitustapa
 
     # change something else than the delivery method name
     @delivery_method.update! virallinen_selite: new_name
