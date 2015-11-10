@@ -184,9 +184,159 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'do not delete delivery method if it is in use' do
-    assert_no_difference('DeliveryMethod.count') do
+    # set kiitolinja delivery method for all available relations
+    dm_name = @kiitolinja.selite
+    @kaukokiito.update!  vak_kielto:   '', vaihtoehtoinen_vak_toimitustapa: ''
+    @cust.update!        toimitustapa: dm_name
+    @cust_key.update!    avainsana:    dm_name
+    @order.update!       toimitustapa: dm_name
+    @draft.update!       toimitustapa: dm_name
+    @stock.update!       toimitustapa: dm_name
+    @preorder.update!    toimitustapa: dm_name
+    @offer.update!       toimitustapa: dm_name
+    @manufacture.update! toimitustapa: dm_name
+    @work.update!        toimitustapa: dm_name
+    @project.update!     toimitustapa: dm_name
+    @reclamation.update! toimitustapa: dm_name
+    @freight.update!     toimitustapa: dm_name
+    @contract.update!    toimitustapa: dm_name
+    @waybill.update!     toimitustapa: dm_name
+
+    kaukokiito = @kaukokiito.dup
+
+    # We should be able to destroy kaukokiito, it's not used anywhere
+    assert_difference('DeliveryMethod.count', -1) do
       @kaukokiito.destroy
     end
+
+    # Let's get kaukokiito back
+    kaukokiito.save!
+    dm_name = kaukokiito.selite
+
+    # Set kaukokiito as alternative adr for kiitolinja
+    @kiitolinja.update! vak_kielto: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_delivery_method', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito as alternative adr for kiitolinja
+    @kiitolinja.update! vak_kielto: '', vaihtoehtoinen_vak_toimitustapa: dm_name
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito as default for customer
+    @kiitolinja.update! vak_kielto: '', vaihtoehtoinen_vak_toimitustapa: ''
+    @cust.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_customers', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito as default for customer keyword
+    @cust.update! toimitustapa: ''
+    @cust_key.update! avainsana: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_customer_keywords', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an order
+    @cust_key.update! avainsana: ''
+    @order.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_sales_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an order draft
+    @order.update! toimitustapa: ''
+    @draft.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_sales_order_drafts', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an stock transfer
+    @draft.update! toimitustapa: ''
+    @stock.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_stock_transfers', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an preorder
+    @stock.update! toimitustapa: ''
+    @preorder.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_preorders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an offer
+    @preorder.update! toimitustapa: ''
+    @offer.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_offer_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an manufacture order
+    @offer.update! toimitustapa: ''
+    @manufacture.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_manufacture_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an workorder
+    @manufacture.update! toimitustapa: ''
+    @work.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_work_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an project
+    @work.update! toimitustapa: ''
+    @project.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_project_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an reclamation
+    @project.update! toimitustapa: ''
+    @reclamation.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_reclamation_orders', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an freight
+    @reclamation.update! toimitustapa: ''
+    @freight.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_freights', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an freight contract
+    @freight.update! toimitustapa: ''
+    @contract.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_freight_contracts', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
+
+    # Set kaukokiito to an waybill
+    @contract.update! toimitustapa: ''
+    @waybill.update! toimitustapa: dm_name
+    error = I18n.t 'errors.delivery_method.in_use_waybills', count: 1
+
+    refute kaukokiito.destroy
+    assert_equal error, kaukokiito.errors.messages[:base].last
   end
 
   test 'should update relations when updating selite' do
