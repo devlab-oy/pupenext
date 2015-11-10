@@ -7,8 +7,8 @@
        p.lyhytkuvaus.truncate(2500) :
        ''
 
-   image = params[:product_image] && p.cover_image.present? ?
-       Base64.encode64(p.cover_image.data) :
+   image = params[:product_image] && p.cover_thumbnail.present? ?
+       Base64.encode64(p.cover_thumbnail.data) :
        ''
 
    kuvaus = params[:kuvaus] && p.kuvaus.present? ?
