@@ -169,7 +169,7 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def accumulated_depreciation_at(date)
-    fixed_assets_rows.where("tapvm <= ?", date).sum(:summa)
+    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
   end
 
   def accumulated_difference_at(date)
@@ -181,7 +181,7 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def depreciation_between(date1, date2)
-    fixed_assets_rows.where(tapvm: date1..date2).sum(:summa)
+     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
   def difference_between(date1, date2)

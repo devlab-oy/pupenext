@@ -16,6 +16,7 @@ class Reports::CommodityReportsControllerTest < ActionController::TestCase
   test 'gets index' do
     get :index
     assert_response :success
+    assert_template :index
   end
 
   test 'should get balance sheet with depreciations report' do
