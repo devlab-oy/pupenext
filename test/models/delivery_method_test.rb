@@ -47,6 +47,7 @@ class DeliveryMethodTest < ActiveSupport::TestCase
 
   test 'relations' do
     assert @kaukokiito.customer_keywords.count > 0
+    assert @kaukokiito.customers.count > 0
     assert @kaukokiito.customs.count > 0
     assert @kaukokiito.departures.count > 0
     assert @kaukokiito.freight_contracts.count > 0

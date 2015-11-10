@@ -13,6 +13,7 @@ class DeliveryMethod < BaseModel
   end
 
   with_options foreign_key: :toimitustapa, primary_key: :selite do |o|
+    o.has_many :customers,          class_name: 'Customer'
     o.has_many :freight_contracts
     o.has_many :freights
     o.has_many :manufacture_orders, class_name: 'ManufactureOrder::Order'
@@ -279,105 +280,33 @@ class DeliveryMethod < BaseModel
     end
 
     def check_relations
-      allow_delete = true
+      checklist = [
+        { count: customers.count, error: "in_use_customers" },
+        { count: sales_orders.not_delivered.count, error: "in_use_sales_orders" },
+        { count: sales_order_drafts.count, error: "in_use_sales_order_drafts" },
+        { count: freights.count, error: "in_use_freights" },
+        { count: freight_contracts.count, error: "in_use_freight_contracts" },
+        { count: customer_keywords.count, error: "in_use_customer_keywords" },
+        { count: stock_transfers.not_delivered.count, error: "in_use_stock_transfers" },
+        { count: preorders.count, error: "in_use_preorders" },
+        { count: offer_orders.count, error: "in_use_offer_orders" },
+        { count: manufacture_orders.count, error: "in_use_manufacture_orders" },
+        { count: work_orders.count, error: "in_use_work_orders" },
+        { count: project_orders.count, error: "in_use_project_orders" },
+        { count: reclamation_orders.count, error: "in_use_reclamation_orders" },
+        { count: waybills.not_printed.count, error: "in_use_waybills" },
+        { count: company.delivery_methods.where(vak_kielto: selite).count, error: "in_use_delivery_method" },
+        { count: company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite).count, error: "in_use_delivery_method" },
+      ]
 
-      count = company.customers.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_customers", count: count)
-        allow_delete = false
+      checklist.each do |check|
+        count = check[:count]
+        error = I18n.t "errors.delivery_method.#{check[:error]}", count: count
+
+        errors.add(:base, error) unless count.zero?
       end
 
-      count = company.delivery_methods.where(vak_kielto: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_delivery_method", count: count)
-        allow_delete = false
-      end
-
-      count = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_delivery_method", count: count)
-        allow_delete = false
-      end
-
-      count = company.sales_orders.not_delivered.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_sales_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.sales_order_drafts.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_sales_order_drafts", count: count)
-        allow_delete = false
-      end
-
-      count = company.freights.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_freights", count: count)
-        allow_delete = false
-      end
-
-      count = company.freight_contracts.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_freight_contracts", count: count)
-        allow_delete = false
-      end
-
-      count = company.customer_keywords.where(avainsana: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_customer_keywords", count: count)
-        allow_delete = false
-      end
-
-      count = company.stock_transfers.not_delivered.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_stock_transfers", count: count)
-        allow_delete = false
-      end
-
-      count = company.preorders.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_preorders", count: count)
-        allow_delete = false
-      end
-
-      count = company.offer_orders.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_offer_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.manufacture_orders.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_manufacture_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.work_orders.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_work_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.project_orders.active.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_project_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.reclamation_orders.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_reclamation_orders", count: count)
-        allow_delete = false
-      end
-
-      count = company.waybills.not_printed.where(toimitustapa: selite).count
-      if count.nonzero?
-        errors.add :base, I18n.t("errors.delivery_method.in_use_waybills", count: count)
-        allow_delete = false
-      end
-
-      allow_delete
+      checklist.all? { |check| check[:count].zero? }
     end
 
     def defaults
