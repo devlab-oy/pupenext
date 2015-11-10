@@ -287,6 +287,18 @@ class DeliveryMethod < BaseModel
         allow_delete = false
       end
 
+      count = company.delivery_methods.where(vak_kielto: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_delivery_method", count: count)
+        allow_delete = false
+      end
+
+      count = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite).count
+      if count.nonzero?
+        errors.add :base, I18n.t("errors.delivery_method.in_use_delivery_method", count: count)
+        allow_delete = false
+      end
+
       count = company.sales_orders.not_delivered.where(toimitustapa: selite).count
       if count.nonzero?
         errors.add :base, I18n.t("errors.delivery_method.in_use_sales_orders", count: count)

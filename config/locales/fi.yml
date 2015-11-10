@@ -213,7 +213,7 @@ fi:
         rahdinkuljettaja: Kuljetusyhtiö
         rahti_tuotenumero: Rahtiveloitus tuotenumero
         rahtikirja: Rahtikirjatyyppi
-        rahtikirjakopio_email: 
+        rahtikirjakopio_email:
         sallitut_alustat: Sallitut keräilyalustat
         sallitut_maat: Sallitut maat
         selite: Nimitys
@@ -858,7 +858,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -884,7 +884,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -964,6 +964,7 @@ fi:
       in_use_adr: 'HUOM: Et voi asettaa toimitustavalle VAK-kieltoa, sillä muut toimitustavat käyttävät tätä toimitustapaa vaihtoehtoisena VAK-toimitustapana'
       in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
       in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_delivery_method: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimitustavalla'
       in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
       in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
       in_use_manufacture_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} valmistuksella'
