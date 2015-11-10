@@ -14,24 +14,35 @@ class CompanyTest < ActiveSupport::TestCase
   test "company relations" do
     assert_equal Parameter, @acme.parameter.class
     assert @acme.accounts.count > 0
+    assert @acme.bank_accounts.count > 0
+    assert @acme.bank_details.count > 0
     assert @acme.brands.count > 0
+    assert @acme.carriers.count > 0
+    assert @acme.cash_registers.count > 0
     assert @acme.categories.count > 0
     assert @acme.commodities.count > 0
     assert @acme.cost_centers.count > 0
     assert @acme.currencies.count > 0
+    assert @acme.customers.count > 0
+    assert @acme.factorings.count > 0
     assert @acme.fiscal_years.count > 0
     assert @acme.keywords.count > 0
     assert @acme.manufacture_orders.count > 0
+    assert @acme.package_codes.count > 0
+    assert @acme.packages.count > 0
     assert @acme.packing_areas.count > 0
+    assert @acme.printers.count > 0
     assert @acme.product_statuses.count > 0
     assert @acme.product_suppliers.count > 0
     assert @acme.products.count > 0
     assert @acme.projects.count > 0
     assert @acme.revenue_expenditures.count > 0
+    assert @acme.shelf_locations.count > 0
     assert @acme.stock_transfers.count > 0
     assert @acme.subcategories.count > 0
     assert @acme.suppliers.count > 0
     assert @acme.targets.count > 0
+    assert @acme.terms_of_payments.count > 0
     assert @acme.transports.count > 0
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
