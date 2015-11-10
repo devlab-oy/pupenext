@@ -24,11 +24,11 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   )
 
   def setup
-    @delivery_method = delivery_methods :kaukokiito
+    @kaukokiito = delivery_methods :kaukokiito
+    @kiitolinja = delivery_methods :kiitolinja
     @departure = delivery_method_departures :departure_one
 
     # setup fixtures for all delivery method relations
-    @dm          = delivery_methods :kiitolinja
     @cust        = customers :stubborn_customer
     @cust_key    = customer_keywords :keyword_1
     @order       = sales_order_orders :not_delivered_order_1
@@ -46,178 +46,177 @@ class DeliveryMethodTest < ActiveSupport::TestCase
   end
 
   test 'relations' do
-    assert @delivery_method.customer_keywords.count > 0
-    assert @delivery_method.customs.count > 0
-    assert @delivery_method.departures.count > 0
-    assert @delivery_method.freight_contracts.count > 0
-    assert @delivery_method.freights.count > 0
-    assert @delivery_method.locations.count > 0
-    assert @delivery_method.manufacture_orders.count > 0
-    assert @delivery_method.mode_of_transports.count > 0
-    assert @delivery_method.nature_of_transactions.count > 0
-    assert @delivery_method.offer_orders.count > 0
-    assert @delivery_method.preorders.count > 0
-    assert @delivery_method.project_orders.count > 0
-    assert @delivery_method.reclamation_orders.count > 0
-    assert @delivery_method.sales_order_drafts.count > 0
-    assert @delivery_method.sales_orders.not_delivered.count > 0
-    assert @delivery_method.sorting_point.count > 0
-    assert @delivery_method.stock_transfers.not_delivered.count > 0
-    assert @delivery_method.translations.count > 0
-    assert @delivery_method.waybills.count > 0
-    assert @delivery_method.work_orders.count > 0
+    assert @kaukokiito.customer_keywords.count > 0
+    assert @kaukokiito.customs.count > 0
+    assert @kaukokiito.departures.count > 0
+    assert @kaukokiito.freight_contracts.count > 0
+    assert @kaukokiito.freights.count > 0
+    assert @kaukokiito.locations.count > 0
+    assert @kaukokiito.manufacture_orders.count > 0
+    assert @kaukokiito.mode_of_transports.count > 0
+    assert @kaukokiito.nature_of_transactions.count > 0
+    assert @kaukokiito.offer_orders.count > 0
+    assert @kaukokiito.preorders.count > 0
+    assert @kaukokiito.project_orders.count > 0
+    assert @kaukokiito.reclamation_orders.count > 0
+    assert @kaukokiito.sales_order_drafts.count > 0
+    assert @kaukokiito.sales_orders.not_delivered.count > 0
+    assert @kaukokiito.sorting_point.count > 0
+    assert @kaukokiito.stock_transfers.not_delivered.count > 0
+    assert @kaukokiito.translations.count > 0
+    assert @kaukokiito.waybills.count > 0
+    assert @kaukokiito.work_orders.count > 0
   end
 
   test "fixtures should be valid" do
-    assert @delivery_method.valid?, @delivery_method.errors.messages
+    assert @kaukokiito.valid?, @kaukokiito.errors.messages
     assert @departure.valid?, @departure.errors.full_messages
   end
 
   test "selite should be unique" do
     error = I18n.t 'errors.messages.taken'
-    @delivery_method.selite = 'Kiitolinja'
+    @kaukokiito.selite = @kiitolinja.selite
 
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors[:selite].first
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors[:selite].first
   end
 
   test 'valid vak_kielto values' do
-    @delivery_method.vak_kielto = ''
-    assert @delivery_method.valid?
+    @kaukokiito.vak_kielto = ''
+    assert @kaukokiito.valid?
 
-    @delivery_method.vak_kielto = 'K'
-    assert @delivery_method.valid?
+    @kaukokiito.vak_kielto = 'K'
+    assert @kaukokiito.valid?
 
-    @delivery_method.vak_kielto = 'not valid'
-    refute @delivery_method.valid?
+    @kaukokiito.vak_kielto = 'not valid'
+    refute @kaukokiito.valid?
 
     # should allow the name of any other delivery method that accepts adr
     dm = delivery_methods :kiitolinja
     dm.update! vak_kielto: ''
 
-    @delivery_method.vak_kielto = dm.selite
-    assert @delivery_method.valid?
+    @kaukokiito.vak_kielto = dm.selite
+    assert @kaukokiito.valid?
 
     # should NOT allow the name of delivery method if it does not accept adr
     dm.update! vak_kielto: 'K'
 
-    refute @delivery_method.valid?
+    refute @kaukokiito.valid?
   end
 
   test 'should not allow changing vak_kielto if used as alternative adr method' do
     # set kaukokiito to allow adr shipments
-    @delivery_method.update! vak_kielto: ''
+    @kaukokiito.update! vak_kielto: ''
 
     # set kiitolinja to have kaukokiito as alternative adr shipping method
-    dm = delivery_methods :kiitolinja
-    dm.update! vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
+    @kiitolinja.update! vaihtoehtoinen_vak_toimitustapa: @kaukokiito.selite
 
     # try to change kaukokiito to deny adr shipments
-    @delivery_method.vak_kielto = 'K'
+    @kaukokiito.vak_kielto = 'K'
 
     # should not be allowed
     error = I18n.t 'errors.delivery_method.in_use_adr'
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages[:vak_kielto].first
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors.messages[:vak_kielto].first
   end
 
   test 'should validate freight sku' do
-    @delivery_method.rahti_tuotenumero = 'non_inventory_manageable_product'
-    assert @delivery_method.valid?
+    @kaukokiito.rahti_tuotenumero = 'non_inventory_manageable_product'
+    assert @kaukokiito.valid?
 
     error = I18n.t 'errors.delivery_method.product_not_in_inventory_management'
-    @delivery_method.rahti_tuotenumero = 'hammer123'
+    @kaukokiito.rahti_tuotenumero = 'hammer123'
 
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages[:rahti_tuotenumero].first
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors.messages[:rahti_tuotenumero].first
   end
 
   test 'should validate cargo insurance sku' do
-    @delivery_method.kuljetusvakuutus_tuotenumero = 'non_inventory_manageable_product'
-    assert @delivery_method.valid?
+    @kaukokiito.kuljetusvakuutus_tuotenumero = 'non_inventory_manageable_product'
+    assert @kaukokiito.valid?
 
     error = I18n.t 'errors.delivery_method.product_not_in_inventory_management'
-    @delivery_method.kuljetusvakuutus_tuotenumero = 'hammer123'
+    @kaukokiito.kuljetusvakuutus_tuotenumero = 'hammer123'
 
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages[:kuljetusvakuutus_tuotenumero].first
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors.messages[:kuljetusvakuutus_tuotenumero].first
   end
 
   test 'should validate alternative adr prohibition' do
-    @delivery_method.vaihtoehtoinen_vak_toimitustapa = ''
-    assert @delivery_method.valid?
+    @kaukokiito.vaihtoehtoinen_vak_toimitustapa = ''
+    assert @kaukokiito.valid?
 
     error = I18n.t 'errors.messages.inclusion'
-    @delivery_method.vaihtoehtoinen_vak_toimitustapa = 'neko'
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors[:vaihtoehtoinen_vak_toimitustapa].first
+    @kaukokiito.vaihtoehtoinen_vak_toimitustapa = 'neko'
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors[:vaihtoehtoinen_vak_toimitustapa].first
   end
 
   test 'unifaun info is present' do
     error = I18n.t 'errors.delivery_method.unifaun_info_missing'
 
     # If we have collective_batch and package_info_entry_denied we cannot use unifaun online
-    @delivery_method.tulostustapa = :collective_batch
-    @delivery_method.uudet_pakkaustiedot = :package_info_entry_denied
-    @delivery_method.rahtikirja = :unifaun_online
+    @kaukokiito.tulostustapa = :collective_batch
+    @kaukokiito.uudet_pakkaustiedot = :package_info_entry_denied
+    @kaukokiito.rahtikirja = :unifaun_online
 
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages[:base].first
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors.messages[:base].first
 
     # If we have collective_batch and package_info_entry_denied we cannot use unifaun print server
-    @delivery_method.rahtikirja = :unifaun_print_server
-    refute @delivery_method.valid?
-    assert_equal error, @delivery_method.errors.messages[:base].first
+    @kaukokiito.rahtikirja = :unifaun_print_server
+    refute @kaukokiito.valid?
+    assert_equal error, @kaukokiito.errors.messages[:base].first
 
     # Not using unifaun is ok
-    @delivery_method.rahtikirja = :generic_a4
-    assert @delivery_method.valid?
+    @kaukokiito.rahtikirja = :generic_a4
+    assert @kaukokiito.valid?
 
     # Unifaun with package_info_entry_allowed is ok
-    @delivery_method.rahtikirja = :unifaun_print_server
-    @delivery_method.uudet_pakkaustiedot = :package_info_entry_allowed
-    assert @delivery_method.valid?
+    @kaukokiito.rahtikirja = :unifaun_print_server
+    @kaukokiito.uudet_pakkaustiedot = :package_info_entry_allowed
+    assert @kaukokiito.valid?
 
     # Unifaun with batch is ok
-    @delivery_method.uudet_pakkaustiedot = :package_info_entry_denied
-    @delivery_method.tulostustapa = :batch
-    assert @delivery_method.valid?
+    @kaukokiito.uudet_pakkaustiedot = :package_info_entry_denied
+    @kaukokiito.tulostustapa = :batch
+    assert @kaukokiito.valid?
   end
 
   test 'do not delete delivery method if it is in use' do
     assert_no_difference('DeliveryMethod.count') do
-      @delivery_method.destroy
+      @kaukokiito.destroy
     end
   end
 
   test 'should update relations when updating selite' do
     # set delivery method to all available relations
-    @dm.update!          vak_kielto:   @delivery_method.selite, vaihtoehtoinen_vak_toimitustapa: @delivery_method.selite
-    @cust.update!        toimitustapa: @delivery_method.selite
-    @cust_key.update!    avainsana:    @delivery_method.selite
-    @order.update!       toimitustapa: @delivery_method.selite
-    @draft.update!       toimitustapa: @delivery_method.selite
-    @stock.update!       toimitustapa: @delivery_method.selite
-    @preorder.update!    toimitustapa: @delivery_method.selite
-    @offer.update!       toimitustapa: @delivery_method.selite
-    @manufacture.update! toimitustapa: @delivery_method.selite
-    @work.update!        toimitustapa: @delivery_method.selite
-    @project.update!     toimitustapa: @delivery_method.selite
-    @reclamation.update! toimitustapa: @delivery_method.selite
-    @freight.update!     toimitustapa: @delivery_method.selite
-    @contract.update!    toimitustapa: @delivery_method.selite
-    @waybill.update!     toimitustapa: @delivery_method.selite
+    @kiitolinja.update!  vak_kielto:   @kaukokiito.selite, vaihtoehtoinen_vak_toimitustapa: @kaukokiito.selite
+    @cust.update!        toimitustapa: @kaukokiito.selite
+    @cust_key.update!    avainsana:    @kaukokiito.selite
+    @order.update!       toimitustapa: @kaukokiito.selite
+    @draft.update!       toimitustapa: @kaukokiito.selite
+    @stock.update!       toimitustapa: @kaukokiito.selite
+    @preorder.update!    toimitustapa: @kaukokiito.selite
+    @offer.update!       toimitustapa: @kaukokiito.selite
+    @manufacture.update! toimitustapa: @kaukokiito.selite
+    @work.update!        toimitustapa: @kaukokiito.selite
+    @project.update!     toimitustapa: @kaukokiito.selite
+    @reclamation.update! toimitustapa: @kaukokiito.selite
+    @freight.update!     toimitustapa: @kaukokiito.selite
+    @contract.update!    toimitustapa: @kaukokiito.selite
+    @waybill.update!     toimitustapa: @kaukokiito.selite
 
     # change the delivery method name
     new_name = 'Kaukokiito kakkoinen'
-    @delivery_method.update! selite: new_name
+    @kaukokiito.update! selite: new_name
 
     # we should have a flash notice
-    assert_not_empty @delivery_method.flash_notice
+    assert_not_empty @kaukokiito.flash_notice
 
     # should change everywhere
-    assert_equal new_name, @dm.reload.vak_kielto
-    assert_equal new_name, @dm.vaihtoehtoinen_vak_toimitustapa
+    assert_equal new_name, @kiitolinja.reload.vak_kielto
+    assert_equal new_name, @kiitolinja.vaihtoehtoinen_vak_toimitustapa
     assert_equal new_name, @cust.reload.toimitustapa
     assert_equal new_name, @cust_key.reload.avainsana
     assert_equal new_name, @order.reload.toimitustapa
@@ -234,9 +233,9 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert_equal new_name, @waybill.reload.toimitustapa
 
     # change something else than the delivery method name
-    @delivery_method.update! virallinen_selite: new_name
+    @kaukokiito.update! virallinen_selite: new_name
 
     # we should not have a flash notice
-    assert_empty @delivery_method.flash_notice
+    assert_empty @kaukokiito.flash_notice
   end
 end
