@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ReportsControllerTest < ActionController::TestCase
+class Reports::CommodityReportsControllerTest < ActionController::TestCase
   fixtures %w(fixed_assets/commodities
               fixed_assets/commodity_rows
               accounts
@@ -11,6 +11,11 @@ class ReportsControllerTest < ActionController::TestCase
 
   setup do
     login users(:bob)
+  end
+
+  test 'gets index' do
+    get :index
+    assert_response :success
   end
 
   test 'should get balance sheet with depreciations report' do
