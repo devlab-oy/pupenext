@@ -3,7 +3,7 @@ require 'test_helper'
 class QualifierTest < ActiveSupport::TestCase
   fixtures %w(qualifiers accounts)
 
-  def setup
+  setup do
     @project_with_account = qualifiers(:project_in_use)
   end
 

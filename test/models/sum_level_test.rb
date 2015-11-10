@@ -3,7 +3,7 @@ require "test_helper"
 class SumLevelTest < ActiveSupport::TestCase
   fixtures %w(sum_levels accounts)
 
-  def setup
+  setup do
     @internal = sum_levels(:internal)
     @internal2 = sum_levels(:internal2)
     @internal3 = sum_levels(:internal3)

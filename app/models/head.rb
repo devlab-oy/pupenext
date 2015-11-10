@@ -13,12 +13,6 @@ class Head < BaseModel
 
   before_create :set_date_fields
   after_create :fix_datetime_fields
-  # We have actually 5 types, that are saved in "tila".
-  # Eventough it's supposed to be the STI column.
-  PURCHASE_INVOICE_TYPES = %w{H Y M P Q}
-
-  scope :paid, -> { where.not(mapvm: '0000-00-00') }
-  scope :unpaid, -> { where(mapvm: '0000-00-00') }
 
   def self.default_child_instance
     child_class 'N'

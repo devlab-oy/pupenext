@@ -3,7 +3,7 @@ require 'test_helper'
 class CarrierTest < ActiveSupport::TestCase
   fixtures %w(carriers package_codes)
 
-  def setup
+  setup do
     @carrier = carriers(:hit)
   end
 

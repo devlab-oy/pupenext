@@ -3,7 +3,6 @@ require 'test_helper'
 # The purpose of ApplicationControllerTest is to test the common logic behind ApplicationController
 class ApplicationControllerTest < ActionController::TestCase
   tests Administration::AccountsController
-
   fixtures %w(users companies accounts permissions sum_levels)
 
   setup do
