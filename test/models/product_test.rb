@@ -152,7 +152,7 @@ class ProductTest < ActiveSupport::TestCase
 
     Attachment.delete_all
 
-    assert_nil @product.cover_image
+    assert_nil @product.reload.cover_image
   end
 
   test 'delegated methods' do
