@@ -17,4 +17,8 @@ class Reports::CommodityReportsController < ApplicationController
     # Tilinpäätöksen liitetiedot
     @report = BalanceStatementsReport.new(Current.company)
   end
+
+  def read_access?
+    @read_access ||= current_user.can_read?("/commodity_reports", classic: false)
+  end
 end
