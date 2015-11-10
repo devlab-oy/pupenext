@@ -7,7 +7,8 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render :index, formats: :html
     end
 
-    @products = Product.active
+    @products = params[:product_image] ? Product.includes(:cover_thumbnail).active : Product.active
+
     @products = @products.where(osasto: params[:osasto]) if params[:osasto]
     @products = @products.where(try: params[:try]) if params[:try]
     @products = @products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
