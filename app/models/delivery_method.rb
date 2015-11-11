@@ -194,53 +194,30 @@ class DeliveryMethod < BaseModel
       msg = []
 
       if selite_was.present? && selite_changed?
-        cnt = company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite)
-        msg << I18n.t('administration.delivery_methods.update.delivery_methods', count: cnt) if cnt.nonzero?
+        update_list = [
+          { count: company.delivery_methods.where(vak_kielto: selite_was).update_all(vak_kielto: selite), msg: 'delivery_methods' },
+          { count: company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite), msg: 'alternative_adr_delivery_methods' },
+          { count: company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'customers' },
+          { count: company.customer_keywords.where(avainsana: selite_was).update_all(avainsana: selite), msg: 'customer_keywords' },
+          { count: company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'not_delivered_sales_orders' },
+          { count: company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'sales_order_drafts' },
+          { count: company.stock_transfers.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'not_delivered_stock_transfers' },
+          { count: company.preorders.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'preorders' },
+          { count: company.offer_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'offer_orders' },
+          { count: company.manufacture_orders.not_manufactured.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'not_manufactured_manufacture_orders' },
+          { count: company.work_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'work_orders' },
+          { count: company.project_orders.active.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'project_orders' },
+          { count: company.reclamation_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'reclamation_orders' },
+          { count: company.freights.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'freights' },
+          { count: company.freight_contracts.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'freight_contracts' },
+          { count: company.waybills.not_printed.where(toimitustapa: selite_was).update_all(toimitustapa: selite), msg: 'not_printed_waybills' },
+        ]
 
-        cnt = company.delivery_methods.where(vaihtoehtoinen_vak_toimitustapa: selite_was).update_all(vaihtoehtoinen_vak_toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.alternative_adr_delivery_methods', count: cnt) if cnt.nonzero?
-
-        cnt = company.customers.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.customers', count: cnt) if cnt.nonzero?
-
-        cnt = company.customer_keywords.where(avainsana: selite_was).update_all(avainsana: selite)
-        msg << I18n.t('administration.delivery_methods.update.customer_keywords', count: cnt) if cnt.nonzero?
-
-        cnt = company.sales_orders.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.not_delivered_sales_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.sales_order_drafts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.sales_order_drafts', count: cnt) if cnt.nonzero?
-
-        cnt = company.stock_transfers.not_delivered.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.not_delivered_stock_transfers', count: cnt) if cnt.nonzero?
-
-        cnt = company.preorders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.preorders', count: cnt) if cnt.nonzero?
-
-        cnt = company.offer_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.offer_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.manufacture_orders.not_manufactured.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.not_manufactured_manufacture_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.work_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.work_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.project_orders.active.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.project_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.reclamation_orders.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.reclamation_orders', count: cnt) if cnt.nonzero?
-
-        cnt = company.freights.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.freights', count: cnt) if cnt.nonzero?
-
-        cnt = company.freight_contracts.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.freight_contracts', count: cnt) if cnt.nonzero?
-
-        cnt = company.waybills.not_printed.where(toimitustapa: selite_was).update_all(toimitustapa: selite)
-        msg << I18n.t('administration.delivery_methods.update.not_printed_waybills', count: cnt) if cnt.nonzero?
+        update_list.each do |update|
+          count = update[:count]
+          error = I18n.t "administration.delivery_methods.update.#{update[:msg]}", count: count
+          msg << error unless count.zero?
+        end
       end
 
       self.flash_notice = msg.to_sentence
