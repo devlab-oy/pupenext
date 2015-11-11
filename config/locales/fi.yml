@@ -805,6 +805,9 @@ fi:
         sale_success: Hyödykkeen myynti onnistui
       create:
         create_success: Hyödykkeen luonti onnistui
+      create_form:
+        description: Kuvaus
+        name: Nimitys
       depreciations:
         button_show_hide: Näytä / Piilota
         depreciation_difference_amount: Poistoerorivit
@@ -818,18 +821,18 @@ fi:
         button_sell: Myy
         header: Muokkaa hyödykettä
       form:
-        bookkeeping_value: Kirjanpidollinen arvo
-        bookkeeping_value_now: Kirjanpidollinen arvo nyt
         account: Tili
         activated_at: Aktivointipäivämäärä
         amount: Summa
-        btl_depreciation_type: EVL poistotyyppi
+        bookkeeping_value: Kirjanpidollinen arvo
+        bookkeeping_value_now: Kirjanpidollinen arvo nyt
         btl_depreciation_amount: EVL poistomäärä
+        btl_depreciation_type: EVL poistotyyppi
         cost_centre: Kustannuspaikka
         description: Kuvaus
         name: Nimitys
-        planned_depreciation_type: SUMU poistotyyppi
         planned_depreciation_amount: SUMU poistomäärä
+        planned_depreciation_type: SUMU poistotyyppi
         project: Projekti
         status: Tila
         target: Kohde
@@ -849,20 +852,20 @@ fi:
         button_remove: Poista
         header: Hankintakustannusrivit
       purchase_orders:
+        account: Tilinumero
+        amount: Summa
         button_add: Liitä
         button_search: Etsi
         header: Liitä ostolaskurivejä
         id: Rivitunnus
-        amount: Summa
-        account: Tilinumero
       sell:
         amount_sold: Myyntisumma
-        deactivated_at: Myyntipäivämäärä
-        sales_account: Myyntitili
-        profit_account: Myyntivoittotili
-        depreciation_remainder_handling: Poistoeron käsittelytapa
         confirm_sale: Vahvista myynti
+        deactivated_at: Myyntipäivämäärä
+        depreciation_remainder_handling: Poistoeron käsittelytapa
         header: Hyödykkeen myynti
+        profit_account: Myyntivoittotili
+        sales_account: Myyntitili
       unlink:
         unlink_success: Linkityksen poisto onnistui
       unlink_voucher_row:
@@ -870,16 +873,13 @@ fi:
       update:
         update_success: Hyödykkeen päivitys onnistui
       vouchers:
+        account: Tilinumero
+        amount: Summa
         button_add: Liitä
         button_search: Etsi
+        description: Kuvaus
         header: Liitä tositerivejä
         id: Rivitunnus
-        description: Kuvaus
-        amount: Summa
-        account: Tilinumero
-      create_form:
-        name: Nimitys
-        description: Kuvaus
   helpers:
     select:
       prompt: Valitse
@@ -982,6 +982,45 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
+    commodity_reports:
+      balance_statements:
+        acquirement_cost: Hankintameno
+        by_account_group: Tiliryhmittäin
+        depreciation_remaining: Poistamaton osa
+        header: Tilinpäätöksen liitetiedot
+        planned_depreciation: SUMU poisto
+        planned_depreciation_after: Kertynyt SUMU poisto jälkeen
+        planned_depreciation_before: Kertynyt SUMU poisto ennen
+        total_btl_after: EVL Menojäännös
+        total_depreciation_difference: Poistoero
+        total_depreciation_difference_after: Kertynyt poistoero jälkeen
+        total_depreciation_difference_before: Kertynyt poistoero ennen
+      depreciation_difference:
+        account: Tili
+        additions: Lisäykset
+        amounted_difference: Kertynyt poistoero
+        btl_depreciation: EVL poisto
+        btl_vs_planned_difference: SUMU EVL menojäännös
+        fiscal_period_depreciation: Tilikauden poistoero
+        header: Poistoeroraportti
+        planned_depreciation: SUMU poisto
+      depreciations_balance_sheet:
+        account_total: Tili yht.
+        depreciation_for_the_period: Kauden poistot
+        depreciation_period: Poistoaika
+        fiscal_period: Tilikausi
+        fiscal_period_total: Tilikausi yht.
+        header: Tase-erittely SUMU poistoin
+        month: Kuukautta
+        purchase_price: Hankintahinta
+        remaining_balance: Menojäännös
+        voucher: Tosite
+      index:
+        balance_statements: Tilinpäätöksen liitetiedot
+        commodities: Käyttöomaisuuden hyödykkeet
+        depreciation_difference_report: Poistoeroraportti
+        depreciations_balance_sheet: Tase-erittely sumu poistoin
+        header: Käyttöomaisuuden raportit
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
@@ -1001,83 +1040,44 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_availability:
+      form:
+        button_make: Ruudulle
+        button_run: Pdf
+        constraints: Rajaus
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+      index:
+        header: Varastotilanne
+      show_data:
+        available: Saatavilla
+        future: Tulevat
+        header: Varastotilanne
+        past: Myöhässä
+        product: Tuote
+        purchases: Tulossa
+        report_brand: Valitut tuotemerkit %{selected}
+        report_category: Valitut osastot %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        sales: Menossa
+        stock: Varastosaldo
+        total: Yhteensä
+        week: Viikko
+      view_connected_sales_orders:
+        delivery_date: Toimituspäivä
+        information: Tilausviite
+        order_number: Tilausnumero
+        ordered_amount: Tilattu
+        product_info: Tuotenumero
+        shipping_address: Toimitusosoite
+        total_amount: Laskun summa
+        unit: Kappaletta
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
-    stock_availability:
-      index:
-        header: Varastotilanne
-      form:
-        button_make: Ruudulle
-        button_run: Pdf
-        period: Tarkasteluaika
-        weeks: Viikon ajalta
-        constraints: Rajaus
-      show_data:
-        header: Varastotilanne
-        available: Saatavilla
-        past: Myöhässä
-        future: Tulevat
-        product: Tuote
-        purchases: Tulossa
-        sales:  Menossa
-        stock: Varastosaldo
-        week: Viikko
-        total: Yhteensä
-        report_category: Valitut osastot %{selected}
-        report_subcategory: Valitut tuoteryhmät %{selected}
-        report_brand: Valitut tuotemerkit %{selected}
-        report_period: Tarkasteluaika %{period} viikkoa
-      view_connected_sales_orders:
-        order_number: Tilausnumero
-        shipping_address: Toimitusosoite
-        information: Tilausviite
-        delivery_date: Toimituspäivä
-        product_info: Tuotenumero
-        unit: Kappaletta
-        ordered_amount: Tilattu
-        total_amount: Laskun summa
-    commodity_reports:
-      index:
-        header: Käyttöomaisuuden raportit
-        depreciations_balance_sheet: Tase-erittely sumu poistoin
-        depreciation_difference_report: Poistoeroraportti
-        balance_statements: Tilinpäätöksen liitetiedot
-        commodities: Käyttöomaisuuden hyödykkeet
-      depreciations_balance_sheet:
-        header: Tase-erittely SUMU poistoin
-        voucher: Tosite
-        purchase_price: Hankintahinta
-        depreciation_for_the_period: Kauden poistot
-        remaining_balance: Menojäännös
-        depreciation_period: Poistoaika
-        fiscal_period: Tilikausi
-        fiscal_period_total: Tilikausi yht.
-        account_total: Tili yht.
-        month: Kuukautta
-      depreciation_difference:
-        header: Poistoeroraportti
-        additions: Lisäykset
-        btl_depreciation: EVL poisto
-        planned_depreciation: SUMU poisto
-        fiscal_period_depreciation: Tilikauden poistoero
-        btl_vs_planned_difference: SUMU EVL menojäännös
-        amounted_difference: Kertynyt poistoero
-        account: Tili
-      balance_statements:
-        by_account_group: Tiliryhmittäin
-        header: Tilinpäätöksen liitetiedot
-        acquirement_cost: Hankintameno
-        planned_depreciation_before: Kertynyt SUMU poisto ennen
-        planned_depreciation_after: Kertynyt SUMU poisto jälkeen
-        planned_depreciation: SUMU poisto
-        total_depreciation_difference_before: Kertynyt poistoero ennen
-        total_depreciation_difference_after: Kertynyt poistoero jälkeen
-        total_depreciation_difference: Poistoero
-        total_btl_after: EVL Menojäännös
-        depreciation_remaining: Poistamaton osa
   shared:
     excel:
       company: Yritystiedot
