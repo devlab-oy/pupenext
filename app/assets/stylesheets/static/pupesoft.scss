@@ -267,3 +267,8 @@ table.responsive td input[type=text] {
     width: 70%;
   }
 }
+
+.fixed-height {
+  max-height: 200px;
+  overflow-y: scroll;
+}

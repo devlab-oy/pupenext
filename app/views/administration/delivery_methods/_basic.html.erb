@@ -208,13 +208,15 @@
   <tr>
     <th><%= f.label :sallitut_alustat %></th>
     <td>
-      <%= f.collection_check_boxes :sallitut_alustat, Package.all, :tunnus, :pakkauskuvaus,
-          checked: @delivery_method.sallitut_alustat.split(',') do |b| %>
-        <div>
-          <%= b.check_box %>
-          <%= b.label { b.object.pakkaus + " " + b.object.translated_description(current_user.locale) } %>
-        </div>
-      <% end %>
+      <div class='fixed-height'>
+        <%= f.collection_check_boxes :sallitut_alustat, Package.all, :tunnus, :pakkauskuvaus,
+            checked: @delivery_method.sallitut_alustat.split(',') do |b| %>
+          <div>
+            <%= b.check_box %>
+            <%= b.label { b.object.pakkaus + " " + b.object.translated_description(current_user.locale) } %>
+          </div>
+        <% end %>
+      </div>
     </td>
   </tr>
 
