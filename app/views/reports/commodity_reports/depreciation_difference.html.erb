@@ -1,17 +1,17 @@
-<%= render "administration/header", text: t("Poistoeroraportti") %>
+<%= render "administration/header", text: t('.header') %>
 <table>
   <tr>
-  <th><%= t('Lisäykset') %></th>
-  <th><%= t('Evl-poisto') %></th>
-  <th><%= t('Sumu-poisto') %></th>
-  <th><%= t('Tilikauden poistoero') %></th>
-  <th><%= t('Sumu-Evl menojäännös') %></th>
-  <th><%= t('Kertynyt poistoero') %></th>
+  <th><%= t('.additions') %></th>
+  <th><%= t('.btl_depreciation') %></th>
+  <th><%= t('.planned_depreciation') %></th>
+  <th><%= t('.fiscal_period_depreciation') %></th>
+  <th><%= t('.btl_vs_planned_difference') %></th>
+  <th><%= t('.amounted_difference') %></th>
   </tr>
 
   <% @report.data.each do |k, dat| %>
     <tr>
-      <td colspan='7'><%= t('Tili') %>
+      <td colspan='7'><%= t('.account') %>
         <%= "#{k} #{dat[:nimi]}" %>
       </td>
     </tr>

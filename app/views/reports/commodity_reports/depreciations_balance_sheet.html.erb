@@ -1,11 +1,11 @@
-<%= render "administration/header", text: t("Tase-erittely SUMU poistoin") %>
+<%= render "administration/header", text: t('.header') %>
 
 <table>
   <tr>
-    <th><%= t('Tosite')%></th>
-    <th><%= t('Hankintahinta') %></th>
-    <th><%= t('Tilikauden poistot') %></th>
-    <th><%= t('Menojäännös') %></th>
+    <th><%= t('.voucher')%></th>
+    <th><%= t('.purchase_price') %></th>
+    <th><%= t('.depreciation_for_the_period') %></th>
+    <th><%= t('.remaining_balance') %></th>
   </tr>
   <!-- Kaikki tilit loop -->
   <% @report.data.each do |f, v| %>
@@ -13,23 +13,23 @@
       <td><%= f %> = <%= v[:nimi] %></td>
     </tr>
     <tr>
-      <td align='right'><%= t('Poistoaika') %> <%= "#{v[:poistoaika]}" + t('kk')  %></td>
+      <td align='right'><%= t('.depreciation_period') %> <%= "#{v[:poistoaika]}" + t('.month')  %></td>
     </tr>
     <!-- Kaikki tilikaudet loop -->
     <% v[:tilikaudet].each do |tk, v| %>
       <tr>
-        <td><%= t('Tilikausi')%></td>
+        <td><%= t('.fiscal_period')%></td>
         <td colspan='100%'><%= v[:tilikausi] %></td>
       </tr>
       <tr>
-        <td><%= t('Tilikausi yht.') %></td>
+        <td><%= t('.fiscal_period_total') %></td>
         <td><%= v[:hankinnat] %></td>
         <td><%= v[:tilikauden_poistot] %></td>
         <td><%= v[:menojaannos] %></td>
       </tr>
     <% end %>
     <tr>
-      <td><%= t('Yhteensä tili') %></td>
+      <td><%= t('.account_total') %></td>
       <td><%= v[:hankinnat_yht] %></td>
       <td><%= v[:tilikauden_poistot_yht] %></td>
       <td><%= v[:menojaannos_yht] %></td>

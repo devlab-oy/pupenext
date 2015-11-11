@@ -1,8 +1,8 @@
-<%= render "administration/header", text: t("Tilinpäätöksen liitetiedot") %>
+<%= render "administration/header", text: t('.header') %>
 
 <table>
   <tr>
-    <th colspan= '100%'><%= t('Tiliryhmittäin')%></th>
+    <th colspan= '100%'><%= t('.by_account_group')%></th>
   </tr>
 
   <% @report.data.each do |d, v| %>
@@ -11,52 +11,52 @@
       <td><%= v[:nimi] %></td>
     </tr>
     <tr>
-      <td><%= t('Hankintameno') %></td>
+      <td><%= t('.acquirement_cost') %></td>
       <td><%= v[:hankintameno] %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= t('.planned_depreciation_before') %></td>
       <td><%= v[:kert_sumupoisto_before].to_s %></td>
     </tr>
     <tr>
-      <td><%= t('Sumupoisto') %></td>
+      <td><%= t('.planned_depreciation') %></td>
       <td><%= v[:sumupoisto].to_s %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= t('.planned_depreciation_after') %></td>
       <td><%= v[:kert_sumupoisto_after].to_s %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.poistoero') %></td>
+      <td><%= t('.total_depreciation_difference_before') %></td>
       <td><%= v[:kert_poistoero_before] %></td>
     </tr>
     <tr>
-      <td><%= t('Poistoero') %></td>
+      <td><%= t('.total_depreciation_difference') %></td>
       <td><%= v[:kert_poistoero] %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.poistoero') %></td>
+      <td><%= t('.total_depreciation_difference_after') %></td>
       <td><%= v[:kert_poistoero_after] %></td>
     </tr>
     <tr><td colspan='100%'></td></tr>
     <tr>
-      <td><%= t('Hankintameno') %></td>
+      <td><%= t('.acquirement_cost') %></td>
       <td><%= v[:hankintameno] %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.sumupoisto') %></td>
+      <td><%= t('.planned_depreciation_after') %></td>
       <td><%= v[:kert_sumupoisto_after].to_s %></td>
     </tr>
     <tr>
-      <td><%= t('Kert.poistoero') %></td>
+      <td><%= t('.total_depreciation_difference_after') %></td>
       <td><%= v[:kert_poistoero_after] %></td>
     </tr>
     <tr>
-      <td><%= t('Evl-menojäännös') %></td>
+      <td><%= t('.total_btl_after') %></td>
       <td><%= v[:kert_evl_after] %></td>
     </tr>
     <tr>
-      <td><%= t('Poistamaton osa') %></td>
+      <td><%= t('.depreciation_remaining') %></td>
       <td><%= v[:poistamaton_osa] %></td>
     </tr>
     <tr><td colspan='100%' height='30'></td></tr>

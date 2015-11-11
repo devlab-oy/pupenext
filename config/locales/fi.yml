@@ -1010,6 +1010,45 @@ fi:
         unit: Kappaletta
         ordered_amount: Tilattu
         total_amount: Laskun summa
+    commodity_reports:
+      index:
+        header: Käyttöomaisuuden raportit
+        depreciations_balance_sheet: Tase-erittely sumu poistoin
+        depreciation_difference_report: Poistoeroraportti
+        balance_statements: Tilinpäätöksen liitetiedot
+        commodities: Käyttöomaisuuden hyödykkeet
+      depreciations_balance_sheet:
+        header: Tase-erittely SUMU poistoin
+        voucher: Tosite
+        purchase_price: Hankintahinta
+        depreciation_for_the_period: Kauden poistot
+        remaining_balance: Menojäännös
+        depreciation_period: Poistoaika
+        fiscal_period: Tilikausi
+        fiscal_period_total: Tilikausi yht.
+        account_total: Tili yht.
+        month: Kuukautta
+      depreciation_difference:
+        header: Poistoeroraportti
+        additions: Lisäykset
+        btl_depreciation: EVL poisto
+        planned_depreciation: SUMU poisto
+        fiscal_period_depreciation: Tilikauden poistoero
+        btl_vs_planned_difference: SUMU EVL menojäännös
+        amounted_difference: Kertynyt poistoero
+        account: Tili
+      balance_statements:
+        by_account_group: Tiliryhmittäin
+        header: Tilinpäätöksen liitetiedot
+        acquirement_cost: Hankintameno
+        planned_depreciation_before: Kertynyt SUMU poisto ennen
+        planned_depreciation_after: Kertynyt SUMU poisto jälkeen
+        planned_depreciation: SUMU poisto
+        total_depreciation_difference_before: Kertynyt poistoero ennen
+        total_depreciation_difference_after: Kertynyt poistoero jälkeen
+        total_depreciation_difference: Poistoero
+        total_btl_after: EVL Menojäännös
+        depreciation_remaining: Poistamaton osa
   shared:
     excel:
       company: Yritystiedot
