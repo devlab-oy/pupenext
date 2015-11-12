@@ -1,5 +1,5 @@
 module PermissionHelper
-  def add_item(program:, uri:, name:)
+  def add_item(program:, uri:, name:, suburi: nil)
     Company.find_each do |company|
       Current.company = company.yhtio
 
@@ -10,6 +10,7 @@ module PermissionHelper
         kuka: '',
         sovellus: program,
         nimi: uri,
+        alanimi: suburi,
         nimitys: name,
         jarjestys: jarjestys,
         laatija: 'admin',
@@ -25,6 +26,7 @@ module PermissionHelper
         paivitys: 1,
         sovellus: program,
         nimi: uri,
+        alanimi: suburi,
         nimitys: name,
         jarjestys: jarjestys,
         laatija: 'admin',
@@ -44,6 +46,7 @@ module PermissionHelper
           paivitys: 1,
           sovellus: program,
           nimi: uri,
+          alanimi: suburi,
           nimitys: name,
           jarjestys: jarjestys,
           laatija: 'admin',
@@ -55,11 +58,11 @@ module PermissionHelper
     end
   end
 
-  def remove_all(uri:)
+  def remove_all(uri:, suburi: nil)
     Company.find_each do |company|
       Current.company = company.yhtio
 
-      Permission.where(nimi: uri).delete_all
+      Permission.where(nimi: uri, alanimi: suburi).delete_all
     end
   end
 end

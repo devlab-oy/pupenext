@@ -1,3 +1,6 @@
+require File.expand_path('test/permission_helper')
+include PermissionHelper
+
 class CreateTableBudjettiMaa < ActiveRecord::Migration
   def up
     create_table :budjetti_maa do |t|
@@ -17,9 +20,21 @@ class CreateTableBudjettiMaa < ActiveRecord::Migration
 
     add_index :budjetti_maa, [:yhtio, :maa_id, :kausi], name: "mabu"
     add_index :budjetti_maa, [:yhtio, :maa_id, :kausi, :osasto, :try], name: "mabu_ostry"
+
+    PermissionHelper.add_item(
+      program: 'Asiakkaat',
+      name: 'Maiden myyntitavoitteet',
+      uri: 'budjetinyllapito_tat.php',
+      suburi: 'MAA'
+    )
   end
 
   def down
     drop_table :budjetti_maa
+
+    PermissionHelper.remove_all(
+      uri: 'budjetinyllapito_tat.php',
+      suburi: 'MAA'
+    )
   end
 end
