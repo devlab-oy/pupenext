@@ -1,0 +1,33 @@
+<table>
+<tr>
+  <th><%= t('.order_number') %></th>
+  <th><%= t('.shipping_address') %></th>
+  <th><%= t('.information') %></th>
+  <th><%= t('.delivery_date') %></th>
+  <th>
+    <%= t('.product_info') %> <br/>
+    <%= t('.ordered_amount') %>
+  </th>
+  <th><%= t('.total_amount') %></th>
+</tr>
+
+<% @orders.each do |order| %>
+<tr>
+  <td><%= order.tunnus %></td>
+  <td>
+    <%= order.toim_nimi %><br/>
+    <%= order.toim_nimitark %><br/>
+    <%= order.toim_osoite %><br/>
+    <%= order.toim_postitp %>
+  </td>
+  <td><%= order.viesti %></td>
+  <td><%= order.toimaika %></td>
+  <td>
+    <%= params[:product_sku] %> <br/>
+    <%= order.rows.open.where(tuoteno: params[:product_sku]).sum(:'varattu + jt') %>
+    <%= t('.unit') %>
+  </td>
+  <td><%= order.rows.sum(:'hinta * (varattu + jt)') %></td>
+</tr>
+<% end %>
+</table>

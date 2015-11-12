@@ -1,0 +1,31 @@
+<%= form_tag stock_availability_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= t('.period') %>
+      </th>
+      <th>
+        <%= t('.constraints') %>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <%= select_tag :period, options_for_select(3..16, params[:period]) %>
+        <%= t('.weeks') %>
+      </td>
+
+      <td>
+        <%= render 'products/categories_selection' %>
+      </td>
+    </tr>
+
+    <tr class='back'>
+      <td>
+        <%= submit_tag t('.button_make'), formaction: "run_stock_availability.html" %>
+      </td>
+      <td>
+        <%= submit_tag t('.button_run'), formaction: "run_stock_availability.pdf" %>
+      </td>
+    </tr>
+  </table>
+<% end %>
