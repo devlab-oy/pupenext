@@ -174,6 +174,7 @@ class ImapInvoiceWorker
     mail = Mail.new do
       from options[:from]
       to options[:to]
+      bcc options[:bcc]
       subject options[:subject]
       body options[:body]
 
