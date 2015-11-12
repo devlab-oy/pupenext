@@ -41,10 +41,10 @@
     <td><%= vou.viesti %></td>
   </tr>
   <tr>
-    <th>Tunnus</th>
-    <th>Selite</th>
-    <th>Summa</th>
-    <th>Tili</th>
+    <th><%= t('.id') %></th>
+    <th><%= t('.description') %></th>
+    <th><%= t('.amount') %></th>
+    <th><%= t('.account') %></th>
   </tr>
   <% vou.rows.each do |vourow| %>
     <% if vourow.commodity_id.present? %>
