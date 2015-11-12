@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106070812) do
+ActiveRecord::Schema.define(version: 20151111131400) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -427,6 +427,24 @@ ActiveRecord::Schema.define(version: 20151106070812) do
 
   add_index "budjetti_asiakas", ["yhtio", "kausi", "asiakkaan_tunnus", "osasto", "try"], name: "asbu", unique: true, using: :btree
 
+  create_table "budjetti_maa", force: :cascade do |t|
+    t.string   "yhtio",      limit: 5,                            default: "",  null: false
+    t.string   "kausi",      limit: 6,                            default: "",  null: false
+    t.integer  "maa_id",     limit: 4,                            default: 0,   null: false
+    t.string   "osasto",     limit: 150,                          default: "",  null: false
+    t.string   "try",        limit: 150,                          default: "",  null: false
+    t.decimal  "summa",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "maara",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "indeksi",                precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "muuttaja",   limit: 50,                           default: "",  null: false
+    t.string   "laatija",    limit: 50,                           default: "",  null: false
+    t.datetime "luontiaika",                                                    null: false
+    t.datetime "muutospvm",                                                     null: false
+  end
+
+  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi", "osasto", "try"], name: "mabu_ostry", using: :btree
+  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi"], name: "mabu", using: :btree
+
   create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,                            default: "",  null: false
     t.string   "kausi",         limit: 6,                            default: "",  null: false
@@ -592,8 +610,8 @@ ActiveRecord::Schema.define(version: 20151106070812) do
     t.integer  "profit_account_id",               limit: 4
     t.integer  "sales_account_id",                limit: 4
     t.integer  "voucher_id",                      limit: 4
-    t.datetime "created_at",                                                                        null: false
-    t.datetime "updated_at",                                                                        null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
     t.date     "activated_at"
     t.date     "deactivated_at"
     t.string   "name",                            limit: 255
@@ -2646,8 +2664,8 @@ ActiveRecord::Schema.define(version: 20151106070812) do
     t.string   "username",    limit: 255
     t.string   "password",    limit: 255
     t.string   "path",        limit: 255
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "transports", ["customer_id"], name: "index_transports_on_customer_id", using: :btree
