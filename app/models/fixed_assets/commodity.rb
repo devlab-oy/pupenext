@@ -147,7 +147,12 @@ class FixedAssets::Commodity < BaseModel
     if deactivated?
       calculation = amount
     end
-    amount - calculation
+
+    if calculation > 0
+      amount - calculation
+    else
+      amount + calculation
+    end
   end
 
   def can_be_sold?
@@ -161,6 +166,30 @@ class FixedAssets::Commodity < BaseModel
     return false unless company.date_in_open_period?(deactivated_at)
     return false unless ['S','E'].include?(depreciation_remainder_handling)
     true
+  end
+
+  def accumulated_depreciation_at(date)
+    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_difference_at(date)
+    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_evl_at(date)
+    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+  end
+
+  def depreciation_between(date1, date2)
+     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def difference_between(date1, date2)
+    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def evl_between(date1, date2)
+    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end
 
   private
