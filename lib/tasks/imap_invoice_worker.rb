@@ -9,6 +9,7 @@ SMPT_SERVER       = ARGV[3]
 ALLOWED_DOMAIN    = ARGV[4]
 ARCHIVE_DIRECTORY = ARGV[5]
 SAVE_DIRECTORY    = ARGV[6]
+NOTIFY_EMAIL      = ARGV[7]
 
 TRAVEL_DIRECTORY  = "matkalaskut"
 
@@ -112,6 +113,7 @@ class ImapInvoiceWorker
       if msg.attachments.empty?
         mail_options = {
           to: msg.from.first,
+          bcc: NOTIFY_EMAIL,
           from: USERNAME,
           subject: "#{EMAIL_REPLY_TEXT[lang][:fail]}",
           body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{msg.subject}\n" +
@@ -136,6 +138,7 @@ class ImapInvoiceWorker
     mail_options = {
       to: message.from.first,
       from: USERNAME,
+      bcc: NOTIFY_EMAIL,
       subject: "#{EMAIL_REPLY_TEXT[lang][msg_status]}",
       body: "#{EMAIL_REPLY_TEXT[lang][:head]}: #{message.subject}\n" +
             "#{EMAIL_REPLY_TEXT[lang][:file]}: #{file.filename}",
