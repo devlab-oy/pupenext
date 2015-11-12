@@ -442,8 +442,7 @@ ActiveRecord::Schema.define(version: 20151112081125) do
     t.datetime "muutospvm",                                                     null: false
   end
 
-  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi", "osasto", "try"], name: "mabu_ostry", using: :btree
-  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi"], name: "mabu", using: :btree
+  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi", "osasto", "try"], name: "mabu", unique: true, using: :btree
 
   create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,                            default: "",  null: false

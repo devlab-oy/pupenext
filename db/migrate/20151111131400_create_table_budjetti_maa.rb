@@ -18,8 +18,7 @@ class CreateTableBudjettiMaa < ActiveRecord::Migration
       t.datetime :muutospvm, null: false, default: 0
     end
 
-    add_index :budjetti_maa, [:yhtio, :maa_id, :kausi], name: "mabu"
-    add_index :budjetti_maa, [:yhtio, :maa_id, :kausi, :osasto, :try], name: "mabu_ostry"
+    add_index :budjetti_maa, [:yhtio, :maa_id, :kausi, :osasto, :try], name: "mabu", unique: true
 
     PermissionHelper.add_item(
       program: 'Asiakkaat',
