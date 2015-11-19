@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112092557) do
+ActiveRecord::Schema.define(version: 20151116121456) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3437,6 +3437,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "laskun_monistus_kommenttikentta",                  limit: 1,                              default: "",    null: false
     t.string   "viivakoodi_laskulle",                              limit: 1,                              default: "",    null: false
     t.string   "koontilaskut_yhdistetaan",                         limit: 1,                              default: "",    null: false
+    t.decimal  "koontilaskut_alarajasumma",                                      precision: 12, scale: 2, default: 0.0,   null: false
     t.string   "koontilahete_kollitiedot",                         limit: 1,                              default: "",    null: false
     t.string   "tilausvahvistustyyppi",                            limit: 150,                            default: "",    null: false
     t.integer  "tilausvahvistus_tilausnumero",                     limit: 1,                              default: 0,     null: false
