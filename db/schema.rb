@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111083616) do
+ActiveRecord::Schema.define(version: 20151112092557) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3374,6 +3374,7 @@ ActiveRecord::Schema.define(version: 20151111083616) do
     t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                            default: "",    null: false
     t.string   "alert_varasto_kayttajat",                          limit: 100,                            default: "",    null: false
     t.string   "verkkolasku_lah",                                  limit: 10,                             default: "",    null: false
+    t.string   "finvoice_versio",                                  limit: 1,                              default: "",    null: false
     t.string   "verkkolasku_vienti",                               limit: 1,                              default: "",    null: false
     t.string   "finvoice_senderpartyid",                           limit: 100,                            default: "",    null: false
     t.string   "finvoice_senderintermediator",                     limit: 100,                            default: "",    null: false
@@ -3456,6 +3457,7 @@ ActiveRecord::Schema.define(version: 20151111083616) do
     t.string   "ostolaskujen_paivays",                             limit: 1,                              default: "",    null: false
     t.string   "ostolaskujen_oletusvaluutta",                      limit: 1,                              default: "",    null: false
     t.integer  "ostolaskujen_kurssipaiva",                         limit: 4,                              default: 0,     null: false
+    t.integer  "myyntilaskujen_kurssipaiva",                       limit: 1,                              default: 0,     null: false
     t.string   "ostolaskun_kulutilit",                             limit: 1,                              default: "",    null: false
     t.string   "ostolaskun_kulutilit_kayttaytyminen",              limit: 1,                              default: "",    null: false
     t.string   "tarkenteiden_tarkistus_hyvaksynnassa",             limit: 1,                              default: "",    null: false
