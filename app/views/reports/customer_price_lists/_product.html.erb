@@ -1,19 +1,25 @@
 <%
-   price = @customer ?
-       p.customer_price_with_info(@customer.id) :
-       p.customer_subcategory_price_with_info(@customer_subcategory)
+  if @customer
+    price = p.customer_price_with_info(@customer.id)
+  else
+    price = p.customer_subcategory_price_with_info(@customer_subcategory)
+  end
 
-   lyhytkuvaus = params[:lyhytkuvaus] && p.lyhytkuvaus.present? ?
-       p.lyhytkuvaus.truncate(2500) :
-       ''
+  lyhytkuvaus = nil
+  image = nil
+  kuvaus = nil
 
-   image = params[:product_image] && p.cover_thumbnail.present? ?
-       Base64.encode64(p.cover_thumbnail.data) :
-       ''
+  if params[:lyhytkuvaus] && p.lyhytkuvaus.present?
+    lyhytkuvaus = p.lyhytkuvaus.truncate(2500)
+  end
 
-   kuvaus = params[:kuvaus] && p.kuvaus.present? ?
-       p.kuvaus.truncate(2500) :
-       ''
+  if params[:product_image] && p.cover_thumbnail.present?
+    image = Base64.encode64(p.cover_thumbnail.data)
+  end
+
+  if params[:kuvaus] && p.kuvaus.present?
+    kuvaus = p.kuvaus.truncate(2500)
+  end
 %>
 
 <tr class="container">
@@ -45,8 +51,7 @@
         <tr>
           <% if image.present? %>
             <td>
-              <img src="data:image/jpg;base64,<%= image %>"
-                   style="width: 100%;"/>
+              <img src="data:image/jpg;base64,<%= image %>" style="width: 100%;"/>
             </td>
           <% end %>
 
