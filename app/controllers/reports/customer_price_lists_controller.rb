@@ -8,7 +8,7 @@ class Reports::CustomerPriceListsController < ApplicationController
     @products = @products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
 
     if params[:contract_filter].to_i == 2
-      @products = @products.select { |p| p.contract_price?(target) }
+      @products = @products.select { |p| p.contract_price?(@target) }
     end
 
     if @products.empty?
@@ -26,6 +26,8 @@ class Reports::CustomerPriceListsController < ApplicationController
   private
 
     def params_valid?
+      return false unless params[:commit].present?
+
       errors = []
 
       if params[:target].blank?
@@ -41,7 +43,7 @@ class Reports::CustomerPriceListsController < ApplicationController
         @customer = Customer.find_by(asiakasnro: params[:target])
 
         if @customer
-          target = @customer
+          @target = @customer
         else
           errors << t('.customer_not_found')
         end
@@ -49,7 +51,7 @@ class Reports::CustomerPriceListsController < ApplicationController
         @customer_subcategory = Keyword::CustomerSubcategory.find_by(tunnus: params[:target])
 
         if @customer_subcategory
-          target = @customer_subcategory
+          @target = @customer_subcategory
         else
           errors << t('.customer_subcategory_not_found')
         end
