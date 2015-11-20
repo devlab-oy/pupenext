@@ -45,16 +45,10 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render :index, formats: :html
     end
 
-    render pdf:              t('.filename'),
-           disposition:      :attachment,
-           footer:           { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
-           header:           { right: "#{t('.page')} [page] / [toPage]" },
-           margin:           { top: 10, bottom: 25 },
-           template:         'reports/customer_price_lists/report.html.erb',
-           user_style_sheet: Rails.root.join('app',
-                                             'assets',
-                                             'stylesheets',
-                                             'reports',
-                                             'pdf_styles.css')
+    render pdf:         t('.filename'),
+           disposition: :attachment,
+           footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
+           header:      { right: "#{t('.page')} [page] / [toPage]" },
+           template:    'reports/customer_price_lists/report.html.erb'
   end
 end
