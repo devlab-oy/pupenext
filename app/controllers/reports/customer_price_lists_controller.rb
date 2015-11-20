@@ -59,7 +59,7 @@ class Reports::CustomerPriceListsController < ApplicationController
         errors << t('.invalid_target_type')
       end
 
-      if errors.present?
+      if errors.any?
         flash.now[:alert] = errors.to_sentence
         false
       else
