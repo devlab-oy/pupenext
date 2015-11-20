@@ -11,7 +11,7 @@ class Import::ProductKeyword
   def import
     first_row = true
 
-    spreadsheet.parse(header_search: header_definitions) do |excel_row|
+    spreadsheet.parse(header_definitions) do |excel_row|
       if first_row
         response.add_headers names: excel_row.values
         first_row = false
@@ -30,6 +30,8 @@ class Import::ProductKeyword
         errors << I18n.t('errors.import.product_not_found', product: row.product_raw)
       elsif row.keyword.nil?
         errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language)
+      elsif !row.valid_attributes?
+        errors << I18n.t('errors.import.invalid_attributes', attributes: row.invalid_attributes.to_sentence)
       elsif !row.create
         errors << row.keyword.errors.full_messages
       end
@@ -47,16 +49,9 @@ class Import::ProductKeyword
     end
 
     def header_definitions
-      [
-        'tuoteno',
-        'laji',
-        'selite',
-        'selitetark',
-        'kieli',
-        'jarjestys',
-        'nakyvyys',
-        'toiminto',
-      ]
+      hash = {}
+      spreadsheet.row(1).each { |c| hash[c.to_s.downcase] = c.to_s.downcase }
+      hash
     end
 end
 
@@ -73,6 +68,14 @@ class Import::ProductKeyword::Row
 
   def action_valid?
     add_new? || modify_row? || add_or_modify? || remove_row?
+  end
+
+  def invalid_attributes
+    values.reject { |k,v| keyword.respond_to?(k) }.keys
+  end
+
+  def valid_attributes?
+    values.all? { |k,_| keyword.respond_to?(k) }
   end
 
   def product
