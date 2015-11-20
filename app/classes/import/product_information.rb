@@ -38,7 +38,7 @@ class Import::ProductInformation
       excel = []
 
       # Loop trough file and assign keys for columns from whatever is given on the first row
-      spreadsheet.parse(header_definitions) do |excel_row|
+      spreadsheet.parse(header_search: spreadsheet.row(1)) do |excel_row|
         rows = Row.new(excel_row, language: @language, type: @type)
 
         if first_row
