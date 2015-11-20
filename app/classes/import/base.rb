@@ -7,6 +7,12 @@ module Import::Base
       @file.sheet(0)
     end
 
+    def header_definitions
+      hash = {}
+      spreadsheet.row(1).each { |c| hash[c.to_s.downcase] = c.to_s.downcase }
+      hash
+    end
+
     def setup_file(filename)
       # if we have an rails UploadedFile class
       if filename.respond_to?(:original_filename)

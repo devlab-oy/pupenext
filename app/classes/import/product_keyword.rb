@@ -48,11 +48,6 @@ class Import::ProductKeyword
       @response ||= Import::Response.new
     end
 
-    def header_definitions
-      hash = {}
-      spreadsheet.row(1).each { |c| hash[c.to_s.downcase] = c.to_s.downcase }
-      hash
-    end
 end
 
 class Import::ProductKeyword::Row
