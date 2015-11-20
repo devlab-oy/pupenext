@@ -17,8 +17,8 @@ module CustomerPriceListsHelper
 
   def contract_filter_options(selected)
     options_for_select([
-      [t('.all_products'), 1],
-      [t('.contract_prices'), 2]
+      [t('reports.customer_price_lists.index.all_products'), 1],
+      [t('reports.customer_price_lists.index.contract_prices'), 2]
     ], selected)
   end
 end
