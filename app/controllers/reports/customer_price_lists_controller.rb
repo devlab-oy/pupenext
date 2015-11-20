@@ -56,7 +56,7 @@ class Reports::CustomerPriceListsController < ApplicationController
           errors << t('.customer_subcategory_not_found')
         end
       else
-        errors << 'invalid target type'
+        errors << t('.invalid_target_type')
       end
 
       if errors.present?
