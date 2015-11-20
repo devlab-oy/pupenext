@@ -74,6 +74,8 @@ class Import::ProductKeyword::Row
   end
 
   def product
+    return nil unless @tuoteno.present?
+
     @product ||= Product.find_by tuoteno: @tuoteno
   end
 
