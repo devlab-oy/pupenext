@@ -977,6 +977,7 @@ fi:
         customer_not_found: Asiakasta ei löydy
         customer_subcategory_not_found: Asiakasryhmää ei löytynyt
         filename: asiakashinnasto
+        invalid_target_type: Kohdetyypin täytyy olla asiakas tai asiakasryhmä
         no_filters_specified: Et antanut tuoterajauksia
         page: Sivu
         products_not_found: Tuotteita ei löytynyt
