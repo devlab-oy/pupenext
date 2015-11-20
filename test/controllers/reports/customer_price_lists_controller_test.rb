@@ -28,7 +28,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     @params_customer_subcategory = {
       commit:      true,
       target_type: 2,
-      target:      @customer.subcategory.id,
+      target:      @customer.subcategory.selite,
       osasto:      1000,
       try:         2000
     }
