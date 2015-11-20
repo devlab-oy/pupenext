@@ -95,7 +95,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_response :not_found
+      assert_response :success
       assert_template :index
     end
   end
