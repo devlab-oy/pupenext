@@ -19,7 +19,7 @@ class Administration::CarriersController < AdministrationController
     @carrier = Carrier.new carrier_params
 
     if @carrier.save
-      redirect_to carriers_path, notice: t("Rahdinkuljettaja luotiin onnistuneesti")
+      redirect_to carriers_path, notice: t('.success')
     else
       render :edit
     end
@@ -27,7 +27,7 @@ class Administration::CarriersController < AdministrationController
 
   def update
     if @carrier.update carrier_params
-      redirect_to carriers_path, notice: t("Rahdinkuljettaja päivitettiin onnistuneesti")
+      redirect_to carriers_path, notice: t('.success')
     else
       render :edit
     end
@@ -35,7 +35,7 @@ class Administration::CarriersController < AdministrationController
 
   def destroy
     @carrier.destroy
-    redirect_to carriers_path, notice: t("Rahdinkuljettaja poistettiin onnistuneesti")
+    redirect_to carriers_path, notice: t('.success')
   end
 
   private

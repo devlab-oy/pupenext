@@ -428,6 +428,10 @@ fi:
       finnish: Suomi
       swedish: Ruotsi
     carriers:
+      create:
+        success: Rahdinkuljettaja luotiin onnistuneesti
+      destroy:
+        success: Rahdinkuljettaja poistettiin onnistuneesti
       edit:
         header: Rahdinkuljettaja
       index:
@@ -436,6 +440,8 @@ fi:
       neutraali_options:
         neutral: Kyllä
         not_neutral: Ei
+      update:
+        success: Rahdinkuljettaja päivitettiin onnistuneesti
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -648,7 +654,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -674,7 +680,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
