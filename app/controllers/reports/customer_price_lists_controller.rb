@@ -1,6 +1,6 @@
 class Reports::CustomerPriceListsController < ApplicationController
   def create
-    return render :index, formats: :html unless params_valid?
+    return render :index unless params_valid?
 
     @products = params[:product_image] ? Product.includes(:cover_thumbnail).active : Product.active
     @products = @products.where(osasto: params[:osasto]) if params[:osasto]
@@ -13,7 +13,7 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     if @products.empty?
       flash.now[:alert] = t('.products_not_found')
-      return render :index, formats: :html
+      return render :index
     end
 
     render pdf:         t('.filename'),
