@@ -43,7 +43,7 @@ class Import::ProductInformation
         # create hash of the row (defined in Import::Base)
         excel_row = row_to_hash spreadsheet_row
 
-        rows = Row.new(excel_row, language: @language, type: @type)
+        rows = Row.new(excel_row, language: @language, type: type_hash)
 
         if first_row
           # add header row to excel array
@@ -56,6 +56,34 @@ class Import::ProductInformation
       end
 
       excel
+    end
+
+    def product_information
+      @product_information ||= Keyword::ProductInformationType.select(:selite, :selitetark)
+    end
+
+    def product_parameter
+      @product_parameter ||= Keyword::ProductParameterType.select(:selite, :selitetark)
+    end
+
+    def product_keyword
+      @product_keyword ||= Keyword::ProductKeywordType.select(:selite, :selitetark)
+    end
+
+    def type_hash
+      type = case @type
+      when 'information'
+        product_information
+      when 'parameter'
+        product_parameter
+      when 'keyword'
+        product_keyword
+      else
+        raise ArgumentError
+      end
+
+      hash = { type: @type }
+      type.index_by { |r| r.selitetark.downcase }.merge(hash)
     end
 end
 
@@ -86,15 +114,14 @@ class Import::ProductInformation::Row
   end
 
   def laji_value(value)
-    case @type
+    key = @type[value.to_s].try(:selite)
+
+    case @type[:type]
     when 'information'
-      key = Keyword::ProductInformationType.find_by(selitetark: value).try(:selite)
       key ? "lisatieto_#{key}" : "LISÄTIETO: #{value}"
     when 'parameter'
-      key = Keyword::ProductParameterType.find_by(selitetark: value).try(:selite)
       key ? "parametri_#{key}" : "PARAMETRI: #{value}"
     when 'keyword'
-      key = Keyword::ProductKeywordType.find_by(selitetark: value).try(:selite)
       key || "AVAINSANA: #{value}"
     else
       raise ArgumentError

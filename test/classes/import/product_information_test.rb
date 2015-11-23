@@ -61,6 +61,12 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
     }
     assert_equal response, importer.send(:row_to_hash, array.second)
 
+    # type_hash should return all company keywords/information/parameters as a hash
+    type_hash = importer.send(:type_hash)
+    assert_equal "information", type_hash[:type]
+    assert_equal "material", type_hash["tuotteen materiaali"].selite
+    assert_equal "Tuotteen materiaali", type_hash["tuotteen materiaali"].selitetark
+
     assert_difference 'Product::Keyword.count', 2 do
       response = importer.import
       assert_equal Import::Response, response.class
@@ -82,7 +88,8 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
       { tuoteno: 'ski1', laji: 'lisatieto_koko',     selite: 'XL',    kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
     ]
 
-    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
+    importer = Import::ProductInformation.new(@arguments)
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: importer.send(:type_hash)
     assert_equal keywords, row.values
   end
 
@@ -101,7 +108,9 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
       { tuoteno: 'ski1', laji: 'parametri_mallisto', selite: 'Summer',  kieli: 'fi', toiminto: 'MUOKKAA/LISÄÄ' }
     ]
 
-    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'parameter'
+    @arguments[:type] = 'parameter'
+    importer = Import::ProductInformation.new(@arguments)
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: importer.send(:type_hash)
     assert_equal keywords, row.values
   end
 
@@ -120,7 +129,8 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
       { tuoteno: 'ski1', laji: 'lisatieto_koko',     selite: 'XL',    kieli: 'fi', toiminto: 'POISTA' }
     ]
 
-    row = Import::ProductInformation::Row.new data, language: 'fi', type: 'information'
+    importer = Import::ProductInformation.new(@arguments)
+    row = Import::ProductInformation::Row.new data, language: 'fi', type: importer.send(:type_hash)
     assert_equal keywords, row.values
   end
 end
