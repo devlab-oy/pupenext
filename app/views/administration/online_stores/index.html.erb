@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th><%= OnlineStore.human_attribute_name(:name) %></th>
+      <th><%= OnlineStore.human_attribute_name(:theme) %></th>
     </tr>
   </thead>
 
@@ -13,6 +14,7 @@
     <% @online_stores.each do |online_store| %>
       <tr class="aktiivi">
         <td><%= link_to online_store, online_store %></td>
+        <td><%= online_store.theme %></td>
       </tr>
     <% end %>
   </tbody>
