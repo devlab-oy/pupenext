@@ -1,8 +1,6 @@
 class Product::Keyword < BaseModel
   belongs_to :product, foreign_key: :tuoteno, primary_key: :tuoteno
 
-  validate :laji_value_inclusion
-
   self.table_name = :tuotteen_avainsanat
   self.primary_key = :tunnus
 
@@ -10,6 +8,8 @@ class Product::Keyword < BaseModel
   validates :laji, presence: true, uniqueness: { scope: [:yhtio, :tuoteno, :laji, :kieli] }
   validates :product, presence: true
   validates :selite, presence: true
+
+  validate :laji_value_inclusion
 
   alias_attribute :description, :selitetark
   alias_attribute :key, :laji
@@ -21,6 +21,9 @@ class Product::Keyword < BaseModel
   private
 
     def laji_value_inclusion
+      # don't run this validation if we already have other errors (because this is slow)
+      return if errors.present?
+
       unless allowed_laji_values.include? laji
         errors.add :laji, I18n.t('errors.messages.inclusion')
       end
