@@ -225,6 +225,7 @@ fi:
       online_store:
         name: Nimi
         theme: Teema
+        type: Tyyppi
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
