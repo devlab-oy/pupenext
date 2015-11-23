@@ -1,0 +1,9 @@
+pupeshop:
+  name:  Pupeshop
+  type:  OnlineStore::Pupeshop
+  theme: one
+
+magento:
+  name:  Magento
+  type:  OnlineStore::Magento
+  theme: two
