@@ -26,27 +26,48 @@ class Product::Keyword < BaseModel
       end
     end
 
+    def cache_key
+      key = ['product-keyword']
+      key << product.company.id
+
+      count = Keyword::ProductInformationType.count
+      key << count
+      key << Keyword::ProductInformationType.maximum(:muutospvm).try(:utc).try(:to_s, :number) if count.nonzero?
+
+      count = Keyword::ProductKeywordType.count
+      key << count
+      key << Keyword::ProductKeywordType.maximum(:muutospvm).try(:utc).try(:to_s, :number) if count.nonzero?
+
+      count = Keyword::ProductParameterType.count
+      key << count
+      key << Keyword::ProductParameterType.maximum(:muutospvm).try(:utc).try(:to_s, :number) if count.nonzero?
+
+      key.join '/'
+    end
+
     def allowed_laji_values
-      Keyword::ProductInformationType.pluck(:selite).map { |a| "lisatieto_#{a}" } +
-      Keyword::ProductKeywordType.pluck(:selite) +
-      Keyword::ProductParameterType.pluck(:selite).map { |a| "parametri_#{a}" } +
-      %w(
-        ei_edi_ostotilaukseen
-        hammastus
-        hinnastoryhmittely
-        kuvaus
-        laatuluokka
-        lyhytkuvaus
-        mainosteksti
-        nimitys
-        oletusvalinta
-        osasto
-        sistoimittaja
-        synkronointi
-        tarratyyppi
-        toimpalautus
-        try
-        varastopalautus
-      )
+      Rails.cache.fetch(cache_key) do
+        Keyword::ProductInformationType.pluck(:selite).map { |a| "lisatieto_#{a}" } +
+        Keyword::ProductKeywordType.pluck(:selite) +
+        Keyword::ProductParameterType.pluck(:selite).map { |a| "parametri_#{a}" } +
+        %w(
+          ei_edi_ostotilaukseen
+          hammastus
+          hinnastoryhmittely
+          kuvaus
+          laatuluokka
+          lyhytkuvaus
+          mainosteksti
+          nimitys
+          oletusvalinta
+          osasto
+          sistoimittaja
+          synkronointi
+          tarratyyppi
+          toimpalautus
+          try
+          varastopalautus
+        )
+      end
     end
 end
