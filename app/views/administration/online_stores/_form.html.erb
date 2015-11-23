@@ -1,0 +1,16 @@
+<%= render 'administration/form_errors', resource: @online_store %>
+
+<%= simple_form_for @online_store,
+                    builder: AdminFormBuilder,
+                    defaults: { input_html: { class: :large } },
+                    alias_set: params[:alias_set] do |f| %>
+
+  <table width='600' class='admin-view-30'>
+    <%= f.input :name %>
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>
