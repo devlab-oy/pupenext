@@ -4,4 +4,8 @@ class OnlineStore < ActiveRecord::Base
   has_and_belongs_to_many :products, join_table: :online_stores_products
 
   validates :name, presence: true, length: { in: 1..255 }
+
+  def to_s
+    name
+  end
 end
