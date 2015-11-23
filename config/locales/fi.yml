@@ -573,11 +573,17 @@ fi:
       new:
         header: Uusi sähköpostipalvelin
     online_stores:
+      create:
+        success: Verkkokauppa luotiin onnistuneesti
+      destroy:
+        success: Verkkokauppa poistettiin onnistuneesti
       edit:
         button_remove: Poista verkkokauppa
         confirm_remove: Haluatko varmasti poistaa tämän verkkokakupan?
       index:
         header: Verkkokaupat
+      update:
+        success: Verkkokauppa päivitettiin onnistuneesti
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
