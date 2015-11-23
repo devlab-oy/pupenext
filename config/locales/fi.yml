@@ -572,6 +572,12 @@ fi:
         header: Sähköpostipalvelimet
       new:
         header: Uusi sähköpostipalvelin
+    online_stores:
+      edit:
+        button_remove: Poista verkkokauppa
+        confirm_remove: Haluatko varmasti poistaa tämän verkkokakupan?
+      index:
+        header: Verkkokaupat
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
