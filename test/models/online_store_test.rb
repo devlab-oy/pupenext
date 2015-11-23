@@ -26,6 +26,9 @@ class OnlineStoreTest < ActiveSupport::TestCase
 
     assert_not_empty @pupeshop.products
     assert_not_empty @magento.products
+
+    assert_equal companies(:acme), @pupeshop.company
+    assert_equal companies(:acme), @magento.company
   end
 
   test 'STI works' do

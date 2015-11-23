@@ -1,6 +1,7 @@
-class OnlineStore < ActiveRecord::Base
+class OnlineStore < BaseModel
   include PupenextSingleTableInheritance
 
+  belongs_to :company
   belongs_to :theme, foreign_key: :online_store_theme_id, class_name: 'OnlineStoreTheme'
 
   has_and_belongs_to_many :products, join_table: :online_stores_products

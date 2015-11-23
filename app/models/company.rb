@@ -73,6 +73,7 @@ class Company < ActiveRecord::Base
   has_many :customer_transports, through: :customers, source: :transports
   has_many :mail_servers
   has_many :incoming_mails, through: :mail_servers
+  has_many :online_stores
 
   accepts_nested_attributes_for :bank_accounts, :users
 
