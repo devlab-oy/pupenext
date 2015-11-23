@@ -4,6 +4,7 @@ class OnlineStoreTest < ActiveSupport::TestCase
   fixtures %w(
     online_store_themes
     online_stores
+    products
   )
 
   setup do
@@ -22,6 +23,9 @@ class OnlineStoreTest < ActiveSupport::TestCase
   test 'associations work' do
     assert_equal @theme_one, @pupeshop.theme
     assert_equal @theme_two, @magento.theme
+
+    assert_not_empty @pupeshop.products
+    assert_not_empty @magento.products
   end
 
   test 'STI works' do
