@@ -1,0 +1,11 @@
+<%= return_link(t('administration.online_stores.index.header'), online_stores_path) %>
+
+<%= render 'administration/header', text: t('administration.online_stores.index.header') %>
+<%= render 'form' %>
+
+<br>
+
+<%= button_to(t('.button_remove'),
+              @online_store,
+              data: { confirm: t('administration.online_stores.edit.confirm_remove') },
+              method: 'delete') %>
