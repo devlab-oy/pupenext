@@ -224,6 +224,7 @@ fi:
         smtp_username: SMPT-palvelimen käyttäjätunnus
       online_store:
         name: Nimi
+        products: Tuotteet
         theme: Teema
         type: Tyyppi
       package:
