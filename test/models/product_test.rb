@@ -11,6 +11,7 @@ class ProductTest < ActiveSupport::TestCase
     keyword/customer_subcategories
     keywords
     manufacture_order/rows
+    online_stores
     pending_updates
     product/keywords
     product/suppliers
