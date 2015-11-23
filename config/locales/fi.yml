@@ -222,6 +222,8 @@ fi:
         smtp_password: SMPT-palvelimen salasana
         smtp_server: SMPT-palvelin
         smtp_username: SMPT-palvelimen käyttäjätunnus
+      online_store:
+        name: Nimi
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
