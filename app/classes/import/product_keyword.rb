@@ -17,7 +17,7 @@ class Import::ProductKeyword
       excel_row = row_to_hash spreadsheet_row
 
       if first_row
-        response.add_headers names: excel_row.values.map(&:downcase)
+        response.add_headers names: excel_row.values
         first_row = false
         next
       end
