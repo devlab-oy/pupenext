@@ -7,6 +7,7 @@
     <tr>
       <th><%= OnlineStore.human_attribute_name(:name) %></th>
       <th><%= OnlineStore.human_attribute_name(:theme) %></th>
+      <th><%= OnlineStore.human_attribute_name(:type) %></th>
     </tr>
   </thead>
 
@@ -15,6 +16,7 @@
       <tr class="aktiivi">
         <td><%= link_to online_store, online_store %></td>
         <td><%= online_store.theme %></td>
+        <td><%= online_store.type.try(:demodulize) %></td>
       </tr>
     <% end %>
   </tbody>
