@@ -15,6 +15,7 @@ class OnlineStore < BaseModel
   def self.child_class_names
     [
       OnlineStore::Magento,
+      OnlineStore::PrestaShop,
       OnlineStore::Pupeshop
     ].index_by(&:to_s)
   end
