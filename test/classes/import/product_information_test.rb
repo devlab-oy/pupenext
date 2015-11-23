@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Import::ProductInformationTest < ActiveSupport::TestCase
+  include SpreadsheetsHelper
+
   fixtures %w(
     keyword/product_information_types
     keyword/product_keyword_types
@@ -34,9 +36,33 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   end
 
   test 'imports example file' do
-    # adding 4, removing 2
+    # adding 2, removing 1
+    array = [
+      ['TuoteNUMEro', 'Tuotteen mateRIAali', 'Tuotteen KOKO', 'PoIsta'],
+      ['hammer123',   'Aluminium',           'XL',            ''      ],
+      ['ski1',        'Hiilikuitu',          'small',         ''      ],
+      ['hammer123',   'Aluminium',           '',              'X'     ],
+    ]
+
+    @arguments[:filename] = create_xlsx(array)
+
+    # Test Import::Base methods here (TODO: this is wrong place)
+    importer = Import::ProductInformation.new(@arguments)
+
+    # header row should be first row as is (notice case)
+    assert_equal array.first, importer.send(:header_row)
+
+    # row to hash should downcase header row and return hash with values
+    response = {
+      "tuotenumero"         => "hammer123",
+      "tuotteen materiaali" => "Aluminium",
+      "tuotteen koko"       => "XL",
+      "poista"              => ""
+    }
+    assert_equal response, importer.send(:row_to_hash, array.second)
+
     assert_difference 'Product::Keyword.count', 2 do
-      response = Import::ProductInformation.new(@arguments).import
+      response = importer.import
       assert_equal Import::Response, response.class
     end
   end

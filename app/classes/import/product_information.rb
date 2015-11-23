@@ -38,7 +38,11 @@ class Import::ProductInformation
       excel = []
 
       # Loop trough file and assign keys for columns from whatever is given on the first row
-      spreadsheet.parse(header_search: spreadsheet.row(1)) do |excel_row|
+      spreadsheet.each do |spreadsheet_row|
+
+        # create hash of the row (defined in Import::Base)
+        excel_row = row_to_hash spreadsheet_row
+
         rows = Row.new(excel_row, language: @language, type: @type)
 
         if first_row
@@ -57,7 +61,7 @@ end
 
 class Import::ProductInformation::Row
   def initialize(hash, language:, type:)
-    @hash     = Hash[hash.map { |k, v| [k.downcase, v] }] # downcase all keys
+    @hash     = Hash[hash.map { |k, v| [k.to_s.downcase, v] }] # downcase all keys
     @tuoteno  = @hash.delete 'tuotenumero'
     @toiminto = @hash.delete 'poista'
     @language = language
@@ -90,7 +94,8 @@ class Import::ProductInformation::Row
       key = Keyword::ProductParameterType.find_by(selitetark: value).try(:selite)
       key ? "parametri_#{key}" : "PARAMETRI: #{value}"
     when 'keyword'
-      Keyword::ProductKeywordType.find_by(selitetark: value).try(:selite) || "AVAINSANA: #{value}"
+      key = Keyword::ProductKeywordType.find_by(selitetark: value).try(:selite)
+      key || "AVAINSANA: #{value}"
     else
       raise ArgumentError
     end

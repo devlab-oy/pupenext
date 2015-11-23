@@ -43,7 +43,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
   test 'toiminto values' do
     spreadsheet = create_xlsx([
-      ['tuoteno',            'laji',    'selite', 'toiminto'      ],
+      ['tuOTEno',            'laJI',    'selite', 'toiminTO'      ],
       ["#{@helmet.tuoteno}", 'nimitys', 'foo',    'LISAA'         ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 1',  'LISÄÄ'         ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 2',  'muoKKAa'       ],

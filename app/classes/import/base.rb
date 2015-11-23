@@ -4,12 +4,22 @@ module Import::Base
   private
 
     def spreadsheet
-      @file.sheet(0)
+      @spreadsheet ||= @file.sheet(0)
     end
 
-    def header_definitions
+    def header_row
+      @header_row ||= spreadsheet.row(1)
+    end
+
+    def row_to_hash(array)
       hash = {}
-      spreadsheet.row(1).each { |c| hash[c.to_s.downcase] = c.to_s.downcase }
+
+      array.each_with_index  do |value, index|
+        key = header_row[index].to_s.downcase
+
+        hash[key] = value
+      end
+
       hash
     end
 

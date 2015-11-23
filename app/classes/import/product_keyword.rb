@@ -11,9 +11,13 @@ class Import::ProductKeyword
   def import
     first_row = true
 
-    spreadsheet.parse(header_definitions) do |excel_row|
+    spreadsheet.each do |spreadsheet_row|
+
+      # create hash of the row (defined in Import::Base)
+      excel_row = row_to_hash spreadsheet_row
+
       if first_row
-        response.add_headers names: excel_row.values
+        response.add_headers names: excel_row.values.map(&:downcase)
         first_row = false
         next
       end
