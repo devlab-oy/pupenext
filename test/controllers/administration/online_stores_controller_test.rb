@@ -32,7 +32,8 @@ class Administration::OnlineStoresControllerTest < ActionController::TestCase
   test "create works" do
     assert_difference('OnlineStore.count', 1) do
       post :create, online_store: { name: 'Test name 1',
-                                    online_store_theme_id: @theme_one.id }
+                                    online_store_theme_id: @theme_one.id,
+                                    type: 'OnlineStore::Pupeshop'}
     end
 
     assert_redirected_to online_stores_url
@@ -53,7 +54,8 @@ class Administration::OnlineStoresControllerTest < ActionController::TestCase
 
   test "update works" do
     patch :update, id: @pupeshop, online_store: { name: 'Updated name',
-                                                  online_store_theme_id: @theme_two.id }
+                                                  online_store_theme_id: @theme_two.id,
+                                                  type: 'OnlineStore::Magento'}
 
     assert_redirected_to online_stores_url
   end
