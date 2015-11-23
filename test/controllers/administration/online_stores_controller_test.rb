@@ -2,11 +2,15 @@ require 'test_helper'
 
 class Administration::OnlineStoresControllerTest < ActionController::TestCase
   fixtures %w(
+    online_store_themes
     online_stores
   )
 
   setup do
     login users(:bob)
+
+    @theme_one = online_store_themes(:one)
+    @theme_two = online_store_themes(:two)
 
     @pupeshop = online_stores(:pupeshop)
     @magento  = online_stores(:magento)
@@ -27,7 +31,8 @@ class Administration::OnlineStoresControllerTest < ActionController::TestCase
 
   test "create works" do
     assert_difference('OnlineStore.count', 1) do
-      post :create, online_store: { name: 'Test name 1' }
+      post :create, online_store: { name: 'Test name 1',
+                                    online_store_theme_id: @theme_one.id }
     end
 
     assert_redirected_to online_stores_url
@@ -47,7 +52,8 @@ class Administration::OnlineStoresControllerTest < ActionController::TestCase
   end
 
   test "update works" do
-    patch :update, id: @pupeshop, online_store: { name: 'Updated name' }
+    patch :update, id: @pupeshop, online_store: { name: 'Updated name',
+                                                  online_store_theme_id: @theme_two.id }
 
     assert_redirected_to online_stores_url
   end
