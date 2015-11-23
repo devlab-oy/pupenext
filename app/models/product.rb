@@ -133,6 +133,10 @@ class Product < BaseModel
     end
   end
 
+  def to_s
+    "#{tuoteno}: #{nimitys}"
+  end
+
   private
 
     def defaults
