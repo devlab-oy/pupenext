@@ -62,7 +62,7 @@ class Import::ProductKeyword::Row
   end
 
   def action
-    @toiminto
+    @toiminto.to_s.strip.mb_chars.downcase.to_s
   end
 
   def action_valid?
@@ -78,7 +78,7 @@ class Import::ProductKeyword::Row
   end
 
   def product
-    return nil unless @tuoteno.present?
+    return unless @tuoteno.present?
 
     @product ||= Product.find_by tuoteno: @tuoteno
   end
@@ -131,24 +131,18 @@ class Import::ProductKeyword::Row
   end
 
   def add_or_modify?
-    %w(
-      muokkaa/lisää
-      muokkaa/lisÄÄ
-      muokkaa/lisäÄ
-      muokkaa/lisÄä
-      muokkaa/lisaa
-    ).include? @toiminto.to_s.downcase
+    %w(muokkaa/lisää muokkaa/lisaa muuta/lisää muuta/lisaa).include? action
   end
 
   def add_new?
-    %w(lisää lisÄÄ lisäÄ lisÄä lisaa).include? @toiminto.to_s.downcase
+    %w(lisää lisaa).include? action
   end
 
   def modify_row?
-    %w(muokkaa muuta).include? @toiminto.to_s.downcase
+    %w(muokkaa muuta).include? action
   end
 
   def remove_row?
-    %w(poista).include? @toiminto.to_s.downcase
+    %w(poista).include? action
   end
 end
