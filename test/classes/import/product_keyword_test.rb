@@ -95,7 +95,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
     assert_no_difference 'Product::Keyword.count' do
       response = keywords.import
-      assert_equal 'Laji ei löydy listasta', response.rows.first.errors.first
+      assert_equal 'Laji ei voi olla tyhjä', response.rows.first.errors.first
     end
 
     spreadsheet = create_xlsx([
