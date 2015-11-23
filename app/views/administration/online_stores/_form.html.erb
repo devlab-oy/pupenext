@@ -11,6 +11,8 @@
     <%= f.input :type, collection: OnlineStore.child_class_names.keys,
                        label_method: :demodulize,
                        include_blank: false %>
+    <%= f.association :products, collection: Product.active,
+                                 input_html: { class:  %w(large chosen-select) } %>
   </table>
 
   <br>

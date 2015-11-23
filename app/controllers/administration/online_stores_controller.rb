@@ -46,6 +46,7 @@ class Administration::OnlineStoresController < AdministrationController
     def online_store_params
       params.require(:online_store).permit(:name,
                                            :online_store_theme_id,
+                                           { product_ids: [] },
                                            :type)
     end
 end
