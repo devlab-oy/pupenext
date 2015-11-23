@@ -1705,6 +1705,32 @@ ActiveRecord::Schema.define(version: 20160912144357) do
   add_index "oikeu", ["yhtio", "kuka", "sovellus"], name: "sovellus_index", using: :btree
   add_index "oikeu", ["yhtio", "sovellus", "nimi", "alanimi"], name: "menut_index", using: :btree
 
+  create_table "online_store_themes", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "online_stores", force: :cascade do |t|
+    t.string   "name",                  limit: 255
+    t.string   "type",                  limit: 255
+    t.integer  "online_store_theme_id", limit: 4
+    t.integer  "company_id",            limit: 4
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "online_stores", ["company_id"], name: "index_online_stores_on_company_id", using: :btree
+  add_index "online_stores", ["online_store_theme_id"], name: "index_online_stores_on_online_store_theme_id", using: :btree
+
+  create_table "online_stores_products", force: :cascade do |t|
+    t.integer "online_store_id", limit: 4
+    t.integer "product_id",      limit: 4
+  end
+
+  add_index "online_stores_products", ["online_store_id"], name: "index_online_stores_products_on_online_store_id", using: :btree
+  add_index "online_stores_products", ["product_id"], name: "index_online_stores_products_on_product_id", using: :btree
+
   create_table "pakkaamo", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",          limit: 5,   default: "", null: false
     t.string   "nimi",           limit: 150, default: "", null: false
