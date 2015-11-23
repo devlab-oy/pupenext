@@ -14,4 +14,9 @@ class OnlineStoreThemeTest < ActiveSupport::TestCase
     assert @one.valid?, @one.errors.full_messages
     assert @two.valid?, @two.errors.full_messages
   end
+
+  test 'associations work' do
+    assert_not_empty @one.online_stores
+    assert_not_empty @two.online_stores
+  end
 end
