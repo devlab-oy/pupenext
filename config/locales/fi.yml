@@ -399,6 +399,7 @@ fi:
       keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       mail_server: Sähköpostipalvelin
+      online_store: Verkkokauppa
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
