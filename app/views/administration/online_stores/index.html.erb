@@ -16,7 +16,7 @@
       <tr class="aktiivi">
         <td><%= link_to online_store, online_store %></td>
         <td><%= online_store.theme %></td>
-        <td><%= online_store.type.try(:demodulize) %></td>
+        <td><%= online_store.type.demodulize %></td>
       </tr>
     <% end %>
   </tbody>
