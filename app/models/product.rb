@@ -12,6 +12,11 @@ class Product < BaseModel
   has_many :customer_prices, foreign_key: :tuoteno, primary_key: :tuoteno
   has_many :customers, through: :customer_prices
 
+  with_options foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment' do |o|
+    o.has_one :cover_image, -> { where(kayttotarkoitus: :tk).order(:jarjestys, :tunnus) }
+    o.has_one :cover_thumbnail, -> { where(kayttotarkoitus: :th).order(:jarjestys, :tunnus) }
+  end
+
   delegate :images, to: :attachments
   delegate :thumbnails, to: :attachments
 
@@ -74,12 +79,16 @@ class Product < BaseModel
     LegacyMethods.customer_price(customer_id, id)
   end
 
+  def customer_price_with_info(customer_id)
+    LegacyMethods.customer_price_with_info(customer_id, id)
+  end
+
   def customer_subcategory_price(customer_subcategory_id)
     LegacyMethods.customer_subcategory_price(customer_subcategory_id, id)
   end
 
-  def cover_image
-    attachments.order(:jarjestys, :tunnus).first
+  def customer_subcategory_price_with_info(customer_subcategory_id)
+    LegacyMethods.customer_subcategory_price_with_info(customer_subcategory_id, id)
   end
 
   # Avoimet myyntirivit
@@ -90,6 +99,16 @@ class Product < BaseModel
   # Avoimet ostorivit
   def open_purchase_order_rows_between(range)
     purchase_order_rows.open.where(toimaika: range)
+  end
+
+  def contract_price?(target)
+    if target.is_a? Customer
+      customer_price_with_info(target.id)[:contract_price]
+    elsif target.is_a? ::Keyword::CustomerSubcategory
+      customer_subcategory_price_with_info(target.id)[:contract_price]
+    else
+      false
+    end
   end
 
   private

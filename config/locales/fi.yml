@@ -179,6 +179,10 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      customer:
+        asiakasnumero: Asiakasnumero
+        maksuehto: Maksuehto
+        toimitustapa: Toimitustapa
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -269,6 +273,12 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      product:
+        kuvaus: Kuvaus
+        lyhytkuvaus: Lyhytkuvaus
+        nimitys: Nimitys
+        tuoteno: Tuoteno
+        voimassa: Voimassa
       qualifier:
         isa_tarkenne: Isätarkenne
         kaytossa: Käytössä
@@ -307,6 +317,8 @@ fi:
         password: Salasana
         path: Polku palvelimella
         username: Käyttäjätunnus
+      user:
+        myyja: Myyjä
     models:
       account: Tili
       bank_account: Pankkitili
@@ -314,6 +326,7 @@ fi:
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
+      customer: Asiakas
       fiscal_year: Tilikausi
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
       head/purchase_invoice/approved: Ostolasku valmis maksatukseen
@@ -326,6 +339,8 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/customer_category: Asiakasosasto
+      keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
@@ -413,6 +428,10 @@ fi:
       finnish: Suomi
       swedish: Ruotsi
     carriers:
+      create:
+        success: Rahdinkuljettaja luotiin onnistuneesti
+      destroy:
+        success: Rahdinkuljettaja poistettiin onnistuneesti
       edit:
         header: Rahdinkuljettaja
       index:
@@ -421,6 +440,8 @@ fi:
       neutraali_options:
         neutral: Kyllä
         not_neutral: Ei
+      update:
+        success: Rahdinkuljettaja päivitettiin onnistuneesti
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -954,6 +975,38 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
+    customer_price_lists:
+      create:
+        customer_not_found: Asiakasta ei löydy
+        customer_subcategory_not_found: Asiakasryhmää ei löytynyt
+        filename: asiakashinnasto
+        invalid_target_type: Kohdetyypin täytyy olla asiakas tai asiakasryhmä
+        no_filters_specified: Et antanut tuoterajauksia
+        page: Sivu
+        products_not_found: Tuotteita ei löytynyt
+      footer:
+        business_id: Y-tunnus
+        domicile: Kotipaikka
+        email: Sähköposti
+        phone: Puhelin
+      index:
+        all_products: Kaikki tuotteet
+        contract_filter: Sopimusrajaus
+        contract_prices: Sopimushinnat
+        date_end: Loppupvm
+        date_start: Alkupvm
+        generate: Generoi
+        loading: Ladataan...
+        product_filter: Tuoterajaus
+        product_image: Tuotekuva
+        target_type: Kohdetyyppi
+      report:
+        contract_price: Sopimushinta
+        header: Asiakashinnasto
+        indefinitely: Toistaiseksi
+        price: Hinta
+        printed: Tulostettu
+        valid_text: Hinnasto on voimassa
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
@@ -973,44 +1026,44 @@ fi:
     revenue_expenditure_month:
       one: "%{count} kuukausi"
       other: "%{count} kuukautta"
+    stock_availability:
+      form:
+        button_make: Ruudulle
+        button_run: Pdf
+        constraints: Rajaus
+        period: Tarkasteluaika
+        weeks: Viikon ajalta
+      index:
+        header: Varastotilanne
+      show_data:
+        available: Saatavilla
+        future: Tulevat
+        header: Varastotilanne
+        past: Myöhässä
+        product: Tuote
+        purchases: Tulossa
+        report_brand: Valitut tuotemerkit %{selected}
+        report_category: Valitut osastot %{selected}
+        report_period: Tarkasteluaika %{period} viikkoa
+        report_subcategory: Valitut tuoteryhmät %{selected}
+        sales: Menossa
+        stock: Varastosaldo
+        total: Yhteensä
+        week: Viikko
+      view_connected_sales_orders:
+        delivery_date: Toimituspäivä
+        information: Tilausviite
+        order_number: Tilausnumero
+        ordered_amount: Tilattu
+        product_info: Tuotenumero
+        shipping_address: Toimitusosoite
+        total_amount: Laskun summa
+        unit: Kappaletta
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
-    stock_availability:
-      index:
-        header: Varastotilanne
-      form:
-        button_make: Ruudulle
-        button_run: Pdf
-        period: Tarkasteluaika
-        weeks: Viikon ajalta
-        constraints: Rajaus
-      show_data:
-        header: Varastotilanne
-        available: Saatavilla
-        past: Myöhässä
-        future: Tulevat
-        product: Tuote
-        purchases: Tulossa
-        sales:  Menossa
-        stock: Varastosaldo
-        week: Viikko
-        total: Yhteensä
-        report_category: Valitut osastot %{selected}
-        report_subcategory: Valitut tuoteryhmät %{selected}
-        report_brand: Valitut tuotemerkit %{selected}
-        report_period: Tarkasteluaika %{period} viikkoa
-      view_connected_sales_orders:
-        order_number: Tilausnumero
-        shipping_address: Toimitusosoite
-        information: Tilausviite
-        delivery_date: Toimituspäivä
-        product_info: Tuotenumero
-        unit: Kappaletta
-        ordered_amount: Tilattu
-        total_amount: Laskun summa
   shared:
     excel:
       company: Yritystiedot

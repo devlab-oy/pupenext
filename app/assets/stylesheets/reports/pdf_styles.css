@@ -3,37 +3,11 @@ table {
   width:           100%;
 }
 
-.margin-bottom {
-  margin-bottom: 40px;
-}
-
-h1 {
-  margin:  0;
-  padding: 0;
-}
-
-table, th, td {
-  border: 1px solid black;
-}
-
-th, td {
+th,
+td {
+  border:         1px solid black;
   text-align:     left;
   vertical-align: top;
-}
-
-ul.list-unstyled {
-  list-style: none;
-  padding:    0;
-  margin:     0;
-}
-
-table.no-border, table.no-border th, table.no-border td {
-  border: none;
-}
-
-td > table {
-  margin: -2px;
-  width:  101%;
 }
 
 thead {
@@ -44,6 +18,60 @@ tfoot {
   display: table-row-group;
 }
 
-tr {
+tr.container {
   page-break-inside: avoid;
+}
+
+table.no-border th,
+table.no-border td {
+  border: none;
+}
+
+.inner-table-container table tr:first-child td {
+  border-top: none;
+}
+
+.inner-table-container table tr:last-child td {
+  border-bottom: none;
+}
+
+.inner-table-container table td:first-child {
+  border-left: none;
+}
+
+.inner-table-container table td:last-child {
+  border-right: none;
+}
+
+.inner-table-container {
+  padding:    0 !important;
+  min-height: 100px;
+}
+
+.inner-table-container table {
+  height: 100%;
+}
+
+h1 {
+  margin:  0;
+  padding: 0;
+}
+
+ul.list-unstyled {
+  list-style: none;
+  margin:     0;
+  padding:    0;
+}
+
+.logo {
+  max-width:  150px;
+  max-height: 100px;
+}
+
+.margin-bottom {
+  margin-bottom: 40px;
+}
+
+.width-100 {
+  width: 100px;
 }

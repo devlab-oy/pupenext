@@ -15,6 +15,9 @@ class Keyword < BaseModel
     {
       ALV:           Keyword::Vat,
       ALVULK:        Keyword::ForeignVat,
+      ASIAKASOSASTO: Keyword::CustomerCategory,
+      ASIAKASRYHMA:  Keyword::CustomerSubcategory,
+      ASIAKHIN_ATTR: Keyword::CustomerPriceListAttribute,
       LISATIETO:     Keyword::ProductInformationType,
       MAKSUEHTOKV:   Keyword::TermsOfPaymentTranslation,
       MYSQLALIAS:    Keyword::CustomAttribute,
@@ -26,7 +29,6 @@ class Keyword < BaseModel
       TRY:           Product::Subcategory,
       TUOTEMERKKI:   Product::Brand,
       TUOTEULK:      Keyword::ProductKeywordType,
-      ASIAKASRYHMA:  Keyword::CustomerSubcategory
     }.stringify_keys
   end
 end

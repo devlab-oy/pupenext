@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer</title>
+</head>
+<body>
+<table>
+  <tr>
+    <td>
+      <ul class="list-unstyled">
+        <li><%= Current.company.nimi %></li>
+        <li><%= Current.company.osoite %></li>
+        <li><%= Current.company.postino %> <%= Current.company.postitp %></li>
+        <li><%= Current.company.maa %></li>
+      </ul>
+    </td>
+    <td>
+      <table class="no-border">
+        <tr>
+          <td><%= t('reports.customer_price_lists.footer.phone') %>:</td>
+          <td><%= Current.company.puhelin %></td>
+        </tr>
+        <tr>
+          <td><%= t('reports.customer_price_lists.footer.email') %>:</td>
+          <td><%= Current.company.email %></td>
+        </tr>
+        <tr>
+          <td>Web:</td>
+          <td><%= Current.company.www %></td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table class="no-border">
+        <tr>
+          <td><%= t('reports.customer_price_lists.footer.business_id') %>:</td>
+          <td><%= Current.company.ytunnus %></td>
+        </tr>
+        <tr>
+          <td><%= t('reports.customer_price_lists.footer.domicile') %>:</td>
+          <td><%= Current.company.kotipaikka %></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

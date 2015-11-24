@@ -1,0 +1,7 @@
+one:
+  yhtio: acme
+  laji: ASIAKHIN_ATTR
+  selite: viesti
+  selitetark: Example message
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>

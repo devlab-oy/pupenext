@@ -1,0 +1,10 @@
+DEFAULTS: &DEFAULTS
+  liitos: Yllapito
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  yhtio: acme
+
+logo:
+  data: logo_data
+  kayttotarkoitus: yhtion_parametrit.logo
+  <<: *DEFAULTS
