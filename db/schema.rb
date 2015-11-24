@@ -3066,17 +3066,16 @@ ActiveRecord::Schema.define(version: 20151123115624) do
   end
 
   create_table "valuu", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",            limit: 5,                            default: "",  null: false
-    t.string   "nimi",             limit: 3,                            default: "",  null: false
-    t.decimal  "jarjestys",                    precision: 2,            default: 0,   null: false
-    t.decimal  "kurssi",                       precision: 15, scale: 9, default: 0.0, null: false
-    t.decimal  "intrastat_kurssi",             precision: 15, scale: 9, default: 0.0, null: false
-    t.decimal  "hinnastokurssi",               precision: 15, scale: 9, default: 0.0, null: false
-    t.string   "laatija",          limit: 50,                           default: "",  null: false
-    t.datetime "luontiaika",                                                          null: false
-    t.datetime "muutospvm",                                                           null: false
-    t.string   "muuttaja",         limit: 50,                           default: "",  null: false
-    t.string   "country",          limit: 255
+    t.string   "yhtio",            limit: 5,                           default: "",  null: false
+    t.string   "nimi",             limit: 3,                           default: "",  null: false
+    t.decimal  "jarjestys",                   precision: 2,            default: 0,   null: false
+    t.decimal  "kurssi",                      precision: 15, scale: 9, default: 0.0, null: false
+    t.decimal  "intrastat_kurssi",            precision: 15, scale: 9, default: 0.0, null: false
+    t.decimal  "hinnastokurssi",              precision: 15, scale: 9, default: 0.0, null: false
+    t.string   "laatija",          limit: 50,                          default: "",  null: false
+    t.datetime "luontiaika",                                                         null: false
+    t.datetime "muutospvm",                                                          null: false
+    t.string   "muuttaja",         limit: 50,                          default: "",  null: false
   end
 
   add_index "valuu", ["yhtio", "nimi"], name: "yhtio_nimi", unique: true, using: :btree

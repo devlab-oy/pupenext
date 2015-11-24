@@ -12,10 +12,6 @@
     <%= f.input :kurssi %>
     <%= f.input :intrastat_kurssi if Current.company.maa == "EE" %>
     <%= f.input :hinnastokurssi %>
-    <%= f.input :country,
-                collection:   Country.unique_codes_and_names,
-                label_method: :nimi,
-                value_method: :koodi %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @currency %>
 
