@@ -3071,6 +3071,7 @@ ActiveRecord::Schema.define(version: 20151123115624) do
     t.decimal  "jarjestys",                   precision: 2,            default: 0,   null: false
     t.decimal  "kurssi",                      precision: 15, scale: 9, default: 0.0, null: false
     t.decimal  "intrastat_kurssi",            precision: 15, scale: 9, default: 0.0, null: false
+    t.decimal  "hinnastokurssi",              precision: 15, scale: 9, default: 0.0, null: false
     t.string   "laatija",          limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                         null: false
     t.datetime "muutospvm",                                                          null: false
