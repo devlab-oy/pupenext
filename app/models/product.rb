@@ -61,10 +61,14 @@ class Product < BaseModel
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def stock
+    return 0 if no_inventory_management?
+
     shelf_locations.sum(:saldo)
   end
 
   def stock_reserved
+    return 0 if no_inventory_management?
+
     stock_reserved  = sales_order_rows.reserved
     stock_reserved += manufacture_rows.reserved
     stock_reserved += stock_transfer_rows.reserved

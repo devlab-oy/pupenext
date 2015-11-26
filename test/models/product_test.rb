@@ -59,6 +59,9 @@ class ProductTest < ActiveSupport::TestCase
     loc.save!
 
     assert_equal stock + 100, @product.stock
+
+    @product.update_attribute :ei_saldoa, :no_inventory_management
+    assert_equal 0, @product.stock
   end
 
   test 'product reserved stock' do
@@ -79,6 +82,9 @@ class ProductTest < ActiveSupport::TestCase
 
     @product.stock_transfer_rows.first.update!(varattu: 6)
     assert_equal 21, @product.stock_reserved
+
+    @product.update_attribute :ei_saldoa, :no_inventory_management
+    assert_equal 0, @product.stock_reserved
   end
 
   test 'product stock available' do
@@ -94,6 +100,9 @@ class ProductTest < ActiveSupport::TestCase
 
     @product.shelf_locations.first.update!(saldo: 100)
     assert_equal 90, @product.stock_available
+
+    @product.update_attribute :ei_saldoa, :no_inventory_management
+    assert_equal 0, @product.stock_available
   end
 
   test 'active scope' do
