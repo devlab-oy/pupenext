@@ -68,20 +68,20 @@ class Product < BaseModel
     shelf_locations.sum(:saldo)
   end
 
-  def stock_reserved
+  def stock_reserved(stock_date: Date.today)
     return 0 if no_inventory_management?
 
     if company.parameter.stock_management_by_pick_date?
-      pick_date_stock_reserved
+      pick_date_stock_reserved stock_date: stock_date
     elsif company.parameter.stock_management_by_pick_date_and_with_future_reservations?
-      pick_date_and_future_reserved
+      pick_date_and_future_reserved stock_date: stock_date
     else
       default_stock_reserved
     end
   end
 
-  def stock_available
-    stock - stock_reserved
+  def stock_available(stock_date: Date.today)
+    stock - stock_reserved(stock_date: stock_date)
   end
 
   def customer_price(customer_id)
@@ -139,7 +139,7 @@ class Product < BaseModel
       stock_reserved
     end
 
-    def pick_date_stock_reserved(stock_date = Date.today)
+    def pick_date_stock_reserved(stock_date: Date.today)
       # sales, manufacture, and stock trasfer rows
       # *reserve stock* if they are due to be picked in the past
       stock_reserved  = sales_order_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
@@ -163,7 +163,7 @@ class Product < BaseModel
       stock_reserved
     end
 
-    def pick_date_and_future_reserved(stock_date = Date.today)
+    def pick_date_and_future_reserved(stock_date: Date.today)
       relations = %w{
         manufacture_composite_rows
         manufacture_recursive_composite_rows
@@ -186,7 +186,7 @@ class Product < BaseModel
 
       # fetch stock reserved for each date
       stock_by_date = dates.flatten.compact.map do |date|
-        pick_date_stock_reserved date
+        pick_date_stock_reserved stock_date: date
       end
 
       # return maximum stock reservation in the future (worst case)
