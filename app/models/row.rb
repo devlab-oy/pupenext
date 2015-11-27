@@ -21,7 +21,7 @@ class Row < BaseModel
   end
 
   def self.reserved
-    where("tilausrivi.varattu > 0").sum(:varattu)
+    where.not(var: :P).where("tilausrivi.varattu > 0").sum(:varattu)
   end
 
   def self.picked
