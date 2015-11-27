@@ -22,6 +22,8 @@ class Product < BaseModel
 
   with_options foreign_key: :tuoteno, primary_key: :tuoteno do |o|
     o.has_many :keywords, class_name: 'Product::Keyword'
+    o.has_many :manufacture_composite_rows, class_name: 'ManufactureOrder::CompositeRow'
+    o.has_many :manufacture_recursive_composite_rows, class_name: 'ManufactureOrder::RecursiveCompositeRow'
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
@@ -69,10 +71,11 @@ class Product < BaseModel
   def stock_reserved
     return 0 if no_inventory_management?
 
-    stock_reserved  = sales_order_rows.reserved
-    stock_reserved += manufacture_rows.reserved
-    stock_reserved += stock_transfer_rows.reserved
-    stock_reserved
+    if company.parameter.stock_management_by_pick_date?
+      pick_date_stock_reserved
+    else
+      default_stock_reserved
+    end
   end
 
   def stock_available
@@ -124,5 +127,37 @@ class Product < BaseModel
       self.epakurantti50pvm  ||= 0
       self.epakurantti75pvm  ||= 0
       self.epakurantti100pvm ||= 0
+    end
+
+    def default_stock_reserved
+      # sales, manufacture, and stock trasfer rows reserve stock
+      stock_reserved  = sales_order_rows.reserved
+      stock_reserved += manufacture_rows.reserved
+      stock_reserved += stock_transfer_rows.reserved
+      stock_reserved
+    end
+
+    def pick_date_stock_reserved
+      # sales, manufacture, and stock trasfer rows
+      # *reserve stock* if they are due to be picked in the past
+      stock_reserved  = sales_order_rows.where('tilausrivi.kerayspvm <= ?', Date.today).reserved
+      stock_reserved += manufacture_rows.where('tilausrivi.kerayspvm <= ?', Date.today).reserved
+      stock_reserved += stock_transfer_rows.where('tilausrivi.kerayspvm <= ?', Date.today).reserved
+
+      # sales, manufacture, and stock trasfer rows
+      # *reserve stock* if they are due to be picked in the future, but are already picked
+      stock_reserved += sales_order_rows.picked.where('tilausrivi.kerayspvm > ?', Date.today).reserved
+      stock_reserved += manufacture_rows.picked.where('tilausrivi.kerayspvm > ?', Date.today).reserved
+      stock_reserved += stock_transfer_rows.picked.where('tilausrivi.kerayspvm > ?', Date.today).reserved
+
+      # manufacture composite rows and manufacture recursive composite rows
+      # *decrease stock reservation* if they are due to be picked in the past
+      stock_reserved -= manufacture_composite_rows.where('tilausrivi.kerayspvm <= ?', Date.today).reserved
+      stock_reserved -= manufacture_recursive_composite_rows.where('tilausrivi.kerayspvm <= ?', Date.today).reserved
+
+      # purchase orders due to arrive in the past *decrease stock reservation*
+      stock_reserved -= purchase_order_rows.where('tilausrivi.toimaika <= ?', Date.today).reserved
+
+      stock_reserved
     end
 end
