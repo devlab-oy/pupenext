@@ -23,4 +23,8 @@ class Row < BaseModel
   def self.reserved
     where("tilausrivi.varattu > 0").sum(:varattu)
   end
+
+  def self.picked
+    where.not(keratty: '')
+  end
 end
