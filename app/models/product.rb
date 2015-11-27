@@ -174,7 +174,8 @@ class Product < BaseModel
       }
 
       # fetch all distinct pick dates for all product rows
-      dates = relations.map do |relation|
+      dates = [ stock_date ]
+      dates << relations.map do |relation|
         send(relation)
           .where('tilausrivi.kerayspvm > ?', stock_date)
           .where('tilausrivi.varattu + tilausrivi.jt != 0')
