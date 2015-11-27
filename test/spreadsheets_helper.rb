@@ -1,4 +1,5 @@
 module SpreadsheetsHelper
+  require 'csv'
 
   private
 
@@ -28,6 +29,21 @@ module SpreadsheetsHelper
           array.each { |row| sheet.add_row row }
         end
         p.serialize filename
+      end
+
+      filename
+    end
+
+    # Creates a csv file out of an array
+    # Returns full path of the created file
+    def create_csv(array)
+      file = Tempfile.new(['example', '.csv'])
+      filename = file.path
+      file.unlink
+      file.close
+
+      CSV.open(filename, "wb") do |csv|
+        array.each { |row| csv << row }
       end
 
       filename

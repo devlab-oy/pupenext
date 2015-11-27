@@ -68,6 +68,8 @@ Pupesoft::Application.routes.draw do
     get :stock_availability, to: 'stock_availability#index', as: :stock_availability
     get :run_stock_availability, to: 'stock_availability#run', as: :run_stock_availability
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
+
+    resources :customer_price_lists, only: [:index, :create]
   end
 
   scope :data_export do

@@ -11,6 +11,7 @@
     <%= f.input :jarjestys %>
     <%= f.input :kurssi %>
     <%= f.input :intrastat_kurssi if Current.company.maa == "EE" %>
+    <%= f.input :hinnastokurssi %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @currency %>
 

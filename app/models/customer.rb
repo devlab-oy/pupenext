@@ -1,5 +1,9 @@
 class Customer < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
+  belongs_to :category,
+             class_name:  'Keyword::CustomerCategory',
+             foreign_key: :osasto,
+             primary_key: :selite
   belongs_to :subcategory,
              class_name:  'Keyword::CustomerSubcategory',
              foreign_key: :ryhma,
