@@ -206,6 +206,12 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 0, @product.reload.stock_reserved
   end
 
+  test 'pick data future reserved' do
+    # set stock management by pick date
+    @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date_and_with_future_reservations
+    assert_equal 0, @product.stock_reserved
+  end
+
   test 'active scope' do
     # make all inactive
     company = @product.company
