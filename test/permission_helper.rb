@@ -1,5 +1,5 @@
 module PermissionHelper
-  def add_item(program:, uri:, name:, suburi: nil)
+  def add_item(program:, uri:, name:, suburi: '')
     Company.find_each do |company|
       Current.company = company.yhtio
 
