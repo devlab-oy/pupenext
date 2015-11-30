@@ -11,7 +11,11 @@ class Import::ProductKeyword
   def import
     first_row = true
 
-    spreadsheet.parse(header_search: header_definitions) do |excel_row|
+    spreadsheet.each do |spreadsheet_row|
+
+      # create hash of the row (defined in Import::Base)
+      excel_row = row_to_hash spreadsheet_row
+
       if first_row
         response.add_headers names: excel_row.values
         first_row = false
@@ -30,6 +34,8 @@ class Import::ProductKeyword
         errors << I18n.t('errors.import.product_not_found', product: row.product_raw)
       elsif row.keyword.nil?
         errors << I18n.t('errors.import.keyword_not_found', keyword: row.key, language: row.language)
+      elsif !row.valid_attributes?
+        errors << I18n.t('errors.import.invalid_attributes', attributes: row.invalid_attributes.to_sentence)
       elsif !row.create
         errors << row.keyword.errors.full_messages
       end
@@ -46,18 +52,6 @@ class Import::ProductKeyword
       @response ||= Import::Response.new
     end
 
-    def header_definitions
-      [
-        'tuoteno',
-        'laji',
-        'selite',
-        'selitetark',
-        'kieli',
-        'jarjestys',
-        'nakyvyys',
-        'toiminto',
-      ]
-    end
 end
 
 class Import::ProductKeyword::Row
@@ -68,14 +62,24 @@ class Import::ProductKeyword::Row
   end
 
   def action
-    @toiminto
+    @toiminto.to_s.strip.mb_chars.downcase.to_s
   end
 
   def action_valid?
     add_new? || modify_row? || add_or_modify? || remove_row?
   end
 
+  def invalid_attributes
+    values.reject { |k,v| keyword.respond_to?(k) }.keys
+  end
+
+  def valid_attributes?
+    values.all? { |k,_| keyword.respond_to?(k) }
+  end
+
   def product
+    return unless @tuoteno.present?
+
     @product ||= Product.find_by tuoteno: @tuoteno
   end
 
@@ -127,24 +131,18 @@ class Import::ProductKeyword::Row
   end
 
   def add_or_modify?
-    %w(
-      muokkaa/lisää
-      muokkaa/lisÄÄ
-      muokkaa/lisäÄ
-      muokkaa/lisÄä
-      muokkaa/lisaa
-    ).include? @toiminto.to_s.downcase
+    %w(muokkaa/lisää muokkaa/lisaa muuta/lisää muuta/lisaa).include? action
   end
 
   def add_new?
-    %w(lisää lisÄÄ lisäÄ lisÄä lisaa).include? @toiminto.to_s.downcase
+    %w(lisää lisaa).include? action
   end
 
   def modify_row?
-    %w(muokkaa muuta).include? @toiminto.to_s.downcase
+    %w(muokkaa muuta).include? action
   end
 
   def remove_row?
-    %w(poista).include? @toiminto.to_s.downcase
+    %w(poista).include? action
   end
 end

@@ -43,7 +43,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
   test 'toiminto values' do
     spreadsheet = create_xlsx([
-      ['tuoteno',            'laji',    'selite', 'toiminto'      ],
+      ['tuOTEno',            'laJI',    'selite', 'toiminTO'      ],
       ["#{@helmet.tuoteno}", 'nimitys', 'foo',    'LISAA'         ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 1',  'LISÄÄ'         ],
       ["#{@hammer.tuoteno}", 'nimitys', 'bar 2',  'muoKKAa'       ],
@@ -95,7 +95,7 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
 
     assert_no_difference 'Product::Keyword.count' do
       response = keywords.import
-      assert_equal 'Laji ei löydy listasta', response.rows.first.errors.first
+      assert_equal 'Laji ei voi olla tyhjä', response.rows.first.errors.first
     end
 
     spreadsheet = create_xlsx([
@@ -180,6 +180,19 @@ class Import::ProductKeywordTest < ActiveSupport::TestCase
     result = keywords.import
     assert_equal 1, result.rows.first.errors.count
     assert_equal 'Laji on jo käytössä', result.rows.first.errors.first
+  end
+
+  test 'adding completely wrong columns' do
+    spreadsheet = create_xlsx([
+      ['tuoteno',            'foo', 'bar', 'baz', 'toiminto'],
+      ["#{@hammer.tuoteno}", '1',   '2',   '3',   'lisää'   ],
+    ])
+
+    keywords = Import::ProductKeyword.new company_id: @company, user_id: @user, filename: spreadsheet
+    result = keywords.import
+
+    assert_equal 1, result.rows.count
+    assert_equal "Virheellinen sarake foo, bar ja baz!", result.rows.first.errors.first
   end
 
   test 'toiminto is required field' do

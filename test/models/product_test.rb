@@ -6,7 +6,7 @@ class ProductTest < ActiveSupport::TestCase
     attachment/product_attachments
     customer_prices
     customers
-    customers
+    keyword/customer_subcategories
     keywords
     manufacture_order/rows
     pending_updates
@@ -121,6 +121,15 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
+  test 'customer price with info' do
+    customer = customers(:stubborn_customer)
+    price    = { hinta: 18, hinta_peruste: 1, ale_peruste: 2 }
+
+    LegacyMethods.stub(:customer_price_with_info, price) do
+      assert_equal price, @product.customer_price_with_info(customer.id)
+    end
+  end
+
   test 'customer subcategory price' do
     customer = customers(:stubborn_customer)
 
@@ -129,16 +138,50 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
+  test 'customer subcategory price with info' do
+    customer = customers(:stubborn_customer)
+    price    = { hinta: 18, hinta_peruste: 1, ale_peruste: 2 }
+
+    LegacyMethods.stub(:customer_subcategory_price_with_info, price) do
+      assert_equal price, @product.customer_subcategory_price_with_info(customer.id)
+    end
+  end
+
   test 'cover image' do
     assert_equal @product_image, @product.cover_image
 
     Attachment.delete_all
 
-    assert_nil @product.cover_image
+    assert_nil @product.reload.cover_image
   end
 
   test 'delegated methods' do
     assert_equal @product.attachments.images, @product.images
     assert_equal @product.attachments.thumbnails, @product.thumbnails
+  end
+
+  test 'contract_price?' do
+    contract_price       = { hinta: 18, hinta_peruste: 12, ale_peruste: 6, contract_price: true }
+    non_contract_price   = { hinta: 18, hinta_peruste: 18, ale_peruste: 13, contract_price: false }
+    customer             = customers(:stubborn_customer)
+    customer_subcategory = keyword_customer_subcategories(:customer_subcategory_1)
+
+    LegacyMethods.stub(:customer_price_with_info, contract_price) do
+      assert_equal true, @product.contract_price?(customer)
+    end
+
+    LegacyMethods.stub(:customer_subcategory_price_with_info, contract_price) do
+      assert_equal true, @product.contract_price?(customer_subcategory)
+    end
+
+    LegacyMethods.stub(:customer_price_with_info, non_contract_price) do
+      assert_equal false, @product.contract_price?(customer)
+    end
+
+    LegacyMethods.stub(:customer_subcategory_price_with_info, non_contract_price) do
+      assert_equal false, @product.contract_price?(customer_subcategory)
+    end
+
+    assert_equal false, @product.contract_price?('kissa')
   end
 end
