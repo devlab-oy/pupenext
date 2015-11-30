@@ -3440,6 +3440,7 @@ ActiveRecord::Schema.define(version: 20151126122139) do
     t.string   "laskun_monistus_kommenttikentta",                  limit: 1,                              default: "",    null: false
     t.string   "viivakoodi_laskulle",                              limit: 1,                              default: "",    null: false
     t.string   "koontilaskut_yhdistetaan",                         limit: 1,                              default: "",    null: false
+    t.decimal  "koontilaskut_alarajasumma",                                      precision: 12, scale: 2, default: 0.0,   null: false
     t.string   "koontilahete_kollitiedot",                         limit: 1,                              default: "",    null: false
     t.string   "tilausvahvistustyyppi",                            limit: 150,                            default: "",    null: false
     t.integer  "tilausvahvistus_tilausnumero",                     limit: 1,                              default: 0,     null: false
