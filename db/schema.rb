@@ -427,6 +427,23 @@ ActiveRecord::Schema.define(version: 20151123115624) do
 
   add_index "budjetti_asiakas", ["yhtio", "kausi", "asiakkaan_tunnus", "osasto", "try"], name: "asbu", unique: true, using: :btree
 
+  create_table "budjetti_maa", force: :cascade do |t|
+    t.string   "yhtio",      limit: 5,                            default: "",  null: false
+    t.string   "kausi",      limit: 6,                            default: "",  null: false
+    t.integer  "maa_id",     limit: 4,                            default: 0,   null: false
+    t.string   "osasto",     limit: 150,                          default: "",  null: false
+    t.string   "try",        limit: 150,                          default: "",  null: false
+    t.decimal  "summa",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "maara",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "indeksi",                precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "muuttaja",   limit: 50,                           default: "",  null: false
+    t.string   "laatija",    limit: 50,                           default: "",  null: false
+    t.datetime "luontiaika",                                                    null: false
+    t.datetime "muutospvm",                                                     null: false
+  end
+
+  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi", "osasto", "try"], name: "mabu", unique: true, using: :btree
+
   create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,                            default: "",  null: false
     t.string   "kausi",         limit: 6,                            default: "",  null: false
