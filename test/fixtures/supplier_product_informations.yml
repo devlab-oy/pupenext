@@ -1,0 +1,83 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_id: MyString
+  product_name: MyString
+  manufacturer_ean: MyString
+  manufacturer_name: MyString
+  manufacturer_id: 1
+  manufacturer_part_number: MyString
+  supplier_name: MyString
+  supplier_id: 1
+  supplier_ean: MyString
+  supplier_part_number: MyString
+  product_status: MyString
+  short_description: MyString
+  description: MyString
+  category_text1: MyString
+  category_text2: MyString
+  category_text3: MyString
+  category_text4: MyString
+  category_idn: 1
+  net_price: 9.99
+  net_retail_price: 9.99
+  available_quantity: 1
+  available_next_date: MyString
+  available_next_quantity: 1
+  warranty_months: 1
+  gross_mass: 9.99
+  end_of_life: MyString
+  is_returnable: MyString
+  is_cancelable: MyString
+  warranty_text: MyString
+  packaging_unit: MyString
+  vat_rate: 9.99
+  bid_price_id: 1
+  url_to_product: MyString
+  p_price_update: 1
+  p_qty_update: 1
+  p_last_update_date: 2015-12-02 16:16:53
+  p_added_date: 2015-12-02 16:16:53
+  p_nakyvyys: MyString
+  p_tree_id: 1
+
+two:
+  product_id: MyString
+  product_name: MyString
+  manufacturer_ean: MyString
+  manufacturer_name: MyString
+  manufacturer_id: 1
+  manufacturer_part_number: MyString
+  supplier_name: MyString
+  supplier_id: 1
+  supplier_ean: MyString
+  supplier_part_number: MyString
+  product_status: MyString
+  short_description: MyString
+  description: MyString
+  category_text1: MyString
+  category_text2: MyString
+  category_text3: MyString
+  category_text4: MyString
+  category_idn: 1
+  net_price: 9.99
+  net_retail_price: 9.99
+  available_quantity: 1
+  available_next_date: MyString
+  available_next_quantity: 1
+  warranty_months: 1
+  gross_mass: 9.99
+  end_of_life: MyString
+  is_returnable: MyString
+  is_cancelable: MyString
+  warranty_text: MyString
+  packaging_unit: MyString
+  vat_rate: 9.99
+  bid_price_id: 1
+  url_to_product: MyString
+  p_price_update: 1
+  p_qty_update: 1
+  p_last_update_date: 2015-12-02 16:16:53
+  p_added_date: 2015-12-02 16:16:53
+  p_nakyvyys: MyString
+  p_tree_id: 1
