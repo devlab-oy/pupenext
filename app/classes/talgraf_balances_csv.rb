@@ -26,23 +26,24 @@ class TalgrafBalancesCsv
           period_end: @period_end
         }
 
-        HeaderRow.new(params).data.each { |row| @data << row }
-        CompanyRow.new(company: @company).data.each { |row| @data << row }
-        AccountingPeriodRow.new(company: @company).data.each { |row| @data << row }
-        AccountsRow.new(company: @company).data.each { |row| @data << row }
+        TalgrafBalancesCsv::Header.new(params).rows.each { |row| @data << row }
+        TalgrafBalancesCsv::Corporation.new(company: @company).rows.each { |row| @data << row }
+        TalgrafBalancesCsv::AccountingPeriod.new(company: @company).rows.each { |row| @data << row }
+        TalgrafBalancesCsv::Accounts.new(company: @company).rows.each { |row| @data << row }
+        TalgrafBalancesCsv::Qualifiers.new(company: @company).rows.each { |row| @data << row }
       end
 
       @data
     end
 end
 
-class TalgrafBalancesCsv::HeaderRow
+class TalgrafBalancesCsv::Header
   def initialize(period_beginning:, period_end: '')
     @period_beginning = period_beginning
     @period_end = period_end
   end
 
-  def data
+  def rows
     [
       ["BEGIN", "Header"],
       ["file_version", file_version],
@@ -73,12 +74,12 @@ class TalgrafBalancesCsv::HeaderRow
     end
 end
 
-class TalgrafBalancesCsv::CompanyRow
+class TalgrafBalancesCsv::Corporation
   def initialize(company:)
     @company = company
   end
 
-  def data
+  def rows
     [
       ["BEGIN", "Company"],
       ["id", @company.ytunnus],
@@ -88,21 +89,26 @@ class TalgrafBalancesCsv::CompanyRow
   end
 end
 
-class TalgrafBalancesCsv::AccountingPeriodRow
+class TalgrafBalancesCsv::AccountingPeriod
   def initialize(company:)
     @company = company
   end
 
-  def data
+  def rows
+
+    current = @company.fiscal_years.order(tunnus: :desc).last
+    previous = @company.fiscal_years.where("tilikausi_loppu < ?", current.tilikausi_alku).order(tunnus: :desc).last
+
     [
       ["BEGIN", "AccountingPeriods"],
-      ["period", @company.tilikausi_alku, @company.tilikausi_loppu],
+      ["period", previous.tilikausi_alku, previous.tilikausi_loppu],
+      ["period", current.tilikausi_alku, current.tilikausi_loppu],
       ["END"]
     ]
   end
 end
 
-class TalgrafBalancesCsv::AccountsRow
+class TalgrafBalancesCsv::Accounts
   def initialize(company:)
     @company = company
   end
@@ -111,7 +117,7 @@ class TalgrafBalancesCsv::AccountsRow
     @company
   end
 
-  def data
+  def rows
 
     data = [
       ["BEGIN", "Accounts"],
@@ -125,6 +131,41 @@ class TalgrafBalancesCsv::AccountsRow
     # tulostilit
     company.accounts.profit_and_loss_accounts.each do |account|
       data << ["account", account.tilino, account.nimi, "closing"]
+    end
+
+    data << ["END"]
+    data
+  end
+end
+
+class TalgrafBalancesCsv::Qualifiers
+  def initialize(company:)
+    @company = company
+  end
+
+  def company
+    @company
+  end
+
+  def rows
+
+    data = [
+      ["BEGIN", "Dimensions"],
+    ]
+
+    # kustannuspaikka
+    company.cost_centers.each do |cost_center|
+      data << ["dimension", cost_center.tunnus, cost_center.nimi]
+    end
+
+    # projektit
+    company.projects.each do |project|
+      data << ["dimension", project.tunnus, project.nimi]
+    end
+
+    # kohteet
+    company.targets.each do |target|
+      data << ["dimension", target.tunnus, target.nimi]
     end
 
     data << ["END"]
