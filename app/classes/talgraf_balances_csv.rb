@@ -2,7 +2,7 @@ require 'csv'
 
 class TalgrafBalancesCsv
   def initialize(company_id:, period_beginning:, period_end: '')
-    @company = Company.find company_id
+    @company = ::Company.find company_id
     Current.company = @company
 
     @period_beginning = period_beginning
@@ -19,18 +19,17 @@ class TalgrafBalancesCsv
 
     def data
       if @data.blank?
-        @data = []
-
         params = {
           period_beginning: @period_beginning,
           period_end: @period_end
         }
 
-        TalgrafBalancesCsv::Header.new(params).rows.each { |row| @data << row }
-        TalgrafBalancesCsv::Corporation.new(company: @company).rows.each { |row| @data << row }
-        TalgrafBalancesCsv::AccountingPeriod.new(company: @company).rows.each { |row| @data << row }
-        TalgrafBalancesCsv::Accounts.new(company: @company).rows.each { |row| @data << row }
-        TalgrafBalancesCsv::Qualifiers.new(company: @company).rows.each { |row| @data << row }
+        @data  = TalgrafBalancesCsv::Header.new(params).rows
+        @data += TalgrafBalancesCsv::Company.new(company: @company).rows
+        @data += TalgrafBalancesCsv::AccountingPeriods.new(company: @company).rows
+        @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
+        @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
+        @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
       end
 
       @data
@@ -74,7 +73,7 @@ class TalgrafBalancesCsv::Header
     end
 end
 
-class TalgrafBalancesCsv::Corporation
+class TalgrafBalancesCsv::Company
   def initialize(company:)
     @company = company
   end
@@ -89,7 +88,7 @@ class TalgrafBalancesCsv::Corporation
   end
 end
 
-class TalgrafBalancesCsv::AccountingPeriod
+class TalgrafBalancesCsv::AccountingPeriods
   def initialize(company:)
     @company = company
   end
@@ -138,7 +137,7 @@ class TalgrafBalancesCsv::Accounts
   end
 end
 
-class TalgrafBalancesCsv::Qualifiers
+class TalgrafBalancesCsv::Dimensions
   def initialize(company:)
     @company = company
   end
@@ -154,18 +153,50 @@ class TalgrafBalancesCsv::Qualifiers
     ]
 
     # kustannuspaikka
+    cost_center = company.cost_centers.first
+    data << ["dimension", cost_center.tyyppi, "Kustannuspaikka"] if cost_center.present?
+
+    # projektit
+    project = company.projects.first
+    data << ["dimension", project.tyyppi, "Projekti"] if project.present?
+
+    # kohteet
+    target = company.targets.first
+    data << ["dimension", target.tyyppi, "Kohde"] if target.present?
+
+    data << ["END"]
+    data
+  end
+end
+
+class TalgrafBalancesCsv::AccountingUnits
+  def initialize(company:)
+    @company = company
+  end
+
+  def company
+    @company
+  end
+
+  def rows
+
+    data = [
+      ["BEGIN", "AccountingUnits"],
+    ]
+
+    # kustannuspaikka
     company.cost_centers.each do |cost_center|
-      data << ["dimension", cost_center.tunnus, cost_center.nimi]
+      data << ["unit", cost_center.tyyppi, cost_center.tunnus, cost_center.nimi]
     end
 
     # projektit
     company.projects.each do |project|
-      data << ["dimension", project.tunnus, project.nimi]
+      data << ["unit", project.tyyppi, project.tunnus, project.nimi]
     end
 
     # kohteet
     company.targets.each do |target|
-      data << ["dimension", target.tunnus, target.nimi]
+      data << ["unit", target.tyyppi, target.tunnus, target.nimi]
     end
 
     data << ["END"]

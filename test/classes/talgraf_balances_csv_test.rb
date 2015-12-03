@@ -46,8 +46,12 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     output = "account,4444,EVL poistoerovastatili,balance\n"
     assert report.csv_data.lines.include? output
 
-    # should find proper qualifiers from qualifiers section
-    output = "dimension,999999,New project\n"
+    # qualifiers section
+    output = "dimension,K,Kustannuspaikka\n"
+    assert report.csv_data.lines.include? output
+
+    # accounting unit section
+    output = "unit,P,999999,New project\n"
     assert report.csv_data.lines.include? output
   end
 end
