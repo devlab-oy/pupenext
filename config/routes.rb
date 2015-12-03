@@ -16,6 +16,9 @@ Pupesoft::Application.routes.draw do
     end
   end
 
+  resources :customers, only: [:index, :create, :update]
+  get 'customers/find_by_email'
+
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
       get :purchase_orders

@@ -20,4 +20,21 @@ class Customer < BaseModel
   def contract_price?(product)
     product.in? products
   end
+
+  # Limit the json data for API request
+  def as_json(options = {})
+    {
+      ytunnus: self.ytunnus,
+      asiakasnro: self.asiakasnro,
+      nimi:       self.nimi,
+      nimitark:   self.nimitark,
+      osoite:     self.osoite,
+      postino:    self.postino,
+      postitp:    self.postitp,
+      maa:        self.maa,
+      toim_maa:   self.toim_maa,
+      email:      self.email,
+      puhelin:    self.puhelin
+    }
+  end
 end
