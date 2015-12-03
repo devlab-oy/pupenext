@@ -16,6 +16,7 @@ bob:
   nimi: Bob Mursu
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   session: VNBMDDNKLLQJZQOFJBRSFIOOV
+  api_key: 62ef4a4a53c04f5ca20ff748b295be5a
   muuttaja: bob
   laatija: bob
   lastlogin: <%= Time.now %>
