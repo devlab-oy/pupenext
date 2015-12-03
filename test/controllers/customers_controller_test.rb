@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class CustomersControllerTest < ActionController::TestCase
+  fixtures %w(customers)
+
   setup do
     login users(:joe)
+    @customer = customers(:stubborn_customer)
   end
 
   test 'should create a new customer' do
@@ -24,6 +27,11 @@ class CustomersControllerTest < ActionController::TestCase
       post :create, params
       assert_response :created
     end
+  end
+
+  test 'should update customer' do
+    patch :update, id: @customer, customer: { nimi: "Antti Asiakas" }
+    assert_equal "Antti Asiakas", @customer.reload.nimi
   end
 
   test 'should find customer by email' do

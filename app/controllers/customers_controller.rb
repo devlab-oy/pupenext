@@ -12,6 +12,12 @@ class CustomersController < ApplicationController
   end
 
   def update
+    @customer = current_company.customers.find(params[:id])
+    if @customer.update(customer_params)
+      render json: { status: :ok }
+    else
+      render json: { error: "Not created", status: :unprocessable_entity }
+    end
   end
 
   def find_by_email
