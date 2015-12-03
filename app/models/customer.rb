@@ -24,7 +24,7 @@ class Customer < BaseModel
   # Limit the json data for API request
   def as_json(options = {})
     {
-      ytunnus: self.ytunnus,
+      ytunnus:    self.ytunnus,
       asiakasnro: self.asiakasnro,
       nimi:       self.nimi,
       nimitark:   self.nimitark,

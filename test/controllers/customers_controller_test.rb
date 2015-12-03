@@ -5,7 +5,28 @@ class CustomersControllerTest < ActionController::TestCase
     login users(:joe)
   end
 
-  test 'should find user by email' do
+  test 'should create a new customer' do
+    params = { customer: {
+        ytunnus:    '111',
+        asiakasnro: '111',
+        nimi:       'Teppo Testaaja',
+        nimitark:   '040 5555 555',
+        osoite:     'Katukuja 12',
+        postino:    '53500',
+        postitp:    'Lappeenranta',
+        maa:        'fi',
+        email:      'teppo@example.com',
+        puhelin:    '040 5555 555'
+      }
+    }
+
+    assert_difference('Customer.count') do
+      post :create, params
+      assert_response :created
+    end
+  end
+
+  test 'should find customer by email' do
     get :find_by_email, email: "notfound@example.com"
     assert_response :success
     assert_equal "not found", json_response["error"]
