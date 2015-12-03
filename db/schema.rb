@@ -3732,7 +3732,7 @@ ActiveRecord::Schema.define(version: 20151202095225) do
     t.integer  "tilausrivin_kateraja",                             limit: 4,                              default: 0,     null: false
     t.string   "viitemaksujen_oikaisut",                           limit: 1,                              default: "",    null: false
     t.string   "pdf_ruudulle_kieli",                               limit: 1,                              default: "",    null: false
-    t.integer  "laskun_kanavointitidon_syotto",                    limit: 1,                              default: 0,     null: false
+    t.integer  "laskun_kanavointitiedon_syotto",                   limit: 1,                              default: 0,     null: false
     t.string   "laatija",                                          limit: 50,                             default: "",    null: false
     t.datetime "luontiaika",                                                                                              null: false
     t.datetime "muutospvm",                                                                                               null: false
