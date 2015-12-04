@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
     @customer = current_company.customers.build(customer_params)
 
     if @customer.save
-      render json: { status: :created }, status: :created
+      render json: @customer, status: :created
     else
       render json: { error: "Not created", status: :unprocessable_entity }
     end
@@ -15,7 +15,7 @@ class CustomersController < ApplicationController
   def update
     @customer = current_company.customers.find(params[:id])
     if @customer.update(customer_params)
-      render json: { status: :ok }
+      render json: @customer
     else
       render json: { error: "Not created", status: :unprocessable_entity }
     end

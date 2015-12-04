@@ -35,13 +35,18 @@ class CustomersControllerTest < ActionController::TestCase
 
     assert_difference('Customer.count') do
       post :create, params
+
       assert_response :created
+      assert assigns(:customer)
+      assert_equal "111", json_response["asiakasnro"]
     end
   end
 
   test 'should update customer' do
     patch :update, id: @customer, customer: { nimi: "Antti Asiakas" }, access_token: @user.api_key
+
     assert_equal "Antti Asiakas", @customer.reload.nimi
+    assert_equal "100", json_response["asiakasnro"]
   end
 
   test 'should find customer by email' do
