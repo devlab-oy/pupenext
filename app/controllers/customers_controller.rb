@@ -8,7 +8,7 @@ class CustomersController < ApplicationController
     if @customer.save
       render json: @customer, status: :created
     else
-      render json: { error: "Not created", status: :unprocessable_entity }
+      render json: { error_messages: @customer.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -17,7 +17,7 @@ class CustomersController < ApplicationController
     if @customer.update(customer_params)
       render json: @customer
     else
-      render json: { error: "Not created", status: :unprocessable_entity }
+      render json: { error_messages: @customer.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -43,7 +43,9 @@ class CustomersController < ApplicationController
         :maa,
         :toim_maa,
         :email,
-        :puhelin
+        :puhelin,
+        :kieli,
+        :chn
       )
     end
 

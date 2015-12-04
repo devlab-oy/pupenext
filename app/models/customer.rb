@@ -11,6 +11,9 @@ class Customer < BaseModel
   has_many :sales_details, foreign_key: :liitostunnus, class_name: 'SalesOrder::Detail'
   has_many :transports, as: :transportable
 
+  validates :asiakasnro, presence: true, uniqueness: true
+  validate :validate_chn, on: [:create, :update]
+
   default_scope { where.not(laji: %w(P R)) }
 
   self.table_name = :asiakas
@@ -34,7 +37,17 @@ class Customer < BaseModel
       maa:        self.maa,
       toim_maa:   self.toim_maa,
       email:      self.email,
-      puhelin:    self.puhelin
+      puhelin:    self.puhelin,
+      kieli:      self.kieli,
+      chn:        self.chn
     }
   end
+
+  private
+
+    def validate_chn
+      if chn == '666' && email.empty? &&
+        errors.add(:chn, 'Olet valinnut laskutustavaksi sähköpostin ja lasku_email on tyhjä! Laskutus ei onnistu')
+      end
+    end
 end

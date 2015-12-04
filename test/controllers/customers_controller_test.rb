@@ -28,7 +28,8 @@ class CustomersControllerTest < ActionController::TestCase
         postitp:    'Lappeenranta',
         maa:        'fi',
         email:      'teppo@example.com',
-        puhelin:    '040 5555 555'
+        puhelin:    '040 5555 555',
+        kieli:      'fi'
       },
       access_token: @user.api_key
     }
@@ -40,6 +41,19 @@ class CustomersControllerTest < ActionController::TestCase
       assert assigns(:customer)
       assert_equal "111", json_response["asiakasnro"]
     end
+  end
+
+  test 'chn' do
+    params = {
+      customer: {
+        asiakasnro: '123',
+        chn: '666'
+      },
+      access_token: @user.api_key
+    }
+
+    post :create, params
+    assert_response :unprocessable_entity
   end
 
   test 'should update customer' do
