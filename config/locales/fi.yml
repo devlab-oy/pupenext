@@ -799,7 +799,7 @@ fi:
       commodity_rows:
         button_show_hide: Näytä / Piilota
         commodity_row_amount: Rivejä
-        header: Hankintakustannukset
+        header: Evl poistot
       confirm_sale:
         sale_failure: Hyödykkeen myynti epäonnistui
         sale_success: Hyödykkeen myynti onnistui
