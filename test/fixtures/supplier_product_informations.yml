@@ -22,13 +22,13 @@ one:
   net_price: 9.99
   net_retail_price: 9.99
   available_quantity: 1
-  available_next_date: MyString
+  available_next_date: 2015-12-02
   available_next_quantity: 1
   warranty_months: 1
   gross_mass: 9.99
-  end_of_life: MyString
-  is_returnable: MyString
-  is_cancelable: MyString
+  end_of_life: false
+  returnable: false
+  cancelable: false
   warranty_text: MyString
   packaging_unit: MyString
   vat_rate: 9.99
@@ -63,13 +63,13 @@ two:
   net_price: 9.99
   net_retail_price: 9.99
   available_quantity: 1
-  available_next_date: MyString
+  available_next_date: 2015-12-02
   available_next_quantity: 1
   warranty_months: 1
   gross_mass: 9.99
-  end_of_life: MyString
-  is_returnable: MyString
-  is_cancelable: MyString
+  end_of_life: false
+  returnable: false
+  cancelable: false
   warranty_text: MyString
   packaging_unit: MyString
   vat_rate: 9.99

@@ -22,13 +22,13 @@ class CreateSupplierProductInformations < ActiveRecord::Migration
       t.decimal :net_price, precision: 16, scale: 6
       t.decimal :net_retail_price, precision: 16, scale: 6
       t.integer :available_quantity
-      t.string :available_next_date, limit: 100
+      t.date :available_next_date
       t.integer :available_next_quantity
       t.integer :warranty_months
       t.decimal :gross_mass, precision: 8, scale: 4
-      t.string :end_of_life, limit: 100
-      t.string :is_returnable, limit: 100
-      t.string :is_cancelable, limit: 100
+      t.boolean :end_of_life, null: false, default: false
+      t.boolean :returnable, null: false, default: false
+      t.boolean :cancelable, null: false, default: false
       t.string :warranty_text, limit: 100
       t.string :packaging_unit, limit: 100
       t.decimal :vat_rate, precision: 4, scale: 2
@@ -36,8 +36,6 @@ class CreateSupplierProductInformations < ActiveRecord::Migration
       t.string :url_to_product, limit: 150
       t.integer :p_price_update
       t.integer :p_qty_update
-      t.datetime :p_last_update_date
-      t.datetime :p_added_date
       t.string :p_nakyvyys, limit: 100
       t.integer :p_tree_id
 
