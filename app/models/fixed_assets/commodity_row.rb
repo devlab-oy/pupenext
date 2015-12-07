@@ -3,7 +3,7 @@ class FixedAssets::CommodityRow < ActiveRecord::Base
 
   default_scope { where(amended: false) }
 
-  validate :allow_only_open_fiscal_period
+  #validate :allow_only_open_fiscal_period
 
   def self.locked
     where(locked: true)
