@@ -12,7 +12,7 @@
   <% if @commodity.activated? %>
     <br/><br/>
     <%= form_tag(commodity_generate_rows_path(@commodity), method: "post") do %>
-      <%= label_tag t('.selected_fiscal_year') %>
+      <%= label_tag :selected_fiscal_year, t('.selected_fiscal_year') %>
       <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
       <%= submit_tag(t('.button_create')) %>
     <% end %>
