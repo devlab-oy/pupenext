@@ -24,7 +24,7 @@ class FixedAssets::Commodity < BaseModel
     o.validates :planned_depreciation_amount, :btl_depreciation_amount,
                 numericality: { greater_than: 0 }, presence: true
 
-    o.validate :activation_only_on_open_fiscal_year
+    #o.validate :activation_only_on_open_fiscal_year
     o.validate :depreciation_amount_must_follow_type
     o.validate :must_have_procurement_rows
   end
