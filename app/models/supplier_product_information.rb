@@ -1,4 +1,6 @@
 class SupplierProductInformation < ActiveRecord::Base
+  belongs_to :product, foreign_key: :p_product_id
+
   validates :product_id,               length: { maximum: 100 }, presence: true
   validates :product_name,             length: { maximum: 150 }
   validates :manufacturer_ean,         length: { maximum: 13 }

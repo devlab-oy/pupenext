@@ -34,6 +34,7 @@ one:
   vat_rate: 9.99
   bid_price_id: 1
   url_to_product: MyString
+  product: hammer
   p_price_update: 1
   p_qty_update: 1
   p_added_date: 2015-12-02 16:16:53
