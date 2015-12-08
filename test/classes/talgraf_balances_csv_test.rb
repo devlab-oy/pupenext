@@ -22,18 +22,19 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'report initialize' do
-    assert TalgrafBalancesCsv.new(company_id: @company.id, period_beginning: "2012")
+    assert TalgrafBalancesCsv.new(company_id: @company.id)
     assert_raises { TalgrafBalancesCsv.new }
     assert_raises { TalgrafBalancesCsv.new company_id: nil }
     assert_raises { TalgrafBalancesCsv.new company_id: -1 }
   end
 
   test 'report output' do
-    report = TalgrafBalancesCsv.new(company_id: @company.id, period_beginning: "2015")
+    report = TalgrafBalancesCsv.new(company_id: @company.id)
 
     # should find info row from header section
     output = "info,Balances 2015\n"
     assert report.csv_data.lines.include? output
+    assert File.open(report.to_file, "rb").read.include? output
 
     # should find company id from company section
     output = "id,#{@company.ytunnus}\n"
@@ -56,6 +57,10 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
 
     # accounting unit section
     output = "unit,P,999999,New project\n"
+    assert report.csv_data.lines.include? output
+
+    # balance data section
+    output = "entry-months,2014-1,2015-12\n"
     assert report.csv_data.lines.include? output
   end
 

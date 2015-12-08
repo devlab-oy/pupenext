@@ -1,7 +1,7 @@
 require 'csv'
 
 class TalgrafBalancesCsv
-  def initialize(company_id:, period_beginning:, period_end: '')
+  def initialize(company_id:)
     @company = ::Company.find company_id
     Current.company = @company
 
@@ -13,6 +13,16 @@ class TalgrafBalancesCsv
     CSV.generate do |csv|
       data.map { |row| csv << row }
     end
+  end
+
+  def to_file
+    filename = Tempfile.new ["talgraf_balances-", ".csv"]
+
+    CSV.open(filename, "wb", @options) do |csv|
+      data.map { |row| csv << row }
+    end
+
+    filename.path
   end
 
   private
@@ -30,7 +40,14 @@ class TalgrafBalancesCsv
         @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
         @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
         @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
-        @data += TalgrafBalancesCsv::BalanceData.new(company: @company).rows
+
+        params = {
+          company: @company,
+          current_fiscal: @current,
+          previous_fiscal: @previous
+        }
+
+        @data += TalgrafBalancesCsv::BalanceData.new(params).rows
       end
 
       @data
