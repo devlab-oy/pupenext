@@ -1,7 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  product_id: MyString
+  product_id: pr1
   product_name: Tramboline
   manufacturer_ean: MyString
   manufacturer_name: MyString
@@ -43,7 +41,7 @@ one:
   p_tree_id: 1
 
 two:
-  product_id: MyString
+  product_id: pr2
   product_name: Chair
   manufacturer_ean: MyString
   manufacturer_name: MyString
