@@ -61,33 +61,45 @@ class TalgrafBalancesCsv::Header
   end
 
   def rows
-    [
-      ["BEGIN", "Header"],
-      ["file_version", file_version],
-      ["tgi-id", tgi_id],
-      ["timestamp", DateTime.now],
-      ["info", info],
-      ["END"]
-    ]
+    data = []
+    data << header_row
+    data << file_version
+    data << tgi_id
+    data << timestamp
+    data << info
+    data << footer_row
+    data
   end
 
   private
 
+    def header_row
+      ["BEGIN", "Header"]
+    end
+
+    def footer_row
+      ["END"]
+    end
+
     # File's version number (integer)
     # Current version number is 0
     def file_version
-      0
+      ["file_version", 0]
     end
 
     # Interface id
     def tgi_id
-      "Intime"
+      ["tgi-id", "Intime"]
+    end
+
+    def timestamp
+      ["timestamp", "#{DateTime.now}"]
     end
 
     def info
       info = "Balances #{@period_beginning}"
       info << " - #{@period_end}" if @period_end.present? && @period_end != @period_beginning
-      info
+      ["info", info]
     end
 end
 
@@ -97,13 +109,31 @@ class TalgrafBalancesCsv::Company
   end
 
   def rows
-    [
-      ["BEGIN", "Company"],
-      ["id", @company.ytunnus],
-      ["name", @company.nimi],
-      ["END"]
-    ]
+    data = []
+    data << header_row
+    data << id
+    data << name
+    data << footer_row
+    data
   end
+
+  private
+
+    def header_row
+      ["BEGIN", "Company"]
+    end
+
+    def id
+      ["id", @company.ytunnus]
+    end
+
+    def name
+      ["name", @company.nimi]
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
 
 class TalgrafBalancesCsv::AccountingPeriods
@@ -113,13 +143,27 @@ class TalgrafBalancesCsv::AccountingPeriods
   end
 
   def rows
-    [
-      ["BEGIN", "AccountingPeriods"],
-      ["period", @previous.tilikausi_alku, @previous.tilikausi_loppu],
-      ["period", @current.tilikausi_alku, @current.tilikausi_loppu],
-      ["END"]
-    ]
+    data = []
+    data << header_row
+    data << period(start: @current.tilikausi_alku, stop: @current.tilikausi_loppu)
+    data << period(start: @previous.tilikausi_alku, stop: @previous.tilikausi_loppu)
+    data << footer_row
+    data
   end
+
+  private
+
+    def header_row
+      ["BEGIN", "AccountingPeriods"]
+    end
+
+    def period(start:, stop:)
+      ["period", start, stop]
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
 
 class TalgrafBalancesCsv::Accounts
@@ -132,24 +176,45 @@ class TalgrafBalancesCsv::Accounts
   end
 
   def rows
-
-    data = [
-      ["BEGIN", "Accounts"],
-    ]
-
-    # tasetilit
-    company.accounts.balance_sheet_accounts.each do |account|
-      data << ["account", account.tilino, account.nimi, "balance"]
-    end
-
-    # tulostilit
-    company.accounts.profit_and_loss_accounts.each do |account|
-      data << ["account", account.tilino, account.nimi, "closing"]
-    end
-
-    data << ["END"]
+    data = []
+    data << header_row
+    data += balance_sheet
+    data += profit_and_loss
+    data << footer_row
     data
   end
+
+  private
+
+    def header_row
+      ["BEGIN", "Accounts"]
+    end
+
+    def balance_sheet
+      data = []
+
+      # tasetilit
+      company.accounts.balance_sheet_accounts.order(:tilino).each do |account|
+        data <<  ["account", account.tilino, account.nimi, "balance"]
+      end
+
+      data
+    end
+
+    def profit_and_loss
+      data = []
+
+      # tulostilit
+      company.accounts.profit_and_loss_accounts.order(:tilino).each do |account|
+        data << ["account", account.tilino, account.nimi, "closing"]
+      end
+
+      data
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
 
 class TalgrafBalancesCsv::Dimensions
@@ -163,25 +228,54 @@ class TalgrafBalancesCsv::Dimensions
 
   def rows
 
-    data = [
-      ["BEGIN", "Dimensions"],
-    ]
-
-    # kustannuspaikka
-    cost_center = company.cost_centers.first
-    data << ["dimension", cost_center.tyyppi, "Kustannuspaikka"] if cost_center.present?
-
-    # projektit
-    project = company.projects.first
-    data << ["dimension", project.tyyppi, "Projekti"] if project.present?
-
-    # kohteet
-    target = company.targets.first
-    data << ["dimension", target.tyyppi, "Kohde"] if target.present?
-
-    data << ["END"]
+    data = []
+    data << header_row
+    data += cost_centers
+    data += projects
+    data += targets
+    data << footer_row
     data
   end
+
+  private
+
+    def header_row
+      ["BEGIN", "Dimensions"]
+    end
+
+    def cost_centers
+      data = []
+
+      # kustannuspaikka
+      cost_center = company.cost_centers.in_use.first
+      data << ["dimension", cost_center.tyyppi, "Kustannuspaikka"] if cost_center.present?
+
+      data
+    end
+
+    def projects
+      data = []
+
+      # projektit
+      project = company.projects.in_use.first
+      data << ["dimension", project.tyyppi, "Projekti"] if project.present?
+
+      data
+    end
+
+    def targets
+      data = []
+
+      # kohteet
+      target = company.targets.in_use.first
+      data << ["dimension", target.tyyppi, "Kohde"] if target.present?
+
+      data
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
 
 class TalgrafBalancesCsv::AccountingUnits
@@ -195,28 +289,57 @@ class TalgrafBalancesCsv::AccountingUnits
 
   def rows
 
-    data = [
-      ["BEGIN", "AccountingUnits"],
-    ]
-
-    # kustannuspaikka
-    company.cost_centers.each do |cost_center|
-      data << ["unit", cost_center.tyyppi, cost_center.tunnus, cost_center.nimi]
-    end
-
-    # projektit
-    company.projects.each do |project|
-      data << ["unit", project.tyyppi, project.tunnus, project.nimi]
-    end
-
-    # kohteet
-    company.targets.each do |target|
-      data << ["unit", target.tyyppi, target.tunnus, target.nimi]
-    end
-
-    data << ["END"]
+    data = []
+    data << header_row
+    data += cost_centers
+    data += projects
+    data += targets
+    data << footer_row
     data
   end
+
+  private
+
+    def header_row
+      ["BEGIN", "AccountingUnits"]
+    end
+
+    def cost_centers
+      data = []
+
+      # kustannuspaikka
+      company.cost_centers.in_use.each do |cost_center|
+        data << ["unit", cost_center.tyyppi, cost_center.tunnus, cost_center.nimi]
+      end
+
+      data
+    end
+
+    def projects
+      data = []
+
+      # projektit
+      company.projects.in_use.each do |project|
+        data << ["unit", project.tyyppi, project.tunnus, project.nimi]
+      end
+
+      data
+    end
+
+    def targets
+      data = []
+
+      # kohteet
+      company.targets.in_use.each do |target|
+        data << ["unit", target.tyyppi, target.tunnus, target.nimi]
+      end
+
+      data
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
 
 class TalgrafBalancesCsv::BalanceData
