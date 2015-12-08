@@ -21,7 +21,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_response :success
 
-    assert_select 'select[name=supplier]', 1
+    assert_select 'select[name=supplier]'
+    assert_select 'table.supplier_product_informations', { count: 0 }
   end
 
   test 'supplier selection works' do
@@ -32,6 +33,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal @domestic_supplier.id.to_s, session[:supplier]
 
+    assert_select 'select[name=supplier]'
     assert_select 'table.supplier_product_informations'
   end
 
