@@ -1,5 +1,5 @@
 <%= form_tag nil, method: :get do %>
   <%= label_tag :supplier, Supplier.model_name.human %>
-  <%= select_tag :supplier, options_from_collection_for_select(Supplier.all, :tunnus, :nimi) %>
+  <%= select_tag :supplier, options_from_collection_for_select(Supplier.all, :tunnus, :nimi, session[:supplier]) %>
   <%= submit_tag t('.choose') %>
 <% end %>
