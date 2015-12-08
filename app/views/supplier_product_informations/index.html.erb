@@ -1,5 +1,9 @@
-<%= render 'supplier_selection' %>
+<div class="supplier_product_informations_container">
+  <%= render 'supplier_selection' %>
 
-<% if show_table? %>
-  <%= render 'supplier_product_informations' %>
-<% end %>
+  <%= render 'search_fields' %>
+
+  <% if show_table? %>
+    <%= render 'supplier_product_informations' %>
+  <% end %>
+</div>
