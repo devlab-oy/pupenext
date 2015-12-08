@@ -286,6 +286,11 @@ fi:
         nimi: Nimi
         tunnus: Tunnus
         tyyppi: Tyyppi
+      supplier_product_information:
+        manufacturer_ean: Valmistajan EAN-koodi
+        manufacturer_part_number: Valmistajan tuotekoodi
+        product_id: Tuotekoodi
+        product_name: Tuotteen nimitys
       terms_of_payment:
         abs_pvm: Maksupäivä
         erapvmkasin: Eräpäivän syöttö käsin
@@ -358,6 +363,7 @@ fi:
       sum_level/internal: Sisäinen
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
+      supplier: Toimittaja
       terms_of_payment: Maksuehto
       transport: Tiedonsiirtoyhteys
   administration:
