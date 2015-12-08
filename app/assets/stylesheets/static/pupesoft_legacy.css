@@ -72,3 +72,7 @@ ul.list-unstyled {
 .del {
   text-decoration: line-through;
 }
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
