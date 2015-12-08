@@ -143,6 +143,11 @@ class CompanyTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should return last fiscal year' do
+    previous = "2014-01-01".to_date.."2014-12-31".to_date
+    assert_equal previous, @acme.previous_fiscal_year
+  end
+
   test 'date in open period' do
     @acme.tilikausi_alku = '2014-01-01'
     @acme.tilikausi_loppu = '2014-12-31'

@@ -78,6 +78,16 @@ class Company < ActiveRecord::Base
     fiscal_year(Date.today)
   end
 
+  def previous_fiscal_year
+    fy = fiscal_years
+      .where("tilikausi_alku < ?", current_fiscal_year.first)
+      .order(tilikausi_alku: :desc).limit(1)
+
+    return unless fy
+
+    fy.first.tilikausi_alku..fy.first.tilikausi_loppu
+  end
+
   def open_period
     [tilikausi_alku, tilikausi_loppu]
   end
