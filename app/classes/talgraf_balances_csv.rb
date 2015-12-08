@@ -199,25 +199,17 @@ class TalgrafBalancesCsv::Accounts
     end
 
     def balance_sheet
-      data = []
-
       # tasetilit
-      company.accounts.balance_sheet_accounts.order(:tilino).each do |account|
-        data <<  ["account", account.tilino, account.nimi, "balance"]
+      company.accounts.balance_sheet_accounts.order(:tilino).map do |account|
+        ["account", account.tilino, account.nimi, "balance"]
       end
-
-      data
     end
 
     def profit_and_loss
-      data = []
-
       # tulostilit
-      company.accounts.profit_and_loss_accounts.order(:tilino).each do |account|
-        data << ["account", account.tilino, account.nimi, "closing"]
+      company.accounts.profit_and_loss_accounts.order(:tilino).map do |account|
+        ["account", account.tilino, account.nimi, "closing"]
       end
-
-      data
     end
 
     def footer_row
@@ -311,36 +303,24 @@ class TalgrafBalancesCsv::AccountingUnits
     end
 
     def cost_centers
-      data = []
-
       # kustannuspaikka
-      company.cost_centers.in_use.each do |cost_center|
-        data << ["unit", cost_center.tyyppi, cost_center.tunnus, cost_center.nimi]
+      company.cost_centers.in_use.map do |cost_center|
+        ["unit", cost_center.tyyppi, cost_center.tunnus, cost_center.nimi]
       end
-
-      data
     end
 
     def projects
-      data = []
-
       # projektit
-      company.projects.in_use.each do |project|
-        data << ["unit", project.tyyppi, project.tunnus, project.nimi]
+      company.projects.in_use.map do |project|
+        ["unit", project.tyyppi, project.tunnus, project.nimi]
       end
-
-      data
     end
 
     def targets
-      data = []
-
       # kohteet
-      company.targets.in_use.each do |target|
-        data << ["unit", target.tyyppi, target.tunnus, target.nimi]
+      company.targets.in_use.map do |target|
+        ["unit", target.tyyppi, target.tunnus, target.nimi]
       end
-
-      data
     end
 
     def footer_row
@@ -383,11 +363,10 @@ class TalgrafBalancesCsv::BalanceData
     end
 
     def opening_balance_rows
-      balance_rows = []
       tapvm = @current_fiscal.tilikausi_alku
 
-      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :T, tapvm: tapvm }).each do |row|
-        balance_rows << [
+      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :T, tapvm: tapvm }).map do |row|
+        [
           'ei',
           row.tapvm,
           row.summa,
@@ -399,15 +378,11 @@ class TalgrafBalancesCsv::BalanceData
           row.selite
         ]
       end
-
-      balance_rows
     end
 
     def voucher_rows
-      balance_rows = []
-
-      company.voucher_rows.includes(:voucher).where.not(lasku: { alatila: :T }).order(:tapvm).each do |row|
-        balance_rows << [
+      company.voucher_rows.includes(:voucher).where.not(lasku: { alatila: :T }).order(:tapvm).map do |row|
+        [
           'e',
           row.tapvm,
           row.summa,
@@ -419,8 +394,6 @@ class TalgrafBalancesCsv::BalanceData
           row.selite
         ]
       end
-
-      balance_rows
     end
 
     def footer_row
