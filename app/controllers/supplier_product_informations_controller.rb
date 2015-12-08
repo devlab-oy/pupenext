@@ -10,6 +10,7 @@ class SupplierProductInformationsController < ApplicationController
   def searchable_columns
     %i(
       product_name
+      product_id
     )
   end
 
