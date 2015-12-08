@@ -1,0 +1,3 @@
+<%= form_tag do %>
+  <%= select_tag :supplier, options_from_collection_for_select(Supplier.all, :tunnus, :nimi) %>
+<% end %>

@@ -2,16 +2,26 @@ require 'test_helper'
 
 class SupplierProductInformationsControllerTest < ActionController::TestCase
   fixtures %i(
+    suppliers
     supplier_product_informations
   )
 
   setup do
     login users(:bob)
+
+    @domestic_supplier = suppliers(:domestic_supplier)
+
+    session[:supplier] = @domestic_supplier.id
   end
 
-  test "index works" do
+  test 'supplier has to be selected first' do
+    session[:supplier] = nil
+
     get :index
+
     assert_response :success
+
+    assert_select 'select[name=supplier]', 1
   end
 
   test 'searching with product name works' do
