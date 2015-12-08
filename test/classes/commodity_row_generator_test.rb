@@ -71,14 +71,26 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   test 'should calculate with fixed by month' do
     # Tasapoisto kuukausittain
     # Full amount to be reducted
-    total_amount = 10000
+    total_amount = 2583.38
     # Total amounts of depreciations
-    total_depreciations = 12
+    total_depreciations = 24
 
-    result = @generator.fixed_by_month(total_amount, total_depreciations, 6, 5000)
+    @commodity.activated_at = 24.months.ago
+    @commodity.save!
 
-    assert_equal 6, result.count
-    assert_equal 5000, result.sum
+    # Create superlong fiscal period for measure
+    superlong_fiscal = @commodity.company.fiscal_years.first.dup
+    FiscalYear.delete_all
+    superlong_fiscal.tilikausi_alku = 60.months.ago
+    superlong_fiscal.tilikausi_loppu = Date.today.advance(months: 12)
+    superlong_fiscal.save!
+
+    # Re-Initialize generator with new fiscal values
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    result = generator.fixed_by_month(total_amount, total_depreciations)
+
+    assert_equal 25, result.count
+    assert_equal total_amount, result.sum
   end
 
   test 'should calculate deprecated amount' do
