@@ -26,6 +26,7 @@
     stock_availability
     stock_listing_csv
     sum_levels
+    supplier_product_informations
     terms_of_payments
     test
     transports
