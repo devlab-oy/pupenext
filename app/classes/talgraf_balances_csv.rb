@@ -54,7 +54,7 @@ class TalgrafBalancesCsv
 end
 
 class TalgrafBalancesCsv::Header
-  def initialize(period_beginning:, period_end: '')
+  def initialize(period_beginning:, period_end: nil)
     @period_beginning = period_beginning
     @period_end = period_end
   end
@@ -97,7 +97,7 @@ class TalgrafBalancesCsv::Header
 
     def info
       info = "Balances #{@period_beginning}"
-      info << " - #{@period_end}" if @period_end.present? && @period_end != @period_beginning
+      info << " - #{@period_end}" if @period_end && @period_end != @period_beginning
       ["info", info]
     end
 end
