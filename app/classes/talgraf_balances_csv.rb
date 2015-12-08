@@ -30,6 +30,7 @@ class TalgrafBalancesCsv
         @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
         @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
         @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
+        @data += TalgrafBalancesCsv::BalanceData.new(company: @company).rows
       end
 
       @data
@@ -212,16 +213,14 @@ class TalgrafBalancesCsv::BalanceData
     @company
   end
 
-  def data
-    rows = [
-      ["BEGIN", "BalanceData"],
-    ]
-
-    rows << entry_months
-    rows << opening_balance_rows
-    rows << voucher_rows
-    rows << ['END']
-    rows
+  def rows
+    data = []
+    data << header_row
+    data << entry_months
+    data << opening_balance_rows
+    data << voucher_rows
+    data << footer_row
+    data
   end
 
   private
@@ -279,10 +278,6 @@ class TalgrafBalancesCsv::BalanceData
       end
 
       balance_rows
-    end
-
-    def rows
-      opening_balance_rows + voucher_rows
     end
 
     def footer_row
