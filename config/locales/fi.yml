@@ -654,7 +654,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -680,7 +680,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -1076,6 +1076,9 @@ fi:
       mark: "*"
       text: Pakollinen
     'yes': Kyllä
+  supplier_product_informations:
+    supplier_selection:
+      choose: Valitse
   support:
     array:
       last_word_connector: " ja "
