@@ -1,0 +1,10 @@
+<table>
+  <thead>
+  <tr>
+    <th><%= SupplierProductInformation.human_attribute_name(:product_name) %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= render partial: 'supplier_product_information', collection: @supplier_product_informations %>
+  </tbody>
+</table>
