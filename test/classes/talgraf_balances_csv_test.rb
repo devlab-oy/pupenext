@@ -5,10 +5,13 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     accounts
     fiscal_years
     qualifiers
+    heads
   )
 
   setup do
     @company = companies :acme
+    @previous_fiscal = fiscal_years :one
+    @current_fiscal = fiscal_years :two
 
     project = qualifiers(:project_in_use).dup
     project.nimi = 'New project'
@@ -53,5 +56,29 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     # accounting unit section
     output = "unit,P,999999,New project\n"
     assert report.csv_data.lines.include? output
+  end
+
+  test 'balance data' do
+    report = TalgrafBalancesCsv::BalanceData.new company: @company, current_fiscal: @current_fiscal, previous_fiscal: @previous_fiscal
+
+    row = ['BEGIN', 'BalanceData']
+    assert_equal row, report.send(:header_row)
+
+    row = ['entry-months', '2014-1', '2015-12']
+    assert_equal row, report.send(:entry_months)
+
+    row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 123456, 'Opening balance']
+    assert_equal row, report.send(:opening_balance_rows).first
+
+    row = ['e', Date.today, 1234, "100", 0, 0, 0, 7890123, 'Another']
+    assert_equal row, report.send(:voucher_rows).first
+
+    row = ['END']
+    assert_equal row, report.send(:footer_row)
+
+    # make sure we return data in right order
+    # assert_equal report.send(:header_row), report.data.first
+    # assert_equal report.send(:entry_months), report.data.second
+
   end
 end

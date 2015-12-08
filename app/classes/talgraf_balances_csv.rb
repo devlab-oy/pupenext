@@ -5,8 +5,8 @@ class TalgrafBalancesCsv
     @company = ::Company.find company_id
     Current.company = @company
 
-    @period_beginning = period_beginning
-    @period_end = period_end
+    @current = @company.fiscal_years.order(tunnus: :desc).last
+    @previous = @company.fiscal_years.where("tilikausi_loppu < ?", @current.tilikausi_alku).order(tunnus: :desc).last
   end
 
   def csv_data
@@ -20,13 +20,13 @@ class TalgrafBalancesCsv
     def data
       if @data.blank?
         params = {
-          period_beginning: @period_beginning,
-          period_end: @period_end
+          period_beginning: @current.tilikausi_alku.year,
+          period_end: @current.tilikausi_loppu.year
         }
 
         @data  = TalgrafBalancesCsv::Header.new(params).rows
         @data += TalgrafBalancesCsv::Company.new(company: @company).rows
-        @data += TalgrafBalancesCsv::AccountingPeriods.new(company: @company).rows
+        @data += TalgrafBalancesCsv::AccountingPeriods.new(current: @current, previous: @previous).rows
         @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
         @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
         @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
@@ -68,7 +68,7 @@ class TalgrafBalancesCsv::Header
 
     def info
       info = "Balances #{@period_beginning}"
-      info << " - #{@period_end}" if @period_end.present?
+      info << " - #{@period_end}" if @period_end.present? && @period_end != @period_beginning
       info
     end
 end
@@ -89,19 +89,16 @@ class TalgrafBalancesCsv::Company
 end
 
 class TalgrafBalancesCsv::AccountingPeriods
-  def initialize(company:)
-    @company = company
+  def initialize(current:, previous:)
+    @current = current
+    @previous = previous
   end
 
   def rows
-
-    current = @company.fiscal_years.order(tunnus: :desc).last
-    previous = @company.fiscal_years.where("tilikausi_loppu < ?", current.tilikausi_alku).order(tunnus: :desc).last
-
     [
       ["BEGIN", "AccountingPeriods"],
-      ["period", previous.tilikausi_alku, previous.tilikausi_loppu],
-      ["period", current.tilikausi_alku, current.tilikausi_loppu],
+      ["period", @previous.tilikausi_alku, @previous.tilikausi_loppu],
+      ["period", @current.tilikausi_alku, @current.tilikausi_loppu],
       ["END"]
     ]
   end
@@ -202,4 +199,93 @@ class TalgrafBalancesCsv::AccountingUnits
     data << ["END"]
     data
   end
+end
+
+class TalgrafBalancesCsv::BalanceData
+  def initialize(company:, current_fiscal:, previous_fiscal:)
+    @company = company
+    @current_fiscal = current_fiscal
+    @previous_fiscal = previous_fiscal
+  end
+
+  def company
+    @company
+  end
+
+  def data
+    rows = [
+      ["BEGIN", "BalanceData"],
+    ]
+
+    rows << entry_months
+    rows << opening_balance_rows
+    rows << voucher_rows
+    rows << ['END']
+    rows
+  end
+
+  private
+
+    def header_row
+      ["BEGIN", "BalanceData"]
+    end
+
+    def entry_months
+      previous = "#{@previous_fiscal.tilikausi_alku.year}-#{@previous_fiscal.tilikausi_alku.month}"
+      current = "#{@current_fiscal.tilikausi_loppu.year}-#{@current_fiscal.tilikausi_loppu.month}"
+
+      ['entry-months', previous, current]
+    end
+
+    def opening_balance_rows
+      balance_rows = []
+
+      company.vouchers.opening_balance.where(tapvm: @current_fiscal.tilikausi_alku).each do |voucher|
+        voucher.rows.select(:tapvm, :summa, :tilino, :kustp, :kohde, :projekti, :selite).each do |balance|
+          balance_rows << [
+            'ei',
+            balance.tapvm,
+            balance.summa,
+            balance.tilino,
+            balance.kustp,
+            balance.projekti,
+            balance.kohde,
+            voucher.laskunro,
+            balance.selite
+          ]
+        end
+      end
+
+      balance_rows
+    end
+
+    def voucher_rows
+      balance_rows = []
+
+      company.vouchers.exclude_opening_balance.order(:tapvm).each do |voucher|
+        voucher.rows.select(:tapvm, :summa, :tilino, :kustp, :kohde, :projekti, :selite).each do |balance|
+          balance_rows << [
+            'e',
+            balance.tapvm,
+            balance.summa,
+            balance.tilino,
+            balance.kustp,
+            balance.projekti,
+            balance.kohde,
+            voucher.laskunro,
+            balance.selite
+          ]
+        end
+      end
+
+      balance_rows
+    end
+
+    def rows
+      opening_balance_rows + voucher_rows
+    end
+
+    def footer_row
+      ["END"]
+    end
 end
