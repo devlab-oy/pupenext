@@ -62,9 +62,21 @@ class FixedAssets::Commodity < BaseModel
     company.purchase_invoices_paid.where(tunnus: linkable_head_ids)
   end
 
+  # Sopivat ostolaskurivit
+  def linkable_invoice_rows
+    return [] unless linkable_invoices.present?
+    linkable_invoices.map { |invoice| invoice.rows.where(tilino: viable_accounts, commodity_id: nil) }
+  end
+
   # Sopivat tositteet
   def linkable_vouchers
     company.vouchers.where(tunnus: linkable_head_ids)
+  end
+
+  # Sopivat tositerivit
+  def linkable_voucher_rows
+    return [] unless linkable_vouchers.present?
+    linkable_vouchers.map { |voucher| voucher.rows.where(tilino: viable_accounts, commodity_id: nil) }
   end
 
   def activated?
