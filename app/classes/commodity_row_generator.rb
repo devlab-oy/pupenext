@@ -82,7 +82,7 @@ class CommodityRowGenerator
     fiscal_year_depreciations
   end
 
-  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
+  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0.0, depreciated_amount = 0.0)
     # full_amount = hydykkeen hankintahinta
     # total_number_of_payments = poistojen kokonaismäärä kuukausissa
     # depreciated_payments = jo poistettujen erien lukumäärä
