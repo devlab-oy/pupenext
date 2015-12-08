@@ -2,7 +2,7 @@ class SupplierProductInformationsController < ApplicationController
   include ColumnSort
 
   def index
-    render :supplier_selection unless session[:supplier].present?
+    render :supplier_selection unless session[:supplier].present? || params[:supplier].present?
 
     session[:supplier] = params[:supplier] if params[:supplier].present?
 

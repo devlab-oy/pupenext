@@ -25,10 +25,14 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'supplier selection works' do
+    session[:supplier] = nil
+
     get :index, supplier: @domestic_supplier.id
 
     assert_response :success
     assert_equal @domestic_supplier.id.to_s, session[:supplier]
+
+    assert_select 'table.supplier_product_informations'
   end
 
   test 'searching with product name works' do
