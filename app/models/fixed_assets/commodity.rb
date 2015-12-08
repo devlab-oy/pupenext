@@ -140,6 +140,12 @@ class FixedAssets::Commodity < BaseModel
     procurement_rows.map(&:projekti).uniq
   end
 
+  # Ensimmäisen hankinnan päivämäärä tai nyt
+  def procurement_date
+    procurement_d = procurement_rows.first.try(:laadittu) || Date.today
+    procurement_d.to_date.to_s(:db)
+  end
+
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     range = company.current_fiscal_year.first..end_date

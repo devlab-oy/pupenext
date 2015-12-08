@@ -44,7 +44,7 @@
         <% if @commodity.activated? %>
           <%= @commodity.activated_at %>
         <% else %>
-          <%= f.date_field :activated_at %>
+          <%= f.date_field :activated_at, { value: @commodity.procurement_date } %>
         <% end %>
       </td>
     </tr>
