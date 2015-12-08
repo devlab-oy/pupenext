@@ -34,6 +34,7 @@ class CreateSupplierProductInformations < ActiveRecord::Migration
       t.decimal :vat_rate, precision: 4, scale: 2
       t.integer :bid_price_id
       t.string :url_to_product, limit: 150
+      t.integer :p_product_id
       t.integer :p_price_update
       t.integer :p_qty_update
       t.datetime :p_added_date
