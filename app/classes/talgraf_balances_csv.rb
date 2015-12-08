@@ -27,24 +27,14 @@ class TalgrafBalancesCsv
     def data
       return @data if @data
 
-      params = {
-        period_beginning: current.tilikausi_alku.year,
-        period_end: current.tilikausi_loppu.year
-      }
+      params = { company: company }
 
       @data  = TalgrafBalancesCsv::Header.new(params).rows
-      @data += TalgrafBalancesCsv::Company.new(company: company).rows
-      @data += TalgrafBalancesCsv::AccountingPeriods.new(current: current, previous: previous).rows
-      @data += TalgrafBalancesCsv::Accounts.new(company: company).rows
-      @data += TalgrafBalancesCsv::Dimensions.new(company: company).rows
-      @data += TalgrafBalancesCsv::AccountingUnits.new(company: company).rows
-
-      params = {
-        company: company,
-        current_fiscal: current,
-        previous_fiscal: previous
-      }
-
+      @data += TalgrafBalancesCsv::Company.new(params).rows
+      @data += TalgrafBalancesCsv::AccountingPeriods.new(params).rows
+      @data += TalgrafBalancesCsv::Accounts.new(params).rows
+      @data += TalgrafBalancesCsv::Dimensions.new(params).rows
+      @data += TalgrafBalancesCsv::AccountingUnits.new(params).rows
       @data += TalgrafBalancesCsv::BalanceData.new(params).rows
       @data
     end
@@ -52,20 +42,11 @@ class TalgrafBalancesCsv
     def company
       @company
     end
-
-    def current
-      @current ||= company.fiscal_years.order(tunnus: :desc).last
-    end
-
-    def previous
-      @previous ||= company.fiscal_years.where("tilikausi_loppu < ?", @current.tilikausi_alku).order(tunnus: :desc).last
-    end
 end
 
 class TalgrafBalancesCsv::Header
-  def initialize(period_beginning:, period_end: nil)
-    @period_beginning = period_beginning
-    @period_end = period_end
+  def initialize(company:)
+    @company = company
   end
 
   def rows
@@ -105,8 +86,11 @@ class TalgrafBalancesCsv::Header
     end
 
     def info
-      info = "Balances #{@period_beginning}"
-      info << " - #{@period_end}" if @period_end && @period_end != @period_beginning
+      year_begin = @company.current_fiscal_year.first.year
+      year_end   = @company.current_fiscal_year.last.year
+
+      info = "Balances #{year_begin}"
+      info << " - #{year_end}" if year_end != year_begin
       ["info", info]
     end
 end
@@ -145,21 +129,24 @@ class TalgrafBalancesCsv::Company
 end
 
 class TalgrafBalancesCsv::AccountingPeriods
-  def initialize(current:, previous:)
-    @current = current
-    @previous = previous
+  def initialize(company:)
+    @company = company
   end
 
   def rows
     data = []
     data << header_row
-    data << period(start: @current.tilikausi_alku, stop: @current.tilikausi_loppu)
-    data << period(start: @previous.tilikausi_alku, stop: @previous.tilikausi_loppu)
+    data << period(start: company.current_fiscal_year.first, stop: company.current_fiscal_year.last)
+    data << period(start: company.previous_fiscal_year.first, stop: company.previous_fiscal_year.last)
     data << footer_row
     data
   end
 
   private
+
+    def company
+      @company
+    end
 
     def header_row
       ["BEGIN", "AccountingPeriods"]
@@ -329,10 +316,8 @@ class TalgrafBalancesCsv::AccountingUnits
 end
 
 class TalgrafBalancesCsv::BalanceData
-  def initialize(company:, current_fiscal:, previous_fiscal:)
+  def initialize(company:)
     @company = company
-    @current_fiscal = current_fiscal
-    @previous_fiscal = previous_fiscal
   end
 
   def rows
@@ -356,14 +341,14 @@ class TalgrafBalancesCsv::BalanceData
     end
 
     def entry_months
-      previous = "#{@previous_fiscal.tilikausi_alku.year}-#{@previous_fiscal.tilikausi_alku.month}"
-      current = "#{@current_fiscal.tilikausi_loppu.year}-#{@current_fiscal.tilikausi_loppu.month}"
+      previous = company.previous_fiscal_year.first.strftime("%Y-%m")
+      current = company.current_fiscal_year.last.strftime("%Y-%m")
 
       ['entry-months', previous, current]
     end
 
     def opening_balance_rows
-      tapvm = @current_fiscal.tilikausi_alku
+      tapvm = company.current_fiscal_year.first
 
       company.voucher_rows.includes(:voucher).where(lasku: { alatila: :T, tapvm: tapvm }).map do |row|
         [

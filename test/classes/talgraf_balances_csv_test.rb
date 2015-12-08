@@ -29,7 +29,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'header' do
-    report = TalgrafBalancesCsv::Header.new(period_beginning: '2014', period_end: '2015')
+    report = TalgrafBalancesCsv::Header.new(company: @company)
 
     row = ["file_version", 0]
     assert_equal row, report.send(:file_version)
@@ -37,7 +37,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     row = ['tgi-id', 'Intime']
     assert_equal row, report.send(:tgi_id)
 
-    row = ['info', 'Balances 2014 - 2015']
+    row = ['info', 'Balances 2015']
     assert_equal row, report.send(:info)
 
     # make sure we return data in right order
@@ -66,7 +66,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'accounting periods' do
-    report = TalgrafBalancesCsv::AccountingPeriods.new(current: @current_fiscal, previous: @previous_fiscal)
+    report = TalgrafBalancesCsv::AccountingPeriods.new(company: @company)
 
     row = ["period", @company.tilikausi_alku, @company.tilikausi_loppu]
     assert_equal row, report.send(:period, start: @company.tilikausi_alku, stop: @company.tilikausi_loppu)
@@ -140,16 +140,12 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'balance data' do
-    report = TalgrafBalancesCsv::BalanceData.new(
-      company: @company,
-      current_fiscal: @current_fiscal,
-      previous_fiscal: @previous_fiscal
-    )
+    report = TalgrafBalancesCsv::BalanceData.new company: @company
 
     row = ['BEGIN', 'BalanceData']
     assert_equal row, report.send(:header_row)
 
-    row = ['entry-months', '2014-1', '2015-12']
+    row = ['entry-months', '2014-01', '2015-12']
     assert_equal row, report.send(:entry_months)
 
     row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 123456, 'Opening balance']
@@ -201,7 +197,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     assert report.csv_data.lines.include? output
 
     # balance data section
-    output = "entry-months,2014-1,2015-12\n"
+    output = "entry-months,2014-01,2015-12\n"
     assert report.csv_data.lines.include? output
   end
 end
