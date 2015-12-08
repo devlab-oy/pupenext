@@ -1,8 +1,8 @@
 class FixedAssets::CommoditiesController < AdministrationController
   before_action :find_resource, except: [:index, :new, :create]
   before_action :find_voucher_row, only: [:link_order, :link_voucher, :unlink]
-  before_action :linkable_purchase_orders, only: [:purchase_orders, :link_order]
-  before_action :linkable_vouchers, only: [:vouchers, :link_voucher]
+  before_action :linkable_purchase_order_rows, only: [:purchase_orders, :link_order]
+  before_action :linkable_voucher_rows, only: [:vouchers, :link_voucher]
 
   # GET /commodities
   def index
@@ -171,12 +171,12 @@ class FixedAssets::CommoditiesController < AdministrationController
       @voucher_row = Head::VoucherRow.find params[:voucher_row_id]
     end
 
-    def linkable_vouchers
-      @vouchers = @commodity.linkable_vouchers.includes(:rows)
+    def linkable_voucher_rows
+      @vouchers = @commodity.linkable_voucher_rows
     end
 
-    def linkable_purchase_orders
-      @purchase_orders = @commodity.linkable_invoices.includes(:rows)
+    def linkable_purchase_order_rows
+      @purchase_orders = @commodity.linkable_invoice_rows
     end
 
     def link_voucher_row
