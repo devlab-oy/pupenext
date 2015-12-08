@@ -179,10 +179,6 @@ class TalgrafBalancesCsv::Accounts
     @company = company
   end
 
-  def company
-    @company
-  end
-
   def rows
     data = []
     data << header_row
@@ -193,6 +189,10 @@ class TalgrafBalancesCsv::Accounts
   end
 
   private
+
+    def company
+      @company
+    end
 
     def header_row
       ["BEGIN", "Accounts"]
@@ -230,12 +230,7 @@ class TalgrafBalancesCsv::Dimensions
     @company = company
   end
 
-  def company
-    @company
-  end
-
   def rows
-
     data = []
     data << header_row
     data += cost_centers
@@ -246,6 +241,10 @@ class TalgrafBalancesCsv::Dimensions
   end
 
   private
+
+    def company
+      @company
+    end
 
     def header_row
       ["BEGIN", "Dimensions"]
@@ -291,12 +290,7 @@ class TalgrafBalancesCsv::AccountingUnits
     @company = company
   end
 
-  def company
-    @company
-  end
-
   def rows
-
     data = []
     data << header_row
     data += cost_centers
@@ -307,6 +301,10 @@ class TalgrafBalancesCsv::AccountingUnits
   end
 
   private
+
+    def company
+      @company
+    end
 
     def header_row
       ["BEGIN", "AccountingUnits"]
@@ -357,10 +355,6 @@ class TalgrafBalancesCsv::BalanceData
     @previous_fiscal = previous_fiscal
   end
 
-  def company
-    @company
-  end
-
   def rows
     data = []
     data << header_row
@@ -372,6 +366,10 @@ class TalgrafBalancesCsv::BalanceData
   end
 
   private
+
+    def company
+      @company
+    end
 
     def header_row
       ["BEGIN", "BalanceData"]
