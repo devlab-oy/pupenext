@@ -4,8 +4,9 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   fixtures %w(
     accounts
     fiscal_years
-    qualifiers
+    head/voucher_rows
     heads
+    qualifiers
   )
 
   setup do
@@ -59,7 +60,11 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'balance data' do
-    report = TalgrafBalancesCsv::BalanceData.new company: @company, current_fiscal: @current_fiscal, previous_fiscal: @previous_fiscal
+    report = TalgrafBalancesCsv::BalanceData.new(
+      company: @company,
+      current_fiscal: @current_fiscal,
+      previous_fiscal: @previous_fiscal
+    )
 
     row = ['BEGIN', 'BalanceData']
     assert_equal row, report.send(:header_row)
