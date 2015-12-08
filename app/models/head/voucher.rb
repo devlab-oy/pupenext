@@ -4,9 +4,6 @@ class Head::Voucher < Head
 
   validates :tila, inclusion: { in: ['X'] }
 
-  scope :opening_balance, -> { where(alatila: :T) }
-  scope :exclude_opening_balance, -> { where.not(alatila: :T) }
-
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
     "X"
