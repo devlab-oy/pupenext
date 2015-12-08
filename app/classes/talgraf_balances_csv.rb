@@ -28,28 +28,27 @@ class TalgrafBalancesCsv
   private
 
     def data
-      if @data.blank?
-        params = {
-          period_beginning: @current.tilikausi_alku.year,
-          period_end: @current.tilikausi_loppu.year
-        }
+      return @data if @data
 
-        @data  = TalgrafBalancesCsv::Header.new(params).rows
-        @data += TalgrafBalancesCsv::Company.new(company: @company).rows
-        @data += TalgrafBalancesCsv::AccountingPeriods.new(current: @current, previous: @previous).rows
-        @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
-        @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
-        @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
+      params = {
+        period_beginning: @current.tilikausi_alku.year,
+        period_end: @current.tilikausi_loppu.year
+      }
 
-        params = {
-          company: @company,
-          current_fiscal: @current,
-          previous_fiscal: @previous
-        }
+      @data  = TalgrafBalancesCsv::Header.new(params).rows
+      @data += TalgrafBalancesCsv::Company.new(company: @company).rows
+      @data += TalgrafBalancesCsv::AccountingPeriods.new(current: @current, previous: @previous).rows
+      @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
+      @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
+      @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
 
-        @data += TalgrafBalancesCsv::BalanceData.new(params).rows
-      end
+      params = {
+        company: @company,
+        current_fiscal: @current,
+        previous_fiscal: @previous
+      }
 
+      @data += TalgrafBalancesCsv::BalanceData.new(params).rows
       @data
     end
 end
