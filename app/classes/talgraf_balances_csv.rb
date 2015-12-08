@@ -29,13 +29,13 @@ class TalgrafBalancesCsv
 
       params = { company: company }
 
-      @data  = TalgrafBalancesCsv::Header.new(params).rows
-      @data += TalgrafBalancesCsv::Company.new(params).rows
-      @data += TalgrafBalancesCsv::AccountingPeriods.new(params).rows
-      @data += TalgrafBalancesCsv::Accounts.new(params).rows
-      @data += TalgrafBalancesCsv::Dimensions.new(params).rows
-      @data += TalgrafBalancesCsv::AccountingUnits.new(params).rows
-      @data += TalgrafBalancesCsv::BalanceData.new(params).rows
+      @data  = Header.new(params).rows
+      @data += Company.new(params).rows
+      @data += AccountingPeriods.new(params).rows
+      @data += Accounts.new(params).rows
+      @data += Dimensions.new(params).rows
+      @data += AccountingUnits.new(params).rows
+      @data += BalanceData.new(params).rows
       @data
     end
 
