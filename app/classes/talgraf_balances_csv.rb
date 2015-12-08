@@ -4,9 +4,6 @@ class TalgrafBalancesCsv
   def initialize(company_id:)
     @company = ::Company.find company_id
     Current.company = @company
-
-    @current = @company.fiscal_years.order(tunnus: :desc).last
-    @previous = @company.fiscal_years.where("tilikausi_loppu < ?", @current.tilikausi_alku).order(tunnus: :desc).last
   end
 
   def csv_data
@@ -31,25 +28,37 @@ class TalgrafBalancesCsv
       return @data if @data
 
       params = {
-        period_beginning: @current.tilikausi_alku.year,
-        period_end: @current.tilikausi_loppu.year
+        period_beginning: current.tilikausi_alku.year,
+        period_end: current.tilikausi_loppu.year
       }
 
       @data  = TalgrafBalancesCsv::Header.new(params).rows
-      @data += TalgrafBalancesCsv::Company.new(company: @company).rows
-      @data += TalgrafBalancesCsv::AccountingPeriods.new(current: @current, previous: @previous).rows
-      @data += TalgrafBalancesCsv::Accounts.new(company: @company).rows
-      @data += TalgrafBalancesCsv::Dimensions.new(company: @company).rows
-      @data += TalgrafBalancesCsv::AccountingUnits.new(company: @company).rows
+      @data += TalgrafBalancesCsv::Company.new(company: company).rows
+      @data += TalgrafBalancesCsv::AccountingPeriods.new(current: current, previous: previous).rows
+      @data += TalgrafBalancesCsv::Accounts.new(company: company).rows
+      @data += TalgrafBalancesCsv::Dimensions.new(company: company).rows
+      @data += TalgrafBalancesCsv::AccountingUnits.new(company: company).rows
 
       params = {
-        company: @company,
-        current_fiscal: @current,
-        previous_fiscal: @previous
+        company: company,
+        current_fiscal: current,
+        previous_fiscal: previous
       }
 
       @data += TalgrafBalancesCsv::BalanceData.new(params).rows
       @data
+    end
+
+    def company
+      @company
+    end
+
+    def current
+      @current ||= company.fiscal_years.order(tunnus: :desc).last
+    end
+
+    def previous
+      @previous ||= company.fiscal_years.where("tilikausi_loppu < ?", @current.tilikausi_alku).order(tunnus: :desc).last
     end
 end
 
