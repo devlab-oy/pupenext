@@ -1,4 +1,6 @@
 class SupplierProductInformation < ActiveRecord::Base
+  include Searchable
+
   belongs_to :product, foreign_key: :p_product_id
 
   validates :product_id,               length: { maximum: 100 }, presence: true

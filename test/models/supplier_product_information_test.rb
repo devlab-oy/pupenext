@@ -22,4 +22,11 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
     assert_equal @hammer, @one.product
     assert_nil @two.product
   end
+
+  test 'searching works' do
+    search_result = SupplierProductInformation.search_like({ product_name: 'ramb' })
+
+    assert_includes search_result, @one
+    assert_not_includes search_result, @two
+  end
 end
