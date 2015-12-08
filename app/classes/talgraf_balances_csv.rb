@@ -384,21 +384,20 @@ class TalgrafBalancesCsv::BalanceData
 
     def opening_balance_rows
       balance_rows = []
+      tapvm = @current_fiscal.tilikausi_alku
 
-      company.vouchers.opening_balance.where(tapvm: @current_fiscal.tilikausi_alku).each do |voucher|
-        voucher.rows.select(:tapvm, :summa, :tilino, :kustp, :kohde, :projekti, :selite).each do |balance|
-          balance_rows << [
-            'ei',
-            balance.tapvm,
-            balance.summa,
-            balance.tilino,
-            balance.kustp,
-            balance.projekti,
-            balance.kohde,
-            voucher.laskunro,
-            balance.selite
-          ]
-        end
+      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :T, tapvm: tapvm }).each do |row|
+        balance_rows << [
+          'ei',
+          row.tapvm,
+          row.summa,
+          row.tilino,
+          row.kustp,
+          row.projekti,
+          row.kohde,
+          row.voucher.laskunro,
+          row.selite
+        ]
       end
 
       balance_rows
@@ -407,20 +406,18 @@ class TalgrafBalancesCsv::BalanceData
     def voucher_rows
       balance_rows = []
 
-      company.vouchers.exclude_opening_balance.order(:tapvm).each do |voucher|
-        voucher.rows.select(:tapvm, :summa, :tilino, :kustp, :kohde, :projekti, :selite).each do |balance|
-          balance_rows << [
-            'e',
-            balance.tapvm,
-            balance.summa,
-            balance.tilino,
-            balance.kustp,
-            balance.projekti,
-            balance.kohde,
-            voucher.laskunro,
-            balance.selite
-          ]
-        end
+      company.voucher_rows.includes(:voucher).where.not(lasku: { alatila: :T }).order(:tapvm).each do |row|
+        balance_rows << [
+          'e',
+          row.tapvm,
+          row.summa,
+          row.tilino,
+          row.kustp,
+          row.projekti,
+          row.kohde,
+          row.voucher.laskunro,
+          row.selite
+        ]
       end
 
       balance_rows
