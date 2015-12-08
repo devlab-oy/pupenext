@@ -83,7 +83,7 @@ class Company < ActiveRecord::Base
       .where("tilikausi_alku < ?", current_fiscal_year.first)
       .order(tilikausi_alku: :desc).limit(1)
 
-    return unless fy
+    return if fy.empty?
 
     fy.first.tilikausi_alku..fy.first.tilikausi_loppu
   end
