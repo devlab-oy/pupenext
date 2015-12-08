@@ -82,7 +82,7 @@ class TalgrafBalancesCsv::Header
     end
 
     def timestamp
-      ["timestamp", "#{DateTime.now}"]
+      ["timestamp", "#{Time.now}"]
     end
 
     def info
