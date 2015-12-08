@@ -2,7 +2,7 @@
 
 one:
   product_id: MyString
-  product_name: MyString
+  product_name: Tramboline
   manufacturer_ean: MyString
   manufacturer_name: MyString
   manufacturer_id: 1
@@ -44,7 +44,7 @@ one:
 
 two:
   product_id: MyString
-  product_name: MyString
+  product_name: Chair
   manufacturer_ean: MyString
   manufacturer_name: MyString
   manufacturer_id: 1
