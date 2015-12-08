@@ -36,6 +36,8 @@ class CreateSupplierProductInformations < ActiveRecord::Migration
       t.string :url_to_product, limit: 150
       t.integer :p_price_update
       t.integer :p_qty_update
+      t.datetime :p_added_date
+      t.datetime :p_last_update_date
       t.string :p_nakyvyys, limit: 100
       t.integer :p_tree_id
 
