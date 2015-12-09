@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class SupplierTest < ActiveSupport::TestCase
-  fixtures %w(suppliers products product/suppliers)
+  fixtures %w(
+    product/suppliers
+    products
+    supplier_product_informations
+    suppliers
+  )
 
   setup do
     @supplier = suppliers :domestic_supplier
@@ -16,5 +21,8 @@ class SupplierTest < ActiveSupport::TestCase
     assert_equal @supplier.nimi, product_supplier.supplier.nimi
 
     assert_not_equal 0, @supplier.products.count
+
+    assert_includes @supplier.supplier_product_informations, supplier_product_informations(:two)
+    assert_not_includes @supplier.supplier_product_informations, supplier_product_informations(:one)
   end
 end
