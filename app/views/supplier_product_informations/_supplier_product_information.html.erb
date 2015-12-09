@@ -1,4 +1,9 @@
 <tr>
+  <td>
+    <%= fields_for 'supplier_product_informations[]', supplier_product_information do |f| %>
+      <%= f.check_box :transfer %>
+    <% end %>
+  </td>
   <td><%= supplier_product_information.product_id %></td>
   <td><%= supplier_product_information.manufacturer_ean %></td>
   <td><%= supplier_product_information.product_name %></td>
