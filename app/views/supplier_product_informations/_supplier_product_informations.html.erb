@@ -1,7 +1,13 @@
 <table class="supplier_product_informations">
   <thead>
   <tr>
+    <th><%= SupplierProductInformation.human_attribute_name(:product_id) %></th>
+    <th><%= SupplierProductInformation.human_attribute_name(:manufacturer_ean) %></th>
     <th><%= SupplierProductInformation.human_attribute_name(:product_name) %></th>
+    <th><%= SupplierProductInformation.human_attribute_name(:description) %></th>
+    <th><%= SupplierProductInformation.human_attribute_name(:supplier_name) %></th>
+    <th><%= SupplierProductInformation.human_attribute_name(:net_price) %></th>
+    <th><%= SupplierProductInformation.human_attribute_name(:available_quantity) %></th>
   </tr>
   </thead>
   <tbody>
