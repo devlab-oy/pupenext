@@ -4,8 +4,9 @@ class SupplierProductInformationsController < ApplicationController
   def index
     session[:supplier] = params[:supplier] if params[:supplier].present?
 
-    if search_params.present?
-      @supplier_product_informations = SupplierProductInformation.search_like(search_params)
+    if session[:supplier].present? && search_params.present?
+      @supplier                      = Supplier.find(session[:supplier])
+      @supplier_product_informations = @supplier.supplier_product_informations.search_like(search_params)
     else
       @supplier_product_informations = SupplierProductInformation.none
     end

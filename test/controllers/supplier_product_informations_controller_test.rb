@@ -29,7 +29,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   test 'supplier selection works' do
     session[:supplier] = nil
 
-    get :index, supplier: @domestic_supplier.id
+    get :index, supplier: @domestic_supplier.id, product_name: 'a'
 
     assert_response :success
     assert_equal @domestic_supplier.id.to_s, session[:supplier]
@@ -39,10 +39,10 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'searching with product name works' do
-    get :index, product_name: 'amb'
+    get :index, product_name: 'ch'
 
-    assert_select 'td', { count: 1, text: 'Tramboline' }
-    assert_select 'td', { count: 0, text: 'Chair' }
+    assert_select 'td', { count: 0, text: 'Tramboline' }
+    assert_select 'td', { count: 1, text: 'Chair' }
   end
 
   test 'searching with product id works' do
@@ -53,22 +53,29 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'searching with manufacturer part number works' do
-    get :index, manufacturer_part_number: '1'
+    get :index, manufacturer_part_number: '2'
 
-    assert_select 'td', { count: 1, text: 'Tramboline' }
-    assert_select 'td', { count: 0, text: 'Chair' }
+    assert_select 'td', { count: 0, text: 'Tramboline' }
+    assert_select 'td', { count: 1, text: 'Chair' }
   end
 
   test 'searching with manufacturer ean works' do
-    get :index, manufacturer_ean: '10343600935'
+    get :index, manufacturer_ean: '88698592977'
 
-    assert_select 'td', { count: 1, text: 'Tramboline' }
-    assert_select 'td', { count: 0, text: 'Chair' }
+    assert_select 'td', { count: 0, text: 'Tramboline' }
+    assert_select 'td', { count: 1, text: 'Chair' }
   end
 
   test 'table containing data is not shown without at least one search criteria submitted' do
     get :index
 
     assert_select 'table.supplier_product_informations', 0
+  end
+
+  test 'only rows which have the selected supplier are shown' do
+    get :index, product_name: 'a'
+
+    assert_select 'td', { count: 1, text: 'Chair' }
+    assert_select 'td', { count: 0, text: 'Tramboline' }
   end
 end
