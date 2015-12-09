@@ -1064,6 +1064,11 @@ fi:
         header: Varastosaldot CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
+    talgraf_balances_csv:
+      index:
+        header: Talgraf Saldot CSV
+        run: Aja raportti
+        running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
     excel:
       company: Yritystiedot

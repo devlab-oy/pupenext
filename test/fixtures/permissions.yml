@@ -26,6 +26,7 @@
     stock_availability
     stock_listing_csv
     sum_levels
+    talgraf_balances_csv
     terms_of_payments
     test
     transports
