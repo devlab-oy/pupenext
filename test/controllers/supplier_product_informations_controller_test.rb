@@ -87,5 +87,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_difference 'Product.count' do
       post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
     end
+
+    assert_includes Product.pluck(:tunnus), @one.p_product_id
   end
 end
