@@ -22,8 +22,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_response :success
 
     assert_select 'select[name=supplier]'
-    assert_select 'table.supplier_product_informations', { count: 0 }
-    assert_select 'table.search-fields', { count: 0 }
+    assert_select 'table.supplier_product_informations', 0
+    assert_select 'table.search-fields', 0
   end
 
   test 'supplier selection works' do
@@ -64,5 +64,11 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_select 'td', { count: 1, text: 'Tramboline' }
     assert_select 'td', { count: 0, text: 'Chair' }
+  end
+
+  test 'table containing data is not shown without at least one search criteria submitted' do
+    get :index
+
+    assert_select 'table.supplier_product_informations', 0
   end
 end
