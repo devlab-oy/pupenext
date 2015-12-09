@@ -135,7 +135,7 @@ pi_one:
 vo_balance:
   yhtio: acme
   tila: X
-  alatila: T
+  alatila: A
   laskunro: 123456
   luontiaika: <%= Time.now %>
   laatija: joe

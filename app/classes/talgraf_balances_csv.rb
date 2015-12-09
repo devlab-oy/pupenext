@@ -348,9 +348,9 @@ class TalgrafBalancesCsv::BalanceData
     end
 
     def opening_balance_rows
-      tapvm = company.current_fiscal_year.first
+      tapvm = [company.previous_fiscal_year.first, company.current_fiscal_year.first]
 
-      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :T, tapvm: tapvm }).map do |row|
+      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
         [
           'ei',
           row.tapvm,
@@ -366,7 +366,9 @@ class TalgrafBalancesCsv::BalanceData
     end
 
     def voucher_rows
-      company.voucher_rows.includes(:voucher).where.not(lasku: { alatila: :T }).order(:tapvm).map do |row|
+      tapvm = company.previous_fiscal_year.first
+
+      company.voucher_rows.includes(:voucher).where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: :A }).order(:tapvm).map do |row|
         [
           'e',
           row.tapvm,
