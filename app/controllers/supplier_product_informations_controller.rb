@@ -12,6 +12,19 @@ class SupplierProductInformationsController < ApplicationController
     end
   end
 
+  def transfer
+    @supplier_product_informations = SupplierProductInformation.find(supplier_product_informations_params.keys)
+
+    @supplier_product_informations.each do |s|
+      s.create_product(
+        tuoteno: s.manufacturer_part_number,
+        nimitys: s.product_name
+      )
+    end
+
+    redirect_to supplier_product_informations_url
+  end
+
   private
 
   def searchable_columns
@@ -25,5 +38,15 @@ class SupplierProductInformationsController < ApplicationController
 
   def sortable_columns
     searchable_columns
+  end
+
+  def supplier_product_informations_params
+    permitted = {}
+
+    params[:supplier_product_informations].keys.each do |tunnus|
+      permitted[tunnus] = '1'
+    end
+
+    params.require(:supplier_product_informations).permit(permitted)
   end
 end

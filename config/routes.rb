@@ -9,7 +9,11 @@ Pupesoft::Application.routes.draw do
   get 'pending_product_updates/gallery/:id', to: 'pending_product_updates#gallery'
   post 'pending_product_updates/to_product', to: 'pending_product_updates#to_product'
   resources :pending_product_updates
-  resources :supplier_product_informations, only: :index
+  resources :supplier_product_informations, only: :index do
+    collection do
+      post :transfer
+    end
+  end
 
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do

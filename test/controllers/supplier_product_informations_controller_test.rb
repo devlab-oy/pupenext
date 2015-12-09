@@ -2,12 +2,16 @@ require 'test_helper'
 
 class SupplierProductInformationsControllerTest < ActionController::TestCase
   fixtures %i(
+    products
     suppliers
     supplier_product_informations
   )
 
   setup do
     login users(:bob)
+
+    @one = supplier_product_informations(:one)
+    @two = supplier_product_informations(:two)
 
     @domestic_supplier = suppliers(:domestic_supplier)
 
@@ -77,5 +81,11 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_select 'td', { count: 1, text: 'Chair' }
     assert_select 'td', { count: 0, text: 'Tramboline' }
+  end
+
+  test 'selected rows are transferred created as products' do
+    assert_difference 'Product.count' do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+    end
   end
 end
