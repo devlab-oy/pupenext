@@ -65,8 +65,6 @@ Pupesoft::Application.routes.draw do
     get :revenue_expenditure,         to: 'revenue_expenditure#index',  as: :revenue_expenditure_report
     get :stock_listing_csv,           to: 'stock_listing_csv#index',    as: :stock_listing_csv
     post :stock_listing_csv,          to: 'stock_listing_csv#run',      as: :run_stock_listing_csv
-    get :talgraf_balances_csv,        to: 'talgraf_balances_csv#index', as: :talgraf_balances_csv
-    post :talgraf_balances_csv,       to: 'talgraf_balances_csv#run',   as: :run_talgraf_balances_csv
     get :stock_availability,          to: 'stock_availability#index',   as: :stock_availability
     get :run_stock_availability,      to: 'stock_availability#run',     as: :run_stock_availability
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
