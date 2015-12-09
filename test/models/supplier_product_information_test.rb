@@ -4,6 +4,7 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
   fixtures %w(
     products
     supplier_product_informations
+    suppliers
   )
 
   setup do
@@ -11,6 +12,9 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
     @two = supplier_product_informations(:two)
 
     @hammer = products(:hammer)
+
+    @reliable_supplier = suppliers(:reliable_supplier)
+    @domestic_supplier = suppliers(:domestic_supplier)
   end
 
   test 'fixtures are valid' do
@@ -21,6 +25,11 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
   test 'product association works' do
     assert_equal @hammer, @one.product
     assert_nil @two.product
+  end
+
+  test 'supplier association works' do
+    assert_equal @reliable_supplier, @one.supplier
+    assert_equal @domestic_supplier, @two.supplier
   end
 
   test 'searching works' do

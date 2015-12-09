@@ -6,7 +6,7 @@ one:
   manufacturer_id: 1
   manufacturer_part_number: mpn1
   supplier_name: MyString
-  supplier_id: 1
+  supplier: reliable_supplier
   supplier_ean: MyString
   supplier_part_number: MyString
   product_status: MyString
@@ -48,7 +48,7 @@ two:
   manufacturer_id: 1
   manufacturer_part_number: mpn2
   supplier_name: MyString
-  supplier_id: 1
+  supplier: domestic_supplier
   supplier_ean: MyString
   supplier_part_number: MyString
   product_status: MyString

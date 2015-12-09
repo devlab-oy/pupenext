@@ -8,3 +8,8 @@ domestic_supplier:
   yhtio: acme
   nimi: The Domestic Supplier
   <<: *DEFAULTS
+
+reliable_supplier:
+  yhtio: acme
+  nimi: The reliable supplier
+  <<: *DEFAULTS
