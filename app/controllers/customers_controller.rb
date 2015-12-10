@@ -1,6 +1,7 @@
 class CustomersController < ApplicationController
-  skip_before_filter :authorize
-  before_filter :api_authorize
+  protect_from_forgery with: :null_session
+  skip_before_filter :authorize, :set_current_info, :set_locale, :access_control
+  before_filter :api_authorize, :set_current_info, :set_locale
 
   def create
     @customer = current_company.customers.build(customer_params)
@@ -54,7 +55,7 @@ class CustomersController < ApplicationController
     end
 
     def api_authorize
-      user = User.find_by_api_key(params[:access_token])
-      head :unauthorized unless user
+      @current_user = User.unscoped.find_by_api_key(params[:access_token])
+      head :unauthorized unless @current_user
     end
 end
