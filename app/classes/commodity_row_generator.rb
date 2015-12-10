@@ -10,14 +10,15 @@ class CommodityRowGenerator
     Current.user         = user
     Current.company      = company
 
-    fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
+    # If fiscal id not given, use open period
+    fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.open_period
     self.fiscal_start = fi.first
     self.fiscal_end   = fi.last
 
     raise ArgumentError unless commodity.activated?
     raise ArgumentError unless commodity.valid?
-    #raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
-    #raise ArgumentError unless company.date_in_open_period?(fiscal_end)
+    raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
+    raise ArgumentError unless company.date_in_open_period?(fiscal_end)
   end
 
   def generate_rows
