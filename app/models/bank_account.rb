@@ -79,6 +79,8 @@ class BankAccount < BaseModel
     end
 
     def check_bic
+      return if iban =~ /\A[a-zA-Z öäåÖÄÅ]+\z/
+
       if finnish_company? && !valid_bic?(bic)
         errors.add :bic, I18n.t('errors.messages.invalid')
       end
