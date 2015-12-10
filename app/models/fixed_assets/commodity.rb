@@ -24,7 +24,7 @@ class FixedAssets::Commodity < BaseModel
     o.validates :planned_depreciation_amount, :btl_depreciation_amount,
                 numericality: { greater_than: 0 }, presence: true
 
-    #o.validate :activation_only_on_open_fiscal_year
+    o.validate :activation_only_on_open_period
     o.validate :depreciation_amount_must_follow_type
     o.validate :must_have_procurement_rows
   end
@@ -240,7 +240,7 @@ class FixedAssets::Commodity < BaseModel
       end
     end
 
-    def activation_only_on_open_fiscal_year
+    def activation_only_on_open_period
       unless company.date_in_open_period?(activated_at)
         errors.add(:base, "Activation date must be within current editable fiscal year")
       end
