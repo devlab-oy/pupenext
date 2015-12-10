@@ -46,7 +46,21 @@ class CustomersController < ApplicationController
         :email,
         :puhelin,
         :kieli,
-        :chn
+        :chn,
+        :ryhma,
+        :osasto,
+        :alv,
+        :maksuehto,
+        :toimitustapa,
+        :rahtivapaa,
+        :kauppatapahtuman_luonne,
+        :tilino,
+        :tilino_eu,
+        :tilino_ei_eu,
+        :laji,
+        :kuljetusvakuutus_tyyppi,
+        :lahetetyyppi,
+        :sisviesti1
       )
     end
 
