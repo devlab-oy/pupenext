@@ -72,6 +72,8 @@ Pupesoft::Application.routes.draw do
     get :depreciations_balance_sheet, to: 'commodity_reports#depreciations_balance_sheet'
     get :depreciation_difference, to: 'commodity_reports#depreciation_difference'
     get :balance_statements, to: 'commodity_reports#balance_statements'
+
+    resources :customer_price_lists, only: [:index, :create]
   end
 
   scope :data_export do

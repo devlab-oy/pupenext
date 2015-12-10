@@ -9,6 +9,7 @@
     companies
     currencies
     custom_attributes
+    customer_price_lists
     customers
     data_export
     data_import
@@ -22,8 +23,8 @@
     qualifiers
     revenue_expenditure
     revenue_expenditures
-    stock_listing_csv
     stock_availability
+    stock_listing_csv
     sum_levels
     terms_of_payments
     test

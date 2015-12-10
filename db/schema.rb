@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112092557) do
+ActiveRecord::Schema.define(version: 20151207095916) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -426,6 +426,23 @@ ActiveRecord::Schema.define(version: 20151112092557) do
   end
 
   add_index "budjetti_asiakas", ["yhtio", "kausi", "asiakkaan_tunnus", "osasto", "try"], name: "asbu", unique: true, using: :btree
+
+  create_table "budjetti_maa", force: :cascade do |t|
+    t.string   "yhtio",      limit: 5,                            default: "",  null: false
+    t.string   "kausi",      limit: 6,                            default: "",  null: false
+    t.integer  "maa_id",     limit: 4,                            default: 0,   null: false
+    t.string   "osasto",     limit: 150,                          default: "",  null: false
+    t.string   "try",        limit: 150,                          default: "",  null: false
+    t.decimal  "summa",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "maara",                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "indeksi",                precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "muuttaja",   limit: 50,                           default: "",  null: false
+    t.string   "laatija",    limit: 50,                           default: "",  null: false
+    t.datetime "luontiaika",                                                    null: false
+    t.datetime "muutospvm",                                                     null: false
+  end
+
+  add_index "budjetti_maa", ["yhtio", "maa_id", "kausi", "osasto", "try"], name: "mabu", unique: true, using: :btree
 
   create_table "budjetti_myyja", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,                            default: "",  null: false
@@ -1095,7 +1112,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "laatija",                            limit: 10,    default: "", null: false
     t.datetime "luontiaika",                                                    null: false
     t.datetime "muutospvm",                                                     null: false
-    t.datetime "valmistajan_sopimus_paattymispaiva",                            null: false
+    t.date     "valmistajan_sopimus_paattymispaiva",                            null: false
     t.string   "muuttaja",                           limit: 10,    default: "", null: false
   end
 
@@ -1418,6 +1435,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.date     "sopimus_loppupvm",                                                                             null: false
     t.text     "sopimus_lisatietoja",                      limit: 65535
     t.text     "sopimus_lisatietoja2",                     limit: 65535
+    t.string   "sopimus_numero",                           limit: 50,                            default: ""
     t.string   "projektipaallikko",                        limit: 50,                            default: "",  null: false
     t.string   "seuranta",                                 limit: 5,                             default: "",  null: false
     t.integer  "tunnusnippu_tarjous",                      limit: 4,                             default: 0,   null: false
@@ -1660,6 +1678,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "yhtio",                                limit: 5
     t.string   "pankki",                               limit: 60
     t.string   "customer_id",                          limit: 60
+    t.boolean  "hae_saldo",                                          default: false, null: false
     t.text     "signing_certificate",                  limit: 65535
     t.datetime "signing_certificate_valid_to"
     t.text     "signing_private_key",                  limit: 65535
@@ -2966,6 +2985,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "merkki",                    limit: 55,    default: "", null: false
     t.string   "mallivari",                 limit: 55,    default: "", null: false
     t.text     "valmnro",                   limit: 65535
+    t.string   "koodi",                     limit: 60,    default: "", null: false
     t.integer  "sla",                       limit: 4,     default: 0,  null: false
     t.string   "valmistajan_sopimusnumero", limit: 60,    default: "", null: false
     t.date     "tuotu",                                                null: false
@@ -3071,6 +3091,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.decimal  "jarjestys",                   precision: 2,            default: 0,   null: false
     t.decimal  "kurssi",                      precision: 15, scale: 9, default: 0.0, null: false
     t.decimal  "intrastat_kurssi",            precision: 15, scale: 9, default: 0.0, null: false
+    t.decimal  "hinnastokurssi",              precision: 15, scale: 9, default: 0.0, null: false
     t.string   "laatija",          limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                         null: false
     t.datetime "muutospvm",                                                          null: false
@@ -3437,6 +3458,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "laskun_monistus_kommenttikentta",                  limit: 1,                              default: "",    null: false
     t.string   "viivakoodi_laskulle",                              limit: 1,                              default: "",    null: false
     t.string   "koontilaskut_yhdistetaan",                         limit: 1,                              default: "",    null: false
+    t.decimal  "koontilaskut_alarajasumma",                                      precision: 12, scale: 2, default: 0.0,   null: false
     t.string   "koontilahete_kollitiedot",                         limit: 1,                              default: "",    null: false
     t.string   "tilausvahvistustyyppi",                            limit: 150,                            default: "",    null: false
     t.integer  "tilausvahvistus_tilausnumero",                     limit: 1,                              default: 0,     null: false
@@ -3490,6 +3512,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "asiakashinta_netto",                               limit: 2,                              default: "",    null: false
     t.string   "puute_jt_oletus",                                  limit: 1,                              default: "",    null: false
     t.string   "puute_jt_kerataanko",                              limit: 1,                              default: "",    null: false
+    t.string   "myynti_jt_huom",                                   limit: 1,                              default: "",    null: false
     t.string   "kerataanko_jos_vain_puute_jt",                     limit: 1,                              default: "",    null: false
     t.string   "jt_automatiikka",                                  limit: 1,                              default: "",    null: false
     t.string   "jt_automatiikka_mitatoi_tilaus",                   limit: 1,                              default: "",    null: false
@@ -3709,6 +3732,7 @@ ActiveRecord::Schema.define(version: 20151112092557) do
     t.string   "tilausrivin_korvamerkinta",                        limit: 1,                              default: "",    null: false
     t.integer  "tilausrivin_kateraja",                             limit: 4,                              default: 0,     null: false
     t.string   "viitemaksujen_oikaisut",                           limit: 1,                              default: "",    null: false
+    t.string   "pdf_ruudulle_kieli",                               limit: 1,                              default: "",    null: false
     t.string   "laatija",                                          limit: 50,                             default: "",    null: false
     t.datetime "luontiaika",                                                                                              null: false
     t.datetime "muutospvm",                                                                                               null: false

@@ -179,6 +179,10 @@ fi:
         viivastyskorko: Viivästyskorkoprosentti
         www: WWW
         ytunnus: Y-tunnus
+      customer:
+        asiakasnumero: Asiakasnumero
+        maksuehto: Maksuehto
+        toimitustapa: Toimitustapa
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -269,6 +273,12 @@ fi:
         puhelin: Puhelin
         unifaun_nimi: Unifaun nimi
         yhteyshenkilo: Yhteyshenkilö
+      product:
+        kuvaus: Kuvaus
+        lyhytkuvaus: Lyhytkuvaus
+        nimitys: Nimitys
+        tuoteno: Tuoteno
+        voimassa: Voimassa
       qualifier:
         isa_tarkenne: Isätarkenne
         kaytossa: Käytössä
@@ -307,6 +317,8 @@ fi:
         password: Salasana
         path: Polku palvelimella
         username: Käyttäjätunnus
+      user:
+        myyja: Myyjä
     models:
       account: Tili
       bank_account: Pankkitili
@@ -314,6 +326,7 @@ fi:
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
+      customer: Asiakas
       fiscal_year: Tilikausi
       fixed_assets/commodity: Käyttöomaisuuden hyödyke
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
@@ -327,6 +340,8 @@ fi:
       head/sales_order_draft: Myyntitilaus kesken
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
+      keyword/customer_category: Asiakasosasto
+      keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
       package_code: Pakkauskoodi
@@ -414,6 +429,10 @@ fi:
       finnish: Suomi
       swedish: Ruotsi
     carriers:
+      create:
+        success: Rahdinkuljettaja luotiin onnistuneesti
+      destroy:
+        success: Rahdinkuljettaja poistettiin onnistuneesti
       edit:
         header: Rahdinkuljettaja
       index:
@@ -422,6 +441,8 @@ fi:
       neutraali_options:
         neutral: Kyllä
         not_neutral: Ei
+      update:
+        success: Rahdinkuljettaja päivitettiin onnistuneesti
     cash_registers:
       create:
         create_success: Kassalipas perustettiin onnistuneesti
@@ -740,6 +761,7 @@ fi:
     import:
       action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
       action_missing: Toiminto -sarake puuttuu!
+      invalid_attributes: Virheellinen sarake %{attributes}!
       keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
     messages:
@@ -1022,6 +1044,38 @@ fi:
         depreciation_difference_report: Poistoeroraportti
         depreciations_balance_sheet: Tase-erittely sumu poistoin
         header: Käyttöomaisuuden raportit
+    customer_price_lists:
+      create:
+        customer_not_found: Asiakasta ei löydy
+        customer_subcategory_not_found: Asiakasryhmää ei löytynyt
+        filename: asiakashinnasto
+        invalid_target_type: Kohdetyypin täytyy olla asiakas tai asiakasryhmä
+        no_filters_specified: Et antanut tuoterajauksia
+        page: Sivu
+        products_not_found: Tuotteita ei löytynyt
+      footer:
+        business_id: Y-tunnus
+        domicile: Kotipaikka
+        email: Sähköposti
+        phone: Puhelin
+      index:
+        all_products: Kaikki tuotteet
+        contract_filter: Sopimusrajaus
+        contract_prices: Sopimushinnat
+        date_end: Loppupvm
+        date_start: Alkupvm
+        generate: Generoi
+        loading: Ladataan...
+        product_filter: Tuoterajaus
+        product_image: Tuotekuva
+        target_type: Kohdetyyppi
+      report:
+        contract_price: Sopimushinta
+        header: Asiakashinnasto
+        indefinitely: Toistaiseksi
+        price: Hinta
+        printed: Tulostettu
+        valid_text: Hinnasto on voimassa
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat

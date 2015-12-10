@@ -1,0 +1,15 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laji: ASIAKASOSASTO
+
+customer_category_1:
+  selite: 1
+  selitetark: Kotimaa
+  <<: *DEFAULTS
+
+customer_category_2:
+  selite: 2
+  selitetark: Ulkomaa
+  <<: *DEFAULTS
