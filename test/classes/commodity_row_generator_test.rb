@@ -75,15 +75,20 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Total amounts of depreciations
     total_depreciations = 24
 
-    @commodity.activated_at = 24.months.ago
-    @commodity.save!
-
     # Create superlong fiscal period for measure
     superlong_fiscal = @commodity.company.fiscal_years.first.dup
     FiscalYear.delete_all
     superlong_fiscal.tilikausi_alku = 60.months.ago
     superlong_fiscal.tilikausi_loppu = Date.today.advance(months: 12)
     superlong_fiscal.save!
+
+    @commodity.company.tilikausi_alku = 60.months.ago
+    @commodity.company.tilikausi_loppu = Date.today.advance(months: 12)
+    @commodity.company.save!
+
+    @commodity.activated_at = 24.months.ago
+    assert @commodity.valid?
+    @commodity.save!
 
     # Re-Initialize generator with new fiscal values
     generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
