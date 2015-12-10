@@ -66,7 +66,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     refute @commodity.valid?, 'should not be valid'
   end
 
-  test 'must activate on open fiscal year' do
+  test 'must activate on open period' do
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-03-31'
