@@ -8,7 +8,7 @@
 <% if @transport.persisted? %>
   <br/>
 
-  <%= button_to(t('.button_remove'),
+  <%= button_to(t('administration.transports.edit.button_remove'),
                 customer_transport_path(@transport),
                 data: { confirm: t('administration.transports.edit.confirm_remove') },
                 method: :delete) %>
