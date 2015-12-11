@@ -88,6 +88,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
       post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
     end
 
-    assert_includes Product.pluck(:tunnus), @one.p_product_id
+    assert_includes     Product.pluck(:tunnus), @one.p_product_id
+    assert_not_includes Product.pluck(:tunnus), @two.p_product_id
   end
 end
