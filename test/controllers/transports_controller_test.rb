@@ -6,9 +6,9 @@ class Administration::TransportsControllerTest < ActionController::TestCase
   setup do
     login users(:bob)
 
-    @transport = transports(:one)
+    @transport = transports(:three)
     @valid_params = {
-      customer_id: @transport.customer_id,
+      transportable_id: @transport.transportable_id,
       hostname: @transport.hostname,
       password: @transport.password,
       path: @transport.path,
