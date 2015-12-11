@@ -13,7 +13,9 @@
     </tr>
     </thead>
     <tbody>
-    <%= render partial: 'supplier_product_information', collection: @supplier_product_informations %>
+    <%= render partial:    'supplier_product_information',
+               collection: @supplier_product_informations,
+               as:         :s%>
     </tbody>
   </table>
 

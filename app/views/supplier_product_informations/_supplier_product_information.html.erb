@@ -1,14 +1,12 @@
 <tr>
   <td>
-    <%= fields_for 'supplier_product_informations[]', supplier_product_information do |f| %>
-      <%= f.check_box :transfer %>
-    <% end %>
+    <%= check_box_tag "supplier_product_informations[#{s.id}]" %>
   </td>
-  <td><%= supplier_product_information.product_id %></td>
-  <td><%= supplier_product_information.manufacturer_ean %></td>
-  <td><%= supplier_product_information.product_name %></td>
-  <td><%= supplier_product_information.description %></td>
-  <td><%= supplier_product_information.supplier_name %></td>
-  <td><%= supplier_product_information.net_price %></td>
-  <td><%= supplier_product_information.available_quantity %></td>
+  <td><%= s.product_id %></td>
+  <td><%= s.manufacturer_ean %></td>
+  <td><%= s.product_name %></td>
+  <td><%= s.description %></td>
+  <td><%= s.supplier_name %></td>
+  <td><%= s.net_price %></td>
+  <td><%= s.available_quantity %></td>
 </tr>
