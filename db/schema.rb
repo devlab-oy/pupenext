@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207095916) do
+ActiveRecord::Schema.define(version: 20151208122517) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2013,6 +2013,51 @@ ActiveRecord::Schema.define(version: 20151207095916) do
 
   add_index "suorituskykyloki", ["yhtio", "luontiaika"], name: "yhtio_luontiaika", using: :btree
   add_index "suorituskykyloki", ["yhtio", "skripti", "luontiaika"], name: "yhtio_skripti_luontiaika", using: :btree
+
+  create_table "supplier_product_informations", force: :cascade do |t|
+    t.string   "product_id",               limit: 100
+    t.string   "product_name",             limit: 150
+    t.string   "manufacturer_ean",         limit: 13
+    t.string   "manufacturer_name",        limit: 100
+    t.integer  "manufacturer_id",          limit: 4
+    t.string   "manufacturer_part_number", limit: 100
+    t.string   "supplier_name",            limit: 100
+    t.integer  "supplier_id",              limit: 4
+    t.string   "supplier_ean",             limit: 13
+    t.string   "supplier_part_number",     limit: 100
+    t.string   "product_status",           limit: 100
+    t.string   "short_description",        limit: 250
+    t.string   "description",              limit: 500
+    t.string   "category_text1",           limit: 100
+    t.string   "category_text2",           limit: 100
+    t.string   "category_text3",           limit: 100
+    t.string   "category_text4",           limit: 100
+    t.integer  "category_idn",             limit: 4
+    t.decimal  "net_price",                            precision: 16, scale: 6
+    t.decimal  "net_retail_price",                     precision: 16, scale: 6
+    t.integer  "available_quantity",       limit: 4
+    t.date     "available_next_date"
+    t.integer  "available_next_quantity",  limit: 4
+    t.integer  "warranty_months",          limit: 4
+    t.decimal  "gross_mass",                           precision: 8,  scale: 4
+    t.boolean  "end_of_life",                                                   default: false, null: false
+    t.boolean  "returnable",                                                    default: false, null: false
+    t.boolean  "cancelable",                                                    default: false, null: false
+    t.string   "warranty_text",            limit: 100
+    t.string   "packaging_unit",           limit: 100
+    t.decimal  "vat_rate",                             precision: 4,  scale: 2
+    t.integer  "bid_price_id",             limit: 4
+    t.string   "url_to_product",           limit: 150
+    t.integer  "p_product_id",             limit: 4
+    t.integer  "p_price_update",           limit: 4
+    t.integer  "p_qty_update",             limit: 4
+    t.datetime "p_added_date"
+    t.datetime "p_last_update_date"
+    t.string   "p_nakyvyys",               limit: 100
+    t.integer  "p_tree_id",                limit: 4
+    t.datetime "created_at",                                                                    null: false
+    t.datetime "updated_at",                                                                    null: false
+  end
 
   create_table "suuntalavat", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
