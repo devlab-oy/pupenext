@@ -44,6 +44,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.targets.count > 0
     assert @acme.terms_of_payments.count > 0
     assert_equal 1, @acme.transports.count
+    assert_equal 2, @acme.customer_transports.count
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
   end
