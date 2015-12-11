@@ -33,32 +33,25 @@ Pupesoft::Application.routes.draw do
     resources :cash_registers
     resources :currencies, except: :destroy
     resources :custom_attributes
+    resources :customer_transports
     resources :fiscal_years, except: :destroy
     resources :packages
     resources :packing_areas
     resources :printers
     resources :products
     resources :qualifier_cost_centers, path: :qualifiers, controller: :qualifiers
-    resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
-    resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
+    resources :qualifier_projects,     path: :qualifiers, controller: :qualifiers
+    resources :qualifier_targets,      path: :qualifiers, controller: :qualifiers
     resources :qualifiers
     resources :revenue_expenditures
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_profits, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
+    resources :sum_level_externals,   path: :sum_levels, controller: :sum_levels
+    resources :sum_level_internals,   path: :sum_levels, controller: :sum_levels
+    resources :sum_level_profits,     path: :sum_levels, controller: :sum_levels
+    resources :sum_level_vats,        path: :sum_levels, controller: :sum_levels
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
-    resources :transports do
-      member do
-        patch :update_customer, to: 'transports#update_customer'
-      end
-    end
-
-    scope :transports do
-      post :create_customer, to: 'transports#create_customer'
-    end
+    resources :transports
   end
 
   get :downloads, to: 'downloads#index'

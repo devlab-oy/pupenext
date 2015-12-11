@@ -10,6 +10,7 @@
     currencies
     custom_attributes
     customer_price_lists
+    customer_transports
     customers
     data_export
     data_import
