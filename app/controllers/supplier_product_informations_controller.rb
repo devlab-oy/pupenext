@@ -17,8 +17,11 @@ class SupplierProductInformationsController < ApplicationController
 
     @supplier_product_informations.each do |s|
       s.create_product(
-        tuoteno: s.manufacturer_part_number,
-        nimitys: s.product_name
+        tuoteno:  s.manufacturer_part_number,
+        nimitys:  s.product_name,
+        alv:      24,
+        eankoodi: s.manufacturer_ean,
+        status:   Product::Status.find_by(selite: 'A')
       )
     end
 

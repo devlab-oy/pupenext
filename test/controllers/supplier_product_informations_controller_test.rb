@@ -5,6 +5,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     products
     suppliers
     supplier_product_informations
+    keywords
   )
 
   setup do
@@ -90,5 +91,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_includes     Product.pluck(:tunnus), @one.p_product_id
     assert_not_includes Product.pluck(:tunnus), @two.p_product_id
+  end
+
+  test 'correct fields are copied to product' do
+    post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+
+    assert_equal @one.manufacturer_part_number, Product.last.tuoteno
+    assert_equal @one.product_name,             Product.last.nimitys
+    assert_equal 24.to_d,                       Product.last.alv
+    assert_equal @one.manufacturer_ean,         Product.last.eankoodi
+    assert_equal keywords(:status_active),      Product.last.status
   end
 end
