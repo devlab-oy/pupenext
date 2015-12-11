@@ -1,6 +1,10 @@
 <%= render "administration/form_errors", resource: @transport %>
 
+<% url = @transport.id ? customer_transport_path(@transport) : customer_transports_path %>
+
 <%= simple_form_for @transport,
+    as: :customer_transport,
+    url: url,
     builder: AdminFormBuilder,
     defaults: { input_html: { class: :large } },
     alias_set: params[:alias_set] do |f| %>
