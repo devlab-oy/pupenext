@@ -33,7 +33,7 @@ class Administration::CustomerTransportsControllerTest < ActionController::TestC
       post :create, customer_transport: @valid_params
     end
 
-    assert_redirected_to transports_path
+    assert_redirected_to customer_transports_path
   end
 
   test "should show transport" do
@@ -48,7 +48,7 @@ class Administration::CustomerTransportsControllerTest < ActionController::TestC
 
   test "should update transport" do
     patch :update, id: @transport, customer_transport: @valid_params
-    assert_redirected_to transports_path
+    assert_redirected_to customer_transports_path
   end
 
   test "should destroy transport" do
@@ -56,6 +56,6 @@ class Administration::CustomerTransportsControllerTest < ActionController::TestC
       delete :destroy, id: @transport
     end
 
-    assert_redirected_to transports_path
+    assert_redirected_to customer_transports_path
   end
 end

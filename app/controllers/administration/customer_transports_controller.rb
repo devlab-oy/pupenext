@@ -20,7 +20,7 @@ class Administration::CustomerTransportsController < AdministrationController
     @transport = current_company.customer_transports.new transport_params
 
     if @transport.save
-      redirect_to transports_url
+      redirect_to customer_transports_url
     else
       render :edit
     end
@@ -28,7 +28,7 @@ class Administration::CustomerTransportsController < AdministrationController
 
   def update
     if @transport.update(transport_params)
-      redirect_to transports_url
+      redirect_to customer_transports_url
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class Administration::CustomerTransportsController < AdministrationController
 
   def destroy
     @transport.destroy
-    redirect_to transports_url
+    redirect_to customer_transports_url
   end
 
   private
