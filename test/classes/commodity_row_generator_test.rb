@@ -29,14 +29,14 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   test 'should calculate with fixed by percentage' do
     # Tasapoisto vuosiprosentti
-    full_amount = 10000
-    percentage = 35
+    full_amount = 10000.0
+    percentage = 35.0
     result = @generator.fixed_by_percentage(full_amount, percentage)
 
-    assert_equal result.sum, full_amount * percentage / 100
-    assert_equal result.first, 833.33
-    assert_equal result.second, 833.33
-    assert_equal result.last, 166.68
+    assert_equal result.sum, full_amount * percentage / 100.0
+    assert_equal result.first, 588.24
+    assert_equal result.second, 588.24
+    assert_equal result.last, 558.8
   end
 
   test 'should round correctly' do

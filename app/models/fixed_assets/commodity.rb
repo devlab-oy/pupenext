@@ -162,7 +162,7 @@ class FixedAssets::Commodity < BaseModel
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     #start_date = activated_at ||
     #range = start_date..end_date
-    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0
+    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.0
     if deactivated?
       calculation = amount
     end

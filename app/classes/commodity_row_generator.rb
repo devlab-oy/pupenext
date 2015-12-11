@@ -44,13 +44,13 @@ class CommodityRowGenerator
   def fixed_by_percentage(full_amount, percentage)
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
-    yearly_amount = full_amount * percentage / 100
+    yearly_amount = full_amount * percentage / 100.0
     payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
     divide_to_payments(full_amount, payments, yearly_amount)
   end
 
-  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
+  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0.0)
     # full_amount = hydykkeen hankintahinta
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
@@ -59,7 +59,7 @@ class CommodityRowGenerator
     # Sum the value of previous fiscal reductions
     full_amount = full_amount - depreciated_amount
 
-    fiscal_percentage = fiscal_percentage.to_d / 100
+    fiscal_percentage = fiscal_percentage.to_d / 100.0
     fiscal_year_depreciations = []
     first_depreciation = full_amount * fiscal_percentage / payment_count
 
@@ -109,7 +109,7 @@ class CommodityRowGenerator
   private
 
     # Calculates monthly payments within fiscal year
-    def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0)
+    def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0.0)
       # full_amount = hydykkeen hankintahinta
       # full_count = kokonaispoistoaika kuukausissa
       # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
@@ -302,7 +302,7 @@ class CommodityRowGenerator
     def split_params
       commodity.procurement_rows.map do |pcu|
         {
-          percent: (pcu.summa / commodity.amount * 100).round(2),
+          percent: (pcu.summa / commodity.amount * 100.0).round(2),
           cost_centre: pcu.kustp,
           target: pcu.kohde,
           project: pcu.projekti
