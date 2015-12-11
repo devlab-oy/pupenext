@@ -51,6 +51,9 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
     resources :transports
+    scope :transports do
+      post :create_customer, to: 'transports#create_customer'
+    end
   end
 
   get :downloads, to: 'downloads#index'

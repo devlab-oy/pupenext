@@ -7,12 +7,22 @@ class Administration::TransportsControllerTest < ActionController::TestCase
     login users(:bob)
 
     @transport = transports(:three)
+    @customer_transport = transports(:one)
+
     @valid_params = {
       transportable_id: @transport.transportable_id,
       hostname: @transport.hostname,
       password: @transport.password,
       path: @transport.path,
       username: @transport.username,
+    }
+
+    @valid_customer_params = {
+      transportable_id: @customer_transport.transportable_id,
+      hostname: @customer_transport.hostname,
+      password: @customer_transport.password,
+      path: @customer_transport.path,
+      username: @customer_transport.username,
     }
   end
 
@@ -56,5 +66,14 @@ class Administration::TransportsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to transports_path
+  end
+
+  test "should create customer transport" do
+    assert_difference('Transport.count') do
+      post :create_customer, transport: @valid_customer_params
+    end
+
+    assert_redirected_to transports_path
+    assert_equal 'Customer', Transport.last.transportable_type
   end
 end
