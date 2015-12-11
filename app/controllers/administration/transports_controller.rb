@@ -44,6 +44,17 @@ class Administration::TransportsController < AdministrationController
     end
   end
 
+  def update_customer
+    customer = current_company.customers.find transport_params[:transportable_id]
+    @transport = customer.transports.find params[:id]
+
+    if @transport.update(transport_params)
+      redirect_to transports_url
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @transport.destroy
     redirect_to transports_url

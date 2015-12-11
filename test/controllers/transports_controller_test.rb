@@ -76,4 +76,9 @@ class Administration::TransportsControllerTest < ActionController::TestCase
     assert_redirected_to transports_path
     assert_equal 'Customer', Transport.last.transportable_type
   end
+
+  test "should update customer transport" do
+    patch :update_customer, id: @customer_transport, transport: @valid_customer_params
+    assert_redirected_to transports_path
+  end
 end

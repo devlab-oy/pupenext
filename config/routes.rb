@@ -50,7 +50,12 @@ Pupesoft::Application.routes.draw do
     resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
-    resources :transports
+    resources :transports do
+      member do
+        patch :update_customer, to: 'transports#update_customer'
+      end
+    end
+
     scope :transports do
       post :create_customer, to: 'transports#create_customer'
     end
