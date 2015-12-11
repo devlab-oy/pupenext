@@ -1,5 +1,5 @@
 class Transport < ActiveRecord::Base
-  belongs_to :customer
+  belongs_to :transportable, polymorphic: true
 
   validates :customer, presence: true
   validates :hostname, presence: true

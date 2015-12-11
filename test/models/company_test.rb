@@ -43,7 +43,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.suppliers.count > 0
     assert @acme.targets.count > 0
     assert @acme.terms_of_payments.count > 0
-    assert @acme.transports.count > 0
+    assert_equal 1, @acme.transports.count
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
   end
