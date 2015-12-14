@@ -123,4 +123,12 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal @one.available_quantity,       Product::Supplier.last.tehdas_saldo
     assert_equal @domestic_supplier,            Product::Supplier.last.supplier
   end
+
+  test 'nothing is copied when a product with the same tuoteno exists' do
+    @one.update(manufacturer_part_number: products(:hammer).tuoteno)
+
+    assert_no_difference ['Product.count', 'Product::Supplier.count'] do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+    end
+  end
 end
