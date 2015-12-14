@@ -18,7 +18,9 @@ class SupplierProductInformationsController < ApplicationController
     supplier = Supplier.find(session[:supplier])
 
     @supplier_product_informations.each do |s|
-      next if Product.find_by(tuoteno: s.manufacturer_part_number)
+      next if Product.where('tuoteno = ? OR eankoodi = ?',
+                            s.manufacturer_part_number,
+                            s.manufacturer_ean).present?
 
       s.create_product(
         alv:      24,

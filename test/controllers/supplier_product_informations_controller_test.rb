@@ -131,4 +131,12 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
       post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
     end
   end
+
+  test 'nothing is copied when a product with the same ean exists' do
+    @one.update(manufacturer_ean: products(:hammer).eankoodi)
+
+    assert_no_difference ['Product.count', 'Product::Supplier.count'] do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+    end
+  end
 end
