@@ -41,19 +41,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
   end
 
-  test 'required fields when active' do
-    @commodity.status = ''
-    @commodity.planned_depreciation_type = ''
-    @commodity.planned_depreciation_amount = ''
-    @commodity.btl_depreciation_type = ''
-    @commodity.btl_depreciation_amount = ''
-    @commodity.amount = ''
-    @commodity.activated_at = ''
+  test 'required fields when activated' do
+    new_commodity = @commodity.company.commodities.new
+    new_commodity.name = 'Kissa'
+    new_commodity.description = 'Mirrinen'
+    assert new_commodity.valid?, new_commodity.errors.full_messages
 
-    assert @commodity.valid?, @commodity.errors.full_messages
-
-    @commodity.status = 'A'
-    refute @commodity.valid?, "should not be valid"
+    new_commodity.status = 'A'
+    refute new_commodity.valid?, "should not be valid"
   end
 
   test 'cannot set active unless we have procurement rows' do
@@ -63,22 +58,63 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.procurement_rows.delete_all
     @commodity.status = 'A'
-    refute @commodity.valid?, 'should not be valid'
+    refute @commodity.valid?, @commodity.errors.full_messages
   end
 
-  test 'must activate on open period' do
+  test 'activation succeeds on open period' do
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-03-31'
     }
+
+    voucher_row = head_voucher_rows(:eleven)
+    params_for_new = {
+      name: 'Kettu',
+      description: 'Repolainen',
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 20.0,
+      btl_depreciation_type: 'T',
+      btl_depreciation_amount: 20.0
+    }
+
     @commodity.company.attributes = params
+    new_commodity = @commodity.company.commodities.new params_for_new
+    new_commodity.save!
+    # link procurement row
+    voucher_row.commodity_id = new_commodity.id
+    voucher_row.save!
 
-    @commodity.activated_at = '2015-01-01'
-    @commodity.status = 'A'
-    assert @commodity.valid?, @commodity.errors.full_messages
+    new_commodity.activated_at = '2015-01-01'
+    new_commodity.status = 'A'
+    assert new_commodity.valid?, new_commodity.errors.full_messages
+  end
 
-    @commodity.activated_at = '2015-06-01'
-    refute @commodity.valid?, 'should not be valid'
+  test 'activation fails on closed period' do
+    params = {
+      tilikausi_alku: '2015-01-01',
+      tilikausi_loppu: '2015-03-31'
+    }
+
+    voucher_row = head_voucher_rows(:eleven)
+    params_for_new = {
+      name: 'Kettu',
+      description: 'Repolainen',
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 20.0,
+      btl_depreciation_type: 'T',
+      btl_depreciation_amount: 20.0
+    }
+
+    @commodity.company.attributes = params
+    new_commodity = @commodity.company.commodities.new params_for_new
+    new_commodity.save!
+    # link procurement row
+    voucher_row.commodity_id = new_commodity.id
+    voucher_row.save!
+
+    new_commodity.activated_at = '2015-06-01'
+    new_commodity.status = 'A'
+    refute new_commodity.valid?, new_commodity.errors.full_messages
   end
 
   test 'amount is a percentage' do
