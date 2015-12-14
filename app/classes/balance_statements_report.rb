@@ -11,14 +11,14 @@ class BalanceStatementsReport
 
   # palauttaa kokoelman jossa on kaikki raportin rivit
   def data
-    data_array = {}
+    result = {}
 
-    # loopataan kaikki evl-tasot ja haetaan kaikki tiedot seka laitetaan ne data_array:hin
+    # loopataan kaikki evl-tasot ja haetaan kaikki tiedot seka laitetaan ne result:iin
     current_company.sum_level_commodities.each do |slc|
       hydyt = kaikki_tason_hyodykkeet(slc)
 
-      # data_arrayn roottilevelin key on aina taso
-      thislevel = data_array[slc.taso] = {}
+      # resultin roottilevelin key on aina taso
+      thislevel = result[slc.taso] = {}
 
       # keyn selite
       thislevel[:nimi] = slc.nimi
@@ -47,7 +47,7 @@ class BalanceStatementsReport
       thislevel[:poistamaton_osa] = hydyt.map { |h| h.bookkeeping_value(fiscal_end) }.sum
     end
 
-    data_array
+    result
   end
 
   private
