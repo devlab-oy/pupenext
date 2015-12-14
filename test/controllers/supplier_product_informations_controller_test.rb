@@ -112,4 +112,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_includes     Product::Supplier.pluck(:tuoteno), @one.manufacturer_part_number
     assert_not_includes Product::Supplier.pluck(:tuoteno), @two.manufacturer_part_number
   end
+
+  test 'correct fields are copied to product supplier' do
+    post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+
+    assert_equal @one.manufacturer_part_number, Product::Supplier.last.tuoteno
+    assert_equal @one.product_name,             Product::Supplier.last.toim_nimitys
+    assert_equal @one.product_id,               Product::Supplier.last.toim_tuoteno
+    assert_equal -1,                            Product::Supplier.last.osto_alv
+    assert_equal @one.available_quantity,       Product::Supplier.last.tehdas_saldo
+    assert_equal @domestic_supplier,            Product::Supplier.last.supplier
+  end
 end

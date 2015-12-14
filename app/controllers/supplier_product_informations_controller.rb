@@ -15,18 +15,23 @@ class SupplierProductInformationsController < ApplicationController
   def transfer
     @supplier_product_informations = SupplierProductInformation.find(supplier_product_informations_params.keys)
 
+    supplier = Supplier.find(session[:supplier])
+
     @supplier_product_informations.each do |s|
       s.create_product(
-        tuoteno:  s.manufacturer_part_number,
-        nimitys:  s.product_name,
         alv:      24,
         eankoodi: s.manufacturer_ean,
-        status:   Product::Status.find_by(selite: 'A')
+        nimitys:  s.product_name,
+        status:   Product::Status.find_by(selite: 'A'),
+        tuoteno:  s.manufacturer_part_number
       )
 
-      Product::Supplier.create!(
-        tuoteno:                 s.manufacturer_part_number,
-        tehdas_saldo_paivitetty: Time.now
+      supplier.product_suppliers.create(
+        tehdas_saldo:            s.available_quantity,
+        tehdas_saldo_paivitetty: Time.now,
+        toim_nimitys:            s.product_name,
+        toim_tuoteno:            s.product_id,
+        tuoteno:                 s.manufacturer_part_number
       )
     end
 
