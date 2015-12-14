@@ -45,10 +45,13 @@ class SupplierProductInformationsController < ApplicationController
       )
     end
 
-    return redirect_to supplier_product_informations_url unless duplicates.present?
+    unless duplicates.present?
+      return redirect_to supplier_product_informations_url, notice: t('.success')
+    end
 
     @supplier_product_informations = duplicates
 
+    flash[:notice] = t('.duplicates_found')
     render :index
   end
 

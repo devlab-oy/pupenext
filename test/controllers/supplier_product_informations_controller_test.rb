@@ -92,6 +92,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_includes     Product.pluck(:tunnus), @one.p_product_id
     assert_not_includes Product.pluck(:tunnus), @two.p_product_id
+
+    assert_equal 'Tuotteet siirretty onnistuneesti järjestelmään', flash[:notice]
   end
 
   test 'correct fields are copied to product' do
@@ -149,5 +151,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_select 'td', count: 1, text: 'Tramboline'
     assert_select 'td', count: 0, text: 'Chair'
+
+    assert_equal 'Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua',
+                 flash[:notice]
   end
 end

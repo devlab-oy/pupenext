@@ -664,7 +664,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -690,7 +690,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -1089,6 +1089,9 @@ fi:
   supplier_product_informations:
     supplier_selection:
       choose: Valitse
+    transfer:
+      duplicates_found: Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua
+      success: Tuotteet siirretty onnistuneesti järjestelmään
   support:
     array:
       last_word_connector: " ja "
