@@ -139,4 +139,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
       post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
     end
   end
+
+  test 'duplicates are shown on next page' do
+    @one.update(manufacturer_ean: products(:hammer).eankoodi)
+
+    post :transfer, supplier_product_informations: { "#{@one.id}" => '1', "#{@two.id}" => '1' }
+
+    assert_response :success
+
+    assert_select 'td', count: 1, text: 'Tramboline'
+    assert_select 'td', count: 0, text: 'Chair'
+  end
 end

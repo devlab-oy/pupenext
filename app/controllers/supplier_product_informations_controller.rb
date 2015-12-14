@@ -17,10 +17,16 @@ class SupplierProductInformationsController < ApplicationController
 
     supplier = Supplier.find(session[:supplier])
 
+    duplicates = []
+
     @supplier_product_informations.each do |s|
-      next if Product.where('tuoteno = ? OR eankoodi = ?',
-                            s.manufacturer_part_number,
-                            s.manufacturer_ean).present?
+      duplicate_products = Product.where('tuoteno = ? OR eankoodi = ?',
+                                         s.manufacturer_part_number,
+                                         s.manufacturer_ean)
+      if duplicate_products.present?
+        duplicates << s
+        next
+      end
 
       s.create_product(
         alv:      24,
@@ -39,7 +45,11 @@ class SupplierProductInformationsController < ApplicationController
       )
     end
 
-    redirect_to supplier_product_informations_url
+    return redirect_to supplier_product_informations_url unless duplicates.present?
+
+    @supplier_product_informations = duplicates
+
+    render :index
   end
 
   private
