@@ -558,4 +558,22 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
     end
   end
+
+  test 'should not create rows before commodity activation' do
+
+    fiscal_period = fiscal_years(:two)
+
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_period.id,
+      user_id: @bob.id
+    }
+
+    @commodity.update_column(:activated_at, fiscal_period.tilikausi_alku.advance(months: 3))
+
+    assert @commodity.valid?, @commodity.errors.full_messages
+    assert_difference('FixedAssets::CommodityRow.count', 7) do
+      CommodityRowGenerator.new(params).generate_rows
+    end
+  end
 end
