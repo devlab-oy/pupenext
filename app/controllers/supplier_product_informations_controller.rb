@@ -23,6 +23,11 @@ class SupplierProductInformationsController < ApplicationController
         eankoodi: s.manufacturer_ean,
         status:   Product::Status.find_by(selite: 'A')
       )
+
+      Product::Supplier.create!(
+        tuoteno:                 s.manufacturer_part_number,
+        tehdas_saldo_paivitetty: Time.now
+      )
     end
 
     redirect_to supplier_product_informations_url

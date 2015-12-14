@@ -2,10 +2,11 @@ require 'test_helper'
 
 class SupplierProductInformationsControllerTest < ActionController::TestCase
   fixtures %i(
-    products
-    suppliers
-    supplier_product_informations
     keywords
+    product/suppliers
+    products
+    supplier_product_informations
+    suppliers
   )
 
   setup do
@@ -101,5 +102,14 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal 24.to_d,                       Product.last.alv
     assert_equal @one.manufacturer_ean,         Product.last.eankoodi
     assert_equal keywords(:status_active),      Product.last.status
+  end
+
+  test 'product suppliers are created for transferred products' do
+    assert_difference 'Product::Supplier.count' do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => '1' }
+    end
+
+    assert_includes     Product::Supplier.pluck(:tuoteno), @one.manufacturer_part_number
+    assert_not_includes Product::Supplier.pluck(:tuoteno), @two.manufacturer_part_number
   end
 end
