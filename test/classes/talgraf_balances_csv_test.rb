@@ -158,11 +158,11 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     assert_equal row, report.send(:footer_row)
 
     # make sure we return data in right order
-    assert_equal report.send(:header_row),           report.rows.first
-    assert_equal report.send(:entry_months),         report.rows.second
-    assert_equal report.send(:opening_balance_rows), report.rows[2]
-    assert_equal report.send(:voucher_rows),         report.rows[3]
-    assert_equal report.send(:footer_row),           report.rows.last
+    assert_equal report.send(:header_row),                 report.rows.first
+    assert_equal report.send(:entry_months),               report.rows.second
+    assert_equal report.send(:opening_balance_rows).first, report.rows[2]
+    assert_equal report.send(:voucher_rows).first,         report.rows[3]
+    assert_equal report.send(:footer_row),                 report.rows.last
   end
 
   test 'report output' do

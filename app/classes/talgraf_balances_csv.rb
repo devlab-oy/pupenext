@@ -324,8 +324,8 @@ class TalgrafBalancesCsv::BalanceData
     data = []
     data << header_row
     data << entry_months
-    data << opening_balance_rows
-    data << voucher_rows
+    data += opening_balance_rows
+    data += voucher_rows
     data << footer_row
     data
   end
