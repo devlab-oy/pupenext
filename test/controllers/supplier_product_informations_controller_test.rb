@@ -47,29 +47,29 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   test 'searching with product name works' do
     get :index, product_name: 'ch'
 
-    assert_select 'td', { count: 0, text: 'Tramboline' }
-    assert_select 'td', { count: 1, text: 'Chair' }
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
   end
 
   test 'searching with product id works' do
     get :index, product_id: '2'
 
-    assert_select 'td', { count: 1, text: 'Chair' }
-    assert_select 'td', { count: 0, text: 'Tramboline' }
+    assert_select 'td', count: 1, text: 'Chair'
+    assert_select 'td', count: 0, text: 'Tramboline'
   end
 
   test 'searching with manufacturer part number works' do
     get :index, manufacturer_part_number: '2'
 
-    assert_select 'td', { count: 0, text: 'Tramboline' }
-    assert_select 'td', { count: 1, text: 'Chair' }
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
   end
 
   test 'searching with manufacturer ean works' do
     get :index, manufacturer_ean: '88698592977'
 
-    assert_select 'td', { count: 0, text: 'Tramboline' }
-    assert_select 'td', { count: 1, text: 'Chair' }
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
   end
 
   test 'table containing data is not shown without at least one search criteria submitted' do
@@ -81,8 +81,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   test 'only rows which have the selected supplier are shown' do
     get :index, product_name: 'a'
 
-    assert_select 'td', { count: 1, text: 'Chair' }
-    assert_select 'td', { count: 0, text: 'Tramboline' }
+    assert_select 'td', count: 1, text: 'Chair'
+    assert_select 'td', count: 0, text: 'Tramboline'
   end
 
   test 'selected rows are transferred created as products' do
@@ -119,7 +119,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal @one.manufacturer_part_number, Product::Supplier.last.tuoteno
     assert_equal @one.product_name,             Product::Supplier.last.toim_nimitys
     assert_equal @one.product_id,               Product::Supplier.last.toim_tuoteno
-    assert_equal -1,                            Product::Supplier.last.osto_alv
+    assert_equal(-1,                            Product::Supplier.last.osto_alv)
     assert_equal @one.available_quantity,       Product::Supplier.last.tehdas_saldo
     assert_equal @domestic_supplier,            Product::Supplier.last.supplier
   end
