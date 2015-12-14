@@ -1,4 +1,4 @@
-<%= form_tag nil, method: :get do %>
+<%= form_tag supplier_product_informations_path, method: :get do %>
   <table class="margin-bottom-20 search-fields">
     <tr>
       <th><%= label_tag :product_name, SupplierProductInformation.human_attribute_name(:product_name) %></th>
