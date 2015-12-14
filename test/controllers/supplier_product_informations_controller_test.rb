@@ -155,4 +155,11 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal 'Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua',
                  flash[:notice]
   end
+
+  test 'error is shown if no products are selected for transfer' do
+    post :transfer
+
+    assert_response :success
+    assert_equal 'Et valinnut yhtään riviä', flash[:error]
+  end
 end

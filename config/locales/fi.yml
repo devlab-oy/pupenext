@@ -1091,6 +1091,7 @@ fi:
       choose: Valitse
     transfer:
       duplicates_found: Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua
+      not_selected: Et valinnut yhtään riviä
       success: Tuotteet siirretty onnistuneesti järjestelmään
   support:
     array:

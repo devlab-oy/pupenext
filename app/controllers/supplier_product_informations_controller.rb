@@ -53,6 +53,10 @@ class SupplierProductInformationsController < ApplicationController
 
     flash[:notice] = t('.duplicates_found')
     render :index
+
+  rescue ActionController::ParameterMissing
+    flash[:error] = t('.not_selected')
+    return render :index
   end
 
   private
@@ -73,10 +77,16 @@ class SupplierProductInformationsController < ApplicationController
   def supplier_product_informations_params
     permitted = {}
 
-    params[:supplier_product_informations].keys.each do |tunnus|
-      permitted[tunnus] = '1'
+    new_params = params.require(:supplier_product_informations)
+
+    if new_params[:supplier_product_informations]
+      new_params[:supplier_product_informations].keys.each do |tunnus|
+        permitted[tunnus] = '1'
+      end
+
+      new_params.permit(permitted)
     end
 
-    params.require(:supplier_product_informations).permit(permitted)
+    new_params
   end
 end
