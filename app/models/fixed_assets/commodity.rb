@@ -243,7 +243,7 @@ class FixedAssets::Commodity < BaseModel
 
     def activation_only_on_open_period
       unless company.date_in_open_period?(activated_at)
-        errors.add(:base, "Activation date must be within current editable fiscal year")
+        errors.add(:base, "Activation date must be within current editable fiscal period")
       end
     end
 
