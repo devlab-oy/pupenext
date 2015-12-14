@@ -55,8 +55,7 @@ class SupplierProductInformationsController < ApplicationController
     render :index
 
   rescue ActionController::ParameterMissing
-    flash[:error] = t('.not_selected')
-    return render :index
+    redirect_to supplier_product_informations_url(search_params), alert: t('.not_selected')
   end
 
   private

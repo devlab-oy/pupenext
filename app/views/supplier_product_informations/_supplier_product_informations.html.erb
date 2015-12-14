@@ -1,4 +1,9 @@
 <%= form_tag transfer_supplier_product_informations_path do %>
+  <%= hidden_field_tag :product_name,             params[:product_name] %>
+  <%= hidden_field_tag :product_id,               params[:product_id] %>
+  <%= hidden_field_tag :manufacturer_part_number, params[:manufacturer_part_number] %>
+  <%= hidden_field_tag :manufacturer_ean,         params[:manufacturer_ean] %>
+
   <table class="supplier_product_informations margin-bottom-20">
     <thead>
     <tr>

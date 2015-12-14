@@ -156,10 +156,10 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
                  flash[:notice]
   end
 
-  test 'error is shown if no products are selected for transfer' do
-    post :transfer
+  test 'error is shown if no products are selected for transfer and search is preserved' do
+    post :transfer, product_name: 'ch'
 
-    assert_response :success
-    assert_equal 'Et valinnut yhtään riviä', flash[:error]
+    assert_redirected_to supplier_product_informations_url(product_name: 'ch')
+    assert_equal 'Et valinnut yhtään riviä', flash[:alert]
   end
 end
