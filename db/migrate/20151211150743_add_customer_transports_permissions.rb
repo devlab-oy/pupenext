@@ -1,3 +1,6 @@
+require File.expand_path('test/permission_helper')
+include PermissionHelper
+
 class AddCustomerTransportsPermissions < ActiveRecord::Migration
   def up
     PermissionHelper.add_item(
