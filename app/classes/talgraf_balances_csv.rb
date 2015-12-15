@@ -1,13 +1,15 @@
 require 'csv'
 
 class TalgrafBalancesCsv
-  def initialize(company_id:)
+  def initialize(company_id:, column_separator: ',')
     @company = ::Company.find company_id
     Current.company = @company
+
+    @options = { col_sep: column_separator }
   end
 
   def csv_data
-    CSV.generate do |csv|
+    CSV.generate(@options) do |csv|
       data.map { |row| csv << row }
     end
   end
@@ -351,6 +353,10 @@ class TalgrafBalancesCsv::BalanceData
       tapvm = [company.previous_fiscal_year.first, company.current_fiscal_year.first]
 
       company.voucher_rows.includes(:voucher).where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
+
+        row.selite.gsub! "\r", "" if row.selite
+        row.selite.gsub! "\n", "" if row.selite
+
         [
           'ei',
           row.tapvm,
@@ -369,6 +375,10 @@ class TalgrafBalancesCsv::BalanceData
       tapvm = company.previous_fiscal_year.first
 
       company.voucher_rows.includes(:voucher).where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: :A }).order(:tapvm).map do |row|
+
+        row.selite.gsub! "\r", "" if row.selite
+        row.selite.gsub! "\n", "" if row.selite
+
         [
           'e',
           row.tapvm,

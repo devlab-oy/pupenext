@@ -166,6 +166,16 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'report output' do
+    report = TalgrafBalancesCsv.new(company_id: @company.id, column_separator: '|')
+    output = "info|Balances 2015\n"
+    assert report.csv_data.lines.include? output
+    assert File.open(report.to_file, "rb").read.include? output
+
+    report = TalgrafBalancesCsv.new(company_id: @company.id, column_separator: ';')
+    output = "info;Balances 2015\n"
+    assert report.csv_data.lines.include? output
+    assert File.open(report.to_file, "rb").read.include? output
+
     report = TalgrafBalancesCsv.new(company_id: @company.id)
 
     # should find info row from header section
