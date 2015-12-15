@@ -33,8 +33,8 @@ one:
   bid_price_id: 1
   url_to_product: MyString
   product: hammer
-  p_price_update: 1
-  p_qty_update: 1
+  p_price_update: 0
+  p_qty_update: 0
   p_added_date: 2015-12-02 16:16:53
   p_last_update_date: 2015-12-02 16:16:53
   p_nakyvyys: MyString
@@ -74,8 +74,8 @@ two:
   vat_rate: 9.99
   bid_price_id: 1
   url_to_product: MyString
-  p_price_update: 1
-  p_qty_update: 1
+  p_price_update: 0
+  p_qty_update: 0
   p_added_date: 2015-12-02 16:16:53
   p_last_update_date: 2015-12-02 16:16:53
   p_nakyvyys: MyString
