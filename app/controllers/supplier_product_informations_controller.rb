@@ -13,7 +13,9 @@ class SupplierProductInformationsController < ApplicationController
   end
 
   def transfer
-    @supplier_product_informations = SupplierProductInformation.find(supplier_product_informations_params.keys)
+    to_transfer = supplier_product_informations_params.select { |_k, v| v[:transfer] == '1' }
+
+    @supplier_product_informations = SupplierProductInformation.find(to_transfer.keys)
 
     supplier = Supplier.find(session[:supplier])
 
