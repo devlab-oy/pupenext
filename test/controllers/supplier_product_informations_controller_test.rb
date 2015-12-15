@@ -87,7 +87,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'selected rows are transferred created as products' do
     assert_difference 'Product.count' do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'} }
+      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
     end
 
     assert_includes     Product.pluck(:tunnus), @one.p_product_id
@@ -98,7 +98,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'correct fields are copied to product' do
     params = {
-      "#{@one.id}" => {'transfer' => '1'},
+      "#{@one.id}" => { transfer: 1 },
     }
 
     post :transfer, supplier_product_informations: params
@@ -112,7 +112,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'product suppliers are created for transferred products' do
     assert_difference 'Product::Supplier.count' do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'} }
+      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
     end
 
     assert_includes     Product::Supplier.pluck(:tuoteno), @one.manufacturer_part_number
@@ -120,7 +120,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'correct fields are copied to product supplier' do
-    post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'} }
+    post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
 
     assert_equal @one.manufacturer_part_number, Product::Supplier.last.tuoteno
     assert_equal @one.product_name,             Product::Supplier.last.toim_nimitys
@@ -133,23 +133,24 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   test 'nothing is copied when a product with the same tuoteno exists' do
     @one.update(manufacturer_part_number: products(:hammer).tuoteno)
 
-    assert_no_difference ['Product.count', 'Product::Supplier.count'] do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'} }
+    assert_no_difference %w(Product.count Product::Supplier.count) do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
     end
   end
 
   test 'nothing is copied when a product with the same ean exists' do
     @one.update(manufacturer_ean: products(:hammer).eankoodi)
 
-    assert_no_difference ['Product.count', 'Product::Supplier.count'] do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'} }
+    assert_no_difference %w(Product.count Product::Supplier.count) do
+      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
     end
   end
 
   test 'duplicates are shown on next page' do
     @one.update(manufacturer_ean: products(:hammer).eankoodi)
 
-    post :transfer, supplier_product_informations: { "#{@one.id}" => {'transfer' => '1'}, "#{@two.id}" => {'transfer' => '1'} }
+    post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 },
+                                                     "#{@two.id}" => { transfer: 1 } }
 
     assert_response :success
 
