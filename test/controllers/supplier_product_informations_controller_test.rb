@@ -196,4 +196,10 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_redirected_to supplier_product_informations_url(product_name: 'ch')
     assert_equal 'Et valinnut yhtään riviä', flash[:alert]
   end
+
+  test 'doesnt crash if extra attributes are not specified' do
+    post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+
+    assert_redirected_to supplier_product_informations_url
+  end
 end

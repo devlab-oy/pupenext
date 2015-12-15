@@ -35,17 +35,20 @@ class SupplierProductInformationsController < ApplicationController
       s.update(p_price_update: extra_attributes[:toimittajan_ostohinta],
                p_qty_update: extra_attributes[:toimittajan_saldo])
 
-      s.create_product(
+      product_params = {
         alv:         24,
-        brand:       Product::Brand.find(extra_attributes[:tuotemerkki]),
-        category:    Product::Category.find(extra_attributes[:osasto]),
         eankoodi:    s.manufacturer_ean,
-        nakyvyys:    extra_attributes[:nakyvyys],
         nimitys:     s.product_name,
-        status:      Product::Status.find(extra_attributes[:status]),
-        subcategory: Product::Subcategory.find(extra_attributes[:try]),
         tuoteno:     s.manufacturer_part_number
-      )
+      }
+
+      product_params[:brand]       = Product::Brand.find(extra_attributes[:tuotemerkki]) if extra_attributes[:tuotemerkki]
+      product_params[:category]    = Product::Category.find(extra_attributes[:osasto])   if extra_attributes[:osasto]
+      product_params[:nakyvyys]    = extra_attributes[:nakyvyys]                         if extra_attributes[:nakyvyys]
+      product_params[:status]      = Product::Status.find(extra_attributes[:status])     if extra_attributes[:status]
+      product_params[:subcategory] = Product::Subcategory.find(extra_attributes[:try])   if extra_attributes[:try]
+
+      s.create_product(product_params)
 
       supplier.product_suppliers.create(
         tehdas_saldo:            s.available_quantity,
