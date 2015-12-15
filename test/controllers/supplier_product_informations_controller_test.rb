@@ -24,6 +24,19 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     @status_active = keywords(:status_active)
 
     session[:supplier] = @domestic_supplier.id
+
+    @params = {
+      supplier_product_informations: {
+        "#{@one.id}" => {
+          transfer:    1,
+          osasto:      @category_tools.id,
+          try:         @subcategory_tools.id,
+          tuotemerkki: @brand_tools.id,
+          nakyvyys:    'Y',
+          status:      @status_active.id
+        }
+      }
+    }
   end
 
   test 'supplier has to be selected first' do
@@ -93,7 +106,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'selected rows are transferred created as products' do
     assert_difference 'Product.count' do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+      post :transfer, @params
     end
 
     assert_includes     Product.pluck(:tunnus), @one.p_product_id
@@ -103,18 +116,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'correct fields are copied to product' do
-    params = {
-      "#{@one.id}" => {
-        transfer:    1,
-        osasto:      @category_tools.id,
-        try:         @subcategory_tools.id,
-        tuotemerkki: @brand_tools.id,
-        nakyvyys:    'Y',
-        status:      @status_active.id
-      },
-    }
-
-    post :transfer, supplier_product_informations: params
+    post :transfer, @params
 
     assert_equal @one.manufacturer_part_number, Product.last.tuoteno
     assert_equal @one.product_name,             Product.last.nimitys
@@ -129,7 +131,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'product suppliers are created for transferred products' do
     assert_difference 'Product::Supplier.count' do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+      post :transfer, @params
     end
 
     assert_includes     Product::Supplier.pluck(:tuoteno), @one.manufacturer_part_number
@@ -137,7 +139,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'correct fields are copied to product supplier' do
-    post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+    post :transfer, @params
 
     assert_equal @one.manufacturer_part_number, Product::Supplier.last.tuoteno
     assert_equal @one.product_name,             Product::Supplier.last.toim_nimitys
@@ -151,7 +153,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     @one.update(manufacturer_part_number: products(:hammer).tuoteno)
 
     assert_no_difference %w(Product.count Product::Supplier.count) do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+      post :transfer, @params
     end
   end
 
@@ -159,15 +161,16 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     @one.update(manufacturer_ean: products(:hammer).eankoodi)
 
     assert_no_difference %w(Product.count Product::Supplier.count) do
-      post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 } }
+      post :transfer, @params
     end
   end
 
   test 'duplicates are shown on next page' do
     @one.update(manufacturer_ean: products(:hammer).eankoodi)
 
-    post :transfer, supplier_product_informations: { "#{@one.id}" => { transfer: 1 },
-                                                     "#{@two.id}" => { transfer: 1 } }
+    params = @params.merge("#{@two.id}" => { transfer: 1 })
+
+    post :transfer, params
 
     assert_response :success
 
