@@ -52,16 +52,21 @@ class SupplierProductInformationsController < ApplicationController
   def supplier_product_informations_params
     permitted = {}
 
-    new_params = params.require(:supplier_product_informations)
+    params.require(:supplier_product_informations).permit
 
-    if new_params[:supplier_product_informations]
-      new_params[:supplier_product_informations].keys.each do |tunnus|
-        permitted[tunnus] = '1'
-      end
-
-      new_params.permit(permitted)
+    params[:supplier_product_informations].keys.each do |tunnus|
+      permitted[tunnus] = %i(
+        nakyvyys
+        osasto
+        status
+        toimittajan_ostohinta
+        toimittajan_saldo
+        transfer
+        try
+        tuotemerkki
+      )
     end
 
-    new_params
+    params.require(:supplier_product_informations).permit(permitted)
   end
 end
