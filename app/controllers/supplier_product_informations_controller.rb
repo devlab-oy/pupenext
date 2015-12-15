@@ -32,6 +32,9 @@ class SupplierProductInformationsController < ApplicationController
 
       extra_attributes = to_transfer[s.id.to_s]
 
+      s.update(p_price_update: extra_attributes[:toimittajan_ostohinta],
+               p_qty_update: extra_attributes[:toimittajan_saldo])
+
       s.create_product(
         alv:         24,
         brand:       Product::Brand.find(extra_attributes[:tuotemerkki]),

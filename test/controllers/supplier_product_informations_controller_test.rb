@@ -115,6 +115,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal 'Tuotteet siirretty onnistuneesti järjestelmään', flash[:notice]
   end
 
+  test 'correct fields are updated' do
+    @params[:supplier_product_informations]["#{@one.id}"][:toimittajan_ostohinta] = '1'
+    @params[:supplier_product_informations]["#{@one.id}"][:toimittajan_saldo]     = '1'
+    post :transfer, @params
+
+    assert_equal 1, @one.reload.p_price_update
+    assert_equal 1, @one.reload.p_qty_update
+  end
+
   test 'correct fields are copied to product' do
     post :transfer, @params
 
