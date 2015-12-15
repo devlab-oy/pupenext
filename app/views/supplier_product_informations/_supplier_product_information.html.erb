@@ -1,6 +1,7 @@
+<tbody>
 <tr>
   <td>
-    <%= check_box_tag "supplier_product_informations[#{s.id}]" %>
+    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]", "1", false, class: :transfer %>
   </td>
   <td><%= s.product_id %></td>
   <td><%= s.manufacturer_ean %></td>
@@ -10,3 +11,42 @@
   <td><%= s.net_price %></td>
   <td><%= s.available_quantity %></td>
 </tr>
+
+<tr class="hidden extra-attributes">
+  <th colspan="2"><%= Product::Category.model_name.human %></th>
+  <th><%= Product::Subcategory.model_name.human %></th>
+  <th><%= Product::Brand.model_name.human %></th>
+  <th><%= Product.human_attribute_name(:nakyvyys) %></th>
+  <th><%= Product::Status.model_name.human %></th>
+  <th><%= SupplierProductInformation.human_attribute_name(:net_price) %></th>
+  <th><%= SupplierProductInformation.human_attribute_name(:available_quantity) %></th>
+</tr>
+
+<tr class="hidden extra-attributes">
+  <td colspan="2">
+    <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
+                   options_from_collection_for_select(Product::Category.all, :tunnus, :selitetark)) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][try]",
+                   options_from_collection_for_select(Product::Subcategory.all, :tunnus, :selitetark)) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][tuotemerkki]",
+                   options_from_collection_for_select(Product::Brand.all, :tunnus, :selitetark)) %>
+  </td>
+  <td>
+    <%= text_field_tag("supplier_product_informations[#{s.id}][nakyvyys]") %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][status]",
+                   options_from_collection_for_select(Product::Status.all, :tunnus, :selitetark)) %>
+  </td>
+  <td>
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_ostohinta]") %>
+  </td>
+  <td>
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]") %>
+  </td>
+</tr>
+</tbody>
