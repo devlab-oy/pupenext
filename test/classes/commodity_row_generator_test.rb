@@ -559,7 +559,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     end
   end
 
-  test 'should not create rows before commodity activation' do
+  test 'should not create rows before commodity activation date' do
 
     fiscal_period = fiscal_years(:two)
 
@@ -573,6 +573,14 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     assert @commodity.valid?, @commodity.errors.full_messages
     assert_difference('FixedAssets::CommodityRow.count', 7) do
+      CommodityRowGenerator.new(params).generate_rows
+    end
+
+    @commodity.update_column(:activated_at, fiscal_period.tilikausi_loppu.advance(months: 3))
+    assert @commodity.valid?, @commodity.errors.full_messages
+
+    # Fails when commodity activated after depreciation_end_date
+    assert_raises('ArgumentError') do
       CommodityRowGenerator.new(params).generate_rows
     end
   end

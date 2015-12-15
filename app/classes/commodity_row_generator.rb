@@ -19,6 +19,7 @@ class CommodityRowGenerator
     raise ArgumentError unless commodity.valid?
     raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
     raise ArgumentError unless company.date_in_open_period?(fiscal_end)
+    raise ArgumentError unless confirm_calculation_dates
   end
 
   def generate_rows
@@ -151,6 +152,15 @@ class CommodityRowGenerator
 
     def depreciation_start_date
       fiscal_period.cover?(activation_date) ? activation_date : fiscal_start
+    end
+
+    def confirm_calculation_dates
+      check = true
+      if fiscal_start < activation_date
+        check &= fiscal_period.cover?(activation_date)
+      end
+      check &= fiscal_end > activation_date
+      check
     end
 
     def fiscal_period
