@@ -30,12 +30,18 @@ class SupplierProductInformationsController < ApplicationController
         next
       end
 
+      extra_attributes = to_transfer[s.id.to_s]
+
       s.create_product(
-        alv:      24,
-        eankoodi: s.manufacturer_ean,
-        nimitys:  s.product_name,
-        status:   Product::Status.find_by(selite: 'A'),
-        tuoteno:  s.manufacturer_part_number
+        alv:         24,
+        brand:       Product::Brand.find(extra_attributes[:tuotemerkki]),
+        category:    Product::Category.find(extra_attributes[:osasto]),
+        eankoodi:    s.manufacturer_ean,
+        nakyvyys:    extra_attributes[:nakyvyys],
+        nimitys:     s.product_name,
+        status:      Product::Status.find(extra_attributes[:status]),
+        subcategory: Product::Subcategory.find(extra_attributes[:try]),
+        tuoteno:     s.manufacturer_part_number
       )
 
       supplier.product_suppliers.create(

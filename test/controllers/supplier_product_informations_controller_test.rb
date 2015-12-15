@@ -17,6 +17,12 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     @domestic_supplier = suppliers(:domestic_supplier)
 
+    @category_tools    = keywords(:category_tools)
+    @subcategory_tools = keywords(:subcategory_tools)
+    @brand_tools       = keywords(:brand_tools)
+
+    @status_active = keywords(:status_active)
+
     session[:supplier] = @domestic_supplier.id
   end
 
@@ -98,7 +104,14 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'correct fields are copied to product' do
     params = {
-      "#{@one.id}" => { transfer: 1 },
+      "#{@one.id}" => {
+        transfer:    1,
+        osasto:      @category_tools.id,
+        try:         @subcategory_tools.id,
+        tuotemerkki: @brand_tools.id,
+        nakyvyys:    'Y',
+        status:      @status_active.id
+      },
     }
 
     post :transfer, supplier_product_informations: params
@@ -107,7 +120,11 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal @one.product_name,             Product.last.nimitys
     assert_equal 24.to_d,                       Product.last.alv
     assert_equal @one.manufacturer_ean,         Product.last.eankoodi
-    assert_equal keywords(:status_active),      Product.last.status
+    assert_equal @status_active,                Product.last.status
+    assert_equal @category_tools,               Product.last.category
+    assert_equal @subcategory_tools,            Product.last.subcategory
+    assert_equal @brand_tools,                  Product.last.brand
+    assert_equal 'Y',                           Product.last.nakyvyys
   end
 
   test 'product suppliers are created for transferred products' do
