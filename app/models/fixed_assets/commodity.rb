@@ -49,6 +49,10 @@ class FixedAssets::Commodity < BaseModel
     ]
   end
 
+  def previous_btl_depreciations=(value)
+    write_attribute(:previous_btl_depreciations, value.to_d.abs * -1.0)
+  end
+
   def allows_unlinking?
     !activated? || procurement_rows.count > 1
   end
@@ -160,8 +164,6 @@ class FixedAssets::Commodity < BaseModel
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    #start_date = activated_at ||
-    #range = start_date..end_date
     calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.0
     if deactivated?
       calculation = amount
@@ -171,6 +173,16 @@ class FixedAssets::Commodity < BaseModel
       amount - calculation
     else
       amount + calculation
+    end
+  end
+
+  # EVL arvo annettuna ajankohtana, amount(+) + previous_depreciations(-) + evl poistorivit(-)
+  def btl_value(end_date = company.current_fiscal_year.last)
+    combined_history_amount = previous_btl_depreciations + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
+    if combined_history_amount == 0
+      combined_history_amount.to_d
+    else
+      amount + combined_history_amount
     end
   end
 
