@@ -140,7 +140,8 @@ class FixedAssets::CommoditiesController < AdministrationController
         :btl_depreciation_amount,
         :cost_centre,
         :target,
-        :project
+        :project,
+        :previous_btl_depreciations
       )
     end
 
