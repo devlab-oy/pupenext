@@ -17,7 +17,7 @@ class StockListingEanCsvTest < ActiveSupport::TestCase
   # This report is inherited from StockListingCsv, so most of the tests are there
   test 'report output difference' do
     report = StockListingEanCsv.new company_id: @company.id
-    output = "EANSKI1,Combosukset,0.0"
+    output = "EANSKI1,Combosukset,0"
     assert_equal output, report.csv_data.lines.first.chomp
 
     ean_count = @company.products.active.where.not(eankoodi: '').count
