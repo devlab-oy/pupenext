@@ -210,6 +210,22 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.bookkeeping_value
   end
 
+  test 'current btl value works with or without history amount' do
+    # EVL arvo tilikauden lopussa
+    @commodity.status = 'A'
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    assert_equal 6000.0, @commodity.btl_value
+
+    # Toisesta järjestelmästä perityt poistot
+    @commodity.previous_btl_depreciations = 5000.0
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+
+    assert_equal 3000.0, @commodity.btl_value
+  end
+
   test 'cant be sold with invalid params' do
     validparams = {
       amount_sold: 9800,
