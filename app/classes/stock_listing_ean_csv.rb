@@ -18,7 +18,7 @@ class StockListingEanCsv < StockListingCsv
   private
 
     def data
-      @data ||= company.products.active.where.not(eankoodi: '').find_each.map do |product|
+      @data ||= company.products.inventory_management.active.where.not(eankoodi: '').find_each.map do |product|
         row = ProductRow.new product
 
         [

@@ -31,7 +31,7 @@ class StockListingCsv
     end
 
     def data
-      @data ||= company.products.active.find_each.map do |product|
+      @data ||= company.products.inventory_management.active.find_each.map do |product|
         row = ProductRow.new product
 
         [
