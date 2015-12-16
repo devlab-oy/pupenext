@@ -996,7 +996,6 @@ fi:
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
-        loading: Ladataan...
         product_filter: Tuoterajaus
         product_image: Tuotekuva
         target_type: Kohdetyyppi
