@@ -2,7 +2,18 @@ require 'csv'
 
 class StockListingEanCsv < StockListingCsv
   # This is the EAN version of StockListingCsv
-  # Only difference is the product query and output of the data method
+  # Difference is the product query and output of the data method
+  # and the output filename should not be unique
+
+  def to_file
+    filename = "#{Dir.tmpdir}/Varastotilanne #{Date.today.strftime('%d.%m.%Y')}.csv"
+
+    CSV.open(filename, "wb", @options) do |csv|
+      data.map { |row| csv << row }
+    end
+
+    filename
+  end
 
   private
 

@@ -23,4 +23,19 @@ class StockListingEanCsvTest < ActiveSupport::TestCase
     ean_count = @company.products.active.where.not(eankoodi: '').count
     assert_equal ean_count, report.csv_data.lines.count
   end
+
+  test 'saving report to file with special name' do
+    report = StockListingEanCsv.new(company_id: @company.id)
+    filename = report.to_file
+
+    # we need to have special filename (NOT UNIQUE BY CUSTOMER REQUEST)
+    name = "Varastotilanne #{Date.today.strftime('%d.%m.%Y')}.csv"
+    assert_equal name, File.basename(filename)
+
+    # test we can make a file, and the content is same as csv data
+    assert File.exists? filename
+    assert_equal report.csv_data, File.open(filename, "rb").read
+
+    File.delete filename
+  end
 end
