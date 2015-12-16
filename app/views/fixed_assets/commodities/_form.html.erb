@@ -23,6 +23,20 @@
       <td><%= @commodity.bookkeeping_value %></td>
     </tr>
     <tr>
+      <th><%= t('.btl_value') %></th>
+      <td><%= @commodity.btl_value %></td>
+    </tr>
+    <tr>
+      <th><%= t('.previous_btl_depreciations') %></th>
+      <td>
+        <% if @commodity.activated? %>
+          <%= @commodity.previous_btl_depreciations %>
+        <% else %>
+          <%= f.number_field :previous_btl_depreciations, step: :any %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
       <th><%= t('.cost_centre') %></th>
       <td><%= @commodity.procurement_cost_centres %></td>
     </tr>
