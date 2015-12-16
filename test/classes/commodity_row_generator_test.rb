@@ -66,6 +66,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     result = @generator.degressive_by_percentage(reduct, fiscalyearly_percentage, 3500)
     assert_equal 6, result.count
     assert_equal 2275, result.sum
+
+    # Test EVL-side rounding with more complex amounts
+    reduct = 1837453.67
+    fiscalyearly_percentage = 4.0
+
+    result = @generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
+    assert_equal result.sum, (reduct * fiscalyearly_percentage / 100).round(2).to_d
   end
 
   test 'should calculate with fixed by month' do
@@ -205,12 +212,12 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal @commodity.fixed_assets_rows.sum(:summa), -10000 * 20 / 100
-    assert_equal @commodity.fixed_assets_rows.first.summa, -333.0
-    assert_equal @commodity.fixed_assets_rows.second.summa, -322.0
-    assert_equal @commodity.fixed_assets_rows.third.summa, -311.0
-    assert_equal @commodity.fixed_assets_rows.fourth.summa, -301.0
-    assert_equal @commodity.fixed_assets_rows.fifth.summa, -291.0
-    assert_equal @commodity.fixed_assets_rows.last.summa, -442.0
+    assert_equal @commodity.fixed_assets_rows.first.summa, -333.33
+    assert_equal @commodity.fixed_assets_rows.second.summa, -322.22
+    assert_equal @commodity.fixed_assets_rows.third.summa, -311.48
+    assert_equal @commodity.fixed_assets_rows.fourth.summa, -301.1
+    assert_equal @commodity.fixed_assets_rows.fifth.summa, -291.06
+    assert_equal @commodity.fixed_assets_rows.last.summa, -440.81
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -365,12 +372,12 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
     assert_equal @commodity.commodity_rows.sum(:amount), -10000 * 20 / 100
-    assert_equal @commodity.commodity_rows.first.amount, -333.0
-    assert_equal @commodity.commodity_rows.second.amount, -322.0
-    assert_equal @commodity.commodity_rows.third.amount, -311.0
-    assert_equal @commodity.commodity_rows.fourth.amount, -301.0
-    assert_equal @commodity.commodity_rows.fifth.amount, -291.0
-    assert_equal @commodity.commodity_rows.last.amount, -442.0
+    assert_equal @commodity.commodity_rows.first.amount, -333.33
+    assert_equal @commodity.commodity_rows.second.amount, -322.22
+    assert_equal @commodity.commodity_rows.third.amount, -311.48
+    assert_equal @commodity.commodity_rows.fourth.amount, -301.1
+    assert_equal @commodity.commodity_rows.fifth.amount, -291.06
+    assert_equal @commodity.commodity_rows.last.amount, -440.81
 
     @commodity.reload
 

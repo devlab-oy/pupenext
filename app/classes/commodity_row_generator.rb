@@ -64,7 +64,7 @@ class CommodityRowGenerator
     fiscal_year_depreciations = []
     first_depreciation = full_amount * fiscal_percentage / payment_count
 
-    fiscal_year_depreciations << first_depreciation.to_i
+    fiscal_year_depreciations << first_depreciation.round(2)
 
     fiscalreduction = full_amount * fiscal_percentage
     keep_running = true
@@ -76,7 +76,7 @@ class CommodityRowGenerator
         injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
-      injecthis = injecthis.to_i
+      injecthis = injecthis.round(2)
 
       fiscal_year_depreciations << injecthis unless injecthis.zero?
     end
