@@ -133,3 +133,9 @@ status_active:
   selitetark: Aktiivi
   laji: S
   <<: *DEFAULTS
+
+lahetetyyppi:
+  yhtio: acme
+  laji: LAHETETYYPPI
+  selite: tulosta_lahete_eiale_eihinta.inc
+  <<: *DEFAULTS
