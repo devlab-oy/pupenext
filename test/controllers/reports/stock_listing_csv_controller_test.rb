@@ -29,7 +29,7 @@ class Reports::StockListingCsvControllerTest < ActionController::TestCase
       company_id: @bob.company.id,
       report_class: "StockListingEanCsv",
       report_params: { company_id: @bob.company.id, column_separator: ";" },
-      report_name: "Varastosaldot CSV"
+      report_name: "Varastosaldot EAN CSV"
     }]
 
     assert_enqueued_with(job: ReportJob, args: job_args) do
