@@ -102,6 +102,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     generator.generate_rows
     assert_equal -68530.96.to_d, @commodity.commodity_rows.sum(:amount)
     assert_equal 96708.0, @commodity.depreciation_rows.sum(:summa)
+    assert_equal -28177.04, @commodity.depreciation_difference_rows.sum(:summa)
   end
 
   test 'should calculate with fixed by month' do
