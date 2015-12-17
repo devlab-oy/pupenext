@@ -55,20 +55,20 @@ class Customer < BaseModel
   private
 
     def defaults
-      self.kieli ||= 'fi'
-      self.chn ||= '100'
-      self.alv ||= company.keywords.where(laji: :alv).where.not(selitetark: '').first
-      self.toimitustapa ||= company.delivery_methods.first
-      self.kauppatapahtuman_luonne ||= company.keywords.where(laji: :kt).first
-      self.lahetetyyppi ||= company.keywords.where(laji: :lahetetyyppi).first
-      self.maa ||= 'fi'
-      self.kansalaisuus ||= maa
-      self.toim_maa ||= maa
-      self.kolm_maa ||= maa
-      self.laskutus_maa ||= maa
-      self.valkoodi ||= company.currencies.first.try(:nimi)
-      self.maksuehto ||= company.terms_of_payments.first
-      self.laskutyyppi ||= -9
+      self.kieli = 'fi' if kieli.blank?
+      self.chn = '100' if chn.blank?
+      self.alv = company.keywords.where(laji: :alv).where.not(selitetark: '').first if alv.blank?
+      self.toimitustapa = company.delivery_methods.first if toimitustapa.blank?
+      self.kauppatapahtuman_luonne = company.keywords.where(laji: :kt).first if kauppatapahtuman_luonne.blank?
+      self.lahetetyyppi = company.keywords.where(laji: :lahetetyyppi).first if lahetetyyppi.blank?
+      self.maa = 'fi' if maa.blank?
+      self.kansalaisuus = maa if kansalaisuus.blank?
+      self.toim_maa = maa if toim_maa.blank?
+      self.kolm_maa = maa if kolm_maa.blank?
+      self.laskutus_maa = maa if laskutus_maa.blank?
+      self.valkoodi = company.currencies.first.try(:nimi) if valkoodi.blank?
+      self.maksuehto = company.terms_of_payments.first if maksuehto.blank?
+      self.laskutyyppi = -9 if laskutyyppi.blank?
     end
 
     def validate_chn
