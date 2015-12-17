@@ -12,12 +12,12 @@ class Customer < BaseModel
   has_many :sales_details, foreign_key: :liitostunnus, class_name: 'SalesOrder::Detail'
   has_many :transports, as: :transportable
 
-  validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
   validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
-  validates :nimi, presence: true
   validates :maa, inclusion: { in: Country.pluck(:koodi) }
-  validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }
+  validates :nimi, presence: true
   validates :osasto, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasosasto).pluck(:selite) } }
+  validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }
+  validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
 
   validate :validate_chn
 
@@ -36,19 +36,19 @@ class Customer < BaseModel
   # Limit the json data for API request
   def as_json(options = {})
     {
-      tunnus:     tunnus,
-      ytunnus:    ytunnus,
       asiakasnro: asiakasnro,
+      email:      email,
+      kieli:      kieli,
+      maa:        maa,
       nimi:       nimi,
       nimitark:   nimitark,
       osoite:     osoite,
       postino:    postino,
       postitp:    postitp,
-      maa:        maa,
-      toim_maa:   toim_maa,
-      email:      email,
       puhelin:    puhelin,
-      kieli:      kieli
+      toim_maa:   toim_maa,
+      tunnus:     tunnus,
+      ytunnus:    ytunnus,
     }
   end
 
