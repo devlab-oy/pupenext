@@ -11,8 +11,13 @@ class Customer < BaseModel
   has_many :sales_details, foreign_key: :liitostunnus, class_name: 'SalesOrder::Detail'
   has_many :transports, as: :transportable
 
-  validates :asiakasnro, presence: true, uniqueness: true
-  validate :validate_chn, on: [:create, :update]
+  validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
+  validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
+  validates :maa, inclusion: { in: Country.pluck(:koodi) }
+
+  validate :validate_chn
+
+  before_validation :defaults
 
   default_scope { where.not(laji: %w(P R)) }
 
@@ -27,27 +32,36 @@ class Customer < BaseModel
   # Limit the json data for API request
   def as_json(options = {})
     {
-      tunnus:     self.tunnus,
-      ytunnus:    self.ytunnus,
-      asiakasnro: self.asiakasnro,
-      nimi:       self.nimi,
-      nimitark:   self.nimitark,
-      osoite:     self.osoite,
-      postino:    self.postino,
-      postitp:    self.postitp,
-      maa:        self.maa,
-      toim_maa:   self.toim_maa,
-      email:      self.email,
-      puhelin:    self.puhelin,
-      kieli:      self.kieli,
-      chn:        self.chn
+      tunnus:     tunnus,
+      ytunnus:    ytunnus,
+      asiakasnro: asiakasnro,
+      nimi:       nimi,
+      nimitark:   nimitark,
+      osoite:     osoite,
+      postino:    postino,
+      postitp:    postitp,
+      maa:        maa,
+      toim_maa:   toim_maa,
+      email:      email,
+      puhelin:    puhelin,
+      kieli:      kieli,
+      chn:        chn
     }
   end
 
   private
 
+    def defaults
+      self.kieli ||= 'fi'
+      self.chn ||= '100'
+      self.alv ||= company.keywords.where(laji: :alv).where.not(selitetark: '').first
+      self.toimitustapa ||= company.delivery_methods.first
+      self.kauppatapahtuman_luonne ||= company.keywords.where(laji: :kt).first
+      self.lahetetyyppi ||= company.keywords.where(laji: :lahetetyyppi).first
+    end
+
     def validate_chn
-      if chn == '666' && email.empty? &&
+      if chn == '666' && email.blank?
         errors.add(:chn, 'Olet valinnut laskutustavaksi sähköpostin ja lasku_email on tyhjä! Laskutus ei onnistu')
       end
     end

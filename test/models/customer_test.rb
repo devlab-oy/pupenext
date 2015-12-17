@@ -9,6 +9,7 @@ class CustomerTest < ActiveSupport::TestCase
     products
     sales_order/details
     transports
+    countries
   )
 
   setup do
@@ -41,4 +42,21 @@ class CustomerTest < ActiveSupport::TestCase
 
     refute @one.contract_price?(@ski)
   end
+
+  test 'validate chn' do
+    @one.chn = '666'
+    @one.email = nil
+    refute @one.valid?
+
+    @one.email = ""
+    refute @one.valid?
+
+    @one.email = 'testi@example.com'
+    assert @one.valid?
+
+    @one.chn = '441'
+    @one.email = nil
+    assert @one.valid?
+  end
+
 end
