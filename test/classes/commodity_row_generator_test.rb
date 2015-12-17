@@ -73,6 +73,35 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     result = @generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal result.sum, (reduct * fiscalyearly_percentage / 100).round(2).to_d
+
+    # Test incl. history amount
+    @commodity.procurement_rows.first.summa = 1837453.67
+    @commodity.procurement_rows.first.save!
+
+    commodity_amount = 1837453.67
+    head_voucher_rows(:six).summa = commodity_amount
+    head_voucher_rows(:six).save!
+
+    history_amount = 1713273.96
+    commodity_params = {
+      activated_at: '2015-01-01',
+      previous_btl_depreciations: history_amount,
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 228.0,
+      btl_depreciation_type: 'B',
+      btl_depreciation_amount: 4.0,
+    }
+
+    @commodity.attributes = commodity_params
+    @commodity.save!
+    @commodity = @commodity.reload
+
+    assert_equal commodity_amount.to_d, @commodity.amount
+
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    generator.generate_rows
+    assert_equal -68530.96.to_d, @commodity.commodity_rows.sum(:amount)
+    assert_equal 96708.0, @commodity.depreciation_rows.sum(:summa)
   end
 
   test 'should calculate with fixed by month' do
@@ -289,10 +318,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
 
-    assert_equal @commodity.fixed_assets_rows.sum(:summa), -1001
-    assert_equal @commodity.fixed_assets_rows.first.summa, -166.83
-    assert_equal @commodity.fixed_assets_rows.second.summa, -166.83
-    assert_equal @commodity.fixed_assets_rows.last.summa, -166.85
+    assert_equal @commodity.fixed_assets_rows.sum(:summa), -1000.0
+    assert_equal @commodity.fixed_assets_rows.first.summa, -166.67
+    assert_equal @commodity.fixed_assets_rows.second.summa, -166.67
+    assert_equal @commodity.fixed_assets_rows.last.summa, -166.65
 
     # counter entries also 6/6
     assert_equal 6, @commodity.depreciation_rows.count
@@ -409,10 +438,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
 
-    assert_equal @commodity.commodity_rows.sum(:amount), -1001
-    assert_equal @commodity.commodity_rows.first.amount, -166.83
-    assert_equal @commodity.commodity_rows.second.amount, -166.83
-    assert_equal @commodity.commodity_rows.last.amount, -166.85
+    assert_equal @commodity.commodity_rows.sum(:amount), -1000.0
+    assert_equal @commodity.commodity_rows.first.amount, -166.67
+    assert_equal @commodity.commodity_rows.second.amount, -166.67
+    assert_equal @commodity.commodity_rows.last.amount, -166.65
 
     @commodity.reload
 
