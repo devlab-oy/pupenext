@@ -31,13 +31,13 @@ class StockListingCsvTest < ActiveSupport::TestCase
 
     # We should get product info and stock available 10
     report = StockListingCsv.new(company_id: @company.id)
-    output = "A1,FOO,BAR,10.0,,\n"
+    output = "A1,FOO,BAR,10,,\n"
     assert report.csv_data.lines.include? output
 
     # If stock is negative we should get zero stock
     product.shelf_locations.first.update!(tuoteno: 'A1', saldo: -10)
     report = StockListingCsv.new(company_id: @company.id)
-    output = "A1,FOO,BAR,0.0,,\n"
+    output = "A1,FOO,BAR,0,,\n"
     assert report.csv_data.lines.include? output
     assert_equal -10, product.stock
 
@@ -49,17 +49,17 @@ class StockListingCsvTest < ActiveSupport::TestCase
       laskutettuaika: 0
     )
     report = StockListingCsv.new(company_id: @company.id)
-    output = "A1,FOO,BAR,0.0,2015-01-01,10.0\n"
+    output = "A1,FOO,BAR,0,2015-01-01,10\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
 
     report = StockListingCsv.new(company_id: @company.id, column_separator: '|')
-    output = "A1|FOO|BAR|0.0|2015-01-01|10.0\n"
+    output = "A1|FOO|BAR|0|2015-01-01|10\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
 
     report = StockListingCsv.new(company_id: @company.id, column_separator: ';')
-    output = "A1;FOO;BAR;0.0;2015-01-01;10.0\n"
+    output = "A1;FOO;BAR;0;2015-01-01;10\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
   end
