@@ -373,8 +373,9 @@ class TalgrafBalancesCsv::BalanceData
 
     def voucher_rows
       tapvm = company.previous_fiscal_year.first
+      alatilat = [:A, :T]
 
-      company.voucher_rows.includes(:voucher).where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: :A }).order(:tapvm).map do |row|
+      company.voucher_rows.includes(:voucher).where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
