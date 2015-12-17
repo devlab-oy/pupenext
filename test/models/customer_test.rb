@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
   fixtures %w(
+    countries
     customer_prices
     customers
     delivery_methods
@@ -10,7 +11,6 @@ class CustomerTest < ActiveSupport::TestCase
     products
     sales_order/details
     transports
-    countries
   )
 
   setup do

@@ -70,6 +70,12 @@ class CustomersControllerTest < ActionController::TestCase
     assert_equal "100", json_response["asiakasnro"]
   end
 
+  test 'should not update customer' do
+    patch :update, id: @customer, customer: { nimi: "" }, access_token: @user.api_key
+    assert_response :unprocessable_entity
+    assert_not_equal "", json_response["error_messages"]
+  end
+
   test 'should find customer by email' do
     get :find_by_email, email: "notfound@example.com", access_token: @user.api_key
     assert_response :not_found
