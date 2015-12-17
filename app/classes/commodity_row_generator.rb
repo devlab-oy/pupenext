@@ -93,7 +93,7 @@ class CommodityRowGenerator
     remaining_amount = full_amount - depreciated_amount
 
     fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
-    fiscal_maximum = fiscal_maximum.ceil
+    fiscal_maximum = fiscal_maximum.floor
 
     if remaining_amount > fiscal_maximum
       remaining_amount = fiscal_maximum
@@ -188,7 +188,8 @@ class CommodityRowGenerator
 
     def create_voucher
       voucher_params = {
-        nimi: "Poistoerätosite hyödykkeelle #{commodity.name}",
+        nimi: "Poistoerätosite käyttöomaisuuden hyödykkeelle",
+        comments: "Poistoerätosite hyödykkeelle: #{commodity.name} #{commodity.description}",
         laatija: commodity.created_by,
         muuttaja: commodity.modified_by
       }
