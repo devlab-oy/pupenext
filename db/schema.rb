@@ -854,7 +854,7 @@ ActiveRecord::Schema.define(version: 20151216090943) do
     t.datetime "updated_at",                                     null: false
   end
 
-  add_index "kerattavatrivit", ["tilausrivi_id"], name: "index_kerattavatrivit_on_tilausrivi_id", using: :btree
+  add_index "kerattavatrivit", ["tilausrivi_id"], name: "tilausrivi_id_index", unique: true, using: :btree
 
   create_table "kerayserat", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",          limit: 5,                            default: "",  null: false
