@@ -66,11 +66,10 @@ class CustomersControllerTest < ActionController::TestCase
   test 'should find customer by email' do
     get :find_by_email, email: "notfound@example.com", access_token: @user.api_key
     assert_response :not_found
-    assert_equal "Not found", json_response["error"]
-    assert_equal 404,         json_response["status"]
+    assert_equal "Not found", json_response["error_messages"]
 
-    get :find_by_email, email: "email@ding.com", access_token: @user.api_key
+    get :find_by_email, email: @customer.email, access_token: @user.api_key
     assert_response :success
-    assert_equal "Very stubborn customer", json_response["nimi"]
+    assert_equal @customer.nimi, json_response["nimi"]
   end
 end
