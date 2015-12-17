@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class CustomersControllerTest < ActionController::TestCase
-  fixtures %w(customers)
+  fixtures %w(
+    customers
+    keyword/customer_categories
+    keyword/customer_subcategories
+    keywords
+  )
 
   setup do
     @user = users(:bob)
@@ -19,17 +24,19 @@ class CustomersControllerTest < ActionController::TestCase
 
   test 'should create a new customer' do
     params = { customer: {
-        ytunnus:    '111',
-        asiakasnro: '111',
-        nimi:       'Teppo Testaaja',
-        nimitark:   '040 5555 555',
-        osoite:     'Katukuja 12',
-        postino:    '53500',
-        postitp:    'Lappeenranta',
-        maa:        'fi',
-        email:      'teppo@example.com',
-        puhelin:    '040 5555 555',
-        kieli:      'fi'
+        ytunnus:        '111',
+        asiakasnro:     '111',
+        nimi:           'Teppo Testaaja',
+        nimitark:       '040 5555 555',
+        osoite:         'Katukuja 12',
+        postino:        '53500',
+        postitp:        'Lappeenranta',
+        maa:            'fi',
+        email:          'teppo@example.com',
+        puhelin:        '040 5555 555',
+        kieli:          'fi',
+        osasto:         '1',
+        ryhma:          '10'
       },
       access_token: @user.api_key
     }
