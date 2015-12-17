@@ -59,4 +59,18 @@ class CustomerTest < ActiveSupport::TestCase
     assert @one.valid?
   end
 
+  test 'category and subcategory' do
+    @one.ryhma = 'not valid'
+    refute @one.valid?
+
+    @one.ryhma = @customer_subcategory_1.selite
+    assert @one.valid?, @one.errors.full_messages
+
+    @one.osasto = 'not valid'
+    refute @one.valid?
+
+    @one.osasto = @customer_category_1.selite
+    assert @one.valid?, @one.errors.full_messages
+  end
+
 end

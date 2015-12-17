@@ -13,7 +13,10 @@ class Customer < BaseModel
 
   validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
   validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
+  validates :nimi, presence: true
   validates :maa, inclusion: { in: Country.pluck(:koodi) }
+  validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }
+  validates :osasto, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasosasto).pluck(:selite) } }
 
   validate :validate_chn
 
@@ -44,8 +47,7 @@ class Customer < BaseModel
       toim_maa:   toim_maa,
       email:      email,
       puhelin:    puhelin,
-      kieli:      kieli,
-      chn:        chn
+      kieli:      kieli
     }
   end
 
@@ -58,6 +60,14 @@ class Customer < BaseModel
       self.toimitustapa ||= company.delivery_methods.first
       self.kauppatapahtuman_luonne ||= company.keywords.where(laji: :kt).first
       self.lahetetyyppi ||= company.keywords.where(laji: :lahetetyyppi).first
+      self.maa ||= 'fi'
+      self.kansalaisuus ||= maa
+      self.toim_maa ||= maa
+      self.kolm_maa ||= maa
+      self.laskutus_maa ||= maa
+      self.valkoodi ||= company.currencies.first.try(:nimi)
+      self.maksuehto ||= company.terms_of_payments.first
+      self.laskutyyppi ||= -9
     end
 
     def validate_chn
