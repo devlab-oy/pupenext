@@ -10,6 +10,7 @@ stubborn_customer:
   ytunnus: FI12345678
   ovttunnus: 003712345678
   nimi: Very stubborn customer
+  toimitustapa: Kaukokiito
   osoite: Street 1
   postino: 00100
   postitp: Helsinki

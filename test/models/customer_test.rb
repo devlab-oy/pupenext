@@ -4,6 +4,7 @@ class CustomerTest < ActiveSupport::TestCase
   fixtures %w(
     customer_prices
     customers
+    delivery_methods
     keyword/customer_categories
     keyword/customer_subcategories
     products
@@ -31,6 +32,7 @@ class CustomerTest < ActiveSupport::TestCase
     assert_equal 2, @one.transports.count
     assert_equal @customer_category_1, @one.category
     assert_equal @customer_subcategory_1, @one.subcategory
+    assert_equal delivery_methods(:kaukokiito), @one.delivery_method
     assert @one.prices.count > 0
     assert @one.products.count > 0
     assert_equal "9", @one.sales_details.first.tila

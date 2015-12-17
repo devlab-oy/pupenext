@@ -14,4 +14,8 @@ class DeliveryMethodTest < ActiveSupport::TestCase
     assert @kaukokiito.valid?
     assert @kiitolinja.valid?
   end
+
+  test 'relations' do
+    assert @kaukokiito.customers.count > 0
+  end
 end

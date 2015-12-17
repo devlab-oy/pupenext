@@ -2,8 +2,9 @@ class Customer < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
 
   with_options primary_key: :selite do |o|
-    o.belongs_to :category,    foreign_key: :osasto, class_name: 'Keyword::CustomerCategory'
-    o.belongs_to :subcategory, foreign_key: :ryhma,  class_name: 'Keyword::CustomerSubcategory'
+    o.belongs_to :category,        foreign_key: :osasto, class_name: 'Keyword::CustomerCategory'
+    o.belongs_to :subcategory,     foreign_key: :ryhma,  class_name: 'Keyword::CustomerSubcategory'
+    o.belongs_to :delivery_method, foreign_key: :toimitustapa
   end
 
   has_many :prices, foreign_key: :asiakas, class_name: 'CustomerPrice'
