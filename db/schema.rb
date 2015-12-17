@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216090943) do
+ActiveRecord::Schema.define(version: 20151217112316) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3586,6 +3586,7 @@ ActiveRecord::Schema.define(version: 20151216090943) do
     t.integer  "kerayspoikkeamaviestin_lahetys",                   limit: 4,                              default: 0,     null: false
     t.string   "kerayspoikkeama_email",                            limit: 1,                              default: "",    null: false
     t.string   "keraysvahvistus_lahetys",                          limit: 1,                              default: "",    null: false
+    t.string   "kerays_riveittain",                                limit: 255,                            default: "",    null: false
     t.string   "oletus_toimitusehto",                              limit: 30,                             default: "",    null: false
     t.string   "oletus_toimitusehto2",                             limit: 30,                             default: "",    null: false
     t.string   "sad_lomake_tyyppi",                                limit: 1,                              default: "",    null: false
