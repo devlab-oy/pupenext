@@ -2,7 +2,10 @@ require 'test_helper'
 
 class CustomersControllerTest < ActionController::TestCase
   fixtures %w(
+    countries
+    currencies
     customers
+    delivery_methods
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
