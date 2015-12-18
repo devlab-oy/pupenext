@@ -272,7 +272,7 @@ class CommodityRowGenerator
       when :EVL
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
-        depreciated_sum = commodity.btl_value(depreciation_start_date)
+        depreciated_sum = commodity.amount - commodity.btl_value(depreciation_start_date)
         depreciation_amount = commodity.commodity_rows.count
       else
         raise ArgumentError, 'Invalid depreciation_type'
