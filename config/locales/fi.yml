@@ -655,7 +655,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -681,7 +681,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -846,7 +846,7 @@ fi:
       form:
         account: Tili
         activated_at: Aktivointipäivämäärä
-        amount: Summa
+        amount: Aktivointisumma
         bookkeeping_value: Kirjanpidollinen arvo
         bookkeeping_value_now: Kirjanpidollinen arvo nyt
         btl_depreciation_amount: EVL poistomäärä
@@ -857,7 +857,7 @@ fi:
         name: Nimitys
         planned_depreciation_amount: SUMU poistomäärä
         planned_depreciation_type: SUMU poistotyyppi
-        previous_btl_depreciations: Siirretyt EVL poistot
+        previous_btl_depreciations: Siirretty EVL arvo
         project: Projekti
         status: Tila
         target: Kohde
