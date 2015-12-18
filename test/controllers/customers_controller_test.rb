@@ -9,6 +9,7 @@ class CustomersControllerTest < ActionController::TestCase
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
+    terms_of_payments
   )
 
   setup do

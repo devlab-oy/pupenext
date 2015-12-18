@@ -13,7 +13,7 @@ class Customer < BaseModel
   has_many :transports, as: :transportable
 
   validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
-  validates :maa, inclusion: { in: Country.pluck(:koodi) }
+  validates :maa, inclusion: { in: proc { Country.pluck(:koodi) } }
   validates :nimi, presence: true
   validates :osasto, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasosasto).pluck(:selite) } }
   validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }

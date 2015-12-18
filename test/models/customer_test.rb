@@ -3,13 +3,16 @@ require 'test_helper'
 class CustomerTest < ActiveSupport::TestCase
   fixtures %w(
     countries
+    currencies
     customer_prices
     customers
     delivery_methods
     keyword/customer_categories
     keyword/customer_subcategories
+    keywords
     products
     sales_order/details
+    terms_of_payments
     transports
   )
 
