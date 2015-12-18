@@ -50,7 +50,7 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def previous_btl_depreciations=(value)
-    write_attribute(:previous_btl_depreciations, value.to_d.abs * -1.0)
+    write_attribute(:previous_btl_depreciations, value.to_d.abs)
   end
 
   def allows_unlinking?
@@ -176,14 +176,10 @@ class FixedAssets::Commodity < BaseModel
     end
   end
 
-  # EVL arvo annettuna ajankohtana, amount(+) + previous_depreciations(-) + evl poistorivit(-)
+  # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
   def btl_value(end_date = company.current_fiscal_year.last)
-    combined_history_amount = previous_btl_depreciations + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
-    if combined_history_amount == 0
-      combined_history_amount.to_d
-    else
-      amount + combined_history_amount
-    end
+    comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
+    comparable_amount + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
   end
 
   def can_be_sold?
