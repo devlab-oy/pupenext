@@ -285,7 +285,7 @@ class CommodityRowGenerator
         fixed_by_month(commodity.amount, calculation_amount, depreciation_amount, depreciated_sum)
       when :P
         # Tasapoisto vuosiprosentti
-        fixed_by_percentage(commodity.amount, calculation_amount)
+        fixed_by_percentage(commodity.bookkeeping_value(fiscal_start), calculation_amount)
       when :B
         # Menojäännöspoisto vuosiprosentti
         degressive_by_percentage(commodity.amount, calculation_amount, depreciated_sum)
