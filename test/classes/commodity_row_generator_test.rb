@@ -74,6 +74,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     result = @generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal result.sum, (reduct * fiscalyearly_percentage / 100).round(2).to_d
 
+    assert_equal result.sum, 73498.15.to_d
+
     # Test incl. history amount
     @commodity.procurement_rows.first.summa = 1837453.67
     @commodity.procurement_rows.first.save!
@@ -82,6 +84,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     head_voucher_rows(:six).summa = commodity_amount
     head_voucher_rows(:six).save!
 
+    # Tämä on siirretty EVL arvo
     history_amount = 1713273.96
     commodity_params = {
       activated_at: '2015-01-01',
@@ -101,11 +104,23 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
     generator.generate_rows
     assert_equal -68530.96.to_d, @commodity.commodity_rows.sum(:amount)
-    assert_equal 96708.0, @commodity.depreciation_rows.sum(:summa)
-    assert_equal -28177.04, @commodity.depreciation_difference_rows.sum(:summa)
+    assert_equal 96708.09, @commodity.depreciation_rows.sum(:summa)
+    assert_equal -28177.13, @commodity.depreciation_difference_rows.sum(:summa)
   end
 
   test 'should calculate with fixed by month' do
+    # 1st case
+    total_depreciations = 60
+    total_amount = 49716.55
+
+    # Re-Initialize generator with new fiscal values
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    result = generator.fixed_by_month(total_amount, total_depreciations)
+    assert_equal result.first, 828.61
+    assert_equal result.last, 828.61
+    assert_equal result.sum, 4971.66
+
+    # 2nd case
     # Tasapoisto kuukausittain
     # Full amount to be reducted
     total_amount = 2583.38

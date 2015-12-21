@@ -93,7 +93,7 @@ class CommodityRowGenerator
     remaining_amount = full_amount - depreciated_amount
 
     fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
-    fiscal_maximum = fiscal_maximum.floor
+    fiscal_maximum = fiscal_maximum.round(2)
 
     if remaining_amount > fiscal_maximum
       remaining_amount = fiscal_maximum
