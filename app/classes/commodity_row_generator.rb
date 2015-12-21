@@ -222,7 +222,7 @@ class CommodityRowGenerator
           tilino: commodity.fixed_assets_account
         }
 
-        row = commodity.voucher.rows.create!(row_params) if date_in_calculation_period?(time)
+        row = commodity.voucher.rows.create!(row_params)
 
         # Poistoerän vastakirjaus
         row.counter_entry(commodity.depreciation_account)
