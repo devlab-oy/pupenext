@@ -78,7 +78,11 @@ class CommodityRowGenerator
       end
       injecthis = injecthis.round(2)
 
-      fiscal_year_depreciations << injecthis unless injecthis.zero?
+      if injecthis.zero?
+        keep_running = false
+      else
+        fiscal_year_depreciations << injecthis
+      end
     end
 
     fiscal_year_depreciations

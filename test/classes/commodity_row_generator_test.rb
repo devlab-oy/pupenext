@@ -52,6 +52,15 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   end
 
   test 'should calculate with degressive by percentage' do
+
+    reduct = 1019.70
+    fiscalyearly_percentage = 25
+    @commodity.activated_at = '2015-12-01'
+    @commodity.save!
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    result = generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
+    assert_equal 1019.69, result.sum
+
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
