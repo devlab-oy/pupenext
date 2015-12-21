@@ -271,13 +271,13 @@ class CommodityRowGenerator
       when :SUMU
         calculation_type = commodity.planned_depreciation_type
         calculation_amount = commodity.planned_depreciation_amount
-        depreciated_sum = commodity.deprecated_sumu_amount
-        depreciation_amount = commodity.voucher.rows.count
+        depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
+        depreciation_amount = commodity.depreciation_rows.where("tapvm < ?", fiscal_start).count
       when :EVL
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
         depreciated_sum = commodity.amount - commodity.btl_value(depreciation_start_date)
-        depreciation_amount = commodity.commodity_rows.count
+        depreciation_amount = commodity.commodity_rows.where('transacted_at < ?', fiscal_start).count
       else
         raise ArgumentError, 'Invalid depreciation_type'
       end
