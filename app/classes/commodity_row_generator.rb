@@ -222,7 +222,7 @@ class CommodityRowGenerator
           tilino: commodity.fixed_assets_account
         }
 
-        row = commodity.voucher.rows.create!(row_params)
+        row = commodity.voucher.rows.create!(row_params) if date_in_calculation_period?(time.end_of_month)
 
         # Poistoerän vastakirjaus
         row.counter_entry(commodity.depreciation_account)
@@ -243,7 +243,7 @@ class CommodityRowGenerator
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
-        commodity.commodity_rows.create!(row_params) if company.date_in_open_period?(time)
+        commodity.commodity_rows.create!(row_params) if date_in_calculation_period?(time.end_of_month)
       end
     end
 
@@ -390,5 +390,9 @@ class CommodityRowGenerator
         raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
       end
       commodity.commodity_rows.create! btlparams
+    end
+
+    def date_in_calculation_period?(date)
+      (fiscal_start..fiscal_end).cover?(date.try(:to_date))
     end
 end
