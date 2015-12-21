@@ -222,7 +222,7 @@ class CommodityRowGenerator
           tilino: commodity.fixed_assets_account
         }
 
-        row = commodity.voucher.rows.create!(row_params) if date_in_calculation_period?(time.end_of_month)
+        row = commodity.voucher.rows.create!(row_params) if date_in_calculation_period?(time)
 
         # Poistoerän vastakirjaus
         row.counter_entry(commodity.depreciation_account)
@@ -243,7 +243,7 @@ class CommodityRowGenerator
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
-        commodity.commodity_rows.create!(row_params) if date_in_calculation_period?(time.end_of_month)
+        commodity.commodity_rows.create!(row_params) if date_in_calculation_period?(time)
       end
     end
 
