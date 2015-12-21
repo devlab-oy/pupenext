@@ -243,7 +243,7 @@ class CommodityRowGenerator
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
-        commodity.commodity_rows.create!(row_params)
+        commodity.commodity_rows.create!(row_params) if company.date_in_open_period?(time)
       end
     end
 

@@ -51,16 +51,19 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal result.last, 69.79.to_d
   end
 
-  test 'should calculate with degressive by percentage' do
-
+  test 'should not generate rows over fiscal period' do
     reduct = 1019.70
     fiscalyearly_percentage = 25
-    @commodity.activated_at = '2015-12-01'
+    @commodity.activated_at = '2015-12-12'
     @commodity.save!
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id, fiscal_id: fiscal_years(:two).id)
+    generator.generate_rows
     result = generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal 1019.69, result.sum
+  end
 
+  test 'should calculate with degressive by percentage' do
     # Menojäännöspoisto vuosiprosentti
     # Full amount to be reducted
     reduct = 10000
