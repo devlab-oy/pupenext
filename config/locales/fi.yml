@@ -996,7 +996,6 @@ fi:
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
-        loading: Ladataan...
         product_filter: Tuoterajaus
         product_image: Tuotekuva
         target_type: Kohdetyyppi
@@ -1062,6 +1061,7 @@ fi:
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
+        header_ean: Varastosaldot EAN CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:

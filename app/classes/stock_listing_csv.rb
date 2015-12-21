@@ -31,7 +31,7 @@ class StockListingCsv
     end
 
     def data
-      @data ||= company.products.active.find_each.map do |product|
+      @data ||= company.products.inventory_management.active.find_each.map do |product|
         row = ProductRow.new product
 
         [
@@ -56,12 +56,15 @@ class StockListingCsv::ProductRow
   end
 
   def stock
-    stock_raw < 0 ? 0.0 : stock_raw
+    stock = stock_raw < 0 ? 0.0 : stock_raw
+
+    # show decimals only if they matter (% short for sprintf)
+    '%g' % stock
   end
 
   def stock_after_order
     stock = next_order ? (stock_raw + next_order.varattu) : nil
-    stock && stock > 0 ? stock : nil
+    stock && stock > 0 ? ('%g' % stock) : nil
   end
 
   def order_date

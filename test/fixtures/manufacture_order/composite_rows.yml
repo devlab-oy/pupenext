@@ -1,0 +1,14 @@
+DEFAULTS: &DEFAULTS
+  toimaika: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+mo_composite_row_one:
+  yhtio: acme
+  order: mo_one
+  tuoteno: hammer123
+  tyyppi: W
+  <<: *DEFAULTS

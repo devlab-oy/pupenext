@@ -125,9 +125,16 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.accounting_rows.create!(tilino: @payable_concern, summa: -46.61, tapvm: invoice_three.tapvm)
     invoice_three.accounting_rows.create!(tilino: @receivable_regular, summa: -46.61, tapvm: invoice_three.tapvm)
 
+    # Lets add one alternative expenditure for previous week
+    keyword_one = keywords(:weekly_alternative_expenditure_one)
+    selite_date = Date.today - 1.week
+    keyword_one.selite = "#{selite_date.cweek} / #{selite_date.year}"
+    keyword_one.selitetark_2 = '22.30'
+    keyword_one.save!
+
     # history_expenditure should include invoice one and three
     response = RevenueExpenditureReport.new(1).data
-    assert_equal 128, response[:history_expenditure]
+    assert_equal 150.30, response[:history_expenditure]
   end
 
   test 'weekly sales' do
