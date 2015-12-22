@@ -502,7 +502,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Activate commodity on 2014-11-01
     @commodity.activated_at = '2014-11-01'.to_date
     @commodity.save!
-
+    assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
     @generator = CommodityRowGenerator.new(params).generate_rows
     @commodity.reload
 
@@ -523,7 +523,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       fiscal_id: fiscal_years(:two).id,
       user_id: @bob.id
     }
-
+    assert_equal 3500.0, @commodity.accumulated_depreciation_at(Date.today)
     @generator = CommodityRowGenerator.new(params).generate_rows
     @commodity.reload
 
@@ -539,6 +539,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal '2014-11-30'.to_date, rows.first.transacted_at
     assert_equal Date.today.change(month: 1, day: 31), rows[-12].transacted_at
     assert_equal Date.today.change(month: 12, day: 31), rows.last.transacted_at
+
+    assert_equal 5602.98, @commodity.accumulated_depreciation_at(Date.today)
   end
 
   test 'rows split' do
