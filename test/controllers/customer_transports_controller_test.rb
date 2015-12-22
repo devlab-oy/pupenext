@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Administration::TransportsControllerTest < ActionController::TestCase
-  fixtures %w(transports)
+class Administration::CustomerTransportsControllerTest < ActionController::TestCase
+  fixtures %w(transports customers)
 
   setup do
     login users(:bob)
 
-    @transport = transports(:three)
+    @transport = transports(:one)
 
     @valid_params = {
       transportable_id: @transport.transportable_id,
@@ -30,10 +30,10 @@ class Administration::TransportsControllerTest < ActionController::TestCase
 
   test "should create transport" do
     assert_difference('Transport.count') do
-      post :create, transport: @valid_params
+      post :create, customer_transport: @valid_params
     end
 
-    assert_redirected_to transports_path
+    assert_redirected_to customer_transports_path
   end
 
   test "should show transport" do
@@ -47,8 +47,8 @@ class Administration::TransportsControllerTest < ActionController::TestCase
   end
 
   test "should update transport" do
-    patch :update, id: @transport, transport: @valid_params
-    assert_redirected_to transports_path
+    patch :update, id: @transport, customer_transport: @valid_params
+    assert_redirected_to customer_transports_path
   end
 
   test "should destroy transport" do
@@ -56,6 +56,6 @@ class Administration::TransportsControllerTest < ActionController::TestCase
       delete :destroy, id: @transport
     end
 
-    assert_redirected_to transports_path
+    assert_redirected_to customer_transports_path
   end
 end

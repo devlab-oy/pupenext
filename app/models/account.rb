@@ -54,6 +54,14 @@ class Account < BaseModel
     "#{tilino} - #{nimi}"
   end
 
+  def self.profit_and_loss_accounts
+    where("ulkoinen_taso LIKE ?", "3%")
+  end
+
+  def self.balance_sheet_accounts
+    where("LEFT(ulkoinen_taso, 1) < ?", "3")
+  end
+
   private
 
     def sum_level_presence
