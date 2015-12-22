@@ -59,6 +59,7 @@ class Customer < BaseModel
   private
 
     def defaults
+      self.laji = 'H' if laji.blank?
       self.kieli = 'fi' if kieli.blank?
       self.chn = '100' if chn.blank?
       self.alv = company.keywords.where(laji: :alv).where.not(selitetark: '').first if alv.blank?
