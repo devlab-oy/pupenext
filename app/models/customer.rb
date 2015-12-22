@@ -29,6 +29,10 @@ class Customer < BaseModel
   self.primary_key = :tunnus
   self.record_timestamps = false
 
+  def maa=(value)
+    write_attribute(:maa, value.upcase)
+  end
+
   def contract_price?(product)
     product.in? products
   end
