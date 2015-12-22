@@ -3,6 +3,7 @@ one:
   voucher: vo_one
   tilino: 100
   summa: 1234
+  selite: Another
   tapvm: <%= Time.now %>
   laatija: joe
   laadittu: <%= Time.now %>
@@ -107,5 +108,25 @@ thirteen:
   tilino: 4444
   summa: 54932
   tapvm: <%= Time.now %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+fourteen:
+  yhtio: acme
+  voucher: vo_balance
+  tilino: 1000
+  selite: Opening balance
+  summa: 990.50
+  tapvm: <%= Date.today.beginning_of_year %>
+  laadittu: <%= Time.now %>
+  korjausaika: <%= Time.now %>
+
+fifteen:
+  yhtio: acme
+  voucher: vo_profit_period
+  tilino: 1000
+  selite: Profit for the period
+  summa: 2000.0
+  tapvm: <%= Date.today.beginning_of_year - 1.day %>
   laadittu: <%= Time.now %>
   korjausaika: <%= Time.now %>
