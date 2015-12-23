@@ -2,17 +2,17 @@
 
 <table>
   <tr>
-    <th><%= Head::VoucherRow.human_attribute_name(:tilino) %></th>
-    <th><%= Head::VoucherRow.human_attribute_name(:summa) %></th>
     <th><%= Head::VoucherRow.human_attribute_name(:tapvm) %></th>
     <th><%= Head::VoucherRow.human_attribute_name(:selite) %></th>
+    <th><%= Head::VoucherRow.human_attribute_name(:summa) %></th>
+    <th><%= Head::VoucherRow.human_attribute_name(:tilino) %></th>
   </tr>
   <% @commodity.procurement_rows.each do |procrow| %>
     <tr>
-    <td><%= procrow.tilino  %></td>
-    <td><%= procrow.summa %></td>
-    <td><%= procrow.tapvm %></td>
+    <td><%= l procrow.tapvm %></td>
     <td><%= procrow.selite %></td>
+    <td><%= procrow.summa %></td>
+    <td><%= procrow.tilino  %></td>
     <td class='back'>
       <%= button_to t('.button_remove'),
           commodity_unlink_path(@commodity, { voucher_row_id: procrow.tunnus }),

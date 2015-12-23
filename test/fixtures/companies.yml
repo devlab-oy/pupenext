@@ -1,5 +1,6 @@
 acme:
   yhtio: acme
+  ytunnus: FI123456
   nimi: Acme Corporation
   maa: FI
   kieli: fi
@@ -21,6 +22,7 @@ acme:
 
 estonian:
   yhtio: esto
+  ytunnus: EE123456
   nimi: Estonian Corporation
   maa: EE
   tilikausi_alku: '2012-01-01'

@@ -11,56 +11,42 @@
 <table>
 <tr>
   <th>
-    <%= sortable 'tunnus' %>
+    <%= sortable 'tapvm' %>
     <br/>
-    <%= text_field_tag :tunnus, params[:tunnus] %>
+    <%= text_field_tag :tapvm, params[:tapvm] %>
   </th>
   <th>
-    <%= sortable 'ytunnus' %>
+    <%= sortable 'selite' %>
     <br/>
-    <%= text_field_tag :ytunnus, params[:ytunnus] %>
+    <%= text_field_tag :selite, params[:selite] %>
   </th>
   <th>
-    <%= sortable 'nimi' %>
+    <%= sortable 'summa' %>
     <br/>
-    <%= text_field_tag :nimi, params[:nimi] %>
+    <%= text_field_tag :summa, params[:summa] %>
   </th>
   <th>
-    <%= sortable 'viesti' %>
+    <%= sortable 'tilino' %>
     <br/>
-    <%= text_field_tag :viesti, params[:viesti] %>
+    <%= text_field_tag :tilino, params[:tilino] %>
   </th>
   <th class="back"><%= submit_tag t('.button_search') %></th>
 </tr>
-
-<% @vouchers.each do |vou| %>
+<% @vouchers.each do |voucher_collection| %>
+<% voucher_collection.each do |voucher_row| %>
+  <% if voucher_row.commodity_id.present? %>
+    <% next %>
+  <% end %>
   <tr>
-    <td><%= vou.tunnus %></td>
-    <td><%= vou.ytunnus %></td>
-    <td><%= vou.nimi %></td>
-    <td><%= vou.viesti %></td>
+  <td><%= l voucher_row.tapvm  %></td>
+  <td><%= voucher_row.selite.html_safe rescue 0 %></td>
+  <td><%= voucher_row.summa  %></td>
+  <td><%= voucher_row.tilino %></td>
+  <td class='back'>
+    <%= button_to t('.button_add'), commodity_link_voucher_path(@commodity, { voucher_row_id: voucher_row.tunnus }), method: :post %>
+  </td>
   </tr>
-  <tr>
-    <th>Tunnus</th>
-    <th>Selite</th>
-    <th>Summa</th>
-    <th>Tili</th>
-  </tr>
-  <% vou.rows.each do |vourow| %>
-    <% if vourow.commodity_id.present? %>
-      <% next %>
-    <% end %>
-    <tr>
-    <td><%= vourow.tunnus  %></td>
-    <td><%= vourow.selite.html_safe rescue 0 %></td>
-    <td><%= vourow.summa  %></td>
-    <td><%= vourow.tilino %></td>
-    <td class='back'>
-      <%= button_to t('.button_add'), commodity_link_voucher_path(@commodity, { voucher_row_id: vourow.tunnus }), method: :post %>
-    </td>
-    </tr>
-    <% end %>
 <% end %>
-
+<% end %>
 </table>
 <br/><br/>

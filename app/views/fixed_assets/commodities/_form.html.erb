@@ -3,15 +3,15 @@
 <%= form_for(@commodity, url: commodity_path(@commodity)) do |f| %>
   <table>
     <tr>
-      <th><%= f.label :name %></th>
+      <th><%= f.label t('.name') %></th>
       <td><%= f.text_field :name %></td>
     </tr>
     <tr>
-      <th><%= f.label :description %></th>
+      <th><%= f.label t('.description') %></th>
       <td><%= f.text_field :description %></td>
     </tr>
     <tr>
-      <th><%= f.label :amount %></th>
+      <th><%= f.label t('.amount') %></th>
       <td><%= @commodity.amount %></td>
     </tr>
     <tr>
@@ -23,65 +23,63 @@
       <td><%= @commodity.bookkeeping_value %></td>
     </tr>
     <tr>
-      <th><%= f.label :cost_centre %></th>
-      <td><%= @commodity.procurement_cost_centres %></td>
+      <th><%= t('.btl_value') %></th>
+      <td><%= @commodity.btl_value %></td>
     </tr>
     <tr>
-      <th><%= f.label :target %></th>
-      <td><%= @commodity.procurement_targets %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :project %></th>
-      <td><%= @commodity.procurement_projects %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :account %></th>
-      <td><%= @commodity.fixed_assets_account %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :activated_at %></th>
+      <th><%= t('.previous_btl_depreciations') %></th>
       <td>
         <% if @commodity.activated? %>
-          <%= @commodity.activated_at %>
+          <%= @commodity.previous_btl_depreciations %>
         <% else %>
-          <%= f.date_field :activated_at %>
+          <%= f.number_field :previous_btl_depreciations, step: :any %>
         <% end %>
       </td>
     </tr>
     <tr>
-      <th><%= f.label :status %></th>
+      <th><%= t('.cost_centre') %></th>
+      <td><%= @commodity.procurement_cost_centres %></td>
+    </tr>
+    <tr>
+      <th><%= t('.target') %></th>
+      <td><%= @commodity.procurement_targets %></td>
+    </tr>
+    <tr>
+      <th><%= t('.project') %></th>
+      <td><%= @commodity.procurement_projects %></td>
+    </tr>
+    <tr>
+      <th><%= t('.account') %></th>
+      <td><%= @commodity.fixed_assets_account %></td>
+    </tr>
+    <tr>
+      <th><%= t('.activated_at') %></th>
+      <td>
+        <% if @commodity.activated? %>
+          <%= @commodity.activated_at %>
+        <% else %>
+          <%= f.date_field :activated_at, { value: @commodity.procurement_date } %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label t('.status') %></th>
       <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status), {}, {:disabled => true} %></td>
     </tr>
-      <th><%= f.label :planned_depreciation_type %></th>
+      <th><%= f.label t('.planned_depreciation_type') %></th>
       <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
     </tr>
     <tr>
-      <th><%= f.label :planned_depreciation_amount %></th>
+      <th><%= f.label t('.planned_depreciation_amount') %></th>
       <td><%= f.text_field :planned_depreciation_amount, value: @commodity.planned_depreciation_amount %></td>
     </tr>
     <tr>
-      <th><%= f.label :btl_depreciation_type %></th>
+      <th><%= f.label t('.btl_depreciation_type') %></th>
       <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
     </tr>
     <tr>
-      <th><%= f.label :btl_depreciation_amount %></th>
+      <th><%= f.label t('.btl_depreciation_amount') %></th>
       <td><%= f.text_field :btl_depreciation_amount, value: @commodity.btl_depreciation_amount %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :created_by %></th>
-      <td><%= @commodity.created_by %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :created_at %></th>
-      <td><%= @commodity.created_at %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :modified_by %></th>
-      <td><%= @commodity.modified_by %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :updated_at %></th>
-      <td><%= @commodity.updated_at %></td>
     </tr>
   </table>
 
