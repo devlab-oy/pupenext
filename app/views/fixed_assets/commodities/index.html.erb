@@ -6,47 +6,30 @@
 <br/><br/>
 
 <%= form_tag commodities_path, method: :get do %>
-
   <table>
-
     <tr>
-      <th>
-        <%= sortable 'name' %>
-        <br/>
-        <%= text_field_tag :name, params[:name] %>
-      </th>
-
-      <th>
-        <%= sortable 'description' %>
-        <br/>
-        <%= text_field_tag :description, params[:description] %>
-      </th>
-
-      <th class="back">
-        <%= submit_tag t('.button_search') %>
-      </th>
+    <th><%= t('.name') %></th>
+    <th><%= t('.description') %></th>
+    <th><%= t('.bookkeeping_value_today') %></th>
     </tr>
-
-  <% @commodities.each do |com| %>
-    <tr class="aktiivi">
-      <td>
-        <% if update_access? %>
-          <%= link_to com.name, edit_commodity_path(com.id)  %>
-        <% else %>
-          <%= com.name %>
-        <% end %>
-      </td>
-
-      <td>
-        <%= com.description %>
-      </td>
-    </tr>
-  <% end %>
-
+    <% @commodities.each do |com| %>
+      <tr class="aktiivi">
+        <td>
+          <% if update_access? %>
+            <%= link_to com.name, edit_commodity_path(com.id)  %>
+          <% else %>
+            <%= com.name %>
+          <% end %>
+        </td>
+        <td><%= com.description %></td>
+        <td><%= com.bookkeeping_value(Date.today)%></td>
+      </tr>
+    <% end %>
   </table>
-
 <% end %>
 
 <br/>
-
-<%= button_to_new 'fixed_assets/commodity', new_commodity_path %>
+<% if @commodities.count > 50 %>
+  <%= button_to_new 'fixed_assets/commodity', new_commodity_path %>
+<% end %>
+<br/>
