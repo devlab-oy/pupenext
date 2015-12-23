@@ -6,9 +6,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # GET /commodities
   def index
-    @commodities = FixedAssets::Commodity
-      .search_like(search_params)
-      .order(order_params)
+    @commodities = FixedAssets::Commodity.all
   end
 
    # GET /commodities/1

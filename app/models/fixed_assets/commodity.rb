@@ -1,5 +1,4 @@
 class FixedAssets::Commodity < BaseModel
-  include Searchable
 
   # commodity = hyödyke
   # .voucher = tosite, jolle kirjataan SUMU-poistot
