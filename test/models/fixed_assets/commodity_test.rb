@@ -183,6 +183,18 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 1, @commodity.linkable_vouchers.count
   end
 
+  test 'linkable invoice rows' do
+    assert_equal 1, @commodity.linkable_invoice_rows.count
+    purchase_invoice_paid = Head.find(@commodity.linkable_invoice_rows.first.ltunnus)
+    assert_equal purchase_invoice_paid.tila, 'Y'
+  end
+
+  test 'linkable voucher rows' do
+    assert_equal 2, @commodity.linkable_voucher_rows.count
+    voucher = Head.find(@commodity.linkable_voucher_rows.first.ltunnus)
+    assert_equal voucher.tila, 'X'
+  end
+
   test 'current bookkeeping value works' do
     @commodity.status = 'A'
     @commodity.save!
