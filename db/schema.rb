@@ -609,8 +609,8 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.integer  "profit_account_id",               limit: 4
     t.integer  "sales_account_id",                limit: 4
     t.integer  "voucher_id",                      limit: 4
-    t.datetime "created_at",                                                                        null: false
-    t.datetime "updated_at",                                                                        null: false
+    t.datetime "created_at",                                                                         null: false
+    t.datetime "updated_at",                                                                         null: false
     t.date     "activated_at"
     t.date     "deactivated_at"
     t.string   "name",                            limit: 255,                          default: ""
@@ -622,9 +622,10 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.decimal  "btl_depreciation_amount",                     precision: 16, scale: 6
     t.decimal  "amount",                                      precision: 16, scale: 6
     t.decimal  "amount_sold",                                 precision: 16, scale: 6
-    t.string   "depreciation_remainder_handling", limit: 1,                            default: ""
-    t.string   "created_by",                      limit: 255,                          default: ""
-    t.string   "modified_by",                     limit: 255,                          default: ""
+    t.decimal  "previous_btl_depreciations",                  precision: 16, scale: 6, default: 0.0
+    t.string   "depreciation_remainder_handling", limit: 1
+    t.string   "created_by",                      limit: 255
+    t.string   "modified_by",                     limit: 255
   end
 
   add_index "fixed_assets_commodities", ["company_id"], name: "index_fixed_assets_commodities_on_company_id", using: :btree
@@ -2675,16 +2676,17 @@ ActiveRecord::Schema.define(version: 20151217112316) do
   add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
 
   create_table "transports", force: :cascade do |t|
-    t.integer  "customer_id", limit: 4
-    t.string   "hostname",    limit: 255
-    t.string   "username",    limit: 255
-    t.string   "password",    limit: 255
-    t.string   "path",        limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "transportable_id",   limit: 4
+    t.string   "transportable_type", limit: 255
+    t.string   "hostname",           limit: 255
+    t.string   "username",           limit: 255
+    t.string   "password",           limit: 255
+    t.string   "path",               limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  add_index "transports", ["customer_id"], name: "index_transports_on_customer_id", using: :btree
+  add_index "transports", ["transportable_id"], name: "index_transports_on_transportable_id", using: :btree
 
   create_table "tullinimike", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",         limit: 5,     default: "", null: false
