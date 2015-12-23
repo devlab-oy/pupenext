@@ -862,10 +862,10 @@ fi:
         status: Tila
         target: Kohde
       index:
-        name: Nimitys
+        bookkeeping_value_today: Kirjapidollinen arvo nyt
         description: Kuvaus
         header: Käyttöomaisuuden hyödykkeet
-        bookkeeping_value_today: Kirjapidollinen arvo nyt
+        name: Nimitys
       link_order:
         link_order_success: Ostolaskun rivi liitetty
       link_voucher:
@@ -873,6 +873,10 @@ fi:
       link_voucher_row:
         cannot_link_row: Riviä ei voida liittää
         row_already_linked: Rivi on jo liitetty
+      model:
+        declining_annual_rate: Menojäännöspoisto vuosiprosentti
+        straight_line_annual_rate_month: Tasapoisto kuukausittain
+        straight_line_annual_rate_percentage: Tasapoisto vuosiprosentti
       new:
         header: Uusi hyödyke
       procurement_rows:
