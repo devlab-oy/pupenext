@@ -613,12 +613,12 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.datetime "updated_at",                                                                         null: false
     t.date     "activated_at"
     t.date     "deactivated_at"
-    t.string   "name",                            limit: 255,                          default: ""
-    t.string   "description",                     limit: 255,                          default: ""
-    t.string   "status",                          limit: 1,                            default: ""
-    t.string   "planned_depreciation_type",       limit: 1,                            default: ""
+    t.string   "name",                            limit: 255
+    t.string   "description",                     limit: 255
+    t.string   "status",                          limit: 1
+    t.string   "planned_depreciation_type",       limit: 1
     t.decimal  "planned_depreciation_amount",                 precision: 16, scale: 6
-    t.string   "btl_depreciation_type",           limit: 1,                            default: ""
+    t.string   "btl_depreciation_type",           limit: 1
     t.decimal  "btl_depreciation_amount",                     precision: 16, scale: 6
     t.decimal  "amount",                                      precision: 16, scale: 6
     t.decimal  "amount_sold",                                 precision: 16, scale: 6
@@ -636,11 +636,11 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.datetime "updated_at",                                                         null: false
     t.date     "transacted_at"
     t.decimal  "amount",                    precision: 16, scale: 6
-    t.string   "description",   limit: 255,                          default: ""
+    t.string   "description",   limit: 255
     t.boolean  "amended",                                            default: false, null: false
     t.boolean  "locked",                                             default: false, null: false
-    t.string   "created_by",    limit: 255,                          default: ""
-    t.string   "modified_by",   limit: 255,                          default: ""
+    t.string   "created_by",    limit: 255
+    t.string   "modified_by",   limit: 255
   end
 
   add_index "fixed_assets_commodity_rows", ["commodity_id"], name: "index_fixed_assets_commodity_rows_on_commodity_id", using: :btree
@@ -649,7 +649,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "hash_pupesoft", limit: 50, default: "",         null: false
     t.string   "hash_pupenext", limit: 50, default: "",         null: false
     t.string   "repository",    limit: 20, default: "pupesoft", null: false
-    t.string   "ip",            limit: 15, default: "",         null: false
+    t.string   "ip",            limit: 15,                      null: false
     t.datetime "date",                                          null: false
   end
 
@@ -1042,7 +1042,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.integer  "myyja",                         limit: 4,                              default: 0,   null: false
     t.string   "oletustili",                    limit: 6,                              default: "",  null: false
     t.integer  "myyjaryhma",                    limit: 4,                              default: 0,   null: false
-    t.string   "tuuraaja",                      limit: 50,                                           null: false
+    t.string   "tuuraaja",                      limit: 50,                             default: "",  null: false
     t.string   "kieli",                         limit: 2,                              default: "",  null: false
     t.integer  "lomaoikeus",                    limit: 4,                              default: 0,   null: false
     t.string   "asema",                         limit: 150,                            default: "",  null: false
@@ -1457,7 +1457,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.integer  "tunnusnippu_tarjous",                      limit: 4,                             default: 0,   null: false
     t.integer  "projekti",                                 limit: 4,                             default: 0,   null: false
     t.string   "rivihintoja_ei_nayteta",                   limit: 1,                             default: "",  null: false
-    t.string   "yllapito_kuukausihinnoittelu",             limit: 1,                             default: ""
+    t.string   "yllapito_kuukausihinnoittelu",             limit: 1
     t.string   "konttiviite",                              limit: 35,                            default: "",  null: false
     t.integer  "konttimaara",                              limit: 4,                             default: 0,   null: false
     t.string   "konttityyppi",                             limit: 35,                            default: "",  null: false
@@ -1691,9 +1691,9 @@ ActiveRecord::Schema.define(version: 20151217112316) do
   end
 
   create_table "pankkiyhteys", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",                                limit: 5,     default: ""
-    t.string   "pankki",                               limit: 60,    default: ""
-    t.string   "customer_id",                          limit: 60,    default: ""
+    t.string   "yhtio",                                limit: 5
+    t.string   "pankki",                               limit: 60
+    t.string   "customer_id",                          limit: 60
     t.boolean  "hae_saldo",                                          default: false, null: false
     t.text     "signing_certificate",                  limit: 65535
     t.datetime "signing_certificate_valid_to"
@@ -3257,11 +3257,11 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "gsm",                    limit: 50,    default: "", null: false
     t.string   "fax",                    limit: 50,    default: "", null: false
     t.string   "www",                    limit: 50,    default: "", null: false
-    t.string   "nimitarkenne",           limit: 100,   default: ""
-    t.string   "osoite",                 limit: 100,   default: ""
-    t.string   "postino",                limit: 5,     default: ""
-    t.string   "postitp",                limit: 50,    default: ""
-    t.string   "maa",                    limit: 50,    default: ""
+    t.string   "nimitarkenne",           limit: 100
+    t.string   "osoite",                 limit: 100
+    t.string   "postino",                limit: 5
+    t.string   "postitp",                limit: 50
+    t.string   "maa",                    limit: 50
     t.text     "fakta",                  limit: 65535
     t.string   "ulkoinen_asiakasnumero", limit: 50,    default: "", null: false
     t.string   "tilausyhteyshenkilo",    limit: 1,     default: "", null: false
@@ -3400,7 +3400,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "alert_email",                                      limit: 100,                            default: "",    null: false
     t.string   "talhal_email",                                     limit: 100,                            default: "",    null: false
     t.string   "sahkopostilasku_cc_email",                         limit: 100,                            default: "",    null: false
-    t.string   "maksukehotus_cc_email",                            limit: 100,                                            null: false
+    t.string   "maksukehotus_cc_email",                            limit: 100,                            default: "",    null: false
     t.text     "varauskalenteri_email",                            limit: 65535
     t.string   "tuotekopio_email",                                 limit: 100,                            default: "",    null: false
     t.string   "jt_email",                                         limit: 100,                            default: "",    null: false
@@ -3408,7 +3408,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "extranet_kerayspoikkeama_email",                   limit: 100,                            default: "",    null: false
     t.string   "siirtolista_email",                                limit: 100,                            default: "",    null: false
     t.string   "changelog_email",                                  limit: 100,                            default: "",    null: false
-    t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                                            null: false
+    t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                            default: "",    null: false
     t.string   "alert_varasto_kayttajat",                          limit: 100,                            default: "",    null: false
     t.string   "verkkolasku_lah",                                  limit: 10,                             default: "",    null: false
     t.string   "finvoice_versio",                                  limit: 1,                              default: "",    null: false
@@ -3490,7 +3490,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "varastosiirto_kohdepaikka",                        limit: 1,                              default: "",    null: false
     t.string   "ostotilaustyyppi",                                 limit: 1,                              default: "",    null: false
     t.string   "ostotilaukseen_toimittajan_toimaika",              limit: 1,                              default: "",    null: false
-    t.string   "ostotilaus_saman_tuotteen_lisays",                 limit: 1,                                              null: false
+    t.string   "ostotilaus_saman_tuotteen_lisays",                 limit: 1,                              default: "",    null: false
     t.string   "ostotilauksen_tuloste",                            limit: 1,                              default: "",    null: false
     t.string   "ostolaskujen_paivays",                             limit: 1,                              default: "",    null: false
     t.string   "ostolaskujen_oletusvaluutta",                      limit: 1,                              default: "",    null: false
@@ -3668,7 +3668,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "livetuotehaku_tilauksella",                        limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_hakutapa",                           limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_poistetut",                          limit: 1,                              default: "",    null: false
-    t.string   "poistetut_lisays",                                 limit: 1,                                              null: false
+    t.string   "poistetut_lisays",                                 limit: 1,                              default: "",    null: false
     t.string   "iltasiivo_mitatoi_ext_tilauksia",                  limit: 3,                              default: "",    null: false
     t.string   "extranet_tilaus_varaa_saldoa",                     limit: 3,                              default: "",    null: false
     t.string   "extranet_nayta_saldo",                             limit: 1,                              default: "",    null: false
