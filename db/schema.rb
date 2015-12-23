@@ -842,6 +842,21 @@ ActiveRecord::Schema.define(version: 20151223092246) do
     t.string   "muuttaja",      limit: 50,  default: "", null: false
   end
 
+  create_table "kerattavatrivit", force: :cascade do |t|
+    t.integer  "tilausrivi_id",       limit: 4
+    t.string   "hyllyalue",           limit: 255
+    t.string   "hyllynro",            limit: 255
+    t.string   "hyllyvali",           limit: 255
+    t.string   "hyllytaso",           limit: 255
+    t.decimal  "poikkeava_maara",                 precision: 10
+    t.string   "poikkeama_kasittely", limit: 255
+    t.boolean  "keratty"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+  end
+
+  add_index "kerattavatrivit", ["tilausrivi_id"], name: "tilausrivi_id_index", unique: true, using: :btree
+
   create_table "kerayserat", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",          limit: 5,                            default: "",  null: false
     t.integer  "nro",            limit: 4,                            default: 0,   null: false
@@ -3546,6 +3561,7 @@ ActiveRecord::Schema.define(version: 20151223092246) do
     t.integer  "kerayspoikkeamaviestin_lahetys",                   limit: 4,                              default: 0,     null: false
     t.string   "kerayspoikkeama_email",                            limit: 1,                              default: "",    null: false
     t.string   "keraysvahvistus_lahetys",                          limit: 1,                              default: "",    null: false
+    t.string   "kerays_riveittain",                                limit: 255,                            default: "",    null: false
     t.string   "oletus_toimitusehto",                              limit: 30,                             default: "",    null: false
     t.string   "oletus_toimitusehto2",                             limit: 30,                             default: "",    null: false
     t.string   "sad_lomake_tyyppi",                                limit: 1,                              default: "",    null: false
