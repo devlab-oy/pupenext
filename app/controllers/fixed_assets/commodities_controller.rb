@@ -155,8 +155,10 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def searchable_columns
       [
-        :name,
-        :description
+        :tapvm,
+        :selite,
+        :summa,
+        :tilino
       ]
     end
 
@@ -174,10 +176,12 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     def linkable_voucher_rows
       @vouchers = @commodity.linkable_voucher_rows
+        .search_like(search_params)
     end
 
     def linkable_purchase_order_rows
       @purchase_orders = @commodity.linkable_invoice_rows
+        .search_like(search_params)
     end
 
     def link_voucher_row
