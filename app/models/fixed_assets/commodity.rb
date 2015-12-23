@@ -68,8 +68,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Sopivat ostolaskurivit
   def linkable_invoice_rows
-    return [] unless linkable_invoices.present?
-    linkable_invoices.map { |invoice| invoice.rows.where(tilino: viable_accounts, commodity_id: nil) }
+    company.purchase_invoice_rows.where(lasku: { tunnus: linkable_head_ids }, tiliointi: { tilino: viable_accounts, commodity_id: nil })
   end
 
   # Sopivat tositteet
@@ -79,8 +78,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Sopivat tositerivit
   def linkable_voucher_rows
-    return [] unless linkable_vouchers.present?
-    linkable_vouchers.map { |voucher| voucher.rows.where(tilino: viable_accounts, commodity_id: nil) }
+    company.voucher_rows.where(lasku: { tunnus: linkable_head_ids } ,tiliointi: { tilino: viable_accounts, commodity_id: nil })
   end
 
   def activated?
@@ -275,7 +273,8 @@ class FixedAssets::Commodity < BaseModel
     end
 
     def linkable_head_ids
-      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil).pluck(:ltunnus).uniq
+      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil,
+        tapvm: company.open_period.first..company.open_period.last).pluck(:ltunnus).uniq
       ids.delete(voucher_id)
       ids
     end
