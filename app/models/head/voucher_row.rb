@@ -1,4 +1,6 @@
 class Head::VoucherRow < BaseModel
+  include Searchable
+
   with_options foreign_key: :ltunnus do |o|
     o.belongs_to :purchase_invoice, class_name: 'Head::PurchaseInvoice'
     o.belongs_to :purchase_order,   class_name: 'PurchaseOrder::Order'
