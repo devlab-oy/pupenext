@@ -40,6 +40,17 @@ class FixedAssets::Commodity < BaseModel
     ]
   end
 
+  def self.human_readable_type(type)
+    case type.capitalize.to_sym
+    when :T
+      return I18n.t('fixed_assets.commodities.model.straight_line_annual_rate_month')
+    when :P
+      return I18n.t('fixed_assets.commodities.model.straight_line_annual_rate_percentage')
+    when :B
+      return I18n.t('fixed_assets.commodities.model.declining_annual_rate')
+    end
+  end
+
   def self.options_for_status
     [
       ['Ei aktivoitu', ''],
