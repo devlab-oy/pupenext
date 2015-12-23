@@ -1000,45 +1000,6 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
-    commodity_reports:
-      balance_statements:
-        acquirement_cost: Hankintameno
-        by_account_group: Tiliryhmittäin
-        depreciation_remaining: Poistamaton osa
-        header: Tilinpäätöksen liitetiedot
-        planned_depreciation: SUMU poisto
-        planned_depreciation_after: Kertynyt SUMU poisto jälkeen
-        planned_depreciation_before: Kertynyt SUMU poisto ennen
-        total_btl_after: EVL Menojäännös
-        total_depreciation_difference: Poistoero
-        total_depreciation_difference_after: Kertynyt poistoero jälkeen
-        total_depreciation_difference_before: Kertynyt poistoero ennen
-      depreciation_difference:
-        account: Tili
-        additions: Lisäykset
-        amounted_difference: Kertynyt poistoero
-        btl_depreciation: EVL poisto
-        btl_vs_planned_difference: SUMU EVL menojäännös
-        fiscal_period_depreciation: Tilikauden poistoero
-        header: Poistoeroraportti
-        planned_depreciation: SUMU poisto
-      depreciations_balance_sheet:
-        account_total: Tili yht.
-        depreciation_for_the_period: Kauden poistot
-        depreciation_period: Poistoaika
-        fiscal_period: Tilikausi
-        fiscal_period_total: Tilikausi yht.
-        header: Tase-erittely SUMU poistoin
-        month: Kuukautta
-        purchase_price: Hankintahinta
-        remaining_balance: Menojäännös
-        voucher: Tosite
-      index:
-        balance_statements: Tilinpäätöksen liitetiedot
-        commodities: Käyttöomaisuuden hyödykkeet
-        depreciation_difference_report: Poistoeroraportti
-        depreciations_balance_sheet: Tase-erittely sumu poistoin
-        header: Käyttöomaisuuden raportit
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy
