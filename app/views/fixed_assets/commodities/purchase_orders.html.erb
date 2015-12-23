@@ -8,36 +8,36 @@
 <%= render "administration/header", text: t('.header') %>
 <%= render "administration/notice" %>
 
-<table>
-  <tr>
-    <th>
-      <%= sortable 'tapvm' %>
-      <br />
-      <%= text_field_tag :tapvm, params[:tapvm] %>
-    </th>
-    <th>
-      <%= sortable 'selite' %>
-      <br />
-      <%= text_field_tag :selite, params[:selite] %>
-    </th>
-    <th>
-      <%= sortable 'summa' %>
-      <br />
-      <%= text_field_tag :summa, params[:summa] %>
-    </th>
-    <th>
-      <%= sortable 'tilino' %>
-      <br />
-      <%= text_field_tag :tilino, params[:tilino] %>
-    </th>
-    <th class="back"><%= submit_tag t('.button_search') %></th>
-  </tr>
+<%= form_tag commodity_purchase_orders_path(@commodity), method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= sortable 'tapvm' %>
+        <br/>
+        <%= text_field_tag :tapvm, params[:tapvm] %>
+      </th>
+      <th>
+        <%= sortable 'selite' %>
+        <br/>
+        <%= text_field_tag :selite, params[:selite] %>
+      </th>
+      <th>
+        <%= sortable 'summa' %>
+        <br/>
+        <%= text_field_tag :summa, params[:summa] %>
+      </th>
+      <th>
+        <%= sortable 'tilino' %>
+        <br/>
+        <%= text_field_tag :tilino, params[:tilino] %>
+      </th>
+      <th class="back"><%= submit_tag t('.button_search') %></th>
+    </tr>
 
-  <% @purchase_orders.each do |order_collection| %>
-    <% order_collection.each do |order_row| %>
-     <% if order_row.commodity_id.present? %>
-      <% next %>
-    <% end %>
+    <% @purchase_orders.each do |order_row| %>
+      <% if order_row.commodity_id.present? %>
+        <% next %>
+      <% end %>
       <tr>
         <td><%= l order_row.tapvm  %></td>
         <td><%= order_row.selite %></td>
@@ -48,5 +48,6 @@
         </td>
       </tr>
     <% end %>
-  <% end %>
-</table>
+  </table>
+<% end %>
+<br/><br/>
