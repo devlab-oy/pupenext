@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217112316) do
+ActiveRecord::Schema.define(version: 20151223092246) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1458,13 +1458,6 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.integer  "projekti",                                 limit: 4,                             default: 0,   null: false
     t.string   "rivihintoja_ei_nayteta",                   limit: 1,                             default: "",  null: false
     t.string   "yllapito_kuukausihinnoittelu",             limit: 1
-    t.string   "konttiviite",                              limit: 35,                            default: "",  null: false
-    t.integer  "konttimaara",                              limit: 4,                             default: 0,   null: false
-    t.string   "konttityyppi",                             limit: 35,                            default: "",  null: false
-    t.integer  "rullamaara",                               limit: 4,                             default: 0,   null: false
-    t.text     "matkatiedot",                              limit: 65535
-    t.datetime "satamavahvistus_pvm",                                                                          null: false
-    t.string   "matkakoodi",                               limit: 35,                            default: "",  null: false
     t.string   "laatija",                                  limit: 50,                            default: "",  null: false
     t.datetime "luontiaika",                                                                                   null: false
     t.datetime "muutospvm",                                                                                    null: false
@@ -1933,34 +1926,29 @@ ActiveRecord::Schema.define(version: 20151217112316) do
   add_index "sanakirja", ["fi"], name: "fi", length: {"fi"=>50}, using: :btree
 
   create_table "sarjanumeroseuranta", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",             limit: 5,                              default: "",  null: false
-    t.string   "tuoteno",           limit: 60,                             default: "",  null: false
-    t.string   "sarjanumero",       limit: 150,                            default: "",  null: false
+    t.string   "yhtio",             limit: 5,                             default: "",  null: false
+    t.string   "tuoteno",           limit: 60,                            default: "",  null: false
+    t.string   "sarjanumero",       limit: 150,                           default: "",  null: false
     t.text     "lisatieto",         limit: 65535
-    t.decimal  "massa",                           precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal  "korkeus",                         precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal  "leveys",                          precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal  "syvyys",                          precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal  "halkaisija",                      precision: 12, scale: 4, default: 0.0, null: false
-    t.integer  "ostorivitunnus",    limit: 4,                              default: 0,   null: false
-    t.integer  "myyntirivitunnus",  limit: 4,                              default: 0,   null: false
-    t.integer  "siirtorivitunnus",  limit: 4,                              default: 0,   null: false
-    t.string   "hyllyalue",         limit: 5,                              default: "",  null: false
-    t.string   "hyllynro",          limit: 5,                              default: "",  null: false
-    t.string   "hyllyvali",         limit: 5,                              default: "",  null: false
-    t.string   "hyllytaso",         limit: 5,                              default: "",  null: false
+    t.integer  "ostorivitunnus",    limit: 4,                             default: 0,   null: false
+    t.integer  "myyntirivitunnus",  limit: 4,                             default: 0,   null: false
+    t.integer  "siirtorivitunnus",  limit: 4,                             default: 0,   null: false
+    t.string   "hyllyalue",         limit: 5,                             default: "",  null: false
+    t.string   "hyllynro",          limit: 5,                             default: "",  null: false
+    t.string   "hyllyvali",         limit: 5,                             default: "",  null: false
+    t.string   "hyllytaso",         limit: 5,                             default: "",  null: false
     t.integer  "varasto",           limit: 4
-    t.date     "takuu_alku",                                                             null: false
-    t.date     "takuu_loppu",                                                            null: false
-    t.date     "parasta_ennen",                                                          null: false
-    t.integer  "perheid",           limit: 4,                              default: 0,   null: false
-    t.string   "kaytetty",          limit: 1,                              default: "",  null: false
-    t.decimal  "era_kpl",                         precision: 8,  scale: 2, default: 0.0, null: false
-    t.string   "laatija",           limit: 50,                             default: "",  null: false
-    t.datetime "luontiaika",                                                             null: false
-    t.datetime "muutospvm",                                                              null: false
-    t.string   "muuttaja",          limit: 50,                             default: "",  null: false
-    t.integer  "inventointitunnus", limit: 4,                              default: 0,   null: false
+    t.date     "takuu_alku",                                                            null: false
+    t.date     "takuu_loppu",                                                           null: false
+    t.date     "parasta_ennen",                                                         null: false
+    t.integer  "perheid",           limit: 4,                             default: 0,   null: false
+    t.string   "kaytetty",          limit: 1,                             default: "",  null: false
+    t.decimal  "era_kpl",                         precision: 8, scale: 2, default: 0.0, null: false
+    t.string   "laatija",           limit: 50,                            default: "",  null: false
+    t.datetime "luontiaika",                                                            null: false
+    t.datetime "muutospvm",                                                             null: false
+    t.string   "muuttaja",          limit: 50,                            default: "",  null: false
+    t.integer  "inventointitunnus", limit: 4,                             default: 0,   null: false
   end
 
   add_index "sarjanumeroseuranta", ["yhtio", "lisatieto"], name: "yhtio_lisatieto", type: :fulltext
@@ -2286,22 +2274,7 @@ ActiveRecord::Schema.define(version: 20151217112316) do
     t.string   "kohde_hyllyvali",           limit: 5,                             default: "",    null: false
     t.string   "kohde_hyllytaso",           limit: 5,                             default: "",    null: false
     t.string   "korvamerkinta",             limit: 100,                           default: "",    null: false
-    t.string   "rahtikirja_id",             limit: 35,                            default: "",    null: false
-    t.string   "juoksu",                    limit: 35,                            default: "",    null: false
     t.integer  "tullinimike",               limit: 4,                             default: 0,     null: false
-    t.integer  "tilauksen_paino",           limit: 4,                             default: 0,     null: false
-    t.string   "kuljetuksen_rekno",         limit: 9,                             default: "",    null: false
-    t.string   "asiakkaan_tilausnumero",    limit: 35,                            default: "",    null: false
-    t.integer  "asiakkaan_rivinumero",      limit: 4,                             default: 0,     null: false
-    t.string   "matkakoodi",                limit: 35,                            default: "",    null: false
-    t.string   "konttinumero",              limit: 35,                            default: "",    null: false
-    t.string   "sinettinumero",             limit: 35,                            default: "",    null: false
-    t.integer  "kontin_kilot",              limit: 4,                             default: 0,     null: false
-    t.integer  "kontin_taarapaino",         limit: 4,                             default: 0,     null: false
-    t.string   "kontin_mrn",                limit: 35,                            default: "",    null: false
-    t.integer  "kontin_maxkg",              limit: 4,                             default: 0,     null: false
-    t.integer  "konttien_maara",            limit: 4,                             default: 0,     null: false
-    t.string   "kontin_isokoodi",           limit: 35,                            default: "",    null: false
     t.datetime "luontiaika",                                                                      null: false
     t.string   "laatija",                   limit: 50,                            default: "",    null: false
     t.datetime "muutospvm",                                                                       null: false
