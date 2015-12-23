@@ -275,7 +275,7 @@ class FixedAssets::Commodity < BaseModel
     end
 
     def linkable_head_ids
-      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil).pluck(:ltunnus)
+      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil).pluck(:ltunnus).uniq
       ids.delete(voucher_id)
       ids
     end
