@@ -10,6 +10,7 @@
     <tr>
     <th><%= t('.name') %></th>
     <th><%= t('.description') %></th>
+    <th><%= t('.status') %></th>
     <th><%= t('.bookkeeping_value_today') %></th>
     </tr>
     <% @commodities.each do |com| %>
@@ -22,6 +23,7 @@
           <% end %>
         </td>
         <td><%= com.description %></td>
+        <td><%= com.status %></td>
         <td><%= com.bookkeeping_value(Date.today)%></td>
       </tr>
     <% end %>
