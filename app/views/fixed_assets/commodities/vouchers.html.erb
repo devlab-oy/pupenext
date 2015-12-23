@@ -44,7 +44,7 @@
         <td><%= voucher_row.summa  %></td>
         <td><%= voucher_row.tilino %></td>
         <td class='back'>
-        <%= button_to t('.button_add'), commodity_link_voucher_path(@commodity, {voucher_row_id: voucher_row.tunnus }), method: :post %>
+          <%= link_to t('.button_add'), commodity_link_voucher_path(@commodity, { voucher_row_id: voucher_row.tunnus }), method: :post %>
         </td>
       </tr>
     <% end %>
