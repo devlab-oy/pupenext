@@ -67,7 +67,13 @@
       <td><%= f.select :status, options_for_select(FixedAssets::Commodity.options_for_status, @commodity.status), {}, {:disabled => true} %></td>
     </tr>
       <th><%= f.label t('.planned_depreciation_type') %></th>
-      <td><%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %></td>
+      <td>
+        <% if @commodity.activated? %>
+          <%= FixedAssets::Commodity.human_readable_type(@commodity.planned_depreciation_type) %>
+        <% else %>
+          <%= f.select :planned_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.planned_depreciation_type) %>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label t('.planned_depreciation_amount') %></th>
@@ -75,7 +81,12 @@
     </tr>
     <tr>
       <th><%= f.label t('.btl_depreciation_type') %></th>
-      <td><%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
+      <td>
+      <% if @commodity.activated? %>
+        <%= FixedAssets::Commodity.human_readable_type(@commodity.btl_depreciation_type) %>
+      <% else %>
+        <%= f.select :btl_depreciation_type, options_for_select(FixedAssets::Commodity.options_for_type, @commodity.btl_depreciation_type) %></td>
+      <% end %>
     </tr>
     <tr>
       <th><%= f.label t('.btl_depreciation_amount') %></th>
