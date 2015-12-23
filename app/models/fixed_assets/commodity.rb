@@ -24,7 +24,7 @@ class FixedAssets::Commodity < BaseModel
     o.validates :planned_depreciation_amount, :btl_depreciation_amount,
                 numericality: { greater_than: 0 }, presence: true
 
-    o.validate :activation_only_on_open_fiscal_year
+    o.validate :activation_only_on_open_period, if: :status_changed?
     o.validate :depreciation_amount_must_follow_type
     o.validate :must_have_procurement_rows
   end
@@ -49,6 +49,10 @@ class FixedAssets::Commodity < BaseModel
     ]
   end
 
+  def previous_btl_depreciations=(value)
+    write_attribute(:previous_btl_depreciations, value.to_d.abs)
+  end
+
   def allows_unlinking?
     !activated? || procurement_rows.count > 1
   end
@@ -62,9 +66,21 @@ class FixedAssets::Commodity < BaseModel
     company.purchase_invoices_paid.where(tunnus: linkable_head_ids)
   end
 
+  # Sopivat ostolaskurivit
+  def linkable_invoice_rows
+    return [] unless linkable_invoices.present?
+    linkable_invoices.map { |invoice| invoice.rows.where(tilino: viable_accounts, commodity_id: nil) }
+  end
+
   # Sopivat tositteet
   def linkable_vouchers
     company.vouchers.where(tunnus: linkable_head_ids)
+  end
+
+  # Sopivat tositerivit
+  def linkable_voucher_rows
+    return [] unless linkable_vouchers.present?
+    linkable_vouchers.map { |voucher| voucher.rows.where(tilino: viable_accounts, commodity_id: nil) }
   end
 
   def activated?
@@ -140,14 +156,30 @@ class FixedAssets::Commodity < BaseModel
     procurement_rows.map(&:projekti).uniq
   end
 
+  # Ensimmäisen hankinnan päivämäärä tai nyt
+  def procurement_date
+    procurement_d = activated_at || procurement_rows.first.try(:tapvm) || Date.today
+    procurement_d.to_date.to_s(:db)
+  end
+
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    range = company.current_fiscal_year.first..end_date
-    calculation = voucher.present? ? depreciation_rows.where(tapvm: range).sum(:summa) : 0
+    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.0
     if deactivated?
       calculation = amount
     end
-    amount - calculation
+
+    if calculation > 0
+      amount - calculation
+    else
+      amount + calculation
+    end
+  end
+
+  # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
+  def btl_value(end_date = company.current_fiscal_year.last)
+    comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
+    comparable_amount + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
   end
 
   def can_be_sold?
@@ -161,6 +193,30 @@ class FixedAssets::Commodity < BaseModel
     return false unless company.date_in_open_period?(deactivated_at)
     return false unless ['S','E'].include?(depreciation_remainder_handling)
     true
+  end
+
+  def accumulated_depreciation_at(date)
+    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_difference_at(date)
+    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+  end
+
+  def accumulated_evl_at(date)
+    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+  end
+
+  def depreciation_between(date1, date2)
+     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def difference_between(date1, date2)
+    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+  end
+
+  def evl_between(date1, date2)
+    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end
 
   private
@@ -193,9 +249,9 @@ class FixedAssets::Commodity < BaseModel
       end
     end
 
-    def activation_only_on_open_fiscal_year
+    def activation_only_on_open_period
       unless company.date_in_open_period?(activated_at)
-        errors.add(:base, "Activation date must be within current editable fiscal year")
+        errors.add(:base, "Activation date must be within current editable fiscal period")
       end
     end
 
@@ -219,10 +275,7 @@ class FixedAssets::Commodity < BaseModel
     end
 
     def linkable_head_ids
-      ids = Head::VoucherRow.where(
-        tilino: viable_accounts,
-        tapvm: company.current_fiscal_year,
-        commodity_id: nil ).pluck(:ltunnus)
+      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil).pluck(:ltunnus)
       ids.delete(voucher_id)
       ids
     end

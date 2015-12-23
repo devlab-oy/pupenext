@@ -14,7 +14,7 @@ class Head::VoucherRow < BaseModel
   scope :unlocked, -> { where(lukko: '') }
 
   validates :yhtio, presence: true
-  validate :allow_only_open_fiscal_period
+  validate :allow_only_open_period
   validate :only_one_account_per_commodity, if: :has_commodity_account?
   validate :allow_only_commodity_sum_level_accounts, if: :has_commodity_id?
   validate :commodity_linking
@@ -92,9 +92,9 @@ class Head::VoucherRow < BaseModel
       self.korjausaika ||= Date.today
     end
 
-    def allow_only_open_fiscal_period
+    def allow_only_open_period
       unless company.date_in_open_period?(tapvm)
-        errors.add(:base, 'Must be created on an open fiscal period.')
+        errors.add(:base, 'Must be created on open period.')
       end
     end
 

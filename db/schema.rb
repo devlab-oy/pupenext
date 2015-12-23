@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211150743) do
+ActiveRecord::Schema.define(version: 20151216124018) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -609,8 +609,8 @@ ActiveRecord::Schema.define(version: 20151211150743) do
     t.integer  "profit_account_id",               limit: 4
     t.integer  "sales_account_id",                limit: 4
     t.integer  "voucher_id",                      limit: 4
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.datetime "created_at",                                                                         null: false
+    t.datetime "updated_at",                                                                         null: false
     t.date     "activated_at"
     t.date     "deactivated_at"
     t.string   "name",                            limit: 255
@@ -622,6 +622,7 @@ ActiveRecord::Schema.define(version: 20151211150743) do
     t.decimal  "btl_depreciation_amount",                     precision: 16, scale: 6
     t.decimal  "amount",                                      precision: 16, scale: 6
     t.decimal  "amount_sold",                                 precision: 16, scale: 6
+    t.decimal  "previous_btl_depreciations",                  precision: 16, scale: 6, default: 0.0
     t.string   "depreciation_remainder_handling", limit: 1
     t.string   "created_by",                      limit: 255
     t.string   "modified_by",                     limit: 255
