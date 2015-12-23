@@ -862,8 +862,10 @@ fi:
         status: Tila
         target: Kohde
       index:
-        button_search: Etsi
+        name: Nimitys
+        description: Kuvaus
         header: Käyttöomaisuuden hyödykkeet
+        bookkeeping_value_today: Kirjapidollinen arvo nyt
       link_order:
         link_order_success: Ostolaskun rivi liitetty
       link_voucher:
