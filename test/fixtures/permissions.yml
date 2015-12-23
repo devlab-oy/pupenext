@@ -10,6 +10,7 @@
     currencies
     custom_attributes
     customer_price_lists
+    customer_transports
     customers
     data_export
     data_import
@@ -27,6 +28,7 @@
     stock_listing_csv
     sum_levels
     supplier_product_informations
+    talgraf_balances_csv
     terms_of_payments
     test
     transports

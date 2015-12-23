@@ -11,23 +11,23 @@
 <%= form_tag(commodity_confirm_sale_path(@commodity), method: "post") do %>
   <table>
   <tr>
-  <th><%= label_tag :amount_sold %></th>
+  <th><%= label_tag t('.amount_sold') %></th>
   <td><%= text_field_tag :amount_sold, @commodity.amount_sold %></td>
   </tr>
   <tr>
-  <th><%= label_tag :deactivated_at %></th>
+  <th><%= label_tag t('.deactivated_at') %></th>
   <td><%= date_field_tag :deactivated_at, @commodity.deactivated_at %></td>
   </tr>
   <tr>
-  <th><%= label_tag :sales_account %></th>
+  <th><%= label_tag t('.sales_account') %></th>
   <td><%= text_field_tag :sales_account, @commodity.sales_account.try(:tilino) %></td>
   </tr>
   <tr>
-  <th><%= label_tag :profit_account %></th>
+  <th><%= label_tag t('.profit_account') %></th>
   <td><%= text_field_tag :profit_account, @commodity.profit_account.try(:tilino) %></td>
   </tr>
   <tr>
-  <th><%= label_tag :depreciation_remainder_handling %></th>
+  <th><%= label_tag t('.depreciation_remainder_handling') %></th>
   <td><%= select_tag :depreciation_remainder_handling, options_for_select([['Suora', 'S'], ['Epäsuora', 'E']]) %></td>
   </tr>
   <tr><td class='back'><%= submit_tag(t('.confirm_sale')) %></td></tr>

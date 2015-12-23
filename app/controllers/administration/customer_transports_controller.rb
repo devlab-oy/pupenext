@@ -1,6 +1,7 @@
-class Administration::TransportsController < AdministrationController
+class Administration::CustomerTransportsController < AdministrationController
+
   def index
-    @transports = current_company.transports
+    @transports = current_company.customer_transports
   end
 
   def show
@@ -8,7 +9,7 @@ class Administration::TransportsController < AdministrationController
   end
 
   def new
-    @transport = current_company.transports.new
+    @transport = current_company.customer_transports.new
     render :edit
   end
 
@@ -16,10 +17,10 @@ class Administration::TransportsController < AdministrationController
   end
 
   def create
-    @transport = current_company.transports.new transport_params
+    @transport = current_company.customer_transports.new transport_params
 
     if @transport.save
-      redirect_to transports_url
+      redirect_to customer_transports_url
     else
       render :edit
     end
@@ -27,7 +28,7 @@ class Administration::TransportsController < AdministrationController
 
   def update
     if @transport.update(transport_params)
-      redirect_to transports_url
+      redirect_to customer_transports_url
     else
       render :edit
     end
@@ -35,17 +36,17 @@ class Administration::TransportsController < AdministrationController
 
   def destroy
     @transport.destroy
-    redirect_to transports_url
+    redirect_to customer_transports_url
   end
 
   private
 
     def find_resource
-      @transport = current_company.transports.find params[:id]
+      @transport = current_company.customer_transports.find params[:id]
     end
 
     def transport_params
-      params.require(:transport).permit(
+      params.require(:customer_transport).permit(
         :transportable_id,
         :hostname,
         :password,

@@ -1,12 +1,13 @@
-<%= render "administration/header", text: t('.header') %>
+<%= render "administration/header", text: t('administration.transports.index.header') %>
 
-<%= button_to_new :transport %>
+<%= button_to_new 'transport', new_customer_transport_path %>
 
 <hr>
 
 <table>
   <thead>
     <tr>
+      <th><%= Transport.human_attribute_name(:customer) %></th>
       <th><%= Transport.human_attribute_name(:hostname) %></th>
       <th><%= Transport.human_attribute_name(:username) %></th>
       <th><%= Transport.human_attribute_name(:password) %></th>
@@ -17,7 +18,8 @@
   <tbody>
     <% @transports.each do |transport| %>
       <tr>
-        <td><%= link_to transport.hostname, edit_transport_path(transport) %></td>
+        <td><%= link_to transport.transportable.nimi, edit_customer_transport_path(transport) %></td>
+        <td><%= transport.hostname %></td>
         <td><%= transport.username %></td>
         <td><%= transport.password %></td>
         <td><%= transport.path %></td>
@@ -28,4 +30,4 @@
 
 <br>
 
-<%= button_to_new :transport %>
+<%= button_to_new 'transport', new_customer_transport_path %>
