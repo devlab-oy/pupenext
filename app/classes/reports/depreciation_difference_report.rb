@@ -30,9 +30,21 @@ class Reports::DepreciationDifferenceReport::Response
   end
 
   def sum_levels
-    company.sum_level_commodities.map do |level|
+    @sum_levels ||= company.sum_level_commodities.map do |level|
       Reports::DepreciationDifferenceReport::SumLevel.new(sum_level: level, date_range: date_range)
     end
+  end
+
+  def deprication_total
+    sum_levels.sum &:deprication_total
+  end
+
+  def difference_total
+    sum_levels.sum &:difference_total
+  end
+
+  def evl_total
+    sum_levels.sum &:evl_total
   end
 end
 
@@ -45,13 +57,25 @@ class Reports::DepreciationDifferenceReport::SumLevel
   end
 
   def accounts
-    sum_level.accounts.map do |account|
+    @accounts ||= sum_level.accounts.map do |account|
       Reports::DepreciationDifferenceReport::Account.new(account: account, date_range: date_range)
     end
   end
 
   def name
     sum_level.nimi
+  end
+
+  def deprication_total
+    accounts.sum &:deprication_total
+  end
+
+  def difference_total
+    accounts.sum &:difference_total
+  end
+
+  def evl_total
+    accounts.sum &:evl_total
   end
 end
 
@@ -64,13 +88,25 @@ class Reports::DepreciationDifferenceReport::Account
   end
 
   def commodities
-    account.commodities.map do |commodity|
+    @commodities ||= account.commodities.map do |commodity|
       Reports::DepreciationDifferenceReport::Commodity.new(commodity: commodity, date_range: date_range)
     end
   end
 
   def name
     account.nimi
+  end
+
+  def deprication_total
+    commodities.sum &:deprication
+  end
+
+  def difference_total
+    commodities.sum &:difference
+  end
+
+  def evl_total
+    commodities.sum &:evl
   end
 end
 
@@ -87,14 +123,14 @@ class Reports::DepreciationDifferenceReport::Commodity
   end
 
   def deprication
-    commodity.depreciation_between date_range.first, date_range.last
+    @deprication ||= commodity.depreciation_between date_range.first, date_range.last
   end
 
   def difference
-    commodity.difference_between date_range.first, date_range.last
+    @difference ||= commodity.difference_between date_range.first, date_range.last
   end
 
   def evl
-    commodity.evl_between date_range.first, date_range.last
+    @evl ||= commodity.evl_between date_range.first, date_range.last
   end
 end

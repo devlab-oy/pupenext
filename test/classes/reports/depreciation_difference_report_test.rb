@@ -33,18 +33,31 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
   test 'returns response hierarcy' do
     data = @report.data
     assert_equal Reports::DepreciationDifferenceReport::Response, data.class
+    assert_equal "0.0", data.deprication_total.to_s
+    assert_equal "111.0", data.difference_total.to_s
+    assert_equal "1001.0", data.evl_total.to_s
 
     sum_levels = data.sum_levels
     assert_equal Array, sum_levels.class
-    assert_equal Reports::DepreciationDifferenceReport::SumLevel, sum_levels.first.class
-    assert_equal "Koneet ja kalusto", sum_levels.first.name
 
-    accounts = sum_levels.first.accounts
+    sum_level = sum_levels.first
+    assert_equal Reports::DepreciationDifferenceReport::SumLevel, sum_level.class
+    assert_equal "Koneet ja kalusto", sum_level.name
+    assert_equal "0.0", sum_level.deprication_total.to_s
+    assert_equal "111.0", sum_level.difference_total.to_s
+    assert_equal "1001.0", sum_level.evl_total.to_s
+
+    accounts = sum_level.accounts
     assert_equal Array, accounts.class
-    assert_equal Reports::DepreciationDifferenceReport::Account, accounts.first.class
-    assert_equal "EVL poistoerovastatili", accounts.first.name
 
-    commodities = accounts.first.commodities
+    account = accounts.first
+    assert_equal Reports::DepreciationDifferenceReport::Account, account.class
+    assert_equal "EVL poistoerovastatili", account.name
+    assert_equal "0.0", account.deprication_total.to_s
+    assert_equal "111.0", account.difference_total.to_s
+    assert_equal "1001.0", account.evl_total.to_s
+
+    commodities = account.commodities
     assert_equal Array, commodities.class
 
     commodity = commodities.first
