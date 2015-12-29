@@ -159,13 +159,13 @@ class FixedAssets::Commodity < BaseModel
 
   # Ensimmäisen hankinnan päivämäärä tai nyt
   def procurement_date
-    procurement_d = activated_at || procurement_rows.first.try(:tapvm) || Date.today
-    procurement_d.to_date.to_s(:db)
+    activated_at || procurement_rows.first.try(:tapvm) || Date.today
   end
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.0
+    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.to_d
+
     if deactivated?
       calculation = amount
     end
