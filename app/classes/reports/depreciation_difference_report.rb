@@ -55,6 +55,14 @@ class Reports::DepreciationDifferenceReport::Response
   def procurement_amount_total
     sum_levels.sum &:procurement_amount_total
   end
+
+  def opening_deprication_total
+    sum_levels.sum &:opening_deprication_total
+  end
+
+  def opening_btl_total
+    sum_levels.sum &:opening_btl_total
+  end
 end
 
 class Reports::DepreciationDifferenceReport::SumLevel
@@ -89,6 +97,14 @@ class Reports::DepreciationDifferenceReport::SumLevel
 
   def procurement_amount_total
     accounts.sum &:procurement_amount_total
+  end
+
+  def opening_deprication_total
+    accounts.sum &:opening_deprication_total
+  end
+
+  def opening_btl_total
+    accounts.sum &:opening_btl_total
   end
 end
 
@@ -125,6 +141,14 @@ class Reports::DepreciationDifferenceReport::Account
   def procurement_amount_total
     commodities.sum &:procurement_amount
   end
+
+  def opening_deprication_total
+    commodities.sum &:opening_deprication
+  end
+
+  def opening_btl_total
+    commodities.sum &:opening_btl
+  end
 end
 
 class Reports::DepreciationDifferenceReport::Commodity
@@ -145,6 +169,14 @@ class Reports::DepreciationDifferenceReport::Commodity
 
   def procurement_amount
     commodity.amount
+  end
+
+  def opening_deprication
+    commodity.bookkeeping_value date_range.first
+  end
+
+  def opening_btl
+    commodity.btl_value date_range.first
   end
 
   def deprication
