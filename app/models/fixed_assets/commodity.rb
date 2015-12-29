@@ -95,7 +95,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Returns sum of past sumu depreciations
   def deprecated_sumu_amount
-    voucher.rows.locked.sum(:summa)
+    voucher_rows.locked.sum(:summa)
   end
 
   # Returns sum of past evl depreciations
@@ -110,7 +110,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Käyttöomaisuus-rivit
   def fixed_assets_rows
-    voucher.rows.where(tilino: fixed_assets_account)
+    voucher_rows.where(tilino: fixed_assets_account)
   end
 
   # Poisto-tili (tuloslaskelma)
