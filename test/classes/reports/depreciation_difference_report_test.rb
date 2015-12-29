@@ -36,6 +36,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal "0.0", data.deprication_total.to_s
     assert_equal "111.0", data.difference_total.to_s
     assert_equal "1001.0", data.evl_total.to_s
+    assert_equal "10000.0", data.procurement_amount_total.to_s
 
     sum_levels = data.sum_levels
     assert_equal Array, sum_levels.class
@@ -46,6 +47,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal "0.0", sum_level.deprication_total.to_s
     assert_equal "111.0", sum_level.difference_total.to_s
     assert_equal "1001.0", sum_level.evl_total.to_s
+    assert_equal "10000.0", sum_level.procurement_amount_total.to_s
 
     accounts = sum_level.accounts
     assert_equal Array, accounts.class
@@ -56,6 +58,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal "0.0", account.deprication_total.to_s
     assert_equal "111.0", account.difference_total.to_s
     assert_equal "1001.0", account.evl_total.to_s
+    assert_equal "10000.0", account.procurement_amount_total.to_s
 
     commodities = account.commodities
     assert_equal Array, commodities.class
@@ -66,5 +69,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal "0.0", commodity.deprication.to_s
     assert_equal "111.0", commodity.difference.to_s
     assert_equal "1001.0", commodity.evl.to_s
+    assert_equal "10000.0", commodity.procurement_amount.to_s
+    assert_equal commodity.commodity.activated_at, commodity.procurement_date
   end
 end

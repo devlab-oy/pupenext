@@ -51,6 +51,10 @@ class Reports::DepreciationDifferenceReport::Response
   def evl_total
     sum_levels.sum &:evl_total
   end
+
+  def procurement_amount_total
+    sum_levels.sum &:procurement_amount_total
+  end
 end
 
 class Reports::DepreciationDifferenceReport::SumLevel
@@ -81,6 +85,10 @@ class Reports::DepreciationDifferenceReport::SumLevel
 
   def evl_total
     accounts.sum &:evl_total
+  end
+
+  def procurement_amount_total
+    accounts.sum &:procurement_amount_total
   end
 end
 
@@ -113,6 +121,10 @@ class Reports::DepreciationDifferenceReport::Account
   def evl_total
     commodities.sum &:evl
   end
+
+  def procurement_amount_total
+    commodities.sum &:procurement_amount
+  end
 end
 
 class Reports::DepreciationDifferenceReport::Commodity
@@ -125,6 +137,14 @@ class Reports::DepreciationDifferenceReport::Commodity
 
   def name
     commodity.name
+  end
+
+  def procurement_date
+    commodity.procurement_date
+  end
+
+  def procurement_amount
+    commodity.amount
   end
 
   def deprication
