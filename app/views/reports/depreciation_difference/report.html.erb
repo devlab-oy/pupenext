@@ -19,7 +19,7 @@
       <th><%=t '.procurement_date' %></th>
       <th><%=t '.procurement_amount' %></td>
       <th><%=t '.deprication' %></th>
-      <th><%=t '.evl' %></td>
+      <th><%=t '.btl' %></td>
       <th><%=t '.difference' %></th>
     </tr>
 
@@ -33,7 +33,7 @@
           <td style='text-align: right;'><%=l commodity.procurement_date %></td>
           <td style='text-align: right;'><%= commodity.procurement_amount %></td>
           <td style='text-align: right;'><%= commodity.deprication %></td>
-          <td style='text-align: right;'><%= commodity.evl %></td>
+          <td style='text-align: right;'><%= commodity.btl %></td>
           <td style='text-align: right;'><%= commodity.difference %></td>
         </tr>
       <% end %>
@@ -45,7 +45,7 @@
         <th></th>
         <th style='text-align: right;'><%= account.procurement_amount_total %></th>
         <th style='text-align: right;'><%= account.deprication_total %></th>
-        <th style='text-align: right;'><%= account.evl_total %></th>
+        <th style='text-align: right;'><%= account.btl_total %></th>
         <th style='text-align: right;'><%= account.difference_total %></th>
       </tr>
 
@@ -58,7 +58,7 @@
       <th></th>
       <th style='text-align: right;'><%= sum_level.procurement_amount_total %></th>
       <th style='text-align: right;'><%= sum_level.deprication_total %></th>
-      <th style='text-align: right;'><%= sum_level.evl_total %></th>
+      <th style='text-align: right;'><%= sum_level.btl_total %></th>
       <th style='text-align: right;'><%= sum_level.difference_total %></th>
     </tr>
 
@@ -75,7 +75,7 @@
     <td class='back'></td>
     <th><%=t '.procurement_amount' %></td>
     <th><%=t '.deprication' %></th>
-    <th><%=t '.evl' %></td>
+    <th><%=t '.btl' %></td>
     <th><%=t '.difference' %></th>
   </tr>
 
@@ -86,7 +86,7 @@
     <td class='back'></td>
     <th style='text-align: right;'><%= @report.data.procurement_amount_total %></th>
     <th style='text-align: right;'><%= @report.data.deprication_total %></th>
-    <th style='text-align: right;'><%= @report.data.evl_total %></th>
+    <th style='text-align: right;'><%= @report.data.btl_total %></th>
     <th style='text-align: right;'><%= @report.data.difference_total %></th>
   </tr>
 

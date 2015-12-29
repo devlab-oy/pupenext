@@ -48,8 +48,8 @@ class Reports::DepreciationDifferenceReport::Response
     sum_levels.sum &:difference_total
   end
 
-  def evl_total
-    sum_levels.sum &:evl_total
+  def btl_total
+    sum_levels.sum &:btl_total
   end
 
   def procurement_amount_total
@@ -83,8 +83,8 @@ class Reports::DepreciationDifferenceReport::SumLevel
     accounts.sum &:difference_total
   end
 
-  def evl_total
-    accounts.sum &:evl_total
+  def btl_total
+    accounts.sum &:btl_total
   end
 
   def procurement_amount_total
@@ -118,8 +118,8 @@ class Reports::DepreciationDifferenceReport::Account
     commodities.sum &:difference
   end
 
-  def evl_total
-    commodities.sum &:evl
+  def btl_total
+    commodities.sum &:btl
   end
 
   def procurement_amount_total
@@ -155,7 +155,7 @@ class Reports::DepreciationDifferenceReport::Commodity
     @difference ||= commodity.difference_between date_range.first, date_range.last
   end
 
-  def evl
-    @evl ||= commodity.evl_between date_range.first, date_range.last
+  def btl
+    @btl ||= commodity.evl_between date_range.first, date_range.last
   end
 end

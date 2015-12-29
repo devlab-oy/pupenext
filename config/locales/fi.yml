@@ -655,7 +655,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -681,7 +681,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -1039,10 +1039,10 @@ fi:
         start_date: Alkupäivämäärä
       report:
         account: Tili
+        btl: EVL-poisto
         commodity: Hyödyke
         deprication: SUMU-poisto
         difference: Poistoero
-        evl: EVL-poisto
         procurement_amount: Hankintahinta
         procurement_date: Hankintapäivä
         sum_level: Tilitaso
