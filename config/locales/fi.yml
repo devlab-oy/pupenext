@@ -1031,6 +1031,12 @@ fi:
         price: Hinta
         printed: Tulostettu
         valid_text: Hinnasto on voimassa
+    depreciation_difference:
+      index:
+        end_date: Loppupäivämäärä
+        header: Poistoeroraportti
+        run: Aja raportti
+        start_date: Alkupäivämäärä
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat

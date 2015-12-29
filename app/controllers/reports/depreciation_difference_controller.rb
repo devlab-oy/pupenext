@@ -15,7 +15,7 @@ class Reports::DepreciationDifferenceController < ApplicationController
   private
 
     def report_params
-      params.require(:report).permit(
+      params.permit(
         :start_date,
         :end_date
       )

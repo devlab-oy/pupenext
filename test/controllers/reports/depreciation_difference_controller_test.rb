@@ -16,7 +16,7 @@ class Reports::DepreciationDifferenceControllerTest < ActionController::TestCase
       end_date:   Date.today.end_of_year,
     }
 
-    post :create, report: params
+    post :create, params
     assert_response :success
   end
 end
