@@ -1043,6 +1043,8 @@ fi:
         deprication: SUMU-poisto
         difference: Poistoero
         evl: EVL-poisto
+        procurement_amount: Hankintahinta
+        procurement_date: Hankintapäivä
         sum_level: Tilitaso
     revenue_expenditure:
       index:
