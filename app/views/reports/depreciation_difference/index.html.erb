@@ -10,7 +10,7 @@
         <%= label_tag t('.start_date') %>
       </th>
       <td>
-        <%= date_field_tag :start_date,
+        <%= text_field_tag :start_date,
             current_company.current_fiscal_year.first,
             class: :pickadate %>
       </td>
@@ -21,7 +21,7 @@
         <%= label_tag t('.end_date') %>
       </th>
       <td>
-        <%= date_field_tag :end_date,
+        <%= text_field_tag :end_date,
             current_company.current_fiscal_year.last,
             class: :pickadate %>
       </td>
