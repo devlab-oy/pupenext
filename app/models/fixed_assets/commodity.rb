@@ -3,7 +3,7 @@ class FixedAssets::Commodity < BaseModel
 
   # commodity = hyödyke
   # .voucher = tosite, jolle kirjataan SUMU-poistot
-  # .voucher.rows = tosittella on SUMU-poisto tiliöintirivejä
+  # .voucher_rows = tosittella on SUMU-poisto tiliöintirivejä
   # .commodity_rows = rivejä, jolla kirjataan EVL poistot
   # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
@@ -17,6 +17,7 @@ class FixedAssets::Commodity < BaseModel
 
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
+  has_many :voucher_rows, through: :voucher, class_name: 'Head::VoucherRow', source: :rows
 
   validates :name, :description, presence: true
 
@@ -81,7 +82,10 @@ class FixedAssets::Commodity < BaseModel
   # Sopivat tositerivit
   def linkable_voucher_rows
     return [] unless linkable_vouchers.present?
-    linkable_vouchers.map { |voucher| voucher.rows.where(tilino: viable_accounts, commodity_id: nil) }
+
+    linkable_vouchers.map do |voucher|
+      voucher_rows.where(tiliointi: { tilino: viable_accounts, commodity_id: nil })
+    end
   end
 
   def activated?
@@ -119,7 +123,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poisto-rivit
   def depreciation_rows
-    voucher.rows.where(tilino: depreciation_account)
+    voucher_rows.where(tilino: depreciation_account)
   end
 
   # Poistoero-tili (tase)
@@ -129,7 +133,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poistoero-rivit
   def depreciation_difference_rows
-    voucher.rows.where(tilino: depreciation_difference_account)
+    voucher_rows.where(tilino: depreciation_difference_account)
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
@@ -139,7 +143,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poistoeromuutos-rivit
   def depreciation_difference_change_rows
-    voucher.rows.where(tilino: depreciation_difference_change_account)
+    voucher_rows.where(tilino: depreciation_difference_change_account)
   end
 
   # Kaikki hankinnan kustannuspaikat
@@ -164,10 +168,10 @@ class FixedAssets::Commodity < BaseModel
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.to_d
-
     if deactivated?
       calculation = amount
+    else
+      calculation = depreciation_rows.where("tiliointi.tapvm <= ? ", end_date).sum(:summa)
     end
 
     if calculation > 0
@@ -180,7 +184,7 @@ class FixedAssets::Commodity < BaseModel
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
   def btl_value(end_date = company.current_fiscal_year.last)
     comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
-    comparable_amount + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
+    comparable_amount + commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", end_date).sum(:amount)
   end
 
   def can_be_sold?
@@ -197,15 +201,15 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def accumulated_depreciation_at(date)
-    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+    depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
   def accumulated_difference_at(date)
-    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+    depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
   def accumulated_evl_at(date)
-    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+    commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", date).sum(:amount)
   end
 
   def depreciation_between(date1, date2)
