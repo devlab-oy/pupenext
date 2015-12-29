@@ -14,6 +14,7 @@ class FixedAssets::Commodity < BaseModel
   belongs_to :profit_account, class_name: 'Account'
   belongs_to :sales_account, class_name: 'Account'
   belongs_to :voucher, class_name: 'Head::Voucher'
+
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
 

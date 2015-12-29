@@ -7,6 +7,7 @@ class AccountTest < ActiveSupport::TestCase
     heads
     qualifiers
     sum_levels
+    fixed_assets/commodities
   )
 
   setup do
@@ -39,6 +40,7 @@ class AccountTest < ActiveSupport::TestCase
 
     assert @account.vouchers.count > 0
     assert @account.voucher_rows.count > 0
+    assert @commodity.commodities.count > 0
   end
 
   test "make sure relations are correct" do

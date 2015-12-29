@@ -5,8 +5,9 @@ class Account < BaseModel
   belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde
   belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp
 
-  has_many :vouchers, through: :voucher_rows, class_name: 'Head::Voucher', source: :voucher
-  has_many :voucher_rows, class_name: 'Head::VoucherRow', foreign_key: :tilino, primary_key: :tilino
+  has_many :commodities, through: :voucher_rows, class_name: 'FixedAssets::Commodity', source: :commodity
+  has_many :voucher_rows,                        class_name: 'Head::VoucherRow', foreign_key: :tilino, primary_key: :tilino
+  has_many :vouchers, through: :voucher_rows,    class_name: 'Head::Voucher', source: :voucher
 
   with_options primary_key: :taso do |o|
     o.belongs_to :internal,  class_name: 'SumLevel::Internal',  foreign_key: :sisainen_taso
