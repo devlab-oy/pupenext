@@ -1,5 +1,5 @@
 class Reports::DepreciationDifferenceReport
-  attr_accessor :company, :start_date, :end_date, :group_by
+  attr_accessor :company, :start_date, :end_date
 
   def initialize(company_id:, start_date:, end_date:)
     self.company    = Company.find company_id
