@@ -18,6 +18,8 @@
       <th><%=t '.commodity' %></th>
       <th><%=t '.procurement_date' %></th>
       <th><%=t '.procurement_amount' %></td>
+      <th><%=t '.opening_deprication' %></td>
+      <th><%=t '.opening_btl' %></td>
       <th><%=t '.deprication' %></th>
       <th><%=t '.btl' %></td>
       <th><%=t '.difference' %></th>
@@ -32,6 +34,8 @@
           <td><%= commodity.name %></td>
           <td style='text-align: right;'><%=l commodity.procurement_date %></td>
           <td style='text-align: right;'><%= commodity.procurement_amount %></td>
+          <td style='text-align: right;'><%= commodity.opening_deprication %></td>
+          <td style='text-align: right;'><%= commodity.opening_btl %></td>
           <td style='text-align: right;'><%= commodity.deprication %></td>
           <td style='text-align: right;'><%= commodity.btl %></td>
           <td style='text-align: right;'><%= commodity.difference %></td>
@@ -44,6 +48,8 @@
         <th></th>
         <th></th>
         <th style='text-align: right;'><%= account.procurement_amount_total %></th>
+        <th style='text-align: right;'><%= account.opening_deprication_total %></th>
+        <th style='text-align: right;'><%= account.opening_btl_total %></th>
         <th style='text-align: right;'><%= account.deprication_total %></th>
         <th style='text-align: right;'><%= account.btl_total %></th>
         <th style='text-align: right;'><%= account.difference_total %></th>
@@ -57,6 +63,8 @@
       <th></th>
       <th></th>
       <th style='text-align: right;'><%= sum_level.procurement_amount_total %></th>
+      <th style='text-align: right;'><%= sum_level.opening_deprication_total %></th>
+      <th style='text-align: right;'><%= sum_level.opening_btl_total %></th>
       <th style='text-align: right;'><%= sum_level.deprication_total %></th>
       <th style='text-align: right;'><%= sum_level.btl_total %></th>
       <th style='text-align: right;'><%= sum_level.difference_total %></th>
@@ -74,6 +82,8 @@
     <td class='back'></td>
     <td class='back'></td>
     <th><%=t '.procurement_amount' %></td>
+    <th><%=t '.opening_deprication' %></td>
+    <th><%=t '.opening_btl' %></td>
     <th><%=t '.deprication' %></th>
     <th><%=t '.btl' %></td>
     <th><%=t '.difference' %></th>
@@ -85,6 +95,8 @@
     <td class='back'></td>
     <td class='back'></td>
     <th style='text-align: right;'><%= @report.data.procurement_amount_total %></th>
+    <th style='text-align: right;'><%= @report.data.opening_deprication_total %></th>
+    <th style='text-align: right;'><%= @report.data.opening_btl_total %></th>
     <th style='text-align: right;'><%= @report.data.deprication_total %></th>
     <th style='text-align: right;'><%= @report.data.btl_total %></th>
     <th style='text-align: right;'><%= @report.data.difference_total %></th>
