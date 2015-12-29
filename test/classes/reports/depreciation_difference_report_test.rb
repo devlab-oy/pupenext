@@ -42,7 +42,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
 
     sum_level = sum_levels.first
     assert_equal Reports::DepreciationDifferenceReport::SumLevel, sum_level.class
-    assert_equal "Koneet ja kalusto", sum_level.name
+    assert_equal "10000 - Koneet ja kalusto", sum_level.name
     assert_equal "0.0", sum_level.deprication_total.to_s
     assert_equal "111.0", sum_level.difference_total.to_s
     assert_equal "1001.0", sum_level.evl_total.to_s
@@ -52,7 +52,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
 
     account = accounts.first
     assert_equal Reports::DepreciationDifferenceReport::Account, account.class
-    assert_equal "EVL poistoerovastatili", account.name
+    assert_equal "4444 - EVL poistoerovastatili", account.name
     assert_equal "0.0", account.deprication_total.to_s
     assert_equal "111.0", account.difference_total.to_s
     assert_equal "1001.0", account.evl_total.to_s

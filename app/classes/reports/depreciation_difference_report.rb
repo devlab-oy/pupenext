@@ -68,7 +68,7 @@ class Reports::DepreciationDifferenceReport::SumLevel
   end
 
   def name
-    sum_level.nimi
+    "#{sum_level.taso} - #{sum_level.nimi}"
   end
 
   def deprication_total
@@ -99,7 +99,7 @@ class Reports::DepreciationDifferenceReport::Account
   end
 
   def name
-    account.nimi
+    "#{account.tilino} - #{account.nimi}"
   end
 
   def deprication_total
