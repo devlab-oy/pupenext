@@ -4,13 +4,15 @@ class AccountTest < ActiveSupport::TestCase
   fixtures %w(
     accounts
     head/voucher_rows
+    heads
     qualifiers
     sum_levels
   )
 
   setup do
-    @account = accounts(:account_100)
-    @project =  qualifiers(:project_in_use)
+    @account = accounts :account_100
+    @commodity = accounts :account_commodity
+    @project =  qualifiers :project_in_use
   end
 
   test "assert fixtures are valid" do
@@ -22,6 +24,21 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal "U", @account.external.tyyppi
     assert_equal "A", @account.vat.tyyppi
     assert_equal "B", @account.profit.tyyppi
+  end
+
+  test 'relations' do
+    assert_equal Qualifier::Project, @account.project.class
+    assert_equal Qualifier::Target, @account.target.class
+    assert_equal Qualifier::CostCenter, @account.cost_center.class
+
+    assert_equal SumLevel::Internal, @account.internal.class
+    assert_equal SumLevel::External, @account.external.class
+    assert_equal SumLevel::Vat, @account.vat.class
+    assert_equal SumLevel::Profit, @account.profit.class
+    assert_equal SumLevel::Commodity, @commodity.commodity.class
+
+    assert @account.vouchers.count > 0
+    assert @account.voucher_rows.count > 0
   end
 
   test "make sure relations are correct" do
@@ -70,8 +87,6 @@ class AccountTest < ActiveSupport::TestCase
 
     account.tulosseuranta_taso = '1'
     assert account.valid?, account.errors.messages
-
-    assert account.voucher_rows.count > 0
   end
 
   test "ulkoinen_taso cant be empty" do
