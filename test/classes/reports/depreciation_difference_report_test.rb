@@ -2,6 +2,11 @@ require 'test_helper'
 
 class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
   fixtures %w(
+    accounts
+    fixed_assets/commodities
+    head/voucher_rows
+    heads
+    qualifiers
     sum_levels
   )
 
@@ -30,15 +35,16 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     sum_levels = data.sum_levels
     assert_equal Array, sum_levels.class
     assert_equal Reports::DepreciationDifferenceReport::SumLevel, sum_levels.first.class
+    assert_equal "Koneet ja kalusto", sum_levels.first.name
 
     accounts = sum_levels.first.accounts
     assert_equal Array, accounts.class
     assert_equal Reports::DepreciationDifferenceReport::Account, accounts.first.class
-
-    skip
+    assert_equal "EVL poistoerovastatili", accounts.first.name
 
     commodities = accounts.first.commodities
     assert_equal Array, commodities.class
     assert_equal Reports::DepreciationDifferenceReport::Commodity, commodities.first.class
+    assert_equal "This is a commodity!", commodities.first.name
   end
 end

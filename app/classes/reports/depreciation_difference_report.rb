@@ -49,6 +49,10 @@ class Reports::DepreciationDifferenceReport::SumLevel
       Reports::DepreciationDifferenceReport::Account.new(account: account, date_range: date_range)
     end
   end
+
+  def name
+    sum_level.nimi
+  end
 end
 
 class Reports::DepreciationDifferenceReport::Account
@@ -64,8 +68,21 @@ class Reports::DepreciationDifferenceReport::Account
       Reports::DepreciationDifferenceReport::Commodity.new(commodity: commodity, date_range: date_range)
     end
   end
+
+  def name
+    account.nimi
+  end
 end
 
 class Reports::DepreciationDifferenceReport::Commodity
+  attr_accessor :commodity, :date_range
 
+  def initialize(commodity:, date_range:)
+    self.commodity  = commodity
+    self.date_range = date_range
+  end
+
+  def name
+    commodity.name
+  end
 end
