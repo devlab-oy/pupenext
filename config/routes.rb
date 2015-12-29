@@ -71,6 +71,7 @@ Pupesoft::Application.routes.draw do
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
 
     resources :customer_price_lists, only: [:index, :create]
+    resources :depreciation_difference, only: [:index, :create]
   end
 
   scope :data_export do
