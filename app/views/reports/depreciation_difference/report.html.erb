@@ -13,12 +13,12 @@
   <% @report.data.sum_levels.each do |sum_level| %>
 
     <tr>
-      <th>Tilitaso</th>
-      <th>Tili</th>
-      <th>Hyödyke</th>
-      <th>SUMU-poisto</th>
-      <th>EVL-poisto</td>
-      <th>Poistoero</th>
+      <th><%=t '.sum_level' %></th>
+      <th><%=t '.account' %></th>
+      <th><%=t '.commodity' %></th>
+      <th><%=t '.deprication' %></th>
+      <th><%=t '.evl' %></td>
+      <th><%=t '.difference' %></th>
     </tr>
 
     <% sum_level.accounts.each do |account| %>

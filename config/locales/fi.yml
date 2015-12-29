@@ -655,7 +655,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -681,7 +681,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -1037,6 +1037,13 @@ fi:
         header: Poistoeroraportti
         run: Aja raportti
         start_date: Alkupäivämäärä
+      report:
+        account: Tili
+        commodity: Hyödyke
+        deprication: SUMU-poisto
+        difference: Poistoero
+        evl: EVL-poisto
+        sum_level: Tilitaso
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
