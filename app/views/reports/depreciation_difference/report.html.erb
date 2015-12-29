@@ -1,0 +1,65 @@
+<%= render "administration/header", text: t('reports.depreciation_difference.index.header') %>
+
+<font class='head'>
+  <%=l @report.start_date %> - <%=l @report.end_date %><br><br>
+</font>
+
+<%= return_link t('reports.depreciation_difference.index.header'), depreciation_difference_index_path %>
+
+<br><br>
+
+<table>
+
+  <% @report.data.sum_levels.each do |sum_level| %>
+
+    <tr>
+      <th>Tilitaso</th>
+      <th>Tili</th>
+      <th>Hyödyke</th>
+      <th>SUMU-poisto</th>
+      <th>EVL-poisto</td>
+      <th>Poistoero</th>
+    </tr>
+
+    <% sum_level.accounts.each do |account| %>
+
+      <% account.commodities.each do |commodity| %>
+        <tr class='aktiivi'>
+          <td><%= sum_level.name %></td>
+          <td><%= account.name %></td>
+          <td><%= commodity.name %></td>
+          <td style='text-align: right;'><%= commodity.deprication %></td>
+          <td style='text-align: right;'><%= commodity.evl %></td>
+          <td style='text-align: right;'><%= commodity.difference %></td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <th></th>
+        <th><%= account.name %></th>
+        <th></th>
+        <th style='text-align: right;'><%= account.deprication_total %></th>
+        <th style='text-align: right;'><%= account.evl_total %></th>
+        <th style='text-align: right;'><%= account.difference_total %></th>
+      </tr>
+
+    <% end %>
+
+    <tr>
+      <th><%= sum_level.name %></th>
+      <th></th>
+      <th></th>
+      <th style='text-align: right;'><%= sum_level.deprication_total %></th>
+      <th style='text-align: right;'><%= sum_level.evl_total %></th>
+      <th style='text-align: right;'><%= sum_level.difference_total %></th>
+    </tr>
+
+    <tr>
+      <td class='back'><br></td>
+    </tr>
+
+  <% end %>
+
+</table>
+
+<%= return_link t('reports.depreciation_difference.index.header'), depreciation_difference_index_path %>
