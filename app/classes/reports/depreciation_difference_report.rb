@@ -85,4 +85,16 @@ class Reports::DepreciationDifferenceReport::Commodity
   def name
     commodity.name
   end
+
+  def deprication
+    commodity.depreciation_between date_range.first, date_range.last
+  end
+
+  def difference
+    commodity.difference_between date_range.first, date_range.last
+  end
+
+  def evl
+    commodity.evl_between date_range.first, date_range.last
+  end
 end

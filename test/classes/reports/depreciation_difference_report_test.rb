@@ -3,7 +3,9 @@ require 'test_helper'
 class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
   fixtures %w(
     accounts
+    fiscal_years
     fixed_assets/commodities
+    fixed_assets/commodity_rows
     head/voucher_rows
     heads
     qualifiers
@@ -16,7 +18,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     @report = Reports::DepreciationDifferenceReport.new(
       company_id: @acme.id,
       start_date: Date.today.beginning_of_year.to_s,
-      end_date:   Date.today.beginning_of_year,
+      end_date:   Date.today.end_of_year,
     )
   end
 
@@ -44,7 +46,12 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
 
     commodities = accounts.first.commodities
     assert_equal Array, commodities.class
-    assert_equal Reports::DepreciationDifferenceReport::Commodity, commodities.first.class
-    assert_equal "This is a commodity!", commodities.first.name
+
+    commodity = commodities.first
+    assert_equal Reports::DepreciationDifferenceReport::Commodity, commodity.class
+    assert_equal "This is a commodity!", commodity.name
+    assert_equal "0.0", commodity.deprication.to_s
+    assert_equal "111.0", commodity.difference.to_s
+    assert_equal "1001.0", commodity.evl.to_s
   end
 end
