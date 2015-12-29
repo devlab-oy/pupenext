@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
-  fixtures %w(accounts qualifiers sum_levels)
+  fixtures %w(
+    accounts
+    head/voucher_rows
+    qualifiers
+    sum_levels
+  )
 
   setup do
     @account = accounts(:account_100)
@@ -65,6 +70,8 @@ class AccountTest < ActiveSupport::TestCase
 
     account.tulosseuranta_taso = '1'
     assert account.valid?, account.errors.messages
+
+    assert account.voucher_rows.count > 0
   end
 
   test "ulkoinen_taso cant be empty" do

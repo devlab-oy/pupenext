@@ -1,10 +1,11 @@
 class Account < BaseModel
   include Searchable
 
-  has_one    :commodity,   class_name: 'FixedAssets::Commodity'
   belongs_to :project,     class_name: 'Qualifier::Project',    foreign_key: :projekti
   belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde
   belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp
+
+  has_many :voucher_rows, class_name: 'Head::VoucherRow', foreign_key: :tilino, primary_key: :tilino
 
   with_options primary_key: :taso do |o|
     o.belongs_to :internal,  class_name: 'SumLevel::Internal',  foreign_key: :sisainen_taso
