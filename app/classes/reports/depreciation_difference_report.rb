@@ -9,6 +9,11 @@ class Reports::DepreciationDifferenceReport
     Current.company = company
   end
 
+  # This report response is a top down hierarcial representation of commodities:
+  # 1. Response contains an array of commodity sum_levels
+  # 2. Sum_level contains an array of its accounts
+  # 3. Account contains an array of its commodities
+  # 4. Commodity contains the required data/calculations
   def data
     Response.new(company: company, date_range: date_range)
   end
