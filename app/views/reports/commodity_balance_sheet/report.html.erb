@@ -1,0 +1,18 @@
+<%= render "administration/header", text: t('reports.commodity_balance_sheet.index.header') %>
+
+<font class='head'>
+  <%=l @report.start_date %> - <%=l @report.end_date %><br><br>
+</font>
+
+<%= return_link t('reports.commodity_balance_sheet.index.header'), commodity_balance_sheet_index_path %>
+
+<br><br>
+
+<% @report.data.sum_levels.each do |sum_level| %>
+  <% sum_level.accounts.each do |account| %>
+    <% account.commodities.each do |commodity| %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= return_link t('reports.commodity_balance_sheet.index.header'), commodity_balance_sheet_index_path %>
