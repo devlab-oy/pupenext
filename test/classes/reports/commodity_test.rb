@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
+class Reports::CommodityTest < ActiveSupport::TestCase
   fixtures %w(
     accounts
     fiscal_years
@@ -15,7 +15,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
   setup do
     @acme = companies :acme
 
-    @report = Reports::DepreciationDifferenceReport.new(
+    @report = Reports::Commodity.new(
       company_id: @acme.id,
       start_date: Date.today.beginning_of_year.to_s,
       end_date:   Date.today.end_of_year,
@@ -32,7 +32,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
 
   test 'returns response hierarcy' do
     data = @report.data
-    assert_equal Reports::DepreciationDifferenceReport::Response, data.class
+    assert_equal Reports::Commodity::Response, data.class
     assert_equal "0.0", data.deprication_total.to_s
     assert_equal "111.0", data.difference_total.to_s
     assert_equal "1001.0", data.btl_total.to_s
@@ -44,7 +44,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal Array, sum_levels.class
 
     sum_level = sum_levels.first
-    assert_equal Reports::DepreciationDifferenceReport::SumLevel, sum_level.class
+    assert_equal Reports::Commodity::SumLevel, sum_level.class
     assert_equal "10000 - Koneet ja kalusto", sum_level.name
     assert_equal "0.0", sum_level.deprication_total.to_s
     assert_equal "111.0", sum_level.difference_total.to_s
@@ -57,7 +57,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal Array, accounts.class
 
     account = accounts.first
-    assert_equal Reports::DepreciationDifferenceReport::Account, account.class
+    assert_equal Reports::Commodity::Account, account.class
     assert_equal "4444 - EVL poistoerovastatili", account.name
     assert_equal "0.0", account.deprication_total.to_s
     assert_equal "111.0", account.difference_total.to_s
@@ -70,7 +70,7 @@ class Reports::DepreciationDifferenceReportTest < ActiveSupport::TestCase
     assert_equal Array, commodities.class
 
     commodity = commodities.first
-    assert_equal Reports::DepreciationDifferenceReport::Commodity, commodity.class
+    assert_equal Reports::Commodity::Commodity, commodity.class
     assert_equal "This is a commodity!", commodity.name
     assert_equal "0.0", commodity.deprication.to_s
     assert_equal "111.0", commodity.difference.to_s

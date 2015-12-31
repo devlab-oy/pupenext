@@ -3,7 +3,7 @@ class Reports::DepreciationDifferenceController < ApplicationController
   end
 
   def create
-    @report = Reports::DepreciationDifferenceReport.new(
+    @report = Reports::Commodity.new(
       company_id: current_company.id,
       start_date: report_params[:start_date],
       end_date:   report_params[:end_date],

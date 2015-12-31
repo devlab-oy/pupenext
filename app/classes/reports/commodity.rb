@@ -1,4 +1,4 @@
-class Reports::DepreciationDifferenceReport
+class Reports::Commodity
   attr_accessor :company, :start_date, :end_date
 
   def initialize(company_id:, start_date:, end_date:)
@@ -26,7 +26,7 @@ class Reports::DepreciationDifferenceReport
 
 end
 
-class Reports::DepreciationDifferenceReport::Response
+class Reports::Commodity::Response
   attr_accessor :company, :date_range
 
   def initialize(company:, date_range:)
@@ -36,7 +36,7 @@ class Reports::DepreciationDifferenceReport::Response
 
   def sum_levels
     @sum_levels ||= company.sum_level_commodities.map do |level|
-      Reports::DepreciationDifferenceReport::SumLevel.new(sum_level: level, date_range: date_range)
+      Reports::Commodity::SumLevel.new(sum_level: level, date_range: date_range)
     end
   end
 
@@ -65,7 +65,7 @@ class Reports::DepreciationDifferenceReport::Response
   end
 end
 
-class Reports::DepreciationDifferenceReport::SumLevel
+class Reports::Commodity::SumLevel
   attr_accessor :sum_level, :date_range
 
   def initialize(sum_level:, date_range:)
@@ -75,7 +75,7 @@ class Reports::DepreciationDifferenceReport::SumLevel
 
   def accounts
     @accounts ||= sum_level.accounts.map do |account|
-      Reports::DepreciationDifferenceReport::Account.new(account: account, date_range: date_range)
+      Reports::Commodity::Account.new(account: account, date_range: date_range)
     end
   end
 
@@ -108,7 +108,7 @@ class Reports::DepreciationDifferenceReport::SumLevel
   end
 end
 
-class Reports::DepreciationDifferenceReport::Account
+class Reports::Commodity::Account
   attr_accessor :account, :date_range
 
   def initialize(account:, date_range:)
@@ -118,7 +118,7 @@ class Reports::DepreciationDifferenceReport::Account
 
   def commodities
     @commodities ||= account.commodities.map do |commodity|
-      Reports::DepreciationDifferenceReport::Commodity.new(commodity: commodity, date_range: date_range)
+      Reports::Commodity::Commodity.new(commodity: commodity, date_range: date_range)
     end
   end
 
@@ -151,7 +151,7 @@ class Reports::DepreciationDifferenceReport::Account
   end
 end
 
-class Reports::DepreciationDifferenceReport::Commodity
+class Reports::Commodity::Commodity
   attr_accessor :commodity, :date_range
 
   def initialize(commodity:, date_range:)
