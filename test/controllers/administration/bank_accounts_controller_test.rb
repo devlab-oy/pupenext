@@ -89,7 +89,7 @@ class Administration::BankAccountsControllerTest < ActionController::TestCase
   test "does not update with invalid parameters" do
     login users(:bob)
 
-    params = { bic: "kala", iban: "kissa" }
+    params = { bic: "kala", iban: "kissa1" }
 
     patch :update, id: @ba.tunnus, bank_account: params
     assert_template :edit

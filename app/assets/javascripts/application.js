@@ -25,3 +25,4 @@
 //= require enable_chosen
 //= require categories_selection
 //= require lightbox
+//= require customer_price_lists

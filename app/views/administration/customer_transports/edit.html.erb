@@ -1,0 +1,15 @@
+<%= return_link t('administration.transports.index.header'), customer_transports_path %>
+
+<br/>
+
+<%= render 'administration/header', text: t('administration.transports.edit.header') %>
+<%= render 'form' %>
+
+<% if @transport.persisted? %>
+  <br/>
+
+  <%= button_to(t('administration.transports.edit.button_remove'),
+                customer_transport_path(@transport),
+                data: { confirm: t('administration.transports.edit.confirm_remove') },
+                method: :delete) %>
+<% end %>

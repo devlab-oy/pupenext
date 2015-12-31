@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= t('reports.customer_price_lists.report.header') %></title>
+</head>
+<body>
+<table class="margin-bottom">
+
+  <tr>
+    <td>
+      <% logo = Attachment::AdministrationAttachment.logo %>
+
+      <% if logo %>
+        <img class="logo" src="data:image/jpg;base64,<%= Base64.encode64 logo.data %>"/>
+      <% end %>
+    </td>
+    <td>
+      <h1><%= t('reports.customer_price_lists.report.header') %></h1>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <% if params[:date_start].present? && params[:date_end].present? %>
+        <%= t('reports.customer_price_lists.report.valid_text') %>
+        <%= l Date.parse(params[:date_start]) %>
+        - <%= l Date.parse(params[:date_end]) %>
+      <% else %>
+        <%= t('reports.customer_price_lists.report.valid_text') %>
+        <%= t('reports.customer_price_lists.report.indefinitely').downcase %>
+      <% end %>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul class="list-unstyled">
+        <li><%= current_company.nimi %></li>
+        <li><%= current_company.ytunnus %></li>
+        <li><%= current_company.osoite %></li>
+        <li><%= current_company.postino %> <%= current_company.postitp %></li>
+      </ul>
+    </td>
+    <td class="inner-table-container">
+      <table>
+        <tr>
+          <% if @customer %>
+            <td>
+              <ul class="list-unstyled">
+                <li><%= Customer.model_name.human %></li>
+                <li><%= @customer.nimi %></li>
+                <li><%= @customer.osoite %></li>
+                <li><%= @customer.postino %> <%= @customer.postitp %></li>
+              </ul>
+            </td>
+          <% end %>
+
+          <% if @customer %>
+            <td>
+              <ul class="list-unstyled">
+                <li><%= Customer.human_attribute_name :asiakasnro %></li>
+                <li><%= @customer.asiakasnro %></li>
+                <li>
+                  <table class="no-border">
+                    <tr>
+                      <td><%= Keyword::CustomerCategory.model_name.human %></td>
+                      <td><%= Keyword::CustomerSubcategory.model_name.human %></td>
+                    </tr>
+                    <tr>
+                      <td><%= @customer.category %></td>
+                      <td><%= @customer.subcategory %></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            </td>
+          <% else %>
+            <td colspan="2">
+              <ul class="list-unstyled">
+                <li>
+                  <table class="no-border">
+                    <tr>
+                      <td><%= Keyword::CustomerSubcategory.model_name.human %></td>
+                    </tr>
+                    <tr>
+                      <td><%= @customer_subcategory %></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            </td>
+          <% end %>
+        </tr>
+        <tr>
+          <td>
+            <ul class="list-unstyled">
+              <li><%= User.human_attribute_name :myyja %></li>
+              <li><%= current_user.nimi %></li>
+            </ul>
+          </td>
+          <td>
+            <ul class="list-unstyled">
+              <li><%= t('reports.customer_price_lists.report.printed') %></li>
+              <li><%= l Time.now %></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+
+          <% if @customer %>
+            <td colspan="2">
+              <ul class="list-unstyled">
+                <li><%= Customer.human_attribute_name :toimitustapa %></li>
+                <li><%= @customer.toimitustapa %></li>
+              </ul>
+            </td>
+          <% end %>
+
+        </tr>
+        <tr>
+          <% if @customer %>
+            <td colspan="2">
+
+              <ul class="list-unstyled">
+                <li><%= TermsOfPayment.model_name.human %></li>
+                <li><%= @customer.terms_of_payment.teksti %></li>
+              </ul>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <% if Keyword::CustomerPriceListAttribute.message.present? %>
+    <tr>
+      <td colspan="2">
+        <%= Keyword::CustomerPriceListAttribute.message %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
+
+<table>
+  <thead>
+
+  <tr>
+    <th class="width-100"><%= Product.human_attribute_name :tuoteno %></th>
+    <th><%= Product.human_attribute_name :nimitys %></th>
+    <th class="width-100"><%= t('reports.customer_price_lists.report.price') %></th>
+  </tr>
+
+  </thead>
+  <tbody>
+  <%= render partial: "product", collection: @products, as: :p %>
+  </tbody>
+</table>
+
+</body>
+</html>

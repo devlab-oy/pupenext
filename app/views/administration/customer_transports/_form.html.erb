@@ -1,0 +1,26 @@
+<%= render "administration/form_errors", resource: @transport %>
+
+<% url = @transport.id ? customer_transport_path(@transport) : customer_transports_path %>
+
+<%= simple_form_for @transport,
+    as: :customer_transport,
+    url: url,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
+
+  <table width='600' class='admin-view-30'>
+
+    <%= f.input :transportable_id %>
+    <%= f.input :hostname %>
+    <%= f.input :username %>
+    <%= f.input :password, as: :string %>
+    <%= f.input :path %>
+
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>
