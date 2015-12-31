@@ -20,7 +20,7 @@
       </tr>
 
       <tr>
-        <th><%=t '.beginning_of_fiscal_period' %></th>
+        <th><%=t '.beginning_of_period' %></th>
         <th style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.opening_btl_total, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency 0.0, unit: '' %></th>
@@ -43,7 +43,7 @@
       </tr>
 
       <tr>
-        <th><%=t '.end_of_fiscal_period' %></th>
+        <th><%=t '.end_of_period' %></th>
         <th style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.closing_btl_total, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>

@@ -1008,12 +1008,12 @@ fi:
         run: Aja raportti
         start_date: Loppupäivämäärä
       report:
-        beginning_of_fiscal_period: Tilikauden alussa
+        beginning_of_period: Kauden alussa
         btl: EVL
         change_total: Poistot yhteensä
         deprication: SUMU
         difference: Ero
-        end_of_fiscal_period: Tilikauden lopussa
+        end_of_period: Kauden lopussa
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy
