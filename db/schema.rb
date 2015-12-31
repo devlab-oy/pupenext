@@ -496,6 +496,14 @@ ActiveRecord::Schema.define(version: 20151223092246) do
   add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, length: {"yhtio"=>nil, "kausi"=>nil, "tuoteno"=>nil, "osasto"=>50, "try"=>50}, using: :btree
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
+  create_table "customers_users", id: false, force: :cascade do |t|
+    t.integer "user_id",     limit: 4, null: false
+    t.integer "customer_id", limit: 4, null: false
+  end
+
+  add_index "customers_users", ["customer_id"], name: "index_customers_users_on_customer_id", using: :btree
+  add_index "customers_users", ["user_id"], name: "index_customers_users_on_user_id", using: :btree
+
   create_table "downloads", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
     t.string   "report_name", limit: 255
