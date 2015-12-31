@@ -212,7 +212,11 @@ class Reports::Commodity::Commodity
   end
 
   def deprication
-    @deprication ||= commodity.depreciation_between date_range.first, date_range.last
+    @deprication ||= begin
+      sum = commodity.depreciation_between(date_range.first, date_range.last)
+      sum *= -1.to_d unless sum.zero?
+      sum
+    end
   end
 
   def difference
