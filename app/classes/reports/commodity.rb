@@ -63,6 +63,14 @@ class Reports::Commodity::Response
   def opening_btl_total
     sum_levels.sum &:opening_btl_total
   end
+
+  def closing_deprication_total
+    sum_levels.sum &:closing_deprication_total
+  end
+
+  def closing_btl_total
+    sum_levels.sum &:closing_btl_total
+  end
 end
 
 class Reports::Commodity::SumLevel
@@ -105,6 +113,14 @@ class Reports::Commodity::SumLevel
 
   def opening_btl_total
     accounts.sum &:opening_btl_total
+  end
+
+  def closing_deprication_total
+    accounts.sum &:closing_deprication_total
+  end
+
+  def closing_btl_total
+    accounts.sum &:closing_btl_total
   end
 end
 
@@ -149,6 +165,14 @@ class Reports::Commodity::Account
   def opening_btl_total
     commodities.sum &:opening_btl
   end
+
+  def closing_deprication_total
+    commodities.sum &:closing_deprication
+  end
+
+  def closing_btl_total
+    commodities.sum &:closing_btl
+  end
 end
 
 class Reports::Commodity::Commodity
@@ -177,6 +201,14 @@ class Reports::Commodity::Commodity
 
   def opening_btl
     commodity.btl_value date_range.first
+  end
+
+  def closing_deprication
+    commodity.bookkeeping_value date_range.last
+  end
+
+  def closing_btl
+    commodity.btl_value date_range.last
   end
 
   def deprication
