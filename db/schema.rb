@@ -501,8 +501,8 @@ ActiveRecord::Schema.define(version: 20151223092246) do
     t.integer "customer_id", limit: 4, null: false
   end
 
-  add_index "customers_users", ["customer_id", "user_id"], name: "index_customers_users_on_customer_id_and_user_id", using: :btree
-  add_index "customers_users", ["user_id", "customer_id"], name: "index_customers_users_on_user_id_and_customer_id", using: :btree
+  add_index "customers_users", ["customer_id"], name: "index_customers_users_on_customer_id", using: :btree
+  add_index "customers_users", ["user_id"], name: "index_customers_users_on_user_id", using: :btree
 
   create_table "downloads", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
