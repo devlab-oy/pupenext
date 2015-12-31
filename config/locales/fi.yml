@@ -655,7 +655,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -681,7 +681,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -910,6 +910,7 @@ fi:
   number:
     currency:
       format:
+        delimiter: " "
         format: "%n %u"
         precision: 2
         separator: ","
@@ -1000,6 +1001,19 @@ fi:
       choose_subcategories: Valitse ryhmät
       subcategory: Ryhmä
   reports:
+    commodity_balance_sheet:
+      index:
+        end_date: Alkupäivämäärä
+        header: Hyödykkeiden tase-erittely
+        run: Aja raportti
+        start_date: Loppupäivämäärä
+      report:
+        beginning_of_fiscal_period: Tilikauden alussa
+        btl: EVL
+        change_total: Poistot yhteensä
+        deprication: SUMU
+        difference: Ero
+        end_of_fiscal_period: Tilikauden lopussa
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy
