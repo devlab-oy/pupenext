@@ -1003,10 +1003,10 @@ fi:
   reports:
     commodity_balance_sheet:
       index:
-        end_date: Alkupäivämäärä
+        end_date: Loppupäivämäärä
         header: Hyödykkeiden tase-erittely
         run: Aja raportti
-        start_date: Loppupäivämäärä
+        start_date: Alkupäivämäärä
       report:
         beginning_of_period: Kauden alussa
         btl: EVL
