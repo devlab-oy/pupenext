@@ -1,12 +1,19 @@
 one:
-  customer: stubborn_customer
+  transportable: stubborn_customer (Customer)
   hostname: ftp.faraway.com
   username: bob
   password: obo
   path: /
 
 two:
-  customer: stubborn_customer
+  transportable: stubborn_customer (Customer)
+  hostname: localhost
+  username: jack
+  password: foobar
+  path: /path/to/out/dir
+
+three:
+  transportable: acme (Company)
   hostname: localhost
   username: jack
   password: foobar

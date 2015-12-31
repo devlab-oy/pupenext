@@ -33,6 +33,7 @@ helmet:
 ski:
   yhtio: acme
   tuoteno: ski1
+  eankoodi: EANSKI1
   nimitys: Combosukset
   osasto: 1005
   try: 2001

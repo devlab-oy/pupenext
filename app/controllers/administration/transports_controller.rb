@@ -46,7 +46,7 @@ class Administration::TransportsController < AdministrationController
 
     def transport_params
       params.require(:transport).permit(
-        :customer_id,
+        :transportable_id,
         :hostname,
         :password,
         :path,

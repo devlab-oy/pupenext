@@ -43,7 +43,8 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.suppliers.count > 0
     assert @acme.targets.count > 0
     assert @acme.terms_of_payments.count > 0
-    assert @acme.transports.count > 0
+    assert_equal 1, @acme.transports.count
+    assert_equal 2, @acme.customer_transports.count
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
   end
@@ -141,6 +142,11 @@ class CompanyTest < ActiveSupport::TestCase
     assert_raise RuntimeError do
       @acme.reload.current_fiscal_year
     end
+  end
+
+  test 'should return last fiscal year' do
+    previous = "2014-01-01".to_date.."2014-12-31".to_date
+    assert_equal previous, @acme.previous_fiscal_year
   end
 
   test 'date in open period' do

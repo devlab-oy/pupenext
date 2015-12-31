@@ -328,6 +328,7 @@ fi:
       currency: Valuutta
       customer: Asiakas
       fiscal_year: Tilikausi
+      fixed_assets/commodity: Käyttöomaisuuden hyödyke
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
       head/purchase_invoice/approved: Ostolasku valmis maksatukseen
       head/purchase_invoice/paid: Ostolasku maksettu
@@ -815,64 +816,88 @@ fi:
   fixed_assets:
     commodities:
       activate:
-        activation_failure: Activation failure
-        activation_success: Activation success
+        activation_failure: Hyödykkeen aktivointi epäonnistui
+        activation_success: Hyödykkeen aktivointi onnistui
       commodity_rows:
-        button_show_hide: Näytä / Piilota
-        commodity_row_amount: Commodity row amount
-        header: Header
+        button_show_hide: Näytä/Piilota
+        commodity_row_amount: Rivejä
+        header: Evl poistot
       confirm_sale:
-        sale_failure: Sale failure
-        sale_success: Sale success
+        sale_failure: Hyödykkeen myynti epäonnistui
+        sale_success: Hyödykkeen myynti onnistui
       create:
-        create_success: Create success
+        create_success: Hyödykkeen luonti onnistui
+      create_form:
+        description: Kuvaus
+        name: Nimitys
       depreciations:
-        button_show_hide: Näytä / Piilota
-        depreciation_difference_amount: Depreciation difference amount
-        depreciation_rows_amount: Depreciation rows amount
-        header: Header
+        button_show_hide: Näytä/Piilota
+        depreciation_difference_amount: Poistoerorivit
+        depreciation_rows_amount: Poistorivit
+        header: Poistorivit
       edit:
-        button_activate: Button activate
-        button_add_invoice_rows: Button add invoice rows
-        button_add_voucher_rows: Button add voucher rows
-        button_create: Button create
-        button_sell: Button sell
-        header: Header
+        button_activate: Aktivoi hyödyke
+        button_add_invoice_rows: Liitä ostolaskurivejä
+        button_add_voucher_rows: Liitä tositerivejä
+        button_create: Luo poistorivejä
+        button_sell: Myy
+        header: Muokkaa hyödykettä
+        selected_fiscal_year: Tilikauden valinta
       form:
-        bookkeeping_value: Bookkeeping value
-        bookkeeping_value_now: Bookkeeping value now
+        account: Tili
+        activated_at: Aktivointipäivämäärä
+        amount: Aktivointisumma
+        bookkeeping_value: Kirjanpidollinen arvo
+        bookkeeping_value_now: Kirjanpidollinen arvo nyt
+        btl_depreciation_amount: EVL poistomäärä
+        btl_depreciation_type: EVL poistotyyppi
+        btl_value: EVL arvo
+        cost_centre: Kustannuspaikka
+        description: Kuvaus
+        name: Nimitys
+        planned_depreciation_amount: SUMU poistomäärä
+        planned_depreciation_type: SUMU poistotyyppi
+        previous_btl_depreciations: Siirretty EVL arvo
+        project: Projekti
+        status: Tila
+        target: Kohde
       index:
-        button_search: Button search
-        header: Header
+        button_search: Etsi
+        header: Käyttöomaisuuden hyödykkeet
       link_order:
-        link_order_success: Link order success
+        link_order_success: Ostolaskun rivi liitetty
       link_voucher:
-        link_voucher_success: Link voucher success
+        link_voucher_success: Tositteen rivi liitetty
       link_voucher_row:
-        cannot_link_row: Cannot link row
-        row_already_linked: Row already linked
+        cannot_link_row: Riviä ei voida liittää
+        row_already_linked: Rivi on jo liitetty
       new:
-        header: Header
+        header: Uusi hyödyke
       procurement_rows:
-        button_remove: Button remove
-        header: Header
+        button_remove: Poista
+        header: Hankintakustannusrivit
       purchase_orders:
-        button_add: Button add
-        button_search: Button search
-        header: Header
+        button_add: Liitä
+        button_search: Etsi
+        header: Liitä ostolaskurivejä
       sell:
-        confirm_sale: Confirm sale
-        header: Header
+        amount_sold: Myyntisumma
+        confirm_sale: Vahvista myynti
+        deactivated_at: Myyntipäivämäärä
+        depreciation_remainder_handling: Poistoeron käsittelytapa
+        header: Hyödykkeen myynti
+        profit_account: Myyntivoittotili
+        sales_account: Myyntitili
       unlink:
-        unlink_success: Unlink success
+        unlink_success: Linkityksen poisto onnistui
       unlink_voucher_row:
-        cannot_unlink: Cannot unlink
+        cannot_unlink: Linkitystä ei voida poistaa
       update:
-        update_success: Update success
+        update_success: Hyödykkeen päivitys onnistui
       vouchers:
-        button_add: Button add
-        button_search: Button search
-        header: Header
+        button_add: Liitä
+        button_search: Etsi
+        header: Liitä tositerivejä
   helpers:
     select:
       prompt: Valitse
@@ -996,7 +1021,6 @@ fi:
         date_end: Loppupvm
         date_start: Alkupvm
         generate: Generoi
-        loading: Ladataan...
         product_filter: Tuoterajaus
         product_image: Tuotekuva
         target_type: Kohdetyyppi
@@ -1062,6 +1086,7 @@ fi:
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
+        header_ean: Varastosaldot EAN CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
   shared:
