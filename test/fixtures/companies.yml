@@ -4,8 +4,8 @@ acme:
   nimi: Acme Corporation
   maa: FI
   kieli: fi
-  tilikausi_alku: <%= Date.today.beginning_of_year %>
-  tilikausi_loppu: <%= Date.today.end_of_year %>
+  tilikausi_alku: <%= Date.today.advance(months: -6).beginning_of_month %>
+  tilikausi_loppu: <%= Date.today.advance(months: 6).end_of_month %>
   ostoreskontrakausi_alku: <%= Date.today %>
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
