@@ -189,7 +189,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.save!
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
-    assert_equal 8928.58, @commodity.bookkeeping_value(Date.today)
+    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 6500, @commodity.bookkeeping_value
 
     # Sold commodity bkvalue is 0
