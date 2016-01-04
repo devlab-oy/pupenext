@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CommodityRowGeneratorTest < ActiveSupport::TestCase
   fixtures %w(
+    companies
     fixed_assets/commodities
     fixed_assets/commodity_rows
     accounts
@@ -13,6 +14,16 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
+    @commodity.activated_at = Date.today
+    @commodity.save!
+
+    @company = companies(:acme)
+
+    @fiscal_year = fiscal_years(:two)
+    @fiscal_year.tilikausi_alku = @company.tilikausi_alku
+    @fiscal_year.tilikausi_loppu = @company.tilikausi_loppu
+    @fiscal_year.save!
+
     @bob = users(:bob)
     @generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
   end
@@ -20,11 +31,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   test 'fixture is correct for calculations' do
     # We have a 12 month fiscal year
     fiscal_year = @commodity.company.current_fiscal_year.map(&:end_of_month).uniq.count
-    assert_equal fiscal_year, 12
+    assert_equal 12, fiscal_year
 
-    # We activate July 1st, current year.
-    activated_at = Date.today.change(month: 7, day: 1)
-    assert_equal activated_at, @commodity.activated_at
+    # We activate on today (seventh month from fiscal start)
+    assert_equal Date.today, @commodity.activated_at
   end
 
   test 'should calculate with fixed by percentage' do
@@ -54,10 +64,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   test 'should not generate rows over fiscal period' do
     reduct = 1019.70
     fiscalyearly_percentage = 25
-    @commodity.activated_at = '2015-12-12'
+    @commodity.activated_at = @company.tilikausi_loppu.beginning_of_month
     @commodity.save!
 
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id, fiscal_id: fiscal_years(:two).id)
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id, fiscal_id: @fiscal_year.id)
     generator.generate_rows
     result = generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal 1019.69, result.sum
@@ -99,7 +109,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Tämä on siirretty EVL arvo
     history_amount = 1713273.96
     commodity_params = {
-      activated_at: '2015-01-01',
+      activated_at: @company.tilikausi_alku,
       previous_btl_depreciations: history_amount,
       planned_depreciation_type: 'T',
       planned_depreciation_amount: 228.0,
@@ -480,7 +490,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
   end
 
-  test 'depreciation generation and dates works like they should' do
+  test 'depreciation generation and dates works like they should in past' do
     # Simulate fresh start
     @commodity.voucher.rows.destroy_all
     @commodity.commodity_rows.destroy_all
@@ -517,30 +527,37 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal '2014-11-30'.to_date, rows.first.transacted_at
     assert_equal '2014-12-31'.to_date, rows.last.transacted_at
 
+    assert_equal 3500.0, @commodity.accumulated_depreciation_at(Date.today)
+  end
+
+  test 'depreciation generation and dates works like they should in current' do
     # Create depreciation rows to current fiscal period
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:two).id,
+      fiscal_id: @fiscal_year.id,
       user_id: @bob.id
     }
-    assert_equal 3500.0, @commodity.accumulated_depreciation_at(Date.today)
-    @generator = CommodityRowGenerator.new(params).generate_rows
+
+    @commodity.activated_at = @company.tilikausi_alku
+    @commodity.save!
     @commodity.reload
 
-    assert_equal 14, @commodity.fixed_assets_rows.count, "poistot"
-    assert_equal 14, @commodity.depreciation_difference_rows.count, "poistoero"
+    @generator = CommodityRowGenerator.new(params).generate_rows
+
+    assert_equal 12, @commodity.fixed_assets_rows.count, "poistot"
+    assert_equal 12, @commodity.depreciation_difference_rows.count, "poistoero"
 
     rows = @commodity.fixed_assets_rows.order(tapvm: :asc)
-    assert_equal '2014-11-30'.to_date, rows.first.tapvm
-    assert_equal Date.today.change(month: 1, day: 31), rows[-12].tapvm
-    assert_equal Date.today.change(month: 12, day: 31), rows.last.tapvm
+    assert_equal @company.tilikausi_alku.end_of_month, rows.first.tapvm
+    assert_equal @company.tilikausi_alku.end_of_month, rows[-12].tapvm
+    assert_equal @company.tilikausi_loppu.end_of_month, rows.last.tapvm
 
     rows = @commodity.commodity_rows.order(transacted_at: :asc)
-    assert_equal '2014-11-30'.to_date, rows.first.transacted_at
-    assert_equal Date.today.change(month: 1, day: 31), rows[-12].transacted_at
-    assert_equal Date.today.change(month: 12, day: 31), rows.last.transacted_at
+    assert_equal @company.tilikausi_alku.end_of_month, rows.first.transacted_at
+    assert_equal @company.tilikausi_alku.end_of_month, rows[-12].transacted_at
+    assert_equal @company.tilikausi_loppu.end_of_month, rows.last.transacted_at
 
-    assert_equal 5602.98, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Date.today)
   end
 
   test 'rows split' do
@@ -626,23 +643,20 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   end
 
   test 'should not create rows before commodity activation date' do
-
-    fiscal_period = fiscal_years(:two)
-
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_period.id,
+      fiscal_id: @fiscal_year.id,
       user_id: @bob.id
     }
 
-    @commodity.update_column(:activated_at, fiscal_period.tilikausi_alku.advance(months: 3))
+    @commodity.update_column(:activated_at, @fiscal_year.tilikausi_alku.advance(months: 3))
 
     assert @commodity.valid?, @commodity.errors.full_messages
     assert_difference('FixedAssets::CommodityRow.count', 7) do
       CommodityRowGenerator.new(params).generate_rows
     end
 
-    @commodity.update_column(:activated_at, fiscal_period.tilikausi_loppu.advance(months: 3))
+    @commodity.update_column(:activated_at, @fiscal_year.tilikausi_loppu.advance(months: 3))
     assert @commodity.valid?, @commodity.errors.full_messages
 
     # Fails when commodity activated after depreciation_end_date
