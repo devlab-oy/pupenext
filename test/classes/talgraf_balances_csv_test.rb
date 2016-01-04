@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   fixtures %w(
+    companies
     accounts
     fiscal_years
     head/voucher_rows
@@ -13,6 +14,9 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     @company = companies :acme
     @previous_fiscal = fiscal_years :one
     @current_fiscal = fiscal_years :two
+
+    @company.tilikausi_alku = Date.today.beginning_of_year
+    @company.tilikausi_loppu = Date.today.end_of_year
 
     project = qualifiers(:project_in_use).dup
     project.nimi = 'New project'
@@ -37,7 +41,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     row = ['tgi-id', 'Intime']
     assert_equal row, report.send(:tgi_id)
 
-    row = ['info', 'Balances 2015']
+    row = ['info', "Balances #{Date.today.year}"]
     assert_equal row, report.send(:info)
 
     # make sure we return data in right order
@@ -145,7 +149,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     row = ['BEGIN', 'BalanceData']
     assert_equal row, report.send(:header_row)
 
-    row = ['entry-months', '2014-01', '2015-12']
+    row = ['entry-months', '2014-01', "#{Date.today.year}-12"]
     assert_equal row, report.send(:entry_months)
 
     row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 123456, 'Opening balance']
@@ -166,20 +170,21 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   end
 
   test 'report output' do
+    year_in_data = Date.today.year
     report = TalgrafBalancesCsv.new(company_id: @company.id, column_separator: '|')
-    output = "info|Balances 2015\n"
+    output = "info|Balances #{year_in_data}\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
 
     report = TalgrafBalancesCsv.new(company_id: @company.id, column_separator: ';')
-    output = "info;Balances 2015\n"
+    output = "info;Balances #{year_in_data}\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
 
     report = TalgrafBalancesCsv.new(company_id: @company.id)
 
     # should find info row from header section
-    output = "info,Balances 2015\n"
+    output = "info,Balances #{year_in_data}\n"
     assert report.csv_data.lines.include? output
     assert File.open(report.to_file, "rb").read.include? output
 
@@ -207,7 +212,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     assert report.csv_data.lines.include? output
 
     # balance data section
-    output = "entry-months,2014-01,2015-12\n"
+    output = "entry-months,2014-01,#{year_in_data}-12\n"
     assert report.csv_data.lines.include? output
   end
 end
