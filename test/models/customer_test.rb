@@ -12,6 +12,7 @@ class CustomerTest < ActiveSupport::TestCase
 
   setup do
     @one                    = customers :stubborn_customer
+    @lissu                  = customers :lissu
     @hammer                 = products :hammer
     @helmet                 = products :helmet
     @ski                    = products :ski
@@ -21,6 +22,7 @@ class CustomerTest < ActiveSupport::TestCase
 
   test 'fixtures are valid' do
     assert @one.valid?
+    assert @lissu.valid?
   end
 
   test 'relations' do
