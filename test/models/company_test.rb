@@ -120,7 +120,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal [Date.today, Date.today+4], @acme.open_period
   end
 
-  test 'should return current fiscal year' do
+  test 'current fiscal year' do
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
 
@@ -144,12 +144,9 @@ class CompanyTest < ActiveSupport::TestCase
     end
   end
 
-  test 'should return last fiscal year' do
+  test 'previous fiscal year' do
     previous = "#{Date.today.last_year.year}-01-01".to_date.."#{Date.today.last_year.year}-12-31".to_date
     assert_equal previous, @acme.previous_fiscal_year
-
-    assert_equal Date.today.last_year.beginning_of_year, @acme.fiscal_year(Date.today.last_year).first
-    assert_equal Date.today.last_year.end_of_year, @acme.fiscal_year(Date.today.last_year).last
   end
 
   test 'date in open period' do
