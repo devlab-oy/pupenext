@@ -145,7 +145,7 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test 'previous fiscal year' do
-    previous = "#{Date.today.last_year.year}-01-01".to_date.."#{Date.today.last_year.year}-12-31".to_date
+    previous = Date.today.last_year.beginning_of_year..Date.today.last_year.end_of_year
     assert_equal previous, @acme.previous_fiscal_year
   end
 
