@@ -4,7 +4,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   fixtures %w(
     accounts
     fiscal_years
-    companies
     fixed_assets/commodities
     fixed_assets/commodity_rows
     head/voucher_rows

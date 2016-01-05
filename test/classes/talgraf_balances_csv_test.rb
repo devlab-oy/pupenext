@@ -2,7 +2,6 @@ require 'test_helper'
 
 class TalgrafBalancesCsvTest < ActiveSupport::TestCase
   fixtures %w(
-    companies
     accounts
     fiscal_years
     head/voucher_rows
