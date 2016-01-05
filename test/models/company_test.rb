@@ -160,5 +160,8 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.date_in_open_period?('2014-01-01'.to_date), 'first'
     assert @acme.date_in_open_period?('2014-06-01'.to_date), 'middle'
     assert @acme.date_in_open_period?('2014-12-31'.to_date), 'last'
+
+    refute @acme.date_in_open_period?('2015-01-01')
+    refute @acme.date_in_open_period?('2015-01-01'.to_date)
   end
 end
