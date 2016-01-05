@@ -124,8 +124,8 @@ class CompanyTest < ActiveSupport::TestCase
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
 
-    assert_equal "#{Date.today.year - 1}-01-01".to_date, @acme.fiscal_year("#{Date.today.year - 1}-06-01").first
-    assert_equal "#{Date.today.year - 1}-12-31".to_date, @acme.fiscal_year("#{Date.today.year - 1}-06-01").last
+    assert_equal Date.today.beginning_of_year, @acme.fiscal_year(Date.today).first
+    assert_equal Date.today.end_of_year, @acme.fiscal_year(Date.today).last
 
     assert_equal Date.today.beginning_of_year, @acme.current_fiscal_year.first
     assert_equal Date.today.end_of_year, @acme.current_fiscal_year.last
