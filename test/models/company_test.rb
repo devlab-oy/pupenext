@@ -124,8 +124,8 @@ class CompanyTest < ActiveSupport::TestCase
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
 
-    assert_equal '2014-01-01'.to_date, @acme.fiscal_year('2014-06-01').first
-    assert_equal '2014-12-31'.to_date, @acme.fiscal_year('2014-06-01').last
+    assert_equal "#{Date.today.year - 1}-01-01".to_date, @acme.fiscal_year("#{Date.today.year - 1}-06-01").first
+    assert_equal "#{Date.today.year - 1}-12-31".to_date, @acme.fiscal_year("#{Date.today.year - 1}-06-01").last
 
     assert_equal Date.today.beginning_of_year, @acme.current_fiscal_year.first
     assert_equal Date.today.end_of_year, @acme.current_fiscal_year.last
@@ -145,7 +145,7 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test 'should return last fiscal year' do
-    previous = "2014-01-01".to_date.."2014-12-31".to_date
+    previous = "#{Date.today.year - 1}-01-01".to_date.."#{Date.today.year - 1}-12-31".to_date
     assert_equal previous, @acme.previous_fiscal_year
   end
 
