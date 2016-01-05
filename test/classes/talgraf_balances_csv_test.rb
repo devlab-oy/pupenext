@@ -148,7 +148,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     row = ['BEGIN', 'BalanceData']
     assert_equal row, report.send(:header_row)
 
-    row = ['entry-months', '2014-01', "#{Date.today.year}-12"]
+    row = ['entry-months', "#{Date.today.year - 1}-01", "#{Date.today.year}-12"]
     assert_equal row, report.send(:entry_months)
 
     row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 123456, 'Opening balance']
