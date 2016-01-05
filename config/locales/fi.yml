@@ -764,6 +764,7 @@ fi:
       invalid_attributes: Virheellinen sarake %{attributes}!
       keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
+      customer_not_found: Asiakasta "%{customer}" ei löytynyt!
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
