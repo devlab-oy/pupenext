@@ -1,4 +1,4 @@
-class Import::ProductSales
+class Import::CustomerSales
   include Import::Base
 
   def initialize(company_id:, user_id:, filename:)
@@ -58,7 +58,7 @@ class Import::ProductSales
     end
 end
 
-class Import::ProductSales::Row
+class Import::CustomerSales::Row
   def initialize(hash)
     @hash     = hash.dup
   end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Import::ProductSalesTest < ActiveSupport::TestCase
+class Import::CustomerSalesTest < ActiveSupport::TestCase
   include SpreadsheetsHelper
 
   fixtures %w(
@@ -34,7 +34,7 @@ class Import::ProductSalesTest < ActiveSupport::TestCase
   end
 
   test 'imports sales and returns response' do
-    sales = Import::ProductSales.new company_id: @company, user_id: @user, filename: @filename
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: @filename
 
     # assert_difference 'Product::Keyword.count', 3 do
       response = sales.import
@@ -51,7 +51,7 @@ class Import::ProductSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                 '',    123000       ],
     ])
 
-    sales = Import::ProductSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
 
     response = sales.import
     assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.first.errors.first
@@ -67,7 +67,7 @@ class Import::ProductSalesTest < ActiveSupport::TestCase
       ["#{@customer.asiakasnro} #{@customer.nimi}",               10,    23000        ],
     ])
 
-    sales = Import::ProductSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
     result = sales.import
     assert_equal 0, result.rows.first.errors.count
 
@@ -79,7 +79,7 @@ class Import::ProductSalesTest < ActiveSupport::TestCase
     ])
 
     # We get only one error
-    sales = Import::ProductSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
     result = sales.import
     assert_equal 1, result.rows.first.errors.count
     error = I18n.t('errors.import.product_not_found', product: '666')
@@ -94,7 +94,7 @@ class Import::ProductSalesTest < ActiveSupport::TestCase
     ])
 
     # We get only one error
-    sales = Import::ProductSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
     result = sales.import
     assert_equal 1, result.rows.second.errors.count
     error = I18n.t('errors.import.customer_not_found', customer: '999')
