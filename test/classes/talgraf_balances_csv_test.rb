@@ -211,7 +211,7 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     assert report.csv_data.lines.include? output
 
     # balance data section
-    output = "entry-months,2014-01,#{year_in_data}-12\n"
+    output = "entry-months,#{year_in_data - 1}-01,#{year_in_data}-12\n"
     assert report.csv_data.lines.include? output
   end
 end
