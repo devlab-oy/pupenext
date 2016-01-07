@@ -2,8 +2,8 @@
 
 one:
   yhtio: acme
-  tilikausi_alku: 2014-01-01
-  tilikausi_loppu: 2014-12-31
+  tilikausi_alku: <%= Date.today.last_year.beginning_of_year %>
+  tilikausi_loppu: <%= Date.today.last_year.end_of_year %>
   avaava_tase: 0
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
