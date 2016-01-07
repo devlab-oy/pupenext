@@ -71,6 +71,14 @@ class Reports::Commodity::Response
   def closing_btl_total
     sum_levels.sum &:closing_btl_total
   end
+
+  def opening_difference_total
+    sum_levels.sum &:opening_difference_total
+  end
+
+  def closing_difference_total
+    sum_levels.sum &:closing_difference_total
+  end
 end
 
 class Reports::Commodity::SumLevel
@@ -121,6 +129,14 @@ class Reports::Commodity::SumLevel
 
   def closing_btl_total
     accounts.sum &:closing_btl_total
+  end
+
+  def opening_difference_total
+    accounts.sum &:opening_difference_total
+  end
+
+  def closing_difference_total
+    accounts.sum &:closing_difference_total
   end
 end
 
@@ -173,6 +189,14 @@ class Reports::Commodity::Account
   def closing_btl_total
     commodities.sum &:closing_btl
   end
+
+  def opening_difference_total
+    commodities.sum &:opening_difference
+  end
+
+  def closing_difference_total
+    commodities.sum &:closing_difference
+  end
 end
 
 class Reports::Commodity::Commodity
@@ -209,6 +233,14 @@ class Reports::Commodity::Commodity
 
   def closing_btl
     commodity.btl_value date_range.last
+  end
+
+  def opening_difference
+    commodity.accumulated_difference_at date_range.first
+  end
+
+  def closing_difference
+    commodity.accumulated_difference_at date_range.last
   end
 
   def deprication

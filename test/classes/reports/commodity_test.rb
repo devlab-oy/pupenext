@@ -41,6 +41,8 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", data.closing_deprication_total.to_s
     assert_equal "10000.0", data.opening_btl_total.to_s
     assert_equal "11001.0", data.closing_btl_total.to_s
+    assert_equal "0.0", data.opening_difference_total.to_s
+    assert_equal "111.0", data.closing_difference_total.to_s
 
     sum_levels = data.sum_levels
     assert_equal Array, sum_levels.class
@@ -56,6 +58,8 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", sum_level.closing_deprication_total.to_s
     assert_equal "10000.0", sum_level.opening_btl_total.to_s
     assert_equal "11001.0", sum_level.closing_btl_total.to_s
+    assert_equal "0.0", sum_level.opening_difference_total.to_s
+    assert_equal "111.0", sum_level.closing_difference_total.to_s
 
     accounts = sum_level.accounts
     assert_equal Array, accounts.class
@@ -71,6 +75,8 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", account.closing_deprication_total.to_s
     assert_equal "10000.0", account.opening_btl_total.to_s
     assert_equal "11001.0", account.closing_btl_total.to_s
+    assert_equal "0.0", account.opening_difference_total.to_s
+    assert_equal "111.0", account.closing_difference_total.to_s
 
     commodities = account.commodities
     assert_equal Array, commodities.class
@@ -86,6 +92,8 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", commodity.closing_deprication.to_s
     assert_equal "10000.0", commodity.opening_btl.to_s
     assert_equal "11001.0", commodity.closing_btl.to_s
+    assert_equal "0.0", commodity.opening_difference.to_s
+    assert_equal "111.0", commodity.closing_difference.to_s
     assert_equal commodity.commodity.activated_at, commodity.procurement_date
   end
 end
