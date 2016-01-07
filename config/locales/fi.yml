@@ -1014,6 +1014,12 @@ fi:
         deprication: SUMU
         difference: Ero
         end_of_period: Kauden lopussa
+    commodity_financial_statements:
+      index:
+        end_date: Loppupäivämäärä
+        header: Hyödykkeiden tilinpäätöstiedot
+        run: Aja raportti
+        start_date: Alkupäivämäärä
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy
