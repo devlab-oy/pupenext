@@ -5,7 +5,7 @@ class AddDepreciationDifferencePermissions < ActiveRecord::Migration
   def up
     PermissionHelper.add_item(
       program: 'Kirjanpitoraportit',
-      name: 'Poistoeroraportti',
+      name: 'Hyödykkeiden poistoerot',
       uri: 'pupenext/depreciation_difference'
     )
   end

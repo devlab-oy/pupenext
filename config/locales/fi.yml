@@ -1060,7 +1060,7 @@ fi:
     depreciation_difference:
       index:
         end_date: Loppupäivämäärä
-        header: Poistoeroraportti
+        header: Hyödykkeiden poistoerot
         run: Aja raportti
         start_date: Alkupäivämäärä
       report:
