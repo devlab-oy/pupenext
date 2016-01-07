@@ -197,26 +197,32 @@ class FixedAssets::Commodity < BaseModel
     true
   end
 
+  # kertyneet sumu-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
     depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
+  # kertyneet poistoerot annettuna ajankohtana
   def accumulated_difference_at(date)
     depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
+  # kertyneet evl-poistot annettuna ajankohtana
   def accumulated_evl_at(date)
     commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", date).sum(:amount)
   end
 
+  # kertyneet sumu-poistot välillä
   def depreciation_between(date1, date2)
      depreciation_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
+  # kertyneet poistoerot välillä
   def difference_between(date1, date2)
     depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
+  # kertyneet evl-poistot välillä
   def evl_between(date1, date2)
     commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end

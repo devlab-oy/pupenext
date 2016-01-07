@@ -207,42 +207,52 @@ class Reports::Commodity::Commodity
     self.date_range = date_range
   end
 
+  # hyödykkeen nimi
   def name
     commodity.name
   end
 
+  # hyödykkeen hankintapäivä
   def procurement_date
     commodity.procurement_date
   end
 
+  # hyödykkeen hankintahinta
   def procurement_amount
     commodity.amount
   end
 
+  # kertyneet sumu-poistot jakson alussa
   def opening_deprication
-    commodity.bookkeeping_value date_range.first
+    commodity.accumulated_depreciation_at date_range.first
   end
 
-  def opening_btl
-    commodity.btl_value date_range.first
-  end
-
+  # kertyneet sumu-poistot jakson lopussa
   def closing_deprication
-    commodity.bookkeeping_value date_range.last
+    commodity.accumulated_depreciation_at date_range.last
   end
 
+  # kertyneet evl-poistot jakson alussa
+  def opening_btl
+    commodity.accumulated_evl_at date_range.first
+  end
+
+  # kertyneet evl-poistot jakson lopussa
   def closing_btl
-    commodity.btl_value date_range.last
+    commodity.accumulated_evl_at date_range.last
   end
 
+  # kertyneet poistoerot jakson alussa
   def opening_difference
     commodity.accumulated_difference_at date_range.first
   end
 
+  # kertyneet poistoerot jakson lopussa
   def closing_difference
     commodity.accumulated_difference_at date_range.last
   end
 
+  # kertyneet sumu-poistot aikavälillä
   def deprication
     @deprication ||= begin
       sum = commodity.depreciation_between(date_range.first, date_range.last)
@@ -251,10 +261,12 @@ class Reports::Commodity::Commodity
     end
   end
 
+  # kertyneet poistoerot aikavälillä
   def difference
     @difference ||= commodity.difference_between date_range.first, date_range.last
   end
 
+  # kertyneet evl-poistot aikavälillä
   def btl
     @btl ||= commodity.evl_between date_range.first, date_range.last
   end

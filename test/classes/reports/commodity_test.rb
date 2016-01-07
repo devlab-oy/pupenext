@@ -37,10 +37,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "111.0", data.difference_total.to_s
     assert_equal "1001.0", data.btl_total.to_s
     assert_equal "10000.0", data.procurement_amount_total.to_s
-    assert_equal "10000.0", data.opening_deprication_total.to_s
-    assert_equal "10000.0", data.closing_deprication_total.to_s
-    assert_equal "10000.0", data.opening_btl_total.to_s
-    assert_equal "11001.0", data.closing_btl_total.to_s
+    assert_equal "0.0", data.opening_deprication_total.to_s
+    assert_equal "0.0", data.closing_deprication_total.to_s
+    assert_equal "0.0", data.opening_btl_total.to_s
+    assert_equal "1001.0", data.closing_btl_total.to_s
     assert_equal "0.0", data.opening_difference_total.to_s
     assert_equal "111.0", data.closing_difference_total.to_s
 
@@ -54,10 +54,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "111.0", sum_level.difference_total.to_s
     assert_equal "1001.0", sum_level.btl_total.to_s
     assert_equal "10000.0", sum_level.procurement_amount_total.to_s
-    assert_equal "10000.0", sum_level.opening_deprication_total.to_s
-    assert_equal "10000.0", sum_level.closing_deprication_total.to_s
-    assert_equal "10000.0", sum_level.opening_btl_total.to_s
-    assert_equal "11001.0", sum_level.closing_btl_total.to_s
+    assert_equal "0.0", sum_level.opening_deprication_total.to_s
+    assert_equal "0.0", sum_level.closing_deprication_total.to_s
+    assert_equal "0.0", sum_level.opening_btl_total.to_s
+    assert_equal "1001.0", sum_level.closing_btl_total.to_s
     assert_equal "0.0", sum_level.opening_difference_total.to_s
     assert_equal "111.0", sum_level.closing_difference_total.to_s
 
@@ -71,10 +71,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "111.0", account.difference_total.to_s
     assert_equal "1001.0", account.btl_total.to_s
     assert_equal "10000.0", account.procurement_amount_total.to_s
-    assert_equal "10000.0", account.opening_deprication_total.to_s
-    assert_equal "10000.0", account.closing_deprication_total.to_s
-    assert_equal "10000.0", account.opening_btl_total.to_s
-    assert_equal "11001.0", account.closing_btl_total.to_s
+    assert_equal "0.0", account.opening_deprication_total.to_s
+    assert_equal "0.0", account.closing_deprication_total.to_s
+    assert_equal "0.0", account.opening_btl_total.to_s
+    assert_equal "1001.0", account.closing_btl_total.to_s
     assert_equal "0.0", account.opening_difference_total.to_s
     assert_equal "111.0", account.closing_difference_total.to_s
 
@@ -88,10 +88,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "111.0", commodity.difference.to_s
     assert_equal "1001.0", commodity.btl.to_s
     assert_equal "10000.0", commodity.procurement_amount.to_s
-    assert_equal "10000.0", commodity.opening_deprication.to_s
-    assert_equal "10000.0", commodity.closing_deprication.to_s
-    assert_equal "10000.0", commodity.opening_btl.to_s
-    assert_equal "11001.0", commodity.closing_btl.to_s
+    assert_equal "0.0", commodity.opening_deprication.to_s
+    assert_equal "0.0", commodity.closing_deprication.to_s
+    assert_equal "0.0", commodity.opening_btl.to_s
+    assert_equal "1001.0", commodity.closing_btl.to_s
     assert_equal "0.0", commodity.opening_difference.to_s
     assert_equal "111.0", commodity.closing_difference.to_s
     assert_equal commodity.commodity.activated_at, commodity.procurement_date
