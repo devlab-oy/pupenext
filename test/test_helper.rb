@@ -26,7 +26,14 @@ class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
   self.use_transactional_fixtures = false
 
-  fixtures %w(users companies permissions dictionaries keywords parameters)
+  fixtures %w(
+    companies
+    dictionaries
+    keywords
+    parameters
+    permissions
+    users
+  )
 
   setup do
     RequestStore.clear!

@@ -501,15 +501,16 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     }
     @commodity.company.update_attributes! params
 
-    # Create depreciation rows for 2014
+    # Create depreciation rows for previous year
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:one).id,
       user_id: @bob.id
     }
 
-    # Activate commodity on 2014-11-01
-    @commodity.activated_at = '2014-11-01'.to_date
+    # Activate commodity on november last year
+    previous_year_activation = Date.today.last_year.change(month: 11)
+    @commodity.activated_at = previous_year_activation
     @commodity.save!
     assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
     @generator = CommodityRowGenerator.new(params).generate_rows
@@ -519,12 +520,12 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 2, @commodity.depreciation_difference_rows.count, "poistoero"
 
     rows = @commodity.voucher.rows.order(:tapvm)
-    assert_equal '2014-11-30'.to_date, rows.first.tapvm
-    assert_equal '2014-12-31'.to_date, rows.last.tapvm
+    assert_equal previous_year_activation.end_of_month, rows.first.tapvm
+    assert_equal previous_year_activation.next_month.end_of_month, rows.last.tapvm
 
     rows = @commodity.commodity_rows.order(:transacted_at)
-    assert_equal '2014-11-30'.to_date, rows.first.transacted_at
-    assert_equal '2014-12-31'.to_date, rows.last.transacted_at
+    assert_equal previous_year_activation.end_of_month.to_date, rows.first.transacted_at
+    assert_equal previous_year_activation.next_month.end_of_month, rows.last.transacted_at
 
     assert_equal 3500.0, @commodity.accumulated_depreciation_at(Date.today)
   end
