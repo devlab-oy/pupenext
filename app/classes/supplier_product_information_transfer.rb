@@ -19,11 +19,6 @@ class SupplierProductInformationTransfer
 
       extra_attributes = @transferable[s.id.to_s]
 
-      s.update(
-        p_price_update: extra_attributes[:toimittajan_ostohinta],
-        p_qty_update:   extra_attributes[:toimittajan_saldo]
-      )
-
       product_params = {
         alv:      24,
         eankoodi: s.manufacturer_ean,
@@ -51,7 +46,11 @@ class SupplierProductInformationTransfer
         product_params[:subcategory] = Product::Subcategory.find(extra_attributes[:try])
       end
 
-      s.create_product(product_params)
+      product = s.create_product(product_params)
+
+      s.update(p_price_update: extra_attributes[:toimittajan_ostohinta],
+               p_qty_update:   extra_attributes[:toimittajan_saldo],
+               product:        product)
 
       @supplier.product_suppliers.create(
         tehdas_saldo:            s.available_quantity,

@@ -122,6 +122,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     assert_equal 1, @one.reload.p_price_update
     assert_equal 1, @one.reload.p_qty_update
+    assert_equal Product.last, @one.reload.product
   end
 
   test 'correct fields are copied to product' do
