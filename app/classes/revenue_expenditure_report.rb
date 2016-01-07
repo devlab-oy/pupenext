@@ -92,7 +92,10 @@ class RevenueExpenditureReport
     def history_revenue_expenditures_details
       week = Date.today.cweek
       year = Date.today.year
-      company.revenue_expenditures.where("concat(right(selite,4),trim(left(selite,2))) < ?", "#{year}#{week}").pluck(:selitetark_2).map(&:to_d).sum
+
+      company.revenue_expenditures
+        .where("concat(right(selite, 4), trim(left(selite, 2))) < ?", "#{year}#{week}")
+        .pluck(:selitetark_2).map(&:to_d).sum
     end
 
     #  calculate weekly amounts for
