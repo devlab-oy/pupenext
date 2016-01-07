@@ -168,7 +168,7 @@ class FixedAssets::Commodity < BaseModel
     if deactivated?
       calculation = amount
     else
-      calculation = depreciation_rows.where("tiliointi.tapvm <= ? ", end_date).sum(:summa)
+      calculation = accumulated_depreciation_at(end_date)
     end
 
     if calculation > 0
@@ -181,7 +181,7 @@ class FixedAssets::Commodity < BaseModel
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
   def btl_value(end_date = company.current_fiscal_year.last)
     comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
-    comparable_amount + commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", end_date).sum(:amount)
+    comparable_amount + accumulated_evl_at(end_date)
   end
 
   def can_be_sold?
