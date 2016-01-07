@@ -10,6 +10,7 @@ class Import::CustomerSales
 
   def import
     first_row = true
+    header = nil
 
     spreadsheet.each do |spreadsheet_row|
 
@@ -24,16 +25,7 @@ class Import::CustomerSales
 
       row = Row.new excel_row
 
-      number = row.product_or_customer_number
-      quantity = row.values['kpl']
-
-      number = Integer(number) rescue next
-
-      if quantity.present?
-        row.set_asiakasnro(number)
-      else
-        row.set_product(number)
-      end
+      next if row.identifier_column == 'Yhteensä'
 
       errors = []
 
@@ -58,45 +50,55 @@ class Import::CustomerSales
     end
 end
 
+class Import::CustomerSales::Header
+
+  def initialize(asiakasnro)
+    @asiakasnro = asiakasnro
+  end
+
+  def customer
+    return unless customer_raw.present?
+
+    @customer ||= Customer.find_by asiakasnro: customer_raw
+  end
+
+  def customer_raw
+    @asiakasnro
+  end
+end
+
 class Import::CustomerSales::Row
   def initialize(hash)
-    @hash     = hash.dup
+    @hash  = hash.dup
+    @tuoteno = nil
+    @identifier = nil
+    set_identifier
   end
 
   def product
-    return unless @tuoteno.present?
+    return unless product_raw.present?
 
-    @product ||= Product.find_by tuoteno: @tuoteno
+    @product ||= Product.find_by tuoteno: product_raw
   end
 
   def product_raw
     @tuoteno
   end
 
-  def set_product(tuoteno)
-    @tuoteno = tuoteno
+  def identifier
+    @identifier
   end
 
-  def customer
-    return unless @asiakasnro.present?
-
-    @customer ||= Customer.find_by asiakasnro: @asiakasnro
-  end
-
-  def customer_raw
-    @asiakasnro
-  end
-
-  def set_asiakasnro(asiakasnro)
-    @asiakasnro = asiakasnro
+  def quantity
+    values['kpl']
   end
 
   def price
     values['myynti eur']
   end
 
-  def product_or_customer_number
-    values['tuote/asiakas'].split(' ').first
+  def identifier_column
+    values['tuote/asiakas']
   end
 
   def values
@@ -104,4 +106,18 @@ class Import::CustomerSales::Row
     hash.each { |k, v| hash[k] = '' if hash[k].nil? }
     hash
   end
+
+  private
+
+    def parse_identifier
+      identifier_column.split(' ').first
+    end
+
+    def set_identifier
+      @identifier = parse_identifier
+
+      if quantity.present?
+        @tuoteno = @identifier
+      end
+    end
 end

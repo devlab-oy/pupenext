@@ -21,20 +21,23 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     @hammer.save
 
     @customer = customers :stubborn_customer
-
-    @filename = create_xlsx([
-      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
-      ['Yhteensä',                                                '',    123000       ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", '',    23000        ],
-      ["#{@customer.asiakasnro} #{@customer.nimi}",               10,    23000        ],
-      ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", '',    100000       ],
-      ["#{@customer.asiakasnro} #{@customer.nimi}",               23,    100000       ],
-      ['Yhteensä',                                                '',    123000       ],
-    ])
+    @lissu    = customers :lissu
   end
 
   test 'imports sales and returns response' do
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: @filename
+    filename = create_xlsx([
+      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
+      ['Yhteensä',                                                '',    123000       ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
+      ["#{@lissu.asiakasnro} #{@lissu.nimi}",                     '',    100000       ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
+      ['Yhteensä',                                                '',    123000       ],
+    ])
+
+    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
 
     # assert_difference 'Product::Keyword.count', 3 do
       response = sales.import
@@ -46,8 +49,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     filename = create_xlsx([
       ['Tuote/Asiakas',                            'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                 '',    123000       ],
-      ["999 #{@helmet.osasto} #{@helmet.nimitys}", '',    23000        ],
-      ["666 #{@customer.nimi}",                    10,    23000        ],
+      ["666 #{@customer.nimi}",                    '',    23000        ],
+      ["999 #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
       ['Yhteensä',                                 '',    123000       ],
     ])
 
@@ -63,8 +66,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     filename = create_xlsx([
       ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                                '',    123000       ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", '',    23000        ],
-      ["#{@customer.asiakasnro} #{@customer.nimi}",               10,    23000        ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
     ])
 
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
@@ -73,9 +76,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     # Try adding with incorrect product
     filename = create_xlsx([
-      ['Tuote/Asiakas',                            'Kpl', 'Myynti EUR' ],
-      ['Yhteensä',                                 '',    123000       ],
-      ["666 #{@helmet.osasto} #{@helmet.nimitys}", '',    23000        ],
+      ['Tuote/Asiakas',                             'Kpl', 'Myynti EUR' ],
+      ['Yhteensä',                                  '',    123000       ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}", '',    23000        ],
+      ["666 #{@helmet.osasto} #{@helmet.nimitys}",  10,    23000        ],
     ])
 
     # We get only one error
@@ -89,8 +93,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     filename = create_xlsx([
       ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                                '',    123000       ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", '',    23000        ],
-      ["999 #{@customer.nimi}",                                   10,    23000        ],
+      ["999 #{@customer.nimi}",                                   '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
     ])
 
     # We get only one error
