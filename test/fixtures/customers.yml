@@ -15,6 +15,7 @@ stubborn_customer:
   postitp: Helsinki
   maa: fi
   kansalaisuus: fi
+  piiri: Oulu
   email: email@ding.com
   kieli: fi
   valkoodi: eur

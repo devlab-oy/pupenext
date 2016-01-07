@@ -5,6 +5,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
   fixtures %w(
     products
+    sales_order/details
+    sales_order/detail_rows
     customers
   )
 
@@ -39,10 +41,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
 
-    # assert_difference 'Product::Keyword.count', 3 do
+    assert_difference 'SalesOrder::Detail.count', 2 do
       response = sales.import
       assert_equal Import::Response, response.class
-    # end
+    end
   end
 
   test 'adding with invalid data should fail' do
@@ -56,9 +58,11 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
 
-    response = sales.import
-    assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.first.errors.first
-    assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.second.errors.first
+    assert_no_difference 'SalesOrder::Detail.count' do
+      response = sales.import
+      assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.first.errors.first
+      assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.second.errors.first
+    end
   end
 
   test 'errors are correct' do
@@ -71,8 +75,11 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     ])
 
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
-    result = sales.import
-    assert_equal 0, result.rows.first.errors.count
+
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      result = sales.import
+      assert_equal Hash.new, result.rows.first.errors.first.messages
+    end
 
     # Try adding with incorrect product
     filename = create_xlsx([
@@ -84,10 +91,12 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     # We get only one error
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
-    result = sales.import
-    assert_equal 1, result.rows.first.errors.count
-    error = I18n.t('errors.import.product_not_found', product: '666')
-    assert_equal error, result.rows.first.errors.first
+
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      result = sales.import
+      error = I18n.t('errors.import.product_not_found', product: '666')
+      assert_equal error, result.rows.second.errors.first
+    end
 
     # Try adding with incorrect customer
     filename = create_xlsx([
@@ -99,9 +108,11 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     # We get only one error
     sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
-    result = sales.import
-    assert_equal 1, result.rows.second.errors.count
-    error = I18n.t('errors.import.customer_not_found', customer: '999')
-    assert_equal error, result.rows.second.errors.first
+
+    assert_no_difference 'SalesOrder::Detail.count' do
+      result = sales.import
+      error = I18n.t('errors.import.customer_not_found', customer: '999')
+      assert_equal error, result.rows.first.errors.first
+    end
   end
 end

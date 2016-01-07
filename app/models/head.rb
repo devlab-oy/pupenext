@@ -32,6 +32,7 @@ class Head < BaseModel
       'V' => ManufactureOrder::Order,
       'X' => Head::Voucher,
       'Y' => Head::PurchaseInvoice::Paid,
+      '9' => SalesOrder::Detail,
     }
   end
 

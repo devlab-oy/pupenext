@@ -25,19 +25,21 @@ class Import::CustomerSales
 
       row = Row.new excel_row
 
-      next if row.identifier_column == 'Yhteensä'
+      next if row.identifier == 'Yhteensä'
 
       errors = []
 
-      if row.product_raw.present? && row.product.nil?
-        errors << I18n.t('errors.import.product_not_found', product: row.product_raw)
-      elsif row.customer_raw.present? && row.customer.nil?
-        errors << I18n.t('errors.import.customer_not_found', customer: row.customer_raw)
-      # elsif !row.create
-      #   errors << row.keyword.errors.full_messages
+      if row.customer.present?
+        header = row.customer.sales_details.create
+        errors << header.errors
+      elsif header && row.product
+        row = header.rows.create tuoteno: row.product, varattu: row.quantity, hinta: row.price
+        errors << row.errors
+      else
+        errors << row.errors
       end
 
-      response.add_row columns: excel_row.values, errors: errors.flatten
+      response.add_row columns: excel_row.values, errors: errors.flatten.compact
     end
 
     response
@@ -50,27 +52,11 @@ class Import::CustomerSales
     end
 end
 
-class Import::CustomerSales::Header
-
-  def initialize(asiakasnro)
-    @asiakasnro = asiakasnro
-  end
-
-  def customer
-    return unless customer_raw.present?
-
-    @customer ||= Customer.find_by asiakasnro: customer_raw
-  end
-
-  def customer_raw
-    @asiakasnro
-  end
-end
-
 class Import::CustomerSales::Row
   def initialize(hash)
     @hash  = hash.dup
     @tuoteno = nil
+    @asiakasnro = nil
     @identifier = nil
     set_identifier
   end
@@ -83,6 +69,23 @@ class Import::CustomerSales::Row
 
   def product_raw
     @tuoteno
+  end
+
+  def customer
+    return unless customer_raw.present?
+
+    @customer ||= Customer.find_by asiakasnro: customer_raw
+  end
+
+  def customer_raw
+    @asiakasnro
+  end
+
+  def errors
+    error = []
+    error << I18n.t('errors.import.product_not_found', product: product_raw) if product_raw.present? && product.nil?
+    error << I18n.t('errors.import.customer_not_found', customer: customer_raw) if customer_raw.present? && customer.nil?
+    error
   end
 
   def identifier
@@ -118,6 +121,8 @@ class Import::CustomerSales::Row
 
       if quantity.present?
         @tuoteno = @identifier
+      else
+        @asiakasnro = @identifier
       end
     end
 end

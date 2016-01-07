@@ -11,6 +11,7 @@ class Customer < BaseModel
   has_many :transports, as: :transportable
   has_many :prices, foreign_key: :asiakas, class_name: 'CustomerPrice'
   has_many :products, through: :prices
+  has_many :sales_details, foreign_key: :liitostunnus, class_name: 'SalesOrder::Detail'
 
   default_scope { where.not(laji: %w(P R)) }
 
