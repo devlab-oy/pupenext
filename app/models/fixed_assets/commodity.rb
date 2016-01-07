@@ -171,11 +171,7 @@ class FixedAssets::Commodity < BaseModel
       calculation = accumulated_depreciation_at(end_date)
     end
 
-    if calculation > 0
-      amount - calculation
-    else
-      amount + calculation
-    end
+    amount - calculation.abs
   end
 
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
