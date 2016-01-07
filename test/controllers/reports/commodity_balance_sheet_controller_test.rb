@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Reports::CommodityBalanceSheetControllerTest < ActionController::TestCase
+  fixtures %w(
+    fiscal_years
+  )
+
   setup do
     login users(:bob)
   end
