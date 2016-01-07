@@ -79,6 +79,26 @@ class Reports::Commodity::Response
   def closing_difference_total
     sum_levels.sum &:closing_difference_total
   end
+
+  # kirjanpidollinen arvo jakson alussa
+  def opening_bookkeeping_value
+    sum_levels.sum &:opening_bookkeeping_value
+  end
+
+  # kirjanpidollinen arvo jakson lopussa
+  def closing_bookkeeping_value
+    sum_levels.sum &:closing_bookkeeping_value
+  end
+
+  # evl arvo jakson alussa
+  def opening_btl_value
+    sum_levels.sum &:opening_btl_value
+  end
+
+  # evl arvo jakson lopussa
+  def closing_btl_value
+    sum_levels.sum &:closing_btl_value
+  end
 end
 
 class Reports::Commodity::SumLevel
@@ -137,6 +157,26 @@ class Reports::Commodity::SumLevel
 
   def closing_difference_total
     accounts.sum &:closing_difference_total
+  end
+
+  # kirjanpidollinen arvo jakson alussa
+  def opening_bookkeeping_value
+    accounts.sum &:opening_bookkeeping_value
+  end
+
+  # kirjanpidollinen arvo jakson lopussa
+  def closing_bookkeeping_value
+    accounts.sum &:closing_bookkeeping_value
+  end
+
+  # evl arvo jakson alussa
+  def opening_btl_value
+    accounts.sum &:opening_btl_value
+  end
+
+  # evl arvo jakson lopussa
+  def closing_btl_value
+    accounts.sum &:closing_btl_value
   end
 end
 
@@ -197,6 +237,26 @@ class Reports::Commodity::Account
   def closing_difference_total
     commodities.sum &:closing_difference
   end
+
+  # kirjanpidollinen arvo jakson alussa
+  def opening_bookkeeping_value
+    commodities.sum &:opening_bookkeeping_value
+  end
+
+  # kirjanpidollinen arvo jakson lopussa
+  def closing_bookkeeping_value
+    commodities.sum &:closing_bookkeeping_value
+  end
+
+  # evl arvo jakson alussa
+  def opening_btl_value
+    commodities.sum &:opening_btl_value
+  end
+
+  # evl arvo jakson lopussa
+  def closing_btl_value
+    commodities.sum &:closing_btl_value
+  end
 end
 
 class Reports::Commodity::Commodity
@@ -250,6 +310,26 @@ class Reports::Commodity::Commodity
   # kertyneet poistoerot jakson lopussa
   def closing_difference
     commodity.accumulated_difference_at date_range.last
+  end
+
+  # kirjanpidollinen arvo jakson alussa
+  def opening_bookkeeping_value
+    commodity.bookkeeping_value date_range.first
+  end
+
+  # kirjanpidollinen arvo jakson lopussa
+  def closing_bookkeeping_value
+    commodity.bookkeeping_value date_range.last
+  end
+
+  # evl arvo jakson alussa
+  def opening_btl_value
+    commodity.btl_value date_range.first
+  end
+
+  # evl arvo jakson lopussa
+  def closing_btl_value
+    commodity.btl_value date_range.last
   end
 
   # kertyneet sumu-poistot aikavälillä
