@@ -1020,6 +1020,12 @@ fi:
         header: Hyödykkeiden tilinpäätöstiedot
         run: Aja raportti
         start_date: Alkupäivämäärä
+      report:
+        bookkeeping_closing: Poistamaton osa
+        btl_closing: EVL -menojäännös
+        deprication: SUMU -poistot
+        difference: Poistoerot
+        procurement_amount: Hankintameno
     customer_price_lists:
       create:
         customer_not_found: Asiakasta ei löydy

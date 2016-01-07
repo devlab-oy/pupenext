@@ -21,45 +21,45 @@
       </tr>
 
       <tr class='aktiivi'>
-        <td>Hankintameno</td>
-        <td><%=l @report.start_date %></td>
-        <td><%= account.procurement_amount_total %></td>
+        <td><%=t '.procurement_amount' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.procurement_amount_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>Kertynyt sumupoisto</td>
-        <td><%=l @report.start_date %></td>
-        <td><%= account.opening_deprication_total %></td>
+        <td><%=t '.deprication' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>Kertynyt sumupoisto</td>
-        <td><%=l @report.end_date %></td>
-        <td><%= account.closing_deprication_total %></td>
+        <td><%=t '.deprication' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>Kertynyt poistoero</td>
-        <td><%=l @report.start_date %></td>
-        <td><%= account.opening_difference_total %></td>
+        <td><%=t '.difference' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_difference_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>Kertynyt poistoero</td>
-        <td><%=l @report.end_date %></td>
-        <td><%= account.closing_difference_total %></td>
+        <td><%=t '.difference' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_difference_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>EVL -menojäännös</td>
-        <td><%=l @report.end_date %></td>
-        <td><%= account.closing_difference_total %></td>
+        <td><%=t '.btl_closing' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_btl_value, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
-        <td>Poistamaton osa</td>
-        <td><%=l @report.end_date %></td>
-        <td><%= account.closing_difference_total %></td>
+        <td><%=t '.bookkeeping_closing' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_bookkeeping_value, unit: '' %></td>
       </tr>
 
       <tr>
