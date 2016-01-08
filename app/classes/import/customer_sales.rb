@@ -26,8 +26,6 @@ class Import::CustomerSales
 
       row = Row.new excel_row
 
-      next if row.identifier == 'Yhteensä'
-
       errors = []
 
       if row.customer.present?
@@ -91,14 +89,11 @@ class Import::CustomerSales::Row
   end
 
   def errors
+    return if @identifier == 'Yhteensä'
     error = []
     error << I18n.t('errors.import.product_not_found', product: product_raw) if product_raw.present? && product.nil?
     error << I18n.t('errors.import.customer_not_found', customer: customer_raw) if customer_raw.present? && customer.nil?
     error
-  end
-
-  def identifier
-    @identifier
   end
 
   def quantity
