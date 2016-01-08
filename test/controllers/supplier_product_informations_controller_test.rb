@@ -63,6 +63,13 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_select 'table.supplier_product_informations'
   end
 
+  test 'filtering with manufacturer works' do
+    get :index, manufacturer_name: '@Manufacturer 2'
+
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
+  end
+
   test 'searching with product name works' do
     get :index, product_name: 'ch'
 

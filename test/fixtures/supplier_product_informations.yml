@@ -2,7 +2,7 @@ one:
   product_id: pr1
   product_name: Tramboline
   manufacturer_ean: 10343600935
-  manufacturer_name: MyString
+  manufacturer_name: Manufacturer 1
   manufacturer_id: 1
   manufacturer_part_number: mpn1
   supplier_name: MyString
@@ -44,7 +44,7 @@ two:
   product_id: pr2
   product_name: Chair
   manufacturer_ean: 88698592977
-  manufacturer_name: MyString
+  manufacturer_name: Manufacturer 2
   manufacturer_id: 1
   manufacturer_part_number: mpn2
   supplier_name: MyString
