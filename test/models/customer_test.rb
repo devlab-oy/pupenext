@@ -85,4 +85,14 @@ class CustomerTest < ActiveSupport::TestCase
     @one.delivery_method.update(sallitut_maat: "FI")
     assert @one.valid?, @one.errors.full_messages
   end
+
+  test 'validate terms_of_payments' do
+    assert @one.valid?, @one.errors.full_messages
+
+    @one.terms_of_payment.update(sallitut_maat: "SE")
+    refute @one.valid?, @one.errors.full_messages
+
+    @one.terms_of_payment.update(sallitut_maat: "FI")
+    assert @one.valid?, @one.errors.full_messages
+  end
 end

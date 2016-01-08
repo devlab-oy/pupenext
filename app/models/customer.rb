@@ -21,6 +21,7 @@ class Customer < BaseModel
 
   validate :validate_chn
   validate :validate_delivery_method
+  validate :validate_terms_of_payment
 
   before_validation :defaults
 
@@ -86,6 +87,12 @@ class Customer < BaseModel
     def validate_delivery_method
       delivery_method = company.delivery_methods.where(selite: toimitustapa).first
       if delivery_method.sallitut_maat != "" && delivery_method.sallitut_maat != maa
+        errors.add(:toimitustapa, "Tätä maksuehtoa ei saa käyttää asiakkaalla tässä maassa.")
+      end
+    end
+
+    def validate_terms_of_payments
+      if terms_of_payment.sallitut_maat != "" && terms_of_payment.sallitut_maat != maa
         errors.add(:toimitustapa, "Tätä maksuehtoa ei saa käyttää asiakkaalla tässä maassa.")
       end
     end
