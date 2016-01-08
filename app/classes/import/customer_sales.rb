@@ -6,7 +6,7 @@ class Import::CustomerSales
     Current.user = User.find user_id
 
     @file = setup_file filename
-    @end_of_month = "#{01}.#{month}.#{year}".to_date.end_of_month
+    @end_of_month = Date.new(year, month, 1).end_of_month
   end
 
   def import
