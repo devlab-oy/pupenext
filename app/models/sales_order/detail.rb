@@ -15,23 +15,23 @@ class SalesOrder::Detail < Head
 
     def set_defaults
       # Set customer's name & address & other info
-      self.nimi           = customer.nimi           if self.nimi.blank?
-      self.nimitark       = customer.nimitark       if self.nimitark.blank?
-      self.osoite         = customer.osoite         if self.osoite.blank?
-      self.postino        = customer.postino        if self.postino.blank?
-      self.postitp        = customer.postitp        if self.postitp.blank?
-      self.maa            = customer.maa            if self.maa.blank?
-      self.toim_nimi      = customer.toim_nimi      if self.toim_nimi.blank?
-      self.toim_nimitark  = customer.toim_nimitark  if self.toim_nimitark.blank?
-      self.toim_osoite    = customer.toim_osoite    if self.toim_osoite.blank?
-      self.toim_postino   = customer.toim_postino   if self.toim_postino.blank?
-      self.toim_postitp   = customer.toim_postitp   if self.toim_postitp.blank?
-      self.toim_maa       = customer.toim_maa       if self.toim_maa.blank?
-      self.ytunnus        = customer.ytunnus        if self.ytunnus.blank?
-      self.piiri          = customer.piiri          if self.piiri.blank?
-      self.toim_ovttunnus = customer.toim_ovttunnus if self.toim_ovttunnus.blank?
-      self.puh            = customer.puhelin        if self.puh.blank?
-      self.email          = customer.email          if self.email.blank?
-      self.toimitusehto   = customer.toimitusehto   if self.toimitusehto.blank?
+      self.nimi           = customer.nimi           if nimi.blank?
+      self.nimitark       = customer.nimitark       if nimitark.blank?
+      self.osoite         = customer.osoite         if osoite.blank?
+      self.postino        = customer.postino        if postino.blank?
+      self.postitp        = customer.postitp        if postitp.blank?
+      self.maa            = customer.maa            if maa.blank?
+      self.toim_nimi      = customer.toim_nimi      if toim_nimi.blank?
+      self.toim_nimitark  = customer.toim_nimitark  if toim_nimitark.blank?
+      self.toim_osoite    = customer.toim_osoite    if toim_osoite.blank?
+      self.toim_postino   = customer.toim_postino   if toim_postino.blank?
+      self.toim_postitp   = customer.toim_postitp   if toim_postitp.blank?
+      self.toim_maa       = customer.toim_maa       if toim_maa.blank?
+      self.ytunnus        = customer.ytunnus        if ytunnus.blank?
+      self.piiri          = customer.piiri          if piiri.blank?
+      self.toim_ovttunnus = customer.toim_ovttunnus if toim_ovttunnus.blank?
+      self.puh            = customer.puhelin        if puh.blank?
+      self.email          = customer.email          if email.blank?
+      self.toimitusehto   = customer.toimitusehto   if toimitusehto.blank?
     end
 end
