@@ -30,6 +30,10 @@ class CommodityRowGenerator
     split_voucher_rows
   end
 
+  def delete_rows
+    mark_rows_obsolete
+  end
+
   def sell
     raise ArgumentError unless commodity.can_be_sold?
     amend_future_rows
