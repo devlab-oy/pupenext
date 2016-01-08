@@ -1,12 +1,17 @@
 require 'test_helper'
 
 class DataImportControllerTest < ActionController::TestCase
+  include SpreadsheetsHelper
+
   fixtures %w(
+    customers
     keyword/product_information_types
     keyword/product_keyword_types
     keyword/product_parameter_types
     product/keywords
     products
+    sales_order/detail_rows
+    sales_order/details
   )
 
   setup do
@@ -15,6 +20,18 @@ class DataImportControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index
+    assert_response :success
+  end
+
+  test 'should add customer sales' do
+    file = fixture_file_upload 'files/customer_sales_test.xlsx'
+    SalesOrder::Detail.delete_all
+
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      post :customer_sales, data_import: { file: file }
+    end
+
+    assert assigns(:spreadsheet)
     assert_response :success
   end
 

@@ -81,8 +81,9 @@ Pupesoft::Application.routes.draw do
 
   scope :data_import do
     get '/', to: 'data_import#index', as: :data_import
-    post :product_keywords,    to: 'data_import#product_keywords',    as: :product_keyword_import
+    post :customer_sales,      to: 'data_import#customer_sales',      as: :customer_sales_import
     post :product_information, to: 'data_import#product_information', as: :product_information_import
+    post :product_keywords,    to: 'data_import#product_keywords',    as: :product_keyword_import
   end
 
   root to: 'home#index'

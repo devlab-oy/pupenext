@@ -4,6 +4,16 @@ class DataImportController < ApplicationController
   def index
   end
 
+  def customer_sales
+    @spreadsheet = Import::CustomerSales.new(
+      company_id: current_company.id,
+      user_id: current_user.id,
+      filename: @uploaded_file,
+    ).import
+
+    render :results
+  end
+
   def product_keywords
     @spreadsheet = Import::ProductKeyword.new(
       company_id: current_company.id,
