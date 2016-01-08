@@ -1,4 +1,5 @@
-<%= return_link t('administration.custom_attributes.index.header'), custom_attributes_path %>
+<%= return_link t('administration.custom_attributes.index.header'),
+    custom_attributes_path(table_alias_set: (@custom_attribute.alias_set_name || params[:table_alias_set])) %>
 
 <br/>
 
