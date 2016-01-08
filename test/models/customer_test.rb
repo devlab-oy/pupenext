@@ -27,8 +27,8 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test 'fixtures are valid' do
-    assert @one.valid?
-    assert @lissu.valid?
+    assert @one.valid?,   @one.errors.full_messages
+    assert @lissu.valid?, @lissu.errors.full_messages
   end
 
   test 'relations' do
@@ -78,4 +78,11 @@ class CustomerTest < ActiveSupport::TestCase
     assert @one.valid?, @one.errors.full_messages
   end
 
+  test 'validate_delivery_method' do
+    @one.delivery_method.update(sallitut_maat: "SE")
+    refute @one.valid?, @one.errors.full_messages
+
+    @one.delivery_method.update(sallitut_maat: "FI")
+    assert @one.valid?, @one.errors.full_messages
+  end
 end

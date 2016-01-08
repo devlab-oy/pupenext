@@ -52,8 +52,7 @@ class CustomersController < ApplicationController
         :toimitustapa,
         :rahtivapaa,
         :kuljetusvakuutus_tyyppi,
-        :lahetetyyppi,
-        :kauppatapahtuman_luonne
+        :lahetetyyppi
       )
     end
 

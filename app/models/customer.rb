@@ -20,6 +20,7 @@ class Customer < BaseModel
   validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
 
   validate :validate_chn
+  validate :validate_delivery_method
 
   before_validation :defaults
 
@@ -79,6 +80,13 @@ class Customer < BaseModel
     def validate_chn
       if chn == '666' && email.blank?
         errors.add(:chn, 'Olet valinnut laskutustavaksi sähköpostin ja lasku_email on tyhjä! Laskutus ei onnistu')
+      end
+    end
+
+    def validate_delivery_method
+      delivery_method = company.delivery_methods.where(selite: toimitustapa).first
+      if delivery_method.sallitut_maat != "" && delivery_method.sallitut_maat != maa
+        errors.add(:toimitustapa, "Tätä maksuehtoa ei saa käyttää asiakkaalla tässä maassa.")
       end
     end
 end
