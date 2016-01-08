@@ -62,10 +62,10 @@ class Customer < BaseModel
       self.laji = 'H' if laji.blank?
       self.kieli = 'fi' if kieli.blank?
       self.chn = '100' if chn.blank?
-      self.alv = company.keywords.where(laji: :alv).where.not(selitetark: '').first if alv.blank?
+      self.alv = company.keywords.where(laji: :alv).where.not(selitetark: '').first.try(:selite) if alv.blank?
       self.toimitustapa = company.delivery_methods.first if toimitustapa.blank?
-      self.kauppatapahtuman_luonne = company.keywords.where(laji: :kt).first if kauppatapahtuman_luonne.blank?
-      self.lahetetyyppi = company.keywords.where(laji: :lahetetyyppi).first if lahetetyyppi.blank?
+      self.kauppatapahtuman_luonne = company.keywords.where(laji: :kt).first.try(:selite) if kauppatapahtuman_luonne.blank?
+      self.lahetetyyppi = company.keywords.where(laji: :lahetetyyppi).first.try(:selite) if lahetetyyppi.blank?
       self.maa = 'fi' if maa.blank?
       self.kansalaisuus = maa if kansalaisuus.blank?
       self.toim_maa = maa if toim_maa.blank?
