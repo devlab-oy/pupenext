@@ -1119,6 +1119,7 @@ fi:
       update_net_price: Päivitä toimittajan ostohinta
     supplier_product_informations:
       transfer: Siirrä
+      transfer?: Siirrä?
     supplier_selection:
       choose: Valitse
     transfer:
