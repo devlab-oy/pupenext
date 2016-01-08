@@ -105,6 +105,18 @@ class FixedAssets::CommoditiesController < AdministrationController
     redirect_to edit_commodity_path(@commodity)
   end
 
+  def delete_rows
+    options = {
+      commodity_id: @commodity.id,
+      fiscal_id: params[:selected_fiscal_year],
+      user_id: current_user.id
+    }
+
+    CommodityRowGenerator.new(options).delete_rows
+
+    redirect_to edit_commodity_path(@commodity)
+  end
+
   def sell
   end
 

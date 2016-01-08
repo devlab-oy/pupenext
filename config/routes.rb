@@ -18,6 +18,7 @@ Pupesoft::Application.routes.draw do
       post :activate
       post :confirm_sale
       post :generate_rows
+      post :delete_rows
       post :link_order
       post :link_voucher
       post :unlink
