@@ -290,6 +290,7 @@ fi:
         available_quantity: Varastossa
         description: Kuvaus
         manufacturer_ean: Valmistajan EAN-koodi
+        manufacturer_name: Valmistaja
         manufacturer_part_number: Valmistajan tuotekoodi
         net_price: Ostohinta
         product_id: Tuotekoodi
