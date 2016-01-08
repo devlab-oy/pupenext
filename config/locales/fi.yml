@@ -1114,6 +1114,9 @@ fi:
       text: Pakollinen
     'yes': Kyllä
   supplier_product_informations:
+    supplier_product_information:
+      update_available_quantity: Päivitä toimittajan saldo
+      update_net_price: Päivitä toimittajan ostohinta
     supplier_product_informations:
       transfer: Siirrä
     supplier_selection:
