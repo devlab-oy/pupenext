@@ -46,7 +46,14 @@ class CustomersController < ApplicationController
         :puhelin,
         :ryhma,
         :osasto,
-        :sisviesti1
+        :sisviesti1,
+        :tilino,
+        :maksuehto,
+        :toimitustapa,
+        :rahtivapaa,
+        :kuljetusvakuutus_tyyppi,
+        :lahetetyyppi,
+        :kauppatapahtuman_luonne
       )
     end
 
