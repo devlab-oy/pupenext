@@ -207,6 +207,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_select "input[name='supplier_product_informations[#{@one.id}][manufacturer_ean]']", count: 0
   end
 
+  test 'manufacturer part number is taken from params if given' do
+    @params[:supplier_product_informations]["#{@one.id}"][:manufacturer_part_number] = 987654321
+
+    post :transfer, @params
+
+    assert_equal '987654321', Product.last.tuoteno
+    assert_equal '987654321', Product::Supplier.last.tuoteno
+  end
+
   test 'error is shown if no products are selected for transfer and search is preserved' do
     post :transfer, product_name: 'ch'
 

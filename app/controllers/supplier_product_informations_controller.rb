@@ -57,6 +57,8 @@ class SupplierProductInformationsController < ApplicationController
 
     params[:supplier_product_informations].keys.each do |tunnus|
       permitted[tunnus] = %i(
+        manufacturer_ean
+        manufacturer_part_number
         nakyvyys
         osasto
         status

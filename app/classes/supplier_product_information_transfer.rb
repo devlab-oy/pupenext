@@ -9,8 +9,22 @@ class SupplierProductInformationTransfer
     duplicates = []
 
     @supplier_product_informations.each do |s|
-      duplicate_tuoteno = Product.where(tuoteno: s.manufacturer_part_number)
-      duplicate_ean     = Product.where(eankoodi: s.manufacturer_ean)
+      extra_attributes = @transferable[s.id.to_s]
+
+      manufacturer_part_number = if extra_attributes[:manufacturer_part_number].present?
+                                   extra_attributes[:manufacturer_part_number]
+                                 else
+                                   s.manufacturer_part_number
+                                 end
+
+      manufacturer_ean = if extra_attributes[:manufacturer_ean].present?
+                                   extra_attributes[:manufacturer_ean]
+                                 else
+                                   s.manufacturer_ean
+                                 end
+
+      duplicate_tuoteno = Product.where(tuoteno: manufacturer_part_number)
+      duplicate_ean     = Product.where(eankoodi: manufacturer_ean)
 
       if duplicate_tuoteno.any?
         s.errors.add(:manufacturer_part_number,
@@ -27,13 +41,11 @@ class SupplierProductInformationTransfer
         next
       end
 
-      extra_attributes = @transferable[s.id.to_s]
-
       product_params = {
         alv:      24,
-        eankoodi: s.manufacturer_ean,
+        eankoodi: manufacturer_ean,
         nimitys:  s.product_name,
-        tuoteno:  s.manufacturer_part_number
+        tuoteno:  manufacturer_part_number
       }
 
       if extra_attributes[:tuotemerkki]
@@ -67,7 +79,7 @@ class SupplierProductInformationTransfer
         tehdas_saldo_paivitetty: Time.now,
         toim_nimitys:            s.product_name,
         toim_tuoteno:            s.product_id,
-        tuoteno:                 s.manufacturer_part_number
+        tuoteno:                 manufacturer_part_number
       )
     end
 
