@@ -5,15 +5,23 @@ module CustomAttributeHelper
     end.uniq.sort
   end
 
-  def database_field_options
+  def database_field_options(table_alias_set: nil)
     options = []
+    skip_columns = %w(yhtio tunnus)
+
+    if table_alias_set.present?
+      only_table, set_name = table_alias_set.split('+')
+
+      added = Keyword::CustomAttribute.where(set_name: set_name).pluck(:database_field)
+      skip_columns += added.map { |f| f.split('.').last }
+    end
 
     ActiveRecord::Base.connection.tables.each do |table|
       ActiveRecord::Base.connection.columns(table).each do |column|
         name = column.name
-        skip_columns = %w(yhtio tunnus)
+        next if only_table && only_table != table
 
-        options << "#{table}.#{name}" unless skip_columns.include? name
+        options << "#{table}.#{name}" unless skip_columns.include?(name)
       end
     end
 
