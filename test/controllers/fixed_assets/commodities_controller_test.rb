@@ -335,4 +335,20 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert assigns(:commodity).commodity_rows
     assert assigns(:commodity).voucher.rows
   end
+
+  test 'should delete generated rows' do
+     params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+    post :generate_rows, params
+    assert_equal 9, assigns(:commodity).commodity_rows.count
+    assert_equal 36, assigns(:commodity).voucher.rows.count
+
+    post :delete_rows, params
+    assert_response :found
+    assert_equal 0, assigns(:commodity).commodity_rows.count
+    assert_equal 0, assigns(:commodity).voucher.rows.count
+  end
 end
