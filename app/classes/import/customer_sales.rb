@@ -30,7 +30,7 @@ class Import::CustomerSales
 
       if row.customer.present?
         header = row.customer.sales_details.create tapvm: @end_of_month, nimi: 'kissa'
-        errors << header.errors
+        errors += header.errors.full_messages
       elsif header && row.product
         params = {
           tuoteno: row.product,
@@ -41,12 +41,12 @@ class Import::CustomerSales
         }
 
         row = header.rows.create params
-        errors << row.errors
+        errors += row.errors.full_messages
       else
-        errors << row.errors
+        errors += row.errors
       end
 
-      response.add_row columns: excel_row.values, errors: errors.flatten.compact
+      response.add_row columns: excel_row.values, errors: errors.compact
     end
 
     response
@@ -89,7 +89,7 @@ class Import::CustomerSales::Row
   end
 
   def errors
-    return if @identifier == 'Yhteensä'
+    return [] if @identifier == 'Yhteensä'
     error = []
     error << I18n.t('errors.import.product_not_found', product: product_raw) if product_raw.present? && product.nil?
     error << I18n.t('errors.import.customer_not_found', customer: customer_raw) if customer_raw.present? && customer.nil?
