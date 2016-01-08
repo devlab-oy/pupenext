@@ -1114,11 +1114,13 @@ fi:
       text: Pakollinen
     'yes': Kyllä
   supplier_product_informations:
+    supplier_product_informations:
+      transfer: Siirrä
     supplier_selection:
       choose: Valitse
     transfer:
-      duplicate_tuoteno: Tuoteno löytyy jo järjestelmästä
       duplicate_ean: EAN-koodi löytyy jo järjestelmästä
+      duplicate_tuoteno: Tuoteno löytyy jo järjestelmästä
       duplicates_found: Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua
       not_selected: Et valinnut yhtään riviä
       success: Tuotteet siirretty onnistuneesti järjestelmään
