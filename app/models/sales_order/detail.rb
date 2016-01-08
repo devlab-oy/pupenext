@@ -14,27 +14,6 @@ class SalesOrder::Detail < Head
   private
 
     def set_defaults
-      # Date fields can be set to zero
-      self.erpcm    ||= 0
-      self.kapvm    ||= 0
-      self.lapvm    ||= 0
-      self.mapvm    ||= 0
-      self.olmapvm  ||= 0
-      self.tapvm    ||= 0
-      self.toimaika ||= 0
-
-      # Datetime fields don't accept zero, so let's set them to epoch zero (temporarily)
-      self.h1time     ||= Time.at(0)
-      self.h2time     ||= Time.at(0)
-      self.h3time     ||= Time.at(0)
-      self.h4time     ||= Time.at(0)
-      self.h5time     ||= Time.at(0)
-      self.kerayspvm  ||= Time.at(0)
-      self.lahetepvm  ||= Time.at(0)
-      self.laskutettu ||= Time.at(0)
-      self.maksuaika  ||= Time.at(0)
-      self.popvm      ||= Time.at(0)
-
       # Set customer's name & address & other info
       self.nimi           = customer.nimi           if self.nimi.blank?
       self.nimitark       = customer.nimitark       if self.nimitark.blank?
