@@ -1117,6 +1117,8 @@ fi:
     supplier_selection:
       choose: Valitse
     transfer:
+      duplicate_tuoteno: Tuoteno löytyy jo järjestelmästä
+      duplicate_ean: EAN-koodi löytyy jo järjestelmästä
       duplicates_found: Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua
       not_selected: Et valinnut yhtään riviä
       success: Tuotteet siirretty onnistuneesti järjestelmään

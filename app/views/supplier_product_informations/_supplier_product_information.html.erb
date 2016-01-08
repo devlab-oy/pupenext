@@ -4,7 +4,30 @@
     <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]", "1", false, class: :transfer %>
   </td>
   <td><%= s.product_id %></td>
-  <td><%= s.manufacturer_ean %></td>
+  <td>
+    <% if s.errors[:manufacturer_part_number].present? %>
+      <span class="field_with_errors">
+        <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                           s.manufacturer_part_number %>
+        <small><%= s.errors[:manufacturer_part_number].first %></small>
+      </span>
+    <% else %>
+      <%= s.manufacturer_part_number %>
+    <% end %>
+
+  </td>
+  <td>
+    <% if s.errors[:manufacturer_ean].present? %>
+      <span class="field_with_errors">
+        <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
+                           s.manufacturer_ean %>
+        <small><%= s.errors[:manufacturer_ean].first %></small>
+      </span>
+    <% else %>
+      <%= s.manufacturer_ean %>
+    <% end %>
+
+  </td>
   <td><%= s.product_name %></td>
   <td><%= s.description %></td>
   <td><%= s.supplier_name %></td>

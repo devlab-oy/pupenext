@@ -198,6 +198,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
                  flash[:notice]
   end
 
+  test 'manufacturer part number can be changed if its already found in the system' do
+    @one.update(manufacturer_part_number: products(:hammer).tuoteno)
+
+    post :transfer, @params
+
+    assert_select "input[name='supplier_product_informations[#{@one.id}][manufacturer_part_number]']"
+    assert_select "input[name='supplier_product_informations[#{@one.id}][manufacturer_ean]']", count: 0
+  end
+
   test 'error is shown if no products are selected for transfer and search is preserved' do
     post :transfer, product_name: 'ch'
 

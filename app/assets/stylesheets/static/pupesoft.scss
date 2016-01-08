@@ -106,13 +106,20 @@ select {
   background-position: right;
 }
 
-.field_with_errors input, .field_with_errors select {
-  border: 1px solid red;
-}
+.field_with_errors {
+  input, select {
+    border: 1px solid red;
+  }
 
-.field_with_errors label {
-  font-size: 11pt;
-  font-weight: bold;
+  label {
+    font-size: 11pt;
+    font-weight: bold;
+  }
+
+  small {
+    display: block;
+    color: red;
+  }
 }
 
 select:disabled {

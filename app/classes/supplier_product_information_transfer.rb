@@ -9,10 +9,20 @@ class SupplierProductInformationTransfer
     duplicates = []
 
     @supplier_product_informations.each do |s|
-      duplicate_products = Product.where('tuoteno = ? OR eankoodi = ?',
-                                         s.manufacturer_part_number,
-                                         s.manufacturer_ean)
-      if duplicate_products.present?
+      duplicate_tuoteno = Product.where(tuoteno: s.manufacturer_part_number)
+      duplicate_ean     = Product.where(eankoodi: s.manufacturer_ean)
+
+      if duplicate_tuoteno.any?
+        s.errors.add(:manufacturer_part_number,
+                     I18n.t('supplier_product_informations.transfer.duplicate_tuoteno'))
+      end
+
+      if duplicate_ean.any?
+        s.errors.add(:manufacturer_ean,
+                     I18n.t('supplier_product_informations.transfer.duplicate_ean'))
+      end
+
+      if s.errors.any?
         duplicates << s
         next
       end
