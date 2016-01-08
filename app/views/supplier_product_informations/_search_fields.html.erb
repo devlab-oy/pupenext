@@ -4,7 +4,7 @@
       <th><%= label_tag :manufacturer_name,
                         SupplierProductInformation.human_attribute_name(:manufacturer_name) %></th>
       <td><%= select_tag(:manufacturer_name,
-                         options_for_select(manufacturer_options)) %></td>
+                         options_for_select(manufacturer_options, params[:manufacturer_name])) %></td>
     </tr>
     <tr>
       <th><%= label_tag :product_name,
