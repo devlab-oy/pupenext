@@ -1,11 +1,12 @@
 class Import::CustomerSales
   include Import::Base
 
-  def initialize(company_id:, user_id:, filename:)
+  def initialize(company_id:, user_id:, filename:, month:, year:)
     Current.company = Company.find company_id
     Current.user = User.find user_id
 
     @file = setup_file filename
+    @end_of_month = "#{01}.#{month}.#{year}".to_date.end_of_month
   end
 
   def import
@@ -30,10 +31,18 @@ class Import::CustomerSales
       errors = []
 
       if row.customer.present?
-        header = row.customer.sales_details.create
+        header = row.customer.sales_details.create tapvm: @end_of_month, nimi: 'kissa'
         errors << header.errors
       elsif header && row.product
-        row = header.rows.create tuoteno: row.product, varattu: row.quantity, hinta: row.price
+        params = {
+          tuoteno: row.product,
+          varattu: row.quantity,
+          hinta: row.price,
+          laskutettuaika: @end_of_month,
+          laskutettu: Current.user.kuka,
+        }
+
+        row = header.rows.create params
         errors << row.errors
       else
         errors << row.errors

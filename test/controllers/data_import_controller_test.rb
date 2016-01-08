@@ -28,7 +28,7 @@ class DataImportControllerTest < ActionController::TestCase
     SalesOrder::Detail.delete_all
 
     assert_difference 'SalesOrder::Detail.count', 1 do
-      post :customer_sales, data_import: { file: file }
+      post :customer_sales, data_import: { file: file, month: 1, year: 2016 }
     end
 
     assert assigns(:spreadsheet)

@@ -9,6 +9,8 @@ class DataImportController < ApplicationController
       company_id: current_company.id,
       user_id: current_user.id,
       filename: @uploaded_file,
+      month: customer_sales_params[:month],
+      year: customer_sales_params[:year],
     ).import
 
     render :results
@@ -48,6 +50,13 @@ class DataImportController < ApplicationController
         flash[:error] = 'invalid file type!'
         redirect_to data_import_path
       end
+    end
+
+    def customer_sales_params
+      params.require(:data_import).permit(
+        :month,
+        :year,
+      )
     end
 
     def data_import_params

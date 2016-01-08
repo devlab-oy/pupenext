@@ -39,7 +39,15 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                                '',    123000       ],
     ])
 
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
+    sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 2 do
       response = sales.import
@@ -56,7 +64,15 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                 '',    123000       ],
     ])
 
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
+    sales = Import::CustomerSales.new params
 
     assert_no_difference 'SalesOrder::Detail.count' do
       response = sales.import
@@ -74,12 +90,37 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
     ])
 
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
+    sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 1 do
       result = sales.import
       assert_equal Hash.new, result.rows.first.errors.first.messages
     end
+
+    # Try adding without month
+    filename = create_xlsx([
+      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
+      ['Yhteensä',                                                '',    123000       ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+    ])
+
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      year: 2016,
+    }
+
+    assert_raises(ArgumentError) { Import::CustomerSales.new params }
 
     # Try adding with incorrect product
     filename = create_xlsx([
@@ -89,8 +130,16 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["666 #{@helmet.osasto} #{@helmet.nimitys}",  10,    23000        ],
     ])
 
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
     # We get only one error
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 1 do
       result = sales.import
@@ -106,8 +155,16 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
     ])
 
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
     # We get only one error
-    sales = Import::CustomerSales.new company_id: @company, user_id: @user, filename: filename
+    sales = Import::CustomerSales.new params
 
     assert_no_difference 'SalesOrder::Detail.count' do
       result = sales.import
