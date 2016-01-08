@@ -44,8 +44,7 @@
 
     <td>
       <%= form_for :data_import, url: customer_sales_import_path do |f| %>
-        <%= f.select :month, customer_sales_month_options %>
-        <%= f.select :year, customer_sales_year_options %>
+        <%= f.date_select :month_year, discard_day: true %>
         <%= f.file_field :file %>
         <%= f.submit t('.import') %>
       <% end %>
