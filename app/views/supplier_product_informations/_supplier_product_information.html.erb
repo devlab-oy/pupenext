@@ -51,30 +51,55 @@
 <% end %>
 
 <%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
+  <%
+    previous_params = if params[:supplier_product_informations] &&
+                         params[:supplier_product_informations][s.id.to_s]
+                        params[:supplier_product_informations][s.id.to_s]
+                      else
+                        {}
+                      end
+  %>
+
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
-                   options_from_collection_for_select(Product::Category.all, :tunnus, :selitetark)) %>
+                   options_from_collection_for_select(Product::Category.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:osasto])) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][try]",
-                   options_from_collection_for_select(Product::Subcategory.all, :tunnus, :selitetark)) %>
+                   options_from_collection_for_select(Product::Subcategory.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:try])) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][tuotemerkki]",
-                   options_from_collection_for_select(Product::Brand.all, :tunnus, :selitetark)) %>
+                   options_from_collection_for_select(Product::Brand.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:tuotemerkki])) %>
   </td>
   <td>
-    <%= text_field_tag("supplier_product_informations[#{s.id}][nakyvyys]") %>
+    <%= text_field_tag("supplier_product_informations[#{s.id}][nakyvyys]",
+                       previous_params[:nakyvyys]) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][status]",
-                   options_from_collection_for_select(Product::Status.all, :tunnus, :selitetark)) %>
+                   options_from_collection_for_select(Product::Status.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:status])) %>
   </td>
   <td colspan="2">
-    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_ostohinta]") %>
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_ostohinta]",
+                      "1",
+                      previous_params[:toimittajan_ostohinta]) %>
   </td>
   <td colspan="2">
-    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]") %>
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]",
+                      "1", previous_params[:toimittajan_saldo]) %>
   </td>
 <% end %>
 </tbody>
