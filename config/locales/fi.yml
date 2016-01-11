@@ -358,7 +358,10 @@ fi:
       packing_area: Pakkaamo
       pending_update: Tuleva päivitys
       printer: Kirjoitin
+      product/brand: Tuotemerkki
+      product/category: Tuoteosasto
       product/keyword: Tuotteen avainsanat
+      product/subcategory: Tuoteryhmä
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
