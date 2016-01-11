@@ -24,6 +24,8 @@ class SalesOrder::DetailTest < ActiveSupport::TestCase
   end
 
   test 'default values' do
+    Current.user = users :joe
+
     order = SalesOrder::Detail.create liitostunnus: @customer.tunnus
 
     assert_equal "Very stubborn customer", order.nimi
