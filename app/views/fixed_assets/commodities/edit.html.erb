@@ -27,7 +27,12 @@
   <% elsif @commodity.activated_at.present? %>
     <%= button_to t('.button_activate'), commodity_activate_path(@commodity), method: :post %>
   <% end %>
-
+  <% if @commodity.can_be_destroyed? %>
+    <br/><br/>
+    <%= form_tag(commodity_destroy_commodity_path(@commodity), method: "post") do %>
+      <%= submit_tag(t('.button_delete_commodity')) %>
+    <% end %>
+  <% end %>
   <br/><br/>
 <% end %>
 
