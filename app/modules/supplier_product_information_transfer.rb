@@ -1,15 +1,12 @@
-class SupplierProductInformationTransfer
-  def initialize(params, supplier:)
-    @transferable                  = params.select { |_k, v| v[:transfer] == '1' }
-    @supplier_product_informations = SupplierProductInformation.find(@transferable.keys)
-    @supplier                      = Supplier.find(supplier)
-  end
+module SupplierProductInformationTransfer
+  def self.transfer(params, supplier:)
+    transferable                  = params.select { |_k, v| v[:transfer] == '1' }
+    supplier_product_informations = SupplierProductInformation.find(transferable.keys)
+    supplier                      = Supplier.find(supplier)
+    duplicates                    = []
 
-  def transfer
-    duplicates = []
-
-    @supplier_product_informations.each do |s|
-      extra_attributes = @transferable[s.id.to_s]
+    supplier_product_informations.each do |s|
+      extra_attributes = transferable[s.id.to_s]
 
       manufacturer_part_number = if extra_attributes[:manufacturer_part_number].present?
                                    extra_attributes[:manufacturer_part_number]
@@ -74,7 +71,7 @@ class SupplierProductInformationTransfer
                p_qty_update:   extra_attributes[:toimittajan_saldo],
                product:        product)
 
-      @supplier.product_suppliers.create(
+      supplier.product_suppliers.create(
         tehdas_saldo:            s.available_quantity,
         tehdas_saldo_paivitetty: Time.now,
         toim_nimitys:            s.product_name,

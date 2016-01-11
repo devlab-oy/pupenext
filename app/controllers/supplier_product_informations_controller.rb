@@ -16,11 +16,8 @@ class SupplierProductInformationsController < ApplicationController
   end
 
   def transfer
-    supplier_product_information_transfer =
-      SupplierProductInformationTransfer.new(supplier_product_informations_params,
-                                             supplier: session[:supplier])
-
-    duplicates = supplier_product_information_transfer.transfer
+    duplicates = SupplierProductInformationTransfer.transfer(supplier_product_informations_params,
+                                                                supplier: session[:supplier])
 
     unless duplicates.present?
       return redirect_to supplier_product_informations_url, notice: t('.success')
