@@ -5,7 +5,8 @@
 
 <tr>
   <td>
-    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]", "1", false, class: :transfer %>
+    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]", "1", s.errors.any?,
+                      class: :transfer %>
   </td>
   <td><%= s.product_id %></td>
   <td>
@@ -39,7 +40,7 @@
   <td><%= s.available_quantity %></td>
 </tr>
 
-<tr class="hidden extra-attributes">
+<%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
   <th><%= Product::Category.model_name.human %></th>
   <th><%= Product::Subcategory.model_name.human %></th>
   <th><%= Product::Brand.model_name.human %></th>
@@ -47,9 +48,9 @@
   <th><%= Product::Status.model_name.human %></th>
   <th colspan="2"><%= t('.update_net_price') %></th>
   <th colspan="2"><%= t('.update_available_quantity') %></th>
-</tr>
+<% end %>
 
-<tr class="hidden extra-attributes">
+<%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
                    options_from_collection_for_select(Product::Category.all, :tunnus, :selitetark)) %>
@@ -75,5 +76,5 @@
   <td colspan="2">
     <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]") %>
   </td>
-</tr>
+<% end %>
 </tbody>
