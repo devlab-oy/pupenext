@@ -35,7 +35,7 @@ class Reports::Commodity::Response
   end
 
   def sum_levels
-    @sum_levels ||= company.sum_level_commodities.map do |level|
+    @sum_levels ||= external_sum_levels_with_commodity.map do |level|
       Reports::Commodity::SumLevel.new(sum_level: level, date_range: date_range)
     end
   end
@@ -99,6 +99,12 @@ class Reports::Commodity::Response
   def closing_btl_value
     sum_levels.sum &:closing_btl_value
   end
+
+  private
+
+    def external_sum_levels_with_commodity
+      company.sum_level_externals.joins(:accounts).where.not(tili: { evl_taso: '' }).uniq
+    end
 end
 
 class Reports::Commodity::SumLevel
@@ -110,7 +116,7 @@ class Reports::Commodity::SumLevel
   end
 
   def accounts
-    @accounts ||= sum_level.accounts.map do |account|
+    @accounts ||= sum_level.accounts.where.not(evl_taso: '').map do |account|
       Reports::Commodity::Account.new(account: account, date_range: date_range)
     end
   end
