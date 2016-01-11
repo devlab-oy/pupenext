@@ -56,5 +56,8 @@ class Row < BaseModel
       params[:kerattyaika]    = zero if kerattyaika    == epoch
       params[:toimitettuaika] = zero if toimitettuaika == epoch
       params[:laskutettuaika] = zero if laskutettuaika == epoch
+
+      # update_columns skips all validations and updates values directly with sql
+      update_columns params if params.present?
     end
 end
