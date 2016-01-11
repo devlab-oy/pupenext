@@ -18,10 +18,10 @@ class SupplierProductInformationTransfer
                                  end
 
       manufacturer_ean = if extra_attributes[:manufacturer_ean].present?
-                                   extra_attributes[:manufacturer_ean]
-                                 else
-                                   s.manufacturer_ean
-                                 end
+                           extra_attributes[:manufacturer_ean]
+                         else
+                           s.manufacturer_ean
+                         end
 
       duplicate_tuoteno = Product.where(tuoteno: manufacturer_part_number)
       duplicate_ean     = Product.where(eankoodi: manufacturer_ean)

@@ -16,8 +16,9 @@ class SupplierProductInformationsController < ApplicationController
   end
 
   def transfer
-    supplier_product_information_transfer = SupplierProductInformationTransfer.new(supplier_product_informations_params,
-                                                                                   supplier: session[:supplier])
+    supplier_product_information_transfer =
+      SupplierProductInformationTransfer.new(supplier_product_informations_params,
+                                             supplier: session[:supplier])
 
     duplicates = supplier_product_information_transfer.transfer
 
@@ -36,40 +37,40 @@ class SupplierProductInformationsController < ApplicationController
 
   private
 
-  def searchable_columns
-    %i(
-      manufacturer_ean
-      manufacturer_name
-      manufacturer_part_number
-      product_name
-      product_id
-    )
-  end
-
-  def sortable_columns
-    searchable_columns
-  end
-
-  def supplier_product_informations_params
-    permitted = {}
-
-    params.require(:supplier_product_informations).permit
-
-    params[:supplier_product_informations].keys.each do |tunnus|
-      permitted[tunnus] = %i(
+    def searchable_columns
+      %i(
         manufacturer_ean
+        manufacturer_name
         manufacturer_part_number
-        nakyvyys
-        osasto
-        status
-        toimittajan_ostohinta
-        toimittajan_saldo
-        transfer
-        try
-        tuotemerkki
+        product_name
+        product_id
       )
     end
 
-    params.require(:supplier_product_informations).permit(permitted)
-  end
+    def sortable_columns
+      searchable_columns
+    end
+
+    def supplier_product_informations_params
+      permitted = {}
+
+      params.require(:supplier_product_informations).permit
+
+      params[:supplier_product_informations].keys.each do |tunnus|
+        permitted[tunnus] = %i(
+          manufacturer_ean
+          manufacturer_part_number
+          nakyvyys
+          osasto
+          status
+          toimittajan_ostohinta
+          toimittajan_saldo
+          transfer
+          try
+          tuotemerkki
+        )
+      end
+
+      params.require(:supplier_product_informations).permit(permitted)
+    end
 end
