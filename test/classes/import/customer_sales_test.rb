@@ -4,10 +4,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
   include SpreadsheetsHelper
 
   fixtures %w(
-    products
-    sales_order/details
-    sales_order/detail_rows
     customers
+    products
+    sales_order/detail_rows
+    sales_order/details
   )
 
   setup do
@@ -15,12 +15,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     @company = users(:joe).company.id
 
     @helmet = products :helmet
-    @helmet.tuoteno = '12345'
-    @helmet.save
+    @helmet.update! tuoteno: '12345'
 
     @hammer = products :hammer
-    @hammer.tuoteno = '67890'
-    @hammer.save
+    @hammer.update! tuoteno: '67890'
 
     @customer = customers :stubborn_customer
     @lissu    = customers :lissu
@@ -60,7 +58,9 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Tuote/Asiakas',                            'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                 '',    123000       ],
       ["666 #{@customer.nimi}",                    '',    23000        ],
+      ["foobar",                                   '',    23000        ],
       ["999 #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["foobar",                                   10,    23000        ],
       ['Yhteensä',                                 '',    123000       ],
     ])
 
@@ -77,7 +77,9 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_no_difference 'SalesOrder::Detail.count' do
       response = sales.import
       assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.second.errors.first
-      assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.third.errors.first
+      assert_equal 'Asiakasta "foobar" ei löytynyt!', response.rows.third.errors.first
+      assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.fourth.errors.first
+      assert_equal 'Tuotetta "foobar" ei löytynyt!', response.rows.fifth.errors.first
     end
   end
 
@@ -106,13 +108,6 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     end
 
     # Try adding without month
-    filename = create_xlsx([
-      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
-      ['Yhteensä',                                                '',    123000       ],
-      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
-    ])
-
     params = {
       company_id: @company,
       user_id: @user,
