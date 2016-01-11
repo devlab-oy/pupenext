@@ -4,7 +4,7 @@ class SalesOrder::Detail < Head
 
   validates :tila, inclusion: { in: ['9'] }
 
-  before_create :set_defaults
+  before_create :set_customer_defaults
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
@@ -13,7 +13,7 @@ class SalesOrder::Detail < Head
 
   private
 
-    def set_defaults
+    def set_customer_defaults
       # Set customer's name & address & other info
       self.nimi           = customer.nimi           if nimi.blank?
       self.nimitark       = customer.nimitark       if nimitark.blank?
