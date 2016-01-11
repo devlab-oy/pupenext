@@ -17,7 +17,7 @@ module SupplierProductInformationTransfer
       end
 
       duplicate_tuoteno = Product.where(tuoteno: s.manufacturer_part_number)
-      duplicate_ean     = Product.where(eankoodi: s.manufacturer_ean)
+      duplicate_ean     = Product.where(eankoodi: s.manufacturer_ean).where.not(eankoodi: '')
 
       if duplicate_tuoteno.any?
         s.errors.add(:manufacturer_part_number,
