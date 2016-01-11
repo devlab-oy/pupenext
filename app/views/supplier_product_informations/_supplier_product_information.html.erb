@@ -1,3 +1,12 @@
+<%
+  previous_params = if params[:supplier_product_informations] &&
+                       params[:supplier_product_informations][s.id.to_s]
+                      params[:supplier_product_informations][s.id.to_s]
+                    else
+                      {}
+                    end
+%>
+
 <tbody>
 <tr>
   <td colspan="9" class="separator"></td>
@@ -16,6 +25,9 @@
                            s.manufacturer_part_number %>
         <small><%= s.errors[:manufacturer_part_number].first %></small>
       </span>
+    <% elsif previous_params[:manufacturer_ean].present? %>
+      <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                         s.manufacturer_part_number %>
     <% else %>
       <%= hidden_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
                            s.manufacturer_part_number %>
@@ -30,9 +42,10 @@
                            s.manufacturer_ean %>
         <small><%= s.errors[:manufacturer_ean].first %></small>
       </span>
+    <% elsif previous_params[:manufacturer_ean].present? %>
+      <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
+                         s.manufacturer_ean %>
     <% else %>
-      <%= hidden_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
-                           s.manufacturer_ean %>
       <%= s.manufacturer_ean %>
     <% end %>
 
@@ -55,15 +68,6 @@
 <% end %>
 
 <%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
-  <%
-    previous_params = if params[:supplier_product_informations] &&
-                         params[:supplier_product_informations][s.id.to_s]
-                        params[:supplier_product_informations][s.id.to_s]
-                      else
-                        {}
-                      end
-  %>
-
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
                    options_from_collection_for_select(Product::Category.all,

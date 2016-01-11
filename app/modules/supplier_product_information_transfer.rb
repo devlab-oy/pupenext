@@ -8,8 +8,13 @@ module SupplierProductInformationTransfer
     supplier_product_informations.each do |s|
       extra_attributes = transferable[s.id.to_s]
 
-      s.manufacturer_part_number &&= extra_attributes[:manufacturer_part_number]
-      s.manufacturer_ean         &&= extra_attributes[:manufacturer_ean]
+      if extra_attributes[:manufacturer_part_number].present?
+        s.manufacturer_part_number = extra_attributes[:manufacturer_part_number]
+      end
+
+      if extra_attributes[:manufacturer_ean].present?
+        s.manufacturer_ean = extra_attributes[:manufacturer_ean]
+      end
 
       duplicate_tuoteno = Product.where(tuoteno: s.manufacturer_part_number)
       duplicate_ean     = Product.where(eankoodi: s.manufacturer_ean)
