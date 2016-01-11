@@ -8,8 +8,8 @@ class SupplierProductInformationsController < ApplicationController
       @supplier = Supplier.find(session[:supplier])
 
       @supplier_product_informations = @supplier
-                                       .supplier_product_informations
-                                       .search_like(search_params)
+                                         .supplier_product_informations
+                                         .search_like(search_params)
     else
       @supplier_product_informations = SupplierProductInformation.none
     end

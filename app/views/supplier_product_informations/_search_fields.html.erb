@@ -1,31 +1,53 @@
 <%= form_tag supplier_product_informations_path, method: :get do %>
   <table class="margin-bottom-20 search-fields">
     <tr>
-      <th><%= label_tag :manufacturer_name,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_name) %></th>
-      <td><%= select_tag(:manufacturer_name,
-                         options_for_select(manufacturer_options, params[:manufacturer_name])) %></td>
+      <th>
+        <%= label_tag :manufacturer_name,
+                        SupplierProductInformation.human_attribute_name(:manufacturer_name) %>
+      </th>
+      <td>
+        <%= select_tag(:manufacturer_name,
+                         options_for_select(manufacturer_options, params[:manufacturer_name])) %>
+      </td>
     </tr>
     <tr>
-      <th><%= label_tag :product_name,
-                        SupplierProductInformation.human_attribute_name(:product_name) %></th>
-      <td><%= search_field_tag :product_name, params[:product_name] %></td>
+      <th>
+        <%= label_tag :product_name,
+                        SupplierProductInformation.human_attribute_name(:product_name) %>
+      </th>
+      <td>
+        <%= search_field_tag :product_name, params[:product_name] %>
+      </td>
     </tr>
     <tr>
-      <th><%= label_tag :product_id,
-                        SupplierProductInformation.human_attribute_name(:product_id) %></th>
-      <td><%= search_field_tag :product_id, params[:product_id] %></td>
+      <th>
+        <%= label_tag :product_id,
+                        SupplierProductInformation.human_attribute_name(:product_id) %>
+      </th>
+      <td>
+        <%= search_field_tag :product_id, params[:product_id] %>
+      </td>
     </tr>
     <tr>
-      <th><%= label_tag :manufacturer_part_number,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_part_number) %></th>
-      <td><%= search_field_tag :manufacturer_part_number, params[:manufacturer_part_number] %></td>
+      <th>
+        <%= label_tag :manufacturer_part_number,
+                        SupplierProductInformation.human_attribute_name(:manufacturer_part_number) %>
+      </th>
+      <td>
+        <%= search_field_tag :manufacturer_part_number, params[:manufacturer_part_number] %>
+      </td>
     </tr>
     <tr>
-      <th><%= label_tag :manufacturer_ean,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_ean) %></th>
-      <td><%= search_field_tag :manufacturer_ean, params[:manufacturer_ean] %></td>
-      <td class="back"><%= submit_tag t('administration.accounts.index.button_search') %></td>
+      <th>
+        <%= label_tag :manufacturer_ean,
+                        SupplierProductInformation.human_attribute_name(:manufacturer_ean) %>
+      </th>
+      <td>
+        <%= search_field_tag :manufacturer_ean, params[:manufacturer_ean] %>
+      </td>
+      <td class="back">
+        <%= submit_tag t('administration.accounts.index.button_search') %>
+      </td>
     </tr>
   </table>
 <% end %>
