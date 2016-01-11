@@ -17,6 +17,8 @@
         <small><%= s.errors[:manufacturer_part_number].first %></small>
       </span>
     <% else %>
+      <%= hidden_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                           s.manufacturer_part_number %>
       <%= s.manufacturer_part_number %>
     <% end %>
 
@@ -29,6 +31,8 @@
         <small><%= s.errors[:manufacturer_ean].first %></small>
       </span>
     <% else %>
+      <%= hidden_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
+                           s.manufacturer_ean %>
       <%= s.manufacturer_ean %>
     <% end %>
 
