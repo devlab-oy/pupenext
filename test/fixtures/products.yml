@@ -12,6 +12,7 @@ DEFAULTS: &DEFAULTS
 hammer:
   yhtio: acme
   tuoteno: hammer123
+  eankoodi: EANHAMMER123
   nimitys: All-around hammer
   myymalahinta: 315.0
   osasto: 1000
