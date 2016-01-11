@@ -29,5 +29,7 @@ class SalesOrder::DetailTest < ActiveSupport::TestCase
     order = SalesOrder::Detail.create liitostunnus: @customer.tunnus
 
     assert_equal "Very stubborn customer", order.nimi
+    assert_equal "FI12345678", order.ytunnus
+    assert_equal "Street 1", order.osoite
   end
 end
