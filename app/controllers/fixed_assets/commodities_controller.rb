@@ -117,6 +117,17 @@ class FixedAssets::CommoditiesController < AdministrationController
     redirect_to edit_commodity_path(@commodity)
   end
 
+  def destroy_commodity
+    if @commodity.can_be_destroyed?
+      @commodity.destroy!
+      flash.now[:notice] = t('.destroy_success')
+      redirect_to commodities_path
+    else
+      flash.now[:notice] = t('.destroy_failure')
+      redirect_to edit_commodity_path(@commodity)
+    end
+  end
+
   def sell
   end
 
