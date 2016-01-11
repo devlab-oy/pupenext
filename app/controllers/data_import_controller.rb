@@ -9,8 +9,8 @@ class DataImportController < ApplicationController
       company_id: current_company.id,
       user_id: current_user.id,
       filename: @uploaded_file,
-      month: customer_sales_params[:month_year]["month_year(2i)"],
-      year: customer_sales_params[:month_year]["month_year(1i)"],
+      month: customer_sales_params["month_year(2i)"],
+      year: customer_sales_params["month_year(1i)"],
     ).import
 
     render :results
@@ -53,7 +53,7 @@ class DataImportController < ApplicationController
     end
 
     def customer_sales_params
-      params.require(:data_import).permit(month_year: ['month_year(1i)', 'month_year(2i)'])
+      params.require(:data_import).permit(:month_year)
     end
 
     def data_import_params
