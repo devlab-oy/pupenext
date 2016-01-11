@@ -3,17 +3,18 @@
     <tr>
       <th>
         <%= label_tag :manufacturer_name,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_name) %>
+                      SupplierProductInformation.human_attribute_name(:manufacturer_name) %>
       </th>
       <td>
         <%= select_tag(:manufacturer_name,
-                         options_for_select(manufacturer_options, params[:manufacturer_name])) %>
+                       options_for_select(manufacturer_options, params[:manufacturer_name]),
+                       include_blank: true) %>
       </td>
     </tr>
     <tr>
       <th>
         <%= label_tag :product_name,
-                        SupplierProductInformation.human_attribute_name(:product_name) %>
+                      SupplierProductInformation.human_attribute_name(:product_name) %>
       </th>
       <td>
         <%= search_field_tag :product_name, params[:product_name] %>
@@ -22,7 +23,7 @@
     <tr>
       <th>
         <%= label_tag :product_id,
-                        SupplierProductInformation.human_attribute_name(:product_id) %>
+                      SupplierProductInformation.human_attribute_name(:product_id) %>
       </th>
       <td>
         <%= search_field_tag :product_id, params[:product_id] %>
@@ -31,7 +32,7 @@
     <tr>
       <th>
         <%= label_tag :manufacturer_part_number,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_part_number) %>
+                      SupplierProductInformation.human_attribute_name(:manufacturer_part_number) %>
       </th>
       <td>
         <%= search_field_tag :manufacturer_part_number, params[:manufacturer_part_number] %>
@@ -40,7 +41,7 @@
     <tr>
       <th>
         <%= label_tag :manufacturer_ean,
-                        SupplierProductInformation.human_attribute_name(:manufacturer_ean) %>
+                      SupplierProductInformation.human_attribute_name(:manufacturer_ean) %>
       </th>
       <td>
         <%= search_field_tag :manufacturer_ean, params[:manufacturer_ean] %>
