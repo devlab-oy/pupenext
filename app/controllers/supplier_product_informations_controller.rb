@@ -25,7 +25,7 @@ class SupplierProductInformationsController < ApplicationController
 
     @supplier_product_informations = duplicates
 
-    flash[:notice] = t('.duplicates_found')
+    flash.now[:notice] = t('.duplicates_found')
     render :index
 
   rescue ActionController::ParameterMissing
