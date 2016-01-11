@@ -299,4 +299,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.name = 'bob'
     assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
   end
+
+  test 'can be destroyed works' do
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.commodity_rows.update_all(amended: true)
+    @commodity.voucher.rows.update_all(korjattu: 'X')
+
+    assert_equal true, @commodity.can_be_destroyed?
+  end
 end
