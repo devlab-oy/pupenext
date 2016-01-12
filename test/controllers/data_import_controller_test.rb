@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class DataImportControllerTest < ActionController::TestCase
-  include SpreadsheetsHelper
-
   fixtures %w(
     customers
     keyword/product_information_types
