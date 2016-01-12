@@ -14,13 +14,13 @@ class Row < BaseModel
 
   def self.child_class_names
     {
+      '9' => SalesOrder::DetailRow,
       'G' => StockTransfer::Row,
       'L' => SalesOrder::Row,
       'M' => ManufactureOrder::RecursiveCompositeRow,
       'O' => PurchaseOrder::Row,
       'V' => ManufactureOrder::Row,
       'W' => ManufactureOrder::CompositeRow,
-      '9' => SalesOrder::DetailRow,
     }
   end
 
