@@ -87,6 +87,42 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should skip invalid customer' do
+
+    # Try adding with incorrect customer
+    filename = create_xlsx([
+      ['Asiakas/Tuote',                                           'Kpl', 'Myynti EUR' ],
+      ['Yhteensä',                                                '',    123000       ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 10,    23000        ],
+      ["999 #{@customer.nimi}",                                   '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@lissu.asiakasnro} #{@lissu.nimi}",               '',    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 10,    23000        ],
+    ])
+
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
+    # We get only one error
+    sales = Import::CustomerSales.new params
+
+    assert_difference 'SalesOrder::Detail.count', 2 do
+      assert_difference 'SalesOrder::DetailRow.count', 4 do
+        result = sales.import
+        error = I18n.t('errors.import.customer_not_found', customer: '999')
+        assert_equal error, result.rows[4].errors.first
+      end
+    end
+  end
+
   test 'errors are correct' do
     # Let's store one correct product and customer
     filename = create_xlsx([

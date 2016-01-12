@@ -29,7 +29,7 @@ class Import::CustomerSales
       errors = []
 
       if row.customer.present?
-        header = row.customer.sales_details.create tapvm: @end_of_month, nimi: 'kissa'
+        header = row.customer.sales_details.create tapvm: @end_of_month
         errors += header.errors.full_messages
       elsif header && row.product
         params = {
@@ -44,6 +44,7 @@ class Import::CustomerSales
         errors += row.errors.full_messages
       else
         errors += row.errors
+        header = nil
       end
 
       response.add_row columns: excel_row.values, errors: errors.compact
