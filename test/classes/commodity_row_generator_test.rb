@@ -684,7 +684,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # 12 rows after generation
     assert_equal 12, FixedAssets::CommodityRow.count
 
-    generator.delete_rows
+    generator.mark_rows_obsolete
     assert_equal 0, FixedAssets::CommodityRow.count
   end
 end
