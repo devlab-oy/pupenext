@@ -41,6 +41,37 @@ class DataImportControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should delete customer sales' do
+    file = fixture_file_upload 'files/customer_sales_test.xlsx'
+    SalesOrder::Detail.delete_all
+
+    params = {
+      file: file,
+      'month_year(2i)' => 1,
+      'month_year(1i)' => 2016,
+    }
+
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      assert_difference 'SalesOrder::DetailRow.count', 2 do
+        post :customer_sales, data_import: params
+      end
+    end
+
+    assert assigns(:spreadsheet)
+    assert_response :success
+
+    params = {
+      'month_year(2i)' => 1,
+      'month_year(1i)' => 2016,
+    }
+
+    assert_difference 'SalesOrder::Detail.count', -1 do
+      assert_difference 'SalesOrder::DetailRow.count', -2 do
+        post :destroy_customer_sales, data_import: params
+      end
+    end
+  end
+
   test "should update product keywords" do
     file = fixture_file_upload 'files/product_keyword_test.xlsx'
     Product::Keyword.delete_all

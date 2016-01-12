@@ -643,7 +643,10 @@ fi:
       language: Avainsanojen kieli
       type: Avainsanatyyppi
   data_import:
+    destroy_customer_sales:
+      destroy_success: Erikoismyynnit poistettiin onnistuneesti
     index:
+      destroy: Poista
       header: Tietojen sisäänluku
       import: Sisäänlue
   date:

@@ -1,5 +1,5 @@
 class DataImportController < ApplicationController
-  before_action :check_for_file, except: [ :index ]
+  before_action :check_for_file, except: [ :index, :destroy_customer_sales ]
 
   def index
   end
@@ -14,6 +14,18 @@ class DataImportController < ApplicationController
     ).import
 
     render :results
+  end
+
+  def destroy_customer_sales
+    month = customer_sales_params["month_year(2i)"]
+    year  = customer_sales_params["month_year(1i)"]
+    tapvm = Date.new(year.to_i, month.to_i, 1).end_of_month
+
+    SalesOrder::Detail.where(tapvm: tapvm).destroy_all
+    SalesOrder::DetailRow.where(laskutettuaika: tapvm).destroy_all
+
+    flash[:notice] = t('.destroy_success')
+    render :index
   end
 
   def product_keywords
