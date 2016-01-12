@@ -61,21 +61,23 @@ class Customer < BaseModel
   private
 
     def defaults
-      self.laji = 'H' if laji.blank?
-      self.kieli = 'fi' if kieli.blank?
-      self.chn = '100' if chn.blank?
-      self.alv = company.keywords.where(laji: :alv).where.not(selitetark: '').first.try(:selite) if alv.blank?
-      self.toimitustapa = company.delivery_methods.first if toimitustapa.blank?
-      self.kauppatapahtuman_luonne = company.keywords.where(laji: :kt).first.try(:selite) if kauppatapahtuman_luonne.blank?
-      self.lahetetyyppi = company.keywords.where(laji: :lahetetyyppi).first.try(:selite) if lahetetyyppi.blank?
-      self.maa = 'fi' if maa.blank?
-      self.kansalaisuus = maa if kansalaisuus.blank?
-      self.toim_maa = maa if toim_maa.blank?
-      self.kolm_maa = maa if kolm_maa.blank?
-      self.laskutus_maa = maa if laskutus_maa.blank?
-      self.valkoodi = company.currencies.first.try(:nimi) if valkoodi.blank?
-      self.maksuehto = company.terms_of_payments.first if maksuehto.blank?
-      self.laskutyyppi = -9 if laskutyyppi.blank?
+      self.alv                     = Keyword::Vat.where.not(selitetark: '').first.try(:selite) if alv.blank?
+      self.chn                     = '100' if chn.blank?
+      self.kansalaisuus            = maa if kansalaisuus.blank?
+      self.kauppatapahtuman_luonne = Keyword.where(laji: :kt).first.try(:selite) if kauppatapahtuman_luonne.blank?
+      self.kieli                   = 'fi' if kieli.blank?
+      self.kolm_maa                = maa if kolm_maa.blank?
+      self.lahetetyyppi            = Keyword.where(laji: :lahetetyyppi).first.try(:selite) if lahetetyyppi.blank?
+      self.laji                    = 'H' if laji.blank?
+      self.laskutus_maa            = maa if laskutus_maa.blank?
+      self.laskutyyppi             = -9 if laskutyyppi.blank?
+      self.maa                     = 'fi' if maa.blank?
+      self.maksuehto               = TermsOfPayment.first if maksuehto.blank?
+      self.tilino_eu               = tilino if tilino_eu.blank?
+      self.tilino_ei_eu            = tilino if tilino_ei_eu.blank?
+      self.toim_maa                = maa if toim_maa.blank?
+      self.toimitustapa            = DeliveryMethod.first if toimitustapa.blank?
+      self.valkoodi                = Currency.first.try(:nimi) if valkoodi.blank?
     end
 
     def validate_chn
