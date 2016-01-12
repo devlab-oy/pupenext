@@ -26,7 +26,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
   test 'imports sales and returns response' do
     filename = create_xlsx([
-      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
+      ['Asiakas/Tuote',                                           'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                                '',    123000       ],
       ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
@@ -55,7 +55,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
   test 'adding with invalid data should fail' do
     filename = create_xlsx([
-      ['Tuote/Asiakas',                            'Kpl', 'Myynti EUR' ],
+      ['Asiakas/Tuote',                            'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                 '',    123000       ],
       ["666 #{@customer.nimi}",                    '',    23000        ],
       ["foobar",                                   '',    23000        ],
@@ -86,7 +86,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
   test 'errors are correct' do
     # Let's store one correct product and customer
     filename = create_xlsx([
-      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
+      ['Asiakas/Tuote',                                           'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                                '',    123000       ],
       ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
@@ -119,7 +119,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     # Try adding with incorrect product
     filename = create_xlsx([
-      ['Tuote/Asiakas',                             'Kpl', 'Myynti EUR' ],
+      ['Asiakas/Tuote',                             'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                  '',    123000       ],
       ["#{@customer.asiakasnro} #{@customer.nimi}", '',    23000        ],
       ["666 #{@helmet.osasto} #{@helmet.nimitys}",  10,    23000        ],
@@ -144,7 +144,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     # Try adding with incorrect customer
     filename = create_xlsx([
-      ['Tuote/Asiakas',                                           'Kpl', 'Myynti EUR' ],
+      ['Asiakas/Tuote',                                           'Kpl', 'Myynti EUR' ],
       ['Yhteensä',                                                '',    123000       ],
       ["999 #{@customer.nimi}",                                   '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],

@@ -105,7 +105,7 @@ class Import::CustomerSales::Row
   end
 
   def identifier_column
-    values['tuote/asiakas']
+    values['asiakas/tuote']
   end
 
   def values

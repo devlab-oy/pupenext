@@ -53,7 +53,7 @@ class DataImportController < ApplicationController
     end
 
     def customer_sales_params
-      params.require(:data_import).permit(:month_year)
+      params.require(:data_import).permit('month_year(1i)', 'month_year(2i)')
     end
 
     def data_import_params
