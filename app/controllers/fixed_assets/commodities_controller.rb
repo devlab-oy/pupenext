@@ -112,7 +112,7 @@ class FixedAssets::CommoditiesController < AdministrationController
       user_id: current_user.id
     }
 
-    CommodityRowGenerator.new(options).delete_rows
+    CommodityRowGenerator.new(options).mark_rows_obsolete
 
     redirect_to edit_commodity_path(@commodity)
   end
