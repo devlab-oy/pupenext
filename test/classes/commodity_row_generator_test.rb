@@ -664,4 +664,27 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
       CommodityRowGenerator.new(params).generate_rows
     end
   end
+
+  test 'should delete rows for same period as generated' do
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_id: @fiscal_year.id,
+      user_id: @bob.id
+    }
+
+    @commodity.update_column(:activated_at, @fiscal_year.tilikausi_alku)
+
+    generator = CommodityRowGenerator.new(params)
+
+    # 2 rows before generation
+    assert_equal 2, FixedAssets::CommodityRow.count
+
+    generator.generate_rows
+
+    # 12 rows after generation
+    assert_equal 12, FixedAssets::CommodityRow.count
+
+    generator.mark_rows_obsolete
+    assert_equal 0, FixedAssets::CommodityRow.count
+  end
 end

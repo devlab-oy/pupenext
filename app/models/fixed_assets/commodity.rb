@@ -31,6 +31,8 @@ class FixedAssets::Commodity < BaseModel
   before_save :prevent_further_changes, if: :deactivated_before?
   before_save :set_amount, :defaults
 
+  before_destroy :wipe_all_records
+
   def self.options_for_type
     [
       ['Valitse',''],
@@ -91,6 +93,10 @@ class FixedAssets::Commodity < BaseModel
 
   def deactivated?
     status == 'P'
+  end
+
+  def can_be_destroyed?
+    commodity_rows.empty? && voucher_rows.empty?
   end
 
   # Returns sum of past sumu depreciations
@@ -297,5 +303,10 @@ class FixedAssets::Commodity < BaseModel
 
     def deactivated_before?
       deactivated? && !status_changed?
+    end
+
+    def wipe_all_records
+      raise ArgumentError unless can_be_destroyed?
+      procurement_rows.update_all(commodity_id: nil)
     end
 end

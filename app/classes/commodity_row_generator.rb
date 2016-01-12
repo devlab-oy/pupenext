@@ -30,6 +30,15 @@ class CommodityRowGenerator
     split_voucher_rows
   end
 
+  def mark_rows_obsolete
+    commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
+
+    commodity.voucher_rows.where(tapvm: fiscal_period).find_each do |row|
+      row.amend_by(user)
+      row.save
+    end
+  end
+
   def sell
     raise ArgumentError unless commodity.can_be_sold?
     amend_future_rows
@@ -177,17 +186,6 @@ class CommodityRowGenerator
 
     def payment_count
       calculation_period.map(&:end_of_month).uniq.count
-    end
-
-    def mark_rows_obsolete
-      commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
-
-      if commodity.voucher.present?
-        commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
-          row.amend_by(user)
-          row.save
-        end
-      end
     end
 
     def create_voucher

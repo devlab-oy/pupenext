@@ -840,6 +840,8 @@ fi:
         button_add_invoice_rows: Liitä ostolaskurivejä
         button_add_voucher_rows: Liitä tositerivejä
         button_create: Luo poistorivejä
+        button_delete: Poista poistorivejä
+        button_delete_commodity: Poista hyödyke
         button_sell: Myy
         header: Muokkaa hyödykettä
         selected_fiscal_year: Tilikauden valinta
@@ -898,6 +900,9 @@ fi:
         button_add: Liitä
         button_search: Etsi
         header: Liitä tositerivejä
+      destroy_commodity:
+        destroy_success: Hyödykkeen poisto onnistui
+        destroy_failure: Hyödykkeen poisto epäonnistui
   helpers:
     select:
       prompt: Valitse
