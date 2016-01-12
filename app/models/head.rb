@@ -20,6 +20,7 @@ class Head < BaseModel
 
   def self.child_class_names
     {
+      '9' => SalesOrder::Detail,
       'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
       'L' => SalesOrder::Order,
@@ -32,7 +33,6 @@ class Head < BaseModel
       'V' => ManufactureOrder::Order,
       'X' => Head::Voucher,
       'Y' => Head::PurchaseInvoice::Paid,
-      '9' => SalesOrder::Detail,
     }
   end
 
