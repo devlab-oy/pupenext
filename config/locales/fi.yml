@@ -762,10 +762,11 @@ fi:
     import:
       action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
       action_missing: Toiminto -sarake puuttuu!
+      customer_not_found: Asiakasta "%{customer}" ei löytynyt!
       invalid_attributes: Virheellinen sarake %{attributes}!
       keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
-      customer_not_found: Asiakasta "%{customer}" ei löytynyt!
+      required_fields_missing: Pakollisia sarakkeita puuttuu! Tiedostossa tulee olla ainakin %{fields} -sarakkeet
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}

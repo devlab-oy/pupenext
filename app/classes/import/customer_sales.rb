@@ -88,6 +88,14 @@ class Import::CustomerSales::Row
       error << I18n.t('errors.import.customer_not_found', customer: customer_raw)
     end
 
+    if customer_raw.present? && customer.nil?
+      error << I18n.t('errors.import.customer_not_found', customer: customer_raw)
+    end
+
+    if data.blank? && quantity.blank? && price.blank?
+      error << I18n.t('errors.import.required_fields_missing', fields: required_fields.to_sentence)
+    end
+
     error
   end
 
@@ -96,7 +104,11 @@ class Import::CustomerSales::Row
   end
 
   def price
-    values['myynti eur'].to_s
+    values['myynti eur']
+  end
+
+  def data
+    values['asiakas/tuote']
   end
 
   private
@@ -108,7 +120,7 @@ class Import::CustomerSales::Row
     end
 
     def identifier
-      values['asiakas/tuote'].to_s.split(' ').first
+      data.to_s.split(' ').first
     end
 
     def product_raw
@@ -117,5 +129,13 @@ class Import::CustomerSales::Row
 
     def customer_raw
       identifier if quantity.blank? && identifier != "Yhteensä"
+    end
+
+    def required_fields
+      [
+        'kpl',
+        'myynti eur',
+        'asiakas/tuote'
+      ]
     end
 end

@@ -125,6 +125,34 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     end
   end
 
+  test 'required fields' do
+    # Try adding with incorrect fields
+    filename = create_xlsx([
+      ['wrong',                                                   'column', 'name' ],
+      ['Yhteensä',                                                '',       123000 ],
+      ["#{@customer.asiakasnro} #{@customer.nimi}",               '',       23000  ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,       23000  ],
+    ])
+
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+    }
+
+    sales = Import::CustomerSales.new params
+
+    assert_no_difference 'SalesOrder::Detail.count' do
+      assert_no_difference 'SalesOrder::DetailRow.count' do
+        response = sales.import
+        assert_equal 3, response.rows.map(&:errors).flatten.count
+        assert_equal 1, response.rows.map(&:errors).flatten.uniq.count
+      end
+    end
+  end
+
   test 'errors are correct' do
     # Let's store one correct product and customer
     filename = create_xlsx([
