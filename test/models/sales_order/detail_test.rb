@@ -26,7 +26,7 @@ class SalesOrder::DetailTest < ActiveSupport::TestCase
   test 'default values' do
     Current.user = users :joe
 
-    order = SalesOrder::Detail.create liitostunnus: @customer.tunnus
+    order = SalesOrder::Detail.create! liitostunnus: @customer.tunnus
 
     assert_equal @customer.nimi, order.nimi
     assert_equal @customer.ytunnus, order.ytunnus
