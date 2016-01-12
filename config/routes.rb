@@ -70,7 +70,10 @@ Pupesoft::Application.routes.draw do
     get :run_stock_availability,      to: 'stock_availability#run',     as: :run_stock_availability
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
 
+    resources :commodity_balance_sheet, only: [:index, :create]
+    resources :commodity_financial_statements, only: [:index, :create]
     resources :customer_price_lists, only: [:index, :create]
+    resources :depreciation_difference, only: [:index, :create]
   end
 
   scope :data_export do
