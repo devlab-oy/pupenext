@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223092246) do
+ActiveRecord::Schema.define(version: 20160112122503) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1696,6 +1696,7 @@ ActiveRecord::Schema.define(version: 20151223092246) do
     t.string   "pankki",                               limit: 60
     t.string   "customer_id",                          limit: 60
     t.boolean  "hae_saldo",                                          default: false, null: false
+    t.boolean  "hae_factoring",                                      default: false, null: false
     t.text     "signing_certificate",                  limit: 65535
     t.datetime "signing_certificate_valid_to"
     t.text     "signing_private_key",                  limit: 65535
