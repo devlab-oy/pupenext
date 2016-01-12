@@ -25,15 +25,16 @@ class DataImportControllerTest < ActionController::TestCase
     file = fixture_file_upload 'files/customer_sales_test.xlsx'
     SalesOrder::Detail.delete_all
 
-    assert_difference 'SalesOrder::Detail.count', 1 do
-
     params = {
       file: file,
       'month_year(2i)' => 1,
       'month_year(1i)' => 2016,
     }
 
-    post :customer_sales, data_import: params
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      assert_difference 'SalesOrder::DetailRow.count', 2 do
+        post :customer_sales, data_import: params
+      end
     end
 
     assert assigns(:spreadsheet)
