@@ -1,12 +1,16 @@
 class Row < BaseModel
   include PupenextSingleTableInheritance
 
-  self.table_name = :tilausrivi
-  self.primary_key = :tunnus
-  self.inheritance_column = :tyyppi
+  belongs_to :product, primary_key: :tuoteno, foreign_key: :tuoteno
+
+  validates :product, presence: true
 
   before_create :set_defaults
   after_create :fix_datetime_fields
+
+  self.table_name = :tilausrivi
+  self.primary_key = :tunnus
+  self.inheritance_column = :tyyppi
 
   def self.default_child_instance
     child_class 'O'

@@ -2,8 +2,9 @@ require 'test_helper'
 
 class SalesOrder::DetailRowTest < ActiveSupport::TestCase
   fixtures %w(
-    sales_order/details
+    products
     sales_order/detail_rows
+    sales_order/details
   )
 
   setup do
