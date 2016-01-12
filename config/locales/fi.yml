@@ -327,7 +327,6 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       customer: Asiakas
-      detail: Erikoismyynti
       fiscal_year: Tilikausi
       fixed_assets/commodity: Käyttöomaisuuden hyödyke
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
@@ -354,6 +353,7 @@ fi:
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
       qualifier/target: Kohde
+      sales_order/detail: Erikoismyynti
       sum_level: Taso
       sum_level/commodity: EVL
       sum_level/external: Ulkoinen
