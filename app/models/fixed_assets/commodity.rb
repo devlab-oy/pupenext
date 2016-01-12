@@ -96,12 +96,7 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def can_be_destroyed?
-    check = true
-    check &= commodity_rows.empty?
-    if voucher.present?
-      check &= voucher.rows.empty?
-    end
-    check
+    commodity_rows.empty? && voucher_rows.empty?
   end
 
   # Returns sum of past sumu depreciations
