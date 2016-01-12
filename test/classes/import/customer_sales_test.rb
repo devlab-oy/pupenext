@@ -51,6 +51,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       assert_difference 'SalesOrder::DetailRow.count', 4 do
         response = sales.import
         assert_equal Import::Response, response.class
+        assert_equal [], response.rows.map(&:errors).flatten.compact
       end
     end
   end
@@ -98,9 +99,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 10,    23000        ],
       ["999 #{@customer.nimi}",                                   '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
-      ["#{@lissu.asiakasnro} #{@lissu.nimi}",               '',    23000        ],
+      ["#{@lissu.asiakasnro} #{@lissu.nimi}",                     '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 10,    23000        ],
+      ['Yhteensä',                                                '',    123000       ],
     ])
 
     params = {
@@ -130,6 +132,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                                '',    123000       ],
       ["#{@customer.asiakasnro} #{@customer.nimi}",               '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ['Yhteensä',                                                '',    123000       ],
     ])
 
     params = {
@@ -165,6 +168,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                  '',    123000       ],
       ["#{@customer.asiakasnro} #{@customer.nimi}", '',    23000        ],
       ["666 #{@helmet.osasto} #{@helmet.nimitys}",  10,    23000        ],
+      ['Yhteensä',                                  '',    123000       ],
     ])
 
     params = {
@@ -192,6 +196,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ['Yhteensä',                                                '',    123000       ],
       ["999 #{@customer.nimi}",                                   '',    23000        ],
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ['Yhteensä',                                                '',    123000       ],
     ])
 
     params = {

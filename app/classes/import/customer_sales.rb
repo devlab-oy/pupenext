@@ -116,6 +116,6 @@ class Import::CustomerSales::Row
     end
 
     def customer_raw
-      identifier if quantity.blank?
+      identifier if quantity.blank? && identifier != "Yhteensä"
     end
 end
