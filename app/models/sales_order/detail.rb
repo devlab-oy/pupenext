@@ -2,6 +2,7 @@ class SalesOrder::Detail < Head
   has_many :rows, foreign_key: :otunnus, class_name: 'SalesOrder::DetailRow'
   belongs_to :customer, foreign_key: :liitostunnus
 
+  validates :customer, presence: true
   validates :tila, inclusion: { in: ['9'] }
 
   before_create :set_customer_defaults
