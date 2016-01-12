@@ -61,13 +61,13 @@ class Customer < BaseModel
   private
 
     def defaults
-      self.alv                     = Keyword::Vat.where.not(selitetark: '').first.try(:selite) if alv.blank?
+      self.alv                     = Keyword::Vat.where.not(selitetark: '').first.try(:selite) if alv == 0
       self.chn                     = '100' if chn.blank?
       self.kansalaisuus            = maa if kansalaisuus.blank?
-      self.kauppatapahtuman_luonne = Keyword.where(laji: :kt).first.try(:selite) if kauppatapahtuman_luonne.blank?
+      self.kauppatapahtuman_luonne = Keyword::NatureOfTransaction.first.try(:selite) if kauppatapahtuman_luonne == 0
       self.kieli                   = 'fi' if kieli.blank?
       self.kolm_maa                = maa if kolm_maa.blank?
-      self.lahetetyyppi            = Keyword.where(laji: :lahetetyyppi).first.try(:selite) if lahetetyyppi.blank?
+      self.lahetetyyppi            = Keyword::PackingListType.first.try(:selite) if lahetetyyppi.blank?
       self.laji                    = 'H' if laji.blank?
       self.laskutus_maa            = maa if laskutus_maa.blank?
       self.laskutyyppi             = -9 if laskutyyppi.blank?
@@ -77,7 +77,7 @@ class Customer < BaseModel
       self.tilino_ei_eu            = tilino if tilino_ei_eu.blank?
       self.toim_maa                = maa if toim_maa.blank?
       self.toimitustapa            = DeliveryMethod.first if toimitustapa.blank?
-      self.valkoodi                = Currency.first.try(:nimi) if valkoodi.blank?
+      self.valkoodi                = Currency.order(:jarjestys).first.try(:nimi) if valkoodi.blank?
     end
 
     def validate_chn
