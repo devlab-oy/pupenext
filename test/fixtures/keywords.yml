@@ -7,6 +7,7 @@ DEFAULTS: &DEFAULTS
 vat:
   yhtio: acme
   selite: 24
+  selitetark: o
   laji: ALV
   <<: *DEFAULTS
 
@@ -138,4 +139,11 @@ lahetetyyppi:
   yhtio: acme
   laji: LAHETETYYPPI
   selite: tulosta_lahete_eiale_eihinta.inc
+  <<: *DEFAULTS
+
+nature_of_transaction_1:
+  yhtio: acme
+  laji: KT
+  selite: 11
+  selitetark: Testing
   <<: *DEFAULTS
