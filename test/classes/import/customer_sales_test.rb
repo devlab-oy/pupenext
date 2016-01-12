@@ -48,8 +48,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 2 do
-      response = sales.import
-      assert_equal Import::Response, response.class
+      assert_difference 'SalesOrder::DetailRow.count', 4 do
+        response = sales.import
+        assert_equal Import::Response, response.class
+      end
     end
   end
 
@@ -75,11 +77,13 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     sales = Import::CustomerSales.new params
 
     assert_no_difference 'SalesOrder::Detail.count' do
-      response = sales.import
-      assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.second.errors.first
-      assert_equal 'Asiakasta "foobar" ei löytynyt!', response.rows.third.errors.first
-      assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.fourth.errors.first
-      assert_equal 'Tuotetta "foobar" ei löytynyt!', response.rows.fifth.errors.first
+      assert_no_difference 'SalesOrder::DetailRow.count' do
+        response = sales.import
+        assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.second.errors.first
+        assert_equal 'Asiakasta "foobar" ei löytynyt!', response.rows.third.errors.first
+        assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.fourth.errors.first
+        assert_equal 'Tuotetta "foobar" ei löytynyt!', response.rows.fifth.errors.first
+      end
     end
   end
 
@@ -103,8 +107,10 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 1 do
-      result = sales.import
-      assert_equal nil, result.rows.second.errors.first
+      assert_difference 'SalesOrder::DetailRow.count', 1 do
+        result = sales.import
+        assert_equal nil, result.rows.second.errors.first
+      end
     end
 
     # Try adding without month
@@ -137,9 +143,11 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 1 do
-      result = sales.import
-      error = I18n.t('errors.import.product_not_found', product: '666')
-      assert_equal error, result.rows.third.errors.first
+      assert_no_difference 'SalesOrder::DetailRow.count' do
+        result = sales.import
+        error = I18n.t('errors.import.product_not_found', product: '666')
+        assert_equal error, result.rows.third.errors.first
+      end
     end
 
     # Try adding with incorrect customer
@@ -162,9 +170,11 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     sales = Import::CustomerSales.new params
 
     assert_no_difference 'SalesOrder::Detail.count' do
-      result = sales.import
-      error = I18n.t('errors.import.customer_not_found', customer: '999')
-      assert_equal error, result.rows.second.errors.first
+      assert_no_difference 'SalesOrder::DetailRow.count' do
+        result = sales.import
+        error = I18n.t('errors.import.customer_not_found', customer: '999')
+        assert_equal error, result.rows.second.errors.first
+      end
     end
   end
 end
