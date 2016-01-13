@@ -41,19 +41,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
   end
 
-  test 'required fields when active' do
-    @commodity.status = ''
-    @commodity.planned_depreciation_type = ''
-    @commodity.planned_depreciation_amount = ''
-    @commodity.btl_depreciation_type = ''
-    @commodity.btl_depreciation_amount = ''
-    @commodity.amount = ''
-    @commodity.activated_at = ''
+  test 'required fields when activated' do
+    new_commodity = @commodity.company.commodities.new
+    new_commodity.name = 'Kissa'
+    new_commodity.description = 'Mirrinen'
+    assert new_commodity.valid?, new_commodity.errors.full_messages
 
-    assert @commodity.valid?, @commodity.errors.full_messages
-
-    @commodity.status = 'A'
-    refute @commodity.valid?, "should not be valid"
+    new_commodity.status = 'A'
+    refute new_commodity.valid?, "should not be valid"
   end
 
   test 'cannot set active unless we have procurement rows' do
@@ -63,22 +58,63 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.procurement_rows.delete_all
     @commodity.status = 'A'
-    refute @commodity.valid?, 'should not be valid'
+    refute @commodity.valid?, @commodity.errors.full_messages
   end
 
-  test 'must activate on open fiscal year' do
+  test 'activation succeeds on open period' do
     params = {
       tilikausi_alku: '2015-01-01',
       tilikausi_loppu: '2015-03-31'
     }
+
+    voucher_row = head_voucher_rows(:eleven)
+    params_for_new = {
+      name: 'Kettu',
+      description: 'Repolainen',
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 20.0,
+      btl_depreciation_type: 'T',
+      btl_depreciation_amount: 20.0
+    }
+
     @commodity.company.attributes = params
+    new_commodity = @commodity.company.commodities.new params_for_new
+    new_commodity.save!
+    # link procurement row
+    voucher_row.commodity_id = new_commodity.id
+    voucher_row.save!
 
-    @commodity.activated_at = '2015-01-01'
-    @commodity.status = 'A'
-    assert @commodity.valid?, @commodity.errors.full_messages
+    new_commodity.activated_at = '2015-01-01'
+    new_commodity.status = 'A'
+    assert new_commodity.valid?, new_commodity.errors.full_messages
+  end
 
-    @commodity.activated_at = '2015-06-01'
-    refute @commodity.valid?, 'should not be valid'
+  test 'activation fails on closed period' do
+    params = {
+      tilikausi_alku: '2015-01-01',
+      tilikausi_loppu: '2015-03-31'
+    }
+
+    voucher_row = head_voucher_rows(:eleven)
+    params_for_new = {
+      name: 'Kettu',
+      description: 'Repolainen',
+      planned_depreciation_type: 'T',
+      planned_depreciation_amount: 20.0,
+      btl_depreciation_type: 'T',
+      btl_depreciation_amount: 20.0
+    }
+
+    @commodity.company.attributes = params
+    new_commodity = @commodity.company.commodities.new params_for_new
+    new_commodity.save!
+    # link procurement row
+    voucher_row.commodity_id = new_commodity.id
+    voucher_row.save!
+
+    new_commodity.activated_at = '2015-06-01'
+    new_commodity.status = 'A'
+    refute new_commodity.valid?, new_commodity.errors.full_messages
   end
 
   test 'amount is a percentage' do
@@ -152,8 +188,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.save!
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
-
-    assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
+    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 6500, @commodity.bookkeeping_value
 
     # Sold commodity bkvalue is 0
@@ -174,6 +209,22 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.bookkeeping_value
   end
 
+  test 'current btl value works with or without history amount' do
+    # EVL arvo tilikauden lopussa
+    @commodity.status = 'A'
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    assert_equal 6000.0, @commodity.btl_value
+
+    # Toisesta järjestelmästä perityt poistot
+    @commodity.previous_btl_depreciations = 5000.0
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+
+    assert_equal 3000.0, @commodity.btl_value
+  end
+
   test 'cant be sold with invalid params' do
     validparams = {
       amount_sold: 9800,
@@ -183,11 +234,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = validparams
-    assert @commodity.can_be_sold?
+    assert @commodity.can_be_sold?, 'Should be valid'
 
     # Invalid status
     @commodity.status = ''
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Status should be invalid'
 
     # Invalid profit account
     invalidparams = {
@@ -199,7 +250,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.status = 'A'
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Profit account should be invalid'
 
     # Invalid depreciation handling
     invalidparams = {
@@ -210,22 +261,22 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'K'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Depreciation handling should be invalid'
 
     # Invalid sales date
     invalidparams = {
       amount_sold: 9800,
-      deactivated_at: @commodity.company.current_fiscal_year.first - 1,
+      deactivated_at: @commodity.company.open_period.first - 1,
       profit_account: accounts(:account_100),
       sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales date should be invalid ( < open period )'
 
     # Invalid sales date 2
     @commodity.deactivated_at = Date.today+1
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales date should be invalid ( > today)'
 
     # Invalid sales amount
     invalidparams = {
@@ -236,7 +287,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales amount should be invalid'
   end
 
   test 'deactivation prevents further changes' do
@@ -247,5 +298,24 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.name = 'bob'
     assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
+  end
+
+  test 'can be destroyed works' do
+    # Cant be destroyed with commodity_rows && voucher rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.commodity_rows.update_all(amended: true)
+    # Cant be destroyed with just voucher rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.voucher.rows.update_all(korjattu: 'X')
+    @commodity.commodity_rows.build
+    # Cant be destroyed with just commodity_rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.commodity_rows.delete_all
+
+    # Can be destroyed with no commodity_rows and voucher rows present
+    assert_equal true, @commodity.can_be_destroyed?
   end
 end

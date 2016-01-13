@@ -1,0 +1,66 @@
+<%= render 'administration/header', text: t('reports.customer_price_lists.report.header') %>
+<%= render 'administration/notice' %>
+
+<%= enable_pickadate %>
+
+<%= form_tag do %>
+
+  <table>
+
+    <tr>
+      <th><%= label_tag(:target_type, t('.target_type')) %></th>
+      <td><%= select_tag(:target_type, target_type_options(params[:target_type])) %></td>
+    </tr>
+
+    <tr>
+      <% if params[:target_type] == '2' %>
+        <th><%= label_tag :target, Keyword::CustomerSubcategory.model_name.human %></th>
+        <td><%= select_tag :target, customer_subcategory_options(params[:target]) %></td>
+      <% else %>
+        <th><%= label_tag :target, Customer.human_attribute_name(:asiakasnro) %></th>
+        <td><%= number_field_tag :target, params[:target] %></td>
+      <% end %>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :date_start, t('.date_start') %></th>
+      <td><%= date_field_tag :date_start, params[:date_start], class: :pickadate %></td>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :date_end, t('.date_end') %></th>
+      <td><%= date_field_tag :date_end, params[:date_end], class: :pickadate %></td>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :lyhytkuvaus, Product.human_attribute_name(:lyhytkuvaus) %></th>
+      <td><%= check_box_tag :lyhytkuvaus, "1", params[:lyhytkuvaus] %></td>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :kuvaus, Product.human_attribute_name(:kuvaus) %></th>
+      <td><%= check_box_tag :kuvaus, "1", params[:kuvaus] %></td>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :product_image, t('.product_image') %></th>
+      <td><%= check_box_tag :product_image, "1", params[:product_image] %></td>
+    </tr>
+
+    <tr>
+      <th><%= label_tag :contract_filter, t('.contract_filter') %></th>
+      <td><%= select_tag(:contract_filter, contract_filter_options(params[:contract_filter])) %></td>
+    </tr>
+
+    <tr>
+      <th><%= t('.product_filter') %></th>
+      <td><%= render "products/categories_selection" %></td>
+    </tr>
+
+  </table>
+
+  <br>
+
+  <%= submit_tag t('.generate') %>
+
+<% end %>

@@ -23,6 +23,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.commodities.count > 0
     assert @acme.cost_centers.count > 0
     assert @acme.currencies.count > 0
+    assert @acme.customer_transports.count > 0
     assert @acme.customers.count > 0
     assert @acme.factorings.count > 0
     assert @acme.fiscal_years.count > 0
@@ -120,12 +121,12 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal [Date.today, Date.today+4], @acme.open_period
   end
 
-  test 'should return current fiscal year' do
+  test 'current fiscal year' do
     fy = Date.today.beginning_of_year..Date.today.end_of_year
     assert_equal fy, @acme.current_fiscal_year
 
-    assert_equal '2014-01-01'.to_date, @acme.fiscal_year('2014-06-01').first
-    assert_equal '2014-12-31'.to_date, @acme.fiscal_year('2014-06-01').last
+    assert_equal Date.today.beginning_of_year, @acme.fiscal_year(Date.today).first
+    assert_equal Date.today.end_of_year, @acme.fiscal_year(Date.today).last
 
     assert_equal Date.today.beginning_of_year, @acme.current_fiscal_year.first
     assert_equal Date.today.end_of_year, @acme.current_fiscal_year.last
@@ -144,6 +145,11 @@ class CompanyTest < ActiveSupport::TestCase
     end
   end
 
+  test 'previous fiscal year' do
+    previous = Date.today.last_year.beginning_of_year..Date.today.last_year.end_of_year
+    assert_equal previous, @acme.previous_fiscal_year
+  end
+
   test 'date in open period' do
     @acme.tilikausi_alku = '2014-01-01'
     @acme.tilikausi_loppu = '2014-12-31'
@@ -155,5 +161,8 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.date_in_open_period?('2014-01-01'.to_date), 'first'
     assert @acme.date_in_open_period?('2014-06-01'.to_date), 'middle'
     assert @acme.date_in_open_period?('2014-12-31'.to_date), 'last'
+
+    refute @acme.date_in_open_period?('2015-01-01')
+    refute @acme.date_in_open_period?('2015-01-01'.to_date)
   end
 end

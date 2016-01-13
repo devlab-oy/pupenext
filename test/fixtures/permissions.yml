@@ -6,13 +6,18 @@
     carriers
     cash_registers
     commodities
+    commodity_balance_sheet
+    commodity_financial_statements
     companies
     currencies
     custom_attributes
+    customer_price_lists
+    customer_transports
     customers
     data_export
     data_import
     delivery_methods
+    depreciation_difference
     downloads
     fiscal_years
     packages
@@ -23,9 +28,10 @@
     qualifiers
     revenue_expenditure
     revenue_expenditures
-    stock_listing_csv
     stock_availability
+    stock_listing_csv
     sum_levels
+    talgraf_balances_csv
     terms_of_payments
     test
     transports

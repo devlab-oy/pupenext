@@ -18,6 +18,8 @@ Pupesoft::Application.routes.draw do
       post :activate
       post :confirm_sale
       post :generate_rows
+      post :delete_rows
+      post :destroy_commodity
       post :link_order
       post :link_voucher
       post :unlink
@@ -33,6 +35,7 @@ Pupesoft::Application.routes.draw do
     resources :cash_registers
     resources :currencies, except: :destroy
     resources :custom_attributes
+    resources :customer_transports
     resources :delivery_methods
     resources :fiscal_years, except: :destroy
     resources :packages
@@ -40,15 +43,15 @@ Pupesoft::Application.routes.draw do
     resources :printers
     resources :products
     resources :qualifier_cost_centers, path: :qualifiers, controller: :qualifiers
-    resources :qualifier_projects, path: :qualifiers, controller: :qualifiers
-    resources :qualifier_targets, path: :qualifiers, controller: :qualifiers
+    resources :qualifier_projects,     path: :qualifiers, controller: :qualifiers
+    resources :qualifier_targets,      path: :qualifiers, controller: :qualifiers
     resources :qualifiers
     resources :revenue_expenditures
     resources :sum_level_commodities, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_externals, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_internals, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_profits, path: :sum_levels, controller: :sum_levels
-    resources :sum_level_vats, path: :sum_levels, controller: :sum_levels
+    resources :sum_level_externals,   path: :sum_levels, controller: :sum_levels
+    resources :sum_level_internals,   path: :sum_levels, controller: :sum_levels
+    resources :sum_level_profits,     path: :sum_levels, controller: :sum_levels
+    resources :sum_level_vats,        path: :sum_levels, controller: :sum_levels
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
     resources :transports
@@ -63,12 +66,17 @@ Pupesoft::Application.routes.draw do
   end
 
   scope module: :reports do
-    get :revenue_expenditure, to: 'revenue_expenditure#index', as: :revenue_expenditure_report
-    get :stock_listing_csv,  to: 'stock_listing_csv#index', as: :stock_listing_csv
-    post :stock_listing_csv, to: 'stock_listing_csv#run', as: :run_stock_listing_csv
-    get :stock_availability, to: 'stock_availability#index', as: :stock_availability
-    get :run_stock_availability, to: 'stock_availability#run', as: :run_stock_availability
+    get :revenue_expenditure,         to: 'revenue_expenditure#index',  as: :revenue_expenditure_report
+    get :stock_listing_csv,           to: 'stock_listing_csv#index',    as: :stock_listing_csv
+    post :stock_listing_csv,          to: 'stock_listing_csv#run',      as: :run_stock_listing_csv
+    get :stock_availability,          to: 'stock_availability#index',   as: :stock_availability
+    get :run_stock_availability,      to: 'stock_availability#run',     as: :run_stock_availability
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
+
+    resources :commodity_balance_sheet, only: [:index, :create]
+    resources :commodity_financial_statements, only: [:index, :create]
+    resources :customer_price_lists, only: [:index, :create]
+    resources :depreciation_difference, only: [:index, :create]
   end
 
   scope :data_export do

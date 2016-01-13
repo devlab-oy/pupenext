@@ -28,7 +28,7 @@ class DeliveryMethod < BaseModel
     o.has_many :work_orders,        class_name: 'WorkOrder::Order'
   end
 
-  has_many :customer_keywords,  foreign_key: :avainsana,     primary_key: :selite
+  has_many :customer_keywords, foreign_key: :avainsana, primary_key: :selite
   has_many :departures, foreign_key: :liitostunnus, class_name: 'DeliveryMethod::Departure'
 
   has_and_belongs_to_many :locations, join_table: :toimitustavat_toimipaikat, association_foreign_key: :toimipaikka_tunnus, foreign_key: :toimitustapa_tunnus

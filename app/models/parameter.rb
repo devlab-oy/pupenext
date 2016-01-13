@@ -8,4 +8,10 @@ class Parameter < BaseModel
     collection_batch_based_on_weight: 'P',
     collection_batch_based_on_weight_if_customer_permit:  'A'
   }
+
+  enum saldo_kasittely: {
+    default_stock_management: '',
+    stock_management_by_pick_date: 'T',
+    stock_management_by_pick_date_and_with_future_reservations: 'U',
+  }
 end

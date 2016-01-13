@@ -16,14 +16,20 @@ class Row < BaseModel
       'E' => Preorder::Row,
       'G' => StockTransfer::Row,
       'L' => SalesOrder::Row,
+      'M' => ManufactureOrder::RecursiveCompositeRow,
       'O' => PurchaseOrder::Row,
       'R' => ProjectOrder::Row,
       'T' => OfferOrder::Row,
       'V' => ManufactureOrder::Row,
+      'W' => ManufactureOrder::CompositeRow,
     }
   end
 
   def self.reserved
-    where("tilausrivi.varattu > 0").sum(:varattu)
+    where.not(var: :P).where("tilausrivi.varattu > 0").sum(:varattu)
+  end
+
+  def self.picked
+    where.not(keratty: '')
   end
 end

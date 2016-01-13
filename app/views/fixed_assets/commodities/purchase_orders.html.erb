@@ -11,58 +11,40 @@
 <table>
   <tr>
     <th>
-      <%= sortable 'tunnus' %>
+      <%= sortable 'tapvm' %>
       <br />
-      <%= text_field_tag :tunnus, params[:tunnus] %>
+      <%= text_field_tag :tapvm, params[:tapvm] %>
     </th>
     <th>
-      <%= sortable 'ytunnus' %>
+      <%= sortable 'selite' %>
       <br />
-      <%= text_field_tag :ytunnus, params[:ytunnus] %>
-    </th>
-    <th>
-      <%= sortable 'nimi' %>
-      <br />
-      <%= text_field_tag :nimi, params[:nimi] %>
-    </th>
-    <th>
-      <%= sortable 'viesti' %>
-      <br />
-      <%= text_field_tag :viesti, params[:viesti] %>
+      <%= text_field_tag :selite, params[:selite] %>
     </th>
     <th>
       <%= sortable 'summa' %>
       <br />
       <%= text_field_tag :summa, params[:summa] %>
     </th>
+    <th>
+      <%= sortable 'tilino' %>
+      <br />
+      <%= text_field_tag :tilino, params[:tilino] %>
+    </th>
     <th class="back"><%= submit_tag t('.button_search') %></th>
   </tr>
 
-  <% @purchase_orders.each do |po| %>
-    <tr>
-      <td><%= po.tunnus %></td>
-      <td><%= po.ytunnus %></td>
-      <td><%= po.nimi %></td>
-      <td><%= po.viesti %></td>
-      <td><%= po.summa %></td>
-    </tr>
-
-    <tr>
-    <th>Tunnus</th>
-    <th>Summa</th>
-    <th>Tili</th>
-    </tr>
-
-    <% po.rows.each do |acc| %>
-     <% if acc.commodity_id.present? %>
+  <% @purchase_orders.each do |order_collection| %>
+    <% order_collection.each do |order_row| %>
+     <% if order_row.commodity_id.present? %>
       <% next %>
     <% end %>
       <tr>
-        <td><%= acc.tunnus  %></td>
-        <td><%= acc.summa  %></td>
-        <td><%= acc.tilino %></td>
+        <td><%= l order_row.tapvm  %></td>
+        <td><%= order_row.selite %></td>
+        <td><%= order_row.summa  %></td>
+        <td><%= order_row.tilino %></td>
         <td class="back">
-          <%= button_to t('.button_add'), commodity_link_order_path(@commodity, { voucher_row_id: acc.tunnus }), method: :post %>
+          <%= button_to t('.button_add'), commodity_link_order_path(@commodity, { voucher_row_id: order_row.tunnus }), method: :post %>
         </td>
       </tr>
     <% end %>

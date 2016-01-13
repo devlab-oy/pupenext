@@ -1,13 +1,13 @@
 class Administration::CustomAttributesController < AdministrationController
   def index
-    set = Keyword::CustomAttribute.all
-    set = set.fetch_set alias_set_params if alias_set_params
-
-    @attribute_set = set.order(:set_name, :database_field)
+    @attribute_set = Keyword::CustomAttribute.fetch_set(alias_set_params)
+      .order(:set_name, :database_field)
   end
 
   def new
     @custom_attribute = Keyword::CustomAttribute.new
+    @custom_attribute.set_name = alias_set_params[:set_name]
+
     render :edit
   end
 
@@ -22,7 +22,7 @@ class Administration::CustomAttributesController < AdministrationController
     @custom_attribute = Keyword::CustomAttribute.new custom_keyword_params
 
     if @custom_attribute.save
-      redirect_to custom_attributes_path
+      redirect_to custom_attributes_path(table_alias_set: @custom_attribute.alias_set_name)
     else
       render :edit
     end
@@ -30,7 +30,7 @@ class Administration::CustomAttributesController < AdministrationController
 
   def update
     if @custom_attribute.update custom_keyword_params
-      redirect_to custom_attributes_path
+      redirect_to custom_attributes_path(table_alias_set: @custom_attribute.alias_set_name)
     else
       render :edit
     end
@@ -38,7 +38,7 @@ class Administration::CustomAttributesController < AdministrationController
 
   def destroy
     @custom_attribute.destroy
-    redirect_to custom_attributes_path
+    redirect_to custom_attributes_path(table_alias_set: @custom_attribute.alias_set_name)
   end
 
   private
@@ -48,10 +48,7 @@ class Administration::CustomAttributesController < AdministrationController
     end
 
     def alias_set_params
-      return unless params[:table_alias_set].present?
-
-      table_name = params[:table_alias_set].split('+').first
-      set_name   = params[:table_alias_set].split('+').last
+      table_name, set_name = params[:table_alias_set].to_s.split('+')
 
       { table_name: table_name, set_name: set_name }
     end

@@ -58,7 +58,7 @@ class Company < ActiveRecord::Base
     o.has_many :sales_order_drafts,                    class_name: 'SalesOrder::Draft'
     o.has_many :sales_orders,                          class_name: 'SalesOrder::Order'
     o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
-    o.has_many :voucher_rows,                          class_name: 'Head::VoucherRow'
+    o.has_many :voucher_rows, through: :vouchers,      class_name: 'Head::VoucherRow', source: :rows
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
     o.has_many :work_orders,                           class_name: 'WorkOrder::Order'
 
@@ -72,7 +72,8 @@ class Company < ActiveRecord::Base
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
   has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
-  has_many :transports, through: :customers
+  has_many :customer_transports, through: :customers, source: :transports
+  has_many :transports, as: :transportable
 
   self.table_name = :yhtio
   self.primary_key = :tunnus
@@ -86,6 +87,16 @@ class Company < ActiveRecord::Base
 
   def current_fiscal_year
     fiscal_year(Date.today)
+  end
+
+  def previous_fiscal_year
+    fy = fiscal_years
+      .where("tilikausi_alku < ?", current_fiscal_year.first)
+      .order(tilikausi_alku: :desc).limit(1)
+
+    return if fy.empty?
+
+    fy.first.tilikausi_alku..fy.first.tilikausi_loppu
   end
 
   def open_period

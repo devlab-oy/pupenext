@@ -56,6 +56,7 @@ si_one:
 vo_one:
   yhtio: acme
   tila: X
+  laskunro: 7890123
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -113,6 +114,62 @@ pi_one:
   muutospvm: <%= Time.now %>
   muuttaja: joe
   tapvm: <%= Time.now %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+# Tosite (alkusaldo)
+vo_balance:
+  yhtio: acme
+  tila: X
+  alatila: A
+  laskunro: 123456
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  tapvm: <%= Date.today.beginning_of_year %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+# Tosite (tilikauden tulos)
+vo_profit_period:
+  yhtio: acme
+  tila: X
+  alatila: T
+  laskunro: 7890123
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  tapvm: <%= Date.today.beginning_of_year - 1.day %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
   erpcm: <%= Time.now %>

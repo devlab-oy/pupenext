@@ -10,7 +10,8 @@ class CommodityRowGenerator
     Current.user         = user
     Current.company      = company
 
-    fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.current_fiscal_year
+    # If fiscal id not given, use open period
+    fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.open_period
     self.fiscal_start = fi.first
     self.fiscal_end   = fi.last
 
@@ -18,6 +19,7 @@ class CommodityRowGenerator
     raise ArgumentError unless commodity.valid?
     raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
     raise ArgumentError unless company.date_in_open_period?(fiscal_end)
+    raise ArgumentError unless confirm_calculation_dates
   end
 
   def generate_rows
@@ -26,6 +28,15 @@ class CommodityRowGenerator
     generate_commodity_rows
     generate_depreciation_difference_rows
     split_voucher_rows
+  end
+
+  def mark_rows_obsolete
+    commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
+
+    commodity.voucher_rows.where(tapvm: fiscal_period).find_each do |row|
+      row.amend_by(user)
+      row.save
+    end
   end
 
   def sell
@@ -43,13 +54,13 @@ class CommodityRowGenerator
   def fixed_by_percentage(full_amount, percentage)
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
-    yearly_amount = full_amount * percentage / 100
+    yearly_amount = full_amount * percentage / 100.0
     payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
     divide_to_payments(full_amount, payments, yearly_amount)
   end
 
-  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0)
+  def degressive_by_percentage(full_amount, fiscal_percentage, depreciated_amount = 0.0)
     # full_amount = hydykkeen hankintahinta
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
@@ -58,11 +69,11 @@ class CommodityRowGenerator
     # Sum the value of previous fiscal reductions
     full_amount = full_amount - depreciated_amount
 
-    fiscal_percentage = fiscal_percentage.to_d / 100
+    fiscal_percentage = fiscal_percentage.to_d / 100.0
     fiscal_year_depreciations = []
     first_depreciation = full_amount * fiscal_percentage / payment_count
 
-    fiscal_year_depreciations << first_depreciation.to_i
+    fiscal_year_depreciations << first_depreciation.round(2)
 
     fiscalreduction = full_amount * fiscal_percentage
     keep_running = true
@@ -74,15 +85,19 @@ class CommodityRowGenerator
         injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
-      injecthis = injecthis.to_i
+      injecthis = injecthis.round(2)
 
-      fiscal_year_depreciations << injecthis unless injecthis.zero?
+      if injecthis.zero?
+        keep_running = false
+      else
+        fiscal_year_depreciations << injecthis
+      end
     end
 
     fiscal_year_depreciations
   end
 
-  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0, depreciated_amount = 0)
+  def fixed_by_month(full_amount, total_number_of_payments, depreciated_payments = 0.0, depreciated_amount = 0.0)
     # full_amount = hydykkeen hankintahinta
     # total_number_of_payments = poistojen kokonaismäärä kuukausissa
     # depreciated_payments = jo poistettujen erien lukumäärä
@@ -91,7 +106,7 @@ class CommodityRowGenerator
     remaining_amount = full_amount - depreciated_amount
 
     fiscal_maximum = full_amount.to_d / total_number_of_payments * payment_count
-    fiscal_maximum = fiscal_maximum.ceil
+    fiscal_maximum = fiscal_maximum.round(2)
 
     if remaining_amount > fiscal_maximum
       remaining_amount = fiscal_maximum
@@ -108,7 +123,7 @@ class CommodityRowGenerator
   private
 
     # Calculates monthly payments within fiscal year
-    def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0)
+    def divide_to_payments(full_amount, full_count, max_fiscal_reduction = 0.0)
       # full_amount = hydykkeen hankintahinta
       # full_count = kokonaispoistoaika kuukausissa
       # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
@@ -152,6 +167,15 @@ class CommodityRowGenerator
       fiscal_period.cover?(activation_date) ? activation_date : fiscal_start
     end
 
+    def confirm_calculation_dates
+      check = true
+      if fiscal_start < activation_date
+        check &= fiscal_period.cover?(activation_date)
+      end
+      check &= fiscal_end > activation_date
+      check
+    end
+
     def fiscal_period
       fiscal_start..fiscal_end
     end
@@ -164,20 +188,10 @@ class CommodityRowGenerator
       calculation_period.map(&:end_of_month).uniq.count
     end
 
-    def mark_rows_obsolete
-      commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
-
-      if commodity.voucher.present?
-        commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
-          row.amend_by(user)
-          row.save
-        end
-      end
-    end
-
     def create_voucher
       voucher_params = {
-        nimi: "Poistoerätosite hyödykkeelle #{commodity.name}",
+        nimi: "Poistoerätosite käyttöomaisuuden hyödykkeelle",
+        comments: "Poistoerätosite hyödykkeelle: #{commodity.name} #{commodity.description}",
         laatija: commodity.created_by,
         muuttaja: commodity.modified_by
       }
@@ -227,7 +241,7 @@ class CommodityRowGenerator
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
         }
 
-        commodity.commodity_rows.create!(row_params)
+        commodity.commodity_rows.create!(row_params) if date_in_calculation_period?(time)
       end
     end
 
@@ -255,13 +269,13 @@ class CommodityRowGenerator
       when :SUMU
         calculation_type = commodity.planned_depreciation_type
         calculation_amount = commodity.planned_depreciation_amount
-        depreciated_sum = commodity.deprecated_sumu_amount
-        depreciation_amount = commodity.voucher.rows.count
+        depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
+        depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
       when :EVL
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
-        depreciated_sum = commodity.deprecated_evl_amount
-        depreciation_amount = commodity.commodity_rows.count
+        depreciated_sum = commodity.amount - commodity.btl_value(depreciation_start_date)
+        depreciation_amount = commodity.commodity_rows.where('fixed_assets_commodity_rows.transacted_at < ?', fiscal_start).count
       else
         raise ArgumentError, 'Invalid depreciation_type'
       end
@@ -273,7 +287,7 @@ class CommodityRowGenerator
         fixed_by_month(commodity.amount, calculation_amount, depreciation_amount, depreciated_sum)
       when :P
         # Tasapoisto vuosiprosentti
-        fixed_by_percentage(commodity.amount, calculation_amount)
+        fixed_by_percentage(commodity.bookkeeping_value(fiscal_start), calculation_amount)
       when :B
         # Menojäännöspoisto vuosiprosentti
         degressive_by_percentage(commodity.amount, calculation_amount, depreciated_sum)
@@ -301,7 +315,7 @@ class CommodityRowGenerator
     def split_params
       commodity.procurement_rows.map do |pcu|
         {
-          percent: (pcu.summa / commodity.amount * 100).round(2),
+          percent: (pcu.summa / commodity.amount * 100.0).round(2),
           cost_centre: pcu.kustp,
           target: pcu.kohde,
           project: pcu.projekti
@@ -312,8 +326,8 @@ class CommodityRowGenerator
     def amend_future_rows
       # Yliajaa myyntipäivän jälkeiset poistotapahtumat
       date = commodity.deactivated_at
-      commodity.commodity_rows.where("transacted_at > ?", date).update_all(amended: true)
-      commodity.voucher.rows.where("tapvm > ?", date).find_each { |r| r.amend_by(user) }
+      commodity.commodity_rows.where("fixed_assets_commodity_rows.transacted_at > ?", date).update_all(amended: true)
+      commodity.voucher.rows.where("tiliointi.tapvm > ?", date).find_each { |r| r.amend_by(user) }
     end
 
     def create_planned_sales_row
@@ -374,5 +388,9 @@ class CommodityRowGenerator
         raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
       end
       commodity.commodity_rows.create! btlparams
+    end
+
+    def date_in_calculation_period?(date)
+      (fiscal_start..fiscal_end).cover?(date.try(:to_date))
     end
 end

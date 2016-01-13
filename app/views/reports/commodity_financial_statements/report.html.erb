@@ -1,0 +1,73 @@
+<%= render "administration/header", text: t('reports.commodity_financial_statements.index.header') %>
+
+<font class='head'>
+  <%=l @report.start_date %> - <%=l @report.end_date %><br><br>
+</font>
+
+<%= return_link t('reports.commodity_financial_statements.index.header'), commodity_financial_statements_path %>
+
+<br><br>
+
+<table>
+
+  <% @report.data.sum_levels.each do |sum_level| %>
+    <% sum_level.accounts.each do |account| %>
+      <tr>
+        <th colspan="3"><%= sum_level.name %></th>
+      </tr>
+
+      <tr>
+        <th colspan="3"><%= account.name %></th>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.procurement_amount' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.procurement_amount_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.deprication' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.deprication' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.difference' %></td>
+        <td style='text-align: right;'><%=l @report.start_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_difference_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.difference' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_difference_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.btl_closing' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_btl_value, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.bookkeeping_closing' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_bookkeeping_value, unit: '' %></td>
+      </tr>
+
+      <tr>
+        <td class='back'><br></td>
+      </tr>
+    <% end %>
+  <% end %>
+
+</table>
+
+<%= return_link t('reports.commodity_financial_statements.index.header'), commodity_financial_statements_path %>

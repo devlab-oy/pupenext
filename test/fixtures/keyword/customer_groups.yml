@@ -1,0 +1,15 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laji: ASIAKASLUOKKA
+
+reipas:
+  selite: 100
+  selitetark: Reipas
+  <<: *DEFAULTS
+
+laiska:
+  selite: 200
+  selitetark: Laiska
+  <<: *DEFAULTS

@@ -130,6 +130,22 @@ accounts_receivable:
   muuttaja: bob
   laatija: bob
 
+profit_and_loss:
+  yhtio: acme
+  nimi: Profit and loss
+  ulkoinen_taso: 300
+  sisainen_taso: 333
+  tulosseuranta_taso: 1
+  alv_taso: fi307
+  tilino: 1230
+  project:
+  target:
+  cost_center:
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+  laatija: bob
+
 factoring_accounts_receivable:
   yhtio: acme
   nimi: Factoringmyyntisaamiset

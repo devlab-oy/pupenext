@@ -8,6 +8,7 @@ DEFAULTS: &DEFAULTS
 stubborn_customer:
   ytunnus: FI12345678
   ovttunnus: 003712345678
+  asiakasnro: 100
   nimi: Very stubborn customer
   osoite: Street 1
   postino: 00100
@@ -19,6 +20,7 @@ stubborn_customer:
   valkoodi: eur
   terms_of_payment: sixty_days_net
   toimitustapa: Kaukokiito
+  osasto: 1
   ryhma: 10
   luokka: 100
   <<: *DEFAULTS

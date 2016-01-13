@@ -2,14 +2,14 @@ DEFAULTS: &DEFAULTS
   yhtio: acme
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-  laji: ASIAKASLUOKKA
+  laji: ASIAKASOSASTO
 
 customer_category_1:
-  selite: 100
-  selitetark: Reipas
+  selite: 1
+  selitetark: Kotimaa
   <<: *DEFAULTS
 
 customer_category_2:
-  selite: 200
-  selitetark: Laiska
+  selite: 2
+  selitetark: Ulkomaa
   <<: *DEFAULTS

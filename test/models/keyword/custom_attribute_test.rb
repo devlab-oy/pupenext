@@ -79,4 +79,8 @@ class Keyword::CustomAttributeTest < ActiveSupport::TestCase
     @attrib.database_field = 'field'
     assert @attrib.valid?
   end
+
+  test 'set name param' do
+    assert_equal "asiakas+PROSPEKTI", @attrib.alias_set_name
+  end
 end

@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Administration::DepartureHelperTest < ActionView::TestCase
   fixtures %w(
+    keyword/customer_groups
     warehouses
   )
 
@@ -20,11 +21,11 @@ class Administration::DepartureHelperTest < ActionView::TestCase
     assert_equal 'LASTAUS', terminal_area_options.first.second
   end
 
-  test "returns customer category options valid for collection" do
-    assert customer_category_options.is_a? Array
+  test "returns customer group options valid for collection" do
+    assert customer_group_options.is_a? Array
 
-    assert_equal 'Täysi-ikäinen', customer_category_options.first.first
-    assert_equal '18', customer_category_options.first.second
+    assert_equal 'Laiska', customer_group_options.first.first
+    assert_equal '200', customer_group_options.first.second
   end
 
   test "returns warehouse options valid for collection" do

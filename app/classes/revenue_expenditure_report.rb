@@ -12,7 +12,7 @@ class RevenueExpenditureReport
 
     {
       history_revenue: myyntisaamiset(time_start, yesterday) + factoring_myyntisaamiset_sum(time_start, yesterday),
-      history_expenditure: ostovelat(time_start, yesterday),
+      history_expenditure: ostovelat(time_start, yesterday) + history_revenue_expenditures_details,
       history_concern_accounts_payable: konserni_ostovelat(time_start, yesterday),
       history_concern_accounts_receivable: konserni_myyntisaamiset(time_start, yesterday),
       weekly: weekly,
@@ -87,6 +87,15 @@ class RevenueExpenditureReport
           amount: e.selitetark_2.to_d,
         }
       end
+    end
+
+    def history_revenue_expenditures_details
+      week = Date.today.cweek
+      year = Date.today.year
+
+      company.revenue_expenditures
+        .where("concat(right(selite, 4), trim(left(selite, 2))) < ?", "#{year}#{week}")
+        .pluck(:selitetark_2).map(&:to_d).sum
     end
 
     #  calculate weekly amounts for

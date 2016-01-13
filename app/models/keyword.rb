@@ -15,8 +15,10 @@ class Keyword < BaseModel
     {
       ALV:            Keyword::Vat,
       ALVULK:         Keyword::ForeignVat,
-      ASIAKASLUOKKA:  Keyword::CustomerCategory,
+      ASIAKASLUOKKA:  Keyword::CustomerGroup,
+      ASIAKASOSASTO:  Keyword::CustomerCategory,
       ASIAKASRYHMA:   Keyword::CustomerSubcategory,
+      ASIAKHIN_ATTR:  Keyword::CustomerPriceListAttribute,
       KM:             Keyword::ModeOfTransport,
       KT:             Keyword::NatureOfTransaction,
       LISATIETO:      Keyword::ProductInformationType,
