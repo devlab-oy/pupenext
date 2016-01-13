@@ -39,5 +39,6 @@ ignore_unused:
 - 'administration.sum_levels.{kayttotarkoitus_options,kumulatiivinen_options}.*'
 - 'administration.qualifiers.{kaytossa_options}.*'
 - 'administration.delivery_methods.{*_options}.*'
+- 'administration.delivery_methods.update.*'
 - 'administration.packages.{erikoispakkaus_options,yksin_eraan_options}.*'
 - 'simple_form.*'
