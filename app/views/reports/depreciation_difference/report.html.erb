@@ -1,0 +1,107 @@
+<%= render "administration/header", text: t('reports.depreciation_difference.index.header') %>
+
+<font class='head'>
+  <%=l @report.start_date %> - <%=l @report.end_date %><br><br>
+</font>
+
+<%= return_link t('reports.depreciation_difference.index.header'), depreciation_difference_index_path %>
+
+<br><br>
+
+<table>
+
+  <% @report.data.sum_levels.each do |sum_level| %>
+
+    <tr>
+      <th><%=t '.sum_level' %></th>
+      <th><%=t '.account' %></th>
+      <th><%=t '.commodity' %></th>
+      <th><%=t '.procurement_date' %></th>
+      <th><%=t '.procurement_amount' %></td>
+      <th><%=t '.opening_deprication' %></td>
+      <th><%=t '.opening_btl' %></td>
+      <th><%=t '.deprication' %></th>
+      <th><%=t '.btl' %></td>
+      <th><%=t '.difference' %></th>
+    </tr>
+
+    <% sum_level.accounts.each do |account| %>
+
+      <% account.commodities.each do |commodity| %>
+        <tr class='aktiivi'>
+          <td><%= sum_level.name %></td>
+          <td><%= account.name %></td>
+          <td><%= commodity.name %></td>
+          <td style='text-align: right;'><%=l commodity.procurement_date %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.procurement_amount, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.opening_deprication, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.opening_btl, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.deprication, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <th></th>
+        <th><%= account.name %></th>
+        <th></th>
+        <th></th>
+        <th style='text-align: right;'><%= number_to_currency account.procurement_amount_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+      </tr>
+
+    <% end %>
+
+    <tr>
+      <th><%= sum_level.name %></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.procurement_amount_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.opening_deprication_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.opening_btl_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.deprication_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.btl_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.difference_total, unit: '' %></th>
+    </tr>
+
+    <tr>
+      <td class='back'><br></td>
+    </tr>
+
+  <% end %>
+
+  <tr>
+    <td class='back'></td>
+    <td class='back'></td>
+    <td class='back'></td>
+    <td class='back'></td>
+    <th><%=t '.procurement_amount' %></td>
+    <th><%=t '.opening_deprication' %></td>
+    <th><%=t '.opening_btl' %></td>
+    <th><%=t '.deprication' %></th>
+    <th><%=t '.btl' %></td>
+    <th><%=t '.difference' %></th>
+  </tr>
+
+  <tr>
+    <td class='back'></td>
+    <td class='back'></td>
+    <td class='back'></td>
+    <td class='back'></td>
+    <th style='text-align: right;'><%= number_to_currency @report.data.procurement_amount_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.opening_deprication_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.opening_btl_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.deprication_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.btl_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.difference_total, unit: '' %></th>
+  </tr>
+
+</table>
+
+<%= return_link t('reports.depreciation_difference.index.header'), depreciation_difference_index_path %>

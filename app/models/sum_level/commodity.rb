@@ -1,5 +1,5 @@
 class SumLevel::Commodity < SumLevel
-  has_many :accounts, primary_key: :yhtio, foreign_key: :yhtio
+  has_many :accounts, primary_key: :taso, foreign_key: :evl_taso
 
   validates_with SumLevelValidator
 
@@ -9,14 +9,14 @@ class SumLevel::Commodity < SumLevel
   end
 
   def poistovasta_account
-    accounts.find_by_tilino(poisto_vastatili)
+    company.accounts.find_by_tilino(poisto_vastatili)
   end
 
   def poistoero_account
-    accounts.find_by_tilino(poistoero_tili)
+    company.accounts.find_by_tilino(poistoero_tili)
   end
 
   def poistoerovasta_account
-    accounts.find_by_tilino(poistoero_vastatili)
+    company.accounts.find_by_tilino(poistoero_vastatili)
   end
 end

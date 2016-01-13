@@ -1,5 +1,5 @@
 class SumLevel::Internal < SumLevel
-  has_many :accounts, foreign_key: :sisainen_taso
+  has_many :accounts, primary_key: :taso, foreign_key: :sisainen_taso
 
   validates_with SumLevelValidator
 
