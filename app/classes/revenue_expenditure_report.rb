@@ -90,12 +90,8 @@ class RevenueExpenditureReport
     end
 
     def history_revenue_expenditures_details
-      week = Date.today.cweek
-      year = Date.today.year
-
-      company.revenue_expenditures
-        .where("concat(right(selite, 4), trim(left(selite, 2))) < ?", "#{year}#{week}")
-        .pluck(:selitetark_2).map(&:to_d).sum
+      year_week = Date.today.strftime "%Y%W"
+      company.revenue_expenditures.where("selite < ?", year_week).pluck(:selitetark_2).map(&:to_d).sum
     end
 
     #  calculate weekly amounts for
@@ -105,7 +101,7 @@ class RevenueExpenditureReport
     #  - company accounts payable
     #  - alternative expenditures
     def weekly
-      @weekly ||= loop_weeks.map do |number, start, stop|
+      @weekly ||= loop_weeks.map do |number, year_week, start, stop|
 
         # Myyntisaamiset menee myyntiin sellaisenaan.
         # Factoring myynnistä 70% kuuluu laittaa viikolle tapahtumapäivän (+ 1pv) mukaan
@@ -118,13 +114,13 @@ class RevenueExpenditureReport
         purchases  = ostovelat(start, stop)
         purchases += revenue_expenditures(number)
 
-       {
+        {
           week: number,
           sales: sales,
           purchases: purchases,
           concern_accounts_receivable: konserni_myyntisaamiset(start, stop),
           concern_accounts_payable: konserni_ostovelat(start, stop),
-          alternative_expenditures: revenue_expenditures_details(number),
+          alternative_expenditures: revenue_expenditures_details(year_week),
         }
       end
     end
@@ -150,6 +146,7 @@ class RevenueExpenditureReport
 
         [
           "#{date.cweek} / #{date.cwyear}",
+          date.strftime("%Y%W"),
           beginning_of_week,
           date.end_of_week
         ]
