@@ -2,20 +2,19 @@ class FixedAssets::Commodity < BaseModel
   include Searchable
 
   # commodity = hyödyke
-  # .voucher = tosite, jolle kirjataan SUMU-poistot
-  # .voucher.rows = tosittella on SUMU-poisto tiliöintirivejä
-  # .commodity_rows = rivejä, jolla kirjataan EVL poistot
-  # .procurement_rows = tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
+  # .voucher = hyödykkeellä on yksi tosite, jolle kirjataan SUMU-poistot
+  # .voucher_rows = tosittella on SUMU-poisto-tiliöintirivejä
+  # .commodity_rows = hyödykkeellä on rivejä, joilla kirjataan EVL poistot
+  # .procurement_rows = hyödykkeellä on tiliöintirivejä, joilla on valittu hyödykkeelle kuuluvat hankinnat
 
-  # belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio is defined in current company concenr
-  # This doesnt create double assosiation because assosiations are merged together by key and
-  # the last one is preserved
   belongs_to :company
   belongs_to :profit_account, class_name: 'Account'
   belongs_to :sales_account, class_name: 'Account'
   belongs_to :voucher, class_name: 'Head::Voucher'
+
   has_many :commodity_rows
   has_many :procurement_rows, class_name: 'Head::VoucherRow'
+  has_many :voucher_rows, through: :voucher, class_name: 'Head::VoucherRow', source: :rows
 
   validates :name, :description, presence: true
 
@@ -31,6 +30,8 @@ class FixedAssets::Commodity < BaseModel
 
   before_save :prevent_further_changes, if: :deactivated_before?
   before_save :set_amount, :defaults
+
+  before_destroy :wipe_all_records
 
   def self.options_for_type
     [
@@ -80,7 +81,10 @@ class FixedAssets::Commodity < BaseModel
   # Sopivat tositerivit
   def linkable_voucher_rows
     return [] unless linkable_vouchers.present?
-    linkable_vouchers.map { |voucher| voucher.rows.where(tilino: viable_accounts, commodity_id: nil) }
+
+    linkable_vouchers.map do |voucher|
+      voucher_rows.where(tiliointi: { tilino: viable_accounts, commodity_id: nil })
+    end
   end
 
   def activated?
@@ -91,9 +95,13 @@ class FixedAssets::Commodity < BaseModel
     status == 'P'
   end
 
+  def can_be_destroyed?
+    commodity_rows.empty? && voucher_rows.empty?
+  end
+
   # Returns sum of past sumu depreciations
   def deprecated_sumu_amount
-    voucher.rows.locked.sum(:summa)
+    voucher_rows.locked.sum(:summa)
   end
 
   # Returns sum of past evl depreciations
@@ -108,7 +116,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Käyttöomaisuus-rivit
   def fixed_assets_rows
-    voucher.rows.where(tilino: fixed_assets_account)
+    voucher_rows.where(tilino: fixed_assets_account)
   end
 
   # Poisto-tili (tuloslaskelma)
@@ -118,7 +126,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poisto-rivit
   def depreciation_rows
-    voucher.rows.where(tilino: depreciation_account)
+    voucher_rows.where(tilino: depreciation_account)
   end
 
   # Poistoero-tili (tase)
@@ -128,7 +136,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poistoero-rivit
   def depreciation_difference_rows
-    voucher.rows.where(tilino: depreciation_difference_account)
+    voucher_rows.where(tilino: depreciation_difference_account)
   end
 
   # Poistoeromuutos-tili (tuloslaskelma)
@@ -138,7 +146,7 @@ class FixedAssets::Commodity < BaseModel
 
   # Poistoeromuutos-rivit
   def depreciation_difference_change_rows
-    voucher.rows.where(tilino: depreciation_difference_change_account)
+    voucher_rows.where(tilino: depreciation_difference_change_account)
   end
 
   # Kaikki hankinnan kustannuspaikat
@@ -158,28 +166,24 @@ class FixedAssets::Commodity < BaseModel
 
   # Ensimmäisen hankinnan päivämäärä tai nyt
   def procurement_date
-    procurement_d = activated_at || procurement_rows.first.try(:tapvm) || Date.today
-    procurement_d.to_date.to_s(:db)
+    activated_at || procurement_rows.first.try(:tapvm) || Date.today
   end
 
   # Kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
-    calculation = voucher.present? ? depreciation_rows.where("tapvm <= ? ", end_date).sum(:summa) : 0.0
     if deactivated?
       calculation = amount
+    else
+      calculation = accumulated_depreciation_at(end_date)
     end
 
-    if calculation > 0
-      amount - calculation
-    else
-      amount + calculation
-    end
+    amount - calculation.abs
   end
 
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
   def btl_value(end_date = company.current_fiscal_year.last)
     comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
-    comparable_amount + commodity_rows.where("transacted_at <= ?", end_date).sum(:amount)
+    comparable_amount + accumulated_evl_at(end_date)
   end
 
   def can_be_sold?
@@ -195,26 +199,32 @@ class FixedAssets::Commodity < BaseModel
     true
   end
 
+  # kertyneet sumu-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
-    depreciation_rows.where("tapvm <= ?", date).sum(:summa)
+    depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
+  # kertyneet poistoerot annettuna ajankohtana
   def accumulated_difference_at(date)
-    depreciation_difference_rows.where("tapvm <= ?", date).sum(:summa)
+    depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
   end
 
+  # kertyneet evl-poistot annettuna ajankohtana
   def accumulated_evl_at(date)
-    commodity_rows.where("transacted_at <= ?", date).sum(:amount)
+    commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", date).sum(:amount)
   end
 
+  # kertyneet sumu-poistot välillä
   def depreciation_between(date1, date2)
      depreciation_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
+  # kertyneet poistoerot välillä
   def difference_between(date1, date2)
     depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
+  # kertyneet evl-poistot välillä
   def evl_between(date1, date2)
     commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end
@@ -293,5 +303,10 @@ class FixedAssets::Commodity < BaseModel
 
     def deactivated_before?
       deactivated? && !status_changed?
+    end
+
+    def wipe_all_records
+      raise ArgumentError unless can_be_destroyed?
+      procurement_rows.update_all(commodity_id: nil)
     end
 end

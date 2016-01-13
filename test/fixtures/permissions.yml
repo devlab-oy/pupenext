@@ -6,6 +6,8 @@
     carriers
     cash_registers
     commodities
+    commodity_balance_sheet
+    commodity_financial_statements
     companies
     currencies
     custom_attributes
@@ -14,6 +16,7 @@
     customers
     data_export
     data_import
+    depreciation_difference
     downloads
     fiscal_years
     packages
