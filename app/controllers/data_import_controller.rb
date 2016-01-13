@@ -13,6 +13,8 @@ class DataImportController < ApplicationController
       year: customer_sales_params["month_year(1i)"],
     ).import
 
+    @text = SalesOrder::Detail.model_name.human
+
     render :results
   end
 
@@ -35,6 +37,8 @@ class DataImportController < ApplicationController
       filename: @uploaded_file,
     ).import
 
+    @text = Product::Keyword.model_name.human
+
     render :results
   end
 
@@ -46,6 +50,8 @@ class DataImportController < ApplicationController
       language: product_information_params[:language],
       type: product_information_params[:type],
     ).import
+
+    @text = Product::Keyword.model_name.human
 
     render :results
   end
