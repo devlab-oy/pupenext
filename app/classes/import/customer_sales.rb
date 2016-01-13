@@ -89,7 +89,7 @@ class Import::CustomerSales::Row
       error << I18n.t('errors.import.customer_not_found', customer: customer_raw)
     end
 
-    if data.blank? && quantity.blank? && price.blank?
+    if data.blank? || (quantity.blank? && price.blank?)
       error << I18n.t('errors.import.required_fields_missing', fields: required_fields.to_sentence)
     end
 
