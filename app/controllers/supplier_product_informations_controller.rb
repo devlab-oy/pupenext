@@ -4,15 +4,15 @@ class SupplierProductInformationsController < ApplicationController
   def index
     session[:supplier] = params[:supplier] if params[:supplier].present?
 
-    if session[:supplier].present? && search_params.present?
-      @supplier = Supplier.find(session[:supplier])
-
-      @supplier_product_informations = @supplier
-                                         .supplier_product_informations
-                                         .search_like(search_params)
-    else
-      @supplier_product_informations = SupplierProductInformation.none
+    unless session[:supplier].present? && search_params.present?
+      return @supplier_product_informations = SupplierProductInformation.none
     end
+
+    @supplier = Supplier.find(session[:supplier])
+
+    @supplier_product_informations = @supplier
+                                       .supplier_product_informations
+                                       .search_like(search_params)
   end
 
   def transfer

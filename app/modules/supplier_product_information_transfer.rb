@@ -63,9 +63,11 @@ module SupplierProductInformationTransfer
 
       product = s.create_product(product_params)
 
-      s.update(p_price_update: extra_attributes[:toimittajan_ostohinta],
-               p_qty_update:   extra_attributes[:toimittajan_saldo],
-               product:        product)
+      s.update(
+        p_price_update: extra_attributes[:toimittajan_ostohinta],
+        p_qty_update:   extra_attributes[:toimittajan_saldo],
+        product:        product
+      )
 
       supplier.product_suppliers.create(
         tehdas_saldo:            s.available_quantity,

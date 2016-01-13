@@ -14,12 +14,14 @@
 
 <tr>
   <td>
-    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]", "1", s.errors.any?,
+    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]",
+                      "1",
+                      previous_params[:transfer],
                       class: :transfer %>
   </td>
   <td><%= s.product_id %></td>
   <td>
-    <% if s.errors[:manufacturer_part_number].present? %>
+    <% if s.errors[:manufacturer_part_number].any? %>
       <span class="field_with_errors">
         <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
                            s.manufacturer_part_number %>
@@ -33,10 +35,9 @@
                            s.manufacturer_part_number %>
       <%= s.manufacturer_part_number %>
     <% end %>
-
   </td>
   <td>
-    <% if s.errors[:manufacturer_ean].present? %>
+    <% if s.errors[:manufacturer_ean].any? %>
       <span class="field_with_errors">
         <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
                            s.manufacturer_ean %>
@@ -48,7 +49,6 @@
     <% else %>
       <%= s.manufacturer_ean %>
     <% end %>
-
   </td>
   <td><%= s.product_name %></td>
   <td><%= s.description %></td>
@@ -107,7 +107,8 @@
   </td>
   <td colspan="2">
     <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]",
-                      "1", previous_params[:toimittajan_saldo]) %>
+                      "1",
+                      previous_params[:toimittajan_saldo]) %>
   </td>
 <% end %>
 </tbody>
