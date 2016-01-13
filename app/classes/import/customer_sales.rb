@@ -36,6 +36,7 @@ class Import::CustomerSales
           tuoteno: row.product.tuoteno,
           varattu: row.quantity,
           hinta: row.price,
+          rivihinta: row.quantity * row.price,
           laskutettuaika: @end_of_month,
           laskutettu: Current.user.kuka,
         }
