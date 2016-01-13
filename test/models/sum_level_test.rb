@@ -211,6 +211,7 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "SumLevel::Commodity should have multiple accounts" do
+    assert_equal 1, @commodity.accounts.count
     assert_not_nil @commodity.poistovasta_account.tilino
     assert_not_nil @commodity.poistoero_account.tilino
     assert_not_nil @commodity.poistoerovasta_account.tilino

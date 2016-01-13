@@ -30,6 +30,15 @@ class CommodityRowGenerator
     split_voucher_rows
   end
 
+  def mark_rows_obsolete
+    commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
+
+    commodity.voucher_rows.where(tapvm: fiscal_period).find_each do |row|
+      row.amend_by(user)
+      row.save
+    end
+  end
+
   def sell
     raise ArgumentError unless commodity.can_be_sold?
     amend_future_rows
@@ -179,17 +188,6 @@ class CommodityRowGenerator
       calculation_period.map(&:end_of_month).uniq.count
     end
 
-    def mark_rows_obsolete
-      commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
-
-      if commodity.voucher.present?
-        commodity.voucher.rows.where(tapvm: fiscal_period).find_each do |row|
-          row.amend_by(user)
-          row.save
-        end
-      end
-    end
-
     def create_voucher
       voucher_params = {
         nimi: "Poistoerätosite käyttöomaisuuden hyödykkeelle",
@@ -272,12 +270,12 @@ class CommodityRowGenerator
         calculation_type = commodity.planned_depreciation_type
         calculation_amount = commodity.planned_depreciation_amount
         depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
-        depreciation_amount = commodity.depreciation_rows.where("tapvm < ?", fiscal_start).count
+        depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
       when :EVL
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
         depreciated_sum = commodity.amount - commodity.btl_value(depreciation_start_date)
-        depreciation_amount = commodity.commodity_rows.where('transacted_at < ?', fiscal_start).count
+        depreciation_amount = commodity.commodity_rows.where('fixed_assets_commodity_rows.transacted_at < ?', fiscal_start).count
       else
         raise ArgumentError, 'Invalid depreciation_type'
       end
@@ -328,8 +326,8 @@ class CommodityRowGenerator
     def amend_future_rows
       # Yliajaa myyntipäivän jälkeiset poistotapahtumat
       date = commodity.deactivated_at
-      commodity.commodity_rows.where("transacted_at > ?", date).update_all(amended: true)
-      commodity.voucher.rows.where("tapvm > ?", date).find_each { |r| r.amend_by(user) }
+      commodity.commodity_rows.where("fixed_assets_commodity_rows.transacted_at > ?", date).update_all(amended: true)
+      commodity.voucher.rows.where("tiliointi.tapvm > ?", date).find_each { |r| r.amend_by(user) }
     end
 
     def create_planned_sales_row

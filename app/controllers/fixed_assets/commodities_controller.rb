@@ -105,6 +105,29 @@ class FixedAssets::CommoditiesController < AdministrationController
     redirect_to edit_commodity_path(@commodity)
   end
 
+  def delete_rows
+    options = {
+      commodity_id: @commodity.id,
+      fiscal_id: params[:selected_fiscal_year],
+      user_id: current_user.id
+    }
+
+    CommodityRowGenerator.new(options).mark_rows_obsolete
+
+    redirect_to edit_commodity_path(@commodity)
+  end
+
+  def destroy_commodity
+    if @commodity.can_be_destroyed?
+      @commodity.destroy!
+      flash.now[:notice] = t('.destroy_success')
+      redirect_to commodities_path
+    else
+      flash.now[:notice] = t('.destroy_failure')
+      redirect_to edit_commodity_path(@commodity)
+    end
+  end
+
   def sell
   end
 
