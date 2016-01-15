@@ -63,11 +63,24 @@ module SupplierProductInformationTransfer
 
       product = s.create_product(product_params)
 
-      s.update(
+      supplier_product_information_params = {
         p_price_update: extra_attributes[:toimittajan_ostohinta],
         p_qty_update:   extra_attributes[:toimittajan_saldo],
         product:        product
-      )
+      }
+
+      if extra_attributes[:p_tree_id]
+        dynamic_tree = DynamicTree.find(extra_attributes[:p_tree_id])
+
+        supplier_product_information_params[:dynamic_tree] = dynamic_tree
+
+        product.dynamic_tree_nodes.create(
+          dynamic_tree: dynamic_tree,
+          kutsuja:      'SupplierProductInformationTransfer'
+        )
+      end
+
+      s.update(supplier_product_information_params)
 
       supplier.product_suppliers.create(
         tehdas_saldo:            s.available_quantity,
