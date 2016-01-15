@@ -7,7 +7,7 @@ class ConvertAlternativeRevenueExpenditures < ActiveRecord::Migration
 
       keywords.each do |r|
         week, year = r.selite.split(' / ')
-        selite = Date.commercial(year.to_i, week.to_i).strftime("%Y%W")
+        selite = Date.commercial(year.to_i, week.to_i).strftime("%Y%V")
         r.update!(selite: selite)
       end
     end

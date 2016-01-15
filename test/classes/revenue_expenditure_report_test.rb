@@ -349,13 +349,13 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
   test 'weekly alternative expenditures' do
     # Lets add one alternative expenditure for current week
     keyword_one = keywords(:weekly_alternative_expenditure_one)
-    keyword_one.selite = Date.today.strftime "%Y%W"
+    keyword_one.selite = Date.today.strftime "%Y%V"
     keyword_one.selitetark_2 = '53.39'
     keyword_one.save!
 
     # Should not sum this keyword's amount
     keyword_two = keyword_one.dup
-    keyword_two.selite = 1.week.from_now.to_date.strftime "%Y%W"
+    keyword_two.selite = 1.week.from_now.to_date.strftime "%Y%V"
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 

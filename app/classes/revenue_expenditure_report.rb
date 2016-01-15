@@ -90,7 +90,7 @@ class RevenueExpenditureReport
     end
 
     def history_revenue_expenditures_details
-      year_week = Date.today.strftime "%Y%W"
+      year_week = Date.today.strftime "%Y%V"
       company.revenue_expenditures.where("selite < ?", year_week).pluck(:selitetark_2).map(&:to_d).sum
     end
 
@@ -146,7 +146,7 @@ class RevenueExpenditureReport
 
         [
           "#{date.cweek} / #{date.cwyear}",
-          date.strftime("%Y%W"),
+          date.strftime("%Y%V"),
           beginning_of_week,
           date.end_of_week
         ]

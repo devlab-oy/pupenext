@@ -2,13 +2,13 @@ module Administration::RevenueExpenditureReportDatumHelper
   def week_options(week_year)
 
     if week_year.empty?
-      week_year = Date.today.strftime "%Y%W"
+      week_year = Date.today.strftime "%Y%V"
     end
 
     date_from, date_to = date_range week_year
 
     options = date_from.upto(date_to).map do |d|
-      value = d.strftime "%Y%W"
+      value = d.strftime "%Y%V"
       text = d.strftime "%W / %Y"
       [ text, value ]
     end
