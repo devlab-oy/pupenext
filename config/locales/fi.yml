@@ -289,6 +289,7 @@ fi:
       supplier_product_information:
         available_quantity: Varastossa
         description: Kuvaus
+        dynamic_tree: Puun alkio
         manufacturer_ean: Valmistajan EAN-koodi
         manufacturer_name: Valmistaja
         manufacturer_part_number: Valmistajan tuotekoodi
@@ -669,7 +670,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -695,7 +696,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -849,6 +850,9 @@ fi:
         depreciation_difference_amount: Poistoerorivit
         depreciation_rows_amount: Poistorivit
         header: Poistorivit
+      destroy_commodity:
+        destroy_failure: Hyödykkeen poisto epäonnistui
+        destroy_success: Hyödykkeen poisto onnistui
       edit:
         button_activate: Aktivoi hyödyke
         button_add_invoice_rows: Liitä ostolaskurivejä
@@ -914,9 +918,6 @@ fi:
         button_add: Liitä
         button_search: Etsi
         header: Liitä tositerivejä
-      destroy_commodity:
-        destroy_success: Hyödykkeen poisto onnistui
-        destroy_failure: Hyödykkeen poisto epäonnistui
   helpers:
     select:
       prompt: Valitse
