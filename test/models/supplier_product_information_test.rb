@@ -2,6 +2,7 @@ require 'test_helper'
 
 class SupplierProductInformationTest < ActiveSupport::TestCase
   fixtures %w(
+    dynamic_trees
     products
     supplier_product_informations
     suppliers
@@ -30,6 +31,10 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
   test 'supplier association works' do
     assert_equal @reliable_supplier, @one.supplier
     assert_equal @domestic_supplier, @two.supplier
+  end
+
+  test 'dynamic_tree_association works' do
+    assert_equal dynamic_trees(:one), @one.dynamic_tree
   end
 
   test 'searching works' do
