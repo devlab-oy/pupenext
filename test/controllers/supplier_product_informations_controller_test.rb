@@ -2,6 +2,8 @@ require 'test_helper'
 
 class SupplierProductInformationsControllerTest < ActionController::TestCase
   fixtures %i(
+    dynamic_tree_nodes
+    dynamic_trees
     keywords
     product/suppliers
     products
@@ -23,6 +25,8 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     @status_active = keywords(:status_active)
 
+    @dynamic_tree_one = dynamic_trees(:one)
+
     session[:supplier] = @domestic_supplier.id
 
     @params = {
@@ -32,6 +36,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
           osasto:      @category_tools.id,
           try:         @subcategory_tools.id,
           tuotemerkki: @brand_tools.id,
+          p_tree_id:   @dynamic_tree_one,
           nakyvyys:    'Y',
           status:      @status_active.id
         }
@@ -124,12 +129,15 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
   test 'correct fields are updated' do
     @params[:supplier_product_informations]["#{@one.id}"][:toimittajan_ostohinta] = '1'
-    @params[:supplier_product_informations]["#{@one.id}"][:toimittajan_saldo]     = '1'
+    @params[:supplier_product_informations]["#{@one.id}"][:toimittajan_saldo] = '1'
+    @params[:supplier_product_informations]["#{@one.id}"][:p_tree_id] = @dynamic_tree_one.id
+
     post :transfer, @params
 
     assert_equal 1, @one.reload.p_price_update
     assert_equal 1, @one.reload.p_qty_update
     assert_equal Product.last, @one.reload.product
+    assert_equal @dynamic_tree_one, @one.reload.dynamic_tree
   end
 
   test 'correct fields are copied to product' do
@@ -164,6 +172,12 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal(-1,                            Product::Supplier.last.osto_alv)
     assert_equal @one.available_quantity,       Product::Supplier.last.tehdas_saldo
     assert_equal @domestic_supplier,            Product::Supplier.last.supplier
+  end
+
+  test 'dynamic tree product node is created correctly' do
+    assert_difference('DynamicTreeNode::ProductNode.count') do
+      post :transfer, @params
+    end
   end
 
   test 'nothing is copied when a product with the same tuoteno exists' do
