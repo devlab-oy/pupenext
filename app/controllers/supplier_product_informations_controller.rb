@@ -59,6 +59,7 @@ class SupplierProductInformationsController < ApplicationController
           manufacturer_part_number
           nakyvyys
           osasto
+          p_tree_id
           status
           toimittajan_ostohinta
           toimittajan_saldo
