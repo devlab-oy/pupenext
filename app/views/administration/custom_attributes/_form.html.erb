@@ -11,7 +11,7 @@
       </th>
 
       <td>
-        <%= f.select :database_field, database_field_options, {}, class: :large %>
+        <%= f.select :database_field, database_field_options(table_alias_set: params[:table_alias_set]), {}, class: :large %>
       </td>
     </tr>
 

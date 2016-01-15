@@ -28,7 +28,7 @@ class Administration::RevenueExpendituresControllerTest < ActionController::Test
 
   test 'should create keyword' do
     params = {
-      selite: '36 / 2015',
+      selite: '201536',
       selitetark: 'Palkat',
       selitetark_2: 1000,
     }
@@ -42,7 +42,7 @@ class Administration::RevenueExpendituresControllerTest < ActionController::Test
 
   test 'should not create keyword' do
     params = {
-      selite: '36 / 2015',
+      selite: '201536',
       selitetark: '',
       selitetark_2: 'kek',
     }

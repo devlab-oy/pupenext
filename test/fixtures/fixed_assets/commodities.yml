@@ -7,7 +7,7 @@ commodity_one:
   modified_by: joe
   amount: 10000
   status: A
-  activated_at: <%= Date.today.change(month: 7, day: 1) %>
+  activated_at: <%= 3.months.ago.to_date.beginning_of_month %>
   planned_depreciation_type: P
   planned_depreciation_amount: 35
   btl_depreciation_type: B

@@ -1,0 +1,35 @@
+<%= enable_pickadate %>
+
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_tag do %>
+
+  <table>
+    <tr>
+      <th>
+        <%= label_tag t('.start_date') %>
+      </th>
+      <td>
+        <%= text_field_tag :start_date,
+            current_company.current_fiscal_year.first,
+            class: :pickadate %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= label_tag t('.end_date') %>
+      </th>
+      <td>
+        <%= text_field_tag :end_date,
+            current_company.current_fiscal_year.last,
+            class: :pickadate %>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <%= submit_tag t('.run') %>
+
+<% end %>

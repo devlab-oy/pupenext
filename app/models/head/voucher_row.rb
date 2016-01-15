@@ -9,6 +9,7 @@ class Head::VoucherRow < BaseModel
     o.belongs_to :voucher,          class_name: 'Head::Voucher'
   end
 
+  belongs_to :account, foreign_key: :tilino, primary_key: :tilino
   belongs_to :commodity, class_name: 'FixedAssets::Commodity'
 
   default_scope { where(korjattu: '') }
@@ -25,10 +26,6 @@ class Head::VoucherRow < BaseModel
 
   self.table_name = :tiliointi
   self.primary_key = :tunnus
-
-  def account
-    company.accounts.find_by(tilino: tilino)
-  end
 
   def counter_entry(account_number)
     # Create a counter entry for self

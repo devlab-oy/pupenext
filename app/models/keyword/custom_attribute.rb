@@ -33,6 +33,12 @@ class Keyword::CustomAttribute < Keyword
     selite.split('.').first
   end
 
+  def alias_set_name
+    return if table.blank? || set_name.blank?
+
+    "#{table}+#{set_name}"
+  end
+
   # Rails requires sti_name method to return type column (laji) value
   def self.sti_name
     'MYSQLALIAS'

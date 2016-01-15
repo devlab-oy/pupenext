@@ -200,8 +200,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.save!
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
-
-    assert_equal 8235.28.to_d, @commodity.bookkeeping_value('2015-09-30'.to_date)
+    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 6500, @commodity.bookkeeping_value
 
     # Sold commodity bkvalue is 0
@@ -247,11 +246,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = validparams
-    assert @commodity.can_be_sold?
+    assert @commodity.can_be_sold?, 'Should be valid'
 
     # Invalid status
     @commodity.status = ''
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Status should be invalid'
 
     # Invalid profit account
     invalidparams = {
@@ -263,7 +262,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.status = 'A'
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Profit account should be invalid'
 
     # Invalid depreciation handling
     invalidparams = {
@@ -274,22 +273,22 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'K'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Depreciation handling should be invalid'
 
     # Invalid sales date
     invalidparams = {
       amount_sold: 9800,
-      deactivated_at: @commodity.company.current_fiscal_year.first - 1,
+      deactivated_at: @commodity.company.open_period.first - 1,
       profit_account: accounts(:account_100),
       sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales date should be invalid ( < open period )'
 
     # Invalid sales date 2
     @commodity.deactivated_at = Date.today+1
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales date should be invalid ( > today)'
 
     # Invalid sales amount
     invalidparams = {
@@ -300,7 +299,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = invalidparams
-    refute @commodity.can_be_sold?
+    refute @commodity.can_be_sold?, 'Sales amount should be invalid'
   end
 
   test 'deactivation prevents further changes' do
@@ -311,5 +310,24 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.name = 'bob'
     assert_raises(ActiveRecord::ReadOnlyRecord) { @commodity.save }
+  end
+
+  test 'can be destroyed works' do
+    # Cant be destroyed with commodity_rows && voucher rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.commodity_rows.update_all(amended: true)
+    # Cant be destroyed with just voucher rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.voucher.rows.update_all(korjattu: 'X')
+    @commodity.commodity_rows.build
+    # Cant be destroyed with just commodity_rows present
+    assert_equal false, @commodity.can_be_destroyed?
+
+    @commodity.commodity_rows.delete_all
+
+    # Can be destroyed with no commodity_rows and voucher rows present
+    assert_equal true, @commodity.can_be_destroyed?
   end
 end
