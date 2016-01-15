@@ -1,0 +1,14 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+# Ostotilaus
+departure_one:
+  liitostunnus: <%= ActiveRecord::FixtureSet.identify(:kaukokiito) %>
+  kerailyn_aloitusaika: '12:00:00'
+  lahdon_kellonaika: '13:24:59'
+  alkupvm: 0
+  <<: *DEFAULTS

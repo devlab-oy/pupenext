@@ -11,10 +11,15 @@ class Row < BaseModel
 
   def self.child_class_names
     {
+      'A' => WorkOrder::Row,
+      'C' => ReclamationOrder::Row,
+      'E' => Preorder::Row,
       'G' => StockTransfer::Row,
       'L' => SalesOrder::Row,
       'M' => ManufactureOrder::RecursiveCompositeRow,
       'O' => PurchaseOrder::Row,
+      'R' => ProjectOrder::Row,
+      'T' => OfferOrder::Row,
       'V' => ManufactureOrder::Row,
       'W' => ManufactureOrder::CompositeRow,
     }

@@ -1,0 +1,7 @@
+kaukokiito_freight_contract:
+  yhtio: acme
+  toimitustapa: Kaukokiito
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe

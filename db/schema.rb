@@ -2646,16 +2646,12 @@ ActiveRecord::Schema.define(version: 20160114084551) do
   end
 
   create_table "toimitustavat_toimipaikat", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",               limit: 5,  default: "", null: false
-    t.integer  "toimitustapa_tunnus", limit: 4,               null: false
-    t.integer  "toimipaikka_tunnus",  limit: 4,               null: false
-    t.string   "laatija",             limit: 50, default: "", null: false
-    t.datetime "luontiaika",                                  null: false
-    t.datetime "muutospvm",                                   null: false
-    t.string   "muuttaja",            limit: 50, default: "", null: false
+    t.integer "toimitustapa_tunnus", limit: 4, null: false
+    t.integer "toimipaikka_tunnus",  limit: 4, null: false
   end
 
-  add_index "toimitustavat_toimipaikat", ["yhtio"], name: "yhtio_index", using: :btree
+  add_index "toimitustavat_toimipaikat", ["toimipaikka_tunnus"], name: "index_toimitustavat_toimipaikat_on_toimipaikka_tunnus", using: :btree
+  add_index "toimitustavat_toimipaikat", ["toimitustapa_tunnus"], name: "index_toimitustavat_toimipaikat_on_toimitustapa_tunnus", using: :btree
 
   create_table "transports", force: :cascade do |t|
     t.integer  "transportable_id",   limit: 4

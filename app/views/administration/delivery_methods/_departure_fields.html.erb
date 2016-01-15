@@ -1,0 +1,46 @@
+<tr class='nested-fields'>
+  <td>
+    <%= f.select :lahdon_viikonpvm, day_of_the_week_options, { include_blank: t('administration.delivery_methods.departures.no_selected.day') }, class: 'chosen-select' %>
+  </td>
+
+  <td nowrap>
+    <%= f.time_select :lahdon_kellonaika, ignore_date: true, class: :large %>
+  </td>
+
+  <td nowrap>
+    <%= f.time_select :viimeinen_tilausaika, ignore_date: true, class: :large %>
+  </td>
+
+  <td nowrap>
+    <%= f.time_select :kerailyn_aloitusaika, ignore_date: true, class: :large %>
+  </td>
+
+  <td>
+    <%= f.select :terminaalialue, terminal_area_options, { include_blank: t('administration.delivery_methods.departures.no_selected.terminal_area') }, class: 'chosen-select' %>
+  </td>
+
+  <td>
+    <%= f.select :asiakasluokka, customer_group_options, { include_blank: t('administration.delivery_methods.departures.no_selected.customer_group') }, class: 'chosen-select' %>
+  </td>
+
+  <td>
+    <%= f.select :varasto, warehouse_options, { include_blank: t('administration.delivery_methods.departures.no_selected.warehouse') }, class: 'chosen-select' %>
+  </td>
+
+  <td>
+    <%= f.select :aktiivi, status_options, {}, class: 'chosen-select' %>
+  </td>
+
+  <td>
+    <%= f.text_field :ohjausmerkki, class: :large %>
+  </td>
+
+  <td nowrap>
+    <%= f.pupenext_date_field :alkupvm %>
+  </td>
+
+  <td>
+    <%= f.check_box :_destroy %>
+  </td>
+</tr>
+

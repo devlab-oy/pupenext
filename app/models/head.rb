@@ -20,6 +20,9 @@ class Head < BaseModel
 
   def self.child_class_names
     {
+      'A' => WorkOrder::Order,
+      'C' => ReclamationOrder::Order,
+      'E' => Preorder::Order,
       'G' => StockTransfer::Order,
       'H' => Head::PurchaseInvoice::Approval,
       'L' => SalesOrder::Order,
@@ -28,6 +31,8 @@ class Head < BaseModel
       'O' => PurchaseOrder::Order,
       'P' => Head::PurchaseInvoice::Transfer,
       'Q' => Head::PurchaseInvoice::Waiting,
+      'R' => ProjectOrder::Order,
+      'T' => OfferOrder::Order,
       'U' => Head::SalesInvoice,
       'V' => ManufactureOrder::Order,
       'X' => Head::Voucher,

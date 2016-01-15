@@ -72,3 +72,8 @@ ul.list-unstyled {
 .del {
   text-decoration: line-through;
 }
+
+.fixed-height {
+  max-height: 200px;
+  overflow-y: scroll;
+}

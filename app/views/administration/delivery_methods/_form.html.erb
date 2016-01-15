@@ -1,0 +1,25 @@
+<%= render "administration/form_errors", resource: @delivery_method %>
+
+<%= form_for @delivery_method do |f| %>
+
+  <div style='float: left; padding: 10px; width: 870px;'>
+    <%= render 'basic', f: f %>
+  </div>
+
+  <div style='float: left; padding: 10px; width: 460px;'>
+    <%= render "administration/header", text: t('administration.delivery_methods.edit.translations.header') %>
+    <%= render 'administration/translations', f: f %>
+  </div>
+
+  <% if current_company.parameter.collection_batch_based_on_dimensions? %>
+    <div style='float: left; padding: 10px;'>
+      <%= render "administration/header", text: t('administration.delivery_methods.edit.departures.header') %>
+      <%= render 'departures', f: f %>
+    </div>
+  <% end %>
+
+  <div style='clear: both;'>
+    <%= render 'administration/actions', f: f %>
+  </div>
+
+<% end %>

@@ -1,0 +1,25 @@
+<table id='departures' width='100%'>
+  <tr>
+    <th><%= label_tag t('administration.delivery_methods.departures.day_of_the_week') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.time') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.last_ordering_time') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.collecting_start_time') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.terminal_area') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.customer_group') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.warehouse') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.status') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.control_character') %></th>
+    <th><%= label_tag t('administration.delivery_methods.departures.start_date') %></th>
+    <th><%= label_tag t('helpers.submit.destroy', model: '') %></th>
+  </tr>
+
+  <%= f.fields_for :departures do |departure| %>
+    <%= render 'departure_fields', f: departure %>
+  <% end %>
+</table>
+
+<br>
+
+<%= link_to_add_association t('administration.delivery_methods.departures.link_new'), f, :departures,
+    data: { association_insertion_method: :append, association_insertion_node: '#departures'},
+    partial: 'departure_fields' %>

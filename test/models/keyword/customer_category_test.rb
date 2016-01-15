@@ -13,6 +13,7 @@ class Keyword::CustomerCategoryTest < ActiveSupport::TestCase
 
   test 'fixtures are valid' do
     assert @one.valid?, @one.errors.full_messages
+    assert @two.valid?, @two.errors.full_messages
   end
 
   test 'associations work' do

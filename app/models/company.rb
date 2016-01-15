@@ -8,9 +8,13 @@ class Company < ActiveRecord::Base
     o.has_many :carriers
     o.has_many :cash_registers
     o.has_many :currencies
+    o.has_many :customer_keywords
     o.has_many :customers
+    o.has_many :delivery_methods
     o.has_many :factorings
     o.has_many :fiscal_years
+    o.has_many :freight_contracts
+    o.has_many :freights
     o.has_many :keywords
     o.has_many :locations
     o.has_many :package_codes
@@ -22,6 +26,7 @@ class Company < ActiveRecord::Base
     o.has_many :terms_of_payments
     o.has_many :users
     o.has_many :warehouses
+    o.has_many :waybills
 
     o.has_many :products
     o.has_many :brands,            class_name: 'Product::Brand'
@@ -39,18 +44,23 @@ class Company < ActiveRecord::Base
 
     o.has_many :heads
     o.has_many :manufacture_orders,                    class_name: 'ManufactureOrder::Order'
+    o.has_many :offer_orders,                          class_name: 'OfferOrder::Order'
+    o.has_many :preorders,                             class_name: 'Preorder::Order'
+    o.has_many :project_orders,                        class_name: 'ProjectOrder::Order'
     o.has_many :purchase_invoices_approval,            class_name: 'Head::PurchaseInvoice::Approval'
     o.has_many :purchase_invoices_approved,            class_name: 'Head::PurchaseInvoice::Approved'
     o.has_many :purchase_invoices_paid,                class_name: 'Head::PurchaseInvoice::Paid'
     o.has_many :purchase_invoices_ready_for_transfer,  class_name: 'Head::PurchaseInvoice::Transfer'
     o.has_many :purchase_invoices_waiting_for_payment, class_name: 'Head::PurchaseInvoice::Waiting'
     o.has_many :purchase_orders,                       class_name: 'PurchaseOrder::Order'
+    o.has_many :reclamation_orders,                    class_name: 'ReclamationOrder::Order'
     o.has_many :sales_invoices,                        class_name: 'Head::SalesInvoice'
     o.has_many :sales_order_drafts,                    class_name: 'SalesOrder::Draft'
     o.has_many :sales_orders,                          class_name: 'SalesOrder::Order'
+    o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
     o.has_many :voucher_rows, through: :vouchers,      class_name: 'Head::VoucherRow', source: :rows
     o.has_many :vouchers,                              class_name: 'Head::Voucher'
-    o.has_many :stock_transfers,                       class_name: 'StockTransfer::Order'
+    o.has_many :work_orders,                           class_name: 'WorkOrder::Order'
 
     o.has_many :qualifiers
     o.has_many :cost_centers, class_name: 'Qualifier::CostCenter'
@@ -62,8 +72,8 @@ class Company < ActiveRecord::Base
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
   has_many :commodity_rows, through: :commodities, class_name: 'FixedAssets::CommodityRow'
-  has_many :transports, as: :transportable
   has_many :customer_transports, through: :customers, source: :transports
+  has_many :transports, as: :transportable
 
   self.table_name = :yhtio
   self.primary_key = :tunnus

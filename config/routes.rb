@@ -36,6 +36,7 @@ Pupesoft::Application.routes.draw do
     resources :currencies, except: :destroy
     resources :custom_attributes
     resources :customer_transports
+    resources :delivery_methods
     resources :fiscal_years, except: :destroy
     resources :packages
     resources :packing_areas

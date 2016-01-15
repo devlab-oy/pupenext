@@ -183,6 +183,61 @@ fi:
         asiakasnumero: Asiakasnumero
         maksuehto: Maksuehto
         toimitustapa: Toimitustapa
+      delivery_method:
+        aktiivinen_kuljetus: Oletus aktiivinen kuljetus
+        aktiivinen_kuljetus_kansallisuus: Oletus aktiivisen kuljetuksen kansallisuus
+        ei_pakkaamoa: Pakkaamokäsittely
+        erikoispakkaus_kielto: Erikoispakkauskäsittely
+        erilliskasiteltavakulu: Erilliskäsiteltäväkulu
+        erittely: Rahtikirjaerittely
+        extranet: Extranet-toimitustapa
+        jarjestys: Järjestys
+        jvkielto: Jälkivaatimukset
+        jvkulu: Jälkivaatimuskulu
+        kauppatapahtuman_luonne: Oletus kauppatapahtuman luonne
+        kontti: Oletus kontti
+        kuljetusmuoto: Oletus kuljetusmuoto
+        kuljetusvakuutus: Kuljetusvakuutus
+        kuljetusvakuutus_tuotenumero: Kuljetusvakuutus tuote
+        kuljetusvakuutus_tyyppi: Kuljetusvakuutustyyppi
+        kuljyksikko: Itella kuljetusyksikkö
+        kuluprosentti: Kuluprosentti
+        lahdon_selite: Nimitys Lähtöjen hallinnassa
+        lajittelupiste: Lajittelupiste
+        lauantai: Lauantaijakelu
+        lisakulu: Lisäkulu
+        lisakulu_summa: Lisäkulusumma
+        locations: Sallitut toimipaikat
+        logy_rahtikirjanumerot: LOGY rahtikirjanumerot
+        maa_maara: Oletus määrämaa
+        merahti: Rahtisopimus
+        nouto: Nouto
+        osoitelappu: Osoitelapputyyppi
+        poistumistoimipaikka_koodi: Oletus poistumistoimipaikan koodi
+        rahdinkuljettaja: Kuljetusyhtiö
+        rahti_tuotenumero: Rahtiveloitus tuotenumero
+        rahtikirja: Rahtikirjatyyppi
+        rahtikirjakopio_email:
+        sallitut_alustat: Sallitut keräilyalustat
+        sallitut_maat: Sallitut maat
+        selite: Nimitys
+        sisamaan_kuljetus: Oletus sisämaan kuljetus
+        sisamaan_kuljetus_kansallisuus: Oletus sisämaan kuljetuksen kansallisuus
+        sisamaan_kuljetusmuoto: Oletus sisämaan kuljetusmuoto
+        sopimusnro: Rahtisopimusnumero
+        toim_maa: Koontirahtikirjan maa
+        toim_nimi: Koontirahtikirjan nimi
+        toim_nimitark: Koontirahtikirjan nimitarkenne
+        toim_osoite: Koontirahtikirjan osoite
+        toim_ovttunnus: Koontirahtikirjan OVT-tunnus
+        toim_postino: Koontirahtikirjan postinumero
+        toim_postitp: Koontirahtikirjan postitoimipaikka
+        tulostustapa: Tulostustapa
+        ulkomaanlisa: Rahtikulujen ulkomaanlisä
+        uudet_pakkaustiedot: Koontirahtikirjan pakkaustiedot
+        vaihtoehtoinen_vak_toimitustapa: VAK-tuotteet omalle tilaukselle
+        vak_kielto: VAK-käsittely
+        virallinen_selite: Virallinen nimi
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -327,6 +382,7 @@ fi:
       cash_register: Kassalipas
       currency: Valuutta
       customer: Asiakas
+      delivery_method: Toimitustapa
       fiscal_year: Tilikausi
       fixed_assets/commodity: Käyttöomaisuuden hyödyke
       head/purchase_invoice/approval: Ostolasku hyväksyttävänä
@@ -341,6 +397,7 @@ fi:
       head/voucher: Tosite
       keyword/custom_attribute: Ylläpitonäkymän kenttä
       keyword/customer_category: Asiakasosasto
+      keyword/customer_group: Asiakasluokka
       keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       package: Pakkaus
@@ -478,6 +535,175 @@ fi:
       visibility_options:
         hidden: Kenttää ei näytetä näkymässä
         visible: Kenttä näytetään näkymässä
+    delivery_methods:
+      adr_prohibition_options:
+        adr_prohibition: Toimitustavalla ei saa toimittaa VAK-tuotteita
+        adr_shipment: VAK-tuotteet toimitetaan toimitustavalla
+        permit_adr: Toimitustavalla saa toimittaa VAK-tuotteita
+      alternative_adr_delivery_method_options:
+        adr_products_transfer_permit: VAK-tuotteet siirretään omalle tilaukselleen toimitustavalla
+        adr_products_transfer_prohibition: VAK-tuotteita ei siirretä omalle tilaukselleen
+      cash_on_delivery_prohibition_options:
+        cash_on_delivery_permitted: Toimitustavalla saa toimittaa jälkivaatimuksia
+        cash_on_delivery_prohibition: Toimitustavalla ei saa toimittaa jälkivaatimuksia
+      container_options:
+        includes_container: Kyllä
+        not_including_container: Ei
+      create:
+        create_success: Toimitustapa luotiin onnistuneesti
+      departures:
+        collecting_start_time: Keräilyn aloitusaika
+        control_character: Ohjausmerkki
+        customer_group: Asiakasluokka
+        day_of_the_week: Lähdön viikonpäivä
+        day_of_the_week_options:
+          friday: Perjantai
+          monday: Maanantai
+          saturday: Lauantai
+          sunday: Sunnuntai
+          thursday: Torstai
+          tuesday: Tiistai
+          wednesday: Keskiviikko
+        last_ordering_time: Viimeinen tilausaika
+        link_new: Lisää uusi lähtö
+        no_selected:
+          customer_group: Ei asiakasluokkaa
+          day: Ei valittua päivää
+          terminal_area: Ei terminaalialuetta
+          warehouse: Ei varastoa
+        start_date: Alkamispäivämäärä
+        status: Tila
+        status_options:
+          in_use: Käytössä
+          not_in_use: Ei käytössä
+        terminal_area: Terminaalialue
+        time: Lähdön kellonaika
+        warehouse: Varasto
+      destroy:
+        destroy_success: Toimitustapa poistettiin onnistuneesti
+      edit:
+        button_remove: Poista toimitustapa
+        confirm_remove: Oletko varma, että haluat poistaa toimitustavan?
+        departures:
+          header: Toimitustavan lähdöt
+        header: Toimitustapa
+        no_select: Ei valintaa
+        translations:
+          header: Toimitustavan käännökset
+      extranet_options:
+        both_in_sales_and_extranet: Toimitustapa näytetään molemmissa
+        only_in_extranet: Toimitustapa näytetään vain extranetissä
+        only_in_sales: Toimitustapa näytetään vain myynnissä
+      freight_contract_options:
+        receiver_freight_contract: Käytetään vastaanottajan rahtisopimusta
+        sender_freight_contract: Käytetään lähettäjän rahtisopimusta
+      index:
+        button_search: Etsi
+        header: Toimitustavat
+      label_options:
+        compact_label: Tiivistetty
+        intrade_label: Intrade
+        normal_label: Normaali
+        simple_label: Yksinkertainen, tulostusmedia valitaan kirjoittimen takaa
+      logy_waybill_number_options:
+        not_using_logy_waybill_numbers: Ei käytetä LOGY-rahtikirjanumeroita
+        use_logy_waybill_numbers: Käytetään LOGY-rahtikirjanumeroita
+      new_packaging_information_options:
+        package_info_entry_allowed: Koonti-erätulostuksessa voi syöttää uudet pakkaustiedot ennen tulostusta
+        package_info_entry_denied: Koonti-erätulostuksessa ei voi syöttää uusia pakkaustietoja ennen tulostusta
+      packing_line_prohibition_options:
+        not_reserving_packing_line: Toimitustavan tilaukaset eivät varaa pakkaamolokeroa
+        reserve_packing_line: Toimitustavan tilaukset varaavat pakkaamolokeron
+      pickup_options:
+        pickup: Asiakas noutaa tilaukset
+        shipment: Tilaukset toimitetaan asiakkaalle
+      print_method_options:
+        batch: Erätulostus
+        collective_batch: Koonti-erätulostus
+        collective_instant: Koonti-hetitulostus
+        instant: Hetitulostus
+        skip_print: Rahtikirjansyöttö ja -tulostus ohitetaan
+      saturday_delivery_options:
+        not_saturday_delivery: Ei lauantaijakelua
+        saturday_delivery: Itella lisäpalvelu - Lauantaijakelu
+      special_packaging_prohibition_options:
+        special_packaging_permitted: Toimitustavalla saa toimittaa erikoispakkauksia
+        special_packaging_prohibition: Toimitustavalla ei saa toimittaa erikoispakkauksia
+      transport_unit_options:
+        not_transport_unit: Ei kuljetusyksikkökuljetusta
+        transport_unit: Itella lisäpalvelu - Kuljetusyksikkökuljetus
+      transportation_insurance_type_options:
+        currency_based_insurance: Valuuttamääräinen kuljetusvakuutus lisätään
+        currency_based_insurance_with_discount: Valuuttamääräinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakashintaa ja alennusta
+        no_transportation_insurance: Ei kuljetusvakuutusta
+        percentage_based_insurance: Prosentuaalinen kuljetusvakuutus lisätään
+        percentage_based_insurance_with_discount: Prosentuaalinen kuljetusvakuutus lisätään. Käytetään kuljetusvakuutustuotteen asiakasalennusta
+        use_company_default: Yhtiön oletus
+      update:
+        alternative_adr_delivery_methods:
+          one: Päivitettiin %{count} vaihtoehtoista vak toimitustapa
+          other: Päivitettiin %{count} vaihtoehtoista vak toimitustapaa
+        customer_keywords:
+          one: Päivitettiin %{count} asiakkaan avainsana
+          other: Päivitettiin %{count} asiakkaan avainsanaa
+        customers:
+          one: Päivitettiin %{count} asiakas
+          other: Päivitettiin %{count} asiakasta
+        delivery_methods:
+          one: Päivitettiin %{count} toimitustapa
+          other: Päivitettiin %{count} toimitustapaa
+        freight_contracts:
+          one: Päivitettiin %{count} rahtisopimus
+          other: Päivitettiin %{count} rahtisopimusta
+        freights:
+          one: Päivitettiin %{count} rahtimaksu
+          other: Päivitettiin %{count} rahtimaksua
+        not_delivered_sales_orders:
+          one: Päivitettiin %{count} myyntitilauksen otsikko
+          other: Päivitettiin %{count} myyntitilauksen otsikkoa
+        not_delivered_stock_transfers:
+          one: Päivitettiin %{count} siirtolistan otsikko
+          other: Päivitettiin %{count} siirtolistan otsikkoa
+        not_manufactured_manufacture_orders:
+          one: Päivitettiin %{count} valmistuksen otsikko
+          other: Päivitettiin %{count} valmistuksen otsikkoa
+        not_printed_waybills:
+          one: Päivitettiin %{count} tulostamaton rahtikirja
+          other: Päivitettiin %{count} tulostamatonta rahtikirjaa
+        offer_orders:
+          one: Päivitettiin %{count} tarjouksen otsikko
+          other: Päivitettiin %{count} tarjouksen otsikkoa
+        preorders:
+          one: Päivitettiin %{count} ennakkotilauksen otsikko
+          other: Päivitettiin %{count} ennakkotilauksen otsikkoa
+        project_orders:
+          one: Päivitettiin %{count} projektin otsikko
+          other: Päivitettiin %{count} projektin otsikkoa
+        reclamation_orders:
+          one: Päivitettiin %{count} reklamaation otsikko
+          other: Päivitettiin %{count} reklamaation otsikkoa
+        sales_order_drafts:
+          one: Päivitettiin %{count} kesken oleva myyntitilauksen otsikko
+          other: Päivitettiin %{count} kesken olevaa myyntitilauksen otsikkoa
+        update_success: Toimitustapa päivitettiin onnistuneesti
+        work_orders:
+          one: Päivitettiin %{count} työmääräyksen otsikko
+          other: Päivitettiin %{count} työmääräyksen otsikkoa
+      waybill_options:
+        dpd_ftp: DPD ftp-siirto
+        dpd_waybill: DPD A5 PDF-rahtikirja
+        generic_a4: Yleisrahtikirja A4 PDF
+        itella_a5: Postin A5 PDF-rahtikirja
+        itella_priority_foreign: Itella Priority Ulkomaa
+        itella_thermal: Postin lämpösiirto-rahtikirja
+        no_waybill: Rahtikirjaa ei tulosteta
+        unifaun_online: Unifaun Online
+        unifaun_print_server: Unifaun Print Server
+        ups_ftp: UPS ftp-siirto
+      waybill_specification_options:
+        no_waybill_specification: Toimitustavalle ei tulosteta rahtikirjaerittelyä
+        print_waybill_specification: Toimitustavalle tulostetaan rahtikirjaerittely
+        print_waybill_specification_per_customer: Toimitustavalle tulostetaan rahtikirjaerittely per asiakas
     fiscal_years:
       create:
         create_success: Tilikausi perustettiin onnistuneesti
@@ -757,6 +983,25 @@ fi:
       kateistilitys_missing: Käteistilitystili puuttuu tai sitä ei löydy
       luottokortti_missing: Luottokorttitili puuttuu tai sitä ei löydy
       pankkikortti_missing: Pankkikorttitili puuttuu tai sitä ei löydy
+    delivery_method:
+      in_use_adr: 'HUOM: Et voi asettaa toimitustavalle VAK-kieltoa, sillä muut toimitustavat käyttävät tätä toimitustapaa vaihtoehtoisena VAK-toimitustapana'
+      in_use_customer_keywords: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaan avainsanassa'
+      in_use_customers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
+      in_use_delivery_method: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimitustavalla'
+      in_use_freight_contracts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtisopimuksella'
+      in_use_freights: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtimaksulla'
+      in_use_manufacture_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} valmistuksella'
+      in_use_offer_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} tarjouksella'
+      in_use_preorders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} ennakkotilauksella'
+      in_use_project_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} projektilla'
+      in_use_reclamation_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} reklamaatiolla'
+      in_use_sales_order_drafts: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
+      in_use_sales_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+      in_use_stock_transfers: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} siirtolistalla'
+      in_use_waybills: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} rahtikirjalla'
+      in_use_work_orders: 'HUOM: Toimitustapaa ei voi poistaa, koska se on käytössä %{count} työmääräyksellä'
+      product_not_in_inventory_management: Tuotetta ei löydy / tuote pitää olla saldoton
+      unifaun_info_missing: 'HUOM: Koontierätulostus ei toimi Unifaun Online rahtikirjan kanssa ilman koontirahtikirjan pakkaustietoja'
     format: "%{attribute} %{message}"
     import:
       action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
@@ -835,6 +1080,9 @@ fi:
         depreciation_difference_amount: Poistoerorivit
         depreciation_rows_amount: Poistorivit
         header: Poistorivit
+      destroy_commodity:
+        destroy_failure: Hyödykkeen poisto epäonnistui
+        destroy_success: Hyödykkeen poisto onnistui
       edit:
         button_activate: Aktivoi hyödyke
         button_add_invoice_rows: Liitä ostolaskurivejä
@@ -900,9 +1148,6 @@ fi:
         button_add: Liitä
         button_search: Etsi
         header: Liitä tositerivejä
-      destroy_commodity:
-        destroy_success: Hyödykkeen poisto onnistui
-        destroy_failure: Hyödykkeen poisto epäonnistui
   helpers:
     select:
       prompt: Valitse

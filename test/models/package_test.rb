@@ -60,4 +60,9 @@ class PackageTest < ActiveSupport::TestCase
 
     assert_equal 100, Package.new.kayttoprosentti
   end
+
+  test "translated description" do
+    assert_equal "Terästynnyri", @package.translated_description(:fi)
+    assert_equal "Steel Barrel", @package.translated_description(:en)
+  end
 end

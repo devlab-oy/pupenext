@@ -16,6 +16,7 @@
     customers
     data_export
     data_import
+    delivery_methods
     depreciation_difference
     downloads
     fiscal_years

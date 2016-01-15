@@ -1,4 +1,5 @@
 DEFAULTS: &DEFAULTS
+  yhtio: acme
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -23,20 +24,17 @@ DEFAULTS: &DEFAULTS
 
 # Myyntitilaus
 so_one:
-  yhtio: acme
   tila: L
   <<: *DEFAULTS
 
-
 not_delivered_order_1:
-  yhtio: acme
   tila: L
   alatila: A
   terms_of_payment: eighty_days_net
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS
 
 not_delivered_order_2:
-  yhtio: acme
   tila: L
   alatila: C
   terms_of_payment: ninety_days_net

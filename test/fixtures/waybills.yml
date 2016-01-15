@@ -1,0 +1,7 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+
+waybill_one:
+  toimitustapa: Kaukokiito
+  tulostettu: 0
+  <<: *DEFAULTS

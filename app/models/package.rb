@@ -37,6 +37,12 @@ class Package < BaseModel
     company.parameter.varastopaikkojen_maarittely == "M"
   end
 
+  def translated_description(locale)
+    return pakkauskuvaus if locale.downcase == Current.company.kieli.downcase
+
+    translations.find_by(kieli: locale).try(:selitetark) || pakkauskuvaus
+  end
+
   private
 
     def initial_values

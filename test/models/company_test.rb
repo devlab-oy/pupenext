@@ -23,10 +23,12 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.commodities.count > 0
     assert @acme.cost_centers.count > 0
     assert @acme.currencies.count > 0
+    assert @acme.customer_transports.count > 0
     assert @acme.customers.count > 0
     assert @acme.factorings.count > 0
     assert @acme.fiscal_years.count > 0
     assert @acme.keywords.count > 0
+    assert @acme.locations.count > 0
     assert @acme.manufacture_orders.count > 0
     assert @acme.package_codes.count > 0
     assert @acme.packages.count > 0
@@ -43,8 +45,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.suppliers.count > 0
     assert @acme.targets.count > 0
     assert @acme.terms_of_payments.count > 0
-    assert_equal 1, @acme.transports.count
-    assert_equal 2, @acme.customer_transports.count
+    assert @acme.transports.count > 0
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
   end

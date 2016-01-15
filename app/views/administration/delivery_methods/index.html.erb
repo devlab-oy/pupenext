@@ -1,0 +1,60 @@
+<%= render "administration/header", text: t('.header') %>
+<%= render "administration/notice" %>
+
+<%= button_to_new :delivery_method %>
+
+<br /><br />
+
+<%= form_tag delivery_methods_path, method: :get do %>
+
+  <table>
+    <tr>
+      <th>
+        <%= sortable "selite", DeliveryMethod.human_attribute_name(:selite) %>
+        <br />
+        <%= text_field_tag :selite, params[:selite] %>
+      </th>
+
+      <th>
+        <%= sortable "sopimusnro", DeliveryMethod.human_attribute_name(:sopimusnro) %>
+        <br />
+        <%= text_field_tag :sopimusnro, params[:sopimusnro] %>
+      </th>
+
+      <th>
+        <%= sortable "jarjestys", DeliveryMethod.human_attribute_name(:jarjestys) %>
+        <br />
+        <%= text_field_tag :jarjestys, params[:jarjestys] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+  <% @delivery_methods.each do |delivery_method| %>
+    <tr>
+      <td>
+        <%= link_to delivery_method.selite, edit_delivery_method_path(delivery_method.id) %>
+      </td>
+
+      <td>
+        <%= delivery_method.sopimusnro %>
+      </td>
+
+      <td>
+        <%= delivery_method.jarjestys %>
+      </td>
+
+      <td class="back">
+      </td>
+    </tr>
+  <% end %>
+
+  </table>
+
+<% end %>
+
+<br/>
+
+<%= button_to_new :delivery_method %>

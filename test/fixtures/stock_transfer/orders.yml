@@ -24,4 +24,5 @@ DEFAULTS: &DEFAULTS
 st_one:
   yhtio: acme
   tila: G
+  toimitustapa: Kaukokiito
   <<: *DEFAULTS

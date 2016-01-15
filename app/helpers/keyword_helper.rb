@@ -28,4 +28,20 @@ module KeywordHelper
       [ 'Venäjä',   'ru' ],
     ]
   end
+
+  def mode_of_transport_options
+    Keyword::ModeOfTransport.pluck(:selitetark, :selite)
+  end
+
+  def nature_of_transaction_options
+    Keyword::NatureOfTransaction.pluck(:selitetark, :selite)
+  end
+
+  def customs_options
+    Keyword::Customs.pluck("CONCAT(selite, ' ', selitetark)", :selite)
+  end
+
+  def sorting_point_options
+    Keyword::SortingPoint.pluck(:selitetark, :selite)
+  end
 end
