@@ -2,8 +2,9 @@ require 'test_helper'
 
 class StockTransfer::RowTest < ActiveSupport::TestCase
   fixtures %w(
-    stock_transfer/rows
+    products
     stock_transfer/orders
+    stock_transfer/rows
   )
 
   setup do
