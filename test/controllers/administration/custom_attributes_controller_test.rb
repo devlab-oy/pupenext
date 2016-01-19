@@ -17,7 +17,7 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     get :index
     assert_response :success
     assert_template :index
-    assert_equal 2, assigns(:attribute_set).count
+    assert_equal 0, assigns(:attribute_set).count
 
     get :index, table_alias_set: 'notfound+search'
     assert_response :success
@@ -58,7 +58,7 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
       post :create, custom_attribute: params
     end
 
-    assert_redirected_to custom_attributes_path
+    assert_redirected_to custom_attributes_path(table_alias_set: "toimi+MINISET")
   end
 
   test 'should not create attribute' do
@@ -77,7 +77,7 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
     params = { label: "Foobar" }
 
     patch :update, id: @attribute.id, custom_attribute: params
-    assert_redirected_to custom_attributes_path
+    assert_redirected_to custom_attributes_path(table_alias_set: @attribute.alias_set_name)
   end
 
   test 'should not update attribute' do
@@ -92,6 +92,6 @@ class Administration::CustomAttributesControllerTest < ActionController::TestCas
       delete :destroy, id: @attribute.id
     end
 
-    assert_redirected_to custom_attributes_path
+    assert_redirected_to custom_attributes_path(table_alias_set: @attribute.alias_set_name)
   end
 end

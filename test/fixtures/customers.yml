@@ -1,6 +1,12 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe
+
 stubborn_customer:
   asiakasnro: 100
-  yhtio: acme
   ytunnus: FI12345678
   ovttunnus: 003712345678
   nimi: Very stubborn customer
@@ -9,13 +15,29 @@ stubborn_customer:
   postitp: Helsinki
   maa: fi
   kansalaisuus: fi
+  piiri: Oulu
   email: email@ding.com
   kieli: fi
   valkoodi: eur
   terms_of_payment: sixty_days_net
   osasto: 1
   ryhma: 10
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
+
+lissu:
+  asiakasnro: 200
+  ytunnus: FI3487923
+  ovttunnus: 00373487923
+  nimi: Parturikampaamo Lissu
+  osoite: Katu 1 B 2
+  postino: 00100
+  postitp: Turku
+  maa: fi
+  kansalaisuus: fi
+  email: lissu@example.com
+  kieli: fi
+  valkoodi: eur
+  terms_of_payment: sixty_days_net
+  osasto: 1
+  ryhma: 10
+  <<: *DEFAULTS

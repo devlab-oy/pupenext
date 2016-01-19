@@ -1,10 +1,13 @@
 class Account < BaseModel
   include Searchable
 
-  has_one    :commodity,   class_name: 'FixedAssets::Commodity'
   belongs_to :project,     class_name: 'Qualifier::Project',    foreign_key: :projekti
   belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde
   belongs_to :cost_center, class_name: 'Qualifier::CostCenter', foreign_key: :kustp
+
+  has_many :commodities, through: :voucher_rows, class_name: 'FixedAssets::Commodity', source: :commodity
+  has_many :voucher_rows,                        class_name: 'Head::VoucherRow', foreign_key: :tilino, primary_key: :tilino
+  has_many :vouchers, through: :voucher_rows,    class_name: 'Head::Voucher', source: :voucher
 
   with_options primary_key: :taso do |o|
     o.belongs_to :internal,  class_name: 'SumLevel::Internal',  foreign_key: :sisainen_taso
@@ -52,6 +55,14 @@ class Account < BaseModel
 
   def tilino_nimi
     "#{tilino} - #{nimi}"
+  end
+
+  def self.profit_and_loss_accounts
+    where("ulkoinen_taso LIKE ?", "3%")
+  end
+
+  def self.balance_sheet_accounts
+    where("LEFT(ulkoinen_taso, 1) < ?", "3")
   end
 
   private

@@ -7,11 +7,13 @@ class CustomerTest < ActiveSupport::TestCase
     keyword/customer_categories
     keyword/customer_subcategories
     products
+    sales_order/details
     transports
   )
 
   setup do
     @one                    = customers :stubborn_customer
+    @lissu                  = customers :lissu
     @hammer                 = products :hammer
     @helmet                 = products :helmet
     @ski                    = products :ski
@@ -21,14 +23,16 @@ class CustomerTest < ActiveSupport::TestCase
 
   test 'fixtures are valid' do
     assert @one.valid?
+    assert @lissu.valid?
   end
 
   test 'relations' do
-    assert_not_equal 0, @one.transports.count
+    assert_equal 2, @one.transports.count
     assert_equal @customer_category_1, @one.category
     assert_equal @customer_subcategory_1, @one.subcategory
     assert @one.prices.count > 0
     assert @one.products.count > 0
+    assert_equal "9", @one.sales_details.first.tila
   end
 
   test 'contract_price?' do

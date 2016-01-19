@@ -12,16 +12,27 @@
   <% if @commodity.activated? %>
     <br/><br/>
     <%= form_tag(commodity_generate_rows_path(@commodity), method: "post") do %>
-      <%= label_tag :selected_fiscal_year %>
+      <%= label_tag :selected_fiscal_year, t('.selected_fiscal_year') %>
       <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
       <%= submit_tag(t('.button_create')) %>
+    <% end %>
+    <br/><br/>
+    <%= form_tag(commodity_delete_rows_path(@commodity), method: "post") do %>
+      <%= label_tag :selected_fiscal_year, t('.selected_fiscal_year') %>
+      <%= select_tag :selected_fiscal_year, options_for_select(@commodity.company.fiscal_years.reverse.map {|tilikausi| ["#{tilikausi.tilikausi_alku} - #{tilikausi.tilikausi_loppu}", tilikausi.tunnus]} ) %>
+      <%= submit_tag(t('.button_delete')) %>
     <% end %>
     <br/><br/>
     <%= button_to t('.button_sell'), commodity_sell_path(@commodity), method: :get %>
   <% elsif @commodity.activated_at.present? %>
     <%= button_to t('.button_activate'), commodity_activate_path(@commodity), method: :post %>
   <% end %>
-
+  <% if @commodity.can_be_destroyed? %>
+    <br/><br/>
+    <%= form_tag(commodity_destroy_commodity_path(@commodity), method: "post") do %>
+      <%= submit_tag(t('.button_delete_commodity')) %>
+    <% end %>
+  <% end %>
   <br/><br/>
 <% end %>
 

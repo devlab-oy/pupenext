@@ -8,6 +8,14 @@
   <br><br>
 <% end %>
 
+<% if flash[:notice] %>
+  <font class='info'>
+    <%= flash[:notice] %>
+  </font>
+
+  <br><br>
+<% end %>
+
 <table>
   <tr class='aktiivi'>
     <th>
@@ -37,4 +45,26 @@
     </td>
   </tr>
 
+  <tr class='aktiivi'>
+    <th rowspan='2'>
+      <%= SalesOrder::Detail.model_name.human %>
+    </th>
+
+    <td>
+      <%= form_for :data_import, url: customer_sales_import_path do |f| %>
+        <%= f.date_select :month_year, discard_day: true %>
+        <%= f.file_field :file %>
+        <%= f.submit t('.import') %>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr class='aktiivi'>
+    <td>
+      <%= form_for :data_import, url: destroy_customer_sales_import_path do |f| %>
+        <%= f.date_select :month_year, discard_day: true %>
+        <%= f.submit t('.destroy'), class: 'poista_btn' %>
+      <% end %>
+    </td>
+  </tr>
 </table>

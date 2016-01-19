@@ -104,6 +104,11 @@ class SumLevelTest < ActiveSupport::TestCase
     assert @profit.valid?, @profit.errors.full_messages
   end
 
+  test "commodity sum level can be a letter" do
+    @commodity.taso = 'C'
+    assert @commodity.valid?, @commodity.errors.full_messages
+  end
+
   test "should have unique sum level in scope" do
     # taso should be unique in scope [:yhtio, :tyyppi]
     new_sum_level = @internal.dup
@@ -206,6 +211,7 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "SumLevel::Commodity should have multiple accounts" do
+    assert_equal 1, @commodity.accounts.count
     assert_not_nil @commodity.poistovasta_account.tilino
     assert_not_nil @commodity.poistoero_account.tilino
     assert_not_nil @commodity.poistoerovasta_account.tilino

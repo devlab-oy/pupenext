@@ -324,7 +324,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should generate rows' do
-     params = {
+    params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:two),
       user_id: users(:bob).id
@@ -334,5 +334,59 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     assert_response :found
     assert assigns(:commodity).commodity_rows
     assert assigns(:commodity).voucher.rows
+  end
+
+  test 'should delete generated rows' do
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+    post :generate_rows, params
+    assert_equal 9, assigns(:commodity).commodity_rows.count
+    assert_equal 36, assigns(:commodity).voucher.rows.count
+
+    post :delete_rows, params
+    assert_response :found
+    assert_equal 0, assigns(:commodity).commodity_rows.count
+    assert_equal 0, assigns(:commodity).voucher.rows.count
+  end
+
+  test 'should destroy commodity and procurement rows if viable' do
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+    post :generate_rows, params
+    assert_equal 9, assigns(:commodity).commodity_rows.count
+    assert_equal 36, assigns(:commodity).voucher.rows.count
+
+    # Fails because commodity and voucher rows exist
+    post :destroy_commodity, params
+    assert_response :found
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+
+    post :delete_rows, params
+    assert_response :found
+    assert_equal 0, assigns(:commodity).commodity_rows.count
+    assert_equal 0, assigns(:commodity).voucher.rows.count
+
+    # Only 1 commodity exists and it can be destroyed
+    assert_equal 1, companies(:acme).commodities.count
+    assert_equal true, @commodity.can_be_destroyed?
+
+    # Commodity procurement row count
+    assert_equal 1, Head::VoucherRow.where.not(commodity_id: nil).count
+
+    # Succeeds because no commodity or voucher rows exist
+    post :destroy_commodity, params
+    assert_response :found
+    assert_redirected_to commodities_path
+    assert_equal 0, companies(:acme).commodities.count
+
+    # Test that related records are destroyed
+    # Commodity procurement row count
+    assert_equal 0, Head::VoucherRow.where.not(commodity_id: nil).count
   end
 end

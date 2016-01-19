@@ -1,9 +1,5 @@
 <%= render "administration/header", text: t('.header') %>
 
-<%= button_to_new 'keyword/custom_attribute', new_custom_attribute_path %>
-
-<hr>
-
 <%= form_tag custom_attributes_path, method: :get do %>
   <%= select_tag :table_alias_set,
       options_for_select(custom_attribute_set_options, params[:table_alias_set]),
@@ -14,76 +10,84 @@
 
 <br><br>
 
-<table>
+<% if params[:table_alias_set].present? %>
+  <%= button_to "Uusi #{params[:table_alias_set]} kenttä", new_custom_attribute_path, method: :get, params: { table_alias_set: params[:table_alias_set] } %>
+<% else %>
+  <%= button_to_new 'keyword/custom_attribute', new_custom_attribute_path %>
+<% end %>
 
-  <tr>
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:database_field) %>
-    </th>
+<% if @attribute_set.present? %>
+  <br><br>
 
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:label) %>
-    </th>
+  <table>
 
-    <% if params[:table_alias_set].blank? %>
+    <tr>
       <th>
-        <%= Keyword::CustomAttribute.human_attribute_name(:set_name) %>
+        <%= Keyword::CustomAttribute.human_attribute_name(:database_field) %>
       </th>
-    <% end %>
 
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:default_value) %>
-    </th>
-
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:help_text) %>
-    </th>
-
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:visibility) %>
-    </th>
-
-    <th>
-      <%= Keyword::CustomAttribute.human_attribute_name(:required) %>
-    </th>
-  </tr>
-
-  <% @attribute_set.each do |attribute| %>
-    <tr class='aktiivi'>
-      <td>
-        <%= link_to attribute.database_field, edit_custom_attribute_path(attribute) %>
-      </td>
-
-      <td>
-        <%= attribute.label %>
-      </td>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:label) %>
+      </th>
 
       <% if params[:table_alias_set].blank? %>
-        <td>
-          <%= attribute.set_name %>
-        </td>
+        <th>
+          <%= Keyword::CustomAttribute.human_attribute_name(:set_name) %>
+        </th>
       <% end %>
 
-      <td>
-        <%= attribute.default_value %>
-      </td>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:default_value) %>
+      </th>
 
-      <td>
-        <%= attribute.help_text %>
-      </td>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:help_text) %>
+      </th>
 
-      <td>
-        <%= attribute.visibility %>
-      </td>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:visibility) %>
+      </th>
 
-      <td>
-        <%= attribute.required %>
-      </td>
+      <th>
+        <%= Keyword::CustomAttribute.human_attribute_name(:required) %>
+      </th>
     </tr>
-  <% end %>
 
-</table>
+    <% @attribute_set.each do |attribute| %>
+      <tr class='aktiivi'>
+        <td>
+          <%= link_to attribute.database_field, edit_custom_attribute_path(attribute) %>
+        </td>
 
-<br>
+        <td>
+          <%= attribute.label %>
+        </td>
 
-<%= button_to_new 'keyword/custom_attribute', new_custom_attribute_path %>
+        <% if params[:table_alias_set].blank? %>
+          <td>
+            <%= attribute.set_name %>
+          </td>
+        <% end %>
+
+        <td>
+          <%= attribute.default_value %>
+        </td>
+
+        <td>
+          <%= attribute.help_text %>
+        </td>
+
+        <td>
+          <%= attribute.visibility %>
+        </td>
+
+        <td>
+          <%= attribute.required %>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
+  <br>
+<% end %>

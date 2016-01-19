@@ -1,0 +1,14 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  toimaika: <%= Date.today %>
+  kerayspvm: <%= Date.today %>
+  laadittu: <%= Time.now %>
+  kerattyaika: <%= Time.now %>
+  toimitettuaika: <%= Time.now %>
+  laskutettuaika: <%= Time.now %>
+
+do_row_one:
+  order: do_one
+  tuoteno: hammer123
+  tyyppi: 9
+  <<: *DEFAULTS

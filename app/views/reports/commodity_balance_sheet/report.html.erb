@@ -1,0 +1,60 @@
+<%= render "administration/header", text: t('reports.commodity_balance_sheet.index.header') %>
+
+<font class='head'>
+  <%=l @report.start_date %> - <%=l @report.end_date %><br><br>
+</font>
+
+<%= return_link t('reports.commodity_balance_sheet.index.header'), commodity_balance_sheet_index_path %>
+
+<br><br>
+
+<table>
+
+  <% @report.data.sum_levels.each do |sum_level| %>
+    <% sum_level.accounts.each do |account| %>
+      <tr>
+        <th><%= account.name %></th>
+        <th style='text-align: right;'><%=t '.deprication' %></th>
+        <th style='text-align: right;'><%=t '.btl' %></th>
+        <th style='text-align: right;'><%=t '.difference' %></th>
+      </tr>
+
+      <tr>
+        <th><%=t '.beginning_of_period' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency 0.0, unit: '' %></th>
+      </tr>
+
+      <% account.commodities.each do |commodity| %>
+        <tr class='aktiivi'>
+          <td><%= commodity.name %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.deprication, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <th><%=t '.change_total' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+      </tr>
+
+      <tr>
+        <th><%=t '.end_of_period' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.closing_btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+      </tr>
+
+      <tr>
+        <td class='back'><br></td>
+      </tr>
+    <% end %>
+  <% end %>
+
+</table>
+
+<%= return_link t('reports.commodity_balance_sheet.index.header'), commodity_balance_sheet_index_path %>
