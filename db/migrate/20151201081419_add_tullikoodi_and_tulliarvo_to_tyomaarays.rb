@@ -1,3 +1,6 @@
+require File.expand_path('test/permission_helper')
+include PermissionHelper
+
 class AddTullikoodiAndTulliarvoToTyomaarays < ActiveRecord::Migration
   def up
     add_column :tyomaarays, :tullikoodi, :string, limit: 8, default: '', null: false, after: :koodi
@@ -8,6 +11,13 @@ class AddTullikoodiAndTulliarvoToTyomaarays < ActiveRecord::Migration
     add_column :tyomaarays, :kuljetusmuoto, :integer, limit: 1, default: 0, null: false, after: :maa_alkupera
     add_column :tyomaarays, :kauppatapahtuman_luonne, :integer, limit: 2, default: 0, null: false, after: :kuljetusmuoto
     add_column :tyomaarays, :bruttopaino, :decimal, precision: 8, scale: 2, default: 0.0, null: false, after: :kauppatapahtuman_luonne
+
+    PermissionHelper.add_item(
+      program: 'Vienti',
+      name: 'Työmääräyksen lisätiedot',
+      uri: 'tilauskasittely/vientitilauksen_lisatiedot.php',
+      suburi: 'TYOMAARAYS'
+    )
   end
 
   def down
@@ -19,5 +29,10 @@ class AddTullikoodiAndTulliarvoToTyomaarays < ActiveRecord::Migration
     remove_column :tyomaarays, :kuljetusmuoto
     remove_column :tyomaarays, :kauppatapahtuman_luonne
     remove_column :tyomaarays, :bruttopaino
+
+    PermissionHelper.remove_all(
+      uri: 'tilauskasittely/vientitilauksen_lisatiedot.php',
+      suburi: 'TYOMAARAYS'
+    )
   end
 end
