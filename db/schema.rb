@@ -2988,6 +2988,12 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.string   "koodi",                     limit: 60,                             default: "",  null: false
     t.string   "tullikoodi",                limit: 8,                              default: "",  null: false
     t.decimal  "tulliarvo",                               precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "maa_lahetys",               limit: 2,                              default: "",  null: false
+    t.string   "maa_maara",                 limit: 2,                              default: "",  null: false
+    t.string   "maa_alkupera",              limit: 2,                              default: "",  null: false
+    t.integer  "kuljetusmuoto",             limit: 1,                              default: 0,   null: false
+    t.integer  "kauppatapahtuman_luonne",   limit: 2,                              default: 0,   null: false
+    t.decimal  "bruttopaino",                             precision: 8,  scale: 2, default: 0.0, null: false
     t.integer  "sla",                       limit: 4,                              default: 0,   null: false
     t.string   "valmistajan_sopimusnumero", limit: 60,                             default: "",  null: false
     t.date     "tuotu",                                                                          null: false
