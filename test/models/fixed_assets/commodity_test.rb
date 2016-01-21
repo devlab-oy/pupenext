@@ -41,6 +41,15 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal @commodity.amount, @commodity.procurement_rows.sum(:summa)
   end
 
+  test 'procurement amount' do
+    @commodity.transferred_procurement_amount = 0.0
+    assert_equal @commodity.procurement_rows.sum(:summa), @commodity.procurement_amount
+
+    transfered_amount = 1003.35
+    @commodity.transferred_procurement_amount = transfered_amount
+    assert_equal transfered_amount, @commodity.procurement_amount
+  end
+
   test 'required fields when activated' do
     new_commodity = @commodity.company.commodities.new
     new_commodity.name = 'Kissa'

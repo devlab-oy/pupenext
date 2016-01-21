@@ -37,6 +37,16 @@
       </td>
     </tr>
     <tr>
+      <th><%= t('.transferred_procurement_amount') %></th>
+      <td>
+        <% if @commodity.activated? %>
+          <%= @commodity.transferred_procurement_amount %>
+        <% else %>
+          <%= f.number_field :transferred_procurement_amount, step: :any %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
       <th><%= t('.cost_centre') %></th>
       <td><%= @commodity.procurement_cost_centres %></td>
     </tr>

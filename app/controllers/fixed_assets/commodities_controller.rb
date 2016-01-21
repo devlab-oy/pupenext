@@ -162,7 +162,8 @@ class FixedAssets::CommoditiesController < AdministrationController
         :cost_centre,
         :target,
         :project,
-        :previous_btl_depreciations
+        :previous_btl_depreciations,
+        :transferred_procurement_amount
       )
     end
 

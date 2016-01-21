@@ -16,7 +16,7 @@ class Keyword::CustomerCategoryTest < ActiveSupport::TestCase
   end
 
   test 'associations work' do
-    assert_equal 1, @one.customers.count
+    assert_equal 2, @one.customers.count
     assert_equal 0, @two.customers.count
   end
 end

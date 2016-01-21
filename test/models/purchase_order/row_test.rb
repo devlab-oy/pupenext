@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class PurchaseOrder::RowTest < ActiveSupport::TestCase
-  fixtures %w(heads purchase_order/rows purchase_order/orders)
+  fixtures %w(
+    heads
+    products
+    purchase_order/orders
+    purchase_order/rows
+  )
 
   setup do
     @one = purchase_order_rows :po_row_one
