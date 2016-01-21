@@ -41,17 +41,6 @@ class FixedAssets::Commodity < BaseModel
     ]
   end
 
-  def self.human_readable_type(type)
-    case type.capitalize.to_sym
-    when :T
-      return I18n.t('fixed_assets.commodities.model.straight_line_annual_rate_month')
-    when :P
-      return I18n.t('fixed_assets.commodities.model.straight_line_annual_rate_percentage')
-    when :B
-      return I18n.t('fixed_assets.commodities.model.declining_annual_rate')
-    end
-  end
-
   def self.options_for_status
     [
       ['Ei aktivoitu', ''],
@@ -79,7 +68,10 @@ class FixedAssets::Commodity < BaseModel
 
   # Sopivat ostolaskurivit
   def linkable_invoice_rows
-    company.purchase_invoice_rows.where(lasku: { tunnus: linkable_head_ids }, tiliointi: { tilino: viable_accounts, commodity_id: nil })
+    company.purchase_invoice_rows.where(
+      lasku: { tunnus: linkable_head_ids },
+      tiliointi: { tilino: viable_accounts, commodity_id: nil }
+    )
   end
 
   # Sopivat tositteet
@@ -89,7 +81,10 @@ class FixedAssets::Commodity < BaseModel
 
   # Sopivat tositerivit
   def linkable_voucher_rows
-    company.voucher_rows.where(lasku: { tunnus: linkable_head_ids } ,tiliointi: { tilino: viable_accounts, commodity_id: nil })
+    company.voucher_rows.where(
+      lasku: { tunnus: linkable_head_ids },
+      tiliointi: { tilino: viable_accounts, commodity_id: nil }
+    )
   end
 
   def activated?
@@ -295,8 +290,12 @@ class FixedAssets::Commodity < BaseModel
     end
 
     def linkable_head_ids
-      ids = Head::VoucherRow.where(tilino: viable_accounts, commodity_id: nil,
-        tapvm: company.open_period.first..company.open_period.last).pluck(:ltunnus).uniq
+      ids = Head::VoucherRow.where(
+        tilino: viable_accounts,
+        commodity_id: nil,
+        tapvm: company.open_period.first..company.open_period.last
+      ).pluck(:ltunnus).uniq
+
       ids.delete(voucher_id)
       ids
     end
