@@ -267,14 +267,18 @@ class CommodityRowGenerator
     def calculate_depreciations(depreciation_type)
       case depreciation_type.to_sym
       when :SUMU
+        bookkeeping_value = commodity.bookkeeping_value(fiscal_start)
+        procurement_amount = commodity.amount
         calculation_type = commodity.planned_depreciation_type
         calculation_amount = commodity.planned_depreciation_amount
         depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
         depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
       when :EVL
+        bookkeeping_value = commodity.btl_value(fiscal_start)
+        procurement_amount = commodity.previous_btl_depreciations > 0.0 ? commodity.previous_btl_depreciations : commodity.amount
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
-        depreciated_sum = commodity.amount - commodity.btl_value(depreciation_start_date)
+        depreciated_sum = procurement_amount - commodity.btl_value(depreciation_start_date)
         depreciation_amount = commodity.commodity_rows.where('fixed_assets_commodity_rows.transacted_at < ?', fiscal_start).count
       else
         raise ArgumentError, 'Invalid depreciation_type'
@@ -284,13 +288,13 @@ class CommodityRowGenerator
       case calculation_type.to_sym
       when :T
         # Tasapoisto kuukausittain
-        fixed_by_month(commodity.amount, calculation_amount, depreciation_amount, depreciated_sum)
+        fixed_by_month(procurement_amount, calculation_amount, depreciation_amount, depreciated_sum)
       when :P
         # Tasapoisto vuosiprosentti
-        fixed_by_percentage(commodity.bookkeeping_value(fiscal_start), calculation_amount)
+        fixed_by_percentage(bookkeeping_value, calculation_amount)
       when :B
         # Menojäännöspoisto vuosiprosentti
-        degressive_by_percentage(commodity.amount, calculation_amount, depreciated_sum)
+        degressive_by_percentage(procurement_amount, calculation_amount, depreciated_sum)
       else
         raise ArgumentError, 'Invalid calculation_type'
       end
