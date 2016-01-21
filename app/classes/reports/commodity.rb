@@ -285,7 +285,7 @@ class Reports::Commodity::Commodity
 
   # hyödykkeen hankintahinta
   def procurement_amount
-    commodity.reported_amount
+    commodity.procurement_amount
   end
 
   # kertyneet sumu-poistot jakson alussa
