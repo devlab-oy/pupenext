@@ -285,7 +285,7 @@ class Reports::Commodity::Commodity
 
   # hyödykkeen hankintahinta
   def procurement_amount
-    amount = commodity.transferred_procurement_amount > 0 ? commodity.transferred_procurement_amount : commodity.amount
+    commodity.reported_amount
   end
 
   # kertyneet sumu-poistot jakson alussa

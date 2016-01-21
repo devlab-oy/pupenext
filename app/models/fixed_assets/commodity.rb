@@ -229,6 +229,11 @@ class FixedAssets::Commodity < BaseModel
     commodity_rows.where(transacted_at: date1..date2).sum(:amount)
   end
 
+  # raporteilla käytettävä hankintahinta
+  def reported_amount
+    reported = transferred_procurement_amount > 0 ? transferred_procurement_amount : amount
+  end
+
   private
 
     def important_values_changed?
