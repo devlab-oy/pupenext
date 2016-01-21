@@ -866,6 +866,7 @@ fi:
         planned_depreciation_amount: SUMU poistomäärä
         planned_depreciation_type: SUMU poistotyyppi
         previous_btl_depreciations: Siirretty EVL arvo
+        transferred_procurement_amount: Siirretty hankintakustannus
         project: Projekti
         status: Tila
         target: Kohde
