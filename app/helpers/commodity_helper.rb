@@ -1,6 +1,6 @@
 module CommodityHelper
   def commodity_type(type)
-    case type.capitalize.to_sym
+    case type.to_s.capitalize.to_sym
     when :T
       return t('fixed_assets.commodities.model.straight_line_annual_rate_month')
     when :P
@@ -8,5 +8,22 @@ module CommodityHelper
     when :B
       return t('fixed_assets.commodities.model.declining_annual_rate')
     end
+  end
+
+  def commodity_options_for_type
+    [
+      ['Valitse',''],
+      ['Tasapoisto kuukausittain','T'],
+      ['Tasapoisto vuosiprosentti','P'],
+      ['Menojäännöspoisto vuosiprosentti','B']
+    ]
+  end
+
+  def commodity_options_for_status
+    [
+      ['Ei aktivoitu', ''],
+      ['Aktivoitu', 'A'],
+      ['Poistettu', 'P']
+    ]
   end
 end

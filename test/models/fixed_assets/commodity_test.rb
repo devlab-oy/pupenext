@@ -13,8 +13,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
-    @options_for_type = FixedAssets::Commodity.options_for_type
-    @options_for_status = FixedAssets::Commodity.options_for_status
   end
 
   test 'fixtures are valid' do
@@ -138,24 +136,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       @commodity.planned_depreciation_type = 'B'
       refute @commodity.valid?
     end
-  end
-
-  test 'should get options for depreciation types' do
-    assert_equal 4, @options_for_type.count
-
-    returned_types = @options_for_type.map(&:last).sort
-    all_types = [ '', 'B', 'P', 'T' ]
-
-    assert_equal all_types, returned_types
-  end
-
-  test 'should get options for commodity statuses' do
-    assert_equal 3, @options_for_status.count
-
-    returned_options = @options_for_status.map(&:last).sort
-    all_statuses = [ '', 'A', 'P' ]
-
-    assert_equal all_statuses, returned_options
   end
 
   test 'procurement row methods work' do

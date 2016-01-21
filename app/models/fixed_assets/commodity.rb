@@ -32,23 +32,6 @@ class FixedAssets::Commodity < BaseModel
 
   before_destroy :wipe_all_records
 
-  def self.options_for_type
-    [
-      ['Valitse',''],
-      ['Tasapoisto kuukausittain','T'],
-      ['Tasapoisto vuosiprosentti','P'],
-      ['Menojäännöspoisto vuosiprosentti','B']
-    ]
-  end
-
-  def self.options_for_status
-    [
-      ['Ei aktivoitu', ''],
-      ['Aktivoitu', 'A'],
-      ['Poistettu', 'P']
-    ]
-  end
-
   def previous_btl_depreciations=(value)
     write_attribute(:previous_btl_depreciations, value.to_d.abs)
   end
