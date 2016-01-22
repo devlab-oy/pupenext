@@ -631,6 +631,7 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.decimal  "amount",                                      precision: 16, scale: 6
     t.decimal  "amount_sold",                                 precision: 16, scale: 6
     t.decimal  "previous_btl_depreciations",                  precision: 16, scale: 6, default: 0.0
+    t.decimal  "transferred_procurement_amount",              precision: 16, scale: 6, default: 0.0
     t.string   "depreciation_remainder_handling", limit: 1
     t.string   "created_by",                      limit: 255
     t.string   "modified_by",                     limit: 255
