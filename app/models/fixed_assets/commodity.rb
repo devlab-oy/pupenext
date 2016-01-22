@@ -160,7 +160,11 @@ class FixedAssets::Commodity < BaseModel
       calculation = accumulated_depreciation_at(end_date)
     end
 
-    amount - calculation.abs
+    if calculation > amount
+      calculation - amount
+    else
+      amount - calculation.abs
+    end
   end
 
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
@@ -185,7 +189,11 @@ class FixedAssets::Commodity < BaseModel
 
   # kertyneet sumu-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
-    depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
+    accumulated = depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
+    if accumulated.zero? && transferred_procurement_amount > 0
+      accumulated = transferred_procurement_amount
+    end
+    accumulated
   end
 
   # kertyneet poistoerot annettuna ajankohtana

@@ -322,4 +322,28 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # Can be destroyed with no commodity_rows and voucher rows present
     assert_equal true, @commodity.can_be_destroyed?
   end
+
+  test 'accumulated depreciation and bookkeeping method uses transferred_procurement_amount' do
+    activation_bookkeeping_value = 10000.0
+    # If rows present, values should not be affected by transferred procurement amount
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
+    assert_equal activation_bookkeeping_value, @commodity.amount
+
+    transferred_amount = 20000.0
+    @commodity.transferred_procurement_amount = transferred_amount
+    assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
+
+    # If rows not present, values should be affected by transferred procurement amount
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).mark_rows_obsolete
+    @commodity.transferred_procurement_amount = 0.0
+    assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal activation_bookkeeping_value, @commodity.bookkeeping_value(Date.today)
+
+    @commodity.transferred_procurement_amount = transferred_amount
+    assert_equal transferred_amount, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal transferred_amount - activation_bookkeeping_value, @commodity.bookkeeping_value(Date.today)
+  end
 end
