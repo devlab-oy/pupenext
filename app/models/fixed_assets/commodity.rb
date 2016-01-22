@@ -177,6 +177,7 @@ class FixedAssets::Commodity < BaseModel
     return false if amount_sold < 0
     return false if deactivated_at.nil?
     return false if deactivated_at.to_date > Date.today
+    return false unless depreciations_generated_until?(deactivated_at.to_date)
     return false unless company.date_in_open_period?(deactivated_at)
     return false unless ['S','E'].include?(depreciation_remainder_handling)
     true
@@ -302,4 +303,11 @@ class FixedAssets::Commodity < BaseModel
       raise ArgumentError unless can_be_destroyed?
       procurement_rows.update_all(commodity_id: nil)
     end
+
+    def depreciations_generated_until?(date)
+      check_start = date.beginning_of_month
+      check_end = date.end_of_month
+      depreciation_rows.where(tapvm: check_start..check_end).count > 0
+    end
+
 end

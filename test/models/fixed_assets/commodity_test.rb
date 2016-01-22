@@ -227,6 +227,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'cant be sold with invalid params' do
+    refute @commodity.can_be_sold?, 'Should not be valid because no depreciations'
     validparams = {
       amount_sold: 9800,
       deactivated_at: Date.today,
@@ -235,6 +236,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       depreciation_remainder_handling: 'S'
     }
     @commodity.attributes = validparams
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
     assert @commodity.can_be_sold?, 'Should be valid'
 
     # Invalid status
