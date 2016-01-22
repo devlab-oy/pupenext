@@ -290,6 +290,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should sell commodity' do
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
     salesparams = {
       commodity_id: @commodity.id,
       amount_sold: 2000,
