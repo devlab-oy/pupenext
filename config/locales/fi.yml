@@ -827,7 +827,7 @@ fi:
       commodity_rows:
         button_show_hide: Näytä/Piilota
         commodity_row_amount: Rivejä
-        header: Evl poistot
+        header: EVL poistot
       confirm_sale:
         sale_failure: Hyödykkeen myynti epäonnistui
         sale_success: Hyödykkeen myynti onnistui
@@ -840,7 +840,7 @@ fi:
         button_show_hide: Näytä/Piilota
         depreciation_difference_amount: Poistoerorivit
         depreciation_rows_amount: Poistorivit
-        header: Poistorivit
+        header: SUMU Poistot
       destroy_commodity:
         destroy_failure: Hyödykkeen poisto epäonnistui
         destroy_success: Hyödykkeen poisto onnistui
