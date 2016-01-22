@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160115101615) do
+ActiveRecord::Schema.define(version: 20160119103822) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2976,40 +2976,48 @@ ActiveRecord::Schema.define(version: 20160115101615) do
   end
 
   create_table "tyomaarays", primary_key: "otunnus", force: :cascade do |t|
-    t.string   "yhtio",                     limit: 5,     default: "", null: false
-    t.string   "kotipuh",                   limit: 55,    default: "", null: false
-    t.string   "tyopuh",                    limit: 55,    default: "", null: false
-    t.string   "myyjaliike",                limit: 55,    default: "", null: false
-    t.date     "ostopvm",                                              null: false
-    t.string   "rekno",                     limit: 55,    default: "", null: false
-    t.string   "mittarilukema",             limit: 55,    default: "", null: false
-    t.string   "merkki",                    limit: 55,    default: "", null: false
-    t.string   "mallivari",                 limit: 55,    default: "", null: false
+    t.string   "yhtio",                     limit: 5,                              default: "",  null: false
+    t.string   "kotipuh",                   limit: 55,                             default: "",  null: false
+    t.string   "tyopuh",                    limit: 55,                             default: "",  null: false
+    t.string   "myyjaliike",                limit: 55,                             default: "",  null: false
+    t.date     "ostopvm",                                                                        null: false
+    t.string   "rekno",                     limit: 55,                             default: "",  null: false
+    t.string   "mittarilukema",             limit: 55,                             default: "",  null: false
+    t.string   "merkki",                    limit: 55,                             default: "",  null: false
+    t.string   "mallivari",                 limit: 55,                             default: "",  null: false
     t.text     "valmnro",                   limit: 65535
-    t.string   "koodi",                     limit: 60,    default: "", null: false
-    t.integer  "sla",                       limit: 4,     default: 0,  null: false
-    t.string   "valmistajan_sopimusnumero", limit: 60,    default: "", null: false
-    t.date     "tuotu",                                                null: false
-    t.date     "luvattu",                                              null: false
-    t.string   "viite",                     limit: 30,    default: "", null: false
+    t.string   "koodi",                     limit: 60,                             default: "",  null: false
+    t.string   "tullikoodi",                limit: 8,                              default: "",  null: false
+    t.decimal  "tulliarvo",                               precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "maa_lahetys",               limit: 2,                              default: "",  null: false
+    t.string   "maa_maara",                 limit: 2,                              default: "",  null: false
+    t.string   "maa_alkupera",              limit: 2,                              default: "",  null: false
+    t.integer  "kuljetusmuoto",             limit: 1,                              default: 0,   null: false
+    t.integer  "kauppatapahtuman_luonne",   limit: 2,                              default: 0,   null: false
+    t.decimal  "bruttopaino",                             precision: 8,  scale: 2, default: 0.0, null: false
+    t.integer  "sla",                       limit: 4,                              default: 0,   null: false
+    t.string   "valmistajan_sopimusnumero", limit: 60,                             default: "",  null: false
+    t.date     "tuotu",                                                                          null: false
+    t.date     "luvattu",                                                                        null: false
+    t.string   "viite",                     limit: 30,                             default: "",  null: false
     t.text     "komm1",                     limit: 65535
     t.text     "komm2",                     limit: 65535
-    t.string   "viite2",                    limit: 15,    default: "", null: false
-    t.integer  "tilno",                     limit: 4,     default: 0,  null: false
-    t.string   "suorittaja",                limit: 50,    default: "", null: false
-    t.string   "vastuuhenkilo",             limit: 50,    default: "", null: false
-    t.string   "laatija",                   limit: 50,    default: "", null: false
-    t.datetime "luontiaika",                                           null: false
-    t.string   "vikakoodi",                 limit: 50,    default: "", null: false
-    t.string   "tyoaika",                   limit: 50,    default: "", null: false
-    t.string   "tyokoodi",                  limit: 50,    default: "", null: false
-    t.string   "tehdas",                    limit: 80,    default: "", null: false
-    t.integer  "takuunumero",               limit: 4,     default: 0,  null: false
-    t.string   "jalleenmyyja",              limit: 80,    default: "", null: false
-    t.string   "tyojono",                   limit: 100,   default: "", null: false
-    t.string   "tyostatus",                 limit: 100,   default: "", null: false
-    t.string   "prioriteetti",              limit: 150,   default: "", null: false
-    t.string   "hyvaksy",                   limit: 55,    default: "", null: false
+    t.string   "viite2",                    limit: 15,                             default: "",  null: false
+    t.integer  "tilno",                     limit: 4,                              default: 0,   null: false
+    t.string   "suorittaja",                limit: 50,                             default: "",  null: false
+    t.string   "vastuuhenkilo",             limit: 50,                             default: "",  null: false
+    t.string   "laatija",                   limit: 50,                             default: "",  null: false
+    t.datetime "luontiaika",                                                                     null: false
+    t.string   "vikakoodi",                 limit: 50,                             default: "",  null: false
+    t.string   "tyoaika",                   limit: 50,                             default: "",  null: false
+    t.string   "tyokoodi",                  limit: 50,                             default: "",  null: false
+    t.string   "tehdas",                    limit: 80,                             default: "",  null: false
+    t.integer  "takuunumero",               limit: 4,                              default: 0,   null: false
+    t.string   "jalleenmyyja",              limit: 80,                             default: "",  null: false
+    t.string   "tyojono",                   limit: 100,                            default: "",  null: false
+    t.string   "tyostatus",                 limit: 100,                            default: "",  null: false
+    t.string   "prioriteetti",              limit: 150,                            default: "",  null: false
+    t.string   "hyvaksy",                   limit: 55,                             default: "",  null: false
   end
 
   create_table "vaihtoehtoiset_verkkolaskutunnukset", primary_key: "tunnus", force: :cascade do |t|
