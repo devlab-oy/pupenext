@@ -330,7 +330,7 @@ class CommodityRowGenerator
     def amend_future_rows
       # Yliajaa myyntipäivän jälkeiset poistotapahtumat
       date = commodity.deactivated_at
-      commodity.commodity_rows.where("fixed_assets_commodity_rows.transacted_at > ?", date).update_all(amended: true)
+      commodity.commodity_rows.where("fixed_assets_commodity_rows.transacted_at > ?", date.end_of_month).update_all(amended: true)
       commodity.voucher.rows.where("tiliointi.tapvm > ?", date).find_each { |r| r.amend_by(user) }
     end
 
