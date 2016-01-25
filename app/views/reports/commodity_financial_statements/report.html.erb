@@ -27,9 +27,27 @@
       </tr>
 
       <tr class='aktiivi'>
+        <td><%=t '.additions' %></td>
+        <td style='text-align: right;'></td>
+        <td style='text-align: right;'><%= number_to_currency account.total_additions, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.deductions' %></td>
+        <td style='text-align: right;'></td>
+        <td style='text-align: right;'><%= number_to_currency account.total_deductions, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
         <td><%=t '.deprication' %></td>
         <td style='text-align: right;'><%=l @report.start_date %></td>
         <td style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.deprication' %></td>
+        <td style='text-align: right;'></td>
+        <td style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>

@@ -263,6 +263,16 @@ class Reports::Commodity::Account
   def closing_btl_value
     commodities.sum &:closing_btl_value
   end
+
+  # lisäykset yhteensä (aktivoidut hyödykkeet)
+  def total_additions
+    commodities.sum &:additions_in_range
+  end
+
+  # vähennykset yhteensä (myydyt hyödykkeet)
+  def total_deductions
+    commodities.sum &:deductions_in_range
+  end
 end
 
 class Reports::Commodity::Commodity
@@ -355,5 +365,23 @@ class Reports::Commodity::Commodity
   # kertyneet evl-poistot aikavälillä
   def btl
     @btl ||= commodity.evl_between date_range.first, date_range.last
+  end
+
+  # lisäyksen arvo aikavälillä
+  def additions_in_range
+    if (date_range.first..date_range.last).cover?(commodity.activated_at)
+      commodity.procurement_amount
+    else
+      0.0
+    end
+  end
+
+  # vähennyksen arvo aikavälillä
+  def deductions_in_range
+    if (date_range.first..date_range.last).cover?(commodity.deactivated_at)
+      commodity.procurement_amount
+    else
+      0.0
+    end
   end
 end

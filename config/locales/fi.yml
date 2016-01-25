@@ -659,7 +659,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -685,7 +685,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -869,10 +869,10 @@ fi:
         planned_depreciation_amount: SUMU poistomäärä
         planned_depreciation_type: SUMU poistotyyppi
         previous_btl_depreciations: Siirretty EVL arvo
-        transferred_procurement_amount: Siirretty hankintahinta
         project: Projekti
         status: Tila
         target: Kohde
+        transferred_procurement_amount: Siirretty hankintahinta
       index:
         bookkeeping_value_today: Kirjapidollinen arvo nyt
         description: Kuvaus
@@ -1040,8 +1040,10 @@ fi:
         run: Aja raportti
         start_date: Alkupäivämäärä
       report:
+        additions: Lisäykset
         bookkeeping_closing: Poistamaton osa
         btl_closing: EVL -menojäännös
+        deductions: Vähennykset
         deprication: SUMU -poistot
         difference: Poistoerot
         procurement_amount: Hankintameno
