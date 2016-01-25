@@ -127,8 +127,11 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Lets add one alternative expenditure for previous week
     keyword_one = keywords(:weekly_alternative_expenditure_one)
+
     selite_date = Date.today - 1.week
-    keyword_one.selite = "#{selite_date.cweek} / #{selite_date.year}"
+    selite_date = selite_date.strftime "%Y%V"
+
+    keyword_one.selite = selite_date
     keyword_one.selitetark_2 = '22.30'
     keyword_one.save!
 
