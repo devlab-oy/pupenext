@@ -23,7 +23,7 @@
       <tr class='aktiivi'>
         <td><%=t '.procurement_amount' %></td>
         <td style='text-align: right;'><%=l @report.start_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.procurement_amount_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_procurement_amount_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
@@ -36,6 +36,12 @@
         <td><%=t '.deductions' %></td>
         <td style='text-align: right;'></td>
         <td style='text-align: right;'><%= number_to_currency account.total_deductions, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.procurement_amount' %></td>
+        <td style='text-align: right;'><%=l @report.end_date %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_procurement_amount_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>

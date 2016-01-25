@@ -141,6 +141,14 @@ class Reports::Commodity::SumLevel
     accounts.sum &:procurement_amount_total
   end
 
+  def opening_procurement_amount_total
+    accounts.sum &:opening_procurement_amount_total
+  end
+
+  def closing_procurement_amount_total
+    accounts.sum &:closing_procurement_amount_total
+  end
+
   def opening_deprication_total
     accounts.sum &:opening_deprication_total
   end
@@ -273,6 +281,14 @@ class Reports::Commodity::Account
   def total_deductions
     commodities.sum &:deductions_in_range
   end
+
+  def opening_procurement_amount_total
+    commodities.sum &:opening_procurement_amount
+  end
+
+  def closing_procurement_amount_total
+    commodities.sum &:closing_procurement_amount
+  end
 end
 
 class Reports::Commodity::Commodity
@@ -367,7 +383,7 @@ class Reports::Commodity::Commodity
     @btl ||= commodity.evl_between date_range.first, date_range.last
   end
 
-  # lisäyksen arvo aikavälillä
+  # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range
     if (date_range.first..date_range.last).cover?(commodity.activated_at)
       commodity.procurement_amount
@@ -376,12 +392,26 @@ class Reports::Commodity::Commodity
     end
   end
 
-  # vähennyksen arvo aikavälillä
+  # hankintahinnan vähennykset aikavälillä (myydyt)
   def deductions_in_range
     if (date_range.first..date_range.last).cover?(commodity.deactivated_at)
       commodity.procurement_amount
     else
       0.0
     end
+  end
+
+  # kumulatiivinen hankintahinta aikavälin alussa
+  def opening_procurement_amount
+    if commodity.activated_at >= date_range.first
+      commodity.procurement_amount
+    else
+      0.0
+    end
+  end
+
+  # kumulatiivinen hankintahinta aikavälin lopussa
+  def closing_procurement_amount
+    opening_procurement_amount + additions_in_range - deductions_in_range
   end
 end
