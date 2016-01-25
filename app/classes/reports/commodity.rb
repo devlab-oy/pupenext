@@ -403,7 +403,7 @@ class Reports::Commodity::Commodity
 
   # kumulatiivinen hankintahinta aikavälin alussa
   def opening_procurement_amount
-    if commodity.activated_at >= date_range.first
+    if commodity.activated_at < date_range.first
       commodity.procurement_amount
     else
       0.0
