@@ -20,6 +20,7 @@ Pupesoft::Application.routes.draw do
       post :generate_rows
       post :delete_rows
       post :destroy_commodity
+      post :reset_commodity
       post :link_order
       post :link_voucher
       post :unlink

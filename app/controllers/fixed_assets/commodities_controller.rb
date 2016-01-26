@@ -126,6 +126,20 @@ class FixedAssets::CommoditiesController < AdministrationController
     end
   end
 
+  def reset_commodity
+    if @commodity.can_be_destroyed?
+      @commodity.status = ''
+    end
+
+    if @commodity.save && @commodity.status_changed?
+      flash.now[:notice] = t('.reset_success')
+      redirect_to edit_commodity_path(@commodity)
+    else
+      flash.now[:notice] = t('.reset_failure')
+      redirect_to edit_commodity_path(@commodity)
+    end
+  end
+
   def sell
   end
 
