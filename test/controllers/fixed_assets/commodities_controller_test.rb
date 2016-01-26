@@ -390,4 +390,33 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     # Commodity procurement row count
     assert_equal 0, Head::VoucherRow.where.not(commodity_id: nil).count
   end
+
+  test 'should reset commodity status' do
+    params = {
+      commodity_id: @commodity.id,
+      fiscal_id: fiscal_years(:two),
+      user_id: users(:bob).id
+    }
+    post :generate_rows, params
+    assert_equal 9, assigns(:commodity).commodity_rows.count
+    assert_equal 36, assigns(:commodity).voucher.rows.count
+    assert_equal 'A', assigns(:commodity).status
+
+    # Doesnt change status when rows present
+    post :reset_commodity, params
+    assert_response :found
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+    assert_equal 'A', assigns(:commodity).status
+
+    post :delete_rows, params
+    assert_response :found
+    assert_equal 0, assigns(:commodity).commodity_rows.count
+    assert_equal 0, assigns(:commodity).voucher.rows.count
+
+    # Status changes when rows not present
+    post :reset_commodity, params
+    assert_response :found
+    assert_redirected_to edit_commodity_path assigns(:commodity)
+    assert_equal '', assigns(:commodity).status
+  end
 end
