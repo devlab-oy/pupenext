@@ -23,7 +23,7 @@
           <% end %>
         </td>
         <td><%= com.description %></td>
-        <td><%= com.status %></td>
+        <td><%= commodity_status com.status %></td>
         <td><%= com.bookkeeping_value(Date.today)%></td>
       </tr>
     <% end %>
