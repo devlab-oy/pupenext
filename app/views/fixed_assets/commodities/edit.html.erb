@@ -32,6 +32,11 @@
     <%= form_tag(commodity_destroy_commodity_path(@commodity), method: "post") do %>
       <%= submit_tag(t('.button_delete_commodity')) %>
     <% end %>
+      <% if @commodity.activated? %>
+      <%= form_tag(commodity_reset_commodity_path(@commodity), method: "post") do %>
+        <%= submit_tag(t('.button_reset_commodity')) %>
+      <% end %>
+    <% end %>
   <% end %>
   <br/><br/>
 <% end %>
