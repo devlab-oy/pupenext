@@ -659,7 +659,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -685,7 +685,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -851,6 +851,7 @@ fi:
         button_create: Luo poistorivejä
         button_delete: Poista poistorivejä
         button_delete_commodity: Poista hyödyke
+        button_reset_commodity: Poista aktivointi
         button_sell: Myy
         header: Muokkaa hyödykettä
         selected_fiscal_year: Tilikauden valinta
@@ -887,7 +888,10 @@ fi:
         cannot_link_row: Riviä ei voida liittää
         row_already_linked: Rivi on jo liitetty
       model:
+        activated: Aktivoitu
+        deactivated: Poistettu
         declining_annual_rate: Menojäännöspoisto vuosiprosentti
+        not_activated: Ei aktivoitu
         straight_line_annual_rate_month: Tasapoisto kuukausittain
         straight_line_annual_rate_percentage: Tasapoisto vuosiprosentti
       new:
@@ -899,6 +903,9 @@ fi:
         button_add: Liitä
         button_search: Etsi
         header: Liitä ostolaskurivejä
+      reset_commodity:
+        reset_failure: Päivitys epäonnistui
+        reset_success: Päivitys onnistui
       sell:
         amount_sold: Myyntisumma
         confirm_sale: Vahvista myynti
