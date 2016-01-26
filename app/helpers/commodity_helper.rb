@@ -10,6 +10,17 @@ module CommodityHelper
     end
   end
 
+  def commodity_status(status)
+    case status.to_s.capitalize
+    when 'A'
+      return t('fixed_assets.commodities.model.activated')
+    when 'P'
+      return t('fixed_assets.commodities.model.deactivated')
+    when ''
+      return t('fixed_assets.commodities.model.not_activated')
+    end
+  end
+
   def commodity_options_for_type
     [
       ['Valitse',''],
