@@ -55,6 +55,7 @@ class CommodityRowGenerator
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
     yearly_amount = full_amount * percentage / 100.0
+    return [] if yearly_amount.zero? || full_amount.zero?
     payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
     divide_to_payments(full_amount, payments, yearly_amount)
@@ -65,7 +66,7 @@ class CommodityRowGenerator
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
     full_amount = full_amount.to_d
-
+    return [] if full_amount.zero?
     # Sum the value of previous fiscal reductions
     full_amount = full_amount - depreciated_amount
 
