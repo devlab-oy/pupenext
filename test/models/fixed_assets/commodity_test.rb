@@ -344,6 +344,6 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     @commodity.transferred_procurement_amount = transferred_amount
     assert_equal transferred_amount, @commodity.accumulated_depreciation_at(Date.today)
-    assert_equal transferred_amount - activation_bookkeeping_value, @commodity.bookkeeping_value(Date.today)
+    assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
   end
 end

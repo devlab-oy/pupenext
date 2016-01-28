@@ -160,7 +160,9 @@ class FixedAssets::Commodity < BaseModel
       calculation = accumulated_depreciation_at(end_date)
     end
 
-    if calculation > amount && amount > 0
+    if transferred_procurement_amount > 0 && calculation == transferred_procurement_amount && depreciation_rows.count == 0
+      0.0
+    elsif calculation > amount
       calculation - amount
     else
       amount - calculation.abs
