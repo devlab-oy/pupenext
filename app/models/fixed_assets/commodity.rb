@@ -160,7 +160,7 @@ class FixedAssets::Commodity < BaseModel
       calculation = accumulated_depreciation_at(end_date)
     end
 
-    if calculation > amount
+    if calculation > amount && amount > 0
       calculation - amount
     else
       amount - calculation.abs
