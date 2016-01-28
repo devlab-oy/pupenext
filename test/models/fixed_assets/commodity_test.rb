@@ -345,5 +345,17 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.transferred_procurement_amount = transferred_amount
     assert_equal transferred_amount, @commodity.accumulated_depreciation_at(Date.today)
     assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
+
+    # If procurement rows linked and amount still 0 and transferred > 0
+    hankintahintarivi = head_voucher_rows(:six)
+    hankintahintarivi.summa = 0.0
+    hankintahintarivi.save!
+    @commodity.transferred_procurement_amount = 26190.0
+    @commodity.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
+    assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 0, @commodity.depreciation_rows.count
   end
 end
