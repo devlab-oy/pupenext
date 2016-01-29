@@ -274,6 +274,7 @@ class CommodityRowGenerator
         calculation_amount = commodity.planned_depreciation_amount
         depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
         depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
+        return [] if bookkeeping_value.zero?
       when :EVL
         bookkeeping_value = commodity.btl_value(fiscal_start)
         procurement_amount = commodity.previous_btl_depreciations > 0.0 ? commodity.previous_btl_depreciations : commodity.amount

@@ -192,7 +192,7 @@ class FixedAssets::Commodity < BaseModel
   # kertyneet sumu-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
     accumulated = depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
-    if accumulated.zero? && transferred_procurement_amount > 0
+    if accumulated.zero? && transferred_procurement_amount > 0 && depreciation_rows.count.zero?
       accumulated = transferred_procurement_amount
     end
     accumulated
