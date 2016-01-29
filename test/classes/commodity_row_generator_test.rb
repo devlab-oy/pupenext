@@ -687,4 +687,45 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     generator.mark_rows_obsolete
     assert_equal 0, FixedAssets::CommodityRow.count
   end
+
+  test 'doesnt generate depreciation rows when bookkeepping value is 0 but btl value greater than 0' do
+    hankintahintarivi = head_voucher_rows(:six)
+    hankintahintarivi.summa = 0.0
+    hankintahintarivi.save!
+    @commodity.transferred_procurement_amount = 26190.0
+    @commodity.previous_btl_depreciations = 4661.25
+    @commodity.activated_at = '2014-01-01'
+    @commodity.planned_depreciation_type = 'T'
+    @commodity.btl_depreciation_type = 'B'
+    @commodity.save!
+
+    original_start_date = @company.tilikausi_alku.dup
+    @company.tilikausi_alku = '2014-01-01'
+    @company.save!
+
+    fiscal_year = fiscal_years(:one)
+    fiscal_year.tilikausi_alku = '2014-01-01'
+    fiscal_year.tilikausi_loppu = '2014-12-31'
+    fiscal_year.save!
+    fiscal_year.reload
+    @commodity.commodity_rows.delete_all
+    assert_equal 0, @commodity.commodity_rows.count
+
+    # Create 2014's worth of commodity_rows and 0 depreciation rows cause planned value already 0
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id, fiscal_id: fiscal_year.id).generate_rows
+    assert_equal 12, @commodity.commodity_rows.count
+    assert_equal 0, @commodity.depreciation_rows.count
+    assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
+
+    # Revert current period to "normal" and calculate again for another 12 months
+    @company.tilikausi_alku = original_start_date
+    @company.save!
+
+    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    assert_equal 24, @commodity.commodity_rows.count
+    assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
+    assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 0, @commodity.depreciation_rows.count
+  end
 end
