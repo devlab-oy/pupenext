@@ -1050,9 +1050,10 @@ fi:
         additions: Lisäykset
         bookkeeping_closing: Poistamaton osa
         btl_closing: EVL -menojäännös
+        cumulative_deprication: Kertyneet SUMU -poistot
+        cumulative_difference: Kertyneet poistoerot
         deductions: Vähennykset
         deprication: SUMU -poistot
-        difference: Poistoerot
         procurement_amount: Hankintameno
     customer_price_lists:
       create:
