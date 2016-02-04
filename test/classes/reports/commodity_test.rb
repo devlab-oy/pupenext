@@ -34,7 +34,7 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     data = @report.data
     assert_equal Reports::Commodity::Response, data.class
     assert_equal "0.0", data.depricatios_in_range.to_s
-    assert_equal "111.0", data.difference.to_s
+    assert_equal "111.0", data.differences_in_range.to_s
     assert_equal "1001.0", data.btl.to_s
     assert_equal "10000.0", data.procurement_amount.to_s
     assert_equal "0.0", data.opening_deprication.to_s
@@ -59,7 +59,7 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal Reports::Commodity::SumLevel, sum_level.class
     assert_equal "112 - TILIKAUDEN TULOS112", sum_level.name
     assert_equal "0.0", sum_level.depricatios_in_range.to_s
-    assert_equal "111.0", sum_level.difference.to_s
+    assert_equal "111.0", sum_level.differences_in_range.to_s
     assert_equal "1001.0", sum_level.btl.to_s
     assert_equal "10000.0", sum_level.procurement_amount.to_s
     assert_equal "0.0", sum_level.opening_deprication.to_s
@@ -84,7 +84,7 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal Reports::Commodity::Account, account.class
     assert_equal "4444 - EVL poistoerovastatili", account.name
     assert_equal "0.0", account.depricatios_in_range.to_s
-    assert_equal "111.0", account.difference.to_s
+    assert_equal "111.0", account.differences_in_range.to_s
     assert_equal "1001.0", account.btl.to_s
     assert_equal "10000.0", account.procurement_amount.to_s
     assert_equal "0.0", account.opening_deprication.to_s
@@ -109,7 +109,7 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal Reports::Commodity::Commodity, commodity.class
     assert_equal "This is a commodity!", commodity.name
     assert_equal "0.0", commodity.depricatios_in_range.to_s
-    assert_equal "111.0", commodity.difference.to_s
+    assert_equal "111.0", commodity.differences_in_range.to_s
     assert_equal "1001.0", commodity.btl.to_s
     assert_equal "10000.0", commodity.procurement_amount.to_s
     assert_equal "0.0", commodity.opening_deprication.to_s
