@@ -38,7 +38,7 @@
           <td style='text-align: right;'><%= number_to_currency commodity.opening_btl, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.depricatios_in_range, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
-          <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.differences_in_range, unit: '' %></td>
         </tr>
       <% end %>
 
@@ -52,7 +52,7 @@
         <th style='text-align: right;'><%= number_to_currency account.opening_btl, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.depricatios_in_range, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.btl, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.differences_in_range, unit: '' %></th>
       </tr>
 
     <% end %>
@@ -67,7 +67,7 @@
       <th style='text-align: right;'><%= number_to_currency sum_level.opening_btl, unit: '' %></th>
       <th style='text-align: right;'><%= number_to_currency sum_level.depricatios_in_range, unit: '' %></th>
       <th style='text-align: right;'><%= number_to_currency sum_level.btl, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.difference, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.differences_in_range, unit: '' %></th>
     </tr>
 
     <tr>
@@ -99,7 +99,7 @@
     <th style='text-align: right;'><%= number_to_currency @report.data.opening_btl, unit: '' %></th>
     <th style='text-align: right;'><%= number_to_currency @report.data.depricatios_in_range, unit: '' %></th>
     <th style='text-align: right;'><%= number_to_currency @report.data.btl, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.difference, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.differences_in_range, unit: '' %></th>
   </tr>
 
 </table>

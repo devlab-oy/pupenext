@@ -31,7 +31,7 @@
           <td><%= commodity.name %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.depricatios_in_range, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
-          <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.differences_in_range, unit: '' %></td>
         </tr>
       <% end %>
 
@@ -39,14 +39,14 @@
         <th><%=t '.change_total' %></th>
         <th style='text-align: right;'><%= number_to_currency account.depricatios_in_range, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.btl, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.differences_in_range, unit: '' %></th>
       </tr>
 
       <tr>
         <th><%=t '.end_of_period' %></th>
         <th style='text-align: right;'><%= number_to_currency account.closing_deprication, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency account.closing_btl, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.closing_difference, unit: '' %></th>
       </tr>
 
       <tr>
