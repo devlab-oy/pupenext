@@ -44,8 +44,8 @@ class Reports::Commodity::Response
     sum_levels.sum &:depricatios_in_range
   end
 
-  def difference
-    sum_levels.sum &:difference
+  def differences_in_range
+    sum_levels.sum &:differences_in_range
   end
 
   def btl
@@ -149,8 +149,8 @@ class Reports::Commodity::SumLevel
     accounts.sum &:depricatios_in_range
   end
 
-  def difference
-    accounts.sum &:difference
+  def differences_in_range
+    accounts.sum &:differences_in_range
   end
 
   def btl
@@ -248,8 +248,8 @@ class Reports::Commodity::Account
     commodities.sum &:depricatios_in_range
   end
 
-  def difference
-    commodities.sum &:difference
+  def differences_in_range
+    commodities.sum &:differences_in_range
   end
 
   def btl
@@ -404,8 +404,8 @@ class Reports::Commodity::Commodity
   end
 
   # kertyneet poistoerot aikavälillä
-  def difference
-    @difference ||= commodity.difference_between date_range.first, date_range.last
+  def differences_in_range
+    @differences_in_range ||= commodity.difference_between date_range.first, date_range.last
   end
 
   # kertyneet evl-poistot aikavälillä
