@@ -1048,7 +1048,7 @@ fi:
         start_date: Alkupäivämäärä
       report:
         additions: Lisäykset
-        bookkeeping_closing: Poistamaton osa
+        bookkeeping_closing: SUMU -menojäännös
         btl_closing: EVL -menojäännös
         cumulative_deprication: Kertyneet SUMU -poistot
         cumulative_difference: Kertyneet poistoerot
