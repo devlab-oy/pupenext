@@ -100,6 +100,22 @@ class Reports::Commodity::Response
     sum_levels.sum &:closing_btl_value
   end
 
+  def additions_in_range_total
+    sum_levels.sum &:additions_in_range_total
+  end
+
+  def deductions_in_range_total
+    sum_levels.sum &:deductions_in_range_total
+  end
+
+  def opening_procurement_amount_total
+    sum_levels.sum &:opening_procurement_amount_total
+  end
+
+  def closing_procurement_amount_total
+    sum_levels.sum &:closing_procurement_amount_total
+  end
+
   private
 
     def external_sum_levels_with_commodity
@@ -192,6 +208,22 @@ class Reports::Commodity::SumLevel
   def closing_btl_value
     accounts.sum &:closing_btl_value
   end
+
+  def additions_in_range_total
+    accounts.sum &:additions_in_range_total
+  end
+
+  def deductions_in_range_total
+    accounts.sum &:deductions_in_range_total
+  end
+
+  def opening_procurement_amount_total
+    accounts.sum &:opening_procurement_amount_total
+  end
+
+  def closing_procurement_amount_total
+    accounts.sum &:closing_procurement_amount_total
+  end
 end
 
 class Reports::Commodity::Account
@@ -279,6 +311,14 @@ class Reports::Commodity::Account
 
   # vähennykset yhteensä (myydyt hyödykkeet)
   def total_deductions
+    commodities.sum &:deductions_in_range
+  end
+
+  def additions_in_range_total
+    commodities.sum &:additions_in_range
+  end
+
+  def deductions_in_range_total
     commodities.sum &:deductions_in_range
   end
 

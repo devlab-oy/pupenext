@@ -47,6 +47,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", data.closing_bookkeeping_value.to_s
     assert_equal "10000.0", data.opening_btl_value.to_s
     assert_equal "11001.0", data.closing_btl_value.to_s
+    assert_equal "0.0", data.additions_in_range_total.to_s
+    assert_equal "0.0", data.deductions_in_range_total.to_s
+    assert_equal "10000.0", data.opening_procurement_amount_total.to_s
+    assert_equal "10000.0", data.closing_procurement_amount_total.to_s
 
     sum_levels = data.sum_levels
     assert_equal Array, sum_levels.class
@@ -68,6 +72,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", sum_level.closing_bookkeeping_value.to_s
     assert_equal "10000.0", sum_level.opening_btl_value.to_s
     assert_equal "11001.0", sum_level.closing_btl_value.to_s
+    assert_equal "0.0", sum_level.additions_in_range_total.to_s
+    assert_equal "0.0", sum_level.deductions_in_range_total.to_s
+    assert_equal "10000.0", sum_level.opening_procurement_amount_total.to_s
+    assert_equal "10000.0", sum_level.closing_procurement_amount_total.to_s
 
     accounts = sum_level.accounts
     assert_equal Array, accounts.class
@@ -89,6 +97,10 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", account.closing_bookkeeping_value.to_s
     assert_equal "10000.0", account.opening_btl_value.to_s
     assert_equal "11001.0", account.closing_btl_value.to_s
+    assert_equal "0.0", account.additions_in_range_total.to_s
+    assert_equal "0.0", account.deductions_in_range_total.to_s
+    assert_equal "10000.0", account.opening_procurement_amount_total.to_s
+    assert_equal "10000.0", account.closing_procurement_amount_total.to_s
 
     commodities = account.commodities
     assert_equal Array, commodities.class
