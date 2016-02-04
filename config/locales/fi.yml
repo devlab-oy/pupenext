@@ -1052,6 +1052,7 @@ fi:
         btl_closing: EVL -menojäännös
         cumulative_deprication: Kertyneet SUMU -poistot
         cumulative_difference: Kertyneet poistoerot
+        difference: Poistoerot
         deductions: Vähennykset
         deprication: SUMU -poistot
         procurement_amount: Hankintameno
