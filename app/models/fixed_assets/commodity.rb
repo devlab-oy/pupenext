@@ -172,8 +172,7 @@ class FixedAssets::Commodity < BaseModel
 
   # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
   def btl_value(end_date = company.current_fiscal_year.last)
-    comparable_amount = previous_btl_depreciations == 0 ? amount : previous_btl_depreciations
-    comparable_amount + accumulated_evl_at(end_date)
+    btl_amount + accumulated_evl_at(end_date)
   end
 
   def can_be_sold?
@@ -229,6 +228,11 @@ class FixedAssets::Commodity < BaseModel
   # alkuperäinen hankintahinta
   def procurement_amount
     transferred_procurement_amount > 0 ? transferred_procurement_amount : amount
+  end
+
+  # alkuperäinen EVL arvo
+  def btl_amount
+    previous_btl_depreciations > 0 ? previous_btl_depreciations : amount
   end
 
   private
