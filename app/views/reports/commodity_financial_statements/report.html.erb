@@ -29,13 +29,13 @@
       <tr class='aktiivi'>
         <td><%=t '.additions' %></td>
         <td style='text-align: right;'></td>
-        <td style='text-align: right;'><%= number_to_currency account.total_additions, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.additions_in_range_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.deductions' %></td>
         <td style='text-align: right;'></td>
-        <td style='text-align: right;'><%= number_to_currency account.total_deductions, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.deductions_in_range_total, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
