@@ -385,7 +385,7 @@ class Reports::Commodity::Commodity
 
   # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range
-    if (date_range.first..date_range.last).cover?(commodity.activated_at)
+    if date_range.cover?(commodity.activated_at)
       commodity.procurement_amount
     else
       0.0
@@ -394,7 +394,7 @@ class Reports::Commodity::Commodity
 
   # hankintahinnan vähennykset aikavälillä (myydyt)
   def deductions_in_range
-    if (date_range.first..date_range.last).cover?(commodity.deactivated_at)
+    if date_range.cover?(commodity.deactivated_at)
       commodity.procurement_amount
     else
       0.0
