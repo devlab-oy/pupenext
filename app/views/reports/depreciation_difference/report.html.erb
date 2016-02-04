@@ -36,7 +36,7 @@
           <td style='text-align: right;'><%= number_to_currency commodity.procurement_amount, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.opening_deprication, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.opening_btl, unit: '' %></td>
-          <td style='text-align: right;'><%= number_to_currency commodity.deprication, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.depricatios_in_range, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
         </tr>
@@ -47,12 +47,12 @@
         <th><%= account.name %></th>
         <th></th>
         <th></th>
-        <th style='text-align: right;'><%= number_to_currency account.procurement_amount_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.opening_btl_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.btl_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.procurement_amount, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_deprication, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_btl, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.depricatios_in_range, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.btl, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
       </tr>
 
     <% end %>
@@ -62,12 +62,12 @@
       <th></th>
       <th></th>
       <th></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.procurement_amount_total, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.opening_deprication_total, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.opening_btl_total, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.deprication_total, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.btl_total, unit: '' %></th>
-      <th style='text-align: right;'><%= number_to_currency sum_level.difference_total, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.procurement_amount, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.opening_deprication, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.opening_btl, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.depricatios_in_range, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.btl, unit: '' %></th>
+      <th style='text-align: right;'><%= number_to_currency sum_level.difference, unit: '' %></th>
     </tr>
 
     <tr>
@@ -94,12 +94,12 @@
     <td class='back'></td>
     <td class='back'></td>
     <td class='back'></td>
-    <th style='text-align: right;'><%= number_to_currency @report.data.procurement_amount_total, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.opening_deprication_total, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.opening_btl_total, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.deprication_total, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.btl_total, unit: '' %></th>
-    <th style='text-align: right;'><%= number_to_currency @report.data.difference_total, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.procurement_amount, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.opening_deprication, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.opening_btl, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.depricatios_in_range, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.btl, unit: '' %></th>
+    <th style='text-align: right;'><%= number_to_currency @report.data.difference, unit: '' %></th>
   </tr>
 
 </table>

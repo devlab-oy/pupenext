@@ -21,15 +21,15 @@
 
       <tr>
         <th><%=t '.beginning_of_period' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.opening_btl_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_deprication, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.opening_btl, unit: '' %></th>
         <th style='text-align: right;'><%= number_to_currency 0.0, unit: '' %></th>
       </tr>
 
       <% account.commodities.each do |commodity| %>
         <tr class='aktiivi'>
           <td><%= commodity.name %></td>
-          <td style='text-align: right;'><%= number_to_currency commodity.deprication, unit: '' %></td>
+          <td style='text-align: right;'><%= number_to_currency commodity.depricatios_in_range, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.btl, unit: '' %></td>
           <td style='text-align: right;'><%= number_to_currency commodity.difference, unit: '' %></td>
         </tr>
@@ -37,16 +37,16 @@
 
       <tr>
         <th><%=t '.change_total' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.btl_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.depricatios_in_range, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.btl, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
       </tr>
 
       <tr>
         <th><%=t '.end_of_period' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.closing_btl_total, unit: '' %></th>
-        <th style='text-align: right;'><%= number_to_currency account.difference_total, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.closing_deprication, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.closing_btl, unit: '' %></th>
+        <th style='text-align: right;'><%= number_to_currency account.difference, unit: '' %></th>
       </tr>
 
       <tr>

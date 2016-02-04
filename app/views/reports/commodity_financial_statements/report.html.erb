@@ -20,59 +20,73 @@
         <th colspan="3"><%= account.name %></th>
       </tr>
 
+      <%# Hankinta, myynti %>
+
       <tr class='aktiivi'>
         <td><%=t '.procurement_amount' %></td>
         <td style='text-align: right;'><%=l @report.start_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.opening_procurement_amount_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_procurement_amount, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.additions' %></td>
         <td style='text-align: right;'></td>
-        <td style='text-align: right;'><%= number_to_currency account.additions_in_range_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.additions_in_range, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.deductions' %></td>
         <td style='text-align: right;'></td>
-        <td style='text-align: right;'><%= number_to_currency account.deductions_in_range_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.deductions_in_range, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.procurement_amount' %></td>
         <td style='text-align: right;'><%=l @report.end_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.closing_procurement_amount_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_procurement_amount, unit: '' %></td>
       </tr>
+
+      <%# SUMU poistot %>
 
       <tr class='aktiivi'>
         <td><%=t '.cumulative_deprication' %></td>
         <td style='text-align: right;'><%=l @report.start_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.opening_deprication_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_deprication, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.deprication' %></td>
         <td style='text-align: right;'></td>
-        <td style='text-align: right;'><%= number_to_currency account.deprication_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.depricatios_in_range, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.cumulative_deprication' %></td>
         <td style='text-align: right;'><%=l @report.end_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.closing_deprication_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_deprication, unit: '' %></td>
       </tr>
+
+      <%# Poistoerot %>
 
       <tr class='aktiivi'>
         <td><%=t '.cumulative_difference' %></td>
         <td style='text-align: right;'><%=l @report.start_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.opening_difference_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.opening_difference, unit: '' %></td>
+      </tr>
+
+      <tr class='aktiivi'>
+        <td><%=t '.difference' %></td>
+        <td style='text-align: right;'></td>
+        <td style='text-align: right;'><%= number_to_currency account.differences_in_range, unit: '' %></td>
       </tr>
 
       <tr class='aktiivi'>
         <td><%=t '.cumulative_difference' %></td>
         <td style='text-align: right;'><%=l @report.end_date %></td>
-        <td style='text-align: right;'><%= number_to_currency account.closing_difference_total, unit: '' %></td>
+        <td style='text-align: right;'><%= number_to_currency account.closing_difference, unit: '' %></td>
       </tr>
+
+      <%# Menojäännökset %>
 
       <tr class='aktiivi'>
         <td><%=t '.btl_closing' %></td>

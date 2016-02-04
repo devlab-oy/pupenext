@@ -40,44 +40,44 @@ class Reports::Commodity::Response
     end
   end
 
-  def deprication_total
-    sum_levels.sum &:deprication_total
+  def depricatios_in_range
+    sum_levels.sum &:depricatios_in_range
   end
 
-  def difference_total
-    sum_levels.sum &:difference_total
+  def difference
+    sum_levels.sum &:difference
   end
 
-  def btl_total
-    sum_levels.sum &:btl_total
+  def btl
+    sum_levels.sum &:btl
   end
 
-  def procurement_amount_total
-    sum_levels.sum &:procurement_amount_total
+  def procurement_amount
+    sum_levels.sum &:procurement_amount
   end
 
-  def opening_deprication_total
-    sum_levels.sum &:opening_deprication_total
+  def opening_deprication
+    sum_levels.sum &:opening_deprication
   end
 
-  def opening_btl_total
-    sum_levels.sum &:opening_btl_total
+  def opening_btl
+    sum_levels.sum &:opening_btl
   end
 
-  def closing_deprication_total
-    sum_levels.sum &:closing_deprication_total
+  def closing_deprication
+    sum_levels.sum &:closing_deprication
   end
 
-  def closing_btl_total
-    sum_levels.sum &:closing_btl_total
+  def closing_btl
+    sum_levels.sum &:closing_btl
   end
 
-  def opening_difference_total
-    sum_levels.sum &:opening_difference_total
+  def opening_difference
+    sum_levels.sum &:opening_difference
   end
 
-  def closing_difference_total
-    sum_levels.sum &:closing_difference_total
+  def closing_difference
+    sum_levels.sum &:closing_difference
   end
 
   # kirjanpidollinen arvo jakson alussa
@@ -101,23 +101,23 @@ class Reports::Commodity::Response
   end
 
   # hankintahinnan lisäykset aikavälillä (aktivoidut)
-  def additions_in_range_total
-    sum_levels.sum &:additions_in_range_total
+  def additions_in_range
+    sum_levels.sum &:additions_in_range
   end
 
   # hankintahinnan vähennykset aikavälillä (myydyt)
-  def deductions_in_range_total
-    sum_levels.sum &:deductions_in_range_total
+  def deductions_in_range
+    sum_levels.sum &:deductions_in_range
   end
 
   # kumulatiivinen hankintahinta aikavälin alussa
-  def opening_procurement_amount_total
-    sum_levels.sum &:opening_procurement_amount_total
+  def opening_procurement_amount
+    sum_levels.sum &:opening_procurement_amount
   end
 
   # kumulatiivinen hankintahinta aikavälin lopussa
-  def closing_procurement_amount_total
-    sum_levels.sum &:closing_procurement_amount_total
+  def closing_procurement_amount
+    sum_levels.sum &:closing_procurement_amount
   end
 
   private
@@ -145,44 +145,44 @@ class Reports::Commodity::SumLevel
     "#{sum_level.taso} - #{sum_level.nimi}"
   end
 
-  def deprication_total
-    accounts.sum &:deprication_total
+  def depricatios_in_range
+    accounts.sum &:depricatios_in_range
   end
 
-  def difference_total
-    accounts.sum &:difference_total
+  def difference
+    accounts.sum &:difference
   end
 
-  def btl_total
-    accounts.sum &:btl_total
+  def btl
+    accounts.sum &:btl
   end
 
-  def procurement_amount_total
-    accounts.sum &:procurement_amount_total
+  def procurement_amount
+    accounts.sum &:procurement_amount
   end
 
-  def opening_deprication_total
-    accounts.sum &:opening_deprication_total
+  def opening_deprication
+    accounts.sum &:opening_deprication
   end
 
-  def opening_btl_total
-    accounts.sum &:opening_btl_total
+  def opening_btl
+    accounts.sum &:opening_btl
   end
 
-  def closing_deprication_total
-    accounts.sum &:closing_deprication_total
+  def closing_deprication
+    accounts.sum &:closing_deprication
   end
 
-  def closing_btl_total
-    accounts.sum &:closing_btl_total
+  def closing_btl
+    accounts.sum &:closing_btl
   end
 
-  def opening_difference_total
-    accounts.sum &:opening_difference_total
+  def opening_difference
+    accounts.sum &:opening_difference
   end
 
-  def closing_difference_total
-    accounts.sum &:closing_difference_total
+  def closing_difference
+    accounts.sum &:closing_difference
   end
 
   # kirjanpidollinen arvo jakson alussa
@@ -206,23 +206,23 @@ class Reports::Commodity::SumLevel
   end
 
   # hankintahinnan lisäykset aikavälillä (aktivoidut)
-  def additions_in_range_total
-    accounts.sum &:additions_in_range_total
+  def additions_in_range
+    accounts.sum &:additions_in_range
   end
 
   # hankintahinnan vähennykset aikavälillä (myydyt)
-  def deductions_in_range_total
-    accounts.sum &:deductions_in_range_total
+  def deductions_in_range
+    accounts.sum &:deductions_in_range
   end
 
   # kumulatiivinen hankintahinta aikavälin alussa
-  def opening_procurement_amount_total
-    accounts.sum &:opening_procurement_amount_total
+  def opening_procurement_amount
+    accounts.sum &:opening_procurement_amount
   end
 
   # kumulatiivinen hankintahinta aikavälin lopussa
-  def closing_procurement_amount_total
-    accounts.sum &:closing_procurement_amount_total
+  def closing_procurement_amount
+    accounts.sum &:closing_procurement_amount
   end
 end
 
@@ -244,43 +244,43 @@ class Reports::Commodity::Account
     "#{account.tilino} - #{account.nimi}"
   end
 
-  def deprication_total
-    commodities.sum &:deprication
+  def depricatios_in_range
+    commodities.sum &:depricatios_in_range
   end
 
-  def difference_total
+  def difference
     commodities.sum &:difference
   end
 
-  def btl_total
+  def btl
     commodities.sum &:btl
   end
 
-  def procurement_amount_total
+  def procurement_amount
     commodities.sum &:procurement_amount
   end
 
-  def opening_deprication_total
+  def opening_deprication
     commodities.sum &:opening_deprication
   end
 
-  def opening_btl_total
+  def opening_btl
     commodities.sum &:opening_btl
   end
 
-  def closing_deprication_total
+  def closing_deprication
     commodities.sum &:closing_deprication
   end
 
-  def closing_btl_total
+  def closing_btl
     commodities.sum &:closing_btl
   end
 
-  def opening_difference_total
+  def opening_difference
     commodities.sum &:opening_difference
   end
 
-  def closing_difference_total
+  def closing_difference
     commodities.sum &:closing_difference
   end
 
@@ -305,22 +305,22 @@ class Reports::Commodity::Account
   end
 
   # hankintahinnan lisäykset aikavälillä (aktivoidut)
-  def additions_in_range_total
+  def additions_in_range
     commodities.sum &:additions_in_range
   end
 
   # hankintahinnan vähennykset aikavälillä (myydyt)
-  def deductions_in_range_total
+  def deductions_in_range
     commodities.sum &:deductions_in_range
   end
 
   # kumulatiivinen hankintahinta aikavälin alussa
-  def opening_procurement_amount_total
+  def opening_procurement_amount
     commodities.sum &:opening_procurement_amount
   end
 
   # kumulatiivinen hankintahinta aikavälin lopussa
-  def closing_procurement_amount_total
+  def closing_procurement_amount
     commodities.sum &:closing_procurement_amount
   end
 end
@@ -399,7 +399,7 @@ class Reports::Commodity::Commodity
   end
 
   # kertyneet sumu-poistot aikavälillä
-  def deprication
+  def depricatios_in_range
     @deprication ||= commodity.depreciation_between(date_range.first, date_range.last)
   end
 
