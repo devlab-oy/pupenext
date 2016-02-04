@@ -157,14 +157,6 @@ class Reports::Commodity::SumLevel
     accounts.sum &:procurement_amount_total
   end
 
-  def opening_procurement_amount_total
-    accounts.sum &:opening_procurement_amount_total
-  end
-
-  def closing_procurement_amount_total
-    accounts.sum &:closing_procurement_amount_total
-  end
-
   def opening_deprication_total
     accounts.sum &:opening_deprication_total
   end
@@ -305,19 +297,11 @@ class Reports::Commodity::Account
   end
 
   # lisäykset yhteensä (aktivoidut hyödykkeet)
-  def total_additions
-    commodities.sum &:additions_in_range
-  end
-
-  # vähennykset yhteensä (myydyt hyödykkeet)
-  def total_deductions
-    commodities.sum &:deductions_in_range
-  end
-
   def additions_in_range_total
     commodities.sum &:additions_in_range
   end
 
+  # vähennykset yhteensä (myydyt hyödykkeet)
   def deductions_in_range_total
     commodities.sum &:deductions_in_range
   end
