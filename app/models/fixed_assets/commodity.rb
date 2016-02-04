@@ -18,9 +18,10 @@ class FixedAssets::Commodity < BaseModel
   validates :name, :description, presence: true
 
   with_options if: :activated? do |o|
-    o.validates :planned_depreciation_type, :btl_depreciation_type, presence: true
-    o.validates :planned_depreciation_amount, :btl_depreciation_amount,
-                numericality: { greater_than: 0 }, presence: true
+    o.validates :btl_depreciation_amount, numericality: { greater_than: 0 }, presence: true
+    o.validates :btl_depreciation_type, presence: true
+    o.validates :planned_depreciation_amount, numericality: { greater_than: 0 }, presence: true
+    o.validates :planned_depreciation_type, presence: true
 
     o.validate :activation_only_on_open_period, if: :status_changed?
     o.validate :depreciation_amount_must_follow_type
@@ -192,9 +193,11 @@ class FixedAssets::Commodity < BaseModel
   # kertyneet sumu-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
     accumulated = depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
+
     if accumulated.zero? && transferred_procurement_amount > 0 && depreciation_rows.count.zero?
       accumulated = transferred_procurement_amount
     end
+
     accumulated
   end
 
@@ -311,13 +314,14 @@ class FixedAssets::Commodity < BaseModel
 
     def wipe_all_records
       raise ArgumentError unless can_be_destroyed?
+
       procurement_rows.update_all(commodity_id: nil)
     end
 
     def depreciations_generated_until?(date)
       check_start = date.beginning_of_month
       check_end = date.end_of_month
+
       depreciation_rows.where(tapvm: check_start..check_end).count > 0
     end
-
 end

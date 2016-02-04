@@ -41,6 +41,7 @@ class CommodityRowGenerator
 
   def sell
     raise ArgumentError unless commodity.can_be_sold?
+
     amend_future_rows
     create_planned_sales_row
     create_sales_row
@@ -55,9 +56,12 @@ class CommodityRowGenerator
     # full_amount = hydykkeen hankintahinta
     # percentage = vuosipoistoprosentti
     yearly_amount = full_amount * percentage / 100.0
+
     return [] if yearly_amount.zero? || full_amount.zero?
+
     payments = full_amount / yearly_amount * payment_count
     payments = payments.to_i
+
     divide_to_payments(full_amount, payments, yearly_amount)
   end
 
@@ -66,7 +70,9 @@ class CommodityRowGenerator
     # fiscal_percentage = vuosipoistoprosentti
     # depreciated_amount = jo poistettu summa
     full_amount = full_amount.to_d
+
     return [] if full_amount.zero?
+
     # Sum the value of previous fiscal reductions
     full_amount = full_amount - depreciated_amount
 
@@ -86,6 +92,7 @@ class CommodityRowGenerator
         injecthis = fiscalreduction - fiscal_year_depreciations.sum
         keep_running = false
       end
+
       injecthis = injecthis.round(2)
 
       if injecthis.zero?
@@ -129,6 +136,7 @@ class CommodityRowGenerator
       # full_count = kokonaispoistoaika kuukausissa
       # max_fiscal_reduction = tasapoisto vuosiprosentille laskettu tilikauden maksimi
       full_amount = full_amount.to_d
+
       return [] if full_amount.zero? || full_count.zero?
 
       fiscal_maximum = full_amount / full_count * payment_count
@@ -170,9 +178,11 @@ class CommodityRowGenerator
 
     def confirm_calculation_dates
       check = true
+
       if fiscal_start < activation_date
         check &= fiscal_period.cover?(activation_date)
       end
+
       check &= fiscal_end > activation_date
       check
     end
@@ -274,6 +284,7 @@ class CommodityRowGenerator
         calculation_amount = commodity.planned_depreciation_amount
         depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
         depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
+
         return [] if bookkeeping_value.zero?
       when :EVL
         bookkeeping_value = commodity.btl_value(fiscal_start)
@@ -315,6 +326,7 @@ class CommodityRowGenerator
 
     def split_voucher_rows
       return unless rows_need_to_split?
+
       commodity.voucher.rows.each { |row| row.split(split_params) }
     end
 
@@ -378,21 +390,22 @@ class CommodityRowGenerator
     def create_btl_remainder_rows
       case commodity.depreciation_remainder_handling
       when 'S'
-      # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
-      btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
+        # Evl arvo nollaan, kirjataan jäljelläoleva arvo pois
+        btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
 
-      btlparams = {
-        created_by: user.kuka,
-        modified_by: user.kuka,
-        transacted_at: commodity.deactivated_at,
-        amount: btl_dep_value * -1,
-        description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
-      }
+        btlparams = {
+          created_by: user.kuka,
+          modified_by: user.kuka,
+          transacted_at: commodity.deactivated_at,
+          amount: btl_dep_value * -1,
+          description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"
+        }
       when 'E'
         raise ArgumentError.new 'Logic not yet implemented'
       else
         raise ArgumentError.new 'Nonexisting depreciation remainder handling type'
       end
+
       commodity.commodity_rows.create! btlparams
     end
 
