@@ -111,5 +111,9 @@ class Reports::CommodityTest < ActiveSupport::TestCase
     assert_equal "10000.0", commodity.closing_bookkeeping_value.to_s
     assert_equal "10000.0", commodity.opening_btl_value.to_s
     assert_equal "11001.0", commodity.closing_btl_value.to_s
+    assert_equal "0.0", commodity.additions_in_range.to_s
+    assert_equal "0.0", commodity.deductions_in_range.to_s
+    assert_equal "10000.0", commodity.opening_procurement_amount.to_s
+    assert_equal "10000.0", commodity.closing_procurement_amount.to_s
   end
 end
