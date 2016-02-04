@@ -400,11 +400,7 @@ class Reports::Commodity::Commodity
 
   # kertyneet sumu-poistot aikavälillä
   def deprication
-    @deprication ||= begin
-      sum = commodity.depreciation_between(date_range.first, date_range.last)
-      sum *= -1.to_d unless sum.zero?
-      sum
-    end
+    @deprication ||= commodity.depreciation_between(date_range.first, date_range.last)
   end
 
   # kertyneet poistoerot aikavälillä
@@ -420,7 +416,7 @@ class Reports::Commodity::Commodity
   # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range
     if date_range.cover?(commodity.activated_at)
-      commodity.procurement_amount
+      commodity.amount
     else
       0.0
     end
@@ -437,7 +433,7 @@ class Reports::Commodity::Commodity
 
   # kumulatiivinen hankintahinta aikavälin alussa
   def opening_procurement_amount
-    if commodity.activated_at < date_range.first
+    if commodity.activated_at <= date_range.first
       commodity.procurement_amount
     else
       0.0
