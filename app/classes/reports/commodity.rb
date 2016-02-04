@@ -100,18 +100,22 @@ class Reports::Commodity::Response
     sum_levels.sum &:closing_btl_value
   end
 
+  # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range_total
     sum_levels.sum &:additions_in_range_total
   end
 
+  # hankintahinnan vähennykset aikavälillä (myydyt)
   def deductions_in_range_total
     sum_levels.sum &:deductions_in_range_total
   end
 
+  # kumulatiivinen hankintahinta aikavälin alussa
   def opening_procurement_amount_total
     sum_levels.sum &:opening_procurement_amount_total
   end
 
+  # kumulatiivinen hankintahinta aikavälin lopussa
   def closing_procurement_amount_total
     sum_levels.sum &:closing_procurement_amount_total
   end
@@ -201,18 +205,22 @@ class Reports::Commodity::SumLevel
     accounts.sum &:closing_btl_value
   end
 
+  # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range_total
     accounts.sum &:additions_in_range_total
   end
 
+  # hankintahinnan vähennykset aikavälillä (myydyt)
   def deductions_in_range_total
     accounts.sum &:deductions_in_range_total
   end
 
+  # kumulatiivinen hankintahinta aikavälin alussa
   def opening_procurement_amount_total
     accounts.sum &:opening_procurement_amount_total
   end
 
+  # kumulatiivinen hankintahinta aikavälin lopussa
   def closing_procurement_amount_total
     accounts.sum &:closing_procurement_amount_total
   end
@@ -296,20 +304,22 @@ class Reports::Commodity::Account
     commodities.sum &:closing_btl_value
   end
 
-  # lisäykset yhteensä (aktivoidut hyödykkeet)
+  # hankintahinnan lisäykset aikavälillä (aktivoidut)
   def additions_in_range_total
     commodities.sum &:additions_in_range
   end
 
-  # vähennykset yhteensä (myydyt hyödykkeet)
+  # hankintahinnan vähennykset aikavälillä (myydyt)
   def deductions_in_range_total
     commodities.sum &:deductions_in_range
   end
 
+  # kumulatiivinen hankintahinta aikavälin alussa
   def opening_procurement_amount_total
     commodities.sum &:opening_procurement_amount
   end
 
+  # kumulatiivinen hankintahinta aikavälin lopussa
   def closing_procurement_amount_total
     commodities.sum &:closing_procurement_amount
   end
