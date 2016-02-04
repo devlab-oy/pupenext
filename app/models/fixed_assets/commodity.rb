@@ -202,7 +202,7 @@ class FixedAssets::Commodity < BaseModel
 
   # kertyneet poistoerot annettuna ajankohtana
   def accumulated_difference_at(date)
-    depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
+    depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa) - previous_btl_depreciations
   end
 
   # kertyneet evl-poistot annettuna ajankohtana
