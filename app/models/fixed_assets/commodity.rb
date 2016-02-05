@@ -95,6 +95,7 @@ class FixedAssets::Commodity < BaseModel
 
   def generate_rows(fiscal_id: nil)
     CommodityRowGenerator.new(commodity_id: id, fiscal_id: fiscal_id).generate_rows
+    reload
   end
 
   def delete_rows(fiscal_id: nil)
@@ -191,45 +192,29 @@ class FixedAssets::Commodity < BaseModel
 
   # alkuperäinen EVL arvo
   def btl_amount
-    previous_btl_depreciations > 0 ? previous_btl_depreciations : amount
+    previous_btl_depreciations > 0 ? previous_btl_depreciations : procurement_amount
   end
 
   # kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(date)
-    if deactivated?
-      calculation = amount
-    else
-      calculation = accumulated_depreciation_at(date)
-    end
-
-    if transferred_procurement_amount > 0 && calculation == transferred_procurement_amount && depreciation_rows.count == 0
-      0.0
-    elsif calculation > amount
-      calculation - amount
-    else
-      amount - calculation.abs
-    end
+    # hankintahinta miinus kaikki SUMU-poistot
+    procurement_amount - accumulated_depreciation_at(date)
   end
 
   # EVL-arvo annettuna ajankohtana
   def btl_value(date)
-    btl_amount + accumulated_evl_at(date)
+    # hankintahinta miinus kaikki EVL-poistot
+    procurement_amount - accumulated_evl_at(date)
   end
 
   # kertyneet SUMU-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
-    accumulated = depreciation_between(Time.at(0), date)
-
-    if accumulated.zero? && transferred_procurement_amount > 0 && depreciation_rows.count.zero?
-      accumulated = transferred_procurement_amount
-    end
-
-    accumulated
+    depreciation_between(Time.at(0), date)
   end
 
   # kertyneet poistoerot annettuna ajankohtana
   def accumulated_difference_at(date)
-    difference_between(Time.at(0), date) - previous_btl_depreciations
+    difference_between(Time.at(0), date)
   end
 
   # kertyneet EVL-poistot annettuna ajankohtana
@@ -239,17 +224,44 @@ class FixedAssets::Commodity < BaseModel
 
   # hyödykkeen SUMU-poistot aikavälillä
   def depreciation_between(date1, date2)
-    depreciation_rows.where(tapvm: date1..date2).sum(:summa)
-  end
+    total = depreciation_rows.where(tapvm: date1..date2).sum(:summa)
 
-  # hyödykkeen poistoerot aikavälillä
-  def difference_between(date1, date2)
-    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+    # jos kysytään arvoa, joka on vanhempi kun aktivointipäivä
+    # lisätään siihen vanhassa järjestelmässä tehdyt poistot
+    if date1 < activated_at && transferred_procurement_amount > 0
+      total += transferred_procurement_amount - amount
+    end
+
+    total
   end
 
   # hyödykkeen EVL-poistot aikavälillä
   def evl_between(date1, date2)
-    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
+    total = commodity_rows.where(transacted_at: date1..date2).sum(:amount) * -1
+
+    # jos kysytään arvoa, joka on vanhempi kun aktivointipäivä
+    # lisätään siihen vanhassa järjestelmässä tehdyt poistot
+    if date1 < activated_at && previous_btl_depreciations > 0
+      total += procurement_amount - previous_btl_depreciations
+    end
+
+    total
+  end
+
+  # hyödykkeen poistoerot aikavälillä
+  def difference_between(date1, date2)
+    total = depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+
+    # jos kysytään poistoeroa, joka on vanhempi kun aktivointipäivä
+    # huomioidaan vanhan järjestelmän poistoero
+    if date1 < activated_at
+      procurement_difference = (transferred_procurement_amount - amount)
+      btl_difference = (procurement_amount - previous_btl_depreciations)
+
+      total = procurement_difference - btl_difference - total
+    end
+
+    total
   end
 
   private

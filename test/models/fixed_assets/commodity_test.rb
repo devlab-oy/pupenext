@@ -13,6 +13,8 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
+    @company = @commodity.company
+
     Current.user = users :bob
   end
 
@@ -332,7 +334,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     transferred_amount = 20000.0
     @commodity.transferred_procurement_amount = transferred_amount
-    assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today).to_s
     assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
 
     # If rows not present, values should be affected by transferred procurement amount
@@ -356,5 +358,195 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
     assert_equal 0, @commodity.depreciation_rows.count
+  end
+
+  test 'test adding a volkswagen from an old system' do
+    # account for procurements
+    account = accounts :account_commodity
+
+    # dates
+    year_beginning = Date.today.beginning_of_year
+    year_end = Date.today.end_of_year
+
+    # set open period
+    @company.update!(
+      tilikausi_alku: year_beginning,
+      tilikausi_loppu: year_end,
+    )
+
+    Current.company = @company
+
+    # create commodity (values from old system)
+    commodity = @company.commodities.create!(
+      name: "Volkswagen Golf Variant",
+      description: "Economa 661",
+      planned_depreciation_type: "T",
+      planned_depreciation_amount: 48,
+      btl_depreciation_type: "B",
+      btl_depreciation_amount: 25,
+      previous_btl_depreciations: 4661.25,
+      transferred_procurement_amount: 26190.0,
+      activated_at: year_beginning
+    )
+
+    # add procurement voucher for zero
+    commodity.procurement_rows.create!(
+      tilino: account.tilino,
+      tapvm: year_beginning,
+      summa: 0,
+      selite: "VW alkusaldot 1.1. sumu 0 evl 4661,25"
+    )
+
+    assert commodity.activate
+    assert commodity.activated?
+    assert commodity.generate_rows
+
+    # alkuperäinen hankintahinta (vanhasta järjestelmästä)
+    assert_equal "26190.0", commodity.procurement_amount.to_s
+
+    # SUMU -puoli
+
+    # 1. kirjanpidollinen SUMU arvo (menojäännös) vuoden alussa (kaikki on jo poistettu vanhassa järjestelmässä)
+    assert_equal "0.0", commodity.bookkeeping_value(year_beginning).to_s
+
+    # 2. Kertyneet SUMU -poistot vuoden alussa (kaikki on jo poistettu vanhassa järjestelmässä)
+    assert_equal "26190.0", commodity.accumulated_depreciation_at(year_beginning).to_s
+
+    # 3. SUMU -poistoja vuoden aikana (ei mitään poistettavaa tässä järjestelmässä)
+    assert_equal "0.0", commodity.depreciation_between(year_beginning, year_end).to_s
+
+    # 4. Kertyneet SUMU -poistot vuoden lopussa (kaikki poistettu)
+    assert_equal "26190.0", commodity.accumulated_depreciation_at(year_end).to_s
+
+    # 5. kirjanpidollinen SUMU arvo (menojäännös) vuoden lopussa
+    assert_equal "0.0", commodity.bookkeeping_value(year_end).to_s
+
+    # EVL -puoli
+
+    # 1. EVL-arvo (menojäännös) vuoden alussa (siirretty vanhasta järjestelmästä)
+    assert_equal "4661.25", commodity.btl_value(year_beginning).to_s
+
+    # 2. kertyneet EVL-poistot vuoden alussa (poistettu vanhassa järjestelmässä)
+    assert_equal "21528.75", commodity.accumulated_evl_at(year_beginning).to_s
+
+    # 3. EVL -poistoja vuoden aikana (poistettu meidän järjestelmässä)
+    assert_equal "1165.31", commodity.evl_between(year_beginning, year_end).to_s
+
+    # 4. kertyneet EVL-poistot vuoden lopussa
+    assert_equal "22694.06", commodity.accumulated_evl_at(year_end).to_s
+
+    # 5. EVL-arvo (menojäännös) vuoden lopussa
+    assert_equal "3495.94", commodity.btl_value(year_end).to_s
+
+    # POISTOEROT
+
+    # kertyneet poistoerot vuoden alussa
+    assert_equal "4661.25", commodity.accumulated_difference_at(year_beginning).to_s
+
+    # kertyneet poistoerot vuoden aikana
+    assert_equal "1165.31", commodity.difference_between(year_beginning, year_end).to_s
+
+    # kertyneet poistoerot vuoden lopussa
+    assert_equal "3495.94", commodity.accumulated_difference_at(year_end).to_s
+  end
+
+  test 'buying a honda in our system' do
+    # account for procurements
+    account = accounts :account_commodity
+
+    # dates
+    year_beginning = Date.today.beginning_of_year
+    year_end = Date.today.end_of_year
+    year_feb = Date.today.change(month: 2, day: 3)
+
+    # set open period
+    @company.update!(
+      tilikausi_alku: year_beginning,
+      tilikausi_loppu: year_end,
+    )
+
+    # create commodity (values from old system)
+    commodity = @company.commodities.create!(
+      name: "Honda CR-V",
+      description: "Sininen",
+      status: "A",
+      planned_depreciation_type: "T",
+      planned_depreciation_amount: 60,
+      btl_depreciation_type: "B",
+      btl_depreciation_amount: 25,
+      activated_at: year_feb
+    )
+
+    # add procurement voucher for zero
+    commodity.procurement_rows.create!(
+      tilino: account.tilino,
+      tapvm: year_feb,
+      summa: 49716.55,
+      selite: "Honda CR-V"
+    )
+
+    assert commodity.activate
+    assert commodity.activated?
+    assert commodity.generate_rows
+
+    # alkuperäinen hankintahinta
+    assert_equal "49716.55", commodity.procurement_amount.to_s
+
+    # SUMU -puoli
+
+    # 1. kirjanpidollinen SUMU arvo (menojäännös) vuoden alussa
+    assert_equal "0", commodity.bookkeeping_value(year_beginning).to_s
+
+    # 1.1 kirjanpidollinen SUMU arvo (menojäännös) päivää ennen aktivointia
+    assert_equal "0", commodity.bookkeeping_value(year_feb - 1.day).to_s
+
+    # 1.2 kirjanpidollinen SUMU arvo (menojäännös) aktivointipäivänä
+    assert_equal "49716.55", commodity.bookkeeping_value(year_feb).to_s
+
+    # 2. Kertyneet SUMU -poistot vuoden alussa
+    assert_equal "0", commodity.accumulated_depreciation_at(year_beginning).to_s
+
+    # 3. SUMU -poistoja vuoden aikana
+    assert_equal "9114.7", commodity.depreciation_between(year_beginning, year_end).to_s
+
+    # 4. Kertyneet SUMU -poistot vuoden lopussa
+    assert_equal "9114.7", commodity.accumulated_depreciation_at(year_end).to_s
+
+    # 5. kirjanpidollinen SUMU arvo (menojäännös) vuoden lopussa
+    assert_equal "40601.85", commodity.bookkeeping_value(year_end).to_s
+
+    # EVL -puoli
+
+    # 1. EVL-arvo (menojäännös) vuoden alussa
+    assert_equal "0", commodity.btl_value(year_beginning).to_s
+
+    # 1.1 EVL-arvo (menojäännös) päivää ennen aktivointia
+    assert_equal "0", commodity.btl_value(year_feb - 1.day).to_s
+
+    # 1.2 EVL-arvo (menojäännös) aktivointipäivänä
+    assert_equal "49716.55", commodity.btl_value(year_feb).to_s
+
+    # 2. kertyneet EVL-poistot vuoden alussa
+    assert_equal "0", commodity.accumulated_evl_at(year_beginning).to_s
+
+    # 3. EVL -poistoja vuoden aikana
+    assert_equal "12429.14", commodity.evl_between(year_beginning, year_end).to_s
+
+    # 4. kertyneet EVL-poistot vuoden lopussa
+    assert_equal "12429.14", commodity.accumulated_evl_at(year_beginning).to_s
+
+    # 5. EVL-arvo (menojäännös) vuoden lopussa
+    assert_equal "37287.41", commodity.btl_value(year_end).to_s
+
+    # POISTOEROT
+
+    # kertyneet poistoerot vuoden alussa
+    assert_equal "0", commodity.accumulated_difference_at(year_beginning).to_s
+
+    # kertyneet poistoerot vuoden aikana
+    assert_equal "3314.44", commodity.difference_between(year_beginning, year_end).to_s
+
+    # kertyneet poistoerot vuoden lopussa
+    assert_equal "3314.44", commodity.accumulated_difference_at(year_end).to_s
   end
 end
