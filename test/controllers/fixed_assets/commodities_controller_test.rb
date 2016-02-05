@@ -291,7 +291,7 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
 
   test 'should sell commodity' do
     Current.user = users :bob
-    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+    @commodity.generate_rows
 
     salesparams = {
       commodity_id: @commodity.id,

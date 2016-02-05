@@ -92,23 +92,13 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def generate_rows
-    options = {
-      commodity_id: @commodity.id,
-      fiscal_id: params[:selected_fiscal_year]
-    }
-
-    CommodityRowGenerator.new(options).generate_rows
+    @commodity.generate_rows(fiscal_id: params[:selected_fiscal_year])
 
     redirect_to edit_commodity_path(@commodity)
   end
 
   def delete_rows
-    options = {
-      commodity_id: @commodity.id,
-      fiscal_id: params[:selected_fiscal_year]
-    }
-
-    CommodityRowGenerator.new(options).mark_rows_obsolete
+    @commodity.delete_rows(fiscal_id: params[:selected_fiscal_year])
 
     redirect_to edit_commodity_path(@commodity)
   end
@@ -142,14 +132,13 @@ class FixedAssets::CommoditiesController < AdministrationController
   end
 
   def confirm_sale
-    commodity_sales_params
+    @commodity.deactivated_at = params[:deactivated_at]
+    @commodity.amount_sold = params[:amount_sold]
+    @commodity.profit_account = Account.find_by(tilino: params[:profit_account])
+    @commodity.sales_account = Account.find_by(tilino: params[:sales_account])
+    @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
 
-    if @commodity.can_be_sold? && @commodity.save
-      options = {
-        commodity_id: @commodity.id
-      }
-      CommodityRowGenerator.new(options).sell
-
+    if @commodity.sell
       redirect_to edit_commodity_path(@commodity), notice: t('.sale_success')
     else
       flash.now[:notice] = t('.sale_failure')
@@ -241,13 +230,5 @@ class FixedAssets::CommoditiesController < AdministrationController
         flash.now[:notice] = t('.cannot_unlink')
         false
       end
-    end
-
-    def commodity_sales_params
-      @commodity.deactivated_at = params[:deactivated_at]
-      @commodity.amount_sold    = params[:amount_sold]
-      @commodity.profit_account = Account.find_by(tilino: params[:profit_account])
-      @commodity.sales_account = Account.find_by(tilino: params[:sales_account])
-      @commodity.depreciation_remainder_handling = params[:depreciation_remainder_handling]
     end
 end

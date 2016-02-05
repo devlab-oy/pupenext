@@ -97,6 +97,22 @@ class FixedAssets::Commodity < BaseModel
     true
   end
 
+  def generate_rows(fiscal_id: nil)
+    CommodityRowGenerator.new(commodity_id: id, fiscal_id: fiscal_id).generate_rows
+  end
+
+  def delete_rows(fiscal_id: nil)
+    CommodityRowGenerator.new(commodity_id: id, fiscal_id: fiscal_id).mark_rows_obsolete
+  end
+
+  def sell
+    if can_be_sold? && save
+      CommodityRowGenerator.new(commodity_id: id).sell
+    else
+      false
+    end
+  end
+
   # Returns sum of past sumu depreciations
   def deprecated_sumu_amount
     voucher_rows.locked.sum(:summa)
