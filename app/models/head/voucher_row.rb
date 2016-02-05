@@ -63,8 +63,8 @@ class Head::VoucherRow < BaseModel
     amend(creator)
 
     if new_rows_valid && valid?
-      new_rows.each { |row| row.save }
-      save
+      new_rows.each { |row| row.save! }
+      save!
     else
       raise ArgumentError, 'Invalid parameters'
     end

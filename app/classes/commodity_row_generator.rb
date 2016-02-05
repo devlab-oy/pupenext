@@ -25,6 +25,8 @@ class CommodityRowGenerator
     generate_commodity_rows
     generate_depreciation_difference_rows
     split_voucher_rows
+
+    true
   end
 
   def mark_rows_obsolete
@@ -32,8 +34,10 @@ class CommodityRowGenerator
 
     commodity.voucher_rows.where(tapvm: fiscal_period).find_each do |row|
       row.amend
-      row.save
+      row.save!
     end
+
+    true
   end
 
   def sell
@@ -47,6 +51,8 @@ class CommodityRowGenerator
 
     commodity.status = 'P'
     commodity.save!
+
+    true
   end
 
   def fixed_by_percentage(full_amount, percentage)
@@ -205,10 +211,10 @@ class CommodityRowGenerator
       }
 
       accounting_voucher = company.vouchers.build(voucher_params)
-      accounting_voucher.save
+      accounting_voucher.save!
 
       commodity.voucher = accounting_voucher
-      commodity.save
+      commodity.save!
     end
 
     def generate_voucher_rows
