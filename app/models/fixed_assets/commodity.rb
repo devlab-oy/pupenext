@@ -105,6 +105,11 @@ class FixedAssets::Commodity < BaseModel
     CommodityRowGenerator.new(commodity_id: id, fiscal_id: fiscal_id).mark_rows_obsolete
   end
 
+  def activate
+    self.status = 'A'
+    save
+  end
+
   def sell
     if can_be_sold? && save
       CommodityRowGenerator.new(commodity_id: id).sell

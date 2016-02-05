@@ -80,12 +80,9 @@ class FixedAssets::CommoditiesController < AdministrationController
 
   # POST /commodities/1/activate
   def activate
-    @commodity.status = 'A'
-
-    if @commodity.save
+    if @commodity.activate
       redirect_to edit_commodity_path(@commodity), notice: t('.activation_success')
     else
-      @commodity.status = ''
       flash.now[:notice] = t('.activation_failure')
       render :edit
     end
