@@ -290,7 +290,9 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
   end
 
   test 'should sell commodity' do
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    Current.user = users :bob
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
+
     salesparams = {
       commodity_id: @commodity.id,
       amount_sold: 2000,
@@ -328,7 +330,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:two),
-      user_id: users(:bob).id
     }
 
     post :generate_rows, params
@@ -341,7 +342,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:two),
-      user_id: users(:bob).id
     }
     post :generate_rows, params
     assert_equal 9, assigns(:commodity).commodity_rows.count
@@ -357,7 +357,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:two),
-      user_id: users(:bob).id
     }
     post :generate_rows, params
     assert_equal 9, assigns(:commodity).commodity_rows.count
@@ -395,7 +394,6 @@ class FixedAssets::CommoditiesControllerTest < ActionController::TestCase
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:two),
-      user_id: users(:bob).id
     }
     post :generate_rows, params
     assert_equal 9, assigns(:commodity).commodity_rows.count

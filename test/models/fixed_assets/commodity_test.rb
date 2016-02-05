@@ -13,6 +13,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
+    Current.user = users :bob
   end
 
   test 'fixtures are valid' do
@@ -188,7 +189,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.status = 'A'
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 6500, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last)
 
@@ -203,7 +204,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.attributes = salesparams
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).sell
+    CommodityRowGenerator.new(commodity_id: @commodity.id).sell
     @commodity.reload
 
     assert_equal 'P', @commodity.status
@@ -214,14 +215,14 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # EVL arvo tilikauden lopussa
     @commodity.status = 'A'
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert_equal 6000.0, @commodity.btl_value(@commodity.company.current_fiscal_year.last)
 
     # Toisesta järjestelmästä perityt poistot
     @commodity.previous_btl_depreciations = 5000.0
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
 
     assert_equal 3000.0, @commodity.btl_value(@commodity.company.current_fiscal_year.last)
   end
@@ -237,7 +238,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     }
     @commodity.attributes = validparams
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert @commodity.can_be_sold?, 'Should be valid'
 
     # Invalid status
@@ -326,7 +327,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   test 'accumulated depreciation and bookkeeping method uses transferred_procurement_amount' do
     activation_bookkeeping_value = 10000.0
     # If rows present, values should not be affected by transferred procurement amount
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today)
     assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
     assert_equal activation_bookkeeping_value, @commodity.amount
@@ -337,7 +338,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
 
     # If rows not present, values should be affected by transferred procurement amount
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).mark_rows_obsolete
+    CommodityRowGenerator.new(commodity_id: @commodity.id).mark_rows_obsolete
     @commodity.transferred_procurement_amount = 0.0
     assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
     assert_equal activation_bookkeeping_value, @commodity.bookkeeping_value(Date.today)
@@ -353,7 +354,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.transferred_procurement_amount = 26190.0
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
     assert_equal 0, @commodity.depreciation_rows.count

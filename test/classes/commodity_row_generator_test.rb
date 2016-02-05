@@ -24,7 +24,21 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @fiscal_year.save!
 
     @bob = users(:bob)
-    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    Current.user = @bob
+
+    @generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
+  end
+
+  test 'fails if no current company' do
+    Current.company = nil
+
+    assert_raises(CurrentCompanyNil) { CommodityRowGenerator.new(commodity_id: @commodity.id) }
+  end
+
+  test 'fails if no current user' do
+    Current.user = nil
+
+    assert_raises(ArgumentError) { CommodityRowGenerator.new(commodity_id: @commodity.id) }
   end
 
   test 'fixture is correct for calculations' do
@@ -66,7 +80,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.activated_at = @company.tilikausi_loppu.beginning_of_month
     @commodity.save!
 
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id, fiscal_id: @fiscal_year.id)
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, fiscal_id: @fiscal_year.id)
     generator.generate_rows
     result = generator.degressive_by_percentage(reduct, fiscalyearly_percentage)
     assert_equal 1019.69, result.sum
@@ -122,7 +136,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     assert_equal commodity_amount.to_d, @commodity.amount
 
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
     generator.generate_rows
     assert_equal -68530.96.to_d, @commodity.commodity_rows.sum(:amount)
     assert_equal 96708.09, @commodity.depreciation_rows.sum(:summa)
@@ -135,7 +149,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     total_amount = 49716.55
 
     # Re-Initialize generator with new fiscal values
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
     result = generator.fixed_by_month(total_amount, total_depreciations)
     assert_equal result.first, 828.61
     assert_equal result.last, 828.61
@@ -163,8 +177,11 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert @commodity.valid?
     @commodity.save!
 
+    # we must set current company here, as it is not refreshed in the thread
+    Current.company = @commodity.company
+
     # Re-Initialize generator with new fiscal values
-    generator = CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id)
+    generator = CommodityRowGenerator.new(commodity_id: @commodity.id)
     result = generator.fixed_by_month(total_amount, total_depreciations)
 
     assert_equal 25, result.count
@@ -189,7 +206,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # We get 24 rows in total...
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -268,7 +285,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -321,7 +338,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # This commodity already has 2 commodity_rows
     assert_difference('FixedAssets::CommodityRow.count', 4) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -345,7 +362,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('Head::VoucherRow.count', 24) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -389,7 +406,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -428,7 +445,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -466,7 +483,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.save!
 
     assert_difference('FixedAssets::CommodityRow.count', 6) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+      CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     end
 
     @commodity.reload
@@ -504,8 +521,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows for previous year
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: fiscal_years(:one).id,
-      user_id: @bob.id
+      fiscal_id: fiscal_years(:one).id
     }
 
     # Activate commodity on november last year
@@ -534,8 +550,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     # Create depreciation rows to current fiscal period
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: @fiscal_year.id,
-      user_id: @bob.id
+      fiscal_id: @fiscal_year.id
     }
 
     @commodity.activated_at = @company.tilikausi_alku
@@ -569,7 +584,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.status = 'A'
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     @commodity.reload
 
     # 24 rows split into 2 (with different cost_centres), all share same user
@@ -607,10 +622,10 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.activated_at = Date.today.beginning_of_year
     @commodity.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     @commodity.reload
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
+    CommodityRowGenerator.new(commodity_id: @commodity.id).sell
     @commodity.reload
 
     assert_equal 'P', @commodity.status
@@ -638,15 +653,14 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @commodity.fixed_assets_account, salesrows.first.tilino
 
     assert_raises(ArgumentError) do
-      CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).sell
+      CommodityRowGenerator.new(commodity_id: @commodity.id).sell
     end
   end
 
   test 'should not create rows before commodity activation date' do
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: @fiscal_year.id,
-      user_id: @bob.id
+      fiscal_id: @fiscal_year.id
     }
 
     @commodity.update_column(:activated_at, @fiscal_year.tilikausi_alku.advance(months: 3))
@@ -668,8 +682,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
   test 'should delete rows for same period as generated' do
     params = {
       commodity_id: @commodity.id,
-      fiscal_id: @fiscal_year.id,
-      user_id: @bob.id
+      fiscal_id: @fiscal_year.id
     }
 
     @commodity.update_column(:activated_at, @fiscal_year.tilikausi_alku)
@@ -712,7 +725,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 0, @commodity.commodity_rows.count
 
     # Create 2014's worth of commodity_rows and 0 depreciation rows cause planned value already 0
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id, fiscal_id: fiscal_year.id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id, fiscal_id: fiscal_year.id).generate_rows
     assert_equal 12, @commodity.commodity_rows.count
     assert_equal 0, @commodity.depreciation_rows.count
     assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)
@@ -722,7 +735,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @company.tilikausi_alku = original_start_date
     @company.save!
 
-    CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
+    CommodityRowGenerator.new(commodity_id: @commodity.id).generate_rows
     assert_equal 24, @commodity.commodity_rows.count
     assert_equal 0.0, @commodity.bookkeeping_value(Date.today)
     assert_equal 26190.0, @commodity.accumulated_depreciation_at(Date.today)

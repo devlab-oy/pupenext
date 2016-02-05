@@ -1,20 +1,17 @@
 class CommodityRowGenerator
-  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date, :user
+  attr_accessor :company, :commodity, :fiscal_start, :fiscal_end, :activation_date
 
-  def initialize(commodity_id:, fiscal_id: nil, user_id:)
+  def initialize(commodity_id:, fiscal_id: nil)
     self.commodity       = FixedAssets::Commodity.find(commodity_id)
-    self.company         = commodity.company
     self.activation_date = commodity.activated_at
-    self.user            = company.users.find_by(tunnus: user_id)
-
-    Current.user         = user
-    Current.company      = company
+    self.company         = Current.company
 
     # If fiscal id not given, use open period
     fi = fiscal_id ? company.fiscal_years.find(fiscal_id).period : company.open_period
     self.fiscal_start = fi.first
     self.fiscal_end   = fi.last
 
+    raise ArgumentError unless Current.user.is_a?(User)
     raise ArgumentError unless commodity.activated?
     raise ArgumentError unless commodity.valid?
     raise ArgumentError unless company.date_in_open_period?(depreciation_start_date)
@@ -34,7 +31,7 @@ class CommodityRowGenerator
     commodity.commodity_rows.where(transacted_at: fiscal_period).update_all(amended: true)
 
     commodity.voucher_rows.where(tapvm: fiscal_period).find_each do |row|
-      row.amend_by(user)
+      row.amend
       row.save
     end
   end
@@ -223,7 +220,6 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          laatija: user.kuka,
           tapvm: time.end_of_month,
           summa: amount * -1,
           yhtio: company.yhtio,
@@ -245,8 +241,6 @@ class CommodityRowGenerator
         time = depreciation_start_date.advance(months: +i)
 
         row_params = {
-          created_by: user.kuka,
-          modified_by: user.kuka,
           transacted_at: time.end_of_month,
           amount: amount * -1,
           description: "EVL poisto, tyyppi: #{commodity.btl_depreciation_type}, erä: #{commodity.btl_depreciation_amount}"
@@ -260,7 +254,6 @@ class CommodityRowGenerator
       # Poistoeron kirjaus
       depreciation_differences.each do |amount, time|
         row_params = {
-          laatija: user.kuka,
           tapvm: time,
           summa: amount,
           yhtio: company.yhtio,
@@ -345,13 +338,12 @@ class CommodityRowGenerator
       # Yliajaa myyntipäivän jälkeiset poistotapahtumat
       date = commodity.deactivated_at
       commodity.commodity_rows.where("fixed_assets_commodity_rows.transacted_at > ?", date.end_of_month).update_all(amended: true)
-      commodity.voucher.rows.where("tiliointi.tapvm > ?", date).find_each { |r| r.amend_by(user) }
+      commodity.voucher.rows.where("tiliointi.tapvm > ?", date).find_each { |r| r.amend }
     end
 
     def create_planned_sales_row
       # SUMU-tilin nollaus
       plannedparams = {
-        laatija: user.kuka,
         tapvm: commodity.deactivated_at,
         summa: commodity.amount + commodity.fixed_assets_rows.sum(:summa),
         yhtio: company.yhtio,
@@ -364,7 +356,6 @@ class CommodityRowGenerator
     def create_sales_row
       # Myyntisumma
       soldparams = {
-        laatija: user.kuka,
         tapvm: commodity.deactivated_at,
         summa: commodity.amount_sold,
         yhtio: company.yhtio,
@@ -377,7 +368,6 @@ class CommodityRowGenerator
     def create_sales_profit_row
       # Myyntivoitto/tappio
       profitparams = {
-        laatija: user.kuka,
         tapvm: commodity.deactivated_at,
         summa: commodity.amount - commodity.amount_sold,
         yhtio: company.yhtio,
@@ -394,8 +384,6 @@ class CommodityRowGenerator
         btl_dep_value = commodity.amount + commodity.commodity_rows.sum(:amount)
 
         btlparams = {
-          created_by: user.kuka,
-          modified_by: user.kuka,
           transacted_at: commodity.deactivated_at,
           amount: btl_dep_value * -1,
           description: "Evl käsittely: #{commodity.depreciation_remainder_handling}"

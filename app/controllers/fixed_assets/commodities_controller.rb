@@ -94,8 +94,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   def generate_rows
     options = {
       commodity_id: @commodity.id,
-      fiscal_id: params[:selected_fiscal_year],
-      user_id: current_user.id
+      fiscal_id: params[:selected_fiscal_year]
     }
 
     CommodityRowGenerator.new(options).generate_rows
@@ -106,8 +105,7 @@ class FixedAssets::CommoditiesController < AdministrationController
   def delete_rows
     options = {
       commodity_id: @commodity.id,
-      fiscal_id: params[:selected_fiscal_year],
-      user_id: current_user.id
+      fiscal_id: params[:selected_fiscal_year]
     }
 
     CommodityRowGenerator.new(options).mark_rows_obsolete
@@ -148,8 +146,7 @@ class FixedAssets::CommoditiesController < AdministrationController
 
     if @commodity.can_be_sold? && @commodity.save
       options = {
-        commodity_id: @commodity.id,
-        user_id: current_user.id
+        commodity_id: @commodity.id
       }
       CommodityRowGenerator.new(options).sell
 
