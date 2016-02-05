@@ -205,17 +205,22 @@ class Head::VoucherRowTest < ActiveSupport::TestCase
 
   test 'amended correctly' do
     joe = users(:joe)
-    @row.amend_by joe
+    @row.amend joe
 
     assert joe.kuka, @row.korjattu
     assert_not_nil @row.korjausaika
 
     assert_raise ArgumentError do
-      @row.amend_by "joe"
+      @row.amend "joe"
     end
 
     assert_raise ArgumentError do
-      @row.amend_by
+      @row.amend
     end
+
+    bob = users :bob
+    Current.user = bob
+    @row.amend
+    assert bob.kuka, @row.korjattu
   end
 end

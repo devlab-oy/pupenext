@@ -60,7 +60,7 @@ class Head::VoucherRow < BaseModel
 
     # Mark original removed by THE creator
     creator = company.users.find_by(kuka: laatija)
-    amend_by(creator)
+    amend(creator)
 
     if new_rows_valid && valid?
       new_rows.each { |row| row.save }
@@ -70,7 +70,7 @@ class Head::VoucherRow < BaseModel
     end
   end
 
-  def amend_by(user)
+  def amend(user = Current.user)
     raise ArgumentError, 'Argument must be an User -class' unless user.is_a? User
 
     self.korjattu = user.kuka
