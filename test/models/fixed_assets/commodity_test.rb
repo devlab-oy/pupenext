@@ -215,7 +215,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.status = 'A'
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
-    assert_equal 6000.0, @commodity.btl_value
+    assert_equal 6000.0, @commodity.btl_value(@commodity.company.current_fiscal_year.last)
 
     # Toisesta järjestelmästä perityt poistot
     @commodity.previous_btl_depreciations = 5000.0
@@ -223,7 +223,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
 
-    assert_equal 3000.0, @commodity.btl_value
+    assert_equal 3000.0, @commodity.btl_value(@commodity.company.current_fiscal_year.last)
   end
 
   test 'cant be sold with invalid params' do

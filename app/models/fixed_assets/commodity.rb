@@ -178,11 +178,11 @@ class FixedAssets::Commodity < BaseModel
   end
 
   # kirjanpidollinen arvo annettuna ajankohtana
-  def bookkeeping_value(end_date = company.current_fiscal_year.last)
+  def bookkeeping_value(date)
     if deactivated?
       calculation = amount
     else
-      calculation = accumulated_depreciation_at(end_date)
+      calculation = accumulated_depreciation_at(date)
     end
 
     if transferred_procurement_amount > 0 && calculation == transferred_procurement_amount && depreciation_rows.count == 0
@@ -195,13 +195,13 @@ class FixedAssets::Commodity < BaseModel
   end
 
   # EVL-arvo annettuna ajankohtana
-  def btl_value(end_date = company.current_fiscal_year.last)
-    btl_amount + accumulated_evl_at(end_date)
+  def btl_value(date)
+    btl_amount + accumulated_evl_at(date)
   end
 
   # kertyneet SUMU-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
-    accumulated = depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
+    accumulated = depreciation_between(Time.at(0), date)
 
     if accumulated.zero? && transferred_procurement_amount > 0 && depreciation_rows.count.zero?
       accumulated = transferred_procurement_amount
@@ -212,12 +212,12 @@ class FixedAssets::Commodity < BaseModel
 
   # kertyneet poistoerot annettuna ajankohtana
   def accumulated_difference_at(date)
-    depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa) - previous_btl_depreciations
+    difference_between(Time.at(0), date) - previous_btl_depreciations
   end
 
   # kertyneet EVL-poistot annettuna ajankohtana
   def accumulated_evl_at(date)
-    commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", date).sum(:amount)
+    evl_between(Time.at(0), date)
   end
 
   # hyödykkeen SUMU-poistot aikavälillä

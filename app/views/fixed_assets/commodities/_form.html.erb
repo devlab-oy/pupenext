@@ -20,11 +20,11 @@
     </tr>
     <tr>
       <th><%= t('.bookkeeping_value') %></th>
-      <td><%= @commodity.bookkeeping_value %></td>
+      <td><%= @commodity.bookkeeping_value(current_company.current_fiscal_year.last) %></td>
     </tr>
     <tr>
       <th><%= t('.btl_value') %></th>
-      <td><%= @commodity.btl_value %></td>
+      <td><%= @commodity.btl_value(current_company.current_fiscal_year.last) %></td>
     </tr>
     <tr>
       <th><%= t('.previous_btl_depreciations') %></th>
