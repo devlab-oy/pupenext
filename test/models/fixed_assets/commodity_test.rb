@@ -207,7 +207,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.reload
 
     assert_equal 'P', @commodity.status
-    assert_equal 0, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last).to_s
+    assert_equal 0, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last)
   end
 
   test 'current btl value works with or without history amount' do
