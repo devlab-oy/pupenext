@@ -190,7 +190,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: users(:bob).id).generate_rows
     assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
-    assert_equal 6500, @commodity.bookkeeping_value
+    assert_equal 6500, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last)
 
     # Sold commodity bkvalue is 0
     salesparams = {
@@ -207,7 +207,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     @commodity.reload
 
     assert_equal 'P', @commodity.status
-    assert_equal 0, @commodity.bookkeeping_value
+    assert_equal 0, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last).to_s
   end
 
   test 'current btl value works with or without history amount' do
