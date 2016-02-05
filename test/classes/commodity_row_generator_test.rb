@@ -257,9 +257,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
-
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
     assert_equal 6, @commodity.depreciation_difference_rows.count
@@ -314,9 +311,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     @commodity.reload
     @commodity.name = 'foo'
     @commodity.description = 'bar'
-
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
 
     # ... still a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -387,9 +381,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
-
     # Test no rows are updated if not needed
     assert @commodity.voucher.rows.collect(&:previous_changes).all?(&:empty?)
   end
@@ -421,9 +412,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.last.amount, -248.65
 
     @commodity.reload
-
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
 
     # a 6/6 split
     assert_equal 6, @commodity.fixed_assets_rows.count
@@ -464,9 +452,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     @commodity.reload
 
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
-
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
   end
@@ -498,9 +483,6 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @commodity.commodity_rows.last.amount, -166.65
 
     @commodity.reload
-
-    # Rows do not change
-    refute @commodity.ok_to_generate_rows?
 
     # Test no rows are updated if not needed
     assert @commodity.commodity_rows.collect(&:previous_changes).all?(&:empty?)
