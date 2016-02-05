@@ -41,10 +41,6 @@ class FixedAssets::Commodity < BaseModel
     !activated? || procurement_rows.count > 1
   end
 
-  def ok_to_generate_rows?
-    activated? && important_values_changed?
-  end
-
   # Sopivat ostolaskut
   def linkable_invoices
     company.purchase_invoices_paid.where(tunnus: linkable_head_ids)
@@ -257,19 +253,6 @@ class FixedAssets::Commodity < BaseModel
   end
 
   private
-
-    def important_values_changed?
-      attrs = %w{
-        amount
-        activated_at
-        planned_depreciation_type
-        planned_depreciation_amount
-        btl_depreciation_type
-        btl_depreciation_amount
-      }
-
-      (changed & attrs).any?
-    end
 
     def depreciation_amount_must_follow_type
       check_amount_allowed_for_type(planned_depreciation_type, planned_depreciation_amount)
