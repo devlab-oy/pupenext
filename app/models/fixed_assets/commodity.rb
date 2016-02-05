@@ -83,6 +83,20 @@ class FixedAssets::Commodity < BaseModel
     commodity_rows.empty? && voucher_rows.empty?
   end
 
+  def can_be_sold?
+    return false if profit_account.nil?
+    return false if sales_account.nil?
+    return false unless activated?
+    return false if amount_sold.nil?
+    return false if amount_sold < 0
+    return false if deactivated_at.nil?
+    return false if deactivated_at.to_date > Date.today
+    return false unless depreciations_generated_until?(deactivated_at.to_date)
+    return false unless company.date_in_open_period?(deactivated_at)
+    return false unless ['S','E'].include?(depreciation_remainder_handling)
+    true
+  end
+
   # Returns sum of past sumu depreciations
   def deprecated_sumu_amount
     voucher_rows.locked.sum(:summa)
@@ -153,7 +167,17 @@ class FixedAssets::Commodity < BaseModel
     activated_at || procurement_rows.first.try(:tapvm) || Date.today
   end
 
-  # Kirjanpidollinen arvo annettuna ajankohtana
+  # alkuperäinen hankintahinta
+  def procurement_amount
+    transferred_procurement_amount > 0 ? transferred_procurement_amount : amount
+  end
+
+  # alkuperäinen EVL arvo
+  def btl_amount
+    previous_btl_depreciations > 0 ? previous_btl_depreciations : amount
+  end
+
+  # kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(end_date = company.current_fiscal_year.last)
     if deactivated?
       calculation = amount
@@ -170,26 +194,12 @@ class FixedAssets::Commodity < BaseModel
     end
   end
 
-  # EVL arvo annettuna ajankohtana, (previous_depreciations(-) tai amount) + evl poistorivit(-)
+  # EVL-arvo annettuna ajankohtana
   def btl_value(end_date = company.current_fiscal_year.last)
     btl_amount + accumulated_evl_at(end_date)
   end
 
-  def can_be_sold?
-    return false if profit_account.nil?
-    return false if sales_account.nil?
-    return false unless activated?
-    return false if amount_sold.nil?
-    return false if amount_sold < 0
-    return false if deactivated_at.nil?
-    return false if deactivated_at.to_date > Date.today
-    return false unless depreciations_generated_until?(deactivated_at.to_date)
-    return false unless company.date_in_open_period?(deactivated_at)
-    return false unless ['S','E'].include?(depreciation_remainder_handling)
-    true
-  end
-
-  # kertyneet sumu-poistot annettuna ajankohtana
+  # kertyneet SUMU-poistot annettuna ajankohtana
   def accumulated_depreciation_at(date)
     accumulated = depreciation_rows.where("tiliointi.tapvm <= ?", date).sum(:summa)
 
@@ -205,34 +215,24 @@ class FixedAssets::Commodity < BaseModel
     depreciation_difference_rows.where("tiliointi.tapvm <= ?", date).sum(:summa) - previous_btl_depreciations
   end
 
-  # kertyneet evl-poistot annettuna ajankohtana
+  # kertyneet EVL-poistot annettuna ajankohtana
   def accumulated_evl_at(date)
     commodity_rows.where("fixed_assets_commodity_rows.transacted_at <= ?", date).sum(:amount)
   end
 
-  # kertyneet sumu-poistot välillä
+  # hyödykkeen SUMU-poistot aikavälillä
   def depreciation_between(date1, date2)
-     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+    depreciation_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
-  # kertyneet poistoerot välillä
+  # hyödykkeen poistoerot aikavälillä
   def difference_between(date1, date2)
     depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
   end
 
-  # kertyneet evl-poistot välillä
+  # hyödykkeen EVL-poistot aikavälillä
   def evl_between(date1, date2)
     commodity_rows.where(transacted_at: date1..date2).sum(:amount)
-  end
-
-  # alkuperäinen hankintahinta
-  def procurement_amount
-    transferred_procurement_amount > 0 ? transferred_procurement_amount : amount
-  end
-
-  # alkuperäinen EVL arvo
-  def btl_amount
-    previous_btl_depreciations > 0 ? previous_btl_depreciations : amount
   end
 
   private
