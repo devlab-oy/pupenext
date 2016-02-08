@@ -211,8 +211,11 @@ class FixedAssets::Commodity < BaseModel
 
   # EVL-arvo annettuna ajankohtana
   def btl_value(date)
+    # hankintahinta ennen hankintapäivää on nolla
+    calc_amount = date >= activated_at ? procurement_amount : 0
+
     # hankintahinta miinus kaikki EVL-poistot
-    procurement_amount - accumulated_evl_at(date)
+    calc_amount - accumulated_evl_at(date)
   end
 
   # kertyneet SUMU-poistot annettuna ajankohtana
@@ -263,8 +266,8 @@ class FixedAssets::Commodity < BaseModel
     # jos kysytään poistoeroa, joka on vanhempi kun aktivointipäivä
     # huomioidaan vanhan järjestelmän poistoero
     if date1 < activated_at
-      procurement_difference = (transferred_procurement_amount - amount)
-      btl_difference = (procurement_amount - previous_btl_depreciations)
+      procurement_difference = transferred_procurement_amount > 0 ? (transferred_procurement_amount - amount) : 0
+      btl_difference = previous_btl_depreciations > 0 ? (procurement_amount - previous_btl_depreciations) : 0
 
       total = procurement_difference - btl_difference - total
     end
