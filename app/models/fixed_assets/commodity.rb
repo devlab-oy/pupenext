@@ -80,17 +80,20 @@ class FixedAssets::Commodity < BaseModel
   end
 
   def can_be_sold?
-    return false if profit_account.nil?
-    return false if sales_account.nil?
-    return false unless activated?
-    return false if amount_sold.nil?
-    return false if amount_sold < 0
-    return false if deactivated_at.nil?
-    return false if deactivated_at.to_date > Date.today
-    return false unless depreciations_generated_until?(deactivated_at.to_date)
-    return false unless company.date_in_open_period?(deactivated_at)
-    return false unless ['S','E'].include?(depreciation_remainder_handling)
-    true
+    errors.add(:profit_account, "profit account") if profit_account.nil?
+    errors.add(:sales_account, "sales account") if sales_account.nil?
+    errors.add(:status, 'not activated') unless activated?
+    errors.add(:amount_sold, 'greater than zero') if amount_sold.nil? || amount_sold < 0
+    errors.add(:deactivated_at, 'must be past') if deactivated_at.nil? || deactivated_at.to_date > Date.today
+    errors.add(:base, 'dep rows not generated') unless deactivated_at.nil? || depreciations_generated_until?(deactivated_at.to_date)
+    errors.add(:deactivated_at, 'deatctivated not open') unless company.date_in_open_period?(deactivated_at)
+    errors.add(:depreciation_remainder_handling, 'not in selection') unless ['S','E'].include?(depreciation_remainder_handling)
+
+    if errors.empty?
+      true
+    else
+      false
+    end
   end
 
   def generate_rows(fiscal_id: nil)
