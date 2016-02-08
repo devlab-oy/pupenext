@@ -557,13 +557,13 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal "49716.55", commodity.btl_value(year_feb).to_s
 
     # 2. kertyneet EVL-poistot vuoden alussa
-    assert_equal "0.0", commodity.accumulated_evl_at(year_beginning).to_s
+    assert_equal "-0.0", commodity.accumulated_evl_at(year_beginning).to_s
 
     # 3. EVL -poistoja vuoden aikana
     assert_equal "12429.14", commodity.evl_between(year_beginning, year_end).to_s
 
     # 4. kertyneet EVL-poistot vuoden lopussa
-    assert_equal "12429.14", commodity.accumulated_evl_at(year_beginning).to_s
+    assert_equal "12429.14", commodity.accumulated_evl_at(year_end).to_s
 
     # 5. EVL-arvo (menojäännös) vuoden lopussa
     assert_equal "37287.41", commodity.btl_value(year_end).to_s
@@ -574,9 +574,9 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal "0.0", commodity.accumulated_difference_at(year_beginning).to_s
 
     # kertyneet poistoerot vuoden aikana
-    assert_equal "3314.44", commodity.difference_between(year_beginning, year_end).to_s
+    assert_equal "-3314.44", commodity.difference_between(year_beginning, year_end).to_s
 
     # kertyneet poistoerot vuoden lopussa
-    assert_equal "3314.44", commodity.accumulated_difference_at(year_end).to_s
+    assert_equal "-3314.44", commodity.accumulated_difference_at(year_end).to_s
   end
 end
