@@ -277,21 +277,21 @@ class CommodityRowGenerator
     def calculate_depreciations(depreciation_type)
       case depreciation_type.to_sym
       when :SUMU
-        bookkeeping_value = commodity.bookkeeping_value(fiscal_start)
+        bookkeeping_value = commodity.bookkeeping_value(depreciation_start_date)
         procurement_amount = commodity.amount
         calculation_type = commodity.planned_depreciation_type
         calculation_amount = commodity.planned_depreciation_amount
-        depreciated_sum = commodity.accumulated_depreciation_at(fiscal_start)
-        depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", fiscal_start).count
+        depreciated_sum = commodity.accumulated_depreciation_at(depreciation_start_date)
+        depreciation_amount = commodity.depreciation_rows.where("tiliointi.tapvm < ?", depreciation_start_date).count
 
         return [] if bookkeeping_value.zero?
       when :EVL
-        bookkeeping_value = commodity.btl_value(fiscal_start)
+        bookkeeping_value = commodity.btl_value(depreciation_start_date)
         procurement_amount = commodity.previous_btl_depreciations > 0.0 ? commodity.previous_btl_depreciations : commodity.amount
         calculation_type = commodity.btl_depreciation_type
         calculation_amount = commodity.btl_depreciation_amount
         depreciated_sum = procurement_amount - commodity.btl_value(depreciation_start_date)
-        depreciation_amount = commodity.commodity_rows.where('fixed_assets_commodity_rows.transacted_at < ?', fiscal_start).count
+        depreciation_amount = commodity.commodity_rows.where('fixed_assets_commodity_rows.transacted_at < ?', depreciation_start_date).count
       else
         raise ArgumentError, 'Invalid depreciation_type'
       end
