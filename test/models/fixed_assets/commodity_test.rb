@@ -219,7 +219,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     assert_equal "6500.0", @commodity.bookkeeping_value(year_end).to_s
 
     @commodity.update!(
-      amount_sold: @commodity.amount,
+      amount_sold: 2500,
       deactivated_at: september,
       profit_account: accounts(:account_100),
       sales_account: accounts(:account_110),
@@ -236,7 +236,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
     # Sold commodity bookkeeping value should be 0
     assert_equal 'P', @commodity.status
-    assert_equal 0, @commodity.bookkeeping_value(year_end).to_s
+    assert_equal "0.0", @commodity.bookkeeping_value(year_end).to_s
   end
 
   test 'current btl value works with or without history amount' do
