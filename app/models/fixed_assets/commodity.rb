@@ -103,6 +103,7 @@ class FixedAssets::Commodity < BaseModel
 
   def delete_rows(fiscal_id: nil)
     CommodityRowGenerator.new(commodity_id: id, fiscal_id: fiscal_id).mark_rows_obsolete
+    reload
   end
 
   def activate
@@ -113,6 +114,7 @@ class FixedAssets::Commodity < BaseModel
   def sell
     if can_be_sold? && save
       CommodityRowGenerator.new(commodity_id: id).sell
+      reload
     else
       false
     end
@@ -286,7 +288,7 @@ class FixedAssets::Commodity < BaseModel
 
     def activation_only_on_open_period
       unless company.date_in_open_period?(activated_at)
-        errors.add(:base, "Activation date must be within current editable fiscal period")
+        errors.add(:activated_at, "Activation date must be within current editable fiscal period")
       end
     end
 
