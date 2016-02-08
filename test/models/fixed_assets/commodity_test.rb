@@ -18,6 +18,11 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     Current.user = users :bob
   end
 
+  teardown do
+    # make sure other tests don't mess up our dates
+    travel_back
+  end
+
   test 'fixtures are valid' do
     assert @commodity.valid?, @commodity.errors.full_messages
     assert_equal "Acme Corporation", @commodity.company.nimi
@@ -188,27 +193,50 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
   end
 
   test 'current bookkeeping value works' do
-    @commodity.status = 'A'
-    @commodity.save!
-    @commodity.generate_rows
+    # dates
+    year_beginning = Date.today.beginning_of_year
+    year_end = Date.today.end_of_year
+    september = Date.today.change(month: 9, day: 1)
 
-    assert_equal 8800.0, @commodity.bookkeeping_value(Date.today)
-    assert_equal 6500, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last)
+    # travel to September, we cannot sell a commodity in the past
+    # make today September, sell in October
+    travel_to september
 
-    # Sold commodity bkvalue is 0
-    salesparams = {
+    # set open period to full year
+    @company.update!(
+      tilikausi_alku: year_beginning,
+      tilikausi_loppu: year_end,
+    )
+
+    Current.company = @company
+
+    # activate commodity
+    @commodity.update! activated_at: year_beginning
+    assert @commodity.activate
+    assert @commodity.generate_rows
+
+    assert_equal "7647.04", @commodity.bookkeeping_value(september).to_s
+    assert_equal "6500.0", @commodity.bookkeeping_value(year_end).to_s
+
+    @commodity.update!(
       amount_sold: @commodity.amount,
-      deactivated_at: Date.today,
+      deactivated_at: september,
       profit_account: accounts(:account_100),
       sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S',
-    }
-    @commodity.attributes = salesparams
-    @commodity.sell
-    @commodity.reload
+    )
 
+    # travel to October, sell date must be in the future
+    travel_to Date.today.change(month: 10, day: 1)
+
+    assert @commodity.can_be_sold?, @commodity.errors.full_messages
+    assert @commodity.valid?, @commodity.errors.full_messages
+
+    assert @commodity.sell
+
+    # Sold commodity bookkeeping value should be 0
     assert_equal 'P', @commodity.status
-    assert_equal 0, @commodity.bookkeeping_value(@commodity.company.current_fiscal_year.last)
+    assert_equal 0, @commodity.bookkeeping_value(year_end).to_s
   end
 
   test 'current btl value works with or without history amount' do
@@ -326,6 +354,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
 
   test 'accumulated depreciation and bookkeeping method uses transferred_procurement_amount' do
     activation_bookkeeping_value = 10000.0
+
     # If rows present, values should not be affected by transferred procurement amount
     @commodity.generate_rows
     assert_equal 1200.0, @commodity.accumulated_depreciation_at(Date.today)
@@ -465,11 +494,12 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
       tilikausi_loppu: year_end,
     )
 
+    Current.company = @company
+
     # create commodity (values from old system)
     commodity = @company.commodities.create!(
       name: "Honda CR-V",
       description: "Sininen",
-      status: "A",
       planned_depreciation_type: "T",
       planned_depreciation_amount: 60,
       btl_depreciation_type: "B",
