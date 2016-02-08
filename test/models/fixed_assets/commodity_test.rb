@@ -525,16 +525,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # SUMU -puoli
 
     # 1. kirjanpidollinen SUMU arvo (menojäännös) vuoden alussa
-    assert_equal "0", commodity.bookkeeping_value(year_beginning).to_s
+    assert_equal "0.0", commodity.bookkeeping_value(year_beginning).to_s
 
     # 1.1 kirjanpidollinen SUMU arvo (menojäännös) päivää ennen aktivointia
-    assert_equal "0", commodity.bookkeeping_value(year_feb - 1.day).to_s
+    assert_equal "0.0", commodity.bookkeeping_value(year_feb - 1.day).to_s
 
     # 1.2 kirjanpidollinen SUMU arvo (menojäännös) aktivointipäivänä
     assert_equal "49716.55", commodity.bookkeeping_value(year_feb).to_s
 
     # 2. Kertyneet SUMU -poistot vuoden alussa
-    assert_equal "0", commodity.accumulated_depreciation_at(year_beginning).to_s
+    assert_equal "0.0", commodity.accumulated_depreciation_at(year_beginning).to_s
 
     # 3. SUMU -poistoja vuoden aikana
     assert_equal "9114.7", commodity.depreciation_between(year_beginning, year_end).to_s
@@ -548,16 +548,16 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # EVL -puoli
 
     # 1. EVL-arvo (menojäännös) vuoden alussa
-    assert_equal "0", commodity.btl_value(year_beginning).to_s
+    assert_equal "0.0", commodity.btl_value(year_beginning).to_s
 
     # 1.1 EVL-arvo (menojäännös) päivää ennen aktivointia
-    assert_equal "0", commodity.btl_value(year_feb - 1.day).to_s
+    assert_equal "0.0", commodity.btl_value(year_feb - 1.day).to_s
 
     # 1.2 EVL-arvo (menojäännös) aktivointipäivänä
     assert_equal "49716.55", commodity.btl_value(year_feb).to_s
 
     # 2. kertyneet EVL-poistot vuoden alussa
-    assert_equal "0", commodity.accumulated_evl_at(year_beginning).to_s
+    assert_equal "0.0", commodity.accumulated_evl_at(year_beginning).to_s
 
     # 3. EVL -poistoja vuoden aikana
     assert_equal "12429.14", commodity.evl_between(year_beginning, year_end).to_s
@@ -571,7 +571,7 @@ class FixedAssets::CommodityTest < ActiveSupport::TestCase
     # POISTOEROT
 
     # kertyneet poistoerot vuoden alussa
-    assert_equal "0", commodity.accumulated_difference_at(year_beginning).to_s
+    assert_equal "0.0", commodity.accumulated_difference_at(year_beginning).to_s
 
     # kertyneet poistoerot vuoden aikana
     assert_equal "3314.44", commodity.difference_between(year_beginning, year_end).to_s

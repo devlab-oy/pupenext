@@ -202,8 +202,11 @@ class FixedAssets::Commodity < BaseModel
 
   # kirjanpidollinen arvo annettuna ajankohtana
   def bookkeeping_value(date)
+    # hankintahinta ennen hankintapäivää on nolla
+    calc_amount = date >= activated_at ? procurement_amount : 0
+
     # hankintahinta miinus kaikki SUMU-poistot
-    procurement_amount - accumulated_depreciation_at(date)
+    calc_amount - accumulated_depreciation_at(date)
   end
 
   # EVL-arvo annettuna ajankohtana
