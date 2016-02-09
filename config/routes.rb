@@ -62,6 +62,8 @@ Pupesoft::Application.routes.draw do
 
   scope module: :utilities do
     get 'qr_codes/generate'
+    get 'logs', to: 'logs#index'
+    get 'logs/show/:name', to: 'logs#show', as: :show_log
   end
 
   scope module: :reports do
