@@ -90,7 +90,7 @@ end
 class Import::ProductInformation::Row
   def initialize(hash, language:, type:)
     @hash     = Hash[hash.map { |k, v| [k.to_s.downcase, v] }] # downcase all keys
-    @tuoteno  = @hash.delete 'tuotenumero'
+    @tuoteno  = @hash.delete 'tuoteno'
     @toiminto = @hash.delete 'poista'
     @language = language
     @type     = type
