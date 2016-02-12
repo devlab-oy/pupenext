@@ -11,8 +11,9 @@ wb.add_worksheet(name: "Workbook") do |sheet|
     types = [:string]
 
     row << @extra_fields.map do |field|
-      product.send(field)
       types << nil
+
+      product.send(field)
     end
 
     row << @keywords.map do |keyword|
