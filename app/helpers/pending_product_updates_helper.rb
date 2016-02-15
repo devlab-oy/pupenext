@@ -8,7 +8,7 @@ module PendingProductUpdatesHelper
 
   def pending_status_options
     [
-      [t('pending_product_updates.pending_status_options.active'),  ''],
+      [t('pending_product_updates.pending_status_options.active'),  '@A'],
       [t('pending_product_updates.pending_status_options.deleted'), '@P']
     ]
   end
