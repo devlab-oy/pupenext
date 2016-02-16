@@ -82,6 +82,42 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_select 'td', count: 1, text: 'Chair'
   end
 
+  test 'searching with category text works' do
+    get :index, category_text1: 'MyString1'
+
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
+
+    get :index, category_text2: 'MyString2'
+
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
+
+    get :index, category_text3: 'MyString3'
+
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
+
+    get :index, category_text4: 'MyString4'
+
+    assert_select 'td', count: 0, text: 'Tramboline'
+    assert_select 'td', count: 1, text: 'Chair'
+  end
+
+  test 'searching with description works' do
+    get :index, description: 'MyString'
+
+    assert_select 'td', count: 1, text: 'Chair'
+    assert_select 'td', count: 0, text: 'Tramboline'
+  end
+
+  test 'searching with supplier part number works' do
+    get :index, supplier_part_number: 'MySupplierPartNumber'
+
+    assert_select 'td', count: 1, text: 'Chair'
+    assert_select 'td', count: 0, text: 'Tramboline'
+  end
+
   test 'searching with product id works' do
     get :index, product_id: '2'
 

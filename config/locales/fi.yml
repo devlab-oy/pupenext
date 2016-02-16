@@ -288,6 +288,10 @@ fi:
         tyyppi: Tyyppi
       supplier_product_information:
         available_quantity: Varastossa
+        category_text1: Kategoria 1
+        category_text2: Kategoria 2
+        category_text3: Kategoria 3
+        category_text4: Kategoria 4
         description: Kuvaus
         dynamic_tree: Puun alkio
         manufacturer_ean: Valmistajan EAN-koodi
@@ -297,6 +301,7 @@ fi:
         product_id: Tuotekoodi
         product_name: Tuotteen nimitys
         supplier_name: Toimittaja
+        supplier_part_number: Toimittajan tuotekoodi
       terms_of_payment:
         abs_pvm: Maksupäivä
         erapvmkasin: Eräpäivän syöttö käsin

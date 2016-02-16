@@ -50,14 +50,14 @@ two:
   supplier_name: MyString
   supplier: domestic_supplier
   supplier_ean: MyString
-  supplier_part_number: MyString
+  supplier_part_number: MySupplierPartNumber
   product_status: MyString
   short_description: MyString
   description: MyString
-  category_text1: MyString
-  category_text2: MyString
-  category_text3: MyString
-  category_text4: MyString
+  category_text1: MyString1
+  category_text2: MyString2
+  category_text3: MyString3
+  category_text4: MyString4
   category_idn: 1
   net_price: 9.99
   net_retail_price: 9.99

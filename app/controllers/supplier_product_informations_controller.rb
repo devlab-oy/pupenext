@@ -36,11 +36,17 @@ class SupplierProductInformationsController < ApplicationController
 
     def searchable_columns
       %i(
+        category_text1
+        category_text2
+        category_text3
+        category_text4
+        description
         manufacturer_ean
         manufacturer_name
         manufacturer_part_number
         product_name
         product_id
+        supplier_part_number
       )
     end
 
@@ -55,12 +61,18 @@ class SupplierProductInformationsController < ApplicationController
 
       params[:supplier_product_informations].keys.each do |tunnus|
         permitted[tunnus] = %i(
+          category_text1
+          category_text2
+          category_text3
+          category_text4
+          description
           manufacturer_ean
           manufacturer_part_number
           nakyvyys
           osasto
           p_tree_id
           status
+          supplier_part_number
           toimittajan_ostohinta
           toimittajan_saldo
           transfer

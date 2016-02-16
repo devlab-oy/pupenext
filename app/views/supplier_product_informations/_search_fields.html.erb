@@ -8,6 +8,7 @@
       <td>
         <%= select_tag(:manufacturer_name,
                        options_for_select(manufacturer_options, params[:manufacturer_name]),
+                       class:    'chosen-select',
                        include_blank: true) %>
       </td>
     </tr>
@@ -27,6 +28,60 @@
       </th>
       <td>
         <%= search_field_tag :product_id, params[:product_id] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :description,
+                      SupplierProductInformation.human_attribute_name(:description) %>
+      </th>
+      <td>
+        <%= search_field_tag :description, params[:description] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :category_text1,
+                      SupplierProductInformation.human_attribute_name(:category_text1) %>
+      </th>
+      <td>
+        <%= search_field_tag :category_text1, params[:category_text1] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :category_text2,
+                      SupplierProductInformation.human_attribute_name(:category_text2) %>
+      </th>
+      <td>
+        <%= search_field_tag :category_text2, params[:category_text2] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :category_text3,
+                      SupplierProductInformation.human_attribute_name(:category_text3) %>
+      </th>
+      <td>
+        <%= search_field_tag :category_text3, params[:category_text3] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :category_text4,
+                      SupplierProductInformation.human_attribute_name(:category_text4) %>
+      </th>
+      <td>
+        <%= search_field_tag :category_text4, params[:category_text4] %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= label_tag :supplier_part_number,
+                      SupplierProductInformation.human_attribute_name(:supplier_part_number) %>
+      </th>
+      <td>
+        <%= search_field_tag :supplier_part_number, params[:supplier_part_number] %>
       </td>
     </tr>
     <tr>
