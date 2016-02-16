@@ -316,6 +316,7 @@ fi:
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
+        port: Portti
         username: Käyttäjätunnus
       user:
         myyja: Myyjä

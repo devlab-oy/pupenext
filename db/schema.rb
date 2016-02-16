@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215121538) do
+ActiveRecord::Schema.define(version: 20160216095405) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2679,6 +2679,7 @@ ActiveRecord::Schema.define(version: 20160215121538) do
     t.integer  "transportable_id",   limit: 4
     t.string   "transportable_type", limit: 255
     t.string   "hostname",           limit: 255
+    t.integer  "port",               limit: 4
     t.string   "username",           limit: 255
     t.string   "password",           limit: 255
     t.string   "path",               limit: 255

@@ -15,6 +15,7 @@ two:
 three:
   transportable: acme (Company)
   hostname: localhost
+  port: 21
   username: jack
   password: foobar
   path: /path/to/out/dir
