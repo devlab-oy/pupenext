@@ -6,6 +6,7 @@ class ManufactureOrder::RowTest < ActiveSupport::TestCase
     manufacture_order/orders
     manufacture_order/recursive_composite_rows
     manufacture_order/rows
+    products
   )
 
   setup do

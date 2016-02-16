@@ -38,7 +38,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   test 'imports example file' do
     # adding 2, removing 1
     array = [
-      ['TuoteNUMEro', 'Tuotteen mateRIAali', 'Tuotteen KOKO', 'PoIsta'],
+      ['tuoTENo',     'Tuotteen mateRIAali', 'Tuotteen KOKO', 'PoIsta'],
       ['hammer123',   'Aluminium',           'XL',            ''      ],
       ['ski1',        'Hiilikuitu',          'small',         ''      ],
       ['hammer123',   'Aluminium',           '',              'X'     ],
@@ -54,7 +54,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
 
     # row to hash should downcase header row and return hash with values
     response = {
-      "tuotenumero"         => "hammer123",
+      "tuoteno"             => "hammer123",
       "tuotteen materiaali" => "Aluminium",
       "tuotteen koko"       => "XL",
       "poista"              => ""
@@ -76,7 +76,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   test 'row converts excel to fields for product information keyword' do
     # first row from the example file
     data = {
-      "Tuotenumero"         => "ski1",
+      "Tuoteno"             => "ski1",
       "Tuotteen materiaali" => "Villa",
       "Tuotteen koko"       => "XL",
       "Poista"              => nil,
@@ -96,7 +96,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   test 'row converts excel to fields for product information parameter' do
     # first row from the example file
     data = {
-      "Tuotenumero"    => "ski1",
+      "Tuoteno"        => "ski1",
       "Tuotteen väri"  => "Sininen",
       "Malliston nimi" => "Summer",
       "Poista"         => nil,
@@ -117,7 +117,7 @@ class Import::ProductInformationTest < ActiveSupport::TestCase
   test 'row converts removable rows correctly' do
     # first row from the example file
     data = {
-      "Tuotenumero"         => "ski1",
+      "Tuoteno"             => "ski1",
       "Tuotteen materiaali" => "Villa",
       "Tuotteen koko"       => "XL",
       "Poista"              => 'X',

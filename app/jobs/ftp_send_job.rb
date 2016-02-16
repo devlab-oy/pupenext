@@ -18,7 +18,9 @@ class FtpSendJob < ActiveJob::Base
       ftp = Net::FTP.new
 
       begin
-        ftp.connect @transport.hostname
+        port = @transport.port || 21
+
+        ftp.connect @transport.hostname, port
         ftp.login @transport.username, @transport.password
         ftp.chdir @transport.path
         ftp.put @file

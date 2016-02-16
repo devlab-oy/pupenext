@@ -1,7 +1,33 @@
 class DataImportController < ApplicationController
-  before_action :check_for_file, except: [ :index ]
+  before_action :check_for_file, except: [ :index, :destroy_customer_sales ]
 
   def index
+  end
+
+  def customer_sales
+    @spreadsheet = Import::CustomerSales.new(
+      company_id: current_company.id,
+      user_id: current_user.id,
+      filename: @uploaded_file,
+      month: customer_sales_params["month_year(2i)"],
+      year: customer_sales_params["month_year(1i)"],
+    ).import
+
+    @text = SalesOrder::Detail.model_name.human
+
+    render :results
+  end
+
+  def destroy_customer_sales
+    month = customer_sales_params["month_year(2i)"]
+    year  = customer_sales_params["month_year(1i)"]
+    tapvm = Date.new(year.to_i, month.to_i, 1).end_of_month
+
+    SalesOrder::Detail.where(tapvm: tapvm).destroy_all
+    SalesOrder::DetailRow.where(laskutettuaika: tapvm).destroy_all
+
+    flash[:notice] = t('.destroy_success')
+    render :index
   end
 
   def product_keywords
@@ -10,6 +36,8 @@ class DataImportController < ApplicationController
       user_id: current_user.id,
       filename: @uploaded_file,
     ).import
+
+    @text = Product::Keyword.model_name.human
 
     render :results
   end
@@ -22,6 +50,8 @@ class DataImportController < ApplicationController
       language: product_information_params[:language],
       type: product_information_params[:type],
     ).import
+
+    @text = Product::Keyword.model_name.human
 
     render :results
   end
@@ -38,6 +68,10 @@ class DataImportController < ApplicationController
         flash[:error] = 'invalid file type!'
         redirect_to data_import_path
       end
+    end
+
+    def customer_sales_params
+      params.require(:data_import).permit('month_year(1i)', 'month_year(2i)')
     end
 
     def data_import_params

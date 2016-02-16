@@ -327,6 +327,7 @@ fi:
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
+        port: Portti
         username: Käyttäjätunnus
       user:
         myyja: Myyjä
@@ -367,6 +368,7 @@ fi:
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
       qualifier/target: Kohde
+      sales_order/detail: Erikoismyynti
       sum_level: Taso
       sum_level/commodity: EVL
       sum_level/external: Ulkoinen
@@ -657,7 +659,10 @@ fi:
       language: Avainsanojen kieli
       type: Avainsanatyyppi
   data_import:
+    destroy_customer_sales:
+      destroy_success: Erikoismyynnit poistettiin onnistuneesti
     index:
+      destroy: Poista
       header: Tietojen sisäänluku
       import: Sisäänlue
   date:
@@ -776,9 +781,11 @@ fi:
     import:
       action_incorrect: Virheellinen toiminto! Sarakkeen arvo tulee olla joko "lisää" tai "muokkaa".
       action_missing: Toiminto -sarake puuttuu!
+      customer_not_found: Asiakasta "%{customer}" ei löytynyt!
       invalid_attributes: Virheellinen sarake %{attributes}!
       keyword_not_found: Avainsanaa "%{keyword}" kielellä "%{language}" ei löytynyt!
       product_not_found: Tuotetta "%{product}" ei löytynyt!
+      required_fields_missing: Pakollisia sarakkeita puuttuu! Tiedostossa tulee olla ainakin %{fields} -sarakkeet
     messages:
       accepted: täytyy olla hyväksytty
       after: tulee olla suurempi kuin %{date}
@@ -881,6 +888,7 @@ fi:
         project: Projekti
         status: Tila
         target: Kohde
+        transferred_procurement_amount: Siirretty hankintakustannus
       index:
         button_search: Etsi
         header: Käyttöomaisuuden hyödykkeet
@@ -984,6 +992,7 @@ fi:
       link_new: Lisää uusi tuleva päivitys
       price: hinta
       save: Tallenna muutokset
+      short_description: Lyhytkuvaus
       show_price: Näytä hinta
       sku: Tuotenumero
     list_of_changes:
@@ -1192,3 +1201,7 @@ fi:
       long: "%e. %Bta %Y %H.%M"
       short: "%-d.%-m.%y %H:%M"
     pm: iltapäivä
+  utilities:
+    logs:
+      index:
+        logs: Pupesoft lokitiedostot

@@ -68,6 +68,8 @@ Pupesoft::Application.routes.draw do
 
   scope module: :utilities do
     get 'qr_codes/generate'
+    get 'logs', to: 'logs#index'
+    get 'logs/show/:name', to: 'logs#show', as: :show_log
   end
 
   scope module: :reports do
@@ -91,9 +93,11 @@ Pupesoft::Application.routes.draw do
   end
 
   scope :data_import do
-    get '/', to: 'data_import#index', as: :data_import
-    post :product_keywords,    to: 'data_import#product_keywords',    as: :product_keyword_import
-    post :product_information, to: 'data_import#product_information', as: :product_information_import
+    get  '/',                     to: 'data_import#index',                 as: :data_import
+    post :customer_sales,         to: 'data_import#customer_sales',        as: :customer_sales_import
+    post :destroy_customer_sales, to: 'data_import#destroy_customer_sales', as: :destroy_customer_sales_import
+    post :product_information,    to: 'data_import#product_information',   as: :product_information_import
+    post :product_keywords,       to: 'data_import#product_keywords',      as: :product_keyword_import
   end
 
   root to: 'home#index'

@@ -1,0 +1,9 @@
+<%= render "administration/header", text: t('.logs') %>
+
+<ul>
+  <% @files.each do |file| %>
+    <li>
+      <%= link_to file, show_log_path(file) %>
+    </li>
+  <% end %>
+</ul>
