@@ -6,7 +6,7 @@ class Utilities::LogsController < ApplicationController
   end
 
   def show
-    send_file "#{PATH}/#{params_basename}.log", type: 'text/plain', disposition: 'inline'
+    send_file "#{PATH}/#{params_basename}.log", type: 'text/plain'
   end
 
   private
