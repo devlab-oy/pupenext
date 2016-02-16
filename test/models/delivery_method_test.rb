@@ -2,6 +2,7 @@ require 'test_helper'
 
 class DeliveryMethodTest < ActiveSupport::TestCase
   fixtures %w(
+    customers
     delivery_methods
   )
 
