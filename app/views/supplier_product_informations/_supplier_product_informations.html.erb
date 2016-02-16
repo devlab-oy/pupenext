@@ -6,6 +6,9 @@
   <%= hidden_field_tag :manufacturer_ean,         params[:manufacturer_ean] %>
 
   <table class="supplier_product_informations margin-bottom-20">
+
+    <%= render partial: 'supplier_product_information_master' %>
+
     <tr>
       <th><%= t('.transfer?') %></th>
       <th><%= SupplierProductInformation.human_attribute_name(:product_id) %></th>
@@ -17,6 +20,7 @@
       <th><%= SupplierProductInformation.human_attribute_name(:net_price) %></th>
       <th><%= SupplierProductInformation.human_attribute_name(:available_quantity) %></th>
     </tr>
+
     <%= render partial:    'supplier_product_information',
                collection: @supplier_product_informations,
                as:         :s%>

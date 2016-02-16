@@ -1,0 +1,90 @@
+<tbody>
+<tr>
+  <td colspan="9" class="separator"></td>
+</tr>
+
+<tr>
+  <th><%= t('.transfer_all?') %></th>
+  <th><%= Product::Category.model_name.human %></th>
+  <th><%= Product::Subcategory.model_name.human %></th>
+  <th><%= Product::Brand.model_name.human %></th>
+  <th>
+    <%= SupplierProductInformation.human_attribute_name(:dynamic_tree) %>
+  </th>
+  <th><%= Product.human_attribute_name(:nakyvyys) %></th>
+  <th><%= Product::Status.model_name.human %></th>
+  <th colspan="2"><%= t('.update_net_price') %></th>
+  <th colspan="1"><%= t('.update_available_quantity') %></th>
+</tr>
+
+<tr>
+  <td>
+    <%= check_box_tag "supplier_product_information_master_transfer",
+                      "1",
+                      false,
+                      class: :transfer_master %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_information_master_osasto",
+                   options_from_collection_for_select(Product::Category.all,
+                                                      :tunnus,
+                                                      :selitetark),
+                   class: :category_master,
+                   include_blank: true) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_information_master_try",
+                   options_from_collection_for_select(Product::Subcategory.all,
+                                                      :tunnus,
+                                                      :selitetark),
+                   class: :subcategory_master,
+                   include_blank: true) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_information_master_tuotemerkki",
+                   options_from_collection_for_select(Product::Brand.all,
+                                                      :tunnus,
+                                                      :selite),
+                   class: :brand_master,
+                   include_blank: true) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_information_master_p_tree_id",
+                   options_from_collection_for_select(DynamicTree.all.order(:nimi),
+                                                      :tunnus,
+                                                      :nimi),
+                   class: :dynamic_tree_master,
+                   include_blank: true) %>
+  </td>
+  <td>
+    <%= text_field_tag("supplier_product_information_master_nakyvyys",
+                       nil,
+                       class: :visibility_master) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_information_master_status",
+                   options_from_collection_for_select(Product::Status.all,
+                                                      :tunnus,
+                                                      :selitetark),
+                   class: :status_master,
+                   include_blank: true) %>
+  </td>
+  <td colspan="2">
+    <%= check_box_tag("supplier_product_information_master_toimittajan_ostohinta",
+                      "1",
+                      false,
+                      class: :purchase_price_master) %>
+  </td>
+  <td colspan="1">
+    <%= check_box_tag("supplier_product_information_master_toimittajan_saldo",
+                      "1",
+                      false,
+                      class: :supplier_quantity_master) %>
+  </td>
+</tr>
+
+<tr>
+  <td colspan="9" class="separator"></td>
+</tr>
+
+</tbody>

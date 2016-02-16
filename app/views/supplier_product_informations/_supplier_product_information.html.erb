@@ -76,49 +76,57 @@
                    options_from_collection_for_select(Product::Category.all,
                                                       :tunnus,
                                                       :selitetark,
-                                                      previous_params[:osasto])) %>
+                                                      previous_params[:osasto]),
+                   class: :category) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][try]",
                    options_from_collection_for_select(Product::Subcategory.all,
                                                       :tunnus,
                                                       :selitetark,
-                                                      previous_params[:try])) %>
+                                                      previous_params[:try]),
+                   class: :subcategory) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][tuotemerkki]",
                    options_from_collection_for_select(Product::Brand.all,
                                                       :tunnus,
                                                       :selite,
-                                                      previous_params[:tuotemerkki])) %>
+                                                      previous_params[:tuotemerkki]),
+                   class: :brand) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][p_tree_id]",
                    options_from_collection_for_select(DynamicTree.all.order(:nimi),
                                                       :tunnus,
                                                       :nimi,
-                                                      s.p_tree_id)) %>
+                                                      s.p_tree_id),
+                   class: :dynamic_tree) %>
   </td>
   <td>
     <%= text_field_tag("supplier_product_informations[#{s.id}][nakyvyys]",
-                       previous_params[:nakyvyys]) %>
+                       previous_params[:nakyvyys],
+                       class: :visibility) %>
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][status]",
                    options_from_collection_for_select(Product::Status.all,
                                                       :tunnus,
                                                       :selitetark,
-                                                      previous_params[:status])) %>
+                                                      previous_params[:status]),
+                   class: :status) %>
   </td>
   <td colspan="2">
     <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_ostohinta]",
                       "1",
-                      previous_params[:toimittajan_ostohinta]) %>
+                      previous_params[:toimittajan_ostohinta],
+                      class: :purchase_price) %>
   </td>
   <td colspan="1">
     <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]",
                       "1",
-                      previous_params[:toimittajan_saldo]) %>
+                      previous_params[:toimittajan_saldo],
+                      class: :supplier_quantity) %>
   </td>
 <% end %>
 </tbody>

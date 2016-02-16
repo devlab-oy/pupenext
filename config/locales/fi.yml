@@ -1183,6 +1183,10 @@ fi:
     supplier_product_information:
       update_available_quantity: Päivitä toimittajan saldo
       update_net_price: Päivitä toimittajan ostohinta
+    supplier_product_information_master:
+      transfer_all?: Siirrä kaikki?
+      update_available_quantity: Päivitä toimittajan saldo
+      update_net_price: Päivitä toimittajan ostohinta
     supplier_product_informations:
       transfer: Siirrä
       transfer?: Siirrä?
