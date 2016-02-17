@@ -55,9 +55,11 @@
   <td><%= s.supplier_name %></td>
   <td><%= s.net_price %></td>
   <td><%= s.available_quantity %></td>
+  <td></td>
 </tr>
 
 <%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
+  <th></th>
   <th><%= Product::Category.model_name.human %></th>
   <th><%= Product::Subcategory.model_name.human %></th>
   <th><%= Product::Brand.model_name.human %></th>
@@ -71,6 +73,7 @@
 <% end %>
 
 <%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
+  <td></td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
                    options_from_collection_for_select(Product::Category.all,
