@@ -6,7 +6,16 @@ $(document).on 'page:change', ->
     $(this).closest('tbody').find('.extra-attributes').toggle()
 
   $('input[type=checkbox].transfer_master').on 'click', ->
-    $('input[type=checkbox].transfer:visible').trigger 'click'
+    if $(this).is ':checked'
+      $('input[type=checkbox].transfer').each ->
+        $(this).prop('checked', true)
+      $('tr.extra-attributes').each ->
+        $(this).removeClass('hidden').show()
+    else
+      $('input[type=checkbox].transfer').each ->
+        $(this).prop('checked', false)
+      $('tr.extra-attributes').each ->
+        $(this).addClass('hidden').hide()
 
   $('select.category_master').on 'change', ->
     $("select.category:visible").each ->
