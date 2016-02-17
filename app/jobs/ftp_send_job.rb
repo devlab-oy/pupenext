@@ -22,7 +22,7 @@ class FtpSendJob < ActiveJob::Base
 
         ftp.connect @transport.hostname, port
         ftp.login @transport.username, @transport.password
-        ftp.chdir @transport.path
+        ftp.chdir @transport.path if @transport.path.present?
         ftp.put @file
         ftp.quit
       rescue => e
