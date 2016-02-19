@@ -35,6 +35,7 @@ class Product < BaseModel
   accepts_nested_attributes_for :pending_updates, allow_destroy: true
 
   validates :nimitys, presence: true
+  validates_numericality_of :myyntihinta, :myymalahinta
 
   self.table_name = :tuote
   self.primary_key = :tunnus
