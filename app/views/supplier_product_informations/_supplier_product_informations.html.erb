@@ -1,0 +1,31 @@
+<%= form_tag transfer_supplier_product_informations_path do %>
+  <%= hidden_field_tag :manufacturer_name,        params[:manufacturer_name] %>
+  <%= hidden_field_tag :product_name,             params[:product_name] %>
+  <%= hidden_field_tag :product_id,               params[:product_id] %>
+  <%= hidden_field_tag :manufacturer_part_number, params[:manufacturer_part_number] %>
+  <%= hidden_field_tag :manufacturer_ean,         params[:manufacturer_ean] %>
+
+  <table class="supplier_product_informations margin-bottom-20">
+
+    <%= render partial: 'supplier_product_information_master' %>
+
+    <tr>
+      <th><%= t('.transfer?') %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:product_id) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:manufacturer_part_number) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:manufacturer_ean) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:product_name) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:description) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:supplier_name) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:net_price) %></th>
+      <th><%= SupplierProductInformation.human_attribute_name(:available_quantity) %></th>
+      <th></th>
+    </tr>
+
+    <%= render partial:    'supplier_product_information',
+               collection: @supplier_product_informations,
+               as:         :s%>
+  </table>
+
+  <%= submit_tag t('.transfer') %>
+<% end %>

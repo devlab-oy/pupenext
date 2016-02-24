@@ -286,6 +286,22 @@ fi:
         nimi: Nimi
         tunnus: Tunnus
         tyyppi: Tyyppi
+      supplier_product_information:
+        available_quantity: Varastossa
+        category_text1: Kategoria 1
+        category_text2: Kategoria 2
+        category_text3: Kategoria 3
+        category_text4: Kategoria 4
+        description: Kuvaus
+        dynamic_tree: Puun alkio
+        manufacturer_ean: Valmistajan EAN-koodi
+        manufacturer_name: Valmistaja
+        manufacturer_part_number: Valmistajan tuotekoodi
+        net_price: Ostohinta
+        product_id: Tuotekoodi
+        product_name: Tuotteen nimitys
+        supplier_name: Toimittaja
+        supplier_part_number: Toimittajan tuotekoodi
       terms_of_payment:
         abs_pvm: Maksupäivä
         erapvmkasin: Eräpäivän syöttö käsin
@@ -349,7 +365,10 @@ fi:
       packing_area: Pakkaamo
       pending_update: Tuleva päivitys
       printer: Kirjoitin
+      product/brand: Tuotemerkki
+      product/category: Tuoteosasto
       product/keyword: Tuotteen avainsanat
+      product/subcategory: Tuoteryhmä
       qualifier: Tarkenne
       qualifier/cost_center: Kustannuspaikka
       qualifier/project: Projekti
@@ -361,6 +380,7 @@ fi:
       sum_level/internal: Sisäinen
       sum_level/profit: Tulosseuranta
       sum_level/vat: ALV
+      supplier: Toimittaja
       terms_of_payment: Maksuehto
       transport: Tiedonsiirtoyhteys
   administration:
@@ -660,7 +680,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -686,7 +706,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
@@ -1159,6 +1179,25 @@ fi:
       mark: "*"
       text: Pakollinen
     'yes': Kyllä
+  supplier_product_informations:
+    supplier_product_information:
+      update_available_quantity: Päivitä toimittajan saldo
+      update_net_price: Päivitä toimittajan ostohinta
+    supplier_product_information_master:
+      transfer_all?: Siirrä kaikki?
+      update_available_quantity: Päivitä toimittajan saldo
+      update_net_price: Päivitä toimittajan ostohinta
+    supplier_product_informations:
+      transfer: Siirrä
+      transfer?: Siirrä?
+    supplier_selection:
+      choose: Valitse
+    transfer:
+      duplicate_ean: EAN-koodi löytyy jo järjestelmästä
+      duplicate_tuoteno: Tuoteno löytyy jo järjestelmästä
+      duplicates_found: Seuraavat rivit löytyvät jo mahdollisesti järjestelmästä ja vaativat tarkastelua
+      not_selected: Et valinnut yhtään riviä
+      success: Tuotteet siirretty onnistuneesti järjestelmään
   support:
     array:
       last_word_connector: " ja "

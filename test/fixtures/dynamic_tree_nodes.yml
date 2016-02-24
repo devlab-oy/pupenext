@@ -1,0 +1,10 @@
+DEFAULTS: &DEFAULTS
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  yhtio: acme
+
+one:
+  dynamic_tree: one
+  laji: tuote
+  liitos: hammer123
+  <<: *DEFAULTS

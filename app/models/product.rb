@@ -11,6 +11,8 @@ class Product < BaseModel
   has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
   has_many :customer_prices, foreign_key: :tuoteno, primary_key: :tuoteno
   has_many :customers, through: :customer_prices
+  has_many :dynamic_tree_nodes, class_name: 'DynamicTreeNode::ProductNode', foreign_key: :liitos, primary_key: :tuoteno
+  has_many :dynamic_trees, through: :dynamic_tree_nodes
 
   with_options foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment' do |o|
     o.has_one :cover_image, -> { where(kayttotarkoitus: :tk).order(:jarjestys, :tunnus) }

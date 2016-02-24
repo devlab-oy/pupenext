@@ -6,6 +6,8 @@ class ProductTest < ActiveSupport::TestCase
     attachment/product_attachments
     customer_prices
     customers
+    dynamic_tree_nodes
+    dynamic_trees
     keyword/customer_subcategories
     keywords
     manufacture_order/composite_rows
@@ -49,6 +51,8 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.attachments.count > 0
     assert @product.customer_prices.count > 0
     assert @product.customers.count > 0
+    assert_includes @product.dynamic_tree_nodes, dynamic_tree_nodes(:one)
+    assert_includes @product.dynamic_trees, dynamic_trees(:one)
   end
 
   test 'product stock' do
