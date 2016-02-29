@@ -1,6 +1,6 @@
 class RemoveSallitutAlustat < ActiveRecord::Migration
   def up
-      remove_column :toimitustapa, :sallitut_alustat
+    remove_column :toimitustapa, :sallitut_alustat
   end
 
   def down
