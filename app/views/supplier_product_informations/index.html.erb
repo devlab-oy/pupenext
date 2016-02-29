@@ -1,0 +1,12 @@
+<div class="supplier_product_informations_container">
+  <%= render 'supplier_selection' %>
+
+  <% if show_table? %>
+    <%= render 'search_fields' %>
+    <%= render 'administration/notice' %>
+
+    <% if @supplier_product_informations.present? %>
+      <%= render 'supplier_product_informations' %>
+    <% end %>
+  <% end %>
+</div>

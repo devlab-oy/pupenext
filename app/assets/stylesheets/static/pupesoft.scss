@@ -106,13 +106,20 @@ select {
   background-position: right;
 }
 
-.field_with_errors input, .field_with_errors select {
-  border: 1px solid red;
-}
+.field_with_errors {
+  input, select {
+    border: 1px solid red;
+  }
 
-.field_with_errors label {
-  font-size: 11pt;
-  font-weight: bold;
+  label {
+    font-size:   11pt;
+    font-weight: bold;
+  }
+
+  small {
+    display: block;
+    color:   red;
+  }
 }
 
 select:disabled {
@@ -205,6 +212,10 @@ ul.list-unstyled {
   margin-left: 20px !important;
 }
 
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
 .kateis-table {
   margin-bottom: 20px;
 }
@@ -266,4 +277,10 @@ table.responsive td input[type=text] {
   td {
     width: 70%;
   }
+}
+
+td.separator {
+  background: #E6E6E6;
+  padding:    0;
+  height:     5px;
 }

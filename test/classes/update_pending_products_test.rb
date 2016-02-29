@@ -38,6 +38,16 @@ class UpdatePendingProductsTest < ActiveSupport::TestCase
 
     assert_equal 'sledge', @hammer.reload.nimitys
     assert_equal 100.5, @hammer.myyntihinta
+
+    # Invalid values not accepted
+    pending3 = pending_updates(:update_1).dup
+    pending3.value = nil
+    refute pending3.valid?
+
+    pending4 = pending_updates(:update_1).dup
+    pending4.key = 'nimitys'
+    pending4.value = ''
+    refute pending3.valid?
   end
 
   test 'pending update result' do

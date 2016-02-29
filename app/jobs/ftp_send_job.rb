@@ -17,9 +17,15 @@ class FtpSendJob < ActiveJob::Base
     def send_file
       ftp = Net::FTP.new
 
+      ftp.open_timeout = 5
+      ftp.read_timeout = 30
+
+      port = @transport.port || 21
+
       begin
-        ftp.connect @transport.hostname
+        ftp.connect @transport.hostname, port
         ftp.login @transport.username, @transport.password
+        ftp.passive = true
         ftp.chdir @transport.path
         ftp.put @file
         ftp.quit

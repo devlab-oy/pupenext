@@ -48,6 +48,7 @@ class Administration::TransportsController < AdministrationController
       params.require(:transport).permit(
         :transportable_id,
         :hostname,
+        :port,
         :password,
         :path,
         :username,

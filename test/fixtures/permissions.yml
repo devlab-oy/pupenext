@@ -30,6 +30,7 @@
     stock_availability
     stock_listing_csv
     sum_levels
+    supplier_product_informations
     talgraf_balances_csv
     terms_of_payments
     test

@@ -1,0 +1,82 @@
+one:
+  product_id: pr1
+  product_name: Tramboline
+  manufacturer_ean: 10343600935
+  manufacturer_name: Manufacturer 1
+  manufacturer_id: 1
+  manufacturer_part_number: mpn1
+  supplier_name: MyString
+  supplier: reliable_supplier
+  supplier_ean: MyString
+  supplier_part_number: MyString
+  product_status: MyString
+  short_description: MyString
+  description: MyString
+  category_text1: MyString
+  category_text2: MyString
+  category_text3: MyString
+  category_text4: MyString
+  category_idn: 1
+  net_price: 9.99
+  net_retail_price: 9.99
+  available_quantity: 1
+  available_next_date: 2015-12-02
+  available_next_quantity: 1
+  warranty_months: 1
+  gross_mass: 9.99
+  end_of_life: false
+  returnable: false
+  cancelable: false
+  warranty_text: MyString
+  packaging_unit: MyString
+  vat_rate: 9.99
+  bid_price_id: 1
+  url_to_product: MyString
+  product: hammer
+  p_price_update: 0
+  p_qty_update: 0
+  p_added_date: 2015-12-02 16:16:53
+  p_last_update_date: 2015-12-02 16:16:53
+  p_nakyvyys: MyString
+  dynamic_tree: one
+
+two:
+  product_id: pr2
+  product_name: Chair
+  manufacturer_ean: 88698592977
+  manufacturer_name: Manufacturer 2
+  manufacturer_id: 1
+  manufacturer_part_number: mpn2
+  supplier_name: MyString
+  supplier: domestic_supplier
+  supplier_ean: MyString
+  supplier_part_number: MySupplierPartNumber
+  product_status: MyString
+  short_description: MyString
+  description: MyString
+  category_text1: MyString1
+  category_text2: MyString2
+  category_text3: MyString3
+  category_text4: MyString4
+  category_idn: 1
+  net_price: 9.99
+  net_retail_price: 9.99
+  available_quantity: 1
+  available_next_date: 2015-12-02
+  available_next_quantity: 1
+  warranty_months: 1
+  gross_mass: 9.99
+  end_of_life: false
+  returnable: false
+  cancelable: false
+  warranty_text: MyString
+  packaging_unit: MyString
+  vat_rate: 9.99
+  bid_price_id: 1
+  url_to_product: MyString
+  p_price_update: 0
+  p_qty_update: 0
+  p_added_date: 2015-12-02 16:16:53
+  p_last_update_date: 2015-12-02 16:16:53
+  p_nakyvyys: MyString
+  dynamic_tree: one

@@ -43,6 +43,9 @@
   <th width='100'>
     <%= t('.price') %>
   </th>
+  <th width='100'>
+    <%= t('.short_description') %>
+  </th>
   <th width='450'>
   </th>
 </tr>
@@ -74,6 +77,10 @@
       <% else %>
         <%= product.myyntihinta %>
       <% end %>
+    </td>
+
+    <td class='ptop'>
+      <%= product.lyhytkuvaus %>
     </td>
 
     <td class='ptop pending_update'>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119103822) do
+ActiveRecord::Schema.define(version: 20160225100119) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -426,6 +426,23 @@ ActiveRecord::Schema.define(version: 20160119103822) do
   end
 
   add_index "budjetti_asiakas", ["yhtio", "kausi", "asiakkaan_tunnus", "osasto", "try"], name: "asbu", unique: true, using: :btree
+
+  create_table "budjetti_asiakasmyyja", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",                limit: 5,                            default: "",  null: false
+    t.string   "kausi",                limit: 6,                            default: "",  null: false
+    t.integer  "asiakasmyyjan_tunnus", limit: 4,                            default: 0,   null: false
+    t.string   "osasto",               limit: 150,                          default: "",  null: false
+    t.string   "try",                  limit: 150,                          default: "",  null: false
+    t.decimal  "summa",                            precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "maara",                            precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "indeksi",                          precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "laatija",              limit: 50,                           default: "",  null: false
+    t.datetime "luontiaika",                                                              null: false
+    t.datetime "muutospvm",                                                               null: false
+    t.string   "muuttaja",             limit: 50,                           default: "",  null: false
+  end
+
+  add_index "budjetti_asiakasmyyja", ["yhtio", "kausi", "asiakasmyyjan_tunnus", "osasto", "try"], name: "budjetti_asiakasmyyja", unique: true, using: :btree
 
   create_table "budjetti_maa", force: :cascade do |t|
     t.string   "yhtio",      limit: 5,                            default: "",  null: false
@@ -1437,6 +1454,7 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.integer  "asiakkaan_kohde",                          limit: 4,                             default: 0,   null: false
     t.string   "kantaasiakastunnus",                       limit: 255,                           default: "",  null: false
     t.string   "ulkoinen_tarkenne",                        limit: 30,                            default: "",  null: false
+    t.string   "noutopisteen_tunnus",                      limit: 12,                            default: "",  null: false
     t.text     "saate",                                    limit: 65535
     t.integer  "yhteyshenkilo_kaupallinen",                limit: 4,                             default: 0,   null: false
     t.integer  "yhteyshenkilo_tekninen",                   limit: 4,                             default: 0,   null: false
@@ -2027,6 +2045,51 @@ ActiveRecord::Schema.define(version: 20160119103822) do
 
   add_index "suorituskykyloki", ["yhtio", "luontiaika"], name: "yhtio_luontiaika", using: :btree
   add_index "suorituskykyloki", ["yhtio", "skripti", "luontiaika"], name: "yhtio_skripti_luontiaika", using: :btree
+
+  create_table "supplier_product_informations", force: :cascade do |t|
+    t.string   "product_id",               limit: 100
+    t.string   "product_name",             limit: 150
+    t.string   "manufacturer_ean",         limit: 13
+    t.string   "manufacturer_name",        limit: 100
+    t.integer  "manufacturer_id",          limit: 4
+    t.string   "manufacturer_part_number", limit: 100
+    t.string   "supplier_name",            limit: 100
+    t.integer  "supplier_id",              limit: 4
+    t.string   "supplier_ean",             limit: 13
+    t.string   "supplier_part_number",     limit: 100
+    t.string   "product_status",           limit: 100
+    t.string   "short_description",        limit: 250
+    t.string   "description",              limit: 500
+    t.string   "category_text1",           limit: 100
+    t.string   "category_text2",           limit: 100
+    t.string   "category_text3",           limit: 100
+    t.string   "category_text4",           limit: 100
+    t.integer  "category_idn",             limit: 4
+    t.decimal  "net_price",                            precision: 16, scale: 6
+    t.decimal  "net_retail_price",                     precision: 16, scale: 6
+    t.integer  "available_quantity",       limit: 4
+    t.date     "available_next_date"
+    t.integer  "available_next_quantity",  limit: 4
+    t.integer  "warranty_months",          limit: 4
+    t.decimal  "gross_mass",                           precision: 8,  scale: 4
+    t.boolean  "end_of_life",                                                   default: false, null: false
+    t.boolean  "returnable",                                                    default: false, null: false
+    t.boolean  "cancelable",                                                    default: false, null: false
+    t.string   "warranty_text",            limit: 100
+    t.string   "packaging_unit",           limit: 100
+    t.decimal  "vat_rate",                             precision: 4,  scale: 2
+    t.integer  "bid_price_id",             limit: 4
+    t.string   "url_to_product",           limit: 150
+    t.integer  "p_product_id",             limit: 4
+    t.integer  "p_price_update",           limit: 4
+    t.integer  "p_qty_update",             limit: 4
+    t.datetime "p_added_date"
+    t.datetime "p_last_update_date"
+    t.string   "p_nakyvyys",               limit: 100
+    t.integer  "p_tree_id",                limit: 4
+    t.datetime "created_at",                                                                    null: false
+    t.datetime "updated_at",                                                                    null: false
+  end
 
   create_table "suuntalavat", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2662,6 +2725,7 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.integer  "transportable_id",   limit: 4
     t.string   "transportable_type", limit: 255
     t.string   "hostname",           limit: 255
+    t.integer  "port",               limit: 4
     t.string   "username",           limit: 255
     t.string   "password",           limit: 255
     t.string   "path",               limit: 255
@@ -2760,7 +2824,7 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.string   "tullinimike1",                  limit: 8,                              default: "",  null: false
     t.string   "tullinimike2",                  limit: 4,                              default: "",  null: false
     t.decimal  "toinenpaljous_muunnoskerroin",                precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "vienti",                        limit: 50,                             default: "",  null: false
+    t.text     "vienti",                        limit: 65535,                                        null: false
     t.decimal  "tuotekorkeus",                                precision: 10, scale: 4, default: 0.0, null: false
     t.decimal  "tuoteleveys",                                 precision: 10, scale: 4, default: 0.0, null: false
     t.decimal  "tuotesyvyys",                                 precision: 10, scale: 4, default: 0.0, null: false
@@ -3260,6 +3324,7 @@ ActiveRecord::Schema.define(version: 20160119103822) do
     t.string   "tilausyhteyshenkilo",    limit: 1,     default: "", null: false
     t.string   "oletusyhteyshenkilo",    limit: 1,     default: "", null: false
     t.string   "aktivointikuittaus",     limit: 1,     default: "", null: false
+    t.string   "verkkokauppa_salasana",  limit: 255
     t.string   "laatija",                limit: 50,    default: "", null: false
     t.datetime "luontiaika",                                        null: false
     t.datetime "muutospvm",                                         null: false

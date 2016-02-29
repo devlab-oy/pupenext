@@ -1,0 +1,15 @@
+<%= form_tag supplier_product_informations_path, method: :get do %>
+  <table class="margin-bottom-20">
+    <tr>
+      <th><%= label_tag :supplier, Supplier.model_name.human %></th>
+      <td>
+        <%= select_tag :supplier,
+                       options_from_collection_for_select(Supplier.all,
+                                                          :tunnus,
+                                                          :nimi,
+                                                          session[:supplier]) %>
+      </td>
+      <td class="back"><%= submit_tag t('.choose') %></td>
+    </tr>
+  </table>
+<% end %>

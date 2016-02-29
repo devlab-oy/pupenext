@@ -1,0 +1,135 @@
+<%
+  previous_params = if params[:supplier_product_informations] &&
+                       params[:supplier_product_informations][s.id.to_s]
+                      params[:supplier_product_informations][s.id.to_s]
+                    else
+                      {}
+                    end
+%>
+
+<tbody>
+<tr>
+  <td colspan="9" class="separator"></td>
+</tr>
+
+<tr>
+  <td>
+    <%= check_box_tag "supplier_product_informations[#{s.id}][transfer]",
+                      "1",
+                      previous_params[:transfer],
+                      class: :transfer %>
+  </td>
+  <td><%= s.product_id %></td>
+  <td>
+    <% if s.errors[:manufacturer_part_number].any? %>
+      <span class="field_with_errors">
+        <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                           s.manufacturer_part_number %>
+        <small><%= s.errors[:manufacturer_part_number].first %></small>
+      </span>
+    <% elsif previous_params[:manufacturer_ean].present? %>
+      <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                         s.manufacturer_part_number %>
+    <% else %>
+      <%= hidden_field_tag "supplier_product_informations[#{s.id}][manufacturer_part_number]",
+                           s.manufacturer_part_number %>
+      <%= s.manufacturer_part_number %>
+    <% end %>
+  </td>
+  <td>
+    <% if s.errors[:manufacturer_ean].any? %>
+      <span class="field_with_errors">
+        <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
+                           s.manufacturer_ean %>
+        <small><%= s.errors[:manufacturer_ean].first %></small>
+      </span>
+    <% elsif previous_params[:manufacturer_ean].present? %>
+      <%= text_field_tag "supplier_product_informations[#{s.id}][manufacturer_ean]",
+                         s.manufacturer_ean %>
+    <% else %>
+      <%= s.manufacturer_ean %>
+    <% end %>
+  </td>
+  <td><%= s.product_name %></td>
+  <td><%= s.description %></td>
+  <td><%= s.supplier_name %></td>
+  <td><%= s.net_price %></td>
+  <td><%= s.available_quantity %></td>
+  <td></td>
+</tr>
+
+<%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
+  <th></th>
+  <th><%= Product::Category.model_name.human %></th>
+  <th><%= Product::Subcategory.model_name.human %></th>
+  <th><%= Product::Brand.model_name.human %></th>
+  <th>
+    <%= SupplierProductInformation.human_attribute_name(:dynamic_tree) %>
+  </th>
+  <th><%= Product.human_attribute_name(:nakyvyys) %></th>
+  <th><%= Product::Status.model_name.human %></th>
+  <th colspan="2"><%= t('.update_net_price') %></th>
+  <th colspan="1"><%= t('.update_available_quantity') %></th>
+<% end %>
+
+<%= content_tag :tr, class: (s.errors.any? ? 'extra-attributes' : 'hidden extra-attributes') do %>
+  <td></td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
+                   options_from_collection_for_select(Product::Category.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:osasto]),
+                   class: :category) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][try]",
+                   options_from_collection_for_select(Product::Subcategory.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:try]),
+                   class: :subcategory) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][tuotemerkki]",
+                   options_from_collection_for_select(Product::Brand.all,
+                                                      :tunnus,
+                                                      :selite,
+                                                      previous_params[:tuotemerkki]),
+                   class: :brand) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][p_tree_id]",
+                   options_from_collection_for_select(DynamicTree.all.order(:nimi),
+                                                      :tunnus,
+                                                      :nimi,
+                                                      s.p_tree_id),
+                   class: :dynamic_tree) %>
+  </td>
+  <td>
+    <%= text_field_tag("supplier_product_informations[#{s.id}][nakyvyys]",
+                       previous_params[:nakyvyys],
+                       class: :visibility) %>
+  </td>
+  <td>
+    <%= select_tag("supplier_product_informations[#{s.id}][status]",
+                   options_from_collection_for_select(Product::Status.all,
+                                                      :tunnus,
+                                                      :selitetark,
+                                                      previous_params[:status]),
+                   class: :status) %>
+  </td>
+  <td colspan="2">
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_ostohinta]",
+                      "1",
+                      previous_params[:toimittajan_ostohinta],
+                      class: :purchase_price) %>
+  </td>
+  <td colspan="1">
+    <%= check_box_tag("supplier_product_informations[#{s.id}][toimittajan_saldo]",
+                      "1",
+                      previous_params[:toimittajan_saldo],
+                      class: :supplier_quantity) %>
+  </td>
+<% end %>
+</tbody>
