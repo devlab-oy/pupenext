@@ -8,6 +8,7 @@ DEFAULTS: &DEFAULTS
   epakurantti50pvm: 0
   epakurantti75pvm: 0
   epakurantti100pvm: 0
+  vienti: ''
 
 hammer:
   yhtio: acme
