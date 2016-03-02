@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229123103) do
+ActiveRecord::Schema.define(version: 20160302082502) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3660,6 +3660,7 @@ ActiveRecord::Schema.define(version: 20160229123103) do
     t.string   "saldotarkistus_tulostusjonossa",                   limit: 2,                              default: "",    null: false
     t.string   "kerataanko_saldottomat",                           limit: 1,                              default: "",    null: false
     t.string   "kerataanko_valmistukset",                          limit: 1,                              default: "",    null: false
+    t.string   "kerataanko_tyomaaraykset",                         limit: 1,                              default: "",    null: false
     t.string   "saldo_kasittely",                                  limit: 1,                              default: "",    null: false
     t.string   "ytunnus_tarkistukset",                             limit: 1,                              default: "",    null: false
     t.string   "vienti_erittelyn_tulostus",                        limit: 1,                              default: "",    null: false
