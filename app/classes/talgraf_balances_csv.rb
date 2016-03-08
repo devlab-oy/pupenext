@@ -352,7 +352,8 @@ class TalgrafBalancesCsv::BalanceData
     def opening_balance_rows
       tapvm = [company.previous_fiscal_year.first, company.current_fiscal_year.first]
 
-      company.voucher_rows.includes(:voucher).where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
+      company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
+        .where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
@@ -365,7 +366,7 @@ class TalgrafBalancesCsv::BalanceData
           row.kustp,
           row.projekti,
           row.kohde,
-          row.voucher.laskunro,
+          row.ltunnus,
           row.selite
         ]
       end
@@ -375,7 +376,8 @@ class TalgrafBalancesCsv::BalanceData
       tapvm = company.previous_fiscal_year.first
       alatilat = [:A, :T]
 
-      company.voucher_rows.includes(:voucher).where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
+      company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
+       .where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
@@ -388,7 +390,7 @@ class TalgrafBalancesCsv::BalanceData
           row.kustp,
           row.projekti,
           row.kohde,
-          row.voucher.laskunro,
+          row.ltunnus,
           row.selite
         ]
       end
