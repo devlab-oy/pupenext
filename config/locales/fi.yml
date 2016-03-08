@@ -329,6 +329,8 @@ fi:
       transport:
         customer: Asiakas
         customer_id: Asiakkaan tunnus
+        encoding: Merkistö
+        filename: Vakio tiedostonimi palvelimella
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
@@ -648,6 +650,7 @@ fi:
         header: Tiedonsiirtoryhteys
       index:
         header: Tiedonsiirtoyhteydet
+      no_conversion: Ei muuteta merkistöä
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
   application:
@@ -680,7 +683,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -706,7 +709,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
