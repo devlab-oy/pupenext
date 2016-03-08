@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   protect_from_forgery with: :null_session
+
   skip_before_filter :authorize, :set_current_info, :set_locale, :access_control
   before_filter :api_authorize, :set_current_info, :set_locale
 
@@ -15,6 +16,7 @@ class CustomersController < ApplicationController
 
   def update
     @customer = current_company.customers.find(params[:id])
+
     if @customer.update(customer_params)
       render json: @customer
     else
@@ -34,25 +36,25 @@ class CustomersController < ApplicationController
 
     def customer_params
       params.require(:customer).permit(
-        :ytunnus,
         :asiakasnro,
+        :email,
+        :kuljetusvakuutus_tyyppi,
+        :lahetetyyppi,
+        :maa,
+        :maksuehto,
         :nimi,
         :nimitark,
+        :osasto,
         :osoite,
         :postino,
         :postitp,
-        :maa,
-        :email,
         :puhelin,
+        :rahtivapaa,
         :ryhma,
-        :osasto,
         :sisviesti1,
         :tilino,
-        :maksuehto,
         :toimitustapa,
-        :rahtivapaa,
-        :kuljetusvakuutus_tyyppi,
-        :lahetetyyppi
+        :ytunnus
       )
     end
 
