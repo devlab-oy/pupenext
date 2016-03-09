@@ -114,9 +114,11 @@ class RevenueExpenditureReport
         purchases  = ostovelat(start, stop)
         purchases += revenue_expenditures(number)
 
+        alternative_exp = revenue_expenditures_details(year_week).map { |w| w[:amount] }.sum
+
         {
           week: number,
-          sales: sales,
+          sales: sales + alternative_exp,
           purchases: purchases,
           concern_accounts_receivable: konserni_myyntisaamiset(start, stop),
           concern_accounts_payable: konserni_ostovelat(start, stop),
