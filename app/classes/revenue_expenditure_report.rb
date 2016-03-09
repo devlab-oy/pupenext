@@ -112,13 +112,11 @@ class RevenueExpenditureReport
         # Ostovelat sellaisenaan
         # Mukaan lisätään extrakulut, jota voi syöttää oman käyttöliittymän kautta viikkotasolla
         purchases  = ostovelat(start, stop)
-        purchases += revenue_expenditures(number)
-
-        alternative_exp = revenue_expenditures_details(year_week).map { |w| w[:amount] }.sum
+        purchases += revenue_expenditures(year_week)
 
         {
           week: number,
-          sales: sales + alternative_exp,
+          sales: sales,
           purchases: purchases,
           concern_accounts_receivable: konserni_myyntisaamiset(start, stop),
           concern_accounts_payable: konserni_ostovelat(start, stop),
