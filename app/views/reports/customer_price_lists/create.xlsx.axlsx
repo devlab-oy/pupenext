@@ -5,15 +5,11 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     Product.human_attribute_name(:tuoteno),
     Product.human_attribute_name(:nimitys),
     t('reports.customer_price_lists.report.price'),
-  ]
-
-  if @report.lyhytkuvaus
-    header_row <<Product.human_attribute_name(:lyhytkuvaus)
-  end
-
-  header_row += [
     t('reports.customer_price_lists.report.contract_price')
   ]
+
+  header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
+  header_row << Product.human_attribute_name(:kuvaus) if @report.kuvaus
 
   sheet.add_row header_row
 
@@ -22,15 +18,12 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
       product.tuoteno,
       product.nimitys,
       product.price[:hinta],
-    ]
-
-    if @report.lyhytkuvaus
-      product_row << product.lyhytkuvaus
-    end
-
-    product_row += [
       product.price[:contract_price]
     ]
+
+
+    product_row << product.lyhytkuvaus if @report.lyhytkuvaus
+    product_row << product.kuvaus if @report.kuvaus
 
     sheet.add_row product_row
   end
