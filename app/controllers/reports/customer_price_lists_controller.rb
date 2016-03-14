@@ -25,6 +25,9 @@ class Reports::CustomerPriceListsController < ApplicationController
              footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
              header:      { right: "#{t('.page')} [page] / [toPage]" },
              template:    'reports/customer_price_lists/report.html.erb'
+    else
+      render xlsx: "reports/customer_price_lists/create.xlsx.axlsx",
+             filename: t('.filename')
     end
   end
 
