@@ -9,6 +9,7 @@ class FtpSendJob < ActiveJob::Base
     @transport = Transport.find transport_id
     @file = file
 
+    convert_encoding
     send_file
   end
 
@@ -43,5 +44,11 @@ class FtpSendJob < ActiveJob::Base
       ensure
         ftp.close
       end
+    end
+
+    def convert_encoding
+      return unless @transport.encoding
+
+      FileEncodingConverter.new(filename: @file, encoding: @transport.encoding).convert
     end
 end
