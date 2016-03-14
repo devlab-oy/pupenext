@@ -29,7 +29,7 @@ class Reports::CustomerPriceList
     if @date_start && @date_end
       "#{I18n.l Date.parse(@date_start)} - #{I18n.l Date.parse(@date_end)}"
     else
-      t('reports.customer_price_lists.report.indefinitely')
+      I18n.t('reports.customer_price_lists.report.indefinitely')
     end
   end
 end
