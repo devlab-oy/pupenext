@@ -17,6 +17,42 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     current_company.postitp
   ]
 
+  customer_header_row = []
+
+  if @report.customer
+    customer_header_row += [
+    Customer.human_attribute_name(:nimi),
+    Customer.human_attribute_name(:osoite),
+    Customer.human_attribute_name(:postino),
+    Customer.human_attribute_name(:postitp),
+    Customer.human_attribute_name(:asiakasnro),
+    Keyword::CustomerCategory.model_name.human,
+    Keyword::CustomerSubcategory.model_name.human
+  ]
+  else
+    customer_header_row += [Keyword::CustomerSubcategory.model_name.human]
+  end
+
+  sheet.add_row customer_header_row
+
+  customer_row = []
+
+  if @report.customer
+    customer_row += [
+      @report.customer.nimi,
+      @report.customer.osoite,
+      @report.customer.postino,
+      @report.customer.postitp,
+      @report.customer.asiakasnro,
+      @report.customer.category,
+      @report.customer.subcategory
+    ]
+  else
+    customer_row += [@report.customer_subcategory]
+  end
+
+  sheet.add_row customer_row
+
   sheet.add_row [t('reports.customer_price_lists.report.valid_text')]
 
   valid_row = []

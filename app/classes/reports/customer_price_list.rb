@@ -1,5 +1,6 @@
 class Reports::CustomerPriceList
-  attr_accessor :products, :lyhytkuvaus, :kuvaus, :date_start, :date_end
+  attr_accessor :products, :customer, :customer_subcategory, :lyhytkuvaus, :kuvaus, :date_start,
+                :date_end
 
   def initialize(products:, customer: nil, customer_subcategory: nil, lyhytkuvaus: false,
                  kuvaus: false, date_start: nil, date_end: nil)

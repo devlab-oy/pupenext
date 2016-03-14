@@ -21,6 +21,8 @@ class Reports::CustomerPriceListsController < ApplicationController
 
     @report = Reports::CustomerPriceList.new(
       products: @products,
+      customer: @customer,
+      customer_subcategory: @customer_subcategory,
       lyhytkuvaus: params[:lyhytkuvaus],
       kuvaus: params[:kuvaus],
       date_start: params[:date_start],
