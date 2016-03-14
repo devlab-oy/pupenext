@@ -16,4 +16,8 @@ class Reports::CustomerPriceListProduct
   def method_missing(method_name, *arguments, &block)
     @product.send(method_name, *arguments, &block)
   end
+
+  def contract_price
+    price[:contract_price] ? I18n.t('simple_form.yes') : I18n.t('simple_form.no')
+  end
 end

@@ -108,7 +108,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
       product.tuoteno,
       product.nimitys,
       product.price[:hinta],
-      product.price[:contract_price],
+      product.contract_price,
       product.eankoodi
     ]
 
