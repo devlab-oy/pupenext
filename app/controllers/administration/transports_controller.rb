@@ -47,6 +47,7 @@ class Administration::TransportsController < AdministrationController
     def transport_params
       params.require(:transport).permit(
         :encoding,
+        :filename,
         :hostname,
         :password,
         :path,
