@@ -19,6 +19,11 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render :index
     end
 
+    @report = Reports::CustomerPriceList.new(
+      products: @products,
+      lyhytkuvaus: params[:lyhytkuvaus]
+    )
+
     if params[:format].to_i == 1
       render pdf:         t('.filename'),
              disposition: :attachment,

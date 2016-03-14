@@ -1,7 +1,29 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
-  @products.each do |product|
-    sheet.add_row [product.tuoteno, product.nimitys, product.myyntihinta]
+  header_row = [
+    Product.human_attribute_name(:tuoteno),
+    Product.human_attribute_name(:nimitys),
+    t('reports.customer_price_lists.report.price'),
+  ]
+
+  if @report.lyhytkuvaus
+    header_row <<Product.human_attribute_name(:lyhytkuvaus)
+  end
+
+  sheet.add_row header_row
+
+  @report.products.each do |product|
+    product_row = [
+      product.tuoteno,
+      product.nimitys,
+      product.price[:hinta],
+    ]
+
+    if @report.lyhytkuvaus
+      product_row << product.lyhytkuvaus
+    end
+
+    sheet.add_row product_row
   end
 end
