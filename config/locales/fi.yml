@@ -1082,6 +1082,7 @@ fi:
         contract_prices: Sopimushinnat
         date_end: Loppupvm
         date_start: Alkupvm
+        format: Formaatti
         generate: Generoi
         product_filter: Tuoterajaus
         product_image: Tuotekuva
