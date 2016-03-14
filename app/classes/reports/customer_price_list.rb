@@ -20,4 +20,8 @@ class Reports::CustomerPriceList
       )
     end
   end
+
+  def message
+    Keyword::CustomerPriceListAttribute.message
+  end
 end

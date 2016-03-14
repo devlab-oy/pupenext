@@ -57,16 +57,22 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
 
   sheet.add_row customer_row
 
-  sheet.add_row [
+  valid_header_row = [
     User.human_attribute_name(:myyja),
     t('reports.customer_price_lists.report.printed'),
     t('reports.customer_price_lists.report.valid_text')
   ]
 
+  valid_header_row << t('.message') if @report.message.present?
+
+  sheet.add_row valid_header_row
+
   valid_row = [
     current_user.nimi,
     l(Time.now)
   ]
+
+  valid_row << @report.message if @report.message.present?
 
   if @report.date_start && @report.date_end
     valid_row << "#{l Date.parse(@report.date_start)} - #{l Date.parse(@report.date_end)}"
