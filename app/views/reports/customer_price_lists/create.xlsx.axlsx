@@ -5,7 +5,8 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     Product.human_attribute_name(:tuoteno),
     Product.human_attribute_name(:nimitys),
     t('reports.customer_price_lists.report.price'),
-    t('reports.customer_price_lists.report.contract_price')
+    t('reports.customer_price_lists.report.contract_price'),
+    Product.human_attribute_name(:eankoodi)
   ]
 
   header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
@@ -18,7 +19,8 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
       product.tuoteno,
       product.nimitys,
       product.price[:hinta],
-      product.price[:contract_price]
+      product.price[:contract_price],
+      product.eankoodi
     ]
 
 
