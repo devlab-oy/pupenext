@@ -1,9 +1,11 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
+  # Styles
   header   = sheet.styles.add_style(b: true)
   currency = sheet.styles.add_style(num_fmt: 5, format_code: "#,##0.00")
 
+  # Company information header
   sheet.add_row [
     Company.human_attribute_name(:nimi),
     Company.human_attribute_name(:ytunnus),
@@ -12,6 +14,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     Company.human_attribute_name(:postitp)
   ], style: header
 
+  # Company information
   sheet.add_row [
     current_company.nimi,
     current_company.ytunnus,
@@ -37,7 +40,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     TermsOfPayment.model_name.human
   ]
   else
-    customer_header_row += [Keyword::CustomerSubcategory.model_name.human]
+    customer_header_row << Keyword::CustomerSubcategory.model_name.human
   end
 
   sheet.add_row customer_header_row, style: header
@@ -57,37 +60,32 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
       @report.customer.terms_of_payment.try(:teksti)
     ]
   else
-    customer_row += [@report.customer_subcategory]
+    customer_row << @report.customer_subcategory
   end
 
   sheet.add_row customer_row
 
   sheet.add_row
 
-  valid_header_row = [
+  report_info_header_row = [
     User.human_attribute_name(:myyja),
     t('reports.customer_price_lists.report.printed'),
     t('reports.customer_price_lists.report.valid_text')
   ]
 
-  valid_header_row << t('.message') if @report.message.present?
+  report_info_header_row << t('.message') if @report.message.present?
 
-  sheet.add_row valid_header_row, style: header
+  sheet.add_row report_info_header_row, style: header
 
-  valid_row = [
+  report_info_row = [
     current_user.nimi,
-    l(Time.now)
+    l(Time.now),
+    @report.validity
   ]
 
-  valid_row << @report.message if @report.message.present?
+  report_info_row << @report.message if @report.message.present?
 
-  if @report.date_start && @report.date_end
-    valid_row << "#{l Date.parse(@report.date_start)} - #{l Date.parse(@report.date_end)}"
-  else
-    valid_row << t('reports.customer_price_lists.report.indefinitely')
-  end
-
-  sheet.add_row valid_row
+  sheet.add_row report_info_row
 
   sheet.add_row
 
