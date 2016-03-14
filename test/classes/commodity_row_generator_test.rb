@@ -557,7 +557,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @company.tilikausi_alku.end_of_month, rows[-12].transacted_at
     assert_equal @company.tilikausi_loppu.end_of_month, rows.last.transacted_at
 
-    assert_equal 2058.84, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Date.today)
   end
 
   test 'rows split' do
