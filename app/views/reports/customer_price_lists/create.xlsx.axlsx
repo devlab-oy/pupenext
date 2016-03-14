@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
+  @products.each do |product|
+    sheet.add_row [product.tuoteno, product.nimitys, product.myyntihinta]
+  end
+end
