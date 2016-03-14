@@ -27,7 +27,9 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     Customer.human_attribute_name(:postitp),
     Customer.human_attribute_name(:asiakasnro),
     Keyword::CustomerCategory.model_name.human,
-    Keyword::CustomerSubcategory.model_name.human
+    Keyword::CustomerSubcategory.model_name.human,
+    Customer.human_attribute_name(:toimitustapa),
+    TermsOfPayment.model_name.human
   ]
   else
     customer_header_row += [Keyword::CustomerSubcategory.model_name.human]
@@ -45,7 +47,9 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
       @report.customer.postitp,
       @report.customer.asiakasnro,
       @report.customer.category,
-      @report.customer.subcategory
+      @report.customer.subcategory,
+      @report.customer.toimitustapa,
+      @report.customer.terms_of_payment.try(:teksti)
     ]
   else
     customer_row += [@report.customer_subcategory]
