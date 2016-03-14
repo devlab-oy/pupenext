@@ -31,7 +31,7 @@ class FtpSendJob < ActiveJob::Base
         ftp.chdir @transport.path
 
         # delete remote file if it exists
-        ftp.delete remotefile if ftp.nlst(remotefile).present?
+        ftp.delete remotefile if ftp.nlst.include?(remotefile)
 
         ftp.put @file, remotefile
         ftp.quit
