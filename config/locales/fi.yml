@@ -327,14 +327,13 @@ fi:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
       transport:
-        customer: Asiakas
-        customer_id: Asiakkaan tunnus
         encoding: Merkistö
         filename: Vakio tiedostonimi palvelimella
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
         port: Portti
+        transportable_id: Tunnus
         username: Käyttäjätunnus
       user:
         myyja: Myyjä
