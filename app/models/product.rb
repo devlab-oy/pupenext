@@ -42,6 +42,7 @@ class Product < BaseModel
   self.table_name = :tuote
   self.primary_key = :tunnus
 
+  before_save :defaults
   before_create :set_date_fields
 
   enum tuotetyyppi: {
@@ -132,6 +133,10 @@ class Product < BaseModel
       self.epakurantti50pvm  ||= 0
       self.epakurantti75pvm  ||= 0
       self.epakurantti100pvm ||= 0
+    end
+
+    def defaults
+      self.vienti ||= ''
     end
 
     def default_stock_reserved
