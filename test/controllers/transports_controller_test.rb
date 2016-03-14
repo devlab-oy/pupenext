@@ -9,10 +9,13 @@ class Administration::TransportsControllerTest < ActionController::TestCase
     @transport = transports(:three)
 
     @valid_params = {
-      transportable_id: @transport.transportable_id,
+      encoding: 'ISO-8859-15',
+      filename: 'foo.txt',
       hostname: @transport.hostname,
       password: @transport.password,
       path: @transport.path,
+      port: 55,
+      transportable_id: @transport.transportable_id,
       username: @transport.username,
     }
   end
@@ -34,6 +37,16 @@ class Administration::TransportsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to transports_path
+    transport = Transport.last
+
+    assert_equal @valid_params[:encoding],         transport.encoding
+    assert_equal @valid_params[:filename],         transport.filename
+    assert_equal @valid_params[:hostname],         transport.hostname
+    assert_equal @valid_params[:password],         transport.password
+    assert_equal @valid_params[:path],             transport.path
+    assert_equal @valid_params[:port],             transport.port
+    assert_equal @valid_params[:transportable_id], transport.transportable_id
+    assert_equal @valid_params[:username],         transport.username
   end
 
   test "should show transport" do
@@ -49,6 +62,17 @@ class Administration::TransportsControllerTest < ActionController::TestCase
   test "should update transport" do
     patch :update, id: @transport, transport: @valid_params
     assert_redirected_to transports_path
+
+    @transport.reload
+
+    assert_equal @valid_params[:encoding],         @transport.encoding
+    assert_equal @valid_params[:filename],         @transport.filename
+    assert_equal @valid_params[:hostname],         @transport.hostname
+    assert_equal @valid_params[:password],         @transport.password
+    assert_equal @valid_params[:path],             @transport.path
+    assert_equal @valid_params[:port],             @transport.port
+    assert_equal @valid_params[:transportable_id], @transport.transportable_id
+    assert_equal @valid_params[:username],         @transport.username
   end
 
   test "should destroy transport" do
