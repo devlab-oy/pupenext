@@ -22,7 +22,9 @@ class Reports::CustomerPriceListsController < ApplicationController
     @report = Reports::CustomerPriceList.new(
       products: @products,
       lyhytkuvaus: params[:lyhytkuvaus],
-      kuvaus: params[:kuvaus]
+      kuvaus: params[:kuvaus],
+      date_start: params[:date_start],
+      date_end: params[:date_end]
     )
 
     if params[:format].to_i == 1

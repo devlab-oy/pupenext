@@ -1,7 +1,35 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
-  header_row = [
+  sheet.add_row [
+    Company.human_attribute_name(:nimi),
+    Company.human_attribute_name(:ytunnus),
+    Company.human_attribute_name(:osoite),
+    Company.human_attribute_name(:postino),
+    Company.human_attribute_name(:postitp)
+  ]
+
+  sheet.add_row [
+    current_company.nimi,
+    current_company.ytunnus,
+    current_company.osoite,
+    current_company.postino,
+    current_company.postitp
+  ]
+
+  sheet.add_row [t('reports.customer_price_lists.report.valid_text')]
+
+  valid_row = []
+
+  if @report.date_start && @report.date_end
+    valid_row << "#{l Date.parse(@report.date_start)} - #{l Date.parse(@report.date_end)}"
+  else
+    valid_row << t('reports.customer_price_lists.report.indefinitely')
+  end
+
+  sheet.add_row valid_row
+
+  product_header_row = [
     Product.human_attribute_name(:tuoteno),
     Product.human_attribute_name(:nimitys),
     t('reports.customer_price_lists.report.price'),
@@ -9,10 +37,10 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     Product.human_attribute_name(:eankoodi)
   ]
 
-  header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
-  header_row << Product.human_attribute_name(:kuvaus) if @report.kuvaus
+  product_header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
+  product_header_row << Product.human_attribute_name(:kuvaus) if @report.kuvaus
 
-  sheet.add_row header_row
+  sheet.add_row product_header_row
 
   @report.products.each do |product|
     product_row = [
