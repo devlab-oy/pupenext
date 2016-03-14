@@ -1,7 +1,8 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
-  header = sheet.styles.add_style(b: true)
+  header   = sheet.styles.add_style(b: true)
+  currency = sheet.styles.add_style(num_fmt: 5, format_code: "#,##0.00")
 
   sheet.add_row [
     Company.human_attribute_name(:nimi),
@@ -116,6 +117,6 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     product_row << product.lyhytkuvaus if @report.lyhytkuvaus
     product_row << product.kuvaus if @report.kuvaus
 
-    sheet.add_row product_row
+    sheet.add_row product_row, style: [nil, nil, currency]
   end
 end
