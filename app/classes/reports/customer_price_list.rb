@@ -4,6 +4,8 @@ class Reports::CustomerPriceList
 
   def initialize(products:, customer: nil, customer_subcategory: nil, lyhytkuvaus: false,
                  kuvaus: false, date_start: nil, date_end: nil)
+    raise ArgumentError unless products.present?
+
     @products             = []
     @customer             = customer
     @customer_subcategory = customer_subcategory

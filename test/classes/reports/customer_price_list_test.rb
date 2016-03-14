@@ -30,4 +30,10 @@ class Reports::CustomerPriceListTest < ActiveSupport::TestCase
     assert_equal Date.today, report.date_start
     assert_equal Date.tomorrow, report.date_end
   end
+
+  test 'initialize with incorrect values' do
+    assert_raise ArgumentError do
+      Reports::CustomerPriceList.new(products: nil)
+    end
+  end
 end
