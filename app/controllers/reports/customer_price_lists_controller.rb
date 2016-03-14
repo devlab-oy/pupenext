@@ -19,11 +19,13 @@ class Reports::CustomerPriceListsController < ApplicationController
       return render :index
     end
 
-    render pdf:         t('.filename'),
-           disposition: :attachment,
-           footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
-           header:      { right: "#{t('.page')} [page] / [toPage]" },
-           template:    'reports/customer_price_lists/report.html.erb'
+    if params[:format].to_i == 1
+      render pdf:         t('.filename'),
+             disposition: :attachment,
+             footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
+             header:      { right: "#{t('.page')} [page] / [toPage]" },
+             template:    'reports/customer_price_lists/report.html.erb'
+    end
   end
 
   private
