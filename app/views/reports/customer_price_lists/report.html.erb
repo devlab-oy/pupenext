@@ -125,7 +125,7 @@
 
               <ul class="list-unstyled">
                 <li><%= TermsOfPayment.model_name.human %></li>
-                <li><%= @customer.terms_of_payment.teksti %></li>
+                <li><%= @customer.terms_of_payment.try(:teksti) %></li>
               </ul>
             </td>
           <% end %>
