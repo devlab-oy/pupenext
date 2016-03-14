@@ -11,6 +11,10 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     header_row <<Product.human_attribute_name(:lyhytkuvaus)
   end
 
+  header_row += [
+    t('reports.customer_price_lists.report.contract_price')
+  ]
+
   sheet.add_row header_row
 
   @report.products.each do |product|
@@ -23,6 +27,10 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     if @report.lyhytkuvaus
       product_row << product.lyhytkuvaus
     end
+
+    product_row += [
+      product.price[:contract_price]
+    ]
 
     sheet.add_row product_row
   end
