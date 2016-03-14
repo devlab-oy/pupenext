@@ -2731,7 +2731,7 @@ ActiveRecord::Schema.define(version: 20160308113617) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "filename",           limit: 255
-    t.integer  "encoding",           limit: 4
+    t.string   "encoding",           limit: 255
   end
 
   add_index "transports", ["transportable_id"], name: "index_transports_on_transportable_id", using: :btree
