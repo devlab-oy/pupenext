@@ -1,13 +1,15 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
+  header = sheet.styles.add_style(b: true)
+
   sheet.add_row [
     Company.human_attribute_name(:nimi),
     Company.human_attribute_name(:ytunnus),
     Company.human_attribute_name(:osoite),
     Company.human_attribute_name(:postino),
     Company.human_attribute_name(:postitp)
-  ]
+  ], style: header
 
   sheet.add_row [
     current_company.nimi,
@@ -16,6 +18,8 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     current_company.postino,
     current_company.postitp
   ]
+
+  sheet.add_row
 
   customer_header_row = []
 
@@ -35,7 +39,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     customer_header_row += [Keyword::CustomerSubcategory.model_name.human]
   end
 
-  sheet.add_row customer_header_row
+  sheet.add_row customer_header_row, style: header
 
   customer_row = []
 
@@ -57,6 +61,8 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
 
   sheet.add_row customer_row
 
+  sheet.add_row
+
   valid_header_row = [
     User.human_attribute_name(:myyja),
     t('reports.customer_price_lists.report.printed'),
@@ -65,7 +71,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
 
   valid_header_row << t('.message') if @report.message.present?
 
-  sheet.add_row valid_header_row
+  sheet.add_row valid_header_row, style: header
 
   valid_row = [
     current_user.nimi,
@@ -82,6 +88,8 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
 
   sheet.add_row valid_row
 
+  sheet.add_row
+
   product_header_row = [
     Product.human_attribute_name(:tuoteno),
     Product.human_attribute_name(:nimitys),
@@ -93,7 +101,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
   product_header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
   product_header_row << Product.human_attribute_name(:kuvaus) if @report.kuvaus
 
-  sheet.add_row product_header_row
+  sheet.add_row product_header_row, style: header
 
   @report.products.each do |product|
     product_row = [
