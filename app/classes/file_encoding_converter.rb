@@ -12,6 +12,9 @@ class FileEncodingConverter
   end
 
   def convert
+    # don't convert if input and output is same
+    return true if @encoding == @read_encoding
+
     # write new file with correct encoding
     file = Tempfile.new 'convert', nil, encoding: @encoding
     file.write file_content
