@@ -22,19 +22,16 @@ class TransportTest < ActiveSupport::TestCase
   end
 
   test 'encoding values' do
-    @one.encoding = :utf8
+    @one.encoding = "UTF-8"
     assert @one.valid?
-    assert @one.utf8?
-    refute @one.iso8859_15?
 
-    @one.encoding = :iso8859_15
+    @one.encoding = 'ISO-8859-15'
     assert @one.valid?
-    assert @one.iso8859_15?
-    refute @one.utf8?
 
     @one.encoding = nil
     assert @one.valid?
 
-    assert_raises(ArgumentError) { @one.encoding = :foo }
+    @one.encoding = 'foo'
+    refute @one.valid?
   end
 end
