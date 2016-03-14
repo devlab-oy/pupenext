@@ -151,11 +151,11 @@ class TalgrafBalancesCsvTest < ActiveSupport::TestCase
     row = ['entry-months', "#{Date.today.year - 1}-01", "#{Date.today.year}-12"]
     assert_equal row, report.send(:entry_months)
 
-    row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 123456, 'Opening balance']
+    row = ['ei', Date.today.beginning_of_year, 990.50, "1000", 0, 0, 0, 647623222, 'Opening balance']
     assert_equal row, report.send(:opening_balance_rows).first
 
-    row = ['e', Date.today, 1234, "100", 0, 0, 0, 7890123, 'Another']
-    assert_equal row, report.send(:voucher_rows).first
+    row = ['e', Date.today, 1234, "100", 0, 0, 0, 563671029, 'Another']
+    assert_equal row, report.send(:voucher_rows).third
 
     row = ['END']
     assert_equal row, report.send(:footer_row)

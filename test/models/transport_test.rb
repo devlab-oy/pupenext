@@ -20,4 +20,18 @@ class TransportTest < ActiveSupport::TestCase
     assert_equal Customer, @two.transportable.class
     assert_equal Company, @three.transportable.class
   end
+
+  test 'encoding values' do
+    @one.encoding = "UTF-8"
+    assert @one.valid?
+
+    @one.encoding = 'ISO-8859-15'
+    assert @one.valid?
+
+    @one.encoding = nil
+    assert @one.valid?
+
+    @one.encoding = 'foo'
+    refute @one.valid?
+  end
 end

@@ -9,6 +9,7 @@ class FtpSendJob < ActiveJob::Base
     @transport = Transport.find transport_id
     @file = file
 
+    convert_encoding
     send_file
   end
 
@@ -21,13 +22,18 @@ class FtpSendJob < ActiveJob::Base
       ftp.read_timeout = 30
 
       port = @transport.port || 21
+      remotefile = @transport.filename || File.basename(@file)
 
       begin
         ftp.connect @transport.hostname, port
         ftp.login @transport.username, @transport.password
         ftp.passive = true
         ftp.chdir @transport.path
-        ftp.put @file
+
+        # delete remote file if it exists
+        ftp.delete remotefile if ftp.nlst(remotefile).present?
+
+        ftp.put @file, remotefile
         ftp.quit
       rescue => e
         message = "FTP Error: #{e.message}"
@@ -38,5 +44,11 @@ class FtpSendJob < ActiveJob::Base
       ensure
         ftp.close
       end
+    end
+
+    def convert_encoding
+      return unless @transport.encoding
+
+      FileEncodingConverter.new(filename: @file, encoding: @transport.encoding).convert
     end
 end
