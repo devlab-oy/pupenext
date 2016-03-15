@@ -73,7 +73,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     t('reports.customer_price_lists.report.valid_text')
   ]
 
-  report_info_header_row << t('.message') if @report.message.present?
+  report_info_header_row << t('.message') if @report.class.message.present?
 
   sheet.add_row report_info_header_row, style: header
 
@@ -83,7 +83,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     @report.validity
   ]
 
-  report_info_row << @report.message if @report.message.present?
+  report_info_row << @report.class.message if @report.class.message.present?
 
   sheet.add_row report_info_row
 
