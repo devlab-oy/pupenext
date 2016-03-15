@@ -2,8 +2,8 @@ wb = xlsx_package.workbook
 
 wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
   # Styles
+  currency = sheet.styles.add_style(num_fmt: 8)
   header   = sheet.styles.add_style(b: true)
-  currency = sheet.styles.add_style(num_fmt: 5, format_code: "#,##0.00")
 
   # Company information header
   sheet.add_row [
@@ -21,7 +21,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     current_company.osoite,
     current_company.postino,
     current_company.postitp
-  ]
+  ], types: [nil, :string, nil, :string]
 
   sheet.add_row
 
@@ -29,16 +29,16 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
 
   if @report.customer
     customer_header_row += [
-    Customer.human_attribute_name(:nimi),
-    Customer.human_attribute_name(:osoite),
-    Customer.human_attribute_name(:postino),
-    Customer.human_attribute_name(:postitp),
-    Customer.human_attribute_name(:asiakasnro),
-    Keyword::CustomerCategory.model_name.human,
-    Keyword::CustomerSubcategory.model_name.human,
-    Customer.human_attribute_name(:toimitustapa),
-    TermsOfPayment.model_name.human
-  ]
+      Customer.human_attribute_name(:nimi),
+      Customer.human_attribute_name(:osoite),
+      Customer.human_attribute_name(:postino),
+      Customer.human_attribute_name(:postitp),
+      Customer.human_attribute_name(:asiakasnro),
+      Keyword::CustomerCategory.model_name.human,
+      Keyword::CustomerSubcategory.model_name.human,
+      Customer.human_attribute_name(:toimitustapa),
+      TermsOfPayment.model_name.human
+    ]
   else
     customer_header_row << Keyword::CustomerSubcategory.model_name.human
   end
@@ -63,7 +63,7 @@ wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |shee
     customer_row << @report.customer_subcategory
   end
 
-  sheet.add_row customer_row
+  sheet.add_row customer_row, types: [nil, nil, :string, nil, :string]
 
   sheet.add_row
 
