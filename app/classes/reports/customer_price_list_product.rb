@@ -1,5 +1,7 @@
 class Reports::CustomerPriceListProduct
   def initialize(product:, customer: nil, customer_subcategory: nil)
+    raise ArgumentError unless customer || customer_subcategory
+
     @product              = product
     @customer             = customer
     @customer_subcategory = customer_subcategory
