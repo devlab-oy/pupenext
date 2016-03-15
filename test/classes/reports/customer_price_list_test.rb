@@ -41,7 +41,10 @@ class Reports::CustomerPriceListTest < ActiveSupport::TestCase
   end
 
   test '#validity when date_start and date_end are not given' do
-    report = Reports::CustomerPriceList.new(products: Product.all)
+    report = Reports::CustomerPriceList.new(
+      products: Product.all,
+      customer: customers(:stubborn_customer)
+    )
 
     assert_equal I18n.t('reports.customer_price_lists.report.indefinitely'), report.validity
   end

@@ -11,7 +11,7 @@ class Reports::CustomerPriceListProductTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:bob)
 
-    @report = Reports::CustomerPriceListProduct.new(
+    @product = Reports::CustomerPriceListProduct.new(
       product: products(:hammer),
       customer: customers(:stubborn_customer)
     )
@@ -29,7 +29,7 @@ class Reports::CustomerPriceListProductTest < ActiveSupport::TestCase
     price = { hinta: 18.85, hinta_peruste: 18, ale_peruste: 3, contract_price: true }
 
     LegacyMethods.stub(:customer_price_with_info, price) do
-      assert_equal price, @report.price
+      assert_equal price, @product.price
     end
   end
 
@@ -47,6 +47,10 @@ class Reports::CustomerPriceListProductTest < ActiveSupport::TestCase
   end
 
   test '#contract_price' do
-    assert_equal I18n.t('simple_form.yes'), @report.contract_price
+    price = { hinta: 25.72, hinta_peruste: 18, ale_peruste: 3, contract_price: true }
+
+    LegacyMethods.stub(:customer_price_with_info, price) do
+      assert_equal I18n.t('simple_form.yes'), @product.contract_price
+    end
   end
 end
