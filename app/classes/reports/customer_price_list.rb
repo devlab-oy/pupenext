@@ -11,8 +11,8 @@ class Reports::CustomerPriceList
     @customer_subcategory = customer_subcategory
     @lyhytkuvaus          = lyhytkuvaus
     @kuvaus               = kuvaus
-    @date_start           = date_start
-    @date_end             = date_end
+    @date_start           = parse_date(date_start)
+    @date_end             = parse_date(date_end)
 
     products.each do |product|
       @products << Reports::CustomerPriceListProduct.new(
@@ -23,15 +23,23 @@ class Reports::CustomerPriceList
     end
   end
 
-  def message
-    Keyword::CustomerPriceListAttribute.message
-  end
-
   def validity
     if @date_start && @date_end
-      "#{I18n.l Date.parse(@date_start)} - #{I18n.l Date.parse(@date_end)}"
+      "#{I18n.l @date_start} - #{I18n.l @date_end}"
     else
       I18n.t('reports.customer_price_lists.report.indefinitely')
     end
   end
+
+  def self.message
+    Keyword::CustomerPriceListAttribute.message
+  end
+
+  private
+
+    def parse_date(value)
+      return unless value
+
+      value.acts_like?(:date) ? value : Date.parse(value)
+    end
 end
