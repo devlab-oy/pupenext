@@ -38,7 +38,7 @@ class Reports::CustomerPriceList
   private
 
     def parse_date(value)
-      return unless value
+      return unless value.present?
 
       value.acts_like?(:date) ? value : Date.parse(value)
     end
