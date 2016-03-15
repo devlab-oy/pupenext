@@ -22,15 +22,8 @@
 
   <tr>
     <td colspan="2">
-      <% if params[:date_start].present? && params[:date_end].present? %>
-        <%= t('reports.customer_price_lists.report.valid_text') %>
-        <%= l Date.parse(params[:date_start]) %>
-        - <%= l Date.parse(params[:date_end]) %>
-      <% else %>
-        <%= t('reports.customer_price_lists.report.valid_text') %>
-        <%= t('reports.customer_price_lists.report.indefinitely').downcase %>
-      <% end %>
-
+      <%= t('reports.customer_price_lists.report.valid_text') %>
+      <%= @report.validity %>
     </td>
   </tr>
 
@@ -46,22 +39,22 @@
     <td class="inner-table-container">
       <table>
         <tr>
-          <% if @customer %>
+          <% if @report.customer %>
             <td>
               <ul class="list-unstyled">
                 <li><%= Customer.model_name.human %></li>
-                <li><%= @customer.nimi %></li>
-                <li><%= @customer.osoite %></li>
-                <li><%= @customer.postino %> <%= @customer.postitp %></li>
+                <li><%= @report.customer.nimi %></li>
+                <li><%= @report.customer.osoite %></li>
+                <li><%= @report.customer.postino %> <%= @report.customer.postitp %></li>
               </ul>
             </td>
           <% end %>
 
-          <% if @customer %>
+          <% if @report.customer %>
             <td>
               <ul class="list-unstyled">
                 <li><%= Customer.human_attribute_name :asiakasnro %></li>
-                <li><%= @customer.asiakasnro %></li>
+                <li><%= @report.customer.asiakasnro %></li>
                 <li>
                   <table class="no-border">
                     <tr>
@@ -69,8 +62,8 @@
                       <td><%= Keyword::CustomerSubcategory.model_name.human %></td>
                     </tr>
                     <tr>
-                      <td><%= @customer.category %></td>
-                      <td><%= @customer.subcategory %></td>
+                      <td><%= @report.customer.category %></td>
+                      <td><%= @report.customer.subcategory %></td>
                     </tr>
                   </table>
                 </li>
@@ -85,7 +78,7 @@
                       <td><%= Keyword::CustomerSubcategory.model_name.human %></td>
                     </tr>
                     <tr>
-                      <td><%= @customer_subcategory %></td>
+                      <td><%= @report.customer_subcategory %></td>
                     </tr>
                   </table>
                 </li>
@@ -109,23 +102,23 @@
         </tr>
         <tr>
 
-          <% if @customer %>
+          <% if @report.customer %>
             <td colspan="2">
               <ul class="list-unstyled">
                 <li><%= Customer.human_attribute_name :toimitustapa %></li>
-                <li><%= @customer.toimitustapa %></li>
+                <li><%= @report.customer.toimitustapa %></li>
               </ul>
             </td>
           <% end %>
 
         </tr>
         <tr>
-          <% if @customer %>
+          <% if @report.customer %>
             <td colspan="2">
 
               <ul class="list-unstyled">
                 <li><%= TermsOfPayment.model_name.human %></li>
-                <li><%= @customer.terms_of_payment.try(:teksti) %></li>
+                <li><%= @report.customer.terms_of_payment.try(:teksti) %></li>
               </ul>
             </td>
           <% end %>
@@ -134,10 +127,10 @@
     </td>
   </tr>
 
-  <% if Keyword::CustomerPriceListAttribute.message.present? %>
+  <% if @report.class.message.present? %>
     <tr>
       <td colspan="2">
-        <%= Keyword::CustomerPriceListAttribute.message %>
+        <%= @report.class.message %>
       </td>
     </tr>
   <% end %>
@@ -155,7 +148,7 @@
 
   </thead>
   <tbody>
-  <%= render partial: "product", collection: @products, as: :p %>
+  <%= render partial: "product", collection: @report.products, as: :p %>
   </tbody>
 </table>
 

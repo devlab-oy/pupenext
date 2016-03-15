@@ -1,15 +1,9 @@
 <%
-  if @customer
-    price = p.customer_price_with_info(@customer.id)
-  else
-    price = p.customer_subcategory_price_with_info(@customer_subcategory)
-  end
-
   lyhytkuvaus = nil
-  image = nil
-  kuvaus = nil
+  image       = nil
+  kuvaus      = nil
 
-  if params[:lyhytkuvaus] && p.lyhytkuvaus.present?
+  if @report.lyhytkuvaus && p.lyhytkuvaus.present?
     lyhytkuvaus = p.lyhytkuvaus.truncate(2500)
   end
 
@@ -17,7 +11,7 @@
     image = Base64.encode64(p.cover_thumbnail.data)
   end
 
-  if params[:kuvaus] && p.kuvaus.present?
+  if @report.kuvaus && p.kuvaus.present?
     kuvaus = p.kuvaus.truncate(2500)
   end
 %>
@@ -33,9 +27,9 @@
           <strong><%= p.nimitys %></strong>
         </td>
         <td class="width-100">
-          <%= number_to_currency(price[:hinta]) %>
+          <%= number_to_currency(p.price[:hinta]) %>
 
-          <% if price[:contract_price] %>
+          <% if p.price[:contract_price] %>
             <small>(<%= t('reports.customer_price_lists.report.contract_price') %>)</small>
           <% end %>
         </td>
