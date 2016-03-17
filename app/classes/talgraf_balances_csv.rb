@@ -353,7 +353,7 @@ class TalgrafBalancesCsv::BalanceData
       tapvm = [company.previous_fiscal_year.first, company.current_fiscal_year.first]
 
       company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
-        .where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
+        .where(lasku: { alatila: :A }, tiliointi: { tapvm: tapvm }).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
@@ -377,7 +377,7 @@ class TalgrafBalancesCsv::BalanceData
       alatilat = [:A, :T]
 
       company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
-       .where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
+       .where('tiliointi.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
