@@ -122,7 +122,7 @@ package_locale_en:
 weekly_alternative_expenditure_one:
   yhtio: acme
   laji: REVENUEREP
-  selite: 38 / 2015
+  selite: 201538
   selitetark: Palkat
   selitetark_2: 300
   <<: *DEFAULTS
