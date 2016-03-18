@@ -46,11 +46,13 @@ class Administration::TransportsController < AdministrationController
 
     def transport_params
       params.require(:transport).permit(
-        :transportable_id,
+        :encoding,
+        :filename,
         :hostname,
-        :port,
         :password,
         :path,
+        :port,
+        :transportable_id,
         :username,
       )
     end

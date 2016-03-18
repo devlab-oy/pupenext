@@ -16,6 +16,9 @@
     <%= f.input :username %>
     <%= f.input :password, as: :string %>
     <%= f.input :path %>
+    <%= f.input :port %>
+    <%= f.input :filename %>
+    <%= f.input :encoding, collection: transport_encoding_options, include_blank: t('administration.transports.no_conversion') %>
 
   </table>
 

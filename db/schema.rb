@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302082502) do
+ActiveRecord::Schema.define(version: 20160311082817) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2730,6 +2730,8 @@ ActiveRecord::Schema.define(version: 20160302082502) do
     t.string   "path",               limit: 255
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "filename",           limit: 255
+    t.string   "encoding",           limit: 255
   end
 
   add_index "transports", ["transportable_id"], name: "index_transports_on_transportable_id", using: :btree
@@ -3599,6 +3601,7 @@ ActiveRecord::Schema.define(version: 20160302082502) do
     t.string   "jt_manual",                                        limit: 1,                              default: "",    null: false
     t.string   "jt_asiakkaan_tilausnumero",                        limit: 1,                              default: "",    null: false
     t.string   "jt_siirtolistojen_yhdistaminen",                   limit: 1,                              default: "",    null: false
+    t.string   "jt_email_tilauksessa",                             limit: 1,                              default: "",    null: false
     t.string   "kerayslistojen_yhdistaminen",                      limit: 1,                              default: "",    null: false
     t.string   "karayksesta_rahtikirjasyottoon",                   limit: 1,                              default: "",    null: false
     t.string   "rahtikirjojen_esisyotto",                          limit: 1,                              default: "",    null: false
