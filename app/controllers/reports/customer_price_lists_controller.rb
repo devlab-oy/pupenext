@@ -5,25 +5,40 @@ class Reports::CustomerPriceListsController < ApplicationController
   def create
     return render :index unless params_valid?
 
-    @products = params[:product_image] ? Product.includes(:cover_thumbnail).active : Product.active
-    @products = @products.where(osasto: params[:osasto]) if params[:osasto]
-    @products = @products.where(try: params[:try]) if params[:try]
-    @products = @products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
+    products = params[:product_image] ? Product.includes(:cover_thumbnail).active : Product.active
+    products = products.where(osasto: params[:osasto]) if params[:osasto]
+    products = products.where(try: params[:try]) if params[:try]
+    products = products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
 
     if params[:contract_filter].to_i == 2
-      @products = @products.select { |p| p.contract_price?(@target) }
+      products = products.select { |p| p.contract_price?(@target) }
     end
 
-    if @products.empty?
+    if products.empty?
       flash.now[:alert] = t('.products_not_found')
       return render :index
     end
 
-    render pdf:         t('.filename'),
-           disposition: :attachment,
-           footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
-           header:      { right: "#{t('.page')} [page] / [toPage]" },
-           template:    'reports/customer_price_lists/report.html.erb'
+    @report = Reports::CustomerPriceList.new(
+      products: products,
+      customer: @customer,
+      customer_subcategory: @customer_subcategory,
+      lyhytkuvaus: params[:lyhytkuvaus],
+      kuvaus: params[:kuvaus],
+      date_start: params[:date_start],
+      date_end: params[:date_end]
+    )
+
+    if params[:format].to_i == 1
+      render pdf:         t('.filename'),
+             disposition: :attachment,
+             footer:      { html: { template: 'reports/customer_price_lists/footer.html.erb' } },
+             header:      { right: "#{t('.page')} [page] / [toPage]" },
+             template:    'reports/customer_price_lists/report.html.erb'
+    else
+      render xlsx: "reports/customer_price_lists/create.xlsx.axlsx",
+             filename: t('.filename')
+    end
   end
 
   private

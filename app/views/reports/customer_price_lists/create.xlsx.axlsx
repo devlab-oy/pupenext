@@ -1,0 +1,120 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: t('reports.customer_price_lists.report.header')) do |sheet|
+  # Styles
+  currency = sheet.styles.add_style(num_fmt: 8)
+  header   = sheet.styles.add_style(b: true)
+
+  # Company information header
+  sheet.add_row [
+    Company.human_attribute_name(:nimi),
+    Company.human_attribute_name(:ytunnus),
+    Company.human_attribute_name(:osoite),
+    Company.human_attribute_name(:postino),
+    Company.human_attribute_name(:postitp)
+  ], style: header
+
+  # Company information
+  sheet.add_row [
+    current_company.nimi,
+    current_company.ytunnus,
+    current_company.osoite,
+    current_company.postino,
+    current_company.postitp
+  ], types: [nil, :string, nil, :string]
+
+  sheet.add_row
+
+  customer_header_row = []
+
+  if @report.customer
+    customer_header_row += [
+      Customer.human_attribute_name(:nimi),
+      Customer.human_attribute_name(:osoite),
+      Customer.human_attribute_name(:postino),
+      Customer.human_attribute_name(:postitp),
+      Customer.human_attribute_name(:asiakasnro),
+      Keyword::CustomerCategory.model_name.human,
+      Keyword::CustomerSubcategory.model_name.human,
+      Customer.human_attribute_name(:toimitustapa),
+      TermsOfPayment.model_name.human
+    ]
+  else
+    customer_header_row << Keyword::CustomerSubcategory.model_name.human
+  end
+
+  sheet.add_row customer_header_row, style: header
+
+  customer_row = []
+
+  if @report.customer
+    customer_row += [
+      @report.customer.nimi,
+      @report.customer.osoite,
+      @report.customer.postino,
+      @report.customer.postitp,
+      @report.customer.asiakasnro,
+      @report.customer.category,
+      @report.customer.subcategory,
+      @report.customer.toimitustapa,
+      @report.customer.terms_of_payment.try(:teksti)
+    ]
+  else
+    customer_row << @report.customer_subcategory
+  end
+
+  sheet.add_row customer_row, types: [nil, nil, :string, nil, :string]
+
+  sheet.add_row
+
+  report_info_header_row = [
+    User.human_attribute_name(:myyja),
+    t('reports.customer_price_lists.report.printed'),
+    t('reports.customer_price_lists.report.valid_text')
+  ]
+
+  report_info_header_row << t('.message') if @report.class.message.present?
+
+  sheet.add_row report_info_header_row, style: header
+
+  report_info_row = [
+    current_user.nimi,
+    l(Time.now),
+    @report.validity
+  ]
+
+  report_info_row << @report.class.message if @report.class.message.present?
+
+  sheet.add_row report_info_row
+
+  sheet.add_row
+
+  product_header_row = [
+    Product.human_attribute_name(:tuoteno),
+    Product.human_attribute_name(:nimitys),
+    t('reports.customer_price_lists.report.price'),
+    t('reports.customer_price_lists.report.contract_price'),
+    Product.human_attribute_name(:eankoodi)
+  ]
+
+  product_header_row << Product.human_attribute_name(:lyhytkuvaus) if @report.lyhytkuvaus
+  product_header_row << Product.human_attribute_name(:kuvaus) if @report.kuvaus
+
+  sheet.add_row product_header_row, style: header
+
+  @report.products.each do |product|
+    product_row = [
+      product.tuoteno,
+      product.nimitys,
+      product.price[:hinta],
+      product.contract_price,
+      product.eankoodi
+    ]
+
+
+    product_row << product.lyhytkuvaus if @report.lyhytkuvaus
+    product_row << product.kuvaus if @report.kuvaus
+
+    sheet.add_row product_row, style: [nil, nil, currency]
+  end
+end
