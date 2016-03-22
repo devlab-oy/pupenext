@@ -3601,6 +3601,7 @@ ActiveRecord::Schema.define(version: 20160316081024) do
     t.string   "jt_manual",                                        limit: 1,                              default: "",    null: false
     t.string   "jt_asiakkaan_tilausnumero",                        limit: 1,                              default: "",    null: false
     t.string   "jt_siirtolistojen_yhdistaminen",                   limit: 1,                              default: "",    null: false
+    t.string   "jt_email_tilauksessa",                             limit: 1,                              default: "",    null: false
     t.string   "kerayslistojen_yhdistaminen",                      limit: 1,                              default: "",    null: false
     t.string   "karayksesta_rahtikirjasyottoon",                   limit: 1,                              default: "",    null: false
     t.string   "rahtikirjojen_esisyotto",                          limit: 1,                              default: "",    null: false

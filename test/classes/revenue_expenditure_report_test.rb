@@ -258,14 +258,14 @@ class RevenueExpenditureReportTest < ActiveSupport::TestCase
 
     # Lets add one alternative expenditure for current week
     # this should be added to purchases
-    keyword_one.selite = current_week
+    keyword_one.selite = Date.today.strftime "%Y%V"
     keyword_one.selitetark_2 = '100'
     keyword_one.save!
 
     # Lets add another one alternative expenditure for next week
     # Should not be added to purchases
     keyword_two = keyword_one.dup
-    keyword_two.selite = "#{1.week.from_now.to_date.cweek} / #{1.week.from_now.year}"
+    keyword_two.selite = 1.week.from_now.to_date.strftime "%Y%V"
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 

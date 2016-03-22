@@ -352,8 +352,8 @@ class TalgrafBalancesCsv::BalanceData
     def opening_balance_rows
       tapvm = [company.previous_fiscal_year.first, company.current_fiscal_year.first]
 
-      company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
-        .where(lasku: { alatila: :A, tapvm: tapvm }).map do |row|
+      company.bookkeeping_rows.joins("INNER JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
+        .where(lasku: { tila: :X, alatila: :A }, tiliointi: { tapvm: tapvm }).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite
@@ -374,10 +374,13 @@ class TalgrafBalancesCsv::BalanceData
 
     def voucher_rows
       tapvm = company.previous_fiscal_year.first
-      alatilat = [:A, :T]
 
-      company.bookkeeping_rows.joins("JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
-       .where('lasku.tapvm >= ?', tapvm).where.not(lasku: { alatila: alatilat }).order(:tapvm).map do |row|
+      # haetaan kaikki tiliöintirivit, paitsi avaava tase X/A ja tuloskirjaus X/T tositteet
+      company.bookkeeping_rows
+        .joins("INNER JOIN lasku ON lasku.tunnus = tiliointi.ltunnus")
+        .where('tiliointi.tapvm >= ?', tapvm)
+        .where.not('(lasku.tila = ? AND (lasku.alatila = ? OR lasku.alatila = ?))', :X, :T, :A)
+        .order(:tapvm).map do |row|
 
         row.selite.gsub! "\r", "" if row.selite
         row.selite.gsub! "\n", "" if row.selite

@@ -112,7 +112,7 @@ class RevenueExpenditureReport
         # Ostovelat sellaisenaan
         # Mukaan lisätään extrakulut, jota voi syöttää oman käyttöliittymän kautta viikkotasolla
         purchases  = ostovelat(start, stop)
-        purchases += revenue_expenditures(number)
+        purchases += revenue_expenditures(year_week)
 
         {
           week: number,

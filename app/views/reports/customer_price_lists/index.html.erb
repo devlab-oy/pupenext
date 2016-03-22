@@ -57,6 +57,11 @@
       <td><%= render "products/categories_selection" %></td>
     </tr>
 
+    <tr>
+      <th><%= label_tag :format, t('.format') %></th>
+      <td><%= select_tag(:format, options_for_select([['PDF', 1], ['Excel', 2]])) %></td>
+    </tr>
+
   </table>
 
   <br>

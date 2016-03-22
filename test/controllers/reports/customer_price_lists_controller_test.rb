@@ -45,7 +45,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.active.where(osasto: 1000, try: 2000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000, try: 2000).count, assigns(:report).products.count
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -58,7 +58,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.active.where(osasto: 1000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000).count, assigns(:report).products.count
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -71,7 +71,7 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_price_with_info, @price) do
       post :create, @params_customer
 
-      assert_equal Product.active.where(try: 2000), assigns(:products)
+      assert_equal Product.active.where(try: 2000).count, assigns(:report).products.count
       assert_equal @customer, assigns(:customer)
 
       assert_response :success
@@ -82,7 +82,8 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
     LegacyMethods.stub(:customer_subcategory_price_with_info, @price) do
       post :create, @params_customer_subcategory
 
-      assert_equal Product.active.where(osasto: 1000, try: 2000), assigns(:products)
+      assert_equal Product.active.where(osasto: 1000, try: 2000).count,
+                   assigns(:report).products.count
       assert_equal @customer.subcategory, assigns(:customer_subcategory)
 
       assert_response :success
@@ -108,10 +109,10 @@ class Reports::CustomerPriceListsControllerTest < ActionController::TestCase
 
       assert_response :success
 
-      products = assigns(:products)
+      products = assigns(:report).products
 
       assert_equal 1, products.count
-      assert_includes products, @hammer
+      assert_includes products.to_s, @hammer.tuoteno
     end
   end
 end
