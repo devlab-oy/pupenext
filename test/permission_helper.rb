@@ -1,5 +1,5 @@
 module PermissionHelper
-  def add_item(program:, uri:, name:, suburi: '')
+  def add_item(program:, uri:, name:, suburi: '', hidden: '')
     Company.find_each do |company|
       Current.company = company.yhtio
 
@@ -12,6 +12,7 @@ module PermissionHelper
         nimi: uri,
         alanimi: suburi,
         nimitys: name,
+        hidden: hidden,
         jarjestys: jarjestys,
         laatija: 'admin',
         luontiaika: Time.now,
@@ -28,6 +29,7 @@ module PermissionHelper
         nimi: uri,
         alanimi: suburi,
         nimitys: name,
+        hidden: hidden,
         jarjestys: jarjestys,
         laatija: 'admin',
         luontiaika: Time.now,
@@ -47,6 +49,7 @@ module PermissionHelper
           sovellus: program,
           nimi: uri,
           alanimi: suburi,
+          hidden: hidden,
           nimitys: name,
           jarjestys: jarjestys,
           laatija: 'admin',
