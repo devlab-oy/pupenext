@@ -3720,6 +3720,7 @@ ActiveRecord::Schema.define(version: 20160322075340) do
     t.string   "tyomaaraystiedot_tarjouksella",                    limit: 1,                              default: "",    null: false
     t.string   "rinnakkaisostaja_myynnissa",                       limit: 1,                              default: "",    null: false
     t.string   "tilausrivien_toimitettuaika",                      limit: 1,                              default: "",    null: false
+    t.string   "tilausrivin_esisyotto",                            limit: 1,                              default: "",    null: false
     t.string   "tilausvahvistus_jttoimituksista",                  limit: 1,                              default: "",    null: false
     t.string   "jt_rivien_saapumisajan_nayttaminen",               limit: 1,                              default: "",    null: false
     t.string   "naytetaanko_osaston_ja_tryn_selite",               limit: 1,                              default: "",    null: false
