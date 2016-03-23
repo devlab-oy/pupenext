@@ -5,7 +5,7 @@ class AddPermissionsToPrintReceipt < ActiveRecord::Migration
   def up
     PermissionHelper.add_item(
       program: 'Kirjanpitoraportit',
-      name: 'Tulosta tiliointikuitti',
+      name: 'Tulosta tiliotekuitti',
       uri: 'tilauskasittely/tulosta_tiliotekuitti.php',
       hidden: 'H'
     )
