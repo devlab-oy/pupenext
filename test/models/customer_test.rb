@@ -84,8 +84,7 @@ class CustomerTest < ActiveSupport::TestCase
 
   test 'validate_delivery_method' do
     attribute     = Customer.human_attribute_name(:toimitustapa)
-    error_message = I18n.t('activerecord.errors.models.customer.attributes.toimitustapa.' \
-                           'invalid_country')
+    error_message = I18n.t('activerecord.errors.models.customer.invalid_country')
 
     @one.delivery_method.update(sallitut_maat: 'SE')
 
@@ -98,12 +97,17 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test 'validate terms_of_payments' do
+    attribute     = Customer.human_attribute_name(:maksuehto)
+    error_message = I18n.t('activerecord.errors.models.customer.invalid_country')
+
     assert @one.valid?, @one.errors.full_messages
 
-    @one.terms_of_payment.update(sallitut_maat: "SE")
-    refute @one.valid?, @one.errors.full_messages
+    @one.terms_of_payment.update(sallitut_maat: 'SE')
 
-    @one.terms_of_payment.update(sallitut_maat: "FI")
+    refute @one.valid?, @one.errors.full_messages
+    assert_equal "#{attribute} #{error_message}", @one.errors.full_messages.first
+
+    @one.terms_of_payment.update(sallitut_maat: 'FI')
     assert @one.valid?, @one.errors.full_messages
   end
 

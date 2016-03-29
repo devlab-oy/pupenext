@@ -88,18 +88,17 @@ class Customer < BaseModel
 
     def validate_delivery_method
       if delivery_method &&
-         delivery_method.sallitut_maat != "" &&
+         delivery_method.sallitut_maat != '' &&
          delivery_method.sallitut_maat != maa
-        errors.add(:toimitustapa, I18n.t('activerecord.errors.models.customer.attributes' \
-                                         '.toimitustapa.invalid_country'))
+        errors.add(:toimitustapa, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
 
     def validate_terms_of_payment
       if terms_of_payment &&
-         terms_of_payment.sallitut_maat != "" &&
+         terms_of_payment.sallitut_maat != '' &&
          terms_of_payment.sallitut_maat != maa
-        errors.add(:toimitustapa, "Tätä maksuehtoa ei saa käyttää asiakkaalla tässä maassa.")
+        errors.add(:maksuehto, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
 end
