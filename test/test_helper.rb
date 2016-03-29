@@ -59,6 +59,10 @@ class ActionController::TestCase
     RequestStore.clear!
     Current.company = nil
   end
+
+  def json_response
+    ActiveSupport::JSON.decode @response.body
+  end
 end
 
 # Patch fixtures for now, so STI tables are not deleted. This is fixed in rails master (5?).
