@@ -49,9 +49,13 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test 'validate chn' do
-    @one.chn = '666'
-    @one.email = nil
+    @one.chn      = '666'
+    @one.email    = nil
+    attribute     = Customer.human_attribute_name(:chn)
+    error_message = I18n.t('activerecord.errors.models.customer.attributes.chn.email_blank')
+
     refute @one.valid?
+    assert_equal "#{attribute} #{error_message}", @one.errors.full_messages.first
 
     @one.email = ""
     refute @one.valid?

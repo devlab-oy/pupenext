@@ -181,6 +181,7 @@ fi:
         ytunnus: Y-tunnus
       customer:
         asiakasnumero: Asiakasnumero
+        chn: Laskutustapa
         maksuehto: Maksuehto
         toimitustapa: Toimitustapa
       keyword:
@@ -337,6 +338,12 @@ fi:
         username: Käyttäjätunnus
       user:
         myyja: Myyjä
+    errors:
+      models:
+        customer:
+          attributes:
+            chn:
+              email_blank: on sähköposti ja lasku_email on tyhjä! Laskutus ei onnistu
     models:
       account: Tili
       bank_account: Pankkitili
@@ -682,7 +689,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -708,7 +715,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

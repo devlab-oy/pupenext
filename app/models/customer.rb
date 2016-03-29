@@ -82,7 +82,7 @@ class Customer < BaseModel
 
     def validate_chn
       if chn == '666' && email.blank?
-        errors.add(:chn, 'Olet valinnut laskutustavaksi sähköpostin ja lasku_email on tyhjä! Laskutus ei onnistu')
+        errors.add(:chn, I18n.t('activerecord.errors.models.customer.attributes.chn.email_blank'))
       end
     end
 
