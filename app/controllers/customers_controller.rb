@@ -25,7 +25,9 @@ class CustomersController < ApplicationController
   end
 
   def find_by_email
-    if customer = Customer.find_by_email(find_by_params[:email])
+    customer = Customer.find_by_email(find_by_params[:email])
+
+    if customer
       render json: customer
     else
       render json: { error_messages: "Not found" }, status: :not_found
