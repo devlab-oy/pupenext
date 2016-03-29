@@ -344,6 +344,8 @@ fi:
           attributes:
             chn:
               email_blank: on sähköposti ja lasku_email on tyhjä! Laskutus ei onnistu
+            toimitustapa:
+              invalid_country: ei ole sallittu tässä maassa.
     models:
       account: Tili
       bank_account: Pankkitili
@@ -689,7 +691,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -715,7 +717,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu

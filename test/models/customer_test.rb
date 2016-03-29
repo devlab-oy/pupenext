@@ -83,10 +83,17 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test 'validate_delivery_method' do
-    @one.delivery_method.update(sallitut_maat: "SE")
-    refute @one.valid?, @one.errors.full_messages
+    attribute     = Customer.human_attribute_name(:toimitustapa)
+    error_message = I18n.t('activerecord.errors.models.customer.attributes.toimitustapa.' \
+                           'invalid_country')
 
-    @one.delivery_method.update(sallitut_maat: "FI")
+    @one.delivery_method.update(sallitut_maat: 'SE')
+
+    refute @one.valid?, @one.errors.full_messages
+    assert_equal "#{attribute} #{error_message}", @one.errors.full_messages.first
+
+    @one.delivery_method.update(sallitut_maat: 'FI')
+
     assert @one.valid?, @one.errors.full_messages
   end
 

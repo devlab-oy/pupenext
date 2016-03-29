@@ -90,7 +90,8 @@ class Customer < BaseModel
       if delivery_method &&
          delivery_method.sallitut_maat != "" &&
          delivery_method.sallitut_maat != maa
-        errors.add(:toimitustapa, "Tätä maksuehtoa ei saa käyttää asiakkaalla tässä maassa.")
+        errors.add(:toimitustapa, I18n.t('activerecord.errors.models.customer.attributes' \
+                                         '.toimitustapa.invalid_country'))
       end
     end
 
