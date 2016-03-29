@@ -95,4 +95,24 @@ class CustomerTest < ActiveSupport::TestCase
     @one.terms_of_payment.update(sallitut_maat: "FI")
     assert @one.valid?, @one.errors.full_messages
   end
+
+  test '#as_json' do
+    keys = [
+      :asiakasnro,
+      :email,
+      :kieli,
+      :maa,
+      :nimi,
+      :nimitark,
+      :osoite,
+      :postino,
+      :postitp,
+      :puhelin,
+      :toim_maa,
+      :tunnus,
+      :ytunnus
+    ]
+
+    assert_equal keys, @one.as_json.keys
+  end
 end
