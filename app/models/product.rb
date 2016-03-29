@@ -45,8 +45,6 @@ class Product < BaseModel
   before_save :defaults
   before_create :set_date_fields
 
-  before_save :defaults
-
   enum tuotetyyppi: {
     expence: 'B',
     material: 'R',
@@ -201,9 +199,5 @@ class Product < BaseModel
 
       # return maximum stock reservation in the future (worst case)
       stock_by_date.max || 0
-    end
-
-    def defaults
-      self.vienti ||= ''
     end
 end
