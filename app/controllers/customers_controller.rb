@@ -36,8 +36,10 @@ class CustomersController < ApplicationController
 
     def customer_params
       params.require(:customer).permit(
+        :alv,
         :asiakasnro,
         :email,
+        :kauppatapahtuman_luonne,
         :kuljetusvakuutus_tyyppi,
         :lahetetyyppi,
         :maa,
