@@ -18,6 +18,12 @@ foreign_vat:
   laji: ALV
   <<: *DEFAULTS
 
+vat_0:
+  yhtio: acme
+  selite: 0
+  laji: ALV
+  <<: *DEFAULTS
+
 category_tools:
   yhtio: acme
   selite: 1000

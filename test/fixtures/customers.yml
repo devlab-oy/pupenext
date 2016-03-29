@@ -1,4 +1,5 @@
 DEFAULTS: &DEFAULTS
+  kauppatapahtuman_luonne: 11
   yhtio: acme
   laatija: joe
   luontiaika: <%= Date.today %>

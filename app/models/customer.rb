@@ -18,6 +18,8 @@ class Customer < BaseModel
   validates :osasto, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasosasto).pluck(:selite) } }
   validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }
   validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
+  validates :alv, inclusion: { in: ->(_c) { Keyword::Vat.pluck(:selite).map(&:to_i) } }
+  validates :kauppatapahtuman_luonne, inclusion: { in: ->(_c) { Keyword::NatureOfTransaction.pluck(:selite).map(&:to_i) } }
 
   validate :validate_chn
   validate :validate_delivery_method
@@ -61,23 +63,21 @@ class Customer < BaseModel
   private
 
     def defaults
-      self.alv                     = Keyword::Vat.where.not(selitetark: '').first.try(:selite) if alv.blank?
-      self.chn                     = '100' if chn.blank?
-      self.kansalaisuus            = maa if kansalaisuus.blank?
-      self.kauppatapahtuman_luonne = Keyword::NatureOfTransaction.first.try(:selite) if kauppatapahtuman_luonne.blank?
-      self.kieli                   = 'fi' if kieli.blank?
-      self.kolm_maa                = maa if kolm_maa.blank?
-      self.lahetetyyppi            = Keyword::PackingListType.first.try(:selite) if lahetetyyppi.blank?
-      self.laji                    = 'H' if laji.blank?
-      self.laskutus_maa            = maa if laskutus_maa.blank?
-      self.laskutyyppi             = -9 if laskutyyppi.blank?
-      self.maa                     = 'fi' if maa.blank?
-      self.maksuehto               = TermsOfPayment.first if maksuehto.blank?
-      self.tilino_eu               = tilino if tilino_eu.blank?
-      self.tilino_ei_eu            = tilino if tilino_ei_eu.blank?
-      self.toim_maa                = maa if toim_maa.blank?
-      self.toimitustapa            = DeliveryMethod.first if toimitustapa.blank?
-      self.valkoodi                = Currency.order(:jarjestys).first.try(:nimi) if valkoodi.blank?
+      self.chn          = '100' if chn.blank?
+      self.kansalaisuus = maa if kansalaisuus.blank?
+      self.kieli        = 'fi' if kieli.blank?
+      self.kolm_maa     = maa if kolm_maa.blank?
+      self.lahetetyyppi = Keyword::PackingListType.first.try(:selite) if lahetetyyppi.blank?
+      self.laji         = 'H' if laji.blank?
+      self.laskutus_maa = maa if laskutus_maa.blank?
+      self.laskutyyppi  = -9 if laskutyyppi.blank?
+      self.maa          = 'fi' if maa.blank?
+      self.maksuehto    = TermsOfPayment.first if maksuehto.blank?
+      self.tilino_ei_eu = tilino if tilino_ei_eu.blank?
+      self.tilino_eu    = tilino if tilino_eu.blank?
+      self.toim_maa     = maa if toim_maa.blank?
+      self.toimitustapa = DeliveryMethod.first if toimitustapa.blank?
+      self.valkoodi     = Currency.order(:jarjestys).first.try(:nimi) if valkoodi.blank?
     end
 
     def validate_chn
