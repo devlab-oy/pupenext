@@ -64,7 +64,7 @@ class Customer < BaseModel
       self.alv                     = Keyword::Vat.where.not(selitetark: '').first.try(:selite) if alv == 0
       self.chn                     = '100' if chn.blank?
       self.kansalaisuus            = maa if kansalaisuus.blank?
-      self.kauppatapahtuman_luonne = Keyword::NatureOfTransaction.first.try(:selite) if kauppatapahtuman_luonne == 0
+      self.kauppatapahtuman_luonne = Keyword::NatureOfTransaction.first.try(:selite) if kauppatapahtuman_luonne.blank?
       self.kieli                   = 'fi' if kieli.blank?
       self.kolm_maa                = maa if kolm_maa.blank?
       self.lahetetyyppi            = Keyword::PackingListType.first.try(:selite) if lahetetyyppi.blank?
