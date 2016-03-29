@@ -42,7 +42,7 @@ class Customer < BaseModel
   end
 
   # Limit the json data for API request
-  def as_json(options = {})
+  def as_json(*)
     {
       asiakasnro: asiakasnro,
       email:      email,
