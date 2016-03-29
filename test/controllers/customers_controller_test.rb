@@ -27,22 +27,25 @@ class CustomersControllerTest < ActionController::TestCase
   end
 
   test 'should create a new customer' do
-    params = { customer: {
-        ytunnus:      '111',
-        asiakasnro:   '111',
-        nimi:         'Teppo Testaaja',
-        nimitark:     '040 5555 555',
-        osoite:       'Katukuja 12',
-        postino:      '53500',
-        postitp:      'Lappeenranta',
-        maa:          'fi',
-        email:        'teppo@example.com',
-        puhelin:      '040 5555 555',
-        kieli:        'fi',
-        osasto:       '1',
-        maksuehto:    terms_of_payments(:sixty_days_net),
-        toimitustapa: delivery_methods(:kaukokiito).selite,
-        ryhma:        '10'
+    params = {
+      customer: {
+        alv:                     '24',
+        asiakasnro:              '111',
+        email:                   'teppo@example.com',
+        kauppatapahtuman_luonne: '11',
+        kieli:                   'fi',
+        maa:                     'fi',
+        maksuehto:               terms_of_payments(:sixty_days_net),
+        nimi:                    'Teppo Testaaja',
+        nimitark:                '040 5555 555',
+        osasto:                  '1',
+        osoite:                  'Katukuja 12',
+        postino:                 '53500',
+        postitp:                 'Lappeenranta',
+        puhelin:                 '040 5555 555',
+        ryhma:                   '10',
+        toimitustapa:            delivery_methods(:kaukokiito).selite,
+        ytunnus:                 '111'
       },
       access_token: @user.api_key
     }
