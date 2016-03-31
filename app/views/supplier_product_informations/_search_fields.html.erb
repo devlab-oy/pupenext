@@ -45,7 +45,7 @@
                       SupplierProductInformation.human_attribute_name(:category_text1) %>
       </th>
       <td>
-        <%= search_field_tag :category_text1, params[:category_text1] %>
+        <%= select_tag :category_text1, category_text_options(1) %>
       </td>
     </tr>
     <tr>
@@ -54,7 +54,7 @@
                       SupplierProductInformation.human_attribute_name(:category_text2) %>
       </th>
       <td>
-        <%= search_field_tag :category_text2, params[:category_text2] %>
+        <%= select_tag :category_text2, category_text_options(2) %>
       </td>
     </tr>
     <tr>
@@ -63,7 +63,7 @@
                       SupplierProductInformation.human_attribute_name(:category_text3) %>
       </th>
       <td>
-        <%= search_field_tag :category_text3, params[:category_text3] %>
+        <%= select_tag :category_text3, category_text_options(3) %>
       </td>
     </tr>
     <tr>
@@ -72,7 +72,7 @@
                       SupplierProductInformation.human_attribute_name(:category_text4) %>
       </th>
       <td>
-        <%= search_field_tag :category_text4, params[:category_text4] %>
+        <%= select_tag :category_text4, category_text_options(4) %>
       </td>
     </tr>
     <tr>
