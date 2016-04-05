@@ -3,19 +3,25 @@ require 'test_helper'
 class BrowserDetectionTest < ActionDispatch::IntegrationTest
   include LoginHelper
 
-  test "browsers are detected correctly" do
+  setup do
     bob = users(:bob)
 
     bob.update(kayttoliittyma: "U")
     login users(:bob)
+  end
 
-    { "Firefox" => "pupesoft_mozilla.css",
-      "Trident Windows" => "pupesoft_ms_ie.css",
-      "Chrome Windows" => "pupesoft_ms_chrome.css" }.each do |browser, css_file|
+  test "browsers are detected correctly" do
+    tests = {
+      "Chrome Windows"  => /pupesoft_ms_chrome-\S+\.css/,
+      "Firefox Windows" => /pupesoft_ms_mozilla-\S+\.css/,
+      "Firefox"         => /pupesoft_mozilla-\S+\.css/,
+      "Trident Windows" => /pupesoft_ms_ie-\S+\.css/,
+    }
 
+    tests.each do |browser, css_file|
       get "/accounts", {}, { "User-Agent" => browser }
 
-      assert_includes(response.body, css_file)
+      assert_match css_file, response.body, "user-agent #{browser} should have css file #{css_file}"
     end
   end
 end

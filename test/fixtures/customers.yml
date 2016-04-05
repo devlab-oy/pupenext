@@ -1,4 +1,5 @@
 DEFAULTS: &DEFAULTS
+  kauppatapahtuman_luonne: 11
   yhtio: acme
   laatija: joe
   luontiaika: <%= Date.today %>
@@ -10,10 +11,11 @@ stubborn_customer:
   ytunnus: FI12345678
   ovttunnus: 003712345678
   nimi: Very stubborn customer
+  toimitustapa: Kaukokiito
   osoite: Street 1
   postino: 00100
   postitp: Helsinki
-  maa: fi
+  maa: FI
   kansalaisuus: fi
   piiri: Oulu
   email: email@ding.com
@@ -32,7 +34,7 @@ lissu:
   osoite: Katu 1 B 2
   postino: 00100
   postitp: Turku
-  maa: fi
+  maa: FI
   kansalaisuus: fi
   email: lissu@example.com
   kieli: fi

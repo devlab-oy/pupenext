@@ -26,6 +26,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.currencies.count > 0
     assert @acme.customer_transports.count > 0
     assert @acme.customers.count > 0
+    assert @acme.delivery_methods.count > 0
     assert @acme.factorings.count > 0
     assert @acme.fiscal_years.count > 0
     assert @acme.keywords.count > 0

@@ -181,6 +181,7 @@ fi:
         ytunnus: Y-tunnus
       customer:
         asiakasnumero: Asiakasnumero
+        chn: Laskutustapa
         maksuehto: Maksuehto
         toimitustapa: Toimitustapa
       keyword:
@@ -337,6 +338,13 @@ fi:
         username: Käyttäjätunnus
       user:
         myyja: Myyjä
+    errors:
+      models:
+        customer:
+          attributes:
+            chn:
+              email_blank: on sähköposti ja lasku_email on tyhjä! Laskutus ei onnistu
+          invalid_country: ei ole sallittu tässä maassa
     models:
       account: Tili
       bank_account: Pankkitili

@@ -18,6 +18,8 @@ class Keyword < BaseModel
       ASIAKASOSASTO: Keyword::CustomerCategory,
       ASIAKASRYHMA:  Keyword::CustomerSubcategory,
       ASIAKHIN_ATTR: Keyword::CustomerPriceListAttribute,
+      KT:            Keyword::NatureOfTransaction,
+      LAHETETYYPPI:  Keyword::PackingListType,
       LISATIETO:     Keyword::ProductInformationType,
       MAKSUEHTOKV:   Keyword::TermsOfPaymentTranslation,
       MYSQLALIAS:    Keyword::CustomAttribute,

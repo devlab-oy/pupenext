@@ -1,0 +1,26 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+kaukokiito:
+  kauppatapahtuman_luonne: 11
+  poistumistoimipaikka_koodi: FI0
+  lajittelupiste: FIVAT
+  kuljetusmuoto: 1
+  osoitelappu: tiivistetty
+  rahdinkuljettaja: Kaukokiito
+  rahtikirja: rahtikirja.inc
+  selite: Kaukokiito
+  tulostustapa: H
+  <<: *DEFAULTS
+
+kiitolinja:
+  rahdinkuljettaja: Kiitolinja
+  rahtikirja: rahtikirja_pdf.inc
+  selite: Kiitolinja
+  tulostustapa: H
+  <<: *DEFAULTS
+
