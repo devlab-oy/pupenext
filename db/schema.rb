@@ -2504,6 +2504,7 @@ ActiveRecord::Schema.define(version: 20160329121543) do
     t.string   "puhelin",                      limit: 130,                           default: "",  null: false
     t.string   "fax",                          limit: 30,                            default: "",  null: false
     t.string   "email",                        limit: 100,                           default: "",  null: false
+    t.string   "toimittajaryhma",              limit: 150,                           default: "",  null: false
     t.string   "kuljetus",                     limit: 150,                           default: "",  null: false
     t.string   "toimitusehto",                 limit: 35,                            default: "",  null: false
     t.string   "huolitsija",                   limit: 35,                            default: "",  null: false
