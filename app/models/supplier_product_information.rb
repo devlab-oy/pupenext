@@ -26,4 +26,10 @@ class SupplierProductInformation < ActiveRecord::Base
   validates :packaging_unit,           length: { maximum: 100 }
   validates :url_to_product,           length: { maximum: 150 }
   validates :p_nakyvyys,               length: { maximum: 100 }
+
+  def self.category_texts(number)
+    category_text = "category_text#{number}"
+
+    select(category_text).distinct.order(category_text)
+  end
 end

@@ -76,7 +76,7 @@
   <td></td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][osasto]",
-                   options_from_collection_for_select(Product::Category.all,
+                   options_from_collection_for_select(categories,
                                                       :tunnus,
                                                       :selitetark,
                                                       previous_params[:osasto]),
@@ -84,7 +84,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][try]",
-                   options_from_collection_for_select(Product::Subcategory.all,
+                   options_from_collection_for_select(subcategories,
                                                       :tunnus,
                                                       :selitetark,
                                                       previous_params[:try]),
@@ -92,7 +92,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][tuotemerkki]",
-                   options_from_collection_for_select(Product::Brand.all,
+                   options_from_collection_for_select(brands,
                                                       :tunnus,
                                                       :selite,
                                                       previous_params[:tuotemerkki]),
@@ -100,7 +100,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][p_tree_id]",
-                   options_from_collection_for_select(DynamicTree.all.order(:nimi),
+                   options_from_collection_for_select(trees,
                                                       :tunnus,
                                                       :nimi,
                                                       s.p_tree_id),
@@ -113,7 +113,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][status]",
-                   options_from_collection_for_select(Product::Status.all,
+                   options_from_collection_for_select(statuses,
                                                       :tunnus,
                                                       :selitetark,
                                                       previous_params[:status]),
