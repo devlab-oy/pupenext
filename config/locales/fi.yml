@@ -531,6 +531,8 @@ fi:
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
     mail_servers:
+      edit:
+        header: Muokkaa sähköpostipalvelinta
       index:
         header: Sähköpostipalvelimet
       new:
@@ -706,7 +708,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    - 
+    -
     - tammi
     - helmi
     - maalis
@@ -732,7 +734,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - tammikuu
     - helmikuu
     - maaliskuu
