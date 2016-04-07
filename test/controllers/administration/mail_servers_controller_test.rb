@@ -6,6 +6,8 @@ class Administration::MailServersControllerTest < ActionController::TestCase
   )
 
   setup do
+    @one = mail_servers(:one)
+
     login users(:bob)
   end
 
@@ -44,13 +46,13 @@ class Administration::MailServersControllerTest < ActionController::TestCase
   end
 
   test 'GET edit' do
-    get :edit, id: mail_servers(:one).id
+    get :edit, id: @one.id
 
     assert_response :success
 
     assert_select 'h1', I18n.t('administration.mail_servers.edit.header')
 
-    assert_select "form#edit_mail_server_#{mail_servers(:one).id}"
+    assert_select "form#edit_mail_server_#{@one.id}"
   end
 
   test 'POST create' do
@@ -97,8 +99,25 @@ class Administration::MailServersControllerTest < ActionController::TestCase
   end
 
   test 'PATCH update' do
-    patch :update, id: mail_servers(:one).id
+    params = {
+      imap_server: 'new.server.com'
+    }
+
+    patch :update, id: @one.id, mail_server: params
+
+    assert_equal @one.reload.imap_server, 'new.server.com'
 
     assert_redirected_to mail_servers_url
+  end
+
+  test 'PATCH update with invalid_params' do
+    params = {
+      smtp_server: 'new.server.com',
+      smtp_username: ''
+    }
+
+    patch :update, id: @one.id, mail_server: params
+
+    assert_select '#error_explanation'
   end
 end

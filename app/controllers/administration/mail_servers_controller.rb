@@ -18,7 +18,11 @@ class Administration::MailServersController < AdministrationController
   end
 
   def update
-    redirect_to mail_servers_url
+    if @mail_server.update(mail_server_params)
+      redirect_to mail_servers_url
+    else
+      render :edit
+    end
   end
 
   private
