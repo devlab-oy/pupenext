@@ -1,0 +1,2 @@
+module Administration::MailServersHelper
+end
