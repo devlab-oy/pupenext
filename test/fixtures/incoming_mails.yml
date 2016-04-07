@@ -2,14 +2,14 @@
 
 one:
   raw_source: MyText
-  mail_server_id: 
+  mail_server: one
   processed_at: 2016-04-07 16:09:43
-  status: 1
+  status: ok
   status_message: MyString
 
 two:
   raw_source: MyText
-  mail_server_id: 
+  mail_server: two
   processed_at: 2016-04-07 16:09:43
-  status: 1
+  status: error
   status_message: MyString
