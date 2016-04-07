@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Administration::MailServersControllerTest < ActionController::TestCase
+  fixtures %w(
+    mail_servers
+  )
+
   setup do
     login users(:bob)
   end
@@ -17,5 +21,15 @@ class Administration::MailServersControllerTest < ActionController::TestCase
     assert_equal headers[0].content, MailServer.human_attribute_name(:imap_server)
     assert_equal headers[1].content, MailServer.human_attribute_name(:smtp_server)
     assert_equal headers[2].content, MailServer.human_attribute_name(:processing_type)
+
+    rows = css_select('table#mail_servers > tbody > tr')
+
+    MailServer.all.each_with_index do |mail_server, index|
+      row = rows[index]
+
+      assert_equal mail_server.imap_server,     css_select(row, 'td')[0].content
+      assert_equal mail_server.smtp_server,     css_select(row, 'td')[1].content
+      assert_equal mail_server.processing_type, css_select(row, 'td')[2].content
+    end
   end
 end

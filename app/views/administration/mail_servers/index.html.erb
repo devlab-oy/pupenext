@@ -8,4 +8,14 @@
       <th><%= MailServer.human_attribute_name(:processing_type) %></th>
     </tr>
   </thead>
+
+  <tbody>
+    <% @mail_servers.each do |mail_server| %>
+      <tr>
+        <td><%= mail_server.imap_server %></td>
+        <td><%= mail_server.smtp_server %></td>
+        <td><%= mail_server.processing_type %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

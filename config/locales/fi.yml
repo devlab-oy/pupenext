@@ -204,6 +204,16 @@ fi:
         selite: Viikko / Vuosi
         selitetark: Kuvaus
         selitetark_2: Määrä
+      mail_server:
+        done_dir: Kansio, jonne prosessoidut mailit siirretään
+        imap_password: IMAP-palvelimen salasana
+        imap_server: IMAP-palvelin
+        imap_username: IMAP-palvelimen käyttäjätunnus
+        process_dir: Kansio, josta emailit prosessoidaan
+        processing_type: Käsittelytyyppi
+        smtp_password: SMPT-palvelimen salasana
+        smtp_server: SMPT-palvelin
+        smtp_username: SMPT-palvelimen käyttäjätunnus
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
