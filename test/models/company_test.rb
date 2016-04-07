@@ -30,6 +30,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.factorings.count > 0
     assert @acme.fiscal_years.count > 0
     assert @acme.keywords.count > 0
+    assert @acme.mail_servers.count > 0
     assert @acme.manufacture_orders.count > 0
     assert @acme.package_codes.count > 0
     assert @acme.packages.count > 0

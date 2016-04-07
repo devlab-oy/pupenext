@@ -4,16 +4,36 @@ class Administration::MailServersController < AdministrationController
   end
 
   def new
-    @mail_server = MailServer.new
+    @mail_server = current_company.mail_servers.build
   end
 
   def create
-    redirect_to mail_servers_url
+    @mail_server = current_company.mail_servers.build(mail_server_params)
+
+    if @mail_server.save
+      redirect_to mail_servers_url
+    else
+      render :new
+    end
   end
 
   private
 
     def find_resource
       @mail_server ||= MailServer.find(params[:id])
+    end
+
+    def mail_server_params
+      params.require(:mail_server).permit(
+        :imap_server,
+        :imap_username,
+        :imap_password,
+        :smtp_server,
+        :smtp_username,
+        :smtp_password,
+        :process_dir,
+        :done_dir,
+        :processing_type
+      )
     end
 end

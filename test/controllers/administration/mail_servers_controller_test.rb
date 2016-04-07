@@ -68,8 +68,10 @@ class Administration::MailServersControllerTest < ActionController::TestCase
       }
     }
 
-    post :create, params
+    assert_difference 'MailServer.count' do
+      post :create, params
 
-    assert_redirected_to mail_servers_url
+      assert_redirected_to mail_servers_url
+    end
   end
 end
