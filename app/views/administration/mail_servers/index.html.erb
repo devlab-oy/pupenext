@@ -1,1 +1,11 @@
 <%= render 'administration/header', text: t('.header') %>
+
+<table id="mail_servers">
+  <thead>
+    <tr>
+      <th><%= MailServer.human_attribute_name(:imap_server) %></th>
+      <th><%= MailServer.human_attribute_name(:smtp_server) %></th>
+      <th><%= MailServer.human_attribute_name(:processing_type) %></th>
+    </tr>
+  </thead>
+</table>
