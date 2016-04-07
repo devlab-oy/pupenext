@@ -534,6 +534,8 @@ fi:
       edit:
         header: Muokkaa sähköpostipalvelinta
       index:
+        delete: Poista
+        delete_confirmation: Oletko varma, että haluat poistaa tämän sähköpostipalvelimen?
         header: Sähköpostipalvelimet
       new:
         header: Uusi sähköpostipalvelin
