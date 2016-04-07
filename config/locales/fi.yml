@@ -532,6 +532,8 @@ fi:
     mail_servers:
       index:
         header: Sähköpostipalvelimet
+      new:
+        header: Uusi sähköpostipalvelin
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
