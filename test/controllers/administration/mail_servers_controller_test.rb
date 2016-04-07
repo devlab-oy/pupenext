@@ -42,4 +42,10 @@ class Administration::MailServersControllerTest < ActionController::TestCase
 
     assert_select 'form#new_mail_server'
   end
+
+  test 'GET edit' do
+    get :edit, id: mail_servers(:one).id
+
+    assert_response :success
+  end
 end
