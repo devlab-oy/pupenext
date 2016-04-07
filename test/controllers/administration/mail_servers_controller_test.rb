@@ -105,7 +105,7 @@ class Administration::MailServersControllerTest < ActionController::TestCase
 
     patch :update, id: @one.id, mail_server: params
 
-    assert_equal @one.reload.imap_server, 'new.server.com'
+    assert_equal 'new.server.com', @one.reload.imap_server
 
     assert_redirected_to mail_servers_url
   end

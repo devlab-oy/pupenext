@@ -7,7 +7,7 @@ one:
   smtp_password: secret
   process_dir: api_process
   done_dir: api_done
-  processing_type: huutokauppa
+  processing_type: Huutokauppa
   company: acme
 
 two:
@@ -19,5 +19,5 @@ two:
   smtp_password: secret
   process_dir: to_be_processed
   done_dir: done
-  processing_type: huutokauppa
+  processing_type: Huutokauppa
   company: acme
