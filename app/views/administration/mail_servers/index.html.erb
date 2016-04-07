@@ -12,7 +12,7 @@
   <tbody>
     <% @mail_servers.each do |mail_server| %>
       <tr>
-        <td><%= mail_server.imap_server %></td>
+        <td><%= link_to(mail_server.imap_server, mail_server) %></td>
         <td><%= mail_server.smtp_server %></td>
         <td><%= mail_server.processing_type %></td>
       </tr>

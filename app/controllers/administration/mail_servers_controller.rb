@@ -3,6 +3,10 @@ class Administration::MailServersController < AdministrationController
     @mail_servers = MailServer.all
   end
 
+  def show
+    render :edit
+  end
+
   def new
     @mail_server = current_company.mail_servers.build
   end
