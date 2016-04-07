@@ -25,6 +25,12 @@ class Administration::MailServersController < AdministrationController
     end
   end
 
+  def destroy
+    @mail_server.destroy!
+
+    redirect_to mail_servers_url
+  end
+
   private
 
     def find_resource

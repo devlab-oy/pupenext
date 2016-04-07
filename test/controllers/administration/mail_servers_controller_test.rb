@@ -120,4 +120,10 @@ class Administration::MailServersControllerTest < ActionController::TestCase
 
     assert_select '#error_explanation'
   end
+
+  test 'DELETE destroy' do
+    delete :destroy, id: @one.id
+
+    assert_redirected_to mail_servers_url
+  end
 end
