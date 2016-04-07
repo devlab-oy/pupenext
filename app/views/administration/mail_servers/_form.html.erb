@@ -10,7 +10,7 @@
     <%= f.input :smtp_password %>
     <%= f.input :process_dir %>
     <%= f.input :done_dir %>
-    <%= f.input :processing_type %>
+    <%= f.input :processing_type, collection: MailServer::PROCESSING_TYPES, include_blank: false %>
   </table>
 
   <%= render 'actions', f: f %>

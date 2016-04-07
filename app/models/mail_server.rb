@@ -1,4 +1,8 @@
 class MailServer < ActiveRecord::Base
+  PROCESSING_TYPES = %w(
+    Huutokauppa
+  ).freeze
+
   belongs_to :company, required: true
 
   validates :imap_server,     presence: true
@@ -6,7 +10,7 @@ class MailServer < ActiveRecord::Base
   validates :imap_password,   presence: true
   validates :process_dir,     presence: true
   validates :done_dir,        presence: true
-  validates :processing_type, presence: true, inclusion: { in: %w(huutokauppa) }
+  validates :processing_type, presence: true, inclusion: { in: PROCESSING_TYPES }
 
   with_options if: 'smtp_server.present?' do |o|
     o.validates :smtp_username, presence: true
