@@ -49,6 +49,7 @@ Pupesoft::Application.routes.draw do
     resources :custom_attributes
     resources :customer_transports
     resources :fiscal_years, except: :destroy
+    resources :mail_servers
     resources :packages
     resources :packing_areas
     resources :printers
