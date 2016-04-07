@@ -52,4 +52,24 @@ class Administration::MailServersControllerTest < ActionController::TestCase
 
     assert_select "form#edit_mail_server_#{mail_servers(:one).id}"
   end
+
+  test 'POST create' do
+    params = {
+      mail_server: {
+        imap_server:     'imap3.example.com',
+        imap_username:   'test_user_3',
+        imap_password:   'secret',
+        smtp_server:     'smtp3.example.com',
+        smtp_username:   'test_user_3',
+        smtp_password:   'secret',
+        process_dir:     'processing',
+        done_dir:        'ready',
+        processing_type: 'huutokauppa'
+      }
+    }
+
+    post :create, params
+
+    assert_redirected_to mail_servers_url
+  end
 end

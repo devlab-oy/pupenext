@@ -7,6 +7,10 @@ class Administration::MailServersController < AdministrationController
     @mail_server = MailServer.new
   end
 
+  def create
+    redirect_to mail_servers_url
+  end
+
   private
 
     def find_resource
