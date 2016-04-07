@@ -22,9 +22,18 @@
       <th></th>
     </tr>
 
-    <%= render partial:    'supplier_product_information',
-               collection: @supplier_product_informations,
-               as:         :s%>
+    <%=
+      render partial:    'supplier_product_information',
+             collection: @supplier_product_informations,
+             as:         :s,
+             locals: {
+               categories:    Product::Category.all,
+               subcategories: Product::Subcategory.all,
+               brands:        Product::Brand.all,
+               trees:         DynamicTree.all.order(:nimi),
+               statuses:      Product::Status.all
+             }
+    %>
   </table>
 
   <%= submit_tag t('.transfer') %>

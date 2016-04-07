@@ -689,25 +689,27 @@ ActiveRecord::Schema.define(version: 20160401084732) do
   end
 
   create_table "hinnasto", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",      limit: 5,                            default: "",  null: false
-    t.string   "tuoteno",    limit: 60,                           default: "",  null: false
-    t.integer  "minkpl",     limit: 4,                            default: 0,   null: false
-    t.integer  "maxkpl",     limit: 4,                            default: 0,   null: false
-    t.decimal  "hinta",                  precision: 16, scale: 6, default: 0.0, null: false
-    t.date     "alkupvm",                                                       null: false
-    t.date     "loppupvm",                                                      null: false
-    t.string   "laji",       limit: 1,                            default: "",  null: false
-    t.string   "maa",        limit: 2,                            default: "",  null: false
-    t.string   "valkoodi",   limit: 3,                            default: "",  null: false
-    t.decimal  "alv",                    precision: 5,  scale: 2, default: 0.0, null: false
-    t.string   "selite",     limit: 100,                          default: "",  null: false
-    t.string   "laatija",    limit: 50,                           default: "",  null: false
-    t.datetime "luontiaika",                                                    null: false
-    t.datetime "muutospvm",                                                     null: false
-    t.string   "muuttaja",   limit: 50,                           default: "",  null: false
+    t.string   "yhtio",                 limit: 5,                            default: "",  null: false
+    t.string   "tuoteno",               limit: 60,                           default: "",  null: false
+    t.integer  "minkpl",                limit: 4,                            default: 0,   null: false
+    t.integer  "maxkpl",                limit: 4,                            default: 0,   null: false
+    t.decimal  "hinta",                             precision: 16, scale: 6, default: 0.0, null: false
+    t.date     "alkupvm",                                                                  null: false
+    t.date     "loppupvm",                                                                 null: false
+    t.string   "laji",                  limit: 1,                            default: "",  null: false
+    t.string   "maa",                   limit: 2,                            default: "",  null: false
+    t.string   "valkoodi",              limit: 3,                            default: "",  null: false
+    t.decimal  "alv",                               precision: 5,  scale: 2, default: 0.0, null: false
+    t.string   "selite",                limit: 100,                          default: "",  null: false
+    t.integer  "yhtion_toimipaikka_id", limit: 4
+    t.string   "laatija",               limit: 50,                           default: "",  null: false
+    t.datetime "luontiaika",                                                               null: false
+    t.datetime "muutospvm",                                                                null: false
+    t.string   "muuttaja",              limit: 50,                           default: "",  null: false
   end
 
   add_index "hinnasto", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
+  add_index "hinnasto", ["yhtion_toimipaikka_id"], name: "index_hinnasto_on_yhtion_toimipaikka_id", using: :btree
 
   create_table "hyvityssaannot", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
@@ -2503,6 +2505,7 @@ ActiveRecord::Schema.define(version: 20160401084732) do
     t.string   "puhelin",                      limit: 130,                           default: "",  null: false
     t.string   "fax",                          limit: 30,                            default: "",  null: false
     t.string   "email",                        limit: 100,                           default: "",  null: false
+    t.string   "toimittajaryhma",              limit: 150,                           default: "",  null: false
     t.string   "kuljetus",                     limit: 150,                           default: "",  null: false
     t.string   "toimitusehto",                 limit: 35,                            default: "",  null: false
     t.string   "huolitsija",                   limit: 35,                            default: "",  null: false
