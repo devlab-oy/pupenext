@@ -49,5 +49,7 @@ class Administration::MailServersControllerTest < ActionController::TestCase
     assert_response :success
 
     assert_select 'h1', I18n.t('administration.mail_servers.edit.header')
+
+    assert_select "form#edit_mail_server_#{mail_servers(:one).id}"
   end
 end
