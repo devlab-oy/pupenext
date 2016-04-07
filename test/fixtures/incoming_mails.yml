@@ -1,15 +1,13 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   raw_source: MyText
   mail_server: one
-  processed_at: 2016-04-07 16:09:43
+  processed_at: <%= Time.now %>
   status: ok
-  status_message: MyString
+  status_message: Processing ok
 
 two:
   raw_source: MyText
   mail_server: two
-  processed_at: 2016-04-07 16:09:43
+  processed_at: <%= Time.now %>
   status: error
-  status_message: MyString
+  status_message: Error in processing
