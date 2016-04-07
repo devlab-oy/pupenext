@@ -1,4 +1,6 @@
 <%= simple_form_for @mail_server do |f| %>
+  <%= render 'form_errors', resource: @mail_server %>
+
   <table>
     <%= f.input :imap_server %>
     <%= f.input :imap_username %>

@@ -74,4 +74,25 @@ class Administration::MailServersControllerTest < ActionController::TestCase
       assert_redirected_to mail_servers_url
     end
   end
+
+  test 'POST create with invalid params' do
+    params = {
+      mail_server: {
+        imap_username:   'test_user_3',
+        imap_password:   'secret',
+        smtp_server:     'smtp3.example.com',
+        smtp_username:   'test_user_3',
+        smtp_password:   'secret',
+        process_dir:     'processing',
+        done_dir:        'ready',
+        processing_type: 'huutokauppa'
+      }
+    }
+
+    assert_no_difference 'MailServer.count' do
+      post :create, params
+
+      assert_select '#error_explanation'
+    end
+  end
 end
