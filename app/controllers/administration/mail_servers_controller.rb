@@ -17,6 +17,10 @@ class Administration::MailServersController < AdministrationController
     end
   end
 
+  def update
+    redirect_to mail_servers_url
+  end
+
   private
 
     def find_resource

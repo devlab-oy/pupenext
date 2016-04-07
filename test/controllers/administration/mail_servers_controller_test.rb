@@ -95,4 +95,10 @@ class Administration::MailServersControllerTest < ActionController::TestCase
       assert_select '#error_explanation'
     end
   end
+
+  test 'PATCH update' do
+    patch :update, id: mail_servers(:one).id
+
+    assert_redirected_to mail_servers_url
+  end
 end
