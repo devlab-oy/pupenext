@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  imap_server: MyString
+  imap_username: MyString
+  imap_password: MyString
+  smtp_server: MyString
+  smtp_username: MyString
+  smtp_password: MyString
+  process_dir: MyString
+  done_dir: MyString
+  processing_type: MyString
+  company_id: 
+
+two:
+  imap_server: MyString
+  imap_username: MyString
+  imap_password: MyString
+  smtp_server: MyString
+  smtp_username: MyString
+  smtp_password: MyString
+  process_dir: MyString
+  done_dir: MyString
+  processing_type: MyString
+  company_id: 
