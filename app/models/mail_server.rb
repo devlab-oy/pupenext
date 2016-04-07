@@ -4,6 +4,7 @@ class MailServer < ActiveRecord::Base
   ).freeze
 
   belongs_to :company, required: true
+  has_many   :incoming_mails
 
   validates :imap_server,     presence: true
   validates :imap_username,   presence: true
