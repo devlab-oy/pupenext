@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401084732) do
+ActiveRecord::Schema.define(version: 20160407072630) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1531,6 +1531,23 @@ ActiveRecord::Schema.define(version: 20160401084732) do
 
   add_index "maat", ["koodi", "nimi"], name: "koodi_nimi", using: :btree
   add_index "maat", ["koodi", "ryhma_tunnus"], name: "koodi_ryhma", unique: true, using: :btree
+
+  create_table "mail_servers", force: :cascade do |t|
+    t.string   "imap_server",     limit: 255
+    t.string   "imap_username",   limit: 255
+    t.string   "imap_password",   limit: 255
+    t.string   "smtp_server",     limit: 255
+    t.string   "smtp_username",   limit: 255
+    t.string   "smtp_password",   limit: 255
+    t.string   "process_dir",     limit: 255
+    t.string   "done_dir",        limit: 255
+    t.string   "processing_type", limit: 255
+    t.integer  "company_id",      limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "mail_servers", ["company_id"], name: "index_mail_servers_on_company_id", using: :btree
 
   create_table "maksu", primary_key: "tunnus", force: :cascade do |t|
     t.string  "yhtio",    limit: 5,                           default: "",  null: false
