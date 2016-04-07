@@ -379,6 +379,7 @@ fi:
       keyword/customer_category: Asiakasosasto
       keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
+      mail_server: Sähköpostipalvelin
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -705,7 +706,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -731,7 +732,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu

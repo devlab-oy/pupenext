@@ -1,2 +1,15 @@
-<%= form_for @mail_server do |f| %>
+<%= simple_form_for @mail_server do |f| %>
+  <table>
+    <%= f.input :imap_server %>
+    <%= f.input :imap_username %>
+    <%= f.input :imap_password %>
+    <%= f.input :smtp_server %>
+    <%= f.input :smtp_username %>
+    <%= f.input :smtp_password %>
+    <%= f.input :process_dir %>
+    <%= f.input :done_dir %>
+    <%= f.input :processing_type %>
+  </table>
+
+  <%= f.submit %>
 <% end %>
