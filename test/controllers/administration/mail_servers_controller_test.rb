@@ -32,4 +32,10 @@ class Administration::MailServersControllerTest < ActionController::TestCase
       assert_equal mail_server.processing_type, css_select(row, 'td')[2].content
     end
   end
+
+  test 'GET new' do
+    get :new
+
+    assert_response :success
+  end
 end
