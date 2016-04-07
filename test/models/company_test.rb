@@ -50,6 +50,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.transports.count > 0
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
+    assert @acme.incoming_mails.count > 0
   end
 
   test "company has working STI headings" do
