@@ -519,6 +519,9 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    mail_servers:
+      index:
+        header: Sähköpostipalvelimet
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti
