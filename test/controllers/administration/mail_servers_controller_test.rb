@@ -66,7 +66,7 @@ class Administration::MailServersControllerTest < ActionController::TestCase
         smtp_password:   'secret',
         process_dir:     'processing',
         done_dir:        'ready',
-        processing_type: 'huutokauppa'
+        processing_type: 'Huutokauppa'
       }
     }
 
