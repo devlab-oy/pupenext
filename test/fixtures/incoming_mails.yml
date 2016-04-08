@@ -1,0 +1,13 @@
+one:
+  raw_source: MyText
+  mail_server: one
+  processed_at: <%= Time.now %>
+  status: ok
+  status_message: Processing ok
+
+two:
+  raw_source: MyText
+  mail_server: two
+  processed_at: <%= Time.now %>
+  status: error
+  status_message: Error in processing

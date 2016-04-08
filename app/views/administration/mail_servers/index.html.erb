@@ -1,0 +1,27 @@
+<%= render 'administration/header', text: t('.header') %>
+
+<table id="mail_servers">
+  <thead>
+    <tr>
+      <th><%= MailServer.human_attribute_name(:imap_server) %></th>
+      <th><%= MailServer.human_attribute_name(:smtp_server) %></th>
+      <th><%= MailServer.human_attribute_name(:processing_type) %></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mail_servers.each do |mail_server| %>
+      <tr>
+        <td><%= link_to(mail_server.imap_server, mail_server) %></td>
+        <td><%= mail_server.smtp_server %></td>
+        <td><%= mail_server.processing_type %></td>
+        <td><%= link_to t('.delete'),
+                mail_server_path(mail_server),
+                method: :delete, data: { confirm: t('.delete_confirmation') } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= button_to_new(:mail_server) %>

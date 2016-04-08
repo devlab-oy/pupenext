@@ -1,0 +1,23 @@
+one:
+  imap_server: imap1.example.com
+  imap_username: test_user_1
+  imap_password: secret
+  smtp_server: smtp1.example.com
+  smtp_username: test_user_1
+  smtp_password: secret
+  process_dir: api_process
+  done_dir: api_done
+  processing_type: Huutokauppa
+  company: acme
+
+two:
+  imap_server: imap2.example.com
+  imap_username: test_user_2
+  imap_password: secret
+  smtp_server: smtp2.example.com
+  smtp_username: test_user_2
+  smtp_password: secret
+  process_dir: to_be_processed
+  done_dir: done
+  processing_type: Huutokauppa
+  company: acme
