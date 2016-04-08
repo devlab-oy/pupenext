@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407072630) do
+ActiveRecord::Schema.define(version: 20160407130943) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -731,6 +731,18 @@ ActiveRecord::Schema.define(version: 20160407072630) do
 
   add_index "hyvityssaannot", ["yhtio", "aika_ostosta"], name: "yhtio_aika_ostosta", using: :btree
   add_index "hyvityssaannot", ["yhtio", "tuote_kentta", "tuote_arvo"], name: "yhtio_tuote_kentta_tuote_arvo", using: :btree
+
+  create_table "incoming_mails", force: :cascade do |t|
+    t.text     "raw_source",     limit: 4294967295
+    t.integer  "mail_server_id", limit: 4
+    t.datetime "processed_at"
+    t.integer  "status",         limit: 4
+    t.string   "status_message", limit: 255
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "incoming_mails", ["mail_server_id"], name: "index_incoming_mails_on_mail_server_id", using: :btree
 
   create_table "inventointilista", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",        limit: 5,     default: "", null: false
