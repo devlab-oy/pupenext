@@ -1,20 +1,23 @@
 class IncomingMailJob < ActiveJob::Base
   queue_as :default
 
-  def perform(*args)
+  def perform(mailbox_prefix: 'INBOX.', protocol: :imap, port: 993, enable_ssl: true)
     MailServer.all.each do |mail_server|
+      process_dir = "#{mailbox_prefix}#{mail_server.process_dir}"
+      done_dir    = "#{mailbox_prefix}#{mail_server.done_dir}"
+
       Mail.defaults do
-        retriever_method :imap, address:    mail_server.imap_server,
-                                port:       993,
-                                user_name:  mail_server.imap_username,
-                                password:   mail_server.imap_password,
-                                enable_ssl: true
+        retriever_method protocol, address:    mail_server.imap_server,
+                                   port:       port,
+                                   user_name:  mail_server.imap_username,
+                                   password:   mail_server.imap_password,
+                                   enable_ssl: enable_ssl
       end
 
-      Mail.find(mailbox: "INBOX.#{mail_server.process_dir}") do |message, connection, message_uid|
+      Mail.find(mailbox: process_dir) do |message, connection, message_uid|
         mail_server.incoming_mails.create(raw_source: message.raw_source)
 
-        connection.uid_move(message_uid, "INBOX.#{mail_server.done_dir}")
+        connection.uid_move(message_uid, done_dir)
       end
     end
   end
