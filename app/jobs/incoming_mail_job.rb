@@ -1,5 +1,5 @@
 class IncomingMailJob < ActiveJob::Base
-  queue_as :default
+  queue_as :incoming_mail
 
   def perform(mailbox_prefix: 'INBOX.', protocol: :imap, port: 993, enable_ssl: true)
     MailServer.all.each do |mail_server|

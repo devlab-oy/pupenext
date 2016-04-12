@@ -1,5 +1,5 @@
 class HuutokauppaJob < ActiveJob::Base
-  queue_as :default
+  queue_as :huutokauppa
 
   def perform(id:)
     incoming_mail = IncomingMail.find(id)
