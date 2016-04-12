@@ -15,7 +15,9 @@ class IncomingMailJob < ActiveJob::Base
       end
 
       Mail.find(mailbox: process_dir) do |message, connection, message_uid|
-        mail_server.incoming_mails.create(raw_source: message.raw_source)
+        incoming_mail = mail_server.incoming_mails.create(raw_source: message.raw_source)
+
+        "#{mail_server.processing_type}Job".constantize.perform_later(id: incoming_mail.id)
 
         connection.uid_move(message_uid, done_dir)
       end
