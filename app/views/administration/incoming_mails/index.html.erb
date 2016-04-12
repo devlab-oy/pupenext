@@ -1,1 +1,23 @@
 <%= render 'administration/header', text: t('.header') %>
+
+<table id="incoming_mails">
+  <thead>
+    <tr>
+      <th><%= MailServer.model_name.human %></th>
+      <th><%= IncomingMail.human_attribute_name(:processed_at) %></th>
+      <th><%= IncomingMail.human_attribute_name(:status) %></th>
+      <th><%= IncomingMail.human_attribute_name(:status_message) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @incoming_mails.each do |incoming_mail| %>
+      <tr>
+        <td><%= incoming_mail.mail_server %></td>
+        <td><%= l(incoming_mail.processed_at) if incoming_mail.processed_at %></td>
+        <td><%= incoming_mail.status %></td>
+        <td><%= incoming_mail.status_message %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
