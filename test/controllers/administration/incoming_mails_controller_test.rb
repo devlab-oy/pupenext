@@ -17,7 +17,7 @@ class Administration::IncomingMailsControllerTest < ActionController::TestCase
 
     assert_select 'h1', I18n.t('administration.incoming_mails.index.header')
 
-    IncomingMail.all.each_with_index do |incoming_mail, index|
+    IncomingMail.order(:mail_server_id).each_with_index do |incoming_mail, index|
       row = css_select('#incoming_mails tbody tr')[index]
 
       processed_at = incoming_mail.processed_at ? I18n.l(incoming_mail.processed_at) : ''
