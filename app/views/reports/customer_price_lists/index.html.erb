@@ -18,7 +18,7 @@
         <td><%= select_tag :target, customer_subcategory_options(params[:target]) %></td>
       <% else %>
         <th><%= label_tag :target, Customer.human_attribute_name(:asiakasnro) %></th>
-        <td><%= number_field_tag :target, params[:target] %></td>
+        <td><%= text_field_tag :target, params[:target] %></td>
       <% end %>
     </tr>
 
