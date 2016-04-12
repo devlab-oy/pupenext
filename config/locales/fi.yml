@@ -184,6 +184,10 @@ fi:
         chn: Laskutustapa
         maksuehto: Maksuehto
         toimitustapa: Toimitustapa
+      incoming_mail:
+        processed_at: Käsittelypäivämäärä
+        status: Tila
+        status_message: Tilan lisätiedot
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -713,7 +717,7 @@ fi:
     - pe
     - la
     abbr_month_names:
-    -
+    - 
     - tammi
     - helmi
     - maalis
@@ -739,7 +743,7 @@ fi:
       long: "%A %e. %Bta %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - tammikuu
     - helmikuu
     - maaliskuu
