@@ -61,6 +61,6 @@ module LegacyMethods
     end
 
     def self.contract_price(price)
-      !(price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?(['', '13']))
+      !(price[:hinta_peruste].to_i == 18 && price[:ale_peruste].in?([nil, '', '13']))
     end
 end
