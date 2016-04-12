@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class Administration::IncomingMailsControllerTest < ActionController::TestCase
+  fixtures %w(
+    incoming_mails
+    mail_servers
+  )
+
   setup do
     login users(:bob)
   end
