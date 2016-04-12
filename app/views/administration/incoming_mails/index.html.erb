@@ -1,23 +1,46 @@
 <%= render 'administration/header', text: t('.header') %>
 
-<table id="incoming_mails">
-  <thead>
-    <tr>
-      <th><%= MailServer.model_name.human %></th>
-      <th><%= IncomingMail.human_attribute_name(:processed_at) %></th>
-      <th><%= IncomingMail.human_attribute_name(:status) %></th>
-      <th><%= IncomingMail.human_attribute_name(:status_message) %></th>
-    </tr>
-  </thead>
+<%= form_tag incoming_mails_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
-  <tbody>
-    <% @incoming_mails.each do |incoming_mail| %>
+  <table id="incoming_mails">
+    <thead>
       <tr>
-        <td><%= incoming_mail.mail_server %></td>
-        <td><%= l(incoming_mail.processed_at) if incoming_mail.processed_at %></td>
-        <td><%= incoming_mail.status %></td>
-        <td><%= incoming_mail.status_message %></td>
+        <th>
+          <%= sortable :mail_server_id, MailServer.model_name.human %>
+          <%= text_field_tag :mail_server_id, params[:mail_server_id] %>
+        </th>
+
+        <th>
+          <%= sortable :processed_at, IncomingMail.human_attribute_name(:processed_at) %>
+          <%= text_field_tag :processed_at, params[:processed_at] %>
+        </th>
+
+        <th>
+          <%= sortable :status, IncomingMail.human_attribute_name(:status) %>
+          <%= text_field_tag :status, params[:status] %>
+        </th>
+
+        <th>
+          <%= sortable :status_message, IncomingMail.human_attribute_name(:status_message) %>
+          <%= text_field_tag :status_message, params[:status_message] %>
+        </th>
+
+        <th class="back">
+          <%= submit_tag t('.button_search') %>
+        </th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @incoming_mails.each do |incoming_mail| %>
+        <tr>
+          <td><%= incoming_mail.mail_server %></td>
+          <td><%= l(incoming_mail.processed_at) if incoming_mail.processed_at %></td>
+          <td><%= incoming_mail.status %></td>
+          <td><%= incoming_mail.status_message %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
