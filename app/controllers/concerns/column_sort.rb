@@ -14,7 +14,7 @@ module ColumnSort
   # Helper method for views to create link for sorting index
   def sortable(column_name, link_text = nil)
     link = link_text ? link_text : column_name
-    view_context.link_to link, sort_options(column_name)
+    view_context.link_to link, sort_options(column_name), class: 'sort-link'
   end
 
   def search_params

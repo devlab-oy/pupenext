@@ -184,6 +184,10 @@ fi:
         chn: Laskutustapa
         maksuehto: Maksuehto
         toimitustapa: Toimitustapa
+      incoming_mail:
+        processed_at: Käsittelypäivämäärä
+        status: Tila
+        status_message: Tilan lisätiedot
       keyword:
         jarjestys: Järjestys
         kieli: Kieli
@@ -530,6 +534,10 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    incoming_mails:
+      index:
+        button_search: Etsi
+        header: Haetut sähköpostit
     mail_servers:
       edit:
         header: Muokkaa sähköpostipalvelinta
