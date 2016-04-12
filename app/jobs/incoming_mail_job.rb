@@ -1,7 +1,12 @@
 class IncomingMailJob < ActiveJob::Base
   queue_as :incoming_mail
 
-  def perform(mailbox_prefix: 'INBOX.', protocol: :imap, port: 993, enable_ssl: true)
+  def perform
+    mailbox_prefix = 'INBOX.'
+    protocol       = :imap
+    port           = 993
+    enable_ssl     = true
+
     MailServer.all.each do |mail_server|
       process_dir = "#{mailbox_prefix}#{mail_server.process_dir}"
       done_dir    = "#{mailbox_prefix}#{mail_server.done_dir}"
