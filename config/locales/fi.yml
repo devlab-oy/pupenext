@@ -530,6 +530,9 @@ fi:
         header: Tilikaudet
       update:
         update_success: Tilikausi päivitettiin onnistuneesti
+    incoming_mails:
+      index:
+        header: Haetut sähköpostit
     mail_servers:
       edit:
         header: Muokkaa sähköpostipalvelinta
