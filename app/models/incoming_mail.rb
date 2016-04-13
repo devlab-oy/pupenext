@@ -1,4 +1,6 @@
 class IncomingMail < ActiveRecord::Base
+  include Searchable
+
   belongs_to :mail_server, required: true
   has_one    :company, through: :mail_server, required: true
 

@@ -17,4 +17,8 @@ class MailServer < ActiveRecord::Base
     o.validates :smtp_username, presence: true
     o.validates :smtp_password, presence: true
   end
+
+  def to_s
+    "#{imap_server} - #{processing_type}"
+  end
 end

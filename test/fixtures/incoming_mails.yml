@@ -11,3 +11,7 @@ two:
   processed_at: <%= Time.now %>
   status: error
   status_message: Error in processing
+
+three:
+  raw_source: MyText
+  mail_server: one
