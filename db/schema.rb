@@ -2947,6 +2947,7 @@ ActiveRecord::Schema.define(version: 20160412105950) do
     t.string   "positiokentta",   limit: 60,                             default: ""
     t.string   "omasivu",         limit: 1,                              default: "",  null: false
     t.string   "ei_nayteta",      limit: 1,                              default: "",  null: false
+    t.string   "hintatyyppi",     limit: 1,                              default: "",  null: false
     t.string   "ohita_kerays",    limit: 1,                              default: "",  null: false
     t.string   "laatija",         limit: 50,                             default: "",  null: false
     t.datetime "luontiaika",                                                           null: false
