@@ -9,6 +9,8 @@ class HuutokauppaMail
     case @mail.subject
     when /Tarjous automaattisesti hyväksytty/
       :offer_automatically_accepted
+    when /Toimituksen tarjouspyyntö/
+      :delivery_offer_request
     end
   end
 end

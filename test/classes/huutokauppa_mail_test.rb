@@ -5,6 +5,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails = {
       offer_automatically_accepted: [
         HuutokauppaMail.new(huutokauppa_email(:offer_automatically_accepted_1))
+      ],
+      delivery_offer_request: [
+        HuutokauppaMail.new(huutokauppa_email(:delivery_offer_request_1))
       ]
     }
   end
@@ -22,6 +25,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#type' do
     @mails[:offer_automatically_accepted].each do |mail|
       assert_equal :offer_automatically_accepted, mail.type
+    end
+
+    @mails[:delivery_offer_request].each do |mail|
+      assert_equal :delivery_offer_request, mail.type
     end
   end
 end
