@@ -44,6 +44,10 @@ class ActiveSupport::TestCase
     RequestStore.clear!
     Current.company = nil
   end
+
+  def huutokauppa_email(name)
+    File.read(Rails.root.join('test', 'assets', 'huutokauppa_emails', name.to_s))
+  end
 end
 
 # Add login/logout method for controller tests
