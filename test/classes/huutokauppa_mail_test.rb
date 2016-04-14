@@ -20,6 +20,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       ],
       offer_declined: [
         HuutokauppaMail.new(huutokauppa_email(:offer_declined_1))
+      ],
+      purchase_price_paid: [
+        HuutokauppaMail.new(huutokauppa_email(:purchase_price_paid_1))
       ]
     }
   end
@@ -57,6 +60,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     @mails[:offer_declined].each do |mail|
       assert_equal :offer_declined, mail.type
+    end
+
+    @mails[:purchase_price_paid].each do |mail|
+      assert_equal :purchase_price_paid, mail.type
     end
   end
 end

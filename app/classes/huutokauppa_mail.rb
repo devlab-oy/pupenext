@@ -19,6 +19,8 @@ class HuutokauppaMail
       :offer_accepted
     when /Tarjous hylätty/
       :offer_declined
+    when /Kauppahinta maksettu/
+      :purchase_price_paid
     end
   end
 end
