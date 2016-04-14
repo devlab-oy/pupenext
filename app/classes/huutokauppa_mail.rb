@@ -15,6 +15,8 @@ class HuutokauppaMail
       :delivery_ordered
     when /Nettihuutokauppa on päättynyt/
       :auction_ended
+    when /Tarjous hyväksytty/
+      :offer_accepted
     end
   end
 end
