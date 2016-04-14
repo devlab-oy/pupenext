@@ -13,6 +13,8 @@ class HuutokauppaMail
       :delivery_offer_request
     when /Toimitus tilattu/
       :delivery_ordered
+    when /Nettihuutokauppa on päättynyt/
+      :auction_ended
     end
   end
 end

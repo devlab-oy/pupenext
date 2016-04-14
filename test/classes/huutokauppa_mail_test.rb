@@ -11,6 +11,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       ],
       delivery_ordered: [
         HuutokauppaMail.new(huutokauppa_email(:delivery_ordered_1))
+      ],
+      auction_ended: [
+        HuutokauppaMail.new(huutokauppa_email(:auction_ended_1))
       ]
     }
   end
@@ -36,6 +39,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     @mails[:delivery_ordered].each do |mail|
       assert_equal :delivery_ordered, mail.type
+    end
+
+    @mails[:auction_ended].each do |mail|
+      assert_equal :auction_ended, mail.type
     end
   end
 end
