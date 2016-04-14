@@ -11,6 +11,8 @@ class HuutokauppaMail
       :offer_automatically_accepted
     when /Toimituksen tarjouspyyntö/
       :delivery_offer_request
+    when /Toimitus tilattu/
+      :delivery_ordered
     end
   end
 end
