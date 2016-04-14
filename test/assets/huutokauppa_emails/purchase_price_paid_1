@@ -1,0 +1,71 @@
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: testite@testi.te
+Delivery-date: Fri, 25 Mar 2016 20:28:38 +0200
+Received: from filter2.hostingservice.fi ([31.217.192.174]:34423)
+	by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.86_1)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWTL-001Hhi-Ap; Fri, 25 Mar 2016 20:28:35 +0200
+Received: from server.huutokaupat.com ([83.150.76.4])
+	by filter2.hostingservice.fi with esmtp (Exim 4.85)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWTH-0001yU-Bm; Fri, 25 Mar 2016 20:28:32 +0200
+Received: from localhost (unknown [10.10.10.129])
+	by server.huutokaupat.com (Postfix) with ESMTP id 168A3200313;
+	Fri, 25 Mar 2016 20:28:31 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+	s=default; t=1458930511;
+	bh=vh6owOzk5kDfZpRXwQabM9EOxS9oPFLf5rQZi4RkiYw=;
+	h=From:To:Subject:Date;
+	b=DvmLybUfW9AJAJ8g40BzeKGJ9urwIBNtOUG+WiBCqP/C7SGKOGrjyW7MnEZ4Ao6Ct
+	 nqgh6U203HXRs1nHY+2kU1pD7e6YMxzspemCFwg1Ylengz7eVcZV4X1JEjmz6pzT6i
+	 R7wgItvPHVoj8fJ5wocQ4LhXfkb4XL3P34Ua7xHE=
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+To: testite@testi.te
+Subject: Kauppahinta maksettu Huutokaupat.com nettihuutokauppa: kohde #270265
+Date: Fri, 25 Mar 2016 20:28:31 +0200
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+MIME-Version: 1.0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwVIv
+ qZwgVDkaEsYBFekUAPKMvZU4adVMraRTpzC4qAY+lCybmqSgOJ5b2ZNbmZ8oED6guwZWWDG0lsrO
+ aiWWBw3lAxv/i0Py4a7lxqc8LD7mEVuIRY538NZQ2FrAY5t2+aaPjeWmia2jRnDnoELXkRhEcMKG
+ 3k5ZUCm5ThOLooQ5xIhCDYhqBTV7Xr57Awey6Ou7fzy0p/Dkv7FD/l58W0+HTgqm0NGkJciFVJF5
+ uI1yRrVvmFAGxfVV+0MusUdw2e3M0c0Zt59ouqOOHwaVGrFRXxKF5tPxTxfD0dMN+t5ZIVUwnIGM
+ +YPVnxOgmsbS+7wqyT5p50x81ZKcmzCu2U1xx+llIYNgZPPSh5tcNrwYot5OtxkmsUUseoTPSYQj
+ cmULaP/ApchjMyf04X8L933rq1s42KU8W+rDPU/gNoNojUt9LnWZvipowshzMBlOnN40eTXlWiUA
+ YdLmsJdAoPJ5hfWn9IBsOwe27q0bSULu55d5y7RQ/rsvNV5FpZzQyOkWrBYsf6b4ZJHtY+ZApOEm
+ cQWsIssNc+7kraS+Ozfj54lDeJrKcFhFl0M3zbWzBq0jiD6XqsJZtjQxlyCdsewSDYqoUtIFwxUK
+ tJ1f5sInYGtPKHlyKOwkFyqy0bJtOA==
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJbmLbQULIXlEhuVRudChxypA3cTUQ1R++keuE7RDJ8Kg3RbMLUalw1oC
+ mj99/u+Poh38tEMU4IgC4sNz49qn3HGok1JBYnOLzfRIhlEHQynLUpndEJ0YoaLytXXo8BMTaX2p
+ Mk7LBarWD9Fj4R3eIu4Bsml81rA/gHhLEtACALmR2r83SaUpVf3f5cYLuhfrp46k+SFrDntuK6+0
+ Vn93d6+oPBu9yrChLQLIzYMZ2Wci
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Recommended-Action: accept
+
+<p>=0A    Vahvistamme t=C3=A4ten ett=C3=A4 ostaja on maksanut kauppahinn=
+an asiakastilillemme seuraavasta kohteesta ja se voidaan luovuttaa ostaj=
+alle:=0A</p>=0A=0A<p>=0A    Kohde #270265<br/>=0A    Otsikkokentt=C3=A4:=
+ 20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti<br/>=0A    P=C3=
+=A4=C3=A4ttymisaika: Perjantai 25.03.2016 klo 20:20<br/>=0A    Huudettu:=
+ 300 EUR<br/>=0A    Alv-osuus: 72.00 EUR<br/>=0A    Summa: 372.00 EUR, A=
+LV 24 %<br/>=0A    </p>=0A=0A<p>=0A    Ostajan yhteystiedot:<br/>=0A   =
+     Test-testi Testite<br/>=0A    te.testite@testi.tes<br/>=0A        =
+    Puhelin: +123 45 6789012<br/>=0A        Osoite:<br/>=0A    Testitest=
+i 123<br/>=0A    12345 Testitesti<br/>=0A    Suomi=0A</p>=0A=0A<p>=0A  =
+  Myyj=C3=A4n/toimeksisaaneen yhteystiedot:<br/>=0A    Testi Testitest<b=
+r />=0AY-tunnus: 1234567-8<br />=0ARahti tilaukset<br />=0Atestit@testi.=
+te<br />=0A<br />=0A<br />=0AIlmoittajan viite: TES12345-678<br />=0A<br=
+/>=0A    <br/>=0A    Huutokaupan tilana n=C3=A4kyy ilmoituksessa: Myyty.=
+<br/>=0A    <br/>=0A    Tulemme suorittamaan kauppahinnan ilmoittamallen=
+ne tilille viimeist=C3=A4=C3=A4n seitsem=C3=A4n seuraavan arkip=C3=A4iv=
+=C3=A4n aikana.<br/>=0A    <br/>=0A    Myyntikohde n=C3=A4kyy myynnin to=
+teuduttua sivuilla 7 p=C3=A4iv=C3=A4=C3=A4 ja poistuu t=C3=A4m=C3=A4n j=
+=C3=A4lkeen sivuilta automaattisesti.=0A</p>=0A=0A<p>=0A    Yst=C3=A4v=
+=C3=A4llisin terveisin,<br/>=0AHuutokaupat.com=0A=0A</p>=0A

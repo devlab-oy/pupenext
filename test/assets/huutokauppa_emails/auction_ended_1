@@ -1,0 +1,106 @@
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: testite@testi.te
+Delivery-date: Fri, 25 Mar 2016 20:32:13 +0200
+Received: from filter2.hostingservice.fi ([31.217.192.174]:35414)
+	by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.86_1)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWWo-001IYk-N6; Fri, 25 Mar 2016 20:32:10 +0200
+Received: from server.huutokaupat.com ([83.150.76.4])
+	by filter2.hostingservice.fi with esmtp (Exim 4.85)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWWk-0002Pv-Ma; Fri, 25 Mar 2016 20:32:07 +0200
+Received: from localhost (unknown [10.10.10.130])
+	by server.huutokaupat.com (Postfix) with ESMTP id 6A1B7200730;
+	Fri, 25 Mar 2016 20:32:06 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+	s=default; t=1458930726;
+	bh=3HHzAT76x3THJxSe6+3q83zu638MTYfyGYL3M6UFGBk=;
+	h=From:To:Subject:Date;
+	b=RZZOaeMgU3R8Sq77L8ss4WKXmggOa+GVpYWmCF3bY4fiGOGc5GniBEAvlOiPO3dcu
+	 MldtTEfAxmyI0lyLJ5Vd/18ceB3NiYIucXWvf38ao2V68ymyTffugOjG+QDdob/mNM
+	 0tfBMGTk7AACeEbUywTgQX3KFTHWILrdemS5F6xE=
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+To: testite@testi.te
+Subject: =?utf-8?Q?Nettihuutokauppa=20on=20p=C3=A4=C3=A4ttynyt=20kohde=20?=
+ =?utf-8?Q?279590:=20Aggregaatti=20Lutian=206=20kVA=20230/400=20?=
+ =?utf-8?Q?diesel=2C=20s=C3=A4hk=C3=B6startti=2C=20Silent=20?=
+ =?utf-8?Q?-malli=2C=20UUSI=2C=20Lahti?=
+Date: Fri, 25 Mar 2016 20:32:06 +0200
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+MIME-Version: 1.0
+Message-Id: <20160325183206.6A1B7200730@server.huutokaupat.com>
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwZHf
+ WZYD82R/uX1kWNJz4wES3dsoT4fYpUWtq2l6tT6ampYbIWehzfMhBX2xrya8NiYD1ptUVn6ByrDO
+ Wen4bPcvcplYN5zMlHdXzOu7gRr7JZBJUDyXddX3lRgqX8VJ+tAeq+cds6nJlNErvZtFoqBG5Tpk
+ D/Jv7PkKJQMLl7iniwQzKw+6v3CaIMG6s7LqJAIIBVgPWFQrNNt4skZxEXKQm4E4p26nSSkPphfX
+ rBhTiG4XwpsXfeh5n1ZI7qO6rgm3sj9lmtbo8r2I2S7vXK58qkx/4onSXziZggDqLL+he+rrxbVY
+ RI5qM5mkwzDs9idlTZ/1FHjgq2v1uRnTIQkzjyjL/QuDtdf6sFzW2z/xrZ1imVBgEPlWeT9NV68R
+ zTGyrcyC2vCRmxz47BFeriZoD7bAeKsWl/oNzWdtNsPTrUXX5D+Zk7NvU6DQewiNCincCmK8uaqK
+ pmdh0n2Qm1Vxy/ihLCT5uxnmHhGGy2O3GwTuewy/HmZZ5Q1Q/X20UmtnqtxYC4A8Mpq5s+pEiB7R
+ rozQuRVmTz0MvEjBP3L2CCqB9MF1QnIcvR4Oc30Set++dzS2U7nKMHPJjR66Knzy8PsbvOGQC8Rk
+ xXXi70l4QCjD5CFhDgWZDuq0TejmL1C6yAg7PQlNtgw29ArPlaU=
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJbmLbQULIXlEhuVRudChxypA3cTUQ1R++keuE7RDJ8Kg3RbMLUalw1oC
+ mj99/u+Poh38tEMU4IgC4sNz49qn3HGok1JBYnOLzfRIhlEHQynLUpndEJ0YoaLytXXo8BMTaX2p
+ Mk7LBarWD9Fj4R3eIu4Bsml81rA/gHhLEtACALmR2r83SaUpVf3f5cYLuhfrp46k+SFrDntuK6+0
+ Vn93d6+oPBu9yrChLQLIzYMZ2Wci
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Recommended-Action: accept
+
+<p>=0A    Korkein sitova tarjous on kirjattu palveluun seuraavilla tiedo=
+illa:=0A</p>=0A=0A<p>=0A    Kohde #279590<br/>=0A    Otsikkokentt=C3=A4:=
+ 24.03.-25.03. Aggregaatti Lutian 6 kVA 230/400 diesel, s=C3=A4hk=C3=B6s=
+tartti, Silent -malli, UUSI, Lahti<br/>=0A    P=C3=A4=C3=A4ttymisaika: P=
+erjantai 25.03.2016 klo 20:30<br/>=0A    Huudettu: 650 EUR<br/>=0A    Al=
+v-osuus: 156 EUR<br/>=0A    Summa: 806 EUR, ALV 24 %=0A</p>=0A=0A<p>=0A=
+    </p>=0A=0A<p>=0A    Myyj=C3=A4n/toimeksisaaneen yhteystiedot:<br/>=
+=0A    Testi Testitest<br />=0AY-tunnus: 1234567-8<br />=0ATesti Testite=
+n<br />=0Atesti.testites@testi.te<br />=0A+123 45 6789012<br />=0A<br />=
+=0ARahti tilaukset<br />=0Atestit@testi.te<br />=0A<br />=0A<br />=0AIlm=
+oittajan viite: 1234-567<br />=0A<br/>=0A    <br/>=0A    Maksutapa: Verk=
+kopankkimaksu. Pankit: Nordea, Danske Bank, Osuuspankki, S-pankki, Aktia=
+, Handelsbanken, =C3=85landsbanken, Pop-pankki, S=C3=A4=C3=A4st=C3=B6pan=
+kki<br/>=0A    <br/>=0A    Teill=C3=A4 on myyj=C3=A4n=C3=A4 oikeus hyv=
+=C3=A4ksy=C3=A4 tai hyl=C3=A4t=C3=A4 tehty korkein tarjous ja ilmoittava=
+ asiasta ostajalle kahden seuraavan arkip=C3=A4iv=C3=A4n aikana.  P=C3=
+=A4=C3=A4t=C3=B6kseenne saakka huutokaupan tilana n=C3=A4kyy: P=C3=A4=C3=
+=A4ttynyt =E2=80=93 tarkastetaan tarjouksia.<br/>=0A    <br/>=0A    Tarj=
+ouksen hyv=C3=A4ksyminen<br/>=0A    Olkaa yst=C3=A4v=C3=A4llinen ja kirj=
+autukaa omalla k=C3=A4ytt=C3=A4j=C3=A4tunnuksella ja salasanalla palvelu=
+un klikkaamalla seuraavaa linkki=C3=A4: <a href=3D"https://www.huutokaup=
+at.com/admin/fi/NetAuctionApproval/approve/id/279590">https://www.huutok=
+aupat.com/admin/fi/NetAuctionApproval/approve/id/279590</a>. Valitkaa t=
+=C3=A4m=C3=A4n j=C3=A4lkeen tarjolla olevista vaihtoehdoista tarjouksen=
+ hyv=C3=A4ksyminen. T=C3=A4m=C3=A4n j=C3=A4lkeen huutokaupan tilana n=C3=
+=A4kyy ilmoituksessa: P=C3=A4=C3=A4ttynyt =E2=80=93 tarjous hyv=C3=A4ksy=
+tty.<br/>=0A    <br/>=0A    T=C3=A4m=C3=A4n j=C3=A4lkeen ostajalla on ka=
+ksi arkip=C3=A4iv=C3=A4=C3=A4 aikaa suorittaa kauppahinta. Ostaja maksaa=
+ kauppahinnan Huutokaupat.com palvelua yll=C3=A4pit=C3=A4v=C3=A4n Mezzof=
+orte Oy:n asiakastilille. Saatte tiedon toteutuneesta maksusuorituksesta=
+ v=C3=A4litt=C3=B6m=C3=A4sti s=C3=A4hk=C3=B6postiinne.  Tulemme suoritta=
+maan kauppahinnan ilmoittamallenne tilille viimeist=C3=A4=C3=A4n seitsem=
+=C3=A4n seuraavan arkip=C3=A4iv=C3=A4n aikana.<br/>=0A    <br/>=0A    My=
+yntikohteen omistus- ja hallintaoikeus siirtyy ostajalle heti kun kauppa=
+hinta on maksettu, ellei ilmoituksessa toisin mainita. Kohteen nouto tap=
+ahtuu ilmoituksessa mainittujen ohjeiden ja m=C3=A4=C3=A4r=C3=A4aikojen=
+ mukaisesti. Ostajaa on pyydetty ottamaan teihin yhteytt=C3=A4.<br/>=0A=
+    <br/>=0A    Maksusuorituksen j=C3=A4lkeen huutokaupan tilana n=C3=A4=
+kyy ilmoituksessa: Myyty.<br/>=0A    <br/>=0A    Myyntikohde n=C3=A4kyy=
+ myynnin toteuduttua sivuilla 7 p=C3=A4iv=C3=A4=C3=A4 ja poistuu t=C3=A4=
+m=C3=A4n j=C3=A4lkeen sivuilta automaattisesti.<br/>=0A    <br/>=0A    T=
+arjouksen hylk=C3=A4=C3=A4minen<br/>=0A    Olkaa yst=C3=A4v=C3=A4llinen=
+ ja kirjautukaa omalla k=C3=A4ytt=C3=A4j=C3=A4tunnuksella ja salasanalla=
+ palveluun oheisesta linkist=C3=A4 (linkki).  Valitkaa t=C3=A4m=C3=A4n j=
+=C3=A4lkeen tarjolla olevista vaihtoehdoista tarjouksen hylk=C3=A4=C3=A4=
+minen. T=C3=A4m=C3=A4n j=C3=A4lkeen huutokaupan tilana n=C3=A4kyy ilmoit=
+uksessa: P=C3=A4=C3=A4ttynyt =E2=80=93 tarjous hyl=C3=A4tty.<br/>=0A   =
+ <br/>=0A    Huutokauppailmoitus ja tieto tarjouksen hylk=C3=A4=C3=A4mis=
+est=C3=A4 n=C3=A4kyy sivuilla 7 p=C3=A4iv=C3=A4=C3=A4 ja poistuu t=C3=A4=
+m=C3=A4n j=C3=A4lkeen sivuilta automaattisesti.=0A</p>=0A=0A<p>=0A    Ys=
+t=C3=A4v=C3=A4llisin terveisin,<br/>=0AHuutokaupat.com=0A=0A</p>=0A
