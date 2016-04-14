@@ -17,6 +17,8 @@ class HuutokauppaMail
       :auction_ended
     when /Tarjous hyväksytty/
       :offer_accepted
+    when /Tarjous hylätty/
+      :offer_declined
     end
   end
 end
