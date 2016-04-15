@@ -73,4 +73,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#customer_phone' do
+    assert_equal '+123 45 6789012', @mails[:offer_accepted][0].customer_phone
+    assert_equal '+123 45 6789012', @mails[:offer_automatically_accepted][0].customer_phone
+    assert_equal '+123 45 6789012', @mails[:purchase_price_paid][0].customer_phone
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_phone
+      end
+    end
+  end
 end
