@@ -51,6 +51,10 @@ class HuutokauppaMail
     customer_info[:city]
   end
 
+  def customer_country
+    customer_info[:country]
+  end
+
   private
 
     def customer_info
