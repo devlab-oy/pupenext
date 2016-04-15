@@ -3,6 +3,7 @@ class HuutokauppaMail
 
   def initialize(raw_source)
     @mail = Mail.new(raw_source)
+    @doc  = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
   end
 
   def type
@@ -27,17 +28,19 @@ class HuutokauppaMail
   end
 
   def customer_name
-    case type
-    when :offer_accepted,
-         :offer_automatically_accepted,
-         :purchase_price_paid
-      doc = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
-      regex = %r{
-        Ostajan\syhteystiedot:\s*(.*$)\s*(.*$)\s*Puhelin:\s*(.*$)\s*Osoite:\s*(.*$)\s*(\d*)\s*
-        (.*$)\s*(.*$)
-      }x
+    customer_info.try(:[], :name)
+  end
 
-      doc.content.match(regex).try(:[], 1)
-    end
+  def customer_email
+    customer_info.try(:[], :email)
+  end
+
+  def customer_info
+    regex = %r{
+      Ostajan\syhteystiedot:\s*(?<name>.*$)\s*(?<email>.*$)\s*Puhelin:\s*(?<phone>.*$)\s*
+      Osoite:\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*(?<country>.*$)
+    }x
+
+    @doc.content.match(regex)
   end
 end

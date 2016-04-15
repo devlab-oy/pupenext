@@ -58,4 +58,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#customer_name returns nil if name is not found' do
     assert_nil HuutokauppaMail.new(huutokauppa_email(:invalid_customer_info)).customer_name
   end
+
+  test '#customer_email' do
+    assert_equal 'testit@testi.tes',     @mails[:offer_accepted][0].customer_email
+    assert_equal 'te.testite@testi.tes', @mails[:offer_automatically_accepted][0].customer_email
+    assert_equal 'te.testite@testi.tes', @mails[:purchase_price_paid][0].customer_email
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_email
+      end
+    end
+  end
 end
