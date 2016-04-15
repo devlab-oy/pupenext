@@ -21,6 +21,8 @@ class HuutokauppaMail
       :offer_declined
     when /Kauppahinta maksettu/
       :purchase_price_paid
+    when /Huutaja noutaa/
+      :bidder_picks_up
     end
   end
 end
