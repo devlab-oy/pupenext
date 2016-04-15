@@ -7,7 +7,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     mail_dir = Rails.root.join('test', 'assets', 'huutokauppa_emails')
 
     Dir.foreach(mail_dir) do |item|
-      next if item.in?(%w(. ..))
+      next if item.in?(%w(. .. invalid_customer_info))
 
       key  = item.sub(/_\d\z/, '')
       file = File.read(mail_dir.join(item))
@@ -53,5 +53,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_nil mail.customer_name
       end
     end
+  end
+
+  test '#customer_name returns nil if name is not found' do
+    assert_nil HuutokauppaMail.new(huutokauppa_email(:invalid_customer_info)).customer_name
   end
 end

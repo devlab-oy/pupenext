@@ -37,7 +37,7 @@ class HuutokauppaMail
         (.*$)\s*(.*$)
       }x
 
-      doc.content.match(regex)[1]
+      doc.content.match(regex).try(:[], 1)
     end
   end
 end
