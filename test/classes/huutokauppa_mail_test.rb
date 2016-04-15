@@ -103,4 +103,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#customer_postcode' do
+    assert_equal '12345', @mails[:offer_accepted][0].customer_postcode
+    assert_equal '23456', @mails[:offer_automatically_accepted][0].customer_postcode
+    assert_equal '12345', @mails[:purchase_price_paid][0].customer_postcode
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_postcode
+      end
+    end
+  end
 end
