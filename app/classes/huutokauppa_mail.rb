@@ -47,6 +47,10 @@ class HuutokauppaMail
     customer_info[:postcode]
   end
 
+  def customer_city
+    customer_info[:city]
+  end
+
   private
 
     def customer_info

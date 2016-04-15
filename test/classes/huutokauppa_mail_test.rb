@@ -118,4 +118,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#customer_city' do
+    assert_equal 'Testi',      @mails[:offer_accepted][0].customer_city
+    assert_equal 'Testitesti', @mails[:offer_automatically_accepted][0].customer_city
+    assert_equal 'Testitesti', @mails[:purchase_price_paid][0].customer_city
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_city
+      end
+    end
+  end
 end
