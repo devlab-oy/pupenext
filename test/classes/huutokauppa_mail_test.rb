@@ -14,6 +14,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
       @mails[key.to_sym] << HuutokauppaMail.new(file)
     end
+
+    @emails_without_customer_info = [
+      :auction_ended,
+      :bidder_picks_up,
+      :delivery_offer_request,
+      :delivery_ordered,
+      :offer_declined
+    ]
   end
 
   test 'files are read correctly' do
@@ -45,11 +53,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Test-testi Testite',       @mails[:offer_automatically_accepted][0].customer_name
     assert_equal 'Test-testi Testite',       @mails[:purchase_price_paid][0].customer_name
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_name
       end
@@ -65,11 +69,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'te.testite@testi.tes', @mails[:offer_automatically_accepted][0].customer_email
     assert_equal 'te.testite@testi.tes', @mails[:purchase_price_paid][0].customer_email
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_email
       end
@@ -81,11 +81,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '+123 45 6789012', @mails[:offer_automatically_accepted][0].customer_phone
     assert_equal '+123 45 6789012', @mails[:purchase_price_paid][0].customer_phone
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_phone
       end
@@ -97,11 +93,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Testitesti 123', @mails[:offer_automatically_accepted][0].customer_address
     assert_equal 'Testitesti 123', @mails[:purchase_price_paid][0].customer_address
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_address
       end
@@ -113,11 +105,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '23456', @mails[:offer_automatically_accepted][0].customer_postcode
     assert_equal '12345', @mails[:purchase_price_paid][0].customer_postcode
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_postcode
       end
@@ -129,11 +117,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Testitesti', @mails[:offer_automatically_accepted][0].customer_city
     assert_equal 'Testitesti', @mails[:purchase_price_paid][0].customer_city
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_city
       end
@@ -145,11 +129,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Suomi', @mails[:offer_automatically_accepted][0].customer_country
     assert_equal 'Suomi', @mails[:purchase_price_paid][0].customer_country
 
-    @mails.values_at(:auction_ended,
-                     :bidder_picks_up,
-                     :delivery_offer_request,
-                     :delivery_ordered,
-                     :offer_declined).each do |mails|
+    @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_country
       end
