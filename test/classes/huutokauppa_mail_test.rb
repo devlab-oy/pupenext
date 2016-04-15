@@ -33,32 +33,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#type' do
-    @mails[:offer_automatically_accepted].each do |mail|
-      assert_equal :offer_automatically_accepted, mail.type
-    end
-
-    @mails[:delivery_offer_request].each do |mail|
-      assert_equal :delivery_offer_request, mail.type
-    end
-
-    @mails[:delivery_ordered].each do |mail|
-      assert_equal :delivery_ordered, mail.type
-    end
-
-    @mails[:auction_ended].each do |mail|
-      assert_equal :auction_ended, mail.type
-    end
-
-    @mails[:offer_accepted].each do |mail|
-      assert_equal :offer_accepted, mail.type
-    end
-
-    @mails[:offer_declined].each do |mail|
-      assert_equal :offer_declined, mail.type
-    end
-
-    @mails[:purchase_price_paid].each do |mail|
-      assert_equal :purchase_price_paid, mail.type
+    @mails.each do |type, mails_of_type|
+      mails_of_type.each do |mail|
+        assert_equal type, mail.type
+      end
     end
   end
 end
