@@ -39,4 +39,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#customer_name' do
+    assert_equal 'Testi Testit Testitestit', @mails[:offer_accepted][0].customer_name
+    assert_equal 'Test-testi Testite',       @mails[:offer_automatically_accepted][0].customer_name
+    assert_equal 'Test-testi Testite',       @mails[:purchase_price_paid][0].customer_name
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_name
+      end
+    end
+  end
 end

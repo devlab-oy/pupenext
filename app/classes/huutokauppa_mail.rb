@@ -25,4 +25,19 @@ class HuutokauppaMail
       :bidder_picks_up
     end
   end
+
+  def customer_name
+    case type
+    when :offer_accepted,
+         :offer_automatically_accepted,
+         :purchase_price_paid
+      doc = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
+      regex = %r{
+        Ostajan\syhteystiedot:\s*(.*$)\s*(.*$)\s*Puhelin:\s*(.*$)\s*Osoite:\s*(.*$)\s*(\d*)\s*
+        (.*$)\s*(.*$)
+      }x
+
+      doc.content.match(regex)[1]
+    end
+  end
 end
