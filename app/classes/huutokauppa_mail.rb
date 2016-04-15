@@ -39,6 +39,10 @@ class HuutokauppaMail
     customer_info[:phone]
   end
 
+  def customer_address
+    customer_info[:address]
+  end
+
   private
 
     def customer_info

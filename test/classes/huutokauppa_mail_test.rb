@@ -88,4 +88,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#customer_address' do
+    assert_equal 'testitestit 12', @mails[:offer_accepted][0].customer_address
+    assert_equal 'Testitesti 123', @mails[:offer_automatically_accepted][0].customer_address
+    assert_equal 'Testitesti 123', @mails[:purchase_price_paid][0].customer_address
+
+    @mails.values_at(:auction_ended,
+                     :bidder_picks_up,
+                     :delivery_offer_request,
+                     :offer_declined).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.customer_address
+      end
+    end
+  end
 end
