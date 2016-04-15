@@ -28,19 +28,30 @@ class HuutokauppaMail
   end
 
   def customer_name
-    customer_info.try(:[], :name)
+    customer_info[:name]
   end
 
   def customer_email
-    customer_info.try(:[], :email)
+    customer_info[:email]
   end
 
-  def customer_info
-    regex = %r{
-      Ostajan\syhteystiedot:\s*(?<name>.*$)\s*(?<email>.*$)\s*Puhelin:\s*(?<phone>.*$)\s*
-      Osoite:\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*(?<country>.*$)
-    }x
+  private
 
-    @doc.content.match(regex)
-  end
+    def customer_info
+      @customer_info ||= begin
+        info  = {}
+        regex = %r{
+          Ostajan\syhteystiedot:\s*(?<name>.*$)\s*(?<email>.*$)\s*Puhelin:\s*(?<phone>.*$)\s*
+          Osoite:\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*(?<country>.*$)
+        }x
+
+        @doc.content.match(regex) do |match|
+          info = match.names.each_with_object({}) do |name, hash|
+            hash[name.to_sym] = match[name]
+          end
+        end
+
+        info
+      end
+    end
 end
