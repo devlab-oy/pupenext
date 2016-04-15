@@ -2,29 +2,24 @@ require 'test_helper'
 
 class HuutokauppaMailTest < ActiveSupport::TestCase
   setup do
-    @mails = {
-      offer_automatically_accepted: [
-        HuutokauppaMail.new(huutokauppa_email(:offer_automatically_accepted_1))
-      ],
-      delivery_offer_request: [
-        HuutokauppaMail.new(huutokauppa_email(:delivery_offer_request_1))
-      ],
-      delivery_ordered: [
-        HuutokauppaMail.new(huutokauppa_email(:delivery_ordered_1))
-      ],
-      auction_ended: [
-        HuutokauppaMail.new(huutokauppa_email(:auction_ended_1))
-      ],
-      offer_accepted: [
-        HuutokauppaMail.new(huutokauppa_email(:offer_accepted_1))
-      ],
-      offer_declined: [
-        HuutokauppaMail.new(huutokauppa_email(:offer_declined_1))
-      ],
-      purchase_price_paid: [
-        HuutokauppaMail.new(huutokauppa_email(:purchase_price_paid_1))
-      ]
-    }
+    @mails = Hash.new { |h, k| h[k] = [] }
+
+    mail_dir = Rails.root.join('test', 'assets', 'huutokauppa_emails')
+
+    Dir.foreach(mail_dir) do |item|
+      next if item.in?(%w(. ..))
+
+      key  = item.sub(/_\d\z/, '')
+      file = File.read(mail_dir.join(item))
+
+      @mails[key.to_sym] << HuutokauppaMail.new(file)
+    end
+  end
+
+  test 'files are read correctly' do
+    @mails.each do |key, _value|
+      refute_empty @mails[key.to_sym]
+    end
   end
 
   test 'initializes correctly with a raw email source' do
