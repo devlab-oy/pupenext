@@ -48,6 +48,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_name
@@ -67,6 +68,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_email
@@ -82,6 +84,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_phone
@@ -97,6 +100,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_address
@@ -112,6 +116,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_postcode
@@ -127,6 +132,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_city
@@ -142,6 +148,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(:auction_ended,
                      :bidder_picks_up,
                      :delivery_offer_request,
+                     :delivery_ordered,
                      :offer_declined).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_country
