@@ -55,6 +55,10 @@ class HuutokauppaMail
     customer_info[:country]
   end
 
+  def delivery_name
+    delivery_info[:name]
+  end
+
   private
 
     def customer_info
@@ -63,6 +67,24 @@ class HuutokauppaMail
         regex = %r{
           Ostajan\syhteystiedot:\s*(?<name>.*$)\s*(?<email>.*$)\s*Puhelin:\s*(?<phone>.*$)\s*
           Osoite:\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*(?<country>.*$)
+        }x
+
+        @doc.content.match(regex) do |match|
+          info = match.names.each_with_object({}) do |name, hash|
+            hash[name.to_sym] = match[name]
+          end
+        end
+
+        info
+      end
+    end
+
+    def delivery_info
+      @delivery_info ||= begin
+        info  = {}
+        regex = %r{
+          Toimitusosoite\s*(?<name>.*$)\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*
+          (?<phone>.*$)\s*(?<email>.*$)
         }x
 
         @doc.content.match(regex) do |match|

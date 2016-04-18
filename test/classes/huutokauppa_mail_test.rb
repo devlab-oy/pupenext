@@ -22,6 +22,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       :delivery_ordered,
       :offer_declined
     ]
+
+    @emails_without_delivery_info = [
+      :auction_ended,
+      :bidder_picks_up,
+      :offer_accepted,
+      :offer_automatically_accepted,
+      :offer_declined,
+      :purchase_price_paid
+    ]
   end
 
   test 'files are read correctly' do
@@ -132,6 +141,17 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @mails.values_at(@emails_without_customer_info).each do |mails|
       mails.each do |mail|
         assert_nil mail.customer_country
+      end
+    end
+  end
+
+  test '#delivery_name' do
+    assert_equal 'Test-testi Testite',         @mails[:delivery_offer_request][0].delivery_name
+    assert_equal 'Test-testi testit Testites', @mails[:delivery_ordered][0].delivery_name
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_name
       end
     end
   end
