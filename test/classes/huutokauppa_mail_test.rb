@@ -177,4 +177,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#delivery_city' do
+    assert_equal 'Testitesti',   @mails[:delivery_offer_request][0].delivery_city
+    assert_equal 'Testitestite', @mails[:delivery_ordered][0].delivery_city
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_city
+      end
+    end
+  end
 end
