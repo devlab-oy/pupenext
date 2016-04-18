@@ -83,6 +83,10 @@ class HuutokauppaMail
     subject_info[:auction_id]
   end
 
+  def auction_price
+    auction_info[:price].sub(',', '.').to_d
+  end
+
   private
 
     def customer_info
@@ -129,6 +133,26 @@ class HuutokauppaMail
         }x
 
         @mail.subject.match(regex) do |match|
+          info = match.names.each_with_object({}) do |name, hash|
+            hash[name.to_sym] = match[name]
+          end
+        end
+
+        info
+      end
+    end
+
+    def auction_info
+      @auction_info ||= begin
+        info  = {}
+        regex = %r{
+          (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*Otsikkokenttä:\s*(?<auction_title>.*$)\s*
+          Päättymisaika:\s*(?<closing_date>.*$)\s*Huudettu:\s*(?<winning_bid>\d*).*$\s*
+          (Hintavaraus:.*\s*)?Alv-osuus:\s*(?<vat_amount>\d*(\.|,)?\d*).*$\s*Summa:\s*
+          (?<price>\d*(\.|,)?\d*).*,\s*ALV\s*(?<vat>\d*)
+        }ix
+
+        @doc.content.match(regex) do |match|
           info = match.names.each_with_object({}) do |name, hash|
             hash[name.to_sym] = match[name]
           end

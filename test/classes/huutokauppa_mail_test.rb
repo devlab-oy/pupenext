@@ -221,4 +221,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '277687', @mails[:offer_declined][0].auction_id
     assert_equal '270265', @mails[:purchase_price_paid][0].auction_id
   end
+
+  test '#auction_price' do
+    assert_equal 806.0, @mails[:auction_ended][0].auction_price
+    assert_equal 210.8, @mails[:bidder_picks_up][0].auction_price
+    assert_equal 372.0, @mails[:delivery_offer_request][0].auction_price
+    assert_equal 111.6, @mails[:delivery_ordered][0].auction_price
+    assert_equal 824.6, @mails[:offer_accepted][0].auction_price
+    assert_equal 372.0, @mails[:offer_automatically_accepted][0].auction_price
+    assert_equal 62.0,  @mails[:offer_declined][0].auction_price
+    assert_equal 372.0, @mails[:purchase_price_paid][0].auction_price
+  end
 end
