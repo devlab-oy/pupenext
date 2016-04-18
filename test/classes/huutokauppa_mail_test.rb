@@ -210,4 +210,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#auction_id' do
+    assert_equal '279590', @mails[:auction_ended][0].auction_id
+    assert_equal '285888', @mails[:bidder_picks_up][0].auction_id
+    assert_equal '270265', @mails[:delivery_offer_request][0].auction_id
+    assert_equal '274472', @mails[:delivery_ordered][0].auction_id
+    assert_equal '277075', @mails[:offer_accepted][0].auction_id
+    assert_equal '270265', @mails[:offer_automatically_accepted][0].auction_id
+    assert_equal '277687', @mails[:offer_declined][0].auction_id
+    assert_equal '270265', @mails[:purchase_price_paid][0].auction_id
+  end
 end

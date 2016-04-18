@@ -79,6 +79,10 @@ class HuutokauppaMail
     delivery_info[:email]
   end
 
+  def auction_id
+    subject_info[:auction_id]
+  end
+
   private
 
     def customer_info
@@ -108,6 +112,23 @@ class HuutokauppaMail
         }x
 
         @doc.content.match(regex) do |match|
+          info = match.names.each_with_object({}) do |name, hash|
+            hash[name.to_sym] = match[name]
+          end
+        end
+
+        info
+      end
+    end
+
+    def subject_info
+      @subject_info ||= begin
+        info  = {}
+        regex = %r{
+          (kohde|kohteen|kohteelle)\s*\#?(?<auction_id>\d*)
+        }x
+
+        @mail.subject.match(regex) do |match|
           info = match.names.each_with_object({}) do |name, hash|
             hash[name.to_sym] = match[name]
           end
