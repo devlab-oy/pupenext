@@ -155,4 +155,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#delivery_address' do
+    assert_equal 'Testitesti 123', @mails[:delivery_offer_request][0].delivery_address
+    assert_equal 'Testitest 1',    @mails[:delivery_ordered][0].delivery_address
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_address
+      end
+    end
+  end
 end
