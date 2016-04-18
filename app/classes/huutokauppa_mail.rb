@@ -100,7 +100,7 @@ class HuutokauppaMail
         info  = {}
         regex = %r{
           Toimitusosoite\s*(?<name>.*$)\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*
-          (?<phone>.*$)\s*(?<email>.*$)
+          (?<phone>.*$)\s*(?<email>\S*)
         }x
 
         @doc.content.match(regex) do |match|
