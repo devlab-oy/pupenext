@@ -63,6 +63,10 @@ class HuutokauppaMail
     delivery_info[:address]
   end
 
+  def delivery_postcode
+    delivery_info[:postcode]
+  end
+
   private
 
     def customer_info

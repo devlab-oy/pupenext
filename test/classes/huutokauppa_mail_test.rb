@@ -166,4 +166,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#delivery_postcode' do
+    assert_equal '12345', @mails[:delivery_offer_request][0].delivery_postcode
+    assert_equal '23456', @mails[:delivery_ordered][0].delivery_postcode
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_postcode
+      end
+    end
+  end
 end
