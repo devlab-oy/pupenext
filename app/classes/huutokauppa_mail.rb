@@ -75,6 +75,10 @@ class HuutokauppaMail
     delivery_info[:phone]
   end
 
+  def delivery_email
+    delivery_info[:email]
+  end
+
   private
 
     def customer_info

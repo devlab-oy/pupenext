@@ -199,4 +199,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#delivery_email' do
+    assert_equal 'te.testite@testi.tes', @mails[:delivery_offer_request][0].delivery_email
+    assert_equal 'test-testi.testites@te-testitest.te', @mails[:delivery_ordered][0].delivery_email
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_email
+      end
+    end
+  end
 end
