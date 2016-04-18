@@ -188,4 +188,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#delivery_phone' do
+    assert_equal '+123 45 6789012', @mails[:delivery_offer_request][0].delivery_phone
+    assert_equal '123 4567890',     @mails[:delivery_ordered][0].delivery_phone
+
+    @mails.values_at(@emails_without_delivery_info).each do |mails|
+      mails.each do |mail|
+        assert_nil mail.delivery_phone
+      end
+    end
+  end
 end
