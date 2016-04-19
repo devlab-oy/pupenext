@@ -89,7 +89,7 @@ class Customer < BaseModel
     def validate_delivery_method
       if delivery_method &&
          delivery_method.sallitut_maat != '' &&
-         delivery_method.sallitut_maat != maa
+         !delivery_method.sallitut_maat.split(',').include?(maa)
         errors.add(:toimitustapa, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
@@ -97,7 +97,7 @@ class Customer < BaseModel
     def validate_terms_of_payment
       if terms_of_payment &&
          terms_of_payment.sallitut_maat != '' &&
-         terms_of_payment.sallitut_maat != maa
+         !terms_of_payment.sallitut_maat.split(',').include?(maa)
         errors.add(:maksuehto, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
