@@ -131,6 +131,22 @@ class HuutokauppaMail
     auction_info[:vat_amount].sub(',', '.').to_d
   end
 
+  def create_or_find_customer
+    Customer.create_with(
+      gsm: customer_phone,
+      kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+      luontiaika: Time.now,
+      muutospvm: Time.now,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+      ytunnus: auction_id
+    ).find_or_create_by(
+      email: customer_email
+    )
+  end
+
   private
 
     def customer_info
