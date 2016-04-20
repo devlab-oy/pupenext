@@ -221,13 +221,12 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#total_price_with_vat' do
     assert_equal 210.8,  @bidder_picks_up.total_price_with_vat
     assert_equal 129.55, @delivery_ordered.total_price_with_vat
-
-    assert_equal 806.0, @auction_ended.total_price_with_vat
-    assert_equal 372.0, @delivery_offer_request.total_price_with_vat
-    assert_equal 824.6, @offer_accepted.total_price_with_vat
-    assert_equal 372.0, @offer_automatically_accepted.total_price_with_vat
-    assert_equal 62.0,  @offer_declined.total_price_with_vat
-    assert_equal 372.0, @purchase_price_paid.total_price_with_vat
+    assert_equal 806.0,  @auction_ended.total_price_with_vat
+    assert_equal 372.0,  @delivery_offer_request.total_price_with_vat
+    assert_equal 824.6,  @offer_accepted.total_price_with_vat
+    assert_equal 372.0,  @offer_automatically_accepted.total_price_with_vat
+    assert_equal 62.0,   @offer_declined.total_price_with_vat
+    assert_equal 372.0,  @purchase_price_paid.total_price_with_vat
   end
 
   test '#auction_id' do
@@ -242,36 +241,40 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#auction_title' do
-    assert_equal '24.03.-25.03. Aggregaatti Lutian 6 kVA 230/400 diesel, sähköstartti, ' \
-                 'Silent -malli, UUSI, Lahti', @auction_ended.auction_title
+    title = '24.03.-25.03. Aggregaatti Lutian 6 kVA 230/400 diesel, sähköstartti, Silent -malli, UUSI, Lahti'
+    assert_equal title, @auction_ended.auction_title
 
-    assert_equal 'Coca-Cola jääkaappi, 62 litraa, UUSI, takuu 24 kk', @bidder_picks_up.auction_title
+    title = 'Coca-Cola jääkaappi, 62 litraa, UUSI, takuu 24 kk'
+    assert_equal title, @bidder_picks_up.auction_title
 
-    assert_equal 'Auton keinunostin, 1500 kg, UUSI', @delivery_offer_request.auction_title
+    title = 'Auton keinunostin, 1500 kg, UUSI'
+    assert_equal title, @delivery_offer_request.auction_title
 
-    assert_equal '2,5 KW petroolilämmitin, UUSI, takuu 12 kk', @delivery_ordered.auction_title
+    title = '2,5 KW petroolilämmitin, UUSI, takuu 12 kk'
+    assert_equal title, @delivery_ordered.auction_title
 
-    assert_equal '18.03.-25.03. SkyJack SJ III - 3219 saksilavanostin, Lahti',
-                 @offer_accepted.auction_title
+    title = '18.03.-25.03. SkyJack SJ III - 3219 saksilavanostin, Lahti'
+    assert_equal title, @offer_accepted.auction_title
 
-    assert_equal '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti',
-                 @offer_automatically_accepted.auction_title
+    title = '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti'
+    assert_equal title, @offer_automatically_accepted.auction_title
 
-    assert_equal '20.03.-25.03. Vaijerikeloja lavalla, Lahti', @offer_declined.auction_title
+    title = '20.03.-25.03. Vaijerikeloja lavalla, Lahti'
+    assert_equal title, @offer_declined.auction_title
 
-    assert_equal '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti',
-                 @purchase_price_paid.auction_title
+    title = '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti'
+    assert_equal title, @purchase_price_paid.auction_title
   end
 
   test '#auction_closing_date' do
-    assert_equal Time.new(2016, 3, 25, 20, 30), @auction_ended.auction_closing_date
-    assert_equal Time.new(2016, 4, 13, 19, 45), @bidder_picks_up.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 20, 20), @delivery_offer_request.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 19, 38), @delivery_ordered.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 20, 10), @offer_accepted.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 20, 20), @offer_automatically_accepted.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 19, 40), @offer_declined.auction_closing_date
-    assert_equal Time.new(2016, 3, 25, 20, 20), @purchase_price_paid.auction_closing_date
+    assert_equal "2016-03-25 20:30".to_time, @auction_ended.auction_closing_date
+    assert_equal "2016-04-13 19:45".to_time, @bidder_picks_up.auction_closing_date
+    assert_equal "2016-03-25 20:20".to_time, @delivery_offer_request.auction_closing_date
+    assert_equal "2016-03-25 19:38".to_time, @delivery_ordered.auction_closing_date
+    assert_equal "2016-03-25 20:10".to_time, @offer_accepted.auction_closing_date
+    assert_equal "2016-03-25 20:20".to_time, @offer_automatically_accepted.auction_closing_date
+    assert_equal "2016-03-25 19:40".to_time, @offer_declined.auction_closing_date
+    assert_equal "2016-03-25 20:20".to_time, @purchase_price_paid.auction_closing_date
   end
 
   test '#auction_price_without_vat' do
