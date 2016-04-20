@@ -182,6 +182,18 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#delivery_price_with_vat' do
+    assert_equal 0.0,   @bidder_picks_up.delivery_price_with_vat
+    assert_equal 17.95, @delivery_ordered.delivery_price_with_vat
+
+    assert_nil @auction_ended.delivery_price_with_vat
+    assert_nil @delivery_offer_request.delivery_price_with_vat
+    assert_nil @offer_accepted.delivery_price_with_vat
+    assert_nil @offer_automatically_accepted.delivery_price_with_vat
+    assert_nil @offer_declined.delivery_price_with_vat
+    assert_nil @purchase_price_paid.delivery_price_with_vat
+  end
+
   test '#auction_id' do
     assert_equal '279590', @auction_ended.auction_id
     assert_equal '285888', @bidder_picks_up.auction_id

@@ -79,6 +79,12 @@ class HuutokauppaMail
     delivery_info[:email]
   end
 
+  def delivery_price_with_vat
+    return unless auction_info[:delivery_price_with_vat]
+
+    auction_info[:delivery_price_with_vat].sub(',', '.').to_d
+  end
+
   def auction_id
     subject_info[:auction_id]
   end
@@ -182,7 +188,14 @@ class HuutokauppaMail
           Huudettu:\s*(?<winning_bid>\d*).*$\s*
           (Hintavaraus:.*\s*)?
           Alv-osuus:\s*(?<vat_amount>\d*(\.|,)?\d*).*$\s*
-          Summa:\s*(?<price>\d*(\.|,)?\d*).*,\s*ALV\s*(?<vat>\d*)
+          Summa:\s*(?<price>\d*(\.|,)?\d*).*,\s*
+          ALV\s*(?<vat>\d*).*$\s*
+
+          # Delivery cost and total price. Not always present.
+          ((Toimitus|Nouto):\s*(?<delivery_price_with_vat>\d*(\.|,)?\d*)\s*\S*\s*
+          ALV\s*(?<delivery_vat_percent>\d*(\.|,)?\d*)\s*\S*\s*
+          ALV-osuus\s*(?<delivery_vat_amount>\d*(\.|,)?\d*).*$\s*
+          Yhteensä:\s*(?<total_price_with_vat>\d*(\.|,)?\d*))?
         }ix
 
         @doc.content.match(regex) do |match|
