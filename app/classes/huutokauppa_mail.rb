@@ -97,6 +97,12 @@ class HuutokauppaMail
     auction_info[:delivery_vat_amount].sub(',', '.').to_d
   end
 
+  def total_price_with_vat
+    return auction_price_with_vat unless auction_info[:total_price_with_vat]
+
+    auction_info[:total_price_with_vat].sub(',', '.').to_d
+  end
+
   def auction_id
     subject_info[:auction_id]
   end
