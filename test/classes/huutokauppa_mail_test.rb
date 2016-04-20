@@ -225,4 +225,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti',
                  @purchase_price_paid.auction_title
   end
+
+  test '#auction_closing_date' do
+    assert_equal Time.new(2016, 3, 25, 20, 30), @auction_ended.auction_closing_date
+    assert_equal Time.new(2016, 4, 13, 19, 45), @bidder_picks_up.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 20, 20), @delivery_offer_request.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 19, 38), @delivery_ordered.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 20, 10), @offer_accepted.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 20, 20), @offer_automatically_accepted.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 19, 40), @offer_declined.auction_closing_date
+    assert_equal Time.new(2016, 3, 25, 20, 20), @purchase_price_paid.auction_closing_date
+  end
 end

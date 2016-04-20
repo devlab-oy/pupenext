@@ -91,6 +91,10 @@ class HuutokauppaMail
     auction_info[:auction_title]
   end
 
+  def auction_closing_date
+    Time.parse(auction_info[:closing_date])
+  end
+
   private
 
     def customer_info
