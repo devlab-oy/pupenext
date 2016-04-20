@@ -135,7 +135,6 @@ class HuutokauppaMail
 
     def customer_info
       @customer_info ||= begin
-        info  = {}
         regex = %r{
           Ostajan\syhteystiedot:\s*
           (?<name>.*$)\s*
@@ -147,19 +146,12 @@ class HuutokauppaMail
           (?<country>.*$)
         }x
 
-        @doc.content.match(regex) do |match|
-          info = match.names.each_with_object({}) do |name, hash|
-            hash[name.to_sym] = match[name]
-          end
-        end
-
-        info
+        extract_info(regex, @doc.content)
       end
     end
 
     def delivery_info
       @delivery_info ||= begin
-        info  = {}
         regex = %r{
           Toimitusosoite\s*
           (?<name>.*$)\s*
@@ -169,36 +161,22 @@ class HuutokauppaMail
           (?<email>\S*)
         }x
 
-        @doc.content.match(regex) do |match|
-          info = match.names.each_with_object({}) do |name, hash|
-            hash[name.to_sym] = match[name]
-          end
-        end
-
-        info
+        extract_info(regex, @doc.content)
       end
     end
 
     def subject_info
       @subject_info ||= begin
-        info  = {}
         regex = %r{
           (kohde|kohteen|kohteelle)\s*\#?(?<auction_id>\d*)
         }x
 
-        @mail.subject.match(regex) do |match|
-          info = match.names.each_with_object({}) do |name, hash|
-            hash[name.to_sym] = match[name]
-          end
-        end
-
-        info
+        extract_info(regex, @mail.subject)
       end
     end
 
     def auction_info
       @auction_info ||= begin
-        info  = {}
         regex = %r{
           (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*
           Otsikkokenttä:\s*(?<auction_title>.*$)\s*
@@ -216,13 +194,19 @@ class HuutokauppaMail
           Yhteensä:\s*(?<total_price_with_vat>\d*(\.|,)?\d*))?
         }ix
 
-        @doc.content.match(regex) do |match|
-          info = match.names.each_with_object({}) do |name, hash|
-            hash[name.to_sym] = match[name]
-          end
-        end
-
-        info
+        extract_info(regex, @doc.content)
       end
+    end
+
+    def extract_info(regex, document)
+      info = {}
+
+      document.match(regex) do |match|
+        info = match.names.each_with_object({}) do |name, hash|
+          hash[name.to_sym] = match[name]
+        end
+      end
+
+      info
     end
 end
