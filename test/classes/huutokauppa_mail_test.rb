@@ -18,7 +18,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @bidder_picks_up,
       @delivery_offer_request,
       @delivery_ordered,
-      @offer_declined,
+      @offer_declined
     ]
 
     @emails_without_delivery_info = [
@@ -27,7 +27,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_automatically_accepted,
       @offer_declined,
-      @purchase_price_paid,
+      @purchase_price_paid
     ]
   end
 
