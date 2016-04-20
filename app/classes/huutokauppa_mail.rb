@@ -8,22 +8,22 @@ class HuutokauppaMail
 
   def type
     case @mail.subject
-    when /Tarjous automaattisesti hyväksytty/
-      :offer_automatically_accepted
+    when /Nettihuutokauppa on päättynyt/
+      :auction_ended
+    when /Huutaja noutaa/
+      :bidder_picks_up
     when /Toimituksen tarjouspyyntö/
       :delivery_offer_request
     when /Toimitus tilattu/
       :delivery_ordered
-    when /Nettihuutokauppa on päättynyt/
-      :auction_ended
     when /Tarjous hyväksytty/
       :offer_accepted
+    when /Tarjous automaattisesti hyväksytty/
+      :offer_automatically_accepted
     when /Tarjous hylätty/
       :offer_declined
     when /Kauppahinta maksettu/
       :purchase_price_paid
-    when /Huutaja noutaa/
-      :bidder_picks_up
     end
   end
 
