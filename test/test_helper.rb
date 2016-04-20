@@ -6,7 +6,7 @@ require 'login_helper'
 require 'spreadsheets_helper'
 
 if ENV['CODECLIMATE_REPO_TOKEN']
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
     CodeClimate::TestReporter::Formatter
   ]
