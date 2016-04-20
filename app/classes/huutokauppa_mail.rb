@@ -87,6 +87,10 @@ class HuutokauppaMail
     auction_info[:price].sub(',', '.').to_d
   end
 
+  def auction_price_without_vat
+    auction_info[:winning_bid].sub(',', '.').to_d
+  end
+
   def auction_title
     auction_info[:auction_title]
   end

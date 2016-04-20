@@ -236,4 +236,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal Time.new(2016, 3, 25, 19, 40), @offer_declined.auction_closing_date
     assert_equal Time.new(2016, 3, 25, 20, 20), @purchase_price_paid.auction_closing_date
   end
+
+  test '#auction_price_without_vat' do
+    assert_equal 650, @auction_ended.auction_price_without_vat
+    assert_equal 170, @bidder_picks_up.auction_price_without_vat
+    assert_equal 300, @delivery_offer_request.auction_price_without_vat
+    assert_equal 90,  @delivery_ordered.auction_price_without_vat
+    assert_equal 665, @offer_accepted.auction_price_without_vat
+    assert_equal 300, @offer_automatically_accepted.auction_price_without_vat
+    assert_equal 50,  @offer_declined.auction_price_without_vat
+    assert_equal 300, @purchase_price_paid.auction_price_without_vat
+  end
 end
