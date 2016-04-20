@@ -203,4 +203,26 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 62.0,  @offer_declined.auction_price
     assert_equal 372.0, @purchase_price_paid.auction_price
   end
+
+  test '#auction_title' do
+    assert_equal '24.03.-25.03. Aggregaatti Lutian 6 kVA 230/400 diesel, sähköstartti, ' \
+                 'Silent -malli, UUSI, Lahti', @auction_ended.auction_title
+
+    assert_equal 'Coca-Cola jääkaappi, 62 litraa, UUSI, takuu 24 kk', @bidder_picks_up.auction_title
+
+    assert_equal 'Auton keinunostin, 1500 kg, UUSI', @delivery_offer_request.auction_title
+
+    assert_equal '2,5 KW petroolilämmitin, UUSI, takuu 12 kk', @delivery_ordered.auction_title
+
+    assert_equal '18.03.-25.03. SkyJack SJ III - 3219 saksilavanostin, Lahti',
+                 @offer_accepted.auction_title
+
+    assert_equal '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti',
+                 @offer_automatically_accepted.auction_title
+
+    assert_equal '20.03.-25.03. Vaijerikeloja lavalla, Lahti', @offer_declined.auction_title
+
+    assert_equal '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti',
+                 @purchase_price_paid.auction_title
+  end
 end
