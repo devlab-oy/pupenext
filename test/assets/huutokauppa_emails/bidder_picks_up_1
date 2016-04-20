@@ -1,0 +1,54 @@
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: testite@testi.te
+Delivery-date: Fri, 15 Apr 2016 09:09:50 +0300
+Received: from filter1.hostingservice.fi ([31.217.192.66]:51643)
+	by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.86_1)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1aqwwq-002scd-Km; Fri, 15 Apr 2016 09:09:44 +0300
+Received: from server.huutokaupat.com ([83.150.76.4])
+	by filter1.hostingservice.fi with esmtp (Exim 4.85)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1aqwwp-0005Do-DY; Fri, 15 Apr 2016 09:09:44 +0300
+Received: from localhost (unknown [10.10.10.128])
+	by server.huutokaupat.com (Postfix) with ESMTP id 2A53A20062C;
+	Fri, 15 Apr 2016 09:09:43 +0300 (EEST)
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+Subject: =?utf-8?Q?Huutaja=20noutaa=20kohteen=20285888:=20Coca-Cola=20?=
+ =?utf-8?Q?j=C3=A4=C3=A4kaappi=2C=2062=20litraa=2C=20UUSI=2C=20?=
+ =?utf-8?Q?takuu=2024=20kk=2C=20Testitestite=2032=2C=2012345=20Lahti?=
+To: testite@testi.te
+Date: Fri, 15 Apr 2016 09:09:43 +0300
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+MIME-Version: 1.0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwZHf
+ WZYD82R/uX1kWNJz4wES3dsoT4fYpUWtq2l6tT6ampYbIWehzfMhBX2xrya8NiYD1ptUVn6ByrDO
+ Wen4bPcvcplYN5zMlHdXzOu7gRr7JZBJUDyXddX3lRgqX8VJ+tAeq+cds6nJlNErvZtFoqBG5Tpk
+ D/Jv7PkKJQMLl7iniwQzKw+6v3CaIMG6s7LqJAIIBVgPWFQrNNt4skZxEXKQm4E4p26nSSkPphfX
+ rBhTiG4XwpsXfeh5n1ZI7qO6rgm3sj9lmtbo8r2I2S7vXK6vUpisKKcZx2Qa7LHNUzU1e+rrxbVY
+ RI5qM5mkwzDs9idlTZ/1FHjgq2v1uRnTIQkzjyjL/QuDtdf6sFzW2z/xrZ1imVBgEPlWeT9NV68R
+ zTGyrcyC2vCRmxz47BFeriZoD7bAeKsWl/oNzWdtNsPTrUXX5D+Zk7NvU6DQewiNCincCmK8uaqK
+ pmdh0n2Qm1Vxy/ihLCT5uxnmHhGGy2O3GwTuewy/HmZZ5Q1Q/X20UmtnqtxYC4A8Mpq5s+pEiB7R
+ rozQuRVmTz0MvEjBP3L2OxghKP7tVQq5YTeMT8WxHt++dzS2U7nKMHPJjR66Knzy8PsbvOGQC8Rk
+ xXXi70l4M3LcgKsHtBPT9eybimHz1KgbEdlpyxJNDXxt69fsQnI=
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Recommended-Action: accept
+
+<p>Huutaja on tilannut kohteelle noudon ja maksanut sen Huutokaupat.comi=
+n asiakasvaratilille.</p>=0A=0A=0A<p>=0A    =0A    <b>Kohteen tiedot</b>=
+<br>=0A=0A    Kohdenumero: 285888<br>=0A    Otsikkokentt=C3=A4: Coca-Col=
+a j=C3=A4=C3=A4kaappi, 62 litraa, UUSI, takuu 24 kk<br>=0A    P=C3=A4=C3=
+=A4ttymisaika: Keskiviikko 13.04.2016 klo 19:45<br>=0A    Huudettu: 170=
+ EUR<br>=0A    ALV-osuus: 40.80 EUR<br>=0A    Summa: 210.80, ALV 24 %<br=
+>=0A            Nouto: 0.00 EUR, ALV 24 %, ALV-osuus 0 EUR <br>=0A     =
+   Yhteens=C3=A4: 210.8 EUR<br>=0A        <br>=0A=0A    <b>Myyj=C3=A4n/t=
+oimeksi saaneen yhteystiedot</b><br>=0A    Testi Testitest<br>=0A    Y-t=
+unnus: 1234567-8<br>=0A            <br>=0A        Rahti tilaukset<br>=0A=
+        testit@testi.te<br>=0A        <br>=0A                <br>=0A   =
+     Ilmoittajan viite: 1234567890123<br>=0A    </p>=0A=0A<p>=0A    Yst=
+=C3=A4v=C3=A4llisin terveisin,<br/>=0AHuutokaupat.com=0A=0A</p>=0A

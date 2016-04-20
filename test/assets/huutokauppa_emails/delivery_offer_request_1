@@ -1,0 +1,71 @@
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: testite@testi.te
+Delivery-date: Fri, 25 Mar 2016 20:28:37 +0200
+Received: from filter1.hostingservice.fi ([31.217.192.66]:51612)
+	by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.86_1)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWTL-001Hhn-Lo; Fri, 25 Mar 2016 20:28:35 +0200
+Received: from server.huutokaupat.com ([83.150.76.4])
+	by filter1.hostingservice.fi with esmtp (Exim 4.85)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1ajWTH-0003dm-TL; Fri, 25 Mar 2016 20:28:32 +0200
+Received: from localhost (unknown [10.10.10.129])
+	by server.huutokaupat.com (Postfix) with ESMTP id 59327200724;
+	Fri, 25 Mar 2016 20:28:31 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+	s=default; t=1458930511;
+	bh=NnE6BZ0LHiGw/v431yJ733tzf+SsgFrv/uXD2saY/Tw=;
+	h=From:Subject:To:Reply-To:Date;
+	b=rbArYHL9p8prg356oqsQ2s5kPc7pX0uNm8oTjYTyikZHLvhUh+zasLcyCRX3dPnCa
+	 FGKFEdB6jZkn8DCDl87CnhvQhl8aOYzSH1295yQg3MmPEZL288uadQVkjysi2tXpVx
+	 1aqQTRfymw+6jMGSMz4+/B7auSVbtj7KolnaiUXw=
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+Subject: =?utf-8?Q?Toimituksen=20tarjouspyynt=C3=B6=20kohteelle=20270265:=20?=
+ =?utf-8?Q?Auton=20keinunostin=2C=201500=20kg=2C=20UUSI=2C=20?=
+ =?utf-8?Q?Testitestite=2032=2C=2015700=20Lahti?=
+To: testite@testi.te
+Reply-To: te.testite@testi.tes
+Date: Fri, 25 Mar 2016 20:28:31 +0200
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+MIME-Version: 1.0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwVIv
+ qZwgVDkaEsYBFekUAPKMvZU4adVMraRTpzC4qAY+lCybmqSgOJ5b2ZNbmZ8oED6guwZWWDG0lsrO
+ aiWWBw3lAxv/i0Py4a7lxqc8LD7mEVuIRY538NZQ2FrAY5t2+aaPjeWmia2jRnDnoELXkRhEcMKG
+ 3k5ZUCm5ThOLooQ5xIhCDYhqBTV7Xr57Awey6Ou7fzy0p/Dkv7FD/l58W0+HTgqm0NGkJciFVJF5
+ uI1yRrVvmFAGxfVV+0MusUdw2R9JKUso66nDOLU3gaKBhRFRXxKF5tPxTxfD0dMN+t5ZIVUwnIGM
+ +YPVnxOgmsbS+7wqyT5p50x81ZKcmzCu2U1xx+llIYNgZPPSh5tcNrwYot5OtxkmsUUseoTPSYQj
+ cmULaP/ApchjMyf04X8L933rq1s42KU8W+rDPU/gNoNojUt9LnWZvipowshzMBlOnN40eTXlWiUA
+ YdLmsJdAoPJ5hfWn9IBsOwe27q0bSULu55d5y7RQ/rsvNV5FpZzQyOkWrBYsf6b4ZJHtY+ZApOEJ
+ pqFjYE8LmW4QFFmxTi7454lDeJrKcFhFl0M3zbWzBq0jiD6XqsJZtjQxlyCdsez/LLEjQ/FriSpH
+ DkOuwTNbrhUO+jCQ96Pr2UkmCC4WvQ==
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJbmLbQULIXlEhuVRudChxypA3cTUQ1R++keuE7RDJ8Kg3RbMLUalw1oC
+ mj99/u+Poh38tEMU4IgC4sNz49qn3HGok1JBYnOLzfRIhlEHQynLUpndEJ0YoaLytXXo8BMTaX2p
+ Mk7LBarWD9Fj4R3eIu4Bsml81rA/gHhLEtACALmR2r83SaUpVf3f5cYLuhfrp46k+SFrDntuK6+0
+ Vn93d6+oPBu9yrChLQLIzYMZ2Wci
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Recommended-Action: accept
+
+<p>Huutaja on pyyt=C3=A4nyt tarjousta toimituksesta alla olevaan osoitte=
+eseen. Voitte vastata t=C3=A4h=C3=A4n viestiin mit=C3=A4 toimitus maksai=
+si, miten se maksetaan ja muut mahdolliset toimitukseen vaikuttavat tied=
+ot.</p>=0A=0A=0A<p>=0A            <b>Toimitusosoite</b><br>=0A        Te=
+st-testi Testite<br>=0A        Testitesti 123<br>=0A        12345 Testit=
+esti<br>=0A                    +123 45 6789012<br>=0A            te.test=
+ite@testi.tes<br>                <br>=0A    =0A    <b>Kohteen tiedot</b>=
+<br>=0A=0A    Kohdenumero: 270265<br>=0A    Otsikkokentt=C3=A4: Auton ke=
+inunostin, 1500 kg, UUSI<br>=0A    P=C3=A4=C3=A4ttymisaika: Perjantai 25=
+.03.2016 klo 20:20<br>=0A    Huudettu: 300 EUR<br>=0A    ALV-osuus: 72.0=
+0 EUR<br>=0A    Summa: 372.00, ALV 24 %<br>=0A        <br>=0A=0A    <b>M=
+yyj=C3=A4n/toimeksi saaneen yhteystiedot</b><br>=0A    Testi Testitest<b=
+r>=0A    Y-tunnus: 1234567-8<br>=0A            <br>=0A        Rahti tila=
+ukset<br>=0A        testit@testi.te<br>=0A        <br>=0A              =
+  <br>=0A        Ilmoittajan viite: TES12345-678<br>=0A    </p>=0A=0A<p>=
+=0A    Yst=C3=A4v=C3=A4llisin terveisin,<br/>=0AHuutokaupat.com=0A=0A</p=
+>=0A
