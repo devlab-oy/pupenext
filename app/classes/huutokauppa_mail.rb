@@ -107,6 +107,14 @@ class HuutokauppaMail
     subject_info[:auction_id]
   end
 
+  def auction_title
+    auction_info[:auction_title]
+  end
+
+  def auction_closing_date
+    Time.parse(auction_info[:closing_date])
+  end
+
   def auction_price_without_vat
     auction_info[:winning_bid].sub(',', '.').to_d
   end
@@ -121,14 +129,6 @@ class HuutokauppaMail
 
   def auction_vat_amount
     auction_info[:vat_amount].sub(',', '.').to_d
-  end
-
-  def auction_title
-    auction_info[:auction_title]
-  end
-
-  def auction_closing_date
-    Time.parse(auction_info[:closing_date])
   end
 
   private
