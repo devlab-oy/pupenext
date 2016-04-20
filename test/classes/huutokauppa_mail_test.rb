@@ -258,4 +258,15 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 24, @offer_declined.auction_vat_percent
     assert_equal 24, @purchase_price_paid.auction_vat_percent
   end
+
+  test '#auction_vat_amount' do
+    assert_equal 156.0, @auction_ended.auction_vat_amount
+    assert_equal 40.8,  @bidder_picks_up.auction_vat_amount
+    assert_equal 72.0,  @delivery_offer_request.auction_vat_amount
+    assert_equal 21.6,  @delivery_ordered.auction_vat_amount
+    assert_equal 159.6, @offer_accepted.auction_vat_amount
+    assert_equal 72.0,  @offer_automatically_accepted.auction_vat_amount
+    assert_equal 12.0,  @offer_declined.auction_vat_amount
+    assert_equal 72.0,  @purchase_price_paid.auction_vat_amount
+  end
 end

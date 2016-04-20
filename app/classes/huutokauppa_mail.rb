@@ -95,6 +95,10 @@ class HuutokauppaMail
     auction_info[:vat].sub(',', '.').to_d
   end
 
+  def auction_vat_amount
+    auction_info[:vat_amount].sub(',', '.').to_d
+  end
+
   def auction_title
     auction_info[:auction_title]
   end
