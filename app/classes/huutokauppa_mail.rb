@@ -93,8 +93,14 @@ class HuutokauppaMail
       @customer_info ||= begin
         info  = {}
         regex = %r{
-          Ostajan\syhteystiedot:\s*(?<name>.*$)\s*(?<email>.*$)\s*Puhelin:\s*(?<phone>.*$)\s*
-          Osoite:\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*(?<country>.*$)
+          Ostajan\syhteystiedot:\s*
+          (?<name>.*$)\s*
+          (?<email>.*$)\s*
+          Puhelin:\s*(?<phone>.*$)\s*
+          Osoite:\s*
+          (?<address>.*$)\s*
+          (?<postcode>\d*)\s*(?<city>.*$)\s*
+          (?<country>.*$)
         }x
 
         @doc.content.match(regex) do |match|
@@ -111,8 +117,12 @@ class HuutokauppaMail
       @delivery_info ||= begin
         info  = {}
         regex = %r{
-          Toimitusosoite\s*(?<name>.*$)\s*(?<address>.*$)\s*(?<postcode>\d*)\s*(?<city>.*$)\s*
-          (?<phone>.*$)\s*(?<email>\S*)
+          Toimitusosoite\s*
+          (?<name>.*$)\s*
+          (?<address>.*$)\s*
+          (?<postcode>\d*)\s*(?<city>.*$)\s*
+          (?<phone>.*$)\s*
+          (?<email>\S*)
         }x
 
         @doc.content.match(regex) do |match|
@@ -146,10 +156,13 @@ class HuutokauppaMail
       @auction_info ||= begin
         info  = {}
         regex = %r{
-          (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*Otsikkokenttä:\s*(?<auction_title>.*$)\s*
-          Päättymisaika:\s*(?<closing_date>.*$)\s*Huudettu:\s*(?<winning_bid>\d*).*$\s*
-          (Hintavaraus:.*\s*)?Alv-osuus:\s*(?<vat_amount>\d*(\.|,)?\d*).*$\s*Summa:\s*
-          (?<price>\d*(\.|,)?\d*).*,\s*ALV\s*(?<vat>\d*)
+          (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*
+          Otsikkokenttä:\s*(?<auction_title>.*$)\s*
+          Päättymisaika:\s*(?<closing_date>.*$)\s*
+          Huudettu:\s*(?<winning_bid>\d*).*$\s*
+          (Hintavaraus:.*\s*)?
+          Alv-osuus:\s*(?<vat_amount>\d*(\.|,)?\d*).*$\s*
+          Summa:\s*(?<price>\d*(\.|,)?\d*).*,\s*ALV\s*(?<vat>\d*)
         }ix
 
         @doc.content.match(regex) do |match|
