@@ -3367,6 +3367,8 @@ ActiveRecord::Schema.define(version: 20160427135635) do
     t.string   "muuttaja",               limit: 50,    default: "", null: false
   end
 
+  add_index "yhteyshenkilo", ["yhtio", "tyyppi", "liitostunnus", "rooli"], name: "yhtio_tyyppi_liitostunnus_rooli", using: :btree
+
   create_table "yhtio", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",                             limit: 5,                           default: "",  null: false
     t.integer  "jarjestys",                         limit: 4,                           default: 0,   null: false
