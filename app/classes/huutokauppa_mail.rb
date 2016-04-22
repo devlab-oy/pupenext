@@ -132,7 +132,7 @@ class HuutokauppaMail
   end
 
   def find_customer
-    Customer.find_by!(email: customer_email) if customer_email
+    @customer ||= Customer.find_by!(email: customer_email) if customer_email
   end
 
   def create_customer
@@ -149,6 +149,19 @@ class HuutokauppaMail
       postino: customer_postcode,
       postitp: customer_city,
       ytunnus: auction_id,
+    )
+  end
+
+  def update_customer
+    return unless find_customer
+
+    find_customer.update!(
+      gsm: customer_phone,
+      muutospvm: Time.now,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
     )
   end
 

@@ -355,6 +355,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#update_customer' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      assert email.update_customer
+    end
+
+    @emails_without_customer_info.each do |email|
+      refute email.update_customer
+    end
+  end
+
   test '#find_order' do
     assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
     assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order
