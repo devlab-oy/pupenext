@@ -352,6 +352,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#find_customer' do
+    assert_equal customers(:huutokauppa_customer_1), @offer_accepted.find_customer
+    assert_equal customers(:huutokauppa_customer_2), @offer_automatically_accepted.find_customer
+    assert_equal customers(:huutokauppa_customer_2), @purchase_price_paid.find_customer
+
+    @emails_without_customer_info.each do |email|
+      assert_nil email.find_customer
+    end
+  end
+
   test '#find_order' do
     assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
     assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order

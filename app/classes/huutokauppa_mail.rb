@@ -147,6 +147,10 @@ class HuutokauppaMail
     )
   end
 
+  def find_customer
+    Customer.find_by!(email: customer_email) if customer_email.present?
+  end
+
   def find_order
     SalesOrder::Draft.find_by!(viesti: auction_id)
   end

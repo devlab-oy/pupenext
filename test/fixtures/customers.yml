@@ -43,3 +43,11 @@ lissu:
   osasto: 1
   ryhma: 10
   <<: *DEFAULTS
+
+huutokauppa_customer_1:
+  email: testit@testi.tes
+  <<: *DEFAULTS
+
+huutokauppa_customer_2:
+  email: te.testite@testi.tes
+  <<: *DEFAULTS
