@@ -329,29 +329,6 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 72.0,  @purchase_price_paid.auction_vat_amount
   end
 
-  test '#create_or_find_customer' do
-    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |mail|
-      assert_difference 'Customer.count' do
-        mail.create_or_find_customer
-      end
-
-      customer = Customer.last
-
-      assert_equal mail.customer_name,     customer.nimi
-      assert_equal mail.customer_email,    customer.email
-      assert_equal mail.customer_phone,    customer.gsm
-      assert_equal mail.customer_address,  customer.osoite
-      assert_equal mail.customer_postcode, customer.postino
-      assert_equal mail.customer_city,     customer.postitp
-
-      Customer.last.destroy!
-    end
-
-    assert_no_difference 'Customer.count' do
-      @emails_without_customer_info.each(&:create_or_find_customer)
-    end
-  end
-
   test '#find_customer' do
     assert_equal customers(:huutokauppa_customer_1), @offer_accepted.find_customer
     assert_equal customers(:huutokauppa_customer_2), @offer_automatically_accepted.find_customer
