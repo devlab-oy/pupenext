@@ -7,6 +7,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     keyword/customer_subcategories
     keywords
     sales_order/drafts
+    sales_order/rows
   )
 
   setup do
@@ -407,6 +408,29 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     @emails_without_delivery_info.each do |email|
       refute email.update_order_delivery_info
+    end
+  end
+
+  test '#update_order_product_info' do
+    [
+      @auction_ended,
+      @bidder_picks_up,
+      @delivery_offer_request,
+      @delivery_ordered,
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @offer_declined,
+      @purchase_price_paid,
+    ].each do |email|
+      assert email.update_order_product_info
+
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_alkuperainen
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_valuutassa
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta_valuutassa
+      assert_equal email.auction_title,             email.find_order.rows.first.nimitys
+      assert_equal email.auction_vat_percent,       email.find_order.rows.first.alv
     end
   end
 end

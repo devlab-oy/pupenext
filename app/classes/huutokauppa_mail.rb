@@ -195,6 +195,18 @@ class HuutokauppaMail
     )
   end
 
+  def update_order_product_info
+    find_order.rows.first.update!(
+      alv: auction_vat_percent,
+      hinta: auction_price_without_vat,
+      hinta_alkuperainen: auction_price_without_vat,
+      hinta_valuutassa: auction_price_without_vat,
+      nimitys: auction_title,
+      rivihinta: auction_price_without_vat,
+      rivihinta_valuutassa: auction_price_without_vat,
+    )
+  end
+
   private
 
     def customer_info
