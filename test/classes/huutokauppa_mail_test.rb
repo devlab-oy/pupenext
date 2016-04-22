@@ -6,6 +6,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
+    sales_order/drafts
   )
 
   setup do
@@ -349,5 +350,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_no_difference 'Customer.count' do
       @emails_without_customer_info.each(&:create_or_find_customer)
     end
+  end
+
+  test '#find_order' do
+    assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
+    assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @delivery_offer_request.find_order
+    assert_equal sales_order_drafts(:huutokauppa_274472), @delivery_ordered.find_order
+    assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_order
+    assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_order
   end
 end

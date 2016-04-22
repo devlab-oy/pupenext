@@ -147,6 +147,10 @@ class HuutokauppaMail
     )
   end
 
+  def find_order
+    SalesOrder::Draft.find_by!(viesti: auction_id)
+  end
+
   private
 
     def customer_info
