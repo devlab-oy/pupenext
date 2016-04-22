@@ -166,7 +166,20 @@ class HuutokauppaMail
   end
 
   def find_order
-    SalesOrder::Draft.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+  end
+
+  def update_order_customer_info
+    return unless customer_name
+
+    find_order.update!(
+      email: customer_email,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+      puh: customer_phone,
+    )
   end
 
   private

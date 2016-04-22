@@ -375,4 +375,21 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_order
     assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_order
   end
+
+  test 'update_order_customer_info' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      assert email.update_order_customer_info
+
+      assert_equal email.customer_address,  email.find_order.osoite
+      assert_equal email.customer_city,     email.find_order.postitp
+      assert_equal email.customer_email,    email.find_order.email
+      assert_equal email.customer_name,     email.find_order.nimi
+      assert_equal email.customer_phone,    email.find_order.puh
+      assert_equal email.customer_postcode, email.find_order.postino
+    end
+
+    @emails_without_customer_info.each do |email|
+      refute email.update_order_customer_info
+    end
+  end
 end
