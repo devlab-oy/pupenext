@@ -26,7 +26,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @bidder_picks_up,
       @delivery_offer_request,
       @delivery_ordered,
-      @offer_declined
+      @offer_declined,
     ]
 
     @emails_without_delivery_info = [
@@ -35,7 +35,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_automatically_accepted,
       @offer_declined,
-      @purchase_price_paid
+      @purchase_price_paid,
     ]
   end
 
@@ -376,7 +376,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_order
   end
 
-  test 'update_order_customer_info' do
+  test '#update_order_customer_info' do
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_order_customer_info
 
@@ -390,6 +390,23 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     @emails_without_customer_info.each do |email|
       refute email.update_order_customer_info
+    end
+  end
+
+  test '#update_order_delivery_info' do
+    [@delivery_offer_request, @delivery_ordered].each do |email|
+      assert email.update_order_delivery_info
+
+      assert_equal email.delivery_address,  email.find_order.toim_osoite
+      assert_equal email.delivery_city,     email.find_order.toim_postitp
+      assert_equal email.delivery_email,    email.find_order.toim_email
+      assert_equal email.delivery_name,     email.find_order.toim_nimi
+      assert_equal email.delivery_phone,    email.find_order.toim_puh
+      assert_equal email.delivery_postcode, email.find_order.toim_postino
+    end
+
+    @emails_without_delivery_info.each do |email|
+      refute email.update_order_delivery_info
     end
   end
 end

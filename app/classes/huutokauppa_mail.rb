@@ -182,6 +182,19 @@ class HuutokauppaMail
     )
   end
 
+  def update_order_delivery_info
+    return unless delivery_name
+
+    find_order.update!(
+      toim_email: delivery_email,
+      toim_nimi: delivery_name,
+      toim_osoite: delivery_address,
+      toim_postino: delivery_postcode,
+      toim_postitp: delivery_city,
+      toim_puh: delivery_phone,
+    )
+  end
+
   private
 
     def customer_info
