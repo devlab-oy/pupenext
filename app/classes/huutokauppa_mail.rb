@@ -132,7 +132,24 @@ class HuutokauppaMail
   end
 
   def find_customer
-    Customer.find_by!(email: customer_email) if customer_email.present?
+    Customer.find_by!(email: customer_email) if customer_email
+  end
+
+  def create_customer
+    return unless customer_name
+
+    Customer.create!(
+      email: customer_email,
+      gsm: customer_phone,
+      kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+      luontiaika: Time.now,
+      muutospvm: Time.now,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+      ytunnus: auction_id,
+    )
   end
 
   def find_order

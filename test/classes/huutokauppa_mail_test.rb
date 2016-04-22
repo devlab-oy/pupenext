@@ -339,6 +339,22 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#create_customer' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      Customer.delete_all
+
+      assert_difference 'Customer.count' do
+        email.create_customer
+      end
+    end
+
+    @emails_without_customer_info.each do |email|
+      assert_no_difference 'Customer.count' do
+        email.create_customer
+      end
+    end
+  end
+
   test '#find_order' do
     assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
     assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order
