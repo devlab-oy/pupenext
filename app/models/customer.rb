@@ -1,3 +1,7 @@
+# we need to require these here, so we won't get namespace warnings
+require 'category'
+require 'category/customer'
+
 class Customer < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
 
