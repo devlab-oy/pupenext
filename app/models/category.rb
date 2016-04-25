@@ -3,6 +3,8 @@ class Category < BaseModel
 
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
+  acts_as_nested_set depth_column: :syvyys
+
   self.table_name         = :dynaaminen_puu
   self.primary_key        = :tunnus
   self.inheritance_column = :laji
