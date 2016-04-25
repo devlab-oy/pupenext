@@ -15,6 +15,7 @@ gem 'redis-namespace'
 gem 'resque-web', require: 'resque_web'
 
 gem 'date_validator'
+gem 'awesome_nested_set'
 gem 'request_store'
 gem 'cocoon'
 gem 'simple_form'
