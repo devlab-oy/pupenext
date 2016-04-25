@@ -549,6 +549,8 @@ ActiveRecord::Schema.define(version: 20160707063612) do
     t.integer  "lft",               limit: 4,   default: 0,  null: false
     t.integer  "rgt",               limit: 4,   default: 0,  null: false
     t.string   "laji",              limit: 30,  default: "", null: false
+    t.integer  "children_count",    limit: 4,   default: 0,  null: false
+    t.integer  "parent_id",         limit: 4
     t.integer  "syvyys",            limit: 4,   default: 0,  null: false
     t.string   "laatija",           limit: 50,  default: "", null: false
     t.datetime "luontiaika",                                 null: false
