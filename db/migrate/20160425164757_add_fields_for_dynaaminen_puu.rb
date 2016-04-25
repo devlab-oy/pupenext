@@ -23,6 +23,10 @@ class AddFieldsForDynaaminenPuu < ActiveRecord::Migration
 
         c.update(parent_id: parent_id)
       end
+
+      # ajetaan vielä acts_as_nested_set korjausajot varmuudenvuoksi
+      Category::Product.rebuild!
+      Category::Customer.rebuild!
     end
   end
 
