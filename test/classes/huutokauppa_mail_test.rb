@@ -1,3 +1,4 @@
+require 'minitest/mock'
 require 'test_helper'
 
 class HuutokauppaMailTest < ActiveSupport::TestCase
@@ -11,6 +12,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   )
 
   setup do
+    Current.user = users(:bob)
+
     # setup all emails
     @auction_ended                = HuutokauppaMail.new huutokauppa_email(:auction_ended_1)
     @bidder_picks_up              = HuutokauppaMail.new huutokauppa_email(:bidder_picks_up_1)
@@ -431,6 +434,29 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta_valuutassa
       assert_equal email.auction_title,             email.find_order.rows.first.nimitys
       assert_equal email.auction_vat_percent,       email.find_order.rows.first.alv
+    end
+  end
+
+  test '#create_sales_order' do
+    sales_order_creation = proc do
+      sales_order = SalesOrder::Draft.new
+      sales_order.save(validate: false)
+
+      { sales_order_id: sales_order.id }
+    end
+
+    LegacyMethods.stub :pupesoft_function, sales_order_creation do
+      [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+        assert_difference 'SalesOrder::Draft.count' do
+          email.create_sales_order
+        end
+      end
+
+      @emails_without_customer_info.each do |email|
+        assert_no_difference 'SalesOrder::Draft.count' do
+          email.create_sales_order
+        end
+      end
     end
   end
 end
