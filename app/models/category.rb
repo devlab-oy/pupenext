@@ -1,3 +1,7 @@
+# we need to require these here, so we won't get namespace warnings
+require 'product'
+require 'product/category'
+
 class Category < BaseModel
   include PupenextSingleTableInheritance
 
