@@ -1,0 +1,15 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  laji: tuote
+
+product_category_shirts:
+  koodi: 1
+  nimi: Paidat
+  <<: *DEFAULTS
+
+product_category_pants:
+  koodi: 2
+  nimi: Housut
+  <<: *DEFAULTS
