@@ -10,6 +10,7 @@ class Company < ActiveRecord::Base
     o.has_many :cash_registers
     o.has_many :currencies
     o.has_many :customers
+    o.has_many :customer_categories, class_name: 'Category::Customer'
     o.has_many :delivery_methods
     o.has_many :factorings
     o.has_many :fiscal_years
@@ -26,11 +27,12 @@ class Company < ActiveRecord::Base
     o.has_many :warehouses
 
     o.has_many :products
-    o.has_many :brands,            class_name: 'Product::Brand'
-    o.has_many :categories,        class_name: 'Product::Category'
-    o.has_many :product_statuses,  class_name: 'Product::Status'
-    o.has_many :product_suppliers, class_name: 'Product::Supplier'
-    o.has_many :subcategories,     class_name: 'Product::Subcategory'
+    o.has_many :brands,             class_name: 'Product::Brand'
+    o.has_many :categories,         class_name: 'Product::Category'
+    o.has_many :product_categories, class_name: 'Category::Product'
+    o.has_many :product_statuses,   class_name: 'Product::Status'
+    o.has_many :product_suppliers,  class_name: 'Product::Supplier'
+    o.has_many :subcategories,      class_name: 'Product::Subcategory'
 
     o.has_many :sum_levels
     o.has_many :sum_level_internals,   class_name: 'SumLevel::Internal'
