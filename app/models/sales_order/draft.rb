@@ -5,4 +5,8 @@ class SalesOrder::Draft < SalesOrder::Base
   def self.sti_name
     "N"
   end
+
+  def mark_as_done
+    LegacyMethods.pupesoft_function(:tilaus_valmis, order_id: id)
+  end
 end

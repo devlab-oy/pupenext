@@ -2,6 +2,9 @@ class HuutokauppaMail
   attr_reader :mail
 
   def initialize(raw_source)
+    raise 'Current company must be set' unless Current.company
+    raise 'Current user must be set'    unless Current.user
+
     @mail = Mail.new(raw_source)
     @doc  = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
   end
@@ -79,6 +82,12 @@ class HuutokauppaMail
     delivery_info[:email]
   end
 
+  def delivery_price_without_vat
+    return unless delivery_price_with_vat
+
+    delivery_price_with_vat - delivery_vat_amount
+  end
+
   def delivery_price_with_vat
     return unless auction_info[:delivery_price_with_vat]
 
@@ -129,6 +138,102 @@ class HuutokauppaMail
 
   def auction_vat_amount
     auction_info[:vat_amount].sub(',', '.').to_d
+  end
+
+  def find_customer
+    @customer ||= Customer.find_by!(email: customer_email) if customer_email
+  end
+
+  def create_customer
+    return unless customer_name
+
+    Customer.create!(
+      email: customer_email,
+      gsm: customer_phone,
+      kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+      ytunnus: auction_id,
+    )
+  end
+
+  def update_customer
+    return unless find_customer
+
+    find_customer.update!(
+      gsm: customer_phone,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+    )
+  end
+
+  def find_order
+    @order ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+  end
+
+  def update_order_customer_info
+    return unless customer_name
+
+    find_order.update!(
+      email: customer_email,
+      nimi: customer_name,
+      osoite: customer_address,
+      postino: customer_postcode,
+      postitp: customer_city,
+      puh: customer_phone,
+    )
+  end
+
+  def update_order_delivery_info
+    return unless delivery_name
+
+    find_order.update!(
+      toim_email: delivery_email,
+      toim_nimi: delivery_name,
+      toim_osoite: delivery_address,
+      toim_postino: delivery_postcode,
+      toim_postitp: delivery_city,
+      toim_puh: delivery_phone,
+    )
+  end
+
+  def update_order_product_info
+    find_order.rows.first.update!(
+      alv: auction_vat_percent,
+      hinta: auction_price_without_vat,
+      hinta_alkuperainen: auction_price_without_vat,
+      hinta_valuutassa: auction_price_without_vat,
+      nimitys: auction_title,
+      rivihinta: auction_price_without_vat,
+      rivihinta_valuutassa: auction_price_without_vat,
+    )
+  end
+
+  def create_sales_order
+    return unless customer_name
+
+    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: find_customer.id)
+    sales_order_id = response[:sales_order_id]
+
+    SalesOrder::Draft.find(sales_order_id)
+  end
+
+  def add_delivery_row_to_order(order)
+    return unless delivery_price_without_vat
+
+    order.rows.create!(
+      alv: delivery_vat_percent,
+      hinta: delivery_price_without_vat,
+      hinta_alkuperainen: delivery_price_without_vat,
+      hinta_valuutassa: delivery_price_without_vat,
+      product: order.company.parameter.freight_product,
+      rivihinta: delivery_price_without_vat,
+      rivihinta_valuutassa: delivery_price_without_vat,
+    )
   end
 
   private

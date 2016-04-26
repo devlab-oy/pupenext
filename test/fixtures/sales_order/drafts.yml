@@ -1,4 +1,5 @@
 DEFAULTS: &DEFAULTS
+  tila: N
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -23,7 +24,13 @@ DEFAULTS: &DEFAULTS
 
 not_finished_order:
   yhtio: acme
-  tila: N
   alatila: ''
   terms_of_payment: hundred_days_net
   <<: *DEFAULTS
+
+<% [270265, 274472, 277075, 277687, 279590, 285888].each do |auction_id| %>
+huutokauppa_<%= auction_id %>:
+  yhtio: acme
+  viesti: <%= auction_id %>
+  <<: *DEFAULTS
+<% end %>

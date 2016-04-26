@@ -1,7 +1,21 @@
+require 'minitest/mock'
 require 'test_helper'
 
 class HuutokauppaMailTest < ActiveSupport::TestCase
+  fixtures %w(
+    countries
+    customers
+    keyword/customer_categories
+    keyword/customer_subcategories
+    keywords
+    products
+    sales_order/drafts
+    sales_order/rows
+  )
+
   setup do
+    Current.user = users(:bob)
+
     # setup all emails
     @auction_ended                = HuutokauppaMail.new huutokauppa_email(:auction_ended_1)
     @bidder_picks_up              = HuutokauppaMail.new huutokauppa_email(:bidder_picks_up_1)
@@ -18,7 +32,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @bidder_picks_up,
       @delivery_offer_request,
       @delivery_ordered,
-      @offer_declined
+      @offer_declined,
     ]
 
     @emails_without_delivery_info = [
@@ -27,8 +41,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_automatically_accepted,
       @offer_declined,
-      @purchase_price_paid
+      @purchase_price_paid,
     ]
+  end
+
+  test 'exception is thrown if company and user are not set' do
+    file = huutokauppa_email(:offer_automatically_accepted_1)
+
+    Current.company = nil
+    assert_raise { HuutokauppaMail.new(file) }
+
+    Current.company = companies(:acme)
+    Current.user    = nil
+    assert_raise { HuutokauppaMail.new(file) }
   end
 
   test 'initializes correctly with a raw email source' do
@@ -182,6 +207,18 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#delivery_price_without_vat' do
+    assert_equal 0,     @bidder_picks_up.delivery_price_without_vat
+    assert_equal 14.47, @delivery_ordered.delivery_price_without_vat
+
+    assert_nil @auction_ended.delivery_price_without_vat
+    assert_nil @delivery_offer_request.delivery_price_without_vat
+    assert_nil @offer_accepted.delivery_price_without_vat
+    assert_nil @offer_automatically_accepted.delivery_price_without_vat
+    assert_nil @offer_declined.delivery_price_without_vat
+    assert_nil @purchase_price_paid.delivery_price_without_vat
+  end
+
   test '#delivery_price_with_vat' do
     assert_equal 0.0,   @bidder_picks_up.delivery_price_with_vat
     assert_equal 17.95, @delivery_ordered.delivery_price_with_vat
@@ -319,5 +356,163 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 72.0,  @offer_automatically_accepted.auction_vat_amount
     assert_equal 12.0,  @offer_declined.auction_vat_amount
     assert_equal 72.0,  @purchase_price_paid.auction_vat_amount
+  end
+
+  test '#find_customer' do
+    assert_equal customers(:huutokauppa_customer_1), @offer_accepted.find_customer
+    assert_equal customers(:huutokauppa_customer_2), @offer_automatically_accepted.find_customer
+    assert_equal customers(:huutokauppa_customer_2), @purchase_price_paid.find_customer
+
+    @emails_without_customer_info.each do |email|
+      assert_nil email.find_customer
+    end
+  end
+
+  test '#create_customer' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      Customer.delete_all
+
+      assert_difference 'Customer.count' do
+        email.create_customer
+      end
+    end
+
+    @emails_without_customer_info.each do |email|
+      assert_no_difference 'Customer.count' do
+        email.create_customer
+      end
+    end
+  end
+
+  test '#update_customer' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      assert email.update_customer
+    end
+
+    @emails_without_customer_info.each do |email|
+      refute email.update_customer
+    end
+  end
+
+  test '#find_order' do
+    assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
+    assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @delivery_offer_request.find_order
+    assert_equal sales_order_drafts(:huutokauppa_274472), @delivery_ordered.find_order
+    assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_order
+    assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_order
+    assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_order
+  end
+
+  test '#update_order_customer_info' do
+    [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+      assert email.update_order_customer_info
+
+      assert_equal email.customer_address,  email.find_order.osoite
+      assert_equal email.customer_city,     email.find_order.postitp
+      assert_equal email.customer_email,    email.find_order.email
+      assert_equal email.customer_name,     email.find_order.nimi
+      assert_equal email.customer_phone,    email.find_order.puh
+      assert_equal email.customer_postcode, email.find_order.postino
+    end
+
+    @emails_without_customer_info.each do |email|
+      refute email.update_order_customer_info
+    end
+  end
+
+  test '#update_order_delivery_info' do
+    [@delivery_offer_request, @delivery_ordered].each do |email|
+      assert email.update_order_delivery_info
+
+      assert_equal email.delivery_address,  email.find_order.toim_osoite
+      assert_equal email.delivery_city,     email.find_order.toim_postitp
+      assert_equal email.delivery_email,    email.find_order.toim_email
+      assert_equal email.delivery_name,     email.find_order.toim_nimi
+      assert_equal email.delivery_phone,    email.find_order.toim_puh
+      assert_equal email.delivery_postcode, email.find_order.toim_postino
+    end
+
+    @emails_without_delivery_info.each do |email|
+      refute email.update_order_delivery_info
+    end
+  end
+
+  test '#update_order_product_info' do
+    [
+      @auction_ended,
+      @bidder_picks_up,
+      @delivery_offer_request,
+      @delivery_ordered,
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @offer_declined,
+      @purchase_price_paid,
+    ].each do |email|
+      assert email.update_order_product_info
+
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_alkuperainen
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_valuutassa
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta
+      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta_valuutassa
+      assert_equal email.auction_title,             email.find_order.rows.first.nimitys
+      assert_equal email.auction_vat_percent,       email.find_order.rows.first.alv
+    end
+  end
+
+  test '#create_sales_order' do
+    sales_order_creation = proc do
+      sales_order = SalesOrder::Draft.new
+      sales_order.save(validate: false)
+
+      { sales_order_id: sales_order.id }
+    end
+
+    LegacyMethods.stub :pupesoft_function, sales_order_creation do
+      [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
+        assert_difference 'SalesOrder::Draft.count' do
+          email.create_sales_order
+        end
+      end
+
+      @emails_without_customer_info.each do |email|
+        assert_no_difference 'SalesOrder::Draft.count' do
+          email.create_sales_order
+        end
+      end
+    end
+  end
+
+  test '#add_delivery_row_to_order' do
+    order = SalesOrder::Draft.new
+    order.save(validate: false)
+
+    [@bidder_picks_up, @delivery_ordered].each do |email|
+      assert_difference 'SalesOrder::Row.count' do
+        delivery_row = email.add_delivery_row_to_order(order)
+
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta_alkuperainen
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta_valuutassa
+        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta
+        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta_valuutassa
+        assert_equal email.delivery_vat_percent,       delivery_row.alv
+      end
+    end
+
+    [
+      @auction_ended,
+      @delivery_offer_request,
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @offer_declined,
+      @purchase_price_paid,
+    ].each do |email|
+      assert_no_difference 'Row.count' do
+        email.add_delivery_row_to_order(order)
+      end
+    end
   end
 end

@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class ParametersTest < ActiveSupport::TestCase
-  fixtures %w(parameters)
+  fixtures %w(
+    parameters
+    products
+  )
 
   setup do
     @acme_params = parameters(:acme)
@@ -11,8 +14,8 @@ class ParametersTest < ActiveSupport::TestCase
     assert @acme_params.valid?, @acme_params.errors.messages
   end
 
-  test "params has a company" do
+  test "associations" do
     assert_not_nil @acme_params.company
+    assert_not_nil @acme_params.freight_product
   end
-
 end
