@@ -231,7 +231,7 @@ class HuutokauppaMail
       hinta: delivery_price_without_vat,
       hinta_alkuperainen: delivery_price_without_vat,
       hinta_valuutassa: delivery_price_without_vat,
-      product: Parameter.freight_product,
+      product: order.company.parameter.freight_product,
       rivihinta: delivery_price_without_vat,
       rivihinta_valuutassa: delivery_price_without_vat,
     )

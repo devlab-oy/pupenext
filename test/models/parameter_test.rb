@@ -14,11 +14,8 @@ class ParametersTest < ActiveSupport::TestCase
     assert @acme_params.valid?, @acme_params.errors.messages
   end
 
-  test "params has a company" do
+  test "associations" do
     assert_not_nil @acme_params.company
-  end
-
-  test '.freight_product' do
-    assert_equal products(:freight), Parameter.freight_product
+    assert_not_nil @acme_params.freight_product
   end
 end
