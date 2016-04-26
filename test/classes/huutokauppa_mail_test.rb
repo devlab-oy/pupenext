@@ -194,6 +194,18 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#delivery_price_without_vat' do
+    assert_equal 0,     @bidder_picks_up.delivery_price_without_vat
+    assert_equal 14.47, @delivery_ordered.delivery_price_without_vat
+
+    assert_nil @auction_ended.delivery_price_without_vat
+    assert_nil @delivery_offer_request.delivery_price_without_vat
+    assert_nil @offer_accepted.delivery_price_without_vat
+    assert_nil @offer_automatically_accepted.delivery_price_without_vat
+    assert_nil @offer_declined.delivery_price_without_vat
+    assert_nil @purchase_price_paid.delivery_price_without_vat
+  end
+
   test '#delivery_price_with_vat' do
     assert_equal 0.0,   @bidder_picks_up.delivery_price_with_vat
     assert_equal 17.95, @delivery_ordered.delivery_price_with_vat

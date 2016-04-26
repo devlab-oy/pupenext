@@ -79,6 +79,12 @@ class HuutokauppaMail
     delivery_info[:email]
   end
 
+  def delivery_price_without_vat
+    return unless delivery_price_with_vat
+
+    delivery_price_with_vat - delivery_vat_amount
+  end
+
   def delivery_price_with_vat
     return unless auction_info[:delivery_price_with_vat]
 
