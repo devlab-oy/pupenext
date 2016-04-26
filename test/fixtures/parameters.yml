@@ -3,6 +3,7 @@ acme:
   css: "* { font-family: sans-serif }"
   maventa_aikaleima: <%= Time.now %>
   varastopaikkojen_maarittely: M
+  rahti_tuotenumero: RAHTI
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
