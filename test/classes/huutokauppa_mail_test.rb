@@ -45,6 +45,17 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ]
   end
 
+  test 'exception is thrown if company and user are not set' do
+    file = huutokauppa_email(:offer_automatically_accepted_1)
+
+    Current.company = nil
+    assert_raise { HuutokauppaMail.new(file) }
+
+    Current.company = companies(:acme)
+    Current.user    = nil
+    assert_raise { HuutokauppaMail.new(file) }
+  end
+
   test 'initializes correctly with a raw email source' do
     huutokauppa_mail = nil
     file = huutokauppa_email(:offer_automatically_accepted_1)

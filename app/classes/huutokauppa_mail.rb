@@ -2,6 +2,9 @@ class HuutokauppaMail
   attr_reader :mail
 
   def initialize(raw_source)
+    raise 'Current company must be set' unless Current.company
+    raise 'Current user must be set'    unless Current.user
+
     @mail = Mail.new(raw_source)
     @doc  = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
   end
