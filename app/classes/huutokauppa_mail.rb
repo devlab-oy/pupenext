@@ -223,6 +223,20 @@ class HuutokauppaMail
     SalesOrder::Draft.find(sales_order_id)
   end
 
+  def add_delivery_row_to_order(order)
+    return unless delivery_price_without_vat
+
+    order.rows.create!(
+      alv: delivery_vat_percent,
+      hinta: delivery_price_without_vat,
+      hinta_alkuperainen: delivery_price_without_vat,
+      hinta_valuutassa: delivery_price_without_vat,
+      product: Parameter.freight_product,
+      rivihinta: delivery_price_without_vat,
+      rivihinta_valuutassa: delivery_price_without_vat,
+    )
+  end
+
   private
 
     def customer_info

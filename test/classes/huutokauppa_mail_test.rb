@@ -7,6 +7,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
+    products
     sales_order/drafts
     sales_order/rows
   )
@@ -468,6 +469,37 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_no_difference 'SalesOrder::Draft.count' do
           email.create_sales_order
         end
+      end
+    end
+  end
+
+  test '#add_delivery_row_to_order' do
+    order = SalesOrder::Draft.new
+    order.save(validate: false)
+
+    [@bidder_picks_up, @delivery_ordered].each do |email|
+      assert_difference 'SalesOrder::Row.count' do
+        delivery_row = email.add_delivery_row_to_order(order)
+
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta_alkuperainen
+        assert_equal email.delivery_price_without_vat, delivery_row.hinta_valuutassa
+        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta
+        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta_valuutassa
+        assert_equal email.delivery_vat_percent,       delivery_row.alv
+      end
+    end
+
+    [
+      @auction_ended,
+      @delivery_offer_request,
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @offer_declined,
+      @purchase_price_paid,
+    ].each do |email|
+      assert_no_difference 'Row.count' do
+        email.add_delivery_row_to_order(order)
       end
     end
   end
