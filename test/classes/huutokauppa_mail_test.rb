@@ -3,6 +3,7 @@ require 'test_helper'
 
 class HuutokauppaMailTest < ActiveSupport::TestCase
   fixtures %w(
+    countries
     customers
     keyword/customer_categories
     keyword/customer_subcategories
