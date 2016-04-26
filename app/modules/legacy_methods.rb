@@ -36,6 +36,8 @@ module LegacyMethods
                  chdir: LEGACY_API_DIR) do |_stdin, stdout, _stderr|
       JSON.parse(stdout.gets, symbolize_names: true)
     end
+  rescue JSON::ParserError => e
+    { error: "There was an error parsing the JSON response from Pupesoft. Message: #{e.message}" }
   end
 
   private
