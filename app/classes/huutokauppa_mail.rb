@@ -151,8 +151,6 @@ class HuutokauppaMail
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
-      luontiaika: Time.now,
-      muutospvm: Time.now,
       nimi: customer_name,
       osoite: customer_address,
       postino: customer_postcode,
@@ -166,7 +164,6 @@ class HuutokauppaMail
 
     find_customer.update!(
       gsm: customer_phone,
-      muutospvm: Time.now,
       nimi: customer_name,
       osoite: customer_address,
       postino: customer_postcode,
@@ -219,8 +216,7 @@ class HuutokauppaMail
   def create_sales_order
     return unless customer_name
 
-    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko,
-                                               customer_id: find_customer.id)
+    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: find_customer.id)
     sales_order_id = response[:sales_order_id]
 
     SalesOrder::Draft.find(sales_order_id)
