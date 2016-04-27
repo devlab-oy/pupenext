@@ -562,9 +562,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#add_delivery_row' do
     [
-      @bidder_picks_up,
       @delivery_ordered,
-      @purchase_price_paid_2,
       @purchase_price_paid_3,
     ].each do |email|
       create_row = proc do
@@ -583,11 +581,13 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     [
       @auction_ended,
+      @bidder_picks_up,
       @delivery_offer_request,
       @offer_accepted,
       @offer_automatically_accepted,
       @offer_declined,
       @purchase_price_paid,
+      @purchase_price_paid_2,
     ].each do |email|
       assert_no_difference 'Row.count' do
         email.add_delivery_row

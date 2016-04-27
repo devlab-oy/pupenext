@@ -1,6 +1,8 @@
 class HuutokauppaMail
   attr_reader :mail
 
+  DELIVERY_PRODUCT_NUMBERS = (90..95).to_a + (90..95).to_a.map { |e| "#{e} max" }
+
   def initialize(raw_source)
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -225,9 +227,14 @@ class HuutokauppaMail
   end
 
   def add_delivery_row
-    return unless delivery_price_without_vat
+    return unless delivery_price_with_vat && delivery_price_with_vat > 0
 
-    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_order.id, product_id: 709_519)
+    product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
+                     .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
+                     .order(:myyntihinta)
+                     .first
+
+    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_order.id, product_id: product.id)
 
     find_order.rows.find(response[:added_row])
   end
