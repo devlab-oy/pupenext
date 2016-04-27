@@ -216,7 +216,9 @@ class HuutokauppaMail
   def create_sales_order
     return unless customer_name
 
-    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: find_customer.id)
+    customer_id = find_customer.try(:id) || create_customer.id
+
+    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: customer_id)
     sales_order_id = response[:sales_order_id]
 
     SalesOrder::Draft.find(sales_order_id)
