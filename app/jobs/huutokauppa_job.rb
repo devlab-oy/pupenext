@@ -14,6 +14,8 @@ class HuutokauppaJob < ActiveJob::Base
       update_order_customer_and_product_info
     when :purchase_price_paid
       mark_order_as_done_and_set_delivery_method
+    when :delivery_ordered
+      update_order_delivery_info_and_delivery_method
     end
   end
 
@@ -38,12 +40,13 @@ class HuutokauppaJob < ActiveJob::Base
     end
 
     def mark_order_as_done_and_set_delivery_method
-      @huutokauppa_mail.find_order.update!(
-        delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
-      )
-
+      @huutokauppa_mail.find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
       @huutokauppa_mail.add_delivery_row
-
       @huutokauppa_mail.find_order.mark_as_done
+    end
+
+    def update_order_delivery_info_and_delivery_method
+      @huutokauppa_mail.update_order_delivery_info
+      @huutokauppa_mail.find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
     end
 end

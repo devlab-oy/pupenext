@@ -115,4 +115,22 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal delivery_methods(:nouto), order.delivery_method
   end
+
+  test 'order delivery info is updated and delivery method set when type is delivery ordered' do
+    incoming_mail = incoming_mails(:three)
+
+    draft = sales_order_drafts(:huutokauppa_274472)
+    draft.tila = 'L'
+    draft.save(validate: false)
+
+    incoming_mail.raw_source = huutokauppa_email(:delivery_ordered_1)
+    incoming_mail.save!
+
+    HuutokauppaJob.perform_now(id: incoming_mail.id)
+
+    order = SalesOrder::Order.find_by!(viesti: 274_472)
+
+    assert_equal 'Test-testi testit Testites',         order.toim_nimi
+    assert_equal delivery_methods(:itella_economy_16), order.delivery_method
+  end
 end
