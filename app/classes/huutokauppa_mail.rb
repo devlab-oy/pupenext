@@ -141,7 +141,7 @@ class HuutokauppaMail
   end
 
   def find_customer
-    @customer ||= Customer.find_by!(email: customer_email) if customer_email
+    @customer ||= Customer.find_by(email: customer_email) if customer_email
   end
 
   def create_customer
