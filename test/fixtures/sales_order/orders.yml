@@ -25,6 +25,7 @@ DEFAULTS: &DEFAULTS
 so_one:
   yhtio: acme
   tila: L
+  toimitustapa: Nouto
   <<: *DEFAULTS
 
 

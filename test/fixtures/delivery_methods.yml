@@ -24,3 +24,9 @@ kiitolinja:
   tulostustapa: H
   <<: *DEFAULTS
 
+nouto:
+  selite: Nouto
+  tulostustapa: E
+  rahtikirja: rahtikirja_tyhja.inc
+  nouto: o
+  <<: *DEFAULTS
