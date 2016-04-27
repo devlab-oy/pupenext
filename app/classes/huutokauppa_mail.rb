@@ -224,18 +224,12 @@ class HuutokauppaMail
     SalesOrder::Draft.find(sales_order_id)
   end
 
-  def add_delivery_row_to_order(order)
+  def add_delivery_row
     return unless delivery_price_without_vat
 
-    order.rows.create!(
-      alv: delivery_vat_percent,
-      hinta: delivery_price_without_vat,
-      hinta_alkuperainen: delivery_price_without_vat,
-      hinta_valuutassa: delivery_price_without_vat,
-      product: order.company.parameter.freight_product,
-      rivihinta: delivery_price_without_vat,
-      rivihinta_valuutassa: delivery_price_without_vat,
-    )
+    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_order.id, product_id: 709_519)
+
+    find_order.rows.find(response[:added_row])
   end
 
   private

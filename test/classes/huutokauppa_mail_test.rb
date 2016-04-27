@@ -560,20 +560,24 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
-  test '#add_delivery_row_to_order' do
-    order = SalesOrder::Draft.new
-    order.save(validate: false)
+  test '#add_delivery_row' do
+    [
+      @bidder_picks_up,
+      @delivery_ordered,
+      @purchase_price_paid_2,
+      @purchase_price_paid_3,
+    ].each do |email|
+      create_row = proc do
+        row = email.find_order.rows.build
+        row.save(validate: false)
 
-    [@bidder_picks_up, @delivery_ordered].each do |email|
-      assert_difference 'SalesOrder::Row.count' do
-        delivery_row = email.add_delivery_row_to_order(order)
+        { added_row: row.id }
+      end
 
-        assert_equal email.delivery_price_without_vat, delivery_row.hinta
-        assert_equal email.delivery_price_without_vat, delivery_row.hinta_alkuperainen
-        assert_equal email.delivery_price_without_vat, delivery_row.hinta_valuutassa
-        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta
-        assert_equal email.delivery_price_without_vat, delivery_row.rivihinta_valuutassa
-        assert_equal email.delivery_vat_percent,       delivery_row.alv
+      LegacyMethods.stub :pupesoft_function, create_row do
+        assert_difference 'SalesOrder::Row.count' do
+          email.add_delivery_row
+        end
       end
     end
 
@@ -586,7 +590,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @purchase_price_paid,
     ].each do |email|
       assert_no_difference 'Row.count' do
-        email.add_delivery_row_to_order(order)
+        email.add_delivery_row
       end
     end
   end
