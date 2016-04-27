@@ -1,8 +1,10 @@
+require 'minitest/mock'
 require 'test_helper'
 
 class HuutokauppaJobTest < ActiveJob::TestCase
   fixtures %w(
     customers
+    delivery_methods
     incoming_mails
     mail_servers
     sales_order/drafts
@@ -88,5 +90,29 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal 'error', incoming_mail.reload.status
     assert_equal "undefined method `selite' for nil:NilClass", incoming_mail.reload.status_message
+  end
+
+  test 'order is marked as done correctly and delivery type set to nouto when no info about delivery' do
+    incoming_mail = incoming_mails(:three)
+
+    incoming_mail.raw_source = huutokauppa_email(:purchase_price_paid_1)
+    incoming_mail.save!
+
+    draft = sales_order_drafts(:huutokauppa_270265)
+
+    mark_as_done = proc do
+      draft.tila = 'L'
+      draft.save(validate: false)
+    end
+
+    LegacyMethods.stub(:pupesoft_function, mark_as_done) do
+      assert_difference 'SalesOrder::Draft.count', -1 do
+        HuutokauppaJob.perform_now(id: incoming_mail.id)
+      end
+    end
+
+    order = SalesOrder::Order.find_by!(viesti: 270_265)
+
+    assert_equal delivery_methods(:nouto), order.delivery_method
   end
 end

@@ -12,6 +12,8 @@ class HuutokauppaJob < ActiveJob::Base
     case @huutokauppa_mail.type
     when :offer_accepted, :offer_automatically_accepted
       update_order_customer_and_product_info
+    when :purchase_price_paid
+      mark_order_as_done_and_set_delivery_method
     end
   end
 
@@ -33,5 +35,12 @@ class HuutokauppaJob < ActiveJob::Base
         status: :error,
         status_message: e.message,
       )
+    end
+
+    def mark_order_as_done_and_set_delivery_method
+      @huutokauppa_mail.find_order.update!(
+        delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
+      )
+      @huutokauppa_mail.find_order.mark_as_done
     end
 end
