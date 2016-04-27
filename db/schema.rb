@@ -3503,6 +3503,7 @@ ActiveRecord::Schema.define(version: 20160420103408) do
     t.string   "siirtolista_email",                                limit: 100,                            default: "",    null: false
     t.string   "changelog_email",                                  limit: 100,                            default: "",    null: false
     t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                            default: "",    null: false
+    t.string   "ostotilaus_email",                                 limit: 100,                            default: "",    null: false
     t.string   "alert_varasto_kayttajat",                          limit: 100,                            default: "",    null: false
     t.string   "verkkolasku_lah",                                  limit: 10,                             default: "",    null: false
     t.string   "finvoice_versio",                                  limit: 1,                              default: "",    null: false
