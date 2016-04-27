@@ -174,7 +174,7 @@ class HuutokauppaMail
   end
 
   def find_order
-    @order ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Draft.find_by(viesti: auction_id) || SalesOrder::Order.find_by!(viesti: auction_id)
   end
 
   def update_order_customer_info
