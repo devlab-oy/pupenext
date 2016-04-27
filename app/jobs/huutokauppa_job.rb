@@ -41,6 +41,9 @@ class HuutokauppaJob < ActiveJob::Base
       @huutokauppa_mail.find_order.update!(
         delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
       )
+
+      @huutokauppa_mail.add_delivery_row
+
       @huutokauppa_mail.find_order.mark_as_done
     end
 end
