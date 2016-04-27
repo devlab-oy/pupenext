@@ -12,3 +12,11 @@ so_row_one:
   tuoteno: hammer123
   tyyppi: L
   <<: *DEFAULTS
+
+<% [270265, 274472, 277075, 277687, 279590, 285888].each do |auction_id| %>
+huutokauppa_<%= auction_id %>_row_1:
+  order: huutokauppa_<%= auction_id %>
+  tuoteno: hammer123
+  tyyppi: L
+  <<: *DEFAULTS
+<% end %>

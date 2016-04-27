@@ -25,6 +25,21 @@ module LegacyMethods
     price
   end
 
+  def self.pupesoft_function(function, params)
+    Open3.popen2('php',
+                 '-f',
+                 'pupenext.php',
+                 Current.company.yhtio,
+                 Current.user.kuka,
+                 function.to_s,
+                 params.to_json,
+                 chdir: LEGACY_API_DIR) do |_stdin, stdout, _stderr|
+      JSON.parse(stdout.gets, symbolize_names: true)
+    end
+  rescue JSON::ParserError => e
+    { error: "There was an error parsing the JSON response from Pupesoft. Message: #{e.message}" }
+  end
+
   private
 
     def self.discount_price(target, target_id, product_id)

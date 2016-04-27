@@ -43,3 +43,23 @@ lissu:
   osasto: 1
   ryhma: 10
   <<: *DEFAULTS
+
+huutokauppa_customer_1:
+  email: testit@testi.tes
+  gsm: +123 45 6789012
+  nimi: Testi Testit Testitestit
+  osoite: testitestit 12
+  postino: 12345
+  postitp: Testi
+  ytunnus: 279590
+  <<: *DEFAULTS
+
+huutokauppa_customer_2:
+  email: te.testite@testi.tes
+  gsm: +123 45 6789012
+  nimi: Test-testi Testite
+  osoite: Testitesti 123
+  postino: 23456
+  postitp: Testitesti
+  ytunnus: 270265
+  <<: *DEFAULTS

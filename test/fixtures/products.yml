@@ -49,3 +49,10 @@ pr1:
   nimitys: Päiväraha
   tuotetyyppi: A
   <<: *DEFAULTS
+
+freight:
+  yhtio: acme
+  tuoteno: RAHTI
+  nimitys: Rahti
+  status: A
+  <<: *DEFAULTS

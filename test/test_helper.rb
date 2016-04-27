@@ -6,7 +6,7 @@ require 'login_helper'
 require 'spreadsheets_helper'
 
 if ENV['CODECLIMATE_REPO_TOKEN']
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
     CodeClimate::TestReporter::Formatter
   ]
@@ -43,6 +43,10 @@ class ActiveSupport::TestCase
   teardown do
     RequestStore.clear!
     Current.company = nil
+  end
+
+  def huutokauppa_email(name)
+    File.read(Rails.root.join('test', 'assets', 'huutokauppa_emails', name.to_s))
   end
 end
 

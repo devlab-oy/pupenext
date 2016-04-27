@@ -15,8 +15,8 @@ class Customer < BaseModel
   validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
   validates :maa, inclusion: { in: proc { Country.pluck(:koodi) } }
   validates :nimi, presence: true
-  validates :osasto, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasosasto).pluck(:selite) } }
-  validates :ryhma, inclusion: { in: ->(c) { c.company.keywords.where(laji: :asiakasryhma).pluck(:selite) } }
+  validates :osasto, inclusion: { in: ->(_c) { Keyword::CustomerCategory.pluck(:selite) } }, allow_blank: true
+  validates :ryhma, inclusion: { in: ->(_c) { Keyword::CustomerSubcategory.pluck(:selite) } }, allow_blank: true
   validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
   validates :alv, inclusion: { in: ->(_c) { Keyword::Vat.pluck(:selite).map(&:to_i) } }
   validates :kauppatapahtuman_luonne, inclusion: { in: ->(_c) { Keyword::NatureOfTransaction.pluck(:selite).map(&:to_i) } }
@@ -89,7 +89,7 @@ class Customer < BaseModel
     def validate_delivery_method
       if delivery_method &&
          delivery_method.sallitut_maat != '' &&
-         delivery_method.sallitut_maat != maa
+         !delivery_method.sallitut_maat.split(',').include?(maa)
         errors.add(:toimitustapa, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
@@ -97,7 +97,7 @@ class Customer < BaseModel
     def validate_terms_of_payment
       if terms_of_payment &&
          terms_of_payment.sallitut_maat != '' &&
-         terms_of_payment.sallitut_maat != maa
+         !terms_of_payment.sallitut_maat.split(',').include?(maa)
         errors.add(:maksuehto, I18n.t('activerecord.errors.models.customer.invalid_country'))
       end
     end
