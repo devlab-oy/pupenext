@@ -3772,6 +3772,7 @@ ActiveRecord::Schema.define(version: 20160420103408) do
     t.string   "extranet_nayta_saldo",                             limit: 1,                              default: "",    null: false
     t.string   "extranet_poikkeava_toimitusosoite",                limit: 1,                              default: "",    null: false
     t.string   "extranet_keraysprioriteetti",                      limit: 1,                              default: "",    null: false
+    t.string   "extranet_private_label",                           limit: 1,                              default: "",    null: false
     t.string   "ext_tilauksen_hyvaksyja_myyjaksi",                 limit: 1,                              default: "",    null: false
     t.string   "tuoteperhe_suoratoimitus",                         limit: 1,                              default: "",    null: false
     t.string   "tuoteperheinfo_lahetteella",                       limit: 1,                              default: "",    null: false
