@@ -23,9 +23,15 @@ class HuutokauppaJob < ActiveJob::Base
       @huutokauppa_mail.update_order_customer_info
       @huutokauppa_mail.update_order_product_info
 
-      @incoming_mail.update(
+      @incoming_mail.update!(
         processed_at: Time.now,
         status: :ok,
+      )
+    rescue => e
+      @incoming_mail.update!(
+        processed_at: Time.now,
+        status: :error,
+        status_message: e.message,
       )
     end
 end

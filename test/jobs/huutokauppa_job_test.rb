@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HuutokauppaJobTest < ActiveJob::TestCase
   fixtures %w(
+    customers
     incoming_mails
     mail_servers
     sales_order/drafts
@@ -72,5 +73,20 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal 'Test-testi Testite', sales_order.nimi
     assert_equal 300, sales_order.rows.first.rivihinta
+  end
+
+  test 'error is logged if exception is thrown' do
+    Customer.delete_all
+    Keyword::NatureOfTransaction.delete_all
+
+    incoming_mail = incoming_mails(:three)
+
+    incoming_mail.raw_source = huutokauppa_email(:offer_accepted_1)
+    incoming_mail.save!
+
+    HuutokauppaJob.perform_now(id: incoming_mail.id)
+
+    assert_equal 'error', incoming_mail.reload.status
+    assert_equal "undefined method `selite' for nil:NilClass", incoming_mail.reload.status_message
   end
 end
