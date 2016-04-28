@@ -3591,6 +3591,7 @@ ActiveRecord::Schema.define(version: 20160420103408) do
     t.string   "ostolaskujen_oletusvaluutta",                      limit: 1,                              default: "",    null: false
     t.integer  "ostolaskujen_kurssipaiva",                         limit: 4,                              default: 0,     null: false
     t.integer  "myyntilaskujen_kurssipaiva",                       limit: 1,                              default: 0,     null: false
+    t.string   "laskutus_tulevaisuuteen",                          limit: 1,                              default: "",    null: false
     t.string   "ostolaskun_kulutilit",                             limit: 1,                              default: "",    null: false
     t.string   "ostolaskun_kulutilit_kayttaytyminen",              limit: 1,                              default: "",    null: false
     t.string   "tarkenteiden_tarkistus_hyvaksynnassa",             limit: 1,                              default: "",    null: false
