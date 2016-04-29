@@ -453,17 +453,17 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
-  test '#find_order' do
-    assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_order
-    assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_order
-    assert_equal sales_order_drafts(:huutokauppa_270265), @delivery_offer_request.find_order
-    assert_equal sales_order_drafts(:huutokauppa_274472), @delivery_ordered.find_order
-    assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_order
-    assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_order
-    assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_order
-    assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_order
-    assert_equal sales_order_drafts(:huutokauppa_287912), @purchase_price_paid_2.find_order
-    assert_equal sales_order_drafts(:huutokauppa_285703), @purchase_price_paid_3.find_order
+  test '#find_draft' do
+    assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_270265), @delivery_offer_request.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_274472), @delivery_ordered.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_287912), @purchase_price_paid_2.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_285703), @purchase_price_paid_3.find_draft
   end
 
   test '#update_order_customer_info' do
@@ -476,12 +476,12 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_customer_info
 
-      assert_equal email.customer_address,  email.find_order.osoite
-      assert_equal email.customer_city,     email.find_order.postitp
-      assert_equal email.customer_email,    email.find_order.email
-      assert_equal email.customer_name,     email.find_order.nimi
-      assert_equal email.customer_phone,    email.find_order.puh
-      assert_equal email.customer_postcode, email.find_order.postino
+      assert_equal email.customer_address,  email.find_draft.osoite
+      assert_equal email.customer_city,     email.find_draft.postitp
+      assert_equal email.customer_email,    email.find_draft.email
+      assert_equal email.customer_name,     email.find_draft.nimi
+      assert_equal email.customer_phone,    email.find_draft.puh
+      assert_equal email.customer_postcode, email.find_draft.postino
     end
 
     @emails_without_customer_info.each do |email|
@@ -491,6 +491,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#update_order_delivery_info' do
     [@delivery_offer_request, @delivery_ordered].each do |email|
+      draft = email.find_draft
+      draft.tila = 'L'
+      draft.save(validate: false)
+
       assert email.update_order_delivery_info
 
       assert_equal email.delivery_address,  email.find_order.toim_osoite
@@ -521,13 +525,13 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_product_info
 
-      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta
-      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_alkuperainen
-      assert_equal email.auction_price_without_vat, email.find_order.rows.first.hinta_valuutassa
-      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta
-      assert_equal email.auction_price_without_vat, email.find_order.rows.first.rivihinta_valuutassa
-      assert_equal email.auction_title,             email.find_order.rows.first.nimitys
-      assert_equal email.auction_vat_percent,       email.find_order.rows.first.alv
+      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta
+      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta_alkuperainen
+      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta_valuutassa
+      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.rivihinta
+      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.rivihinta_valuutassa
+      assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
+      assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
     end
   end
 
@@ -566,7 +570,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @purchase_price_paid_3,
     ].each do |email|
       create_row = proc do
-        row = email.find_order.rows.build
+        row = email.find_draft.rows.build
         row.save(validate: false)
 
         { added_row: row.id }

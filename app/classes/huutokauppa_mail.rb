@@ -173,14 +173,18 @@ class HuutokauppaMail
     )
   end
 
+  def find_draft
+    @draft ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+  end
+
   def find_order
-    @order ||= SalesOrder::Draft.find_by(viesti: auction_id) || SalesOrder::Order.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Order.find_by!(viesti: auction_id)
   end
 
   def update_order_customer_info
     return unless customer_name
 
-    find_order.update!(
+    find_draft.update!(
       email: customer_email,
       nimi: customer_name,
       osoite: customer_address,
@@ -204,7 +208,7 @@ class HuutokauppaMail
   end
 
   def update_order_product_info
-    find_order.rows.first.update!(
+    find_draft.rows.first.update!(
       alv: auction_vat_percent,
       hinta: auction_price_without_vat,
       hinta_alkuperainen: auction_price_without_vat,
@@ -234,9 +238,9 @@ class HuutokauppaMail
                      .order(:myyntihinta)
                      .first!
 
-    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_order.id, product_id: product.id)
+    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 
-    find_order.rows.find(response[:added_row])
+    find_draft.rows.find(response[:added_row])
   end
 
   private
