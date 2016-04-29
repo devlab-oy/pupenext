@@ -1,6 +1,8 @@
 class HuutokauppaMail
   attr_reader :mail
 
+  DELIVERY_PRODUCT_NUMBERS = (90..95).to_a + (90..95).to_a.map { |e| "#{e}MAX" }
+
   def initialize(raw_source)
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -141,7 +143,7 @@ class HuutokauppaMail
   end
 
   def find_customer
-    @customer ||= Customer.find_by!(email: customer_email) if customer_email
+    @customer ||= Customer.find_by(email: customer_email) if customer_email
   end
 
   def create_customer
@@ -171,14 +173,28 @@ class HuutokauppaMail
     )
   end
 
+  def update_or_create_customer
+    if find_customer
+      update_customer
+
+      return find_customer
+    end
+
+    create_customer
+  end
+
+  def find_draft
+    @draft ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+  end
+
   def find_order
-    @order ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Order.find_by!(viesti: auction_id)
   end
 
   def update_order_customer_info
     return unless customer_name
 
-    find_order.update!(
+    find_draft.update!(
       email: customer_email,
       nimi: customer_name,
       osoite: customer_address,
@@ -202,7 +218,7 @@ class HuutokauppaMail
   end
 
   def update_order_product_info
-    find_order.rows.first.update!(
+    find_draft.rows.first.update!(
       alv: auction_vat_percent,
       hinta: auction_price_without_vat,
       hinta_alkuperainen: auction_price_without_vat,
@@ -216,24 +232,37 @@ class HuutokauppaMail
   def create_sales_order
     return unless customer_name
 
-    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: find_customer.id)
+    customer_id = find_customer.try(:id) || create_customer.id
+
+    response = LegacyMethods.pupesoft_function(:luo_myyntitilausotsikko, customer_id: customer_id)
     sales_order_id = response[:sales_order_id]
 
     SalesOrder::Draft.find(sales_order_id)
   end
 
-  def add_delivery_row_to_order(order)
-    return unless delivery_price_without_vat
+  def add_delivery_row
+    return unless delivery_price_with_vat && delivery_price_with_vat > 0
 
-    order.rows.create!(
-      alv: delivery_vat_percent,
-      hinta: delivery_price_without_vat,
-      hinta_alkuperainen: delivery_price_without_vat,
-      hinta_valuutassa: delivery_price_without_vat,
-      product: order.company.parameter.freight_product,
-      rivihinta: delivery_price_without_vat,
-      rivihinta_valuutassa: delivery_price_without_vat,
-    )
+    product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
+                     .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
+                     .order(:myyntihinta)
+                     .first!
+
+    response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
+
+    find_draft.rows.find(response[:added_row])
+  end
+
+  def update_delivery_method_to_nouto
+    find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
+  end
+
+  def update_delivery_method_to_itella_economy_16
+    find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+  end
+
+  def mark_as_done
+    find_draft.mark_as_done
   end
 
   private

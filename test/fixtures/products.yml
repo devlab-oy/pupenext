@@ -56,3 +56,11 @@ freight:
   nimitys: Rahti
   status: A
   <<: *DEFAULTS
+
+huutokauppa_delivery_93:
+  yhtio: acme
+  tuoteno: 93
+  nimitys: Posti-pakkaus- ja käsittelykulut7-10 kg
+  myyntihinta: 14.475806
+  status: A
+  <<: *DEFAULTS

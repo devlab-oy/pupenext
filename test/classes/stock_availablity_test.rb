@@ -11,6 +11,9 @@ class StockAvailabilityTest < ActiveSupport::TestCase
   )
 
   setup do
+    # Tests assume that hammer is the first product so huutokauppa_delivery_93 has to be deleted
+    products(:huutokauppa_delivery_93).delete
+
     @company = companies :acme
     @sales_order = sales_order_orders :so_one
     @purchase_order = purchase_order_orders :po_one

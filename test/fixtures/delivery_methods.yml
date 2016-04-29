@@ -24,3 +24,16 @@ kiitolinja:
   tulostustapa: H
   <<: *DEFAULTS
 
+itella_economy_16:
+  selite: Itella Economy 16
+  tulostustapa: H
+  rahtikirja: rahtikirja_unifaun_uo_siirto.inc
+  rahdinkuljettaja: IT16
+  <<: *DEFAULTS
+
+nouto:
+  selite: Nouto
+  tulostustapa: E
+  rahtikirja: rahtikirja_tyhja.inc
+  nouto: o
+  <<: *DEFAULTS
