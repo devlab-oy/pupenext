@@ -232,7 +232,7 @@ class HuutokauppaMail
     product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
                      .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
                      .order(:myyntihinta)
-                     .first
+                     .first!
 
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_order.id, product_id: product.id)
 
