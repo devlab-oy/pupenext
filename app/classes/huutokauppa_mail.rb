@@ -173,6 +173,16 @@ class HuutokauppaMail
     )
   end
 
+  def update_or_create_customer
+    if find_customer
+      update_customer
+
+      return find_customer
+    end
+
+    create_customer
+  end
+
   def find_draft
     @draft ||= SalesOrder::Draft.find_by!(viesti: auction_id)
   end

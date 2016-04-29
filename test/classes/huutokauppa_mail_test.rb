@@ -665,4 +665,28 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#update_or_create_customer' do
+    [
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @purchase_price_paid,
+    ].each do |email|
+      assert_no_difference 'Customer.count' do
+        customer = email.update_or_create_customer
+
+        assert_equal email.find_customer, customer
+        assert_equal email.customer_name, customer.nimi
+      end
+    end
+
+    [
+      @purchase_price_paid_2,
+      @purchase_price_paid_3,
+    ].each do |email|
+      assert_difference 'Customer.count' do
+        email.update_or_create_customer
+      end
+    end
+  end
 end
