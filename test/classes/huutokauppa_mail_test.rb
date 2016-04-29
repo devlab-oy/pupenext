@@ -286,16 +286,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#total_price_with_vat' do
-    assert_equal 210.8,       @bidder_picks_up.total_price_with_vat
-    assert_equal 129.55,      @delivery_ordered.total_price_with_vat
-    assert_equal 806.0,       @auction_ended.total_price_with_vat
-    assert_equal 372.0,       @delivery_offer_request.total_price_with_vat
-    assert_equal 824.6,       @offer_accepted.total_price_with_vat
-    assert_equal 372.0,       @offer_automatically_accepted.total_price_with_vat
-    assert_equal 62.0,        @offer_declined.total_price_with_vat
-    assert_equal 372.0,       @purchase_price_paid.total_price_with_vat
-    assert_equal 248.0,       @purchase_price_paid_2.total_price_with_vat
-    assert_equal 92.35.to_d,  @purchase_price_paid_3.total_price_with_vat
+    assert_equal 210.8,      @bidder_picks_up.total_price_with_vat
+    assert_equal 129.55,     @delivery_ordered.total_price_with_vat
+    assert_equal 806.0,      @auction_ended.total_price_with_vat
+    assert_equal 372.0,      @delivery_offer_request.total_price_with_vat
+    assert_equal 824.6,      @offer_accepted.total_price_with_vat
+    assert_equal 372.0,      @offer_automatically_accepted.total_price_with_vat
+    assert_equal 62.0,       @offer_declined.total_price_with_vat
+    assert_equal 372.0,      @purchase_price_paid.total_price_with_vat
+    assert_equal 248.0,      @purchase_price_paid_2.total_price_with_vat
+    assert_equal 92.35.to_d, @purchase_price_paid_3.total_price_with_vat
   end
 
   test '#auction_id' do
