@@ -32,21 +32,29 @@ class HuutokauppaJob < ActiveJob::Base
         status: :ok,
       )
     rescue => e
-      @incoming_mail.update!(
-        processed_at: Time.now,
-        status: :error,
-        status_message: e.message,
-      )
+      log_error(e)
     end
 
     def mark_order_as_done_and_set_delivery_method
       @huutokauppa_mail.find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
       @huutokauppa_mail.add_delivery_row
       @huutokauppa_mail.find_order.mark_as_done
+    rescue => e
+      log_error(e)
     end
 
     def update_order_delivery_info_and_delivery_method
       @huutokauppa_mail.update_order_delivery_info
       @huutokauppa_mail.find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+    rescue => e
+      log_error(e)
+    end
+
+    def log_error(exception)
+      @incoming_mail.update!(
+        processed_at: Time.now,
+        status: :error,
+        status_message: exception.message,
+      )
     end
 end
