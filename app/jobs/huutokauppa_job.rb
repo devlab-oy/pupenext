@@ -45,7 +45,7 @@ class HuutokauppaJob < ActiveJob::Base
 
     def update_order_delivery_info_and_delivery_method
       @huutokauppa_mail.update_order_delivery_info
-      @huutokauppa_mail.find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+      @huutokauppa_mail.update_delivery_method_to_itella_economy_16
     rescue => e
       log_error(e)
     end
