@@ -22,8 +22,7 @@ class HuutokauppaJob < ActiveJob::Base
   private
 
     def update_order_customer_and_product_info
-      customer = @huutokauppa_mail.find_customer || @huutokauppa_mail.create_customer
-
+      @huutokauppa_mail.update_or_create_customer
       @huutokauppa_mail.update_order_customer_info
       @huutokauppa_mail.update_order_product_info
 
