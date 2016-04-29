@@ -1,7 +1,7 @@
 class HuutokauppaMail
   attr_reader :mail
 
-  DELIVERY_PRODUCT_NUMBERS = (90..95).to_a + (90..95).to_a.map { |e| "#{e} max" }
+  DELIVERY_PRODUCT_NUMBERS = (90..95).to_a + (90..95).to_a.map { |e| "#{e}MAX" }
 
   def initialize(raw_source)
     raise 'Current company must be set' unless Current.company
