@@ -247,6 +247,10 @@ class HuutokauppaMail
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
   end
 
+  def mark_as_done
+    find_draft.mark_as_done
+  end
+
   private
 
     def customer_info

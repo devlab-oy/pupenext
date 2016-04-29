@@ -12,6 +12,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     keywords
     products
     sales_order/drafts
+    sales_order/orders
     sales_order/rows
   )
 
@@ -614,6 +615,34 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       email.update_delivery_method_to_nouto
       assert_equal delivery_methods(:nouto), email.find_draft.delivery_method
+    end
+  end
+
+  test '#mark_as_done' do
+    [
+      @auction_ended,
+      @bidder_picks_up,
+      @delivery_offer_request,
+      @delivery_ordered,
+      @offer_accepted,
+      @offer_declined,
+      @purchase_price_paid_2,
+      @purchase_price_paid_3,
+    ].each do |email|
+      draft = email.find_draft
+
+      mark_as_done = proc do
+        draft.tila = 'L'
+        draft.save(validate: false)
+      end
+
+      LegacyMethods.stub(:pupesoft_function, mark_as_done) do
+        assert_difference 'SalesOrder::Draft.count', -1 do
+          assert_difference 'SalesOrder::Order.count' do
+            email.mark_as_done
+          end
+        end
+      end
     end
   end
 end
