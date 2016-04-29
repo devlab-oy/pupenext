@@ -36,7 +36,7 @@ class HuutokauppaJob < ActiveJob::Base
     end
 
     def mark_order_as_done_and_set_delivery_method
-      @huutokauppa_mail.find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
+      @huutokauppa_mail.update_delivery_method_to_nouto
       @huutokauppa_mail.add_delivery_row
       @huutokauppa_mail.find_draft.mark_as_done
     rescue => e
