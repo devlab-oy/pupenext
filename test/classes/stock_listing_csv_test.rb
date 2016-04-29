@@ -11,6 +11,9 @@ class StockListingCsvTest < ActiveSupport::TestCase
   )
 
   setup do
+    # Tests assume that hammer is the first product so huutokauppa_delivery_93 has to be deleted
+    products(:huutokauppa_delivery_93).delete
+
     @company = companies :acme
     @purchase_order = purchase_order_orders :po_one
   end
