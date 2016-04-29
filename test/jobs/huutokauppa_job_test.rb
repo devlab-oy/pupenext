@@ -45,6 +45,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal 'Test-testi Testite', sales_order.nimi
     assert_equal 300, sales_order.rows.first.rivihinta
+
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_nil incoming_mail.reload.status_message
   end
 
   test 'customer is created and customer and product info are updated correctly to order when customer is not found' do
@@ -75,6 +78,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal 'Test-testi Testite', sales_order.nimi
     assert_equal 300, sales_order.rows.first.rivihinta
+
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_nil incoming_mail.reload.status_message
   end
 
   test 'error is logged if exception is thrown' do
@@ -114,6 +120,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     order = SalesOrder::Order.find_by!(viesti: 270_265)
 
     assert_equal delivery_methods(:nouto), order.delivery_method
+
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_nil incoming_mail.reload.status_message
   end
 
   test 'order delivery info is updated and delivery method set when type is delivery ordered' do
@@ -132,5 +141,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     assert_equal 'Test-testi testit Testites',         order.toim_nimi
     assert_equal delivery_methods(:itella_economy_16), order.delivery_method
+
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_nil incoming_mail.reload.status_message
   end
 end
