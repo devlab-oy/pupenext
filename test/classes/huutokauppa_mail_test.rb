@@ -618,6 +618,26 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#update_delivery_method_to_itella_economy_16' do
+    [
+      @auction_ended,
+      @bidder_picks_up,
+      @delivery_offer_request,
+      @delivery_ordered,
+      @offer_accepted,
+      @offer_declined,
+      @purchase_price_paid_2,
+      @purchase_price_paid_3,
+    ].each do |email|
+      draft = email.find_draft
+      draft.tila = 'L'
+      draft.save(validate: false)
+
+      email.update_delivery_method_to_itella_economy_16
+      assert_equal delivery_methods(:itella_economy_16), email.find_order.delivery_method
+    end
+  end
+
   test '#mark_as_done' do
     [
       @auction_ended,

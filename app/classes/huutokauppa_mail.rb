@@ -247,6 +247,10 @@ class HuutokauppaMail
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
   end
 
+  def update_delivery_method_to_itella_economy_16
+    find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+  end
+
   def mark_as_done
     find_draft.mark_as_done
   end
