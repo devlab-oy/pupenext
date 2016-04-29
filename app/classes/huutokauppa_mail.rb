@@ -243,6 +243,10 @@ class HuutokauppaMail
     find_draft.rows.find(response[:added_row])
   end
 
+  def update_delivery_method_to_nouto
+    find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
+  end
+
   private
 
     def customer_info

@@ -598,4 +598,22 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#update_delivery_method_to_nouto' do
+    [
+      @auction_ended,
+      @bidder_picks_up,
+      @delivery_offer_request,
+      @delivery_ordered,
+      @offer_accepted,
+      @offer_automatically_accepted,
+      @offer_declined,
+      @purchase_price_paid,
+      @purchase_price_paid_2,
+      @purchase_price_paid_3,
+    ].each do |email|
+      email.update_delivery_method_to_nouto
+      assert_equal delivery_methods(:nouto), email.find_draft.delivery_method
+    end
+  end
 end
