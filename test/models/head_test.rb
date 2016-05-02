@@ -15,7 +15,7 @@ class HeadTest < ActiveSupport::TestCase
   end
 
   test 'associations' do
-    refute_empty heads(:pi_H).details
-    refute_empty heads(:si_one).details
+    assert_equal head_details(:two), heads(:pi_H).detail
+    assert_equal head_details(:one), heads(:si_one).detail
   end
 end
