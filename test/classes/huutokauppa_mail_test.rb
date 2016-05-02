@@ -483,6 +483,13 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.customer_name,     email.find_draft.nimi
       assert_equal email.customer_phone,    email.find_draft.puh
       assert_equal email.customer_postcode, email.find_draft.postino
+
+      assert_empty email.find_draft.toim_osoite
+      assert_empty email.find_draft.toim_postitp
+      assert_empty email.find_draft.toim_email
+      assert_empty email.find_draft.toim_nimi
+      assert_empty email.find_draft.toim_puh
+      assert_empty email.find_draft.toim_postino
     end
 
     @emails_without_customer_info.each do |email|

@@ -201,6 +201,12 @@ class HuutokauppaMail
       postino: customer_postcode,
       postitp: customer_city,
       puh: customer_phone,
+      toim_email: '',
+      toim_nimi: '',
+      toim_osoite: '',
+      toim_postino: '',
+      toim_postitp: '',
+      toim_puh: '',
     )
   end
 
