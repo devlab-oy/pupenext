@@ -8,6 +8,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     incoming_mails
     mail_servers
     sales_order/drafts
+    sales_order/orders
     sales_order/rows
   )
 
