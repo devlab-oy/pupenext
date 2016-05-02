@@ -7,6 +7,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     currencies
     customers
     delivery_methods
+    head_details
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
@@ -490,6 +491,13 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_empty email.find_draft.toim_nimi
       assert_empty email.find_draft.toim_puh
       assert_empty email.find_draft.toim_postino
+
+      assert_empty email.find_draft.laskutus_nimi
+      assert_empty email.find_draft.laskutus_nimitark
+      assert_empty email.find_draft.laskutus_osoite
+      assert_empty email.find_draft.laskutus_postino
+      assert_empty email.find_draft.laskutus_postitp
+      assert_empty email.find_draft.laskutus_maa
     end
 
     @emails_without_customer_info.each do |email|

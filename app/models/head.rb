@@ -10,6 +10,13 @@ class Head < BaseModel
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
   has_one :detail, foreign_key: :otunnus, class_name: 'HeadDetail'
 
+  delegate :laskutus_nimi,
+           :laskutus_nimitark,
+           :laskutus_osoite,
+           :laskutus_postino,
+           :laskutus_postitp,
+           :laskutus_maa, to: :detail
+
   scope :paid, -> { where.not(mapvm: 0) }
   scope :unpaid, -> { where(mapvm: 0) }
 

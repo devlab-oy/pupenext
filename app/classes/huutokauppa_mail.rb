@@ -195,18 +195,27 @@ class HuutokauppaMail
     return unless customer_name
 
     find_draft.update!(
-      email: customer_email,
       nimi: customer_name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
+      email: customer_email,
       puh: customer_phone,
-      toim_email: '',
       toim_nimi: '',
       toim_osoite: '',
       toim_postino: '',
       toim_postitp: '',
+      toim_email: '',
       toim_puh: '',
+    )
+
+    find_draft.detail.update!(
+      laskutus_nimi: '',
+      laskutus_nimitark: '',
+      laskutus_osoite: '',
+      laskutus_postino: '',
+      laskutus_postitp: '',
+      laskutus_maa: '',
     )
   end
 

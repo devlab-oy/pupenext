@@ -13,3 +13,15 @@ one:
 two:
   head: pi_H
   <<: *DEFAULTS
+
+<% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912].each do |auction_id| %>
+huutokauppa_<%= auction_id %>_detail:
+  head: huutokauppa_<%= auction_id %>
+  laskutus_nimi: Testi Testaaja
+  laskutus_nimitark: Testi Testaaja
+  laskutus_osoite: Testikatu 3
+  laskutus_postino: 12345
+  laskutus_postitp: Testikaupunki
+  laskutus_maa: Suomi
+  <<: *DEFAULTS
+<% end %>
