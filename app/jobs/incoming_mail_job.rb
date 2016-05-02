@@ -24,7 +24,12 @@ class IncomingMailJob < ActiveJob::Base
 
         "#{mail_server.processing_type}Job".constantize.perform_later(id: incoming_mail.id)
 
-        connection.uid_move(message_uid, done_dir)
+        # TODO: When Ruby has been updated to version 2.3, these lines can be replaced by the following line
+        #   connection.uid_move(message_uid, done_dir)
+        connection.uid_copy(message_uid, done_dir)
+        connection.select(process_dir)
+        connection.uid_store(message_uid, "+FLAGS", [:Deleted])
+        connection.expunge
       end
     end
   end

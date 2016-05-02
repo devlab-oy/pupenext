@@ -30,7 +30,15 @@ not_finished_order:
 
 <% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912].each do |auction_id| %>
 huutokauppa_<%= auction_id %>:
-  yhtio: acme
+  toim_nimi: Testi Testaaja
+  toim_nimitark: Testi Testaaja
+  toim_osoite: Testikatu 3
+  toim_postino: 12345
+  toim_postitp: Testikaupunki
+  toim_maa: FI
+  toim_puh: 123456789
+  toim_email: testi@testi.fi
   viesti: <%= auction_id %>
+  yhtio: acme
   <<: *DEFAULTS
 <% end %>

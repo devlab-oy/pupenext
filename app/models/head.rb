@@ -8,6 +8,14 @@ class Head < BaseModel
   belongs_to :terms_of_payment, foreign_key: :maksuehto
   belongs_to :delivery_method, foreign_key: :toimitustapa, primary_key: :selite
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
+  has_one :detail, foreign_key: :otunnus, class_name: 'HeadDetail'
+
+  delegate :laskutus_nimi,
+           :laskutus_nimitark,
+           :laskutus_osoite,
+           :laskutus_postino,
+           :laskutus_postitp,
+           :laskutus_maa, to: :detail
 
   scope :paid, -> { where.not(mapvm: 0) }
   scope :unpaid, -> { where(mapvm: 0) }

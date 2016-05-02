@@ -195,12 +195,29 @@ class HuutokauppaMail
     return unless customer_name
 
     find_draft.update!(
-      email: customer_email,
       nimi: customer_name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
+      email: customer_email,
       puh: customer_phone,
+      toim_nimi: '',
+      toim_nimitark: '',
+      toim_osoite: '',
+      toim_postino: '',
+      toim_postitp: '',
+      toim_maa: '',
+      toim_puh: '',
+      toim_email: '',
+    )
+
+    find_draft.detail.update!(
+      laskutus_nimi: '',
+      laskutus_nimitark: '',
+      laskutus_osoite: '',
+      laskutus_postino: '',
+      laskutus_postitp: '',
+      laskutus_maa: '',
     )
   end
 
@@ -262,7 +279,7 @@ class HuutokauppaMail
   end
 
   def mark_as_done
-    find_draft.mark_as_done
+    find_draft.mark_as_done(create_preliminary_invoice: true)
   end
 
   private
