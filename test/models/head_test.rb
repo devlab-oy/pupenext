@@ -13,4 +13,9 @@ class HeadTest < ActiveSupport::TestCase
       assert head.valid? head.errors.full_messages
     end
   end
+
+  test 'associations' do
+    refute_empty heads(:pi_H).head_details
+    refute_empty heads(:si_one).head_details
+  end
 end
