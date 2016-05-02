@@ -284,6 +284,7 @@ DEPENDENCIES
   pdfkit
   rails (~> 4.2)
   rake
+  redis-namespace
   request_store
   resque
   resque-web

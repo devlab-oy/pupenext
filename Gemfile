@@ -10,6 +10,7 @@ gem 'turbolinks'
 gem 'dotenv-rails'
 
 gem 'resque'
+gem 'redis-namespace'
 gem 'resque-web', require: 'resque_web'
 
 gem 'date_validator'
