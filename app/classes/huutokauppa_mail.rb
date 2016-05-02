@@ -279,7 +279,7 @@ class HuutokauppaMail
   end
 
   def mark_as_done
-    find_draft.mark_as_done
+    find_draft.mark_as_done(create_preliminary_invoice: true)
   end
 
   private

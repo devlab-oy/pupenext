@@ -6,7 +6,7 @@ class SalesOrder::Draft < SalesOrder::Base
     "N"
   end
 
-  def mark_as_done
-    LegacyMethods.pupesoft_function(:tilaus_valmis, order_id: id, create_preliminary_invoice: true)
+  def mark_as_done(create_preliminary_invoice: false)
+    LegacyMethods.pupesoft_function(:tilaus_valmis, order_id: id, create_preliminary_invoice: create_preliminary_invoice)
   end
 end
