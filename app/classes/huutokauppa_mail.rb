@@ -202,11 +202,13 @@ class HuutokauppaMail
       email: customer_email,
       puh: customer_phone,
       toim_nimi: '',
+      toim_nimitark: '',
       toim_osoite: '',
       toim_postino: '',
       toim_postitp: '',
-      toim_email: '',
+      toim_maa: '',
       toim_puh: '',
+      toim_email: '',
     )
 
     find_draft.detail.update!(

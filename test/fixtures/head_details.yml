@@ -22,6 +22,6 @@ huutokauppa_<%= auction_id %>_detail:
   laskutus_osoite: Testikatu 3
   laskutus_postino: 12345
   laskutus_postitp: Testikaupunki
-  laskutus_maa: Suomi
+  laskutus_maa: FI
   <<: *DEFAULTS
 <% end %>

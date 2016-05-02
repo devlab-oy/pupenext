@@ -485,12 +485,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.customer_phone,    email.find_draft.puh
       assert_equal email.customer_postcode, email.find_draft.postino
 
-      assert_empty email.find_draft.toim_osoite
-      assert_empty email.find_draft.toim_postitp
-      assert_empty email.find_draft.toim_email
       assert_empty email.find_draft.toim_nimi
-      assert_empty email.find_draft.toim_puh
+      assert_empty email.find_draft.toim_nimitark
+      assert_empty email.find_draft.toim_osoite
       assert_empty email.find_draft.toim_postino
+      assert_empty email.find_draft.toim_postitp
+      assert_empty email.find_draft.toim_maa
+      assert_empty email.find_draft.toim_puh
+      assert_empty email.find_draft.toim_email
 
       assert_empty email.find_draft.laskutus_nimi
       assert_empty email.find_draft.laskutus_nimitark
