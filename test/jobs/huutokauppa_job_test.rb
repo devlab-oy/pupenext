@@ -35,6 +35,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 'Testi Testit Testitestit', sales_order.nimi
     assert_equal 665, sales_order.rows.first.rivihinta
 
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_includes incoming_mail.reload.status_message, "Updated order #{sales_order.id} customer info"
+
     incoming_mail.raw_source = huutokauppa_email(:offer_automatically_accepted_1)
     incoming_mail.save!
 
@@ -48,7 +51,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 300, sales_order.rows.first.rivihinta
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    assert_includes incoming_mail.reload.status_message, "Updated order #{sales_order.id} customer info"
   end
 
   test 'customer is created and customer and product info are updated correctly to order when customer is not found' do
@@ -68,6 +71,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 'Testi Testit Testitestit', sales_order.nimi
     assert_equal 665, sales_order.rows.first.rivihinta
 
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_includes incoming_mail.reload.status_message, "Customer #{Customer.last.id} created"
+
     incoming_mail.raw_source = huutokauppa_email(:offer_automatically_accepted_1)
     incoming_mail.save!
 
@@ -81,7 +87,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 300, sales_order.rows.first.rivihinta
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    assert_includes incoming_mail.reload.status_message,
+                    "Updated order #{sales_order.id} row #{sales_order.rows.first.id} product info"
   end
 
   test 'error is logged if exception is thrown' do
@@ -123,7 +130,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal delivery_methods(:nouto), order.delivery_method
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    assert_includes incoming_mail.reload.status_message, "Updated order #{order.id} delivery method to Nouto"
   end
 
   test 'order delivery info is updated and delivery method set when type is delivery ordered' do
@@ -144,6 +151,6 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal delivery_methods(:itella_economy_16), order.delivery_method
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    assert_includes incoming_mail.reload.status_message, "Updated order #{order.id} delivery_info"
   end
 end

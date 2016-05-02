@@ -16,6 +16,8 @@ class HuutokauppaJob < ActiveJob::Base
                 mark_order_as_done_and_set_delivery_method
               when :delivery_ordered
                 update_order_delivery_info_and_delivery_method
+              else
+                true
               end
 
     return false unless success
@@ -23,6 +25,7 @@ class HuutokauppaJob < ActiveJob::Base
     @incoming_mail.update!(
       processed_at: Time.now,
       status: :ok,
+      status_message: @huutokauppa_mail.messages.join("\n"),
     )
   end
 
