@@ -435,12 +435,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
       assert_difference 'Customer.count' do
         email.create_customer
+
+        assert_includes email.messages, "Customer #{Customer.last.id} created"
       end
     end
 
     @emails_without_customer_info.each do |email|
       assert_no_difference 'Customer.count' do
         email.create_customer
+
+        assert_empty email.messages
       end
     end
   end
@@ -448,10 +452,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#update_customer' do
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_customer
+
+      assert_includes email.messages, "Customer #{email.find_customer.id} updated"
     end
 
     @emails_without_customer_info.each do |email|
       refute email.update_customer
+
+      assert_empty email.messages
     end
   end
 
@@ -500,10 +508,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_empty email.find_draft.laskutus_postino
       assert_empty email.find_draft.laskutus_postitp
       assert_empty email.find_draft.laskutus_maa
+
+      assert_includes email.messages, "Updated order #{email.find_draft.id} customer info"
     end
 
     @emails_without_customer_info.each do |email|
       refute email.update_order_customer_info
+
+      assert_empty email.messages
     end
   end
 
@@ -521,10 +533,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.delivery_name,     email.find_order.toim_nimi
       assert_equal email.delivery_phone,    email.find_order.toim_puh
       assert_equal email.delivery_postcode, email.find_order.toim_postino
+
+      assert_includes email.messages, "Updated order #{email.find_order.id} delivery_info"
     end
 
     @emails_without_delivery_info.each do |email|
       refute email.update_order_delivery_info
+
+      assert_empty email.messages
     end
   end
 
@@ -550,6 +566,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.auction_price_without_vat, email.find_draft.rows.first.rivihinta_valuutassa
       assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
       assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
+
+      assert_includes email.messages,
+                      "Updated order #{email.find_draft.id} row #{email.find_draft.rows.first.id} product info"
     end
   end
 
@@ -583,6 +602,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#add_delivery_row' do
+    row = nil
+
     [
       @delivery_ordered,
       @purchase_price_paid_3,
@@ -597,6 +618,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       LegacyMethods.stub :pupesoft_function, create_row do
         assert_difference 'SalesOrder::Row.count' do
           email.add_delivery_row
+
+          assert_includes email.messages, "Added delivery row #{row.id} for order #{email.find_draft.id}"
         end
       end
     end
@@ -613,6 +636,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert_no_difference 'Row.count' do
         email.add_delivery_row
+
+        assert_empty email.messages
       end
     end
   end
@@ -631,7 +656,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @purchase_price_paid_3,
     ].each do |email|
       email.update_delivery_method_to_nouto
+
       assert_equal delivery_methods(:nouto), email.find_draft.delivery_method
+      assert_includes email.messages, "Updated order #{email.find_draft.id} delivery method to Nouto"
     end
   end
 
@@ -651,7 +678,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       draft.save(validate: false)
 
       email.update_delivery_method_to_itella_economy_16
+
       assert_equal delivery_methods(:itella_economy_16), email.find_order.delivery_method
+      assert_includes email.messages, "Updated order #{email.find_order.id} delivery method to Itella Economy 16"
     end
   end
 
@@ -677,6 +706,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_difference 'SalesOrder::Draft.count', -1 do
           assert_difference 'SalesOrder::Order.count' do
             email.mark_as_done
+
+            assert_includes email.messages, "Marked order #{email.find_order.id} as done"
           end
         end
       end
@@ -694,6 +725,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
         assert_equal email.find_customer, customer
         assert_equal email.customer_name, customer.nimi
+
+        assert_includes email.messages, "Customer #{customer.id} was found, so updating existing customer info"
+        assert_includes email.messages, "Customer #{customer.id} updated"
       end
     end
 
@@ -703,6 +737,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert_difference 'Customer.count' do
         email.update_or_create_customer
+
+        assert_includes email.messages, "Customer #{Customer.last.id} created"
       end
     end
   end

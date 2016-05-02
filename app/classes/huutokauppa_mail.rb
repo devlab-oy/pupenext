@@ -1,5 +1,5 @@
 class HuutokauppaMail
-  attr_reader :mail
+  attr_reader :mail, :messages
 
   DELIVERY_PRODUCT_NUMBERS = (90..95).to_a + (90..95).to_a.map { |e| "#{e}MAX" }
 
@@ -7,8 +7,9 @@ class HuutokauppaMail
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    @mail = Mail.new(raw_source)
-    @doc  = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
+    @mail     = Mail.new(raw_source)
+    @doc      = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
+    @messages = []
   end
 
   def type
@@ -149,7 +150,7 @@ class HuutokauppaMail
   def create_customer
     return unless customer_name
 
-    Customer.create!(
+    customer = Customer.create!(
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
@@ -159,6 +160,10 @@ class HuutokauppaMail
       postitp: customer_city,
       ytunnus: auction_id,
     )
+
+    @messages << "Customer #{customer.id} created"
+
+    customer
   end
 
   def update_customer
@@ -171,10 +176,16 @@ class HuutokauppaMail
       postino: customer_postcode,
       postitp: customer_city,
     )
+
+    @messages << "Customer #{find_customer.id} updated"
+
+    true
   end
 
   def update_or_create_customer
     if find_customer
+      @messages << "Customer #{find_customer.id} was found, so updating existing customer info"
+
       update_customer
 
       return find_customer
@@ -219,6 +230,10 @@ class HuutokauppaMail
       laskutus_postitp: '',
       laskutus_maa: '',
     )
+
+    @messages << "Updated order #{find_draft.id} customer info"
+
+    true
   end
 
   def update_order_delivery_info
@@ -232,10 +247,16 @@ class HuutokauppaMail
       toim_postitp: delivery_city,
       toim_puh: delivery_phone,
     )
+
+    @messages << "Updated order #{find_order.id} delivery_info"
+
+    true
   end
 
   def update_order_product_info
-    find_draft.rows.first.update!(
+    row = find_draft.rows.first
+
+    row.update!(
       alv: auction_vat_percent,
       hinta: auction_price_without_vat,
       hinta_alkuperainen: auction_price_without_vat,
@@ -244,6 +265,10 @@ class HuutokauppaMail
       rivihinta: auction_price_without_vat,
       rivihinta_valuutassa: auction_price_without_vat,
     )
+
+    @messages << "Updated order #{find_draft.id} row #{row.id} product info"
+
+    true
   end
 
   def create_sales_order
@@ -267,19 +292,35 @@ class HuutokauppaMail
 
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 
-    find_draft.rows.find(response[:added_row])
+    row = find_draft.rows.find(response[:added_row])
+
+    @messages << "Added delivery row #{row.id} for order #{find_draft.id}"
+
+    row
   end
 
   def update_delivery_method_to_nouto
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
+
+    @messages << "Updated order #{find_draft.id} delivery method to Nouto"
+
+    true
   end
 
   def update_delivery_method_to_itella_economy_16
     find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+
+    @messages << "Updated order #{find_order.id} delivery method to Itella Economy 16"
+
+    true
   end
 
   def mark_as_done
-    find_draft.mark_as_done(create_preliminary_invoice: true)
+    response = find_draft.mark_as_done(create_preliminary_invoice: true)
+
+    @messages << "Marked order #{find_order.id} as done"
+
+    response
   end
 
   private
