@@ -94,25 +94,25 @@ class HuutokauppaMail
   def delivery_price_with_vat
     return unless auction_info[:delivery_price_with_vat]
 
-    auction_info[:delivery_price_with_vat].sub(',', '.').to_d
+    format_decimal auction_info[:delivery_price_with_vat]
   end
 
   def delivery_vat_percent
     return unless auction_info[:delivery_vat_percent]
 
-    auction_info[:delivery_vat_percent].sub(',', '.').to_d
+    format_decimal auction_info[:delivery_vat_percent]
   end
 
   def delivery_vat_amount
     return unless auction_info[:delivery_vat_amount]
 
-    auction_info[:delivery_vat_amount].sub(',', '.').to_d
+    format_decimal auction_info[:delivery_vat_amount]
   end
 
   def total_price_with_vat
     return auction_price_with_vat unless auction_info[:total_price_with_vat]
 
-    auction_info[:total_price_with_vat].sub(',', '.').to_d
+    format_decimal auction_info[:total_price_with_vat]
   end
 
   def auction_id
@@ -128,19 +128,19 @@ class HuutokauppaMail
   end
 
   def auction_price_without_vat
-    auction_info[:winning_bid].sub(',', '.').to_d
+    format_decimal auction_info[:winning_bid]
   end
 
   def auction_price_with_vat
-    auction_info[:price].sub(',', '.').to_d
+    format_decimal auction_info[:price]
   end
 
   def auction_vat_percent
-    auction_info[:vat].sub(',', '.').to_d
+    format_decimal auction_info[:vat]
   end
 
   def auction_vat_amount
-    auction_info[:vat_amount].sub(',', '.').to_d
+    format_decimal auction_info[:vat_amount]
   end
 
   def find_customer
@@ -333,6 +333,9 @@ class HuutokauppaMail
       @customer_info ||= begin
         regex = %r{
           Ostajan\syhteystiedot:\s*
+          (Yritys:\s*
+          (?<company_name>.*$)\s*
+          (?<company_id>.*$)\s*)?
           (?<name>.*$)\s*
           (?<email>.*$)\s*
           Puhelin:\s*(?<phone>.*$)\s*
@@ -373,25 +376,31 @@ class HuutokauppaMail
 
     def auction_info
       @auction_info ||= begin
+        currency_number = /(\d|[[:space:]])*(\.|\,)?\d*/
+
         regex = %r{
           (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*
           Otsikkokenttä:\s*(?<auction_title>.*$)\s*
           Päättymisaika:\s*(?<closing_date>.*$)\s*
-          Huudettu:\s*(?<winning_bid>\d*).*$\s*
+          Huudettu:\s*(?<winning_bid>#{currency_number}).*$\s*
           (Hintavaraus:.*\s*)?
-          Alv-osuus:\s*(?<vat_amount>\d*(\.|,)?\d*).*$\s*
-          Summa:\s*(?<price>\d*(\.|,)?\d*).*,\s*
-          ALV\s*(?<vat>\d*).*$\s*
+          Alv-osuus:\s*(?<vat_amount>#{currency_number}).*$\s*
+          Summa:\s*(?<price>#{currency_number}).*,\s*
+          ALV\s*(?<vat>#{currency_number}).*$\s*
 
           # Delivery cost and total price. Not always present.
-          ((Toimitus|Nouto):\s*(?<delivery_price_with_vat>\d*(\.|,)?\d*)\s*\S*\s*
-          ALV\s*(?<delivery_vat_percent>\d*(\.|,)?\d*)\s*\S*\s*
-          ALV-osuus\s*(?<delivery_vat_amount>\d*(\.|,)?\d*).*$\s*
-          Yhteensä:\s*(?<total_price_with_vat>\d*(\.|,)?\d*))?
+          ((Toimitus|Nouto):\s*(?<delivery_price_with_vat>#{currency_number})\s*\S*\s*
+          ALV\s*(?<delivery_vat_percent>#{currency_number})\s*\S*\s*
+          ALV-osuus\s*(?<delivery_vat_amount>#{currency_number}).*$\s*
+          Yhteensä:\s*(?<total_price_with_vat>#{currency_number}))?
         }ix
 
         extract_info(regex, @doc.content)
       end
+    end
+
+    def format_decimal(value)
+      value.to_s.sub(',', '.').gsub(/[[:space:]]+/, '').to_d
     end
 
     def extract_info(regex, document)
