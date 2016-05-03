@@ -188,10 +188,14 @@ class HuutokauppaMail
 
       update_customer
 
-      return find_customer
+      customer = find_customer
+    else
+      customer = create_customer
     end
 
-    create_customer
+    find_draft.update!(customer: customer)
+
+    customer
   end
 
   def find_draft

@@ -728,6 +728,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
         assert_includes email.messages, "Customer #{customer.id} was found, so updating existing customer info"
         assert_includes email.messages, "Customer #{customer.id} updated"
+
+        assert_equal customer, email.find_draft.customer
       end
     end
 
@@ -739,6 +741,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         email.update_or_create_customer
 
         assert_includes email.messages, "Customer #{Customer.last.id} created"
+
+        assert_equal Customer.last, email.find_draft.customer
       end
     end
   end
