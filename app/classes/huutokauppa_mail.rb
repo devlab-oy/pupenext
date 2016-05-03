@@ -166,7 +166,7 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
-      ytunnus: auction_id,
+      ytunnus: company_id || auction_id,
     )
 
     @messages << "Customer #{customer.id} created"
@@ -224,6 +224,7 @@ class HuutokauppaMail
       postitp: customer_city,
       email: customer_email,
       puh: customer_phone,
+      ytunnus: company_id || auction_id,
       toim_nimi: '',
       toim_nimitark: '',
       toim_osoite: '',
