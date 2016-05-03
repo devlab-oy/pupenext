@@ -219,6 +219,7 @@ class HuutokauppaMail
 
     find_draft.update!(
       nimi: customer_name,
+      nimitark: '',
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
