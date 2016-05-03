@@ -307,7 +307,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 806.0,      @auction_ended.total_price_with_vat
     assert_equal 372.0,      @delivery_offer_request.total_price_with_vat
     assert_equal 824.6,      @offer_accepted.total_price_with_vat
-    assert_equal 10664.0,    @offer_accepted_2.total_price_with_vat
+    assert_equal 10_664.0,   @offer_accepted_2.total_price_with_vat
     assert_equal 372.0,      @offer_automatically_accepted.total_price_with_vat
     assert_equal 62.0,       @offer_declined.total_price_with_vat
     assert_equal 372.0,      @purchase_price_paid.total_price_with_vat
@@ -321,6 +321,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '270265', @delivery_offer_request.auction_id
     assert_equal '274472', @delivery_ordered.auction_id
     assert_equal '277075', @offer_accepted.auction_id
+    assert_equal '293363', @offer_accepted_2.auction_id
     assert_equal '270265', @offer_automatically_accepted.auction_id
     assert_equal '277687', @offer_declined.auction_id
     assert_equal '270265', @purchase_price_paid.auction_id
@@ -344,6 +345,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     title = '18.03.-25.03. SkyJack SJ III - 3219 saksilavanostin, Lahti'
     assert_equal title, @offer_accepted.auction_title
 
+    title = '26.04.-01.05. BOBCAT 320 kaivinkone, Lahti'
+    assert_equal title, @offer_accepted_2.auction_title
+
     title = '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti'
     assert_equal title, @offer_automatically_accepted.auction_title
 
@@ -366,6 +370,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal "2016-03-25 20:20".to_time, @delivery_offer_request.auction_closing_date
     assert_equal "2016-03-25 19:38".to_time, @delivery_ordered.auction_closing_date
     assert_equal "2016-03-25 20:10".to_time, @offer_accepted.auction_closing_date
+    assert_equal "2016-05-01 20:25".to_time, @offer_accepted_2.auction_closing_date
     assert_equal "2016-03-25 20:20".to_time, @offer_automatically_accepted.auction_closing_date
     assert_equal "2016-03-25 19:40".to_time, @offer_declined.auction_closing_date
     assert_equal "2016-03-25 20:20".to_time, @purchase_price_paid.auction_closing_date
@@ -393,7 +398,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 372.0,     @delivery_offer_request.auction_price_with_vat
     assert_equal 111.6,     @delivery_ordered.auction_price_with_vat
     assert_equal 824.6,     @offer_accepted.auction_price_with_vat
-    assert_equal 10664.0,   @offer_accepted_2.auction_price_with_vat
+    assert_equal 10_664.0,  @offer_accepted_2.auction_price_with_vat
     assert_equal 372.0,     @offer_automatically_accepted.auction_price_with_vat
     assert_equal 62.0,      @offer_declined.auction_price_with_vat
     assert_equal 372.0,     @purchase_price_paid.auction_price_with_vat
@@ -407,6 +412,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 24, @delivery_offer_request.auction_vat_percent
     assert_equal 24, @delivery_ordered.auction_vat_percent
     assert_equal 24, @offer_accepted.auction_vat_percent
+    assert_equal 24, @offer_accepted_2.auction_vat_percent
     assert_equal 24, @offer_automatically_accepted.auction_vat_percent
     assert_equal 24, @offer_declined.auction_vat_percent
     assert_equal 24, @purchase_price_paid.auction_vat_percent
@@ -415,16 +421,17 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#auction_vat_amount' do
-    assert_equal 156.0, @auction_ended.auction_vat_amount
-    assert_equal 40.8,  @bidder_picks_up.auction_vat_amount
-    assert_equal 72.0,  @delivery_offer_request.auction_vat_amount
-    assert_equal 21.6,  @delivery_ordered.auction_vat_amount
-    assert_equal 159.6, @offer_accepted.auction_vat_amount
-    assert_equal 72.0,  @offer_automatically_accepted.auction_vat_amount
-    assert_equal 12.0,  @offer_declined.auction_vat_amount
-    assert_equal 72.0,  @purchase_price_paid.auction_vat_amount
-    assert_equal 48.0,  @purchase_price_paid_2.auction_vat_amount
-    assert_equal 14.4,  @purchase_price_paid_3.auction_vat_amount
+    assert_equal 156.0,  @auction_ended.auction_vat_amount
+    assert_equal 40.8,   @bidder_picks_up.auction_vat_amount
+    assert_equal 72.0,   @delivery_offer_request.auction_vat_amount
+    assert_equal 21.6,   @delivery_ordered.auction_vat_amount
+    assert_equal 159.6,  @offer_accepted.auction_vat_amount
+    assert_equal 2064.0, @offer_accepted_2.auction_vat_amount
+    assert_equal 72.0,   @offer_automatically_accepted.auction_vat_amount
+    assert_equal 12.0,   @offer_declined.auction_vat_amount
+    assert_equal 72.0,   @purchase_price_paid.auction_vat_amount
+    assert_equal 48.0,   @purchase_price_paid_2.auction_vat_amount
+    assert_equal 14.4,   @purchase_price_paid_3.auction_vat_amount
   end
 
   test '#find_customer' do
@@ -432,6 +439,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal customers(:huutokauppa_customer_2), @offer_automatically_accepted.find_customer
     assert_equal customers(:huutokauppa_customer_2), @purchase_price_paid.find_customer
 
+    assert_nil @offer_accepted_2.find_customer
     assert_nil @purchase_price_paid_2.find_customer
     assert_nil @purchase_price_paid_3.find_customer
 
@@ -443,6 +451,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#create_customer' do
     [
       @offer_accepted,
+      @offer_accepted_2,
       @offer_automatically_accepted,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -486,6 +495,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal sales_order_drafts(:huutokauppa_270265), @delivery_offer_request.find_draft
     assert_equal sales_order_drafts(:huutokauppa_274472), @delivery_ordered.find_draft
     assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_293363), @offer_accepted_2.find_draft
     assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_draft
     assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_draft
     assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_draft
@@ -496,6 +506,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#update_order_customer_info' do
     [
       @offer_accepted,
+      @offer_accepted_2,
       @offer_automatically_accepted,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -568,6 +579,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @delivery_offer_request,
       @delivery_ordered,
       @offer_accepted,
+      @offer_accepted_2,
       @offer_automatically_accepted,
       @offer_declined,
       @purchase_price_paid,
@@ -608,6 +620,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     LegacyMethods.stub :pupesoft_function, sales_order_creation do
       [
         @offer_accepted,
+        @offer_accepted_2,
         @offer_automatically_accepted,
         @purchase_price_paid,
         @purchase_price_paid_2,
@@ -654,6 +667,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @bidder_picks_up,
       @delivery_offer_request,
       @offer_accepted,
+      @offer_accepted_2,
       @offer_automatically_accepted,
       @offer_declined,
       @purchase_price_paid,
@@ -674,6 +688,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @delivery_offer_request,
       @delivery_ordered,
       @offer_accepted,
+      @offer_accepted_2,
       @offer_automatically_accepted,
       @offer_declined,
       @purchase_price_paid,
@@ -694,6 +709,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @delivery_offer_request,
       @delivery_ordered,
       @offer_accepted,
+      @offer_accepted_2,
       @offer_declined,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
@@ -716,6 +732,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @delivery_offer_request,
       @delivery_ordered,
       @offer_accepted,
+      @offer_accepted_2,
       @offer_declined,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
@@ -759,6 +776,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
 
     [
+      @offer_accepted_2,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
     ].each do |email|
