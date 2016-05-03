@@ -108,6 +108,22 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @purchase_price_paid_3.company_name
   end
 
+  test '#company_id' do
+    assert_equal 'FI01234567', @offer_accepted_2.company_id
+
+    assert_nil @auction_ended.company_id
+    assert_nil @bidder_picks_up.company_id
+    assert_nil @delivery_offer_request.company_id
+    assert_nil @delivery_ordered.company_id
+    assert_nil @invalid_customer_info.company_id
+    assert_nil @offer_accepted.company_id
+    assert_nil @offer_automatically_accepted.company_id
+    assert_nil @offer_declined.company_id
+    assert_nil @purchase_price_paid.company_id
+    assert_nil @purchase_price_paid_2.company_id
+    assert_nil @purchase_price_paid_3.company_id
+  end
+
   test '#customer_name' do
     assert_equal 'Testi Testit Testitestit', @offer_accepted.customer_name
     assert_equal 'Testi Testiä',             @offer_accepted_2.customer_name
