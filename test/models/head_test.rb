@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HeadTest < ActiveSupport::TestCase
   fixtures %w(
+    customers
     head_details
     heads
   )
@@ -17,5 +18,8 @@ class HeadTest < ActiveSupport::TestCase
   test 'associations' do
     assert_equal head_details(:two), heads(:pi_H).detail
     assert_equal head_details(:one), heads(:si_one).detail
+
+    assert_equal customers(:stubborn_customer), heads(:pi_H).customer
+    assert_equal customers(:lissu),             heads(:si_one).customer
   end
 end

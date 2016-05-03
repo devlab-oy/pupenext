@@ -7,6 +7,8 @@ class Head < BaseModel
 
   belongs_to :terms_of_payment, foreign_key: :maksuehto
   belongs_to :delivery_method, foreign_key: :toimitustapa, primary_key: :selite
+  belongs_to :customer, foreign_key: :liitostunnus
+
   has_many :accounting_rows, class_name: 'Head::VoucherRow', foreign_key: :ltunnus
   has_one :detail, foreign_key: :otunnus, class_name: 'HeadDetail'
 
