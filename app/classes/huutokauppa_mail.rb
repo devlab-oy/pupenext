@@ -309,6 +309,8 @@ class HuutokauppaMail
                      .order(:myyntihinta)
                      .first!
 
+    @messages << "Found product #{product.id} to add as delivery product"
+
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 
     row = find_draft.rows.find(response[:added_row])
