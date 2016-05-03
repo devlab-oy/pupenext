@@ -7,6 +7,7 @@ class CustomerTest < ActiveSupport::TestCase
     customer_prices
     customers
     delivery_methods
+    heads
     keyword/customer_categories
     keyword/customer_subcategories
     keywords
@@ -39,6 +40,7 @@ class CustomerTest < ActiveSupport::TestCase
     assert @one.prices.count > 0
     assert @one.products.count > 0
     assert_equal "9", @one.sales_details.first.tila
+    refute_empty @one.heads
   end
 
   test 'contract_price?' do
