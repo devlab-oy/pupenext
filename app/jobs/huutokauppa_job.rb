@@ -61,10 +61,12 @@ class HuutokauppaJob < ActiveJob::Base
     end
 
     def log_error(exception)
+      @huutokauppa_mail.messages << exception.message
+
       @incoming_mail.update!(
         processed_at: Time.now,
         status: :error,
-        status_message: exception.message,
+        status_message: @huutokauppa_mail.messages.join("\n"),
       )
     end
 end
