@@ -33,6 +33,10 @@ class HuutokauppaMail
     end
   end
 
+  def company_name
+    customer_info[:company_name]
+  end
+
   def customer_name
     customer_info[:name]
   end
