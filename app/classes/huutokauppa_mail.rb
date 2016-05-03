@@ -339,7 +339,7 @@ class HuutokauppaMail
   def mark_as_done
     response = find_draft.mark_as_done(create_preliminary_invoice: true)
 
-    @messages << "Marked order #{find_order.id} as done"
+    @messages << "Marked order #{find_draft.id} as done"
 
     response
   end
