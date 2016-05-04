@@ -47,6 +47,7 @@ GEM
       rails (>= 3.1)
     bcrypt (3.1.11)
     builder (3.2.2)
+    chronic (0.10.2)
     cocoon (1.2.9)
     codeclimate-test-reporter (0.5.0)
       simplecov (>= 0.7.1, < 1.0.0)
@@ -257,6 +258,8 @@ GEM
     unicode_utils (1.4.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     wicked_pdf (1.0.6)
     ya2yaml (0.31)
 
@@ -293,6 +296,7 @@ DEPENDENCIES
   therubyracer
   turbolinks
   uglifier
+  whenever
   wicked_pdf
 
 BUNDLED WITH
