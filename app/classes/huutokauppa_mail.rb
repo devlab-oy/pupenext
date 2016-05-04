@@ -169,7 +169,7 @@ class HuutokauppaMail
       ytunnus: company_id || auction_id,
     )
 
-    @messages << "Asiakas #{customer.id} luotu."
+    @messages << "Asiakas #{customer_message_info(customer)} luotu."
 
     customer
   end
@@ -185,14 +185,14 @@ class HuutokauppaMail
       postitp: customer_city,
     )
 
-    @messages << "Asiakas #{find_customer.id} päivitetty."
+    @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
 
     true
   end
 
   def update_or_create_customer
     if find_customer
-      @messages << "Asiakas #{find_customer.id} löytyi, joten päivitetään kyseisen asiakkaan tiedot."
+      @messages << "Asiakas #{customer_message_info(find_customer)} löytyi, joten päivitetään kyseisen asiakkaan tiedot."
 
       update_customer
 
@@ -245,7 +245,7 @@ class HuutokauppaMail
       laskutus_maa: '',
     )
 
-    @messages << "Päivitettiin tilauksen #{find_draft.id} asiakastiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} asiakastiedot."
 
     true
   end
@@ -262,7 +262,7 @@ class HuutokauppaMail
       toim_puh: delivery_phone,
     )
 
-    @messages << "Päivitettiin tilauksen #{find_order.id} toimitustiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustiedot."
 
     true
   end
@@ -285,7 +285,7 @@ class HuutokauppaMail
       LegacyMethods.pupesoft_function(:tuoteperheiden_hintojen_paivitys, parent_row_ids: { row.id => child_row_ids })
     end
 
-    @messages << "Päivitettiin tilauksen #{find_draft.id} rivin #{row.id} tuotetiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} tuotetiedot."
 
     true
   end
@@ -309,13 +309,13 @@ class HuutokauppaMail
                      .order(:myyntihinta)
                      .first!
 
-    @messages << "Löydettiin tuote #{product.id} lisättäväksi toimitustuotteeksi."
+    @messages << "Löydettiin tuote #{product.tuoteno} lisättäväksi toimitustuotteeksi."
 
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 
     row = find_draft.rows.find(response[:added_row])
 
-    @messages << "Lisättiin toimitusrivi #{row.id} tilaukselle #{find_draft.id}."
+    @messages << "Lisättiin toimitusrivi tilaukselle #{order_message_info(find_draft)}."
 
     row
   end
@@ -323,7 +323,7 @@ class HuutokauppaMail
   def update_delivery_method_to_nouto
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
 
-    @messages << "Päivitettiin tilauksen #{find_draft.id} toimitustavaksi Nouto."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} toimitustavaksi Nouto."
 
     true
   end
@@ -331,7 +331,7 @@ class HuutokauppaMail
   def update_delivery_method_to_itella_economy_16
     find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
 
-    @messages << "Päivitettiin tilauksen #{find_order.id} toimitustavaksi Itella Economy 16."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustavaksi Itella Economy 16."
 
     true
   end
@@ -339,7 +339,7 @@ class HuutokauppaMail
   def mark_as_done
     response = find_draft.mark_as_done(create_preliminary_invoice: true)
 
-    @messages << "Merkittiin tilaus #{find_draft.id} valmiiksi."
+    @messages << "Merkittiin tilaus #{order_message_info(find_draft)} valmiiksi."
 
     response
   end
@@ -430,5 +430,13 @@ class HuutokauppaMail
       end
 
       info
+    end
+
+    def customer_message_info(customer)
+      "#{customer.nimi} (#{customer.email})"
+    end
+
+    def order_message_info(order)
+      "(Tilausnumero: #{order.id}, Huutokauppa: #{auction_id})"
     end
 end

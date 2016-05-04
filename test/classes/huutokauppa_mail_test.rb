@@ -494,7 +494,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_difference 'Customer.count' do
         email.create_customer
 
-        assert_includes email.messages, "Asiakas #{Customer.last.id} luotu."
+        assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end
     end
 
@@ -511,7 +511,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_customer
 
-      assert_includes email.messages, "Asiakas #{email.find_customer.id} päivitetty."
+      assert_includes email.messages, "Asiakas #{email.find_customer.nimi} (#{email.find_customer.email}) päivitetty."
     end
 
     @emails_without_customer_info.each do |email|
@@ -569,7 +569,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_empty email.find_draft.laskutus_postitp
       assert_empty email.find_draft.laskutus_maa
 
-      assert_includes email.messages, "Päivitettiin tilauksen #{email.find_draft.id} asiakastiedot."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) asiakastiedot."
+      assert_includes email.messages, message
     end
 
     @emails_without_customer_info.each do |email|
@@ -594,7 +595,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.delivery_phone,    email.find_order.toim_puh
       assert_equal email.delivery_postcode, email.find_order.toim_postino
 
-      assert_includes email.messages, "Päivitettiin tilauksen #{email.find_order.id} toimitustiedot."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustiedot."
+      assert_includes email.messages, message
     end
 
     @emails_without_delivery_info.each do |email|
@@ -628,7 +630,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
       assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
 
-      message = "Päivitettiin tilauksen #{email.find_draft.id} rivin #{email.find_draft.rows.first.id} tuotetiedot."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot."
       assert_includes email.messages, message
     end
   end
@@ -689,7 +691,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_difference 'SalesOrder::Row.count' do
           email.add_delivery_row
 
-          assert_includes email.messages, "Lisättiin toimitusrivi #{row.id} tilaukselle #{email.find_draft.id}."
+          message = "Lisättiin toimitusrivi tilaukselle (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id})."
+          assert_includes email.messages, message
         end
       end
     end
@@ -730,7 +733,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       email.update_delivery_method_to_nouto
 
       assert_equal delivery_methods(:nouto), email.find_draft.delivery_method
-      assert_includes email.messages, "Päivitettiin tilauksen #{email.find_draft.id} toimitustavaksi Nouto."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Nouto."
+      assert_includes email.messages, message
     end
   end
 
@@ -753,7 +757,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       email.update_delivery_method_to_itella_economy_16
 
       assert_equal delivery_methods(:itella_economy_16), email.find_order.delivery_method
-      assert_includes email.messages, "Päivitettiin tilauksen #{email.find_order.id} toimitustavaksi Itella Economy 16."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Itella Economy 16."
+      assert_includes email.messages, message
     end
   end
 
@@ -781,7 +786,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
           assert_difference 'SalesOrder::Order.count' do
             email.mark_as_done
 
-            assert_includes email.messages, "Merkittiin tilaus #{email.find_order.id} valmiiksi."
+            message = "Merkittiin tilaus (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) valmiiksi."
+            assert_includes email.messages, message
           end
         end
       end
@@ -800,8 +806,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_equal email.find_customer, customer
         assert_equal email.customer_name, customer.nimi
 
-        assert_includes email.messages, "Asiakas #{customer.id} löytyi, joten päivitetään kyseisen asiakkaan tiedot."
-        assert_includes email.messages, "Asiakas #{customer.id} päivitetty."
+        assert_includes email.messages, "Asiakas #{customer.nimi} (#{customer.email}) löytyi, joten päivitetään kyseisen asiakkaan tiedot."
+        assert_includes email.messages, "Asiakas #{customer.nimi} (#{customer.email}) päivitetty."
 
         assert_equal customer, email.find_draft.customer
       end
@@ -815,7 +821,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_difference 'Customer.count' do
         email.update_or_create_customer
 
-        assert_includes email.messages, "Asiakas #{Customer.last.id} luotu."
+        assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
 
         assert_equal Customer.last, email.find_draft.customer
       end
