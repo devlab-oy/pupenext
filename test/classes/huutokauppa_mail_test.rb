@@ -521,6 +521,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#update_customer logs errors' do
+    @offer_accepted.find_customer.update_column(:ytunnus, '')
+
+    refute @offer_accepted.update_customer
+
+    message = "Asiakkaan #{@offer_accepted.find_customer.nimi} (#{@offer_accepted.find_customer.email}) " \
+              "tietojen päivitys epäonnistui."
+    assert_includes @offer_accepted.messages.to_s, message
+  end
+
   test '#find_draft' do
     assert_equal sales_order_drafts(:huutokauppa_279590), @auction_ended.find_draft
     assert_equal sales_order_drafts(:huutokauppa_285888), @bidder_picks_up.find_draft

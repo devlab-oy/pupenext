@@ -188,6 +188,9 @@ class HuutokauppaMail
     @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
 
     true
+  rescue ActiveRecord::RecordInvalid => e
+    @messages << "Asiakkaan #{customer_message_info(find_customer)} tietojen päivitys epäonnistui. Virheilmoitus: #{e.message}."
+    false
   end
 
   def update_or_create_customer
