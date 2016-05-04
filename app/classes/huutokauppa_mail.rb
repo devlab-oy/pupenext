@@ -177,7 +177,7 @@ class HuutokauppaMail
   def update_customer
     return unless find_customer
 
-    find_customer.update!(
+    update_success = find_customer.update(
       gsm: customer_phone,
       nimi: customer_name,
       osoite: customer_address,
@@ -185,11 +185,13 @@ class HuutokauppaMail
       postitp: customer_city,
     )
 
-    @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
+    if update_success
+      @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
+      return true
+    end
 
-    true
-  rescue ActiveRecord::RecordInvalid => e
-    @messages << "Asiakkaan #{customer_message_info(find_customer)} tietojen päivitys epäonnistui. Virheilmoitus: #{e.message}."
+    @messages << "Asiakkaan #{customer_message_info(find_customer)} tietojen päivitys epäonnistui. " \
+                 "Virheilmoitus: #{find_customer.errors.full_messages.to_sentence}."
     false
   end
 
