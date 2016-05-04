@@ -507,6 +507,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#create_customer logs errors' do
+    Customer.delete_all
+    Customer.new(ytunnus: @offer_accepted_2.company_id).save(validate: false)
+
+    customer = @offer_accepted_2.create_customer
+
+    message = "Asiakkaan #{customer.nimi} (#{customer.email}) luonti epäonnistui."
+    assert_includes @offer_accepted_2.messages.to_s, message
+  end
+
   test '#update_customer' do
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_customer

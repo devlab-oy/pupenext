@@ -158,7 +158,7 @@ class HuutokauppaMail
   def create_customer
     return unless customer_name
 
-    customer = Customer.create!(
+    customer = Customer.new(
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
@@ -169,8 +169,13 @@ class HuutokauppaMail
       ytunnus: company_id || auction_id,
     )
 
-    @messages << "Asiakas #{customer_message_info(customer)} luotu."
+    if customer.save
+      @messages << "Asiakas #{customer_message_info(customer)} luotu."
+      return customer
+    end
 
+    @messages << "Asiakkaan #{customer_message_info(customer)} luonti epäonnistui. " \
+                 "Virheilmoitus: #{customer.errors.full_messages.to_sentence}."
     customer
   end
 
