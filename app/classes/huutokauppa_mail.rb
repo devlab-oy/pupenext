@@ -223,26 +223,25 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
-      email: customer_email,
       puh: customer_phone,
+      email: customer_email,
       ytunnus: company_id || auction_id,
-      toim_nimi: '',
+
+      toim_nimi: customer_name,
       toim_nimitark: '',
-      toim_osoite: '',
-      toim_postino: '',
-      toim_postitp: '',
-      toim_maa: '',
-      toim_puh: '',
-      toim_email: '',
+      toim_osoite: customer_address,
+      toim_postino: customer_postcode,
+      toim_postitp: customer_city,
+      toim_puh: customer_phone,
+      toim_email: customer_email,
     )
 
     find_draft.detail.update!(
-      laskutus_nimi: '',
+      laskutus_nimi: customer_name,
       laskutus_nimitark: '',
-      laskutus_osoite: '',
-      laskutus_postino: '',
-      laskutus_postitp: '',
-      laskutus_maa: '',
+      laskutus_osoite: customer_address,
+      laskutus_postino: customer_postcode,
+      laskutus_postitp: customer_city,
     )
 
     @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} asiakastiedot."

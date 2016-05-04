@@ -546,28 +546,28 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_customer_info
 
-      assert_equal email.customer_address,  email.find_draft.osoite
-      assert_equal email.customer_city,     email.find_draft.postitp
-      assert_equal email.customer_email,    email.find_draft.email
       assert_equal email.customer_name,     email.find_draft.nimi
-      assert_equal email.customer_phone,    email.find_draft.puh
+      assert_empty                          email.find_draft.nimitark
+      assert_equal email.customer_address,  email.find_draft.osoite
+      assert_empty                          email.find_draft.osoitetark
       assert_equal email.customer_postcode, email.find_draft.postino
+      assert_equal email.customer_city,     email.find_draft.postitp
+      assert_equal email.customer_phone,    email.find_draft.puh
+      assert_equal email.customer_email,    email.find_draft.email
 
-      assert_empty email.find_draft.toim_nimi
-      assert_empty email.find_draft.toim_nimitark
-      assert_empty email.find_draft.toim_osoite
-      assert_empty email.find_draft.toim_postino
-      assert_empty email.find_draft.toim_postitp
-      assert_empty email.find_draft.toim_maa
-      assert_empty email.find_draft.toim_puh
-      assert_empty email.find_draft.toim_email
+      assert_equal email.customer_name,     email.find_draft.toim_nimi
+      assert_empty                          email.find_draft.toim_nimitark
+      assert_equal email.customer_address,  email.find_draft.toim_osoite
+      assert_equal email.customer_postcode, email.find_draft.toim_postino
+      assert_equal email.customer_city,     email.find_draft.toim_postitp
+      assert_equal email.customer_phone,    email.find_draft.toim_puh
+      assert_equal email.customer_email,    email.find_draft.toim_email
 
-      assert_empty email.find_draft.laskutus_nimi
-      assert_empty email.find_draft.laskutus_nimitark
-      assert_empty email.find_draft.laskutus_osoite
-      assert_empty email.find_draft.laskutus_postino
-      assert_empty email.find_draft.laskutus_postitp
-      assert_empty email.find_draft.laskutus_maa
+      assert_equal email.customer_name,     email.find_draft.laskutus_nimi
+      assert_empty                          email.find_draft.laskutus_nimitark
+      assert_equal email.customer_address,  email.find_draft.laskutus_osoite
+      assert_equal email.customer_postcode, email.find_draft.laskutus_postino
+      assert_equal email.customer_city,     email.find_draft.laskutus_postitp
 
       message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) asiakastiedot."
       assert_includes email.messages, message
