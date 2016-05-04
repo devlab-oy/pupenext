@@ -105,7 +105,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     HuutokauppaJob.perform_now(id: incoming_mail.id)
 
     assert_equal 'error', incoming_mail.reload.status
-    assert_equal "undefined method `selite' for nil:NilClass", incoming_mail.reload.status_message
+    assert_includes incoming_mail.reload.status_message, "undefined method `selite' for nil:NilClass"
   end
 
   test 'order is marked as done correctly and delivery type set to nouto when no info about delivery' do

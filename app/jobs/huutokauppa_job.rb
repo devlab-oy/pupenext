@@ -9,6 +9,8 @@ class HuutokauppaJob < ActiveJob::Base
 
     @huutokauppa_mail = HuutokauppaMail.new(@incoming_mail.raw_source)
 
+    @huutokauppa_mail.messages << "Aloitetaan #{@huutokauppa_mail.type.to_s.humanize}-tyyppisen sähköpostin käsittely."
+
     success = case @huutokauppa_mail.type
               when :offer_accepted, :offer_automatically_accepted
                 update_order_customer_and_product_info
