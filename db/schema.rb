@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427135635) do
+ActiveRecord::Schema.define(version: 20160504081622) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -737,7 +737,7 @@ ActiveRecord::Schema.define(version: 20160427135635) do
     t.integer  "mail_server_id", limit: 4
     t.datetime "processed_at"
     t.integer  "status",         limit: 4
-    t.string   "status_message", limit: 255
+    t.text     "status_message", limit: 65535
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
   end
