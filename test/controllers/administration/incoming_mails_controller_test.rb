@@ -25,7 +25,7 @@ class Administration::IncomingMailsControllerTest < ActionController::TestCase
       assert_equal incoming_mail.mail_server.to_s,    css_select(row, 'td')[0].content
       assert_equal processed_at,                      css_select(row, 'td')[1].content
       assert_equal incoming_mail.status.to_s,         css_select(row, 'td')[2].content
-      assert_equal incoming_mail.status_message.to_s, css_select(row, 'td')[3].content
+      assert_includes css_select(row, 'td')[3].content, incoming_mail.status_message.to_s
     end
   end
 end

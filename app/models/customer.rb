@@ -11,6 +11,7 @@ class Customer < BaseModel
   has_many :products, through: :prices
   has_many :sales_details, foreign_key: :liitostunnus, class_name: 'SalesOrder::Detail'
   has_many :transports, as: :transportable
+  has_many :heads, foreign_key: :liitostunnus
 
   validates :asiakasnro, uniqueness: { scope: :yhtio }, allow_blank: true
   validates :maa, inclusion: { in: proc { Country.pluck(:koodi) } }

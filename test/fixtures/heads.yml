@@ -3,6 +3,7 @@
 pi_<%= i %>:
   yhtio: acme
   tila: <%= i %>
+  customer: stubborn_customer
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -30,6 +31,7 @@ pi_<%= i %>:
 si_one:
   yhtio: acme
   tila: U
+  customer: lissu
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>

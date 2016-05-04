@@ -24,6 +24,7 @@ gem 'axlsx_rails'
 gem 'pdfkit'
 gem 'lightbox2-rails'
 gem 'wicked_pdf'
+gem 'whenever', require: false
 
 group :assets do
   gem 'uglifier'

@@ -35,6 +35,10 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 'Testi Testit Testitestit', sales_order.nimi
     assert_equal 665, sales_order.rows.first.rivihinta
 
+    assert_equal 'ok', incoming_mail.reload.status
+    message = "Päivitettiin tilauksen (Tilausnumero: #{sales_order.id}, Huutokauppa: #{sales_order.viesti}) asiakastiedot."
+    assert_includes incoming_mail.reload.status_message, message
+
     incoming_mail.raw_source = huutokauppa_email(:offer_automatically_accepted_1)
     incoming_mail.save!
 
@@ -48,7 +52,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 300, sales_order.rows.first.rivihinta
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    message = "Päivitettiin tilauksen (Tilausnumero: #{sales_order.id}, Huutokauppa: #{sales_order.viesti}) asiakastiedot."
+    assert_includes incoming_mail.reload.status_message, message
   end
 
   test 'customer is created and customer and product info are updated correctly to order when customer is not found' do
@@ -68,6 +73,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 'Testi Testit Testitestit', sales_order.nimi
     assert_equal 665, sales_order.rows.first.rivihinta
 
+    assert_equal 'ok', incoming_mail.reload.status
+    assert_includes incoming_mail.reload.status_message, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
+
     incoming_mail.raw_source = huutokauppa_email(:offer_automatically_accepted_1)
     incoming_mail.save!
 
@@ -81,7 +89,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal 300, sales_order.rows.first.rivihinta
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    messsage = "Päivitettiin tilauksen (Tilausnumero: #{sales_order.id}, Huutokauppa: #{sales_order.viesti}) tuotetiedot"
+    assert_includes incoming_mail.reload.status_message, messsage
   end
 
   test 'error is logged if exception is thrown' do
@@ -123,7 +132,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal delivery_methods(:nouto), order.delivery_method
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    message = "Päivitettiin tilauksen (Tilausnumero: #{order.id}, Huutokauppa: #{order.viesti}) toimitustavaksi Nouto."
+    assert_includes incoming_mail.reload.status_message, message
   end
 
   test 'order delivery info is updated and delivery method set when type is delivery ordered' do
@@ -144,6 +154,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     assert_equal delivery_methods(:itella_economy_16), order.delivery_method
 
     assert_equal 'ok', incoming_mail.reload.status
-    assert_nil incoming_mail.reload.status_message
+    message = "Päivitettiin tilauksen (Tilausnumero: #{order.id}, Huutokauppa: #{order.viesti}) toimitustiedot."
+    assert_includes incoming_mail.reload.status_message, message
   end
 end
