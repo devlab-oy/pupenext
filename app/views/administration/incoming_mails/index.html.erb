@@ -38,7 +38,15 @@
           <td><%= incoming_mail.mail_server %></td>
           <td><%= l(incoming_mail.processed_at) if incoming_mail.processed_at %></td>
           <td><%= incoming_mail.status %></td>
-          <td><%= incoming_mail.status_message %></td>
+          <td>
+            <% if incoming_mail.status_message %>
+              <ul>
+                <% incoming_mail.status_message.split("\n").each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
