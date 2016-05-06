@@ -8,14 +8,19 @@ namespace :resque do
   end
 
   desc "Stop all Resque workers"
-
   task stop_workers: :environment do
     pids = []
 
     Resque.workers.each do |worker|
-      pids << worker.to_s.split(/:/).second
+      pids.concat worker.worker_pids
     end
 
-    system "kill -TERM #{pids.join(' ')} && sleep 2" if pids.size > 0
+    if pids.empty?
+      puts "No Resque workers to kill"
+    else
+      puts "Killing Resque worker(s): #{pids.join(', ')}"
+
+      system "kill -s QUIT #{pids.join(' ')}"
+    end
   end
 end
