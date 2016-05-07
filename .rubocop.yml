@@ -1,0 +1,40 @@
+AllCops:
+  TargetRubyVersion: 2.2
+
+##################### Style ####################################
+
+Style/CommandLiteral:
+  EnforcedStyle: percent_x
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/IndentationConsistency:
+  EnforcedStyle: rails
+
+Style/Documentation:
+  Enabled: false
+
+##################### Metrics ##################################
+
+Metrics/LineLength:
+  Max: 140
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/ModuleLength:
+  Max: 200
+
+Metrics/MethodLength:
+  Max: 20
+
+##################### Lint ##################################
+
+##################### Rails ##################################
+
+Rails:
+  Enabled: true
