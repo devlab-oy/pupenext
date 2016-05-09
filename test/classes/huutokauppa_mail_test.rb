@@ -557,9 +557,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#find_draft logs errors' do
     sales_order_drafts(:huutokauppa_279590).delete
-
-    assert_nil @auction_ended.find_draft
-    assert_includes @auction_ended.messages, "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{@auction_ended.auction_id}."
+    exception = assert_raise { @auction_ended.find_draft }
+    assert_equal "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{@auction_ended.auction_id}.", exception.message
   end
 
   test '#update_order_customer_info' do

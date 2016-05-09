@@ -221,8 +221,7 @@ class HuutokauppaMail
 
     return @draft if @draft
 
-    @messages << "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
-    nil
+    raise "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
   end
 
   def find_order
