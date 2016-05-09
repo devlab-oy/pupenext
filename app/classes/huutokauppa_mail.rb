@@ -350,9 +350,11 @@ class HuutokauppaMail
   end
 
   def update_delivery_method_to_itella_economy_16
-    find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+    order = find_order || find_draft
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustavaksi Itella Economy 16."
+    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Itella Economy 16."
 
     true
   end
