@@ -272,7 +272,9 @@ class HuutokauppaMail
   def update_order_delivery_info
     return unless delivery_name
 
-    find_order.update!(
+    order = find_order || find_draft
+
+    order.update!(
       toim_email: delivery_email,
       toim_nimi: delivery_name,
       toim_osoite: delivery_address,
@@ -281,7 +283,7 @@ class HuutokauppaMail
       toim_puh: delivery_phone,
     )
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustiedot."
 
     true
   end
