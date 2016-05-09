@@ -12,6 +12,10 @@ class Row < BaseModel
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
 
+  def parent?
+    tunnus == perheid
+  end
+
   def self.default_child_instance
     child_class 'O'
   end
