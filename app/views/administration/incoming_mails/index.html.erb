@@ -39,6 +39,8 @@
           <td><%= l(incoming_mail.processed_at) if incoming_mail.processed_at %></td>
           <td><%= incoming_mail.status %></td>
           <td>
+            <strong><%= incoming_mail.subject %></strong>
+
             <% if incoming_mail.status_message %>
               <ul>
                 <% incoming_mail.status_message.split("\n").each do |message| %>
