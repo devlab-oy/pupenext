@@ -127,13 +127,9 @@ class HuutokauppaJobTest < ActiveJob::TestCase
       end
     end
 
-    order = SalesOrder::Order.find_by!(viesti: 270_265)
-
-    assert_equal delivery_methods(:nouto), order.delivery_method
-
     assert_equal 'ok', incoming_mail.reload.status
-    message = "Päivitettiin tilauksen (Tilausnumero: #{order.id}, Huutokauppa: #{order.viesti}) toimitustavaksi Nouto."
-    assert_includes incoming_mail.reload.status_message, message
+    message = 'Merkittiin tilaus'
+    assert_includes incoming_mail.reload.status_message.to_s, message
   end
 
   test 'order delivery info is updated and delivery method set when type is delivery ordered' do
