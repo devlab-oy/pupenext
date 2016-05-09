@@ -663,7 +663,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#update_order_product_info with tuoteperhe calls legacy method' do
-    @offer_accepted.find_draft.rows.first.update!(perheid: 1)
+    row = @offer_accepted.find_draft.rows.first
+    row.update!(perheid: row.tunnus)
 
     LegacyMethods.stub :pupesoft_function, proc { raise ScriptError } do
       assert_raise(ScriptError) { @offer_accepted.update_order_product_info }

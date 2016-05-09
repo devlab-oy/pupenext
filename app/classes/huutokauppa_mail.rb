@@ -299,7 +299,7 @@ class HuutokauppaMail
       rivihinta_valuutassa: auction_price_without_vat,
     )
 
-    if row.perheid != 0
+    if row.parent?
       child_row_ids = find_draft.rows.where.not(tunnus: row.tunnus).pluck(:tunnus)
       LegacyMethods.pupesoft_function(:tuoteperheiden_hintojen_paivitys, parent_row_ids: { row.id => child_row_ids })
     end
