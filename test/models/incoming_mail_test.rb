@@ -22,4 +22,19 @@ class IncomingMailTest < ActiveSupport::TestCase
     assert_nothing_raised       { incoming_mails(:one).status = :ok    }
     assert_raise(ArgumentError) { incoming_mails(:one).status = :kissa }
   end
+
+  test '#mail' do
+    assert incoming_mails(:one).mail.is_a?(Mail::Message)
+
+    incoming_mails(:one).raw_source = nil
+    incoming_mails(:one).save(validate: false)
+    assert incoming_mails(:one).reload.mail.is_a?(Mail::Message)
+  end
+
+  test '#subject' do
+    assert_nil incoming_mails(:one).subject
+
+    incoming_mails(:one).mail.subject = 'Test subject'
+    assert_equal 'Test subject', incoming_mails(:one).subject
+  end
 end

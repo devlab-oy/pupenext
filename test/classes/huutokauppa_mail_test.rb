@@ -507,6 +507,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     end
   end
 
+  test '#create_customer logs errors' do
+    Customer.delete_all
+    Customer.new(ytunnus: @offer_accepted_2.company_id).save(validate: false)
+
+    customer = @offer_accepted_2.create_customer
+
+    message = "Asiakkaan #{customer.nimi} (#{customer.email}) luonti epäonnistui."
+    assert_includes @offer_accepted_2.messages.to_s, message
+  end
+
   test '#update_customer' do
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_customer
@@ -519,6 +529,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
       assert_empty email.messages
     end
+  end
+
+  test '#update_customer logs errors' do
+    @offer_accepted.find_customer.update_column(:ytunnus, '')
+
+    refute @offer_accepted.update_customer
+
+    message = "Asiakkaan #{@offer_accepted.find_customer.nimi} (#{@offer_accepted.find_customer.email}) " \
+              "tietojen päivitys epäonnistui."
+    assert_includes @offer_accepted.messages.to_s, message
   end
 
   test '#find_draft' do
@@ -535,6 +555,12 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal sales_order_drafts(:huutokauppa_285703), @purchase_price_paid_3.find_draft
   end
 
+  test '#find_draft logs errors' do
+    sales_order_drafts(:huutokauppa_279590).delete
+    assert_nil @auction_ended.find_draft
+    assert_includes @auction_ended.messages, "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{@auction_ended.auction_id}."
+  end
+
   test '#update_order_customer_info' do
     [
       @offer_accepted,
@@ -546,28 +572,28 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_customer_info
 
-      assert_equal email.customer_address,  email.find_draft.osoite
-      assert_equal email.customer_city,     email.find_draft.postitp
-      assert_equal email.customer_email,    email.find_draft.email
       assert_equal email.customer_name,     email.find_draft.nimi
-      assert_equal email.customer_phone,    email.find_draft.puh
+      assert_empty                          email.find_draft.nimitark
+      assert_equal email.customer_address,  email.find_draft.osoite
+      assert_empty                          email.find_draft.osoitetark
       assert_equal email.customer_postcode, email.find_draft.postino
+      assert_equal email.customer_city,     email.find_draft.postitp
+      assert_equal email.customer_phone,    email.find_draft.puh
+      assert_equal email.customer_email,    email.find_draft.email
 
-      assert_empty email.find_draft.toim_nimi
-      assert_empty email.find_draft.toim_nimitark
-      assert_empty email.find_draft.toim_osoite
-      assert_empty email.find_draft.toim_postino
-      assert_empty email.find_draft.toim_postitp
-      assert_empty email.find_draft.toim_maa
-      assert_empty email.find_draft.toim_puh
-      assert_empty email.find_draft.toim_email
+      assert_equal email.customer_name,     email.find_draft.toim_nimi
+      assert_empty                          email.find_draft.toim_nimitark
+      assert_equal email.customer_address,  email.find_draft.toim_osoite
+      assert_equal email.customer_postcode, email.find_draft.toim_postino
+      assert_equal email.customer_city,     email.find_draft.toim_postitp
+      assert_equal email.customer_phone,    email.find_draft.toim_puh
+      assert_equal email.customer_email,    email.find_draft.toim_email
 
-      assert_empty email.find_draft.laskutus_nimi
-      assert_empty email.find_draft.laskutus_nimitark
-      assert_empty email.find_draft.laskutus_osoite
-      assert_empty email.find_draft.laskutus_postino
-      assert_empty email.find_draft.laskutus_postitp
-      assert_empty email.find_draft.laskutus_maa
+      assert_equal email.customer_name,     email.find_draft.laskutus_nimi
+      assert_empty                          email.find_draft.laskutus_nimitark
+      assert_equal email.customer_address,  email.find_draft.laskutus_osoite
+      assert_equal email.customer_postcode, email.find_draft.laskutus_postino
+      assert_equal email.customer_city,     email.find_draft.laskutus_postitp
 
       message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) asiakastiedot."
       assert_includes email.messages, message
@@ -630,13 +656,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
       assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
 
-      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot."
-      assert_includes email.messages, message
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot"
+      assert_includes email.messages.to_s, message
     end
   end
 
   test '#update_order_product_info with tuoteperhe calls legacy method' do
-    @offer_accepted.find_draft.rows.first.update!(perheid: 1)
+    row = @offer_accepted.find_draft.rows.first
+    row.update!(perheid: row.tunnus)
 
     LegacyMethods.stub :pupesoft_function, proc { raise ScriptError } do
       assert_raise(ScriptError) { @offer_accepted.update_order_product_info }

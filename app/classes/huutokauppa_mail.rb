@@ -158,7 +158,7 @@ class HuutokauppaMail
   def create_customer
     return unless customer_name
 
-    customer = Customer.create!(
+    customer = Customer.new(
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
@@ -166,18 +166,23 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
-      ytunnus: company_id || auction_id,
+      ytunnus: company_id || "HK#{auction_id}",
     )
 
-    @messages << "Asiakas #{customer_message_info(customer)} luotu."
+    if customer.save
+      @messages << "Asiakas #{customer_message_info(customer)} luotu."
+      return customer
+    end
 
+    @messages << "Asiakkaan #{customer_message_info(customer)} luonti epäonnistui. " \
+                 "Virheilmoitus: #{customer.errors.full_messages.to_sentence}."
     customer
   end
 
   def update_customer
     return unless find_customer
 
-    find_customer.update!(
+    update_success = find_customer.update(
       gsm: customer_phone,
       nimi: customer_name,
       osoite: customer_address,
@@ -185,12 +190,19 @@ class HuutokauppaMail
       postitp: customer_city,
     )
 
-    @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
+    if update_success
+      @messages << "Asiakas #{customer_message_info(find_customer)} päivitetty."
+      return true
+    end
 
-    true
+    @messages << "Asiakkaan #{customer_message_info(find_customer)} tietojen päivitys epäonnistui. " \
+                 "Virheilmoitus: #{find_customer.errors.full_messages.to_sentence}."
+    false
   end
 
   def update_or_create_customer
+    return unless find_draft
+
     if find_customer
       @messages << "Asiakas #{customer_message_info(find_customer)} löytyi, joten päivitetään kyseisen asiakkaan tiedot."
 
@@ -207,15 +219,25 @@ class HuutokauppaMail
   end
 
   def find_draft
-    @draft ||= SalesOrder::Draft.find_by!(viesti: auction_id)
+    @draft ||= SalesOrder::Draft.find_by(viesti: auction_id)
+
+    return @draft if @draft
+
+    @messages << "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
+    nil
   end
 
   def find_order
-    @order ||= SalesOrder::Order.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Order.find_by(viesti: auction_id)
+
+    return @order if @order
+
+    @messages << "Myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
+    nil
   end
 
   def update_order_customer_info
-    return unless customer_name
+    return unless customer_name && find_draft
 
     find_draft.update!(
       nimi: customer_name,
@@ -223,26 +245,25 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
-      email: customer_email,
       puh: customer_phone,
+      email: customer_email,
       ytunnus: company_id || auction_id,
-      toim_nimi: '',
+
+      toim_nimi: customer_name,
       toim_nimitark: '',
-      toim_osoite: '',
-      toim_postino: '',
-      toim_postitp: '',
-      toim_maa: '',
-      toim_puh: '',
-      toim_email: '',
+      toim_osoite: customer_address,
+      toim_postino: customer_postcode,
+      toim_postitp: customer_city,
+      toim_puh: customer_phone,
+      toim_email: customer_email,
     )
 
     find_draft.detail.update!(
-      laskutus_nimi: '',
+      laskutus_nimi: customer_name,
       laskutus_nimitark: '',
-      laskutus_osoite: '',
-      laskutus_postino: '',
-      laskutus_postitp: '',
-      laskutus_maa: '',
+      laskutus_osoite: customer_address,
+      laskutus_postino: customer_postcode,
+      laskutus_postitp: customer_city,
     )
 
     @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} asiakastiedot."
@@ -253,7 +274,11 @@ class HuutokauppaMail
   def update_order_delivery_info
     return unless delivery_name
 
-    find_order.update!(
+    order = find_order || find_draft
+
+    return unless order
+
+    order.update!(
       toim_email: delivery_email,
       toim_nimi: delivery_name,
       toim_osoite: delivery_address,
@@ -262,12 +287,14 @@ class HuutokauppaMail
       toim_puh: delivery_phone,
     )
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustiedot."
 
     true
   end
 
   def update_order_product_info
+    return unless find_draft
+
     row = find_draft.rows.first
 
     row.update!(
@@ -280,12 +307,12 @@ class HuutokauppaMail
       rivihinta_valuutassa: auction_price_without_vat,
     )
 
-    if row.perheid != 0
+    if row.parent?
       child_row_ids = find_draft.rows.where.not(tunnus: row.tunnus).pluck(:tunnus)
       LegacyMethods.pupesoft_function(:tuoteperheiden_hintojen_paivitys, parent_row_ids: { row.id => child_row_ids })
     end
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} tuotetiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} tuotetiedot (Tuoteno: #{row.tuoteno}, Hinta: #{row.hinta})."
 
     true
   end
@@ -302,14 +329,14 @@ class HuutokauppaMail
   end
 
   def add_delivery_row
-    return unless delivery_price_with_vat && delivery_price_with_vat > 0
+    return unless find_draft && delivery_price_with_vat && delivery_price_with_vat > 0
 
     product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
                      .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
                      .order(:myyntihinta)
                      .first!
 
-    @messages << "Löydettiin tuote #{product.tuoteno} lisättäväksi toimitustuotteeksi."
+    @messages << "Löydettiin tuote (Tuoteno: #{product.tuoteno}, Hinta: #{product.myyntihinta}) lisättäväksi toimitustuotteeksi."
 
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 
@@ -321,6 +348,8 @@ class HuutokauppaMail
   end
 
   def update_delivery_method_to_nouto
+    return unless find_draft
+
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
 
     @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} toimitustavaksi Nouto."
@@ -329,14 +358,20 @@ class HuutokauppaMail
   end
 
   def update_delivery_method_to_itella_economy_16
-    find_order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+    order = find_order || find_draft
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_order)} toimitustavaksi Itella Economy 16."
+    return unless order
+
+    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Itella Economy 16."
 
     true
   end
 
   def mark_as_done
+    return unless find_draft
+
     response = find_draft.mark_as_done(create_preliminary_invoice: true)
 
     @messages << "Merkittiin tilaus #{order_message_info(find_draft)} valmiiksi."

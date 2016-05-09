@@ -44,4 +44,10 @@ class SalesOrder::RowTest < ActiveSupport::TestCase
     @one.update_attributes! keratty: 'joe'
     assert_equal 1, @one.order.rows.picked.count
   end
+
+  test '#parent?' do
+    refute @one.parent?
+    @one.perheid = @one.tunnus
+    assert @one.parent?
+  end
 end
