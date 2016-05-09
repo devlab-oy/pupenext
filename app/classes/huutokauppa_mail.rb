@@ -304,7 +304,7 @@ class HuutokauppaMail
       LegacyMethods.pupesoft_function(:tuoteperheiden_hintojen_paivitys, parent_row_ids: { row.id => child_row_ids })
     end
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} tuotetiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} tuotetiedot (Tuoteno: #{row.tuoteno}, Hinta: #{row.hinta})."
 
     true
   end
@@ -328,7 +328,7 @@ class HuutokauppaMail
                      .order(:myyntihinta)
                      .first!
 
-    @messages << "Löydettiin tuote #{product.tuoteno} lisättäväksi toimitustuotteeksi."
+    @messages << "Löydettiin tuote (Tuoteno: #{product.tuoteno}, Hinta: #{product.myyntihinta}) lisättäväksi toimitustuotteeksi."
 
     response = LegacyMethods.pupesoft_function(:lisaa_rivi, order_id: find_draft.id, product_id: product.id)
 

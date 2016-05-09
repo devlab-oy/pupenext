@@ -657,8 +657,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
       assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
 
-      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot."
-      assert_includes email.messages, message
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot"
+      assert_includes email.messages.to_s, message
     end
   end
 
