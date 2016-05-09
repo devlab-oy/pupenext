@@ -166,7 +166,7 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
-      ytunnus: company_id || auction_id,
+      ytunnus: company_id || "HK#{auction_id}",
     )
 
     if customer.save
