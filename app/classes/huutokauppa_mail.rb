@@ -226,7 +226,12 @@ class HuutokauppaMail
   end
 
   def find_order
-    @order ||= SalesOrder::Order.find_by!(viesti: auction_id)
+    @order ||= SalesOrder::Order.find_by(viesti: auction_id)
+
+    return @order if @order
+
+    @messages << "Myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
+    nil
   end
 
   def update_order_customer_info
