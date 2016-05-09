@@ -201,6 +201,8 @@ class HuutokauppaMail
   end
 
   def update_or_create_customer
+    return unless find_draft
+
     if find_customer
       @messages << "Asiakas #{customer_message_info(find_customer)} löytyi, joten päivitetään kyseisen asiakkaan tiedot."
 
@@ -235,7 +237,7 @@ class HuutokauppaMail
   end
 
   def update_order_customer_info
-    return unless customer_name
+    return unless customer_name && find_draft
 
     find_draft.update!(
       nimi: customer_name,
@@ -274,6 +276,8 @@ class HuutokauppaMail
 
     order = find_order || find_draft
 
+    return unless order
+
     order.update!(
       toim_email: delivery_email,
       toim_nimi: delivery_name,
@@ -289,6 +293,8 @@ class HuutokauppaMail
   end
 
   def update_order_product_info
+    return unless find_draft
+
     row = find_draft.rows.first
 
     row.update!(
@@ -323,7 +329,7 @@ class HuutokauppaMail
   end
 
   def add_delivery_row
-    return unless delivery_price_with_vat && delivery_price_with_vat > 0
+    return unless find_draft && delivery_price_with_vat && delivery_price_with_vat > 0
 
     product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
                      .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
@@ -342,6 +348,8 @@ class HuutokauppaMail
   end
 
   def update_delivery_method_to_nouto
+    return unless find_draft
+
     find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'))
 
     @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} toimitustavaksi Nouto."
@@ -352,6 +360,8 @@ class HuutokauppaMail
   def update_delivery_method_to_itella_economy_16
     order = find_order || find_draft
 
+    return unless order
+
     order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
 
     @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Itella Economy 16."
@@ -360,6 +370,8 @@ class HuutokauppaMail
   end
 
   def mark_as_done
+    return unless find_draft
+
     response = find_draft.mark_as_done(create_preliminary_invoice: true)
 
     @messages << "Merkittiin tilaus #{order_message_info(find_draft)} valmiiksi."
