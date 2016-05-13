@@ -169,6 +169,7 @@ class HuutokauppaMail
       ytunnus: company_id || "HK#{auction_id}",
       delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
       terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
+      chn: 667,
     )
 
     if customer.save
