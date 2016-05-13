@@ -1,83 +1,56 @@
-sixty_days_net:
+DEFAULTS: &DEFAULTS
   yhtio: acme
+  jarjestys: 1
+  abs_pvm: <%= Date.today %>
+  kassa_abspvm: <%= Date.today %>
+  laatija: joe
+  luontiaika: <%= Date.today %>
+  muutospvm: <%= Date.today %>
+  muuttaja: joe
+
+two_days_net:
+  teksti: 2 päivää netto
+  rel_pvm: 2
+  <<: *DEFAULTS
+
+sixty_days_net:
   teksti: 60 pv netto
   rel_pvm: 60
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 150
-  kassa_abspvm: <%= Date.today %>
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
 
 ninety_days_net:
-  yhtio: acme
   teksti: 90 pv netto
   rel_pvm: 90
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 15
-  kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
 
 seventy_days_net:
-  yhtio: acme
   teksti: 70 pv netto
   rel_pvm: 70
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
-  kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
 
 eighty_days_net:
-  yhtio: acme
   teksti: 80 pv netto
   rel_pvm: 80
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
-  kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
 
 hundred_days_net:
-  yhtio: acme
   teksti: 100 pv netto
   rel_pvm: 100
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
-  kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
 
 not_in_use_net:
-  yhtio: acme
   teksti: 110 pv netto
   rel_pvm: 110
-  abs_pvm: <%= Date.today %>
   kassa_relpvm: 14
-  kassa_abspvm: <%= Date.today %>
   kassa_alepros: 0.00
   kaytossa: E
-  jarjestys: 1
-  laatija: joe
-  luontiaika: <%= Date.today %>
-  muutospvm: <%= Date.today %>
-  muuttaja: joe
+  <<: *DEFAULTS
