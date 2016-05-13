@@ -494,6 +494,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_difference 'Customer.count' do
         email.create_customer
 
+        assert_equal delivery_methods(:nouto), Customer.last.delivery_method
+
         assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end
     end

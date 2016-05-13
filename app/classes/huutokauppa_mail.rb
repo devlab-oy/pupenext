@@ -167,6 +167,7 @@ class HuutokauppaMail
       postino: customer_postcode,
       postitp: customer_city,
       ytunnus: company_id || "HK#{auction_id}",
+      delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
     )
 
     if customer.save
