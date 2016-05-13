@@ -168,6 +168,7 @@ class HuutokauppaMail
       postitp: customer_city,
       ytunnus: company_id || "HK#{auction_id}",
       delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
+      terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
     )
 
     if customer.save

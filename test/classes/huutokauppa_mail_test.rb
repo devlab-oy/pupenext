@@ -15,6 +15,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     sales_order/drafts
     sales_order/orders
     sales_order/rows
+    terms_of_payments
   )
 
   setup do
@@ -494,7 +495,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_difference 'Customer.count' do
         email.create_customer
 
-        assert_equal delivery_methods(:nouto), Customer.last.delivery_method
+        assert_equal delivery_methods(:nouto),         Customer.last.delivery_method
+        assert_equal terms_of_payments(:two_days_net), Customer.last.terms_of_payment
 
         assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end
