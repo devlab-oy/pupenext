@@ -435,7 +435,7 @@ class HuutokauppaMail
 
         regex = %r{
           (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*
-          Otsikkokenttä:\s*(?<auction_title>.*$)\s*
+          Otsikkokenttä:\s*(\d+\.\d+\.-\d+.\d+\.\s*)?(?<auction_title>.*$)\s*
           Päättymisaika:\s*(?<closing_date>.*$)\s*
           Huudettu:\s*(?<winning_bid>#{currency_number}).*$\s*
           (Hintavaraus:.*\s*)?
