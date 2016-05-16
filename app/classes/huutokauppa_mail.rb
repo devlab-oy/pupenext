@@ -177,6 +177,8 @@ class HuutokauppaMail
       piiri: 1,
     )
 
+    customer.laji = 'H' unless company_name
+
     if customer.save
       @messages << "Asiakas #{customer_message_info(customer)} luotu."
       return customer

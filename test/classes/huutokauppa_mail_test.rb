@@ -523,6 +523,12 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_difference 'Customer.count' do
         email.create_customer
 
+        if email.company_name
+          assert_empty Customer.last.laji
+        else
+          assert_equal 'H', Customer.last.laji
+        end
+
         assert_equal email.name,                       Customer.last.nimi
         assert_equal delivery_methods(:nouto),         Customer.last.delivery_method
         assert_equal terms_of_payments(:two_days_net), Customer.last.terms_of_payment
