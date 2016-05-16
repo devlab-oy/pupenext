@@ -13,10 +13,18 @@ so_row_one:
   tyyppi: L
   <<: *DEFAULTS
 
-<% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912, 293363, 294627].each do |auction_id| %>
+<% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912, 293363].each do |auction_id| %>
 huutokauppa_<%= auction_id %>_row_1:
   order: huutokauppa_<%= auction_id %>
   tuoteno: hammer123
+  tilkpl: 1
   tyyppi: L
   <<: *DEFAULTS
 <% end %>
+
+huutokauppa_294627_row_1:
+  order: huutokauppa_294627
+  tuoteno: hammer123
+  tilkpl: 3
+  tyyppi: L
+  <<: *DEFAULTS

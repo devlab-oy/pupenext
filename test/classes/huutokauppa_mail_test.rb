@@ -695,13 +695,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_product_info
 
-      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta
-      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta_alkuperainen
-      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.hinta_valuutassa
-      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.rivihinta
-      assert_equal email.auction_price_without_vat, email.find_draft.rows.first.rivihinta_valuutassa
-      assert_equal email.auction_title,             email.find_draft.rows.first.nimitys
-      assert_equal email.auction_vat_percent,       email.find_draft.rows.first.alv
+      row = email.find_draft.rows.first
+      qty = row.tilkpl
+
+      assert_equal email.auction_price_without_vat / qty, row.hinta
+      assert_equal email.auction_price_without_vat / qty, row.hinta_alkuperainen
+      assert_equal email.auction_price_without_vat / qty, row.hinta_valuutassa
+      assert_equal email.auction_price_without_vat,       row.rivihinta
+      assert_equal email.auction_price_without_vat,       row.rivihinta_valuutassa
+      assert_equal email.auction_title,                   row.nimitys
+      assert_equal email.auction_vat_percent,             row.alv
 
       message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) tuotetiedot"
       assert_includes email.messages.to_s, message

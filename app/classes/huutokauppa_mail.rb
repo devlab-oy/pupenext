@@ -305,12 +305,13 @@ class HuutokauppaMail
     return unless find_draft
 
     row = find_draft.rows.first
+    qty = row.tilkpl
 
     row.update!(
       alv: auction_vat_percent,
-      hinta: auction_price_without_vat,
-      hinta_alkuperainen: auction_price_without_vat,
-      hinta_valuutassa: auction_price_without_vat,
+      hinta: auction_price_without_vat / qty,
+      hinta_alkuperainen: auction_price_without_vat / qty,
+      hinta_valuutassa: auction_price_without_vat / qty,
       nimitys: auction_title,
       rivihinta: auction_price_without_vat,
       rivihinta_valuutassa: auction_price_without_vat,
