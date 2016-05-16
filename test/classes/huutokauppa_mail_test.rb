@@ -830,8 +830,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
       email.update_delivery_method_to_itella_economy_16
 
-      assert_equal delivery_methods(:itella_economy_16), email.find_order.delivery_method
-      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Itella Economy 16."
+      assert_equal delivery_methods(:posti_economy_16), email.find_order.delivery_method
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Posti Economy 16."
       assert_includes email.messages, message
     end
   end

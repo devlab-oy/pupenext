@@ -369,9 +369,9 @@ class HuutokauppaMail
 
     return unless order
 
-    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Posti Economy 16'))
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Itella Economy 16."
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Posti Economy 16."
 
     true
   end
