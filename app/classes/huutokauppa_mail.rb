@@ -244,9 +244,7 @@ class HuutokauppaMail
   end
 
   def update_order_customer_info
-    return unless (customer_name || company_name) && find_draft
-
-    name = company_name ? company_name : customer_name
+    return unless name && find_draft
 
     find_draft.update!(
       nimi: name,
