@@ -22,18 +22,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     Current.user = users(:bob)
 
     # setup all emails
-    @auction_ended                = HuutokauppaMail.new huutokauppa_email(:auction_ended_1)
-    @bidder_picks_up              = HuutokauppaMail.new huutokauppa_email(:bidder_picks_up_1)
-    @delivery_offer_request       = HuutokauppaMail.new huutokauppa_email(:delivery_offer_request_1)
-    @delivery_ordered             = HuutokauppaMail.new huutokauppa_email(:delivery_ordered_1)
-    @invalid_customer_info        = HuutokauppaMail.new huutokauppa_email(:invalid_customer_info)
-    @offer_accepted               = HuutokauppaMail.new huutokauppa_email(:offer_accepted_1)
-    @offer_accepted_2             = HuutokauppaMail.new huutokauppa_email(:offer_accepted_2)
-    @offer_automatically_accepted = HuutokauppaMail.new huutokauppa_email(:offer_automatically_accepted_1)
-    @offer_declined               = HuutokauppaMail.new huutokauppa_email(:offer_declined_1)
-    @purchase_price_paid          = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_1)
-    @purchase_price_paid_2        = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_2)
-    @purchase_price_paid_3        = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_3)
+    @auction_ended                  = HuutokauppaMail.new huutokauppa_email(:auction_ended_1)
+    @bidder_picks_up                = HuutokauppaMail.new huutokauppa_email(:bidder_picks_up_1)
+    @delivery_offer_request         = HuutokauppaMail.new huutokauppa_email(:delivery_offer_request_1)
+    @delivery_ordered               = HuutokauppaMail.new huutokauppa_email(:delivery_ordered_1)
+    @invalid_customer_info          = HuutokauppaMail.new huutokauppa_email(:invalid_customer_info)
+    @offer_accepted                 = HuutokauppaMail.new huutokauppa_email(:offer_accepted_1)
+    @offer_accepted_2               = HuutokauppaMail.new huutokauppa_email(:offer_accepted_2)
+    @offer_automatically_accepted   = HuutokauppaMail.new huutokauppa_email(:offer_automatically_accepted_1)
+    @offer_automatically_accepted_2 = HuutokauppaMail.new huutokauppa_email(:offer_automatically_accepted_2)
+    @offer_declined                 = HuutokauppaMail.new huutokauppa_email(:offer_declined_1)
+    @purchase_price_paid            = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_1)
+    @purchase_price_paid_2          = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_2)
+    @purchase_price_paid_3          = HuutokauppaMail.new huutokauppa_email(:purchase_price_paid_3)
 
     @emails_without_customer_info = [
       @auction_ended,
@@ -49,6 +50,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @offer_declined,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -87,6 +89,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal :offer_accepted,               @offer_accepted.type
     assert_equal :offer_accepted,               @offer_accepted_2.type
     assert_equal :offer_automatically_accepted, @offer_automatically_accepted.type
+    assert_equal :offer_automatically_accepted, @offer_automatically_accepted_2.type
     assert_equal :offer_declined,               @offer_declined.type
     assert_equal :purchase_price_paid,          @purchase_price_paid.type
     assert_equal :purchase_price_paid,          @purchase_price_paid_2.type
@@ -94,7 +97,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#company_name' do
-    assert_equal 'Testites Oy', @offer_accepted_2.company_name
+    assert_equal 'Testites Oy',     @offer_accepted_2.company_name
+    assert_equal 'TE-Testitest Oy', @offer_automatically_accepted_2.company_name
 
     assert_nil @auction_ended.company_name
     assert_nil @bidder_picks_up.company_name
@@ -111,6 +115,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#company_id' do
     assert_equal 'FI01234567', @offer_accepted_2.company_id
+    assert_equal '1234567-8',  @offer_automatically_accepted_2.company_id
 
     assert_nil @auction_ended.company_id
     assert_nil @bidder_picks_up.company_id
@@ -126,12 +131,13 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#customer_name' do
-    assert_equal 'Testi Testit Testitestit', @offer_accepted.customer_name
-    assert_equal 'Testi Testiä',             @offer_accepted_2.customer_name
-    assert_equal 'Test-testi Testite',       @offer_automatically_accepted.customer_name
-    assert_equal 'Test-testi Testite',       @purchase_price_paid.customer_name
-    assert_equal 'Test testit Testi',        @purchase_price_paid_2.customer_name
-    assert_equal 'Test test testi Testite',  @purchase_price_paid_3.customer_name
+    assert_equal 'Testi Testit Testitestit',   @offer_accepted.customer_name
+    assert_equal 'Testi Testiä',               @offer_accepted_2.customer_name
+    assert_equal 'Test-testi Testite',         @offer_automatically_accepted.customer_name
+    assert_equal 'Test testi testit Testites', @offer_automatically_accepted_2.customer_name
+    assert_equal 'Test-testi Testite',         @purchase_price_paid.customer_name
+    assert_equal 'Test testit Testi',          @purchase_price_paid_2.customer_name
+    assert_equal 'Test test testi Testite',    @purchase_price_paid_3.customer_name
 
     @emails_without_customer_info.each do |mail|
       assert_nil mail.customer_name
@@ -146,6 +152,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'testit@testi.tes',          @offer_accepted.customer_email
     assert_equal 'testi.testit@testit.te',    @offer_accepted_2.customer_email
     assert_equal 'te.testite@testi.tes',      @offer_automatically_accepted.customer_email
+    assert_equal 'test@te-testitest.te',      @offer_automatically_accepted_2.customer_email
     assert_equal 'te.testite@testi.tes',      @purchase_price_paid.customer_email
     assert_equal 'test.testi@testitestit.fi', @purchase_price_paid_2.customer_email
     assert_equal 'testite@testite.tes',       @purchase_price_paid_3.customer_email
@@ -159,6 +166,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '+123 45 6789012', @offer_accepted.customer_phone
     assert_equal '+123 45 6789012', @offer_accepted_2.customer_phone
     assert_equal '+123 45 6789012', @offer_automatically_accepted.customer_phone
+    assert_equal '+123 45 6789012', @offer_automatically_accepted_2.customer_phone
     assert_equal '+123 45 6789012', @purchase_price_paid.customer_phone
     assert_equal '+123 45 6789012', @purchase_price_paid_2.customer_phone
     assert_equal '+123 45 6789012', @purchase_price_paid_3.customer_phone
@@ -172,6 +180,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'testitestit 12',    @offer_accepted.customer_address
     assert_equal 'Testites 52',       @offer_accepted_2.customer_address
     assert_equal 'Testitesti 123',    @offer_automatically_accepted.customer_address
+    assert_equal 'Testitestit 1 k',   @offer_automatically_accepted_2.customer_address
     assert_equal 'Testitesti 123',    @purchase_price_paid.customer_address
     assert_equal 'Testitest 21',      @purchase_price_paid_2.customer_address
     assert_equal 'Testiteäki 12 A 1', @purchase_price_paid_3.customer_address
@@ -185,6 +194,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '12345', @offer_accepted.customer_postcode
     assert_equal '12345', @offer_accepted_2.customer_postcode
     assert_equal '23456', @offer_automatically_accepted.customer_postcode
+    assert_equal '12345', @offer_automatically_accepted_2.customer_postcode
     assert_equal '12345', @purchase_price_paid.customer_postcode
     assert_equal '12345', @purchase_price_paid_2.customer_postcode
     assert_equal '12345', @purchase_price_paid_3.customer_postcode
@@ -198,6 +208,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Testi',      @offer_accepted.customer_city
     assert_equal 'Testätes',   @offer_accepted_2.customer_city
     assert_equal 'Testitesti', @offer_automatically_accepted.customer_city
+    assert_equal 'Testite',    @offer_automatically_accepted_2.customer_city
     assert_equal 'Testitesti', @purchase_price_paid.customer_city
     assert_equal 'Testi',      @purchase_price_paid_2.customer_city
     assert_equal 'testite',    @purchase_price_paid_3.customer_city
@@ -211,6 +222,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 'Suomi', @offer_accepted.customer_country
     assert_equal 'Suomi', @offer_accepted_2.customer_country
     assert_equal 'Suomi', @offer_automatically_accepted.customer_country
+    assert_equal 'Suomi', @offer_automatically_accepted_2.customer_country
     assert_equal 'Suomi', @purchase_price_paid.customer_country
     assert_equal 'Suomi', @purchase_price_paid_2.customer_country
     assert_equal 'Suomi', @purchase_price_paid_3.customer_country
@@ -285,6 +297,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @offer_accepted.delivery_price_without_vat
     assert_nil @offer_accepted_2.delivery_price_without_vat
     assert_nil @offer_automatically_accepted.delivery_price_without_vat
+    assert_nil @offer_automatically_accepted_2.delivery_price_without_vat
     assert_nil @offer_declined.delivery_price_without_vat
     assert_nil @purchase_price_paid.delivery_price_without_vat
   end
@@ -300,6 +313,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @offer_accepted.delivery_price_with_vat
     assert_nil @offer_accepted_2.delivery_price_with_vat
     assert_nil @offer_automatically_accepted.delivery_price_with_vat
+    assert_nil @offer_automatically_accepted_2.delivery_price_with_vat
     assert_nil @offer_declined.delivery_price_with_vat
     assert_nil @purchase_price_paid.delivery_price_with_vat
   end
@@ -315,6 +329,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @offer_accepted.delivery_vat_percent
     assert_nil @offer_accepted_2.delivery_vat_percent
     assert_nil @offer_automatically_accepted.delivery_vat_percent
+    assert_nil @offer_automatically_accepted_2.delivery_vat_percent
     assert_nil @offer_declined.delivery_vat_percent
     assert_nil @purchase_price_paid.delivery_vat_percent
   end
@@ -330,6 +345,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @offer_accepted.delivery_vat_amount
     assert_nil @offer_accepted_2.delivery_vat_amount
     assert_nil @offer_automatically_accepted.delivery_vat_amount
+    assert_nil @offer_automatically_accepted_2.delivery_vat_amount
     assert_nil @offer_declined.delivery_vat_amount
     assert_nil @purchase_price_paid.delivery_vat_amount
   end
@@ -342,6 +358,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 824.6,      @offer_accepted.total_price_with_vat
     assert_equal 10_664.0,   @offer_accepted_2.total_price_with_vat
     assert_equal 372.0,      @offer_automatically_accepted.total_price_with_vat
+    assert_equal 279.0,      @offer_automatically_accepted_2.total_price_with_vat
     assert_equal 62.0,       @offer_declined.total_price_with_vat
     assert_equal 372.0,      @purchase_price_paid.total_price_with_vat
     assert_equal 248.0,      @purchase_price_paid_2.total_price_with_vat
@@ -356,6 +373,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '277075', @offer_accepted.auction_id
     assert_equal '293363', @offer_accepted_2.auction_id
     assert_equal '270265', @offer_automatically_accepted.auction_id
+    assert_equal '294627', @offer_automatically_accepted_2.auction_id
     assert_equal '277687', @offer_declined.auction_id
     assert_equal '270265', @purchase_price_paid.auction_id
     assert_equal '287912', @purchase_price_paid_2.auction_id
@@ -384,6 +402,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     title = 'Auton keinunostin, 1500 kg, UUSI, Lahti'
     assert_equal title, @offer_automatically_accepted.auction_title
 
+    title = 'Tasapainoskootteri, väri punainen, UUSI, Lahti'
+    assert_equal title, @offer_automatically_accepted_2.auction_title
+
     title = 'Vaijerikeloja lavalla, Lahti'
     assert_equal title, @offer_declined.auction_title
 
@@ -405,6 +426,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal "2016-03-25 20:10".to_time, @offer_accepted.auction_closing_date
     assert_equal "2016-05-01 20:25".to_time, @offer_accepted_2.auction_closing_date
     assert_equal "2016-03-25 20:20".to_time, @offer_automatically_accepted.auction_closing_date
+    assert_equal "2016-05-15 21:00".to_time, @offer_automatically_accepted_2.auction_closing_date
     assert_equal "2016-03-25 19:40".to_time, @offer_declined.auction_closing_date
     assert_equal "2016-03-25 20:20".to_time, @purchase_price_paid.auction_closing_date
     assert_equal "2016-04-23 19:40".to_time, @purchase_price_paid_2.auction_closing_date
@@ -419,6 +441,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 665,  @offer_accepted.auction_price_without_vat
     assert_equal 8600, @offer_accepted_2.auction_price_without_vat
     assert_equal 300,  @offer_automatically_accepted.auction_price_without_vat
+    assert_equal 225,  @offer_automatically_accepted_2.auction_price_without_vat
     assert_equal 50,   @offer_declined.auction_price_without_vat
     assert_equal 300,  @purchase_price_paid.auction_price_without_vat
     assert_equal 200,  @purchase_price_paid_2.auction_price_without_vat
@@ -433,6 +456,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 824.6,     @offer_accepted.auction_price_with_vat
     assert_equal 10_664.0,  @offer_accepted_2.auction_price_with_vat
     assert_equal 372.0,     @offer_automatically_accepted.auction_price_with_vat
+    assert_equal 279.0,     @offer_automatically_accepted_2.auction_price_with_vat
     assert_equal 62.0,      @offer_declined.auction_price_with_vat
     assert_equal 372.0,     @purchase_price_paid.auction_price_with_vat
     assert_equal 248.0,     @purchase_price_paid_2.auction_price_with_vat
@@ -447,6 +471,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 24, @offer_accepted.auction_vat_percent
     assert_equal 24, @offer_accepted_2.auction_vat_percent
     assert_equal 24, @offer_automatically_accepted.auction_vat_percent
+    assert_equal 24, @offer_automatically_accepted_2.auction_vat_percent
     assert_equal 24, @offer_declined.auction_vat_percent
     assert_equal 24, @purchase_price_paid.auction_vat_percent
     assert_equal 24, @purchase_price_paid_2.auction_vat_percent
@@ -461,6 +486,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 159.6,  @offer_accepted.auction_vat_amount
     assert_equal 2064.0, @offer_accepted_2.auction_vat_amount
     assert_equal 72.0,   @offer_automatically_accepted.auction_vat_amount
+    assert_equal 54.0,   @offer_automatically_accepted_2.auction_vat_amount
     assert_equal 12.0,   @offer_declined.auction_vat_amount
     assert_equal 72.0,   @purchase_price_paid.auction_vat_amount
     assert_equal 48.0,   @purchase_price_paid_2.auction_vat_amount
@@ -473,6 +499,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal customers(:huutokauppa_customer_2), @purchase_price_paid.find_customer
 
     assert_nil @offer_accepted_2.find_customer
+    assert_nil @offer_automatically_accepted_2.find_customer
     assert_nil @purchase_price_paid_2.find_customer
     assert_nil @purchase_price_paid_3.find_customer
 
@@ -486,6 +513,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @purchase_price_paid,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
@@ -554,6 +582,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal sales_order_drafts(:huutokauppa_277075), @offer_accepted.find_draft
     assert_equal sales_order_drafts(:huutokauppa_293363), @offer_accepted_2.find_draft
     assert_equal sales_order_drafts(:huutokauppa_270265), @offer_automatically_accepted.find_draft
+    assert_equal sales_order_drafts(:huutokauppa_294627), @offer_automatically_accepted_2.find_draft
     assert_equal sales_order_drafts(:huutokauppa_277687), @offer_declined.find_draft
     assert_equal sales_order_drafts(:huutokauppa_270265), @purchase_price_paid.find_draft
     assert_equal sales_order_drafts(:huutokauppa_287912), @purchase_price_paid_2.find_draft
@@ -571,6 +600,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @purchase_price_paid,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
@@ -646,6 +676,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @offer_declined,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -688,6 +719,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         @offer_accepted,
         @offer_accepted_2,
         @offer_automatically_accepted,
+        @offer_automatically_accepted_2,
         @purchase_price_paid,
         @purchase_price_paid_2,
         @purchase_price_paid_3,
@@ -736,6 +768,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @offer_declined,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -757,6 +790,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @offer_accepted,
       @offer_accepted_2,
       @offer_automatically_accepted,
+      @offer_automatically_accepted_2,
       @offer_declined,
       @purchase_price_paid,
       @purchase_price_paid_2,
@@ -847,6 +881,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     [
       @offer_accepted_2,
+      @offer_automatically_accepted_2,
       @purchase_price_paid_2,
       @purchase_price_paid_3,
     ].each do |email|
