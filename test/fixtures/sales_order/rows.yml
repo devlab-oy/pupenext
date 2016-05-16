@@ -28,3 +28,10 @@ huutokauppa_294627_row_1:
   tilkpl: 3
   tyyppi: L
   <<: *DEFAULTS
+
+huutokauppa_298958_row_1:
+  order: huutokauppa_298958
+  tuoteno: hammer123
+  tilkpl: 7
+  tyyppi: L
+  <<: *DEFAULTS
