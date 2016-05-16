@@ -15,6 +15,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     sales_order/drafts
     sales_order/orders
     sales_order/rows
+    terms_of_payments
   )
 
   setup do
@@ -362,7 +363,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#auction_title' do
-    title = '24.03.-25.03. Aggregaatti Lutian 6 kVA 230/400 diesel, sähköstartti, Silent -malli, UUSI, Lahti'
+    title = 'Aggregaatti Lutian 6 kVA 230/400 diesel, sähköstartti, Silent -malli, UUSI, Lahti'
     assert_equal title, @auction_ended.auction_title
 
     title = 'Coca-Cola jääkaappi, 62 litraa, UUSI, takuu 24 kk'
@@ -374,25 +375,25 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     title = '2,5 KW petroolilämmitin, UUSI, takuu 12 kk'
     assert_equal title, @delivery_ordered.auction_title
 
-    title = '18.03.-25.03. SkyJack SJ III - 3219 saksilavanostin, Lahti'
+    title = 'SkyJack SJ III - 3219 saksilavanostin, Lahti'
     assert_equal title, @offer_accepted.auction_title
 
-    title = '26.04.-01.05. BOBCAT 320 kaivinkone, Lahti'
+    title = 'BOBCAT 320 kaivinkone, Lahti'
     assert_equal title, @offer_accepted_2.auction_title
 
-    title = '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti'
+    title = 'Auton keinunostin, 1500 kg, UUSI, Lahti'
     assert_equal title, @offer_automatically_accepted.auction_title
 
-    title = '20.03.-25.03. Vaijerikeloja lavalla, Lahti'
+    title = 'Vaijerikeloja lavalla, Lahti'
     assert_equal title, @offer_declined.auction_title
 
-    title = '20.03.-25.03. Auton keinunostin, 1500 kg, UUSI, Lahti'
+    title = 'Auton keinunostin, 1500 kg, UUSI, Lahti'
     assert_equal title, @purchase_price_paid.auction_title
 
-    title = '17.04.-23.04. Tunkkisetti. 20-30 tonnia, UUSIA, Lahti'
+    title = 'Tunkkisetti. 20-30 tonnia, UUSIA, Lahti'
     assert_equal title, @purchase_price_paid_2.auction_title
 
-    title = '24.04.-26.04. KAPPA reppu + KAPPA treenikassi + KAPPA sukat, UUSIA, Lahti'
+    title = 'KAPPA reppu + KAPPA treenikassi + KAPPA sukat, UUSIA, Lahti'
     assert_equal title, @purchase_price_paid_3.auction_title
   end
 
@@ -493,6 +494,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
       assert_difference 'Customer.count' do
         email.create_customer
+
+        assert_equal delivery_methods(:nouto),         Customer.last.delivery_method
+        assert_equal terms_of_payments(:two_days_net), Customer.last.terms_of_payment
+        assert_equal '667',                            Customer.last.chn
 
         assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end

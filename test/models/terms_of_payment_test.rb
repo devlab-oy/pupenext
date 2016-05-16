@@ -64,7 +64,7 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
 
   test 'should get five used and 1 not in use terms of payments' do
     assert_equal 1, TermsOfPayment.not_in_use.count
-    assert_equal 5, TermsOfPayment.in_use.count
+    assert TermsOfPayment.in_use.count > 5
   end
 
   test 'should search exact match' do

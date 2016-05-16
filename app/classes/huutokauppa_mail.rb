@@ -167,6 +167,9 @@ class HuutokauppaMail
       postino: customer_postcode,
       postitp: customer_city,
       ytunnus: company_id || "HK#{auction_id}",
+      delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
+      terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
+      chn: 667,
     )
 
     if customer.save
@@ -432,7 +435,7 @@ class HuutokauppaMail
 
         regex = %r{
           (Kohdenumero|Kohde):?\s*\#?(?<auction_id>\d*)\s*
-          Otsikkokenttä:\s*(?<auction_title>.*$)\s*
+          Otsikkokenttä:\s*(\d+\.\d+\.-\d+.\d+\.\s*)?(?<auction_title>.*$)\s*
           Päättymisaika:\s*(?<closing_date>.*$)\s*
           Huudettu:\s*(?<winning_bid>#{currency_number}).*$\s*
           (Hintavaraus:.*\s*)?
