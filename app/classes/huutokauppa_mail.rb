@@ -166,7 +166,7 @@ class HuutokauppaMail
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
-      nimi: customer_name,
+      nimi: name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
