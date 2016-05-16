@@ -901,4 +901,14 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#name' do
+    assert_equal 'Testi Testit Testitestit', @offer_accepted.name
+    assert_equal 'Testites Oy',              @offer_accepted_2.name
+    assert_equal 'Test-testi Testite',       @offer_automatically_accepted.name
+    assert_equal 'TE-Testitest Oy',          @offer_automatically_accepted_2.name
+    assert_equal 'Test-testi Testite',       @purchase_price_paid.name
+    assert_equal 'Test testit Testi',        @purchase_price_paid_2.name
+    assert_equal 'Test test testi Testite',  @purchase_price_paid_3.name
+  end
 end
