@@ -191,7 +191,7 @@ class HuutokauppaMail
 
     update_success = find_customer.update(
       gsm: customer_phone,
-      nimi: customer_name,
+      nimi: name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
