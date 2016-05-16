@@ -160,7 +160,7 @@ class HuutokauppaMail
   end
 
   def create_customer
-    return unless customer_name
+    return unless name
 
     customer = Customer.new(
       email: customer_email,
