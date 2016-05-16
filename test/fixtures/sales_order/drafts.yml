@@ -28,7 +28,7 @@ not_finished_order:
   terms_of_payment: hundred_days_net
   <<: *DEFAULTS
 
-<% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912, 293363].each do |auction_id| %>
+<% [270265, 274472, 277075, 277687, 279590, 285888, 285703, 287912, 293363, 294627, 298958].each do |auction_id| %>
 huutokauppa_<%= auction_id %>:
   toim_nimi: Testi Testaaja
   toim_nimitark: Testi Testaaja

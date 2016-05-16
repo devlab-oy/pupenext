@@ -146,8 +146,8 @@ class HuutokauppaJobTest < ActiveJob::TestCase
 
     order = SalesOrder::Order.find_by!(viesti: 274_472)
 
-    assert_equal 'Test-testi testit Testites',         order.toim_nimi
-    assert_equal delivery_methods(:itella_economy_16), order.delivery_method
+    assert_equal 'Test-testi testit Testites',        order.toim_nimi
+    assert_equal delivery_methods(:posti_economy_16), order.delivery_method
 
     assert_equal 'ok', incoming_mail.reload.status
     message = "Päivitettiin tilauksen (Tilausnumero: #{order.id}, Huutokauppa: #{order.viesti}) toimitustiedot."

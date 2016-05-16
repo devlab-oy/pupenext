@@ -17,6 +17,21 @@ so_row_one:
 huutokauppa_<%= auction_id %>_row_1:
   order: huutokauppa_<%= auction_id %>
   tuoteno: hammer123
+  tilkpl: 1
   tyyppi: L
   <<: *DEFAULTS
 <% end %>
+
+huutokauppa_294627_row_1:
+  order: huutokauppa_294627
+  tuoteno: hammer123
+  tilkpl: 3
+  tyyppi: L
+  <<: *DEFAULTS
+
+huutokauppa_298958_row_1:
+  order: huutokauppa_298958
+  tuoteno: hammer123
+  tilkpl: 7
+  tyyppi: L
+  <<: *DEFAULTS
