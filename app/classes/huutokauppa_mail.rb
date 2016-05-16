@@ -174,6 +174,7 @@ class HuutokauppaMail
       delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
       terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
       chn: 667,
+      piiri: 1,
     )
 
     if customer.save
@@ -195,6 +196,7 @@ class HuutokauppaMail
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
+      piiri: 1,
     )
 
     if update_success

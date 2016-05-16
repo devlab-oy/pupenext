@@ -527,6 +527,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_equal delivery_methods(:nouto),         Customer.last.delivery_method
         assert_equal terms_of_payments(:two_days_net), Customer.last.terms_of_payment
         assert_equal '667',                            Customer.last.chn
+        assert_equal '1',                              Customer.last.piiri
 
         assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end
@@ -554,6 +555,8 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   test '#update_customer' do
     [@offer_accepted, @offer_automatically_accepted, @purchase_price_paid].each do |email|
       assert email.update_customer
+
+      assert_equal '1', email.find_customer.piiri
 
       assert_includes email.messages, "Asiakas #{email.find_customer.nimi} (#{email.find_customer.email}) päivitetty."
     end
