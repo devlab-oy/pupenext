@@ -607,7 +607,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     ].each do |email|
       assert email.update_order_customer_info
 
-      assert_equal email.customer_name,     email.find_draft.nimi
+      if email.company_name
+        assert_equal email.company_name, email.find_draft.nimi
+        assert_equal email.company_name, email.find_draft.toim_nimi
+        assert_equal email.company_name, email.find_draft.laskutus_nimi
+      else
+        assert_equal email.customer_name, email.find_draft.nimi
+        assert_equal email.customer_name, email.find_draft.toim_nimi
+        assert_equal email.customer_name, email.find_draft.laskutus_nimi
+      end
+
       assert_empty                          email.find_draft.nimitark
       assert_equal email.customer_address,  email.find_draft.osoite
       assert_empty                          email.find_draft.osoitetark
@@ -616,7 +625,6 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.customer_phone,    email.find_draft.puh
       assert_equal email.customer_email,    email.find_draft.email
 
-      assert_equal email.customer_name,     email.find_draft.toim_nimi
       assert_empty                          email.find_draft.toim_nimitark
       assert_equal email.customer_address,  email.find_draft.toim_osoite
       assert_equal email.customer_postcode, email.find_draft.toim_postino
@@ -624,7 +632,6 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       assert_equal email.customer_phone,    email.find_draft.toim_puh
       assert_equal email.customer_email,    email.find_draft.toim_email
 
-      assert_equal email.customer_name,     email.find_draft.laskutus_nimi
       assert_empty                          email.find_draft.laskutus_nimitark
       assert_equal email.customer_address,  email.find_draft.laskutus_osoite
       assert_equal email.customer_postcode, email.find_draft.laskutus_postino

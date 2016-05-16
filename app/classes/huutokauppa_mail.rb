@@ -240,10 +240,12 @@ class HuutokauppaMail
   end
 
   def update_order_customer_info
-    return unless customer_name && find_draft
+    return unless (customer_name || company_name) && find_draft
+
+    name = company_name ? company_name : customer_name
 
     find_draft.update!(
-      nimi: customer_name,
+      nimi: name,
       nimitark: '',
       osoite: customer_address,
       postino: customer_postcode,
@@ -252,7 +254,7 @@ class HuutokauppaMail
       email: customer_email,
       ytunnus: company_id || auction_id,
 
-      toim_nimi: customer_name,
+      toim_nimi: name,
       toim_nimitark: '',
       toim_osoite: customer_address,
       toim_postino: customer_postcode,
@@ -262,7 +264,7 @@ class HuutokauppaMail
     )
 
     find_draft.detail.update!(
-      laskutus_nimi: customer_name,
+      laskutus_nimi: name,
       laskutus_nimitark: '',
       laskutus_osoite: customer_address,
       laskutus_postino: customer_postcode,
