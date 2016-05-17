@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512074454) do
+ActiveRecord::Schema.define(version: 20160517071426) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2810,6 +2810,9 @@ ActiveRecord::Schema.define(version: 20160512074454) do
     t.decimal  "kehahin",                                     precision: 16, scale: 6, default: 0.0, null: false
     t.decimal  "vihahin",                                     precision: 16, scale: 6, default: 0.0, null: false
     t.date     "vihapvm",                                                                            null: false
+    t.decimal  "myyntikate",                                  precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "myymalakate",                                 precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "nettokate",                                   precision: 12, scale: 2, default: 0.0, null: false
     t.string   "yksikko",                       limit: 10,                             default: "",  null: false
     t.string   "ei_saldoa",                     limit: 1,                              default: "",  null: false
     t.string   "kommentoitava",                 limit: 1,                              default: "",  null: false
