@@ -45,6 +45,10 @@ class HuutokauppaMail
     customer_info[:name]
   end
 
+  def name
+    company_name || customer_name
+  end
+
   def customer_email
     customer_info[:email]
   end
@@ -156,13 +160,13 @@ class HuutokauppaMail
   end
 
   def create_customer
-    return unless customer_name
+    return unless name
 
     customer = Customer.new(
       email: customer_email,
       gsm: customer_phone,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
-      nimi: customer_name,
+      nimi: name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
@@ -170,7 +174,10 @@ class HuutokauppaMail
       delivery_method: DeliveryMethod.find_by!(selite: 'Nouto'),
       terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
       chn: 667,
+      piiri: 1,
     )
+
+    customer.laji = 'H' unless company_name
 
     if customer.save
       @messages << "Asiakas #{customer_message_info(customer)} luotu."
@@ -187,10 +194,11 @@ class HuutokauppaMail
 
     update_success = find_customer.update(
       gsm: customer_phone,
-      nimi: customer_name,
+      nimi: name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
+      piiri: 1,
     )
 
     if update_success
@@ -240,10 +248,10 @@ class HuutokauppaMail
   end
 
   def update_order_customer_info
-    return unless customer_name && find_draft
+    return unless name && find_draft
 
     find_draft.update!(
-      nimi: customer_name,
+      nimi: name,
       nimitark: '',
       osoite: customer_address,
       postino: customer_postcode,
@@ -252,7 +260,7 @@ class HuutokauppaMail
       email: customer_email,
       ytunnus: company_id || auction_id,
 
-      toim_nimi: customer_name,
+      toim_nimi: name,
       toim_nimitark: '',
       toim_osoite: customer_address,
       toim_postino: customer_postcode,
@@ -262,7 +270,7 @@ class HuutokauppaMail
     )
 
     find_draft.detail.update!(
-      laskutus_nimi: customer_name,
+      laskutus_nimi: name,
       laskutus_nimitark: '',
       laskutus_osoite: customer_address,
       laskutus_postino: customer_postcode,
@@ -299,12 +307,13 @@ class HuutokauppaMail
     return unless find_draft
 
     row = find_draft.rows.first
+    qty = row.tilkpl
 
     row.update!(
       alv: auction_vat_percent,
-      hinta: auction_price_without_vat,
-      hinta_alkuperainen: auction_price_without_vat,
-      hinta_valuutassa: auction_price_without_vat,
+      hinta: auction_price_without_vat / qty,
+      hinta_alkuperainen: auction_price_without_vat / qty,
+      hinta_valuutassa: auction_price_without_vat / qty,
       nimitys: auction_title,
       rivihinta: auction_price_without_vat,
       rivihinta_valuutassa: auction_price_without_vat,
@@ -365,9 +374,9 @@ class HuutokauppaMail
 
     return unless order
 
-    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Itella Economy 16'))
+    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Posti Economy 16'))
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Itella Economy 16."
+    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Posti Economy 16."
 
     true
   end

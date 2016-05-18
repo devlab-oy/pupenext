@@ -1,0 +1,77 @@
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: testite@testi.te
+Delivery-date: Sun, 15 May 2016 21:02:23 +0300
+Received: from filter2.hostingservice.fi ([31.217.192.174]:41912)
+	by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.87)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1b20Mv-000qZB-IL; Sun, 15 May 2016 21:02:21 +0300
+Received: from server.huutokaupat.com ([83.150.76.4])
+	by filter2.hostingservice.fi with esmtp (Exim 4.85)
+	(envelope-from <bounces@automated.huutokaupat.com>)
+	id 1b20Mr-0000YD-SO; Sun, 15 May 2016 21:02:18 +0300
+Received: from localhost (unknown [10.10.10.130])
+	by server.huutokaupat.com (Postfix) with ESMTP id 61A1120267C;
+	Sun, 15 May 2016 21:02:17 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+	s=default; t=1463335337;
+	bh=GsVoYcncZoekB596NMJXOxrzk1gtWWWeFMPl88qTo80=;
+	h=From:To:Subject:Date;
+	b=pHhLRYRHf+TjOPCRSDHFFukF8FwaPYFE6SbfpSWdYK48o7iIbuPWRJR0cWqSBGOsi
+	 +dYxmi6zj00EbT3FN0AKuEFKsMSDy7a2MWJKcyNk3zF3DhZxM1PCE5cvFEX3EqhUXW
+	 xAvI1RjnNEVk3viEtcj/oqFW7MU2QrCSOBWrbTYY=
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+To: testite@testi.te
+Subject: =?utf-8?Q?Tarjous=20automaattisesti=20hyv=C3=A4ksytty=20?=
+ =?utf-8?Q?Huutokaupat.com=20nettihuutokauppa:=20kohde=20#294627?=
+Date: Sun, 15 May 2016 21:02:17 +0300
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+MIME-Version: 1.0
+Message-Id: <20160515180217.61A1120267C@server.huutokaupat.com>
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwZHf
+ WZYD82R/uX1kWNJz4wES3dsoT4fYpUWtq2l6tT6ampYbIWehzfMhBX2xrya8NiYD1ptUVn6ByrDO
+ Wen4bPcvcplYN5zMlHdXzOu7gRr7JZBJUDyXddX3lRgqX8VJ+tAeq+cds6nJlNErvZtFoqBG5Tpk
+ D/Jv7PkKJQMLl7iniwQzKw+6v3CaIMG6s7LqJAIIBVgPWFQrNNt4skZxEXKQm4E4p26nSSkPphfX
+ rBhTiG4XwpsXfeh5n1ZI7qO6rgm3sj9lmtbo8r2I2S7vXK4xdl4Rx1zKKGrFnQlTtN9Me+rrxbVY
+ RI5qM5mkwzDs9idlTZ/1FHjgq2v1uRnTIQkzjyjL/QuDtdf6sFzW2z/xrZ1imVBgEPlWeT9NV68R
+ zTGyrcyC2vCRmxz47BFeriZoD7bAeKsWl/oNzWdtNsPTrUXX5D+Zk7NvU6DQewiNCincCmK8uaqK
+ pmdh0n2Qm1Vxy/ihLCT5uxnmHhGGy2O3GwTuewy/HmZZ5Q1Q/X20UmtnqtxYC4A8Mpq5s+pEiB7R
+ rozQuRVmTz0MvEjBP3L2CCqB9MF1QnIcvR4Oc30Set++dzS2U7nKMHPJjR66Knzy8PsbvOGQC8Rk
+ xXXi70l4QCjD5CFhDgWZDuq0TejmL1C6yAg7PQlNtgw29ArPlaU=
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Recommended-Action: accept
+
+<p>=0A    Kohteen korkein tarjous on automaattisesti hyv=C3=A4ksytty:=0A=
+</p>=0A=0A<p>=0A    Kohde #294627<br/>=0A    Otsikkokentt=C3=A4: 10.05.-=
+15.05. Tasapainoskootteri, v=C3=A4ri punainen, UUSI, Lahti<br/>=0A    P=
+=C3=A4=C3=A4ttymisaika: Sunnuntai 15.05.2016 klo 21:00<br/>=0A    Huudet=
+tu: 225 EUR<br/>=0A    Hintavaraus: 0,00 EUR<br/>=0A    Alv-osuus: 54 EU=
+R<br/>=0A    Summa: 279 EUR, ALV 24 %=0A</p>=0A=0A<p>=0A    Ostajan yhte=
+ystiedot:<br/>=0A            Yritys:<br/>=0A        TE-Testitest Oy<br/>=
+=0A        1234567-8<br/>=0A        Test testi testit Testites<br/>=0A =
+   test@te-testitest.te<br/>=0A            Puhelin: +123 45 6789012<br/>=
+=0A        Osoite:<br/>=0A    Testitestit 1 k<br/>=0A    12345 Testite<b=
+r/>=0A    Suomi=0A</p>=0A=0A<p>=0A    Myyj=C3=A4n/toimeksisaaneen yhteys=
+tiedot:<br/>=0A    Testi Testitest<br />=0AY-tunnus: 1234567-8<br />=0AR=
+ahti tilaukset<br />=0Atestit@testi.te<br />=0A<br />=0A<br />=0AIlmoitt=
+ajan viite: X1P-908<br />=0A<br/>=0A    <br/>=0A    Maksutapa: Verkkopan=
+kkimaksu. Pankit: Nordea, Danske Bank, Osuuspankki, S-pankki, Aktia, Han=
+delsbanken, =C3=85landsbanken, Pop-pankki, S=C3=A4=C3=A4st=C3=B6pankki,=
+ Oma S=C3=A4=C3=A4st=C3=B6pankki<br/>=0A    <br/>=0A    Huutokaupan tila=
+na n=C3=A4kyy ilmoituksessa: P=C3=A4=C3=A4ttynyt =E2=80=93 tarjous hyv=
+=C3=A4ksytty.<br/>=0A    <br/>=0A    Kohteen ostajalla on kaksi arkip=C3=
+=A4iv=C3=A4=C3=A4 aikaa suorittaa kauppahinta Huutokaupat.com palvelua y=
+ll=C3=A4pit=C3=A4v=C3=A4n Mezzoforte Oy:n asiakastilille.  Saatte meilt=
+=C3=A4 s=C3=A4hk=C3=B6postilla vahvistuksen toteutuneesta kauppasummasta=
+.<br/>=0A    <br/>=0A    Maksusuorituksen j=C3=A4lkeen huutokaupan tilan=
+a n=C3=A4kyy ilmoituksessa: Myyty.<br/>=0A    <br/>=0A    Myyntikohde n=
+=C3=A4kyy myynnin toteuduttua sivuilla 7 p=C3=A4iv=C3=A4=C3=A4 ja poistu=
+u t=C3=A4m=C3=A4n j=C3=A4lkeen sivuilta automaattisesti.=0A</p>=0A=0A<p>=
+=0A    Yst=C3=A4v=C3=A4llisin terveisin,<br/>=0AHuutokaupat.com=0A=0A</p=
+>=0A

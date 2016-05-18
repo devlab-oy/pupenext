@@ -69,7 +69,6 @@ class Customer < BaseModel
       self.kieli        = 'fi' if kieli.blank?
       self.kolm_maa     = maa if kolm_maa.blank?
       self.lahetetyyppi = Keyword::PackingListType.first.try(:selite) if lahetetyyppi.blank?
-      self.laji         = 'H' if laji.blank?
       self.laskutus_maa = maa if laskutus_maa.blank?
       self.laskutyyppi  = -9 if laskutyyppi.blank?
       self.maa          = 'fi' if maa.blank?
