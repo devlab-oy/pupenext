@@ -193,12 +193,13 @@ class HuutokauppaMail
     return unless find_customer
 
     update_success = find_customer.update(
-      gsm: customer_phone,
       nimi: name,
       osoite: customer_address,
       postino: customer_postcode,
       postitp: customer_city,
+      gsm: customer_phone,
       piiri: 1,
+      kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
     )
 
     if update_success

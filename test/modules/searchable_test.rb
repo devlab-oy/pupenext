@@ -92,4 +92,15 @@ class SearchableTest < ActiveSupport::TestCase
     params = { lapsituotteen_poiston_esto: 'true' }
     assert_equal count, DumberClass.search_like(params).count
   end
+
+  test 'works with enum values' do
+    IncomingMail.delete_all
+
+    IncomingMail.new(status: 'ok').save(validate: false)
+    IncomingMail.new(status: 'error').save(validate: false)
+    IncomingMail.new.save(validate: false)
+
+    assert_equal 1, IncomingMail.search_like(status: 'ok').count
+    assert_equal 1, IncomingMail.search_like(status: 'error').count
+  end
 end
