@@ -690,20 +690,16 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#update_order_delivery_info' do
     [@delivery_offer_request, @delivery_ordered].each do |email|
-      draft = email.find_draft
-      draft.tila = 'L'
-      draft.save(validate: false)
-
       assert email.update_order_delivery_info
 
-      assert_equal email.delivery_address,  email.find_order.toim_osoite
-      assert_equal email.delivery_city,     email.find_order.toim_postitp
-      assert_equal email.delivery_email,    email.find_order.toim_email
-      assert_equal email.delivery_name,     email.find_order.toim_nimi
-      assert_equal email.delivery_phone,    email.find_order.toim_puh
-      assert_equal email.delivery_postcode, email.find_order.toim_postino
+      assert_equal email.delivery_address,  email.find_draft.toim_osoite
+      assert_equal email.delivery_city,     email.find_draft.toim_postitp
+      assert_equal email.delivery_email,    email.find_draft.toim_email
+      assert_equal email.delivery_name,     email.find_draft.toim_nimi
+      assert_equal email.delivery_phone,    email.find_draft.toim_puh
+      assert_equal email.delivery_postcode, email.find_draft.toim_postino
 
-      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustiedot."
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) toimitustiedot."
       assert_includes email.messages, message
     end
 
@@ -871,14 +867,10 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @purchase_price_paid_2,
       @purchase_price_paid_3,
     ].each do |email|
-      draft = email.find_draft
-      draft.tila = 'L'
-      draft.save(validate: false)
-
       email.update_delivery_method_to_itella_economy_16
 
-      assert_equal delivery_methods(:posti_economy_16), email.find_order.delivery_method
-      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_order.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Posti Economy 16."
+      assert_equal delivery_methods(:posti_economy_16), email.find_draft.delivery_method
+      message = "Päivitettiin tilauksen (Tilausnumero: #{email.find_draft.id}, Huutokauppa: #{email.auction_id}) toimitustavaksi Posti Economy 16."
       assert_includes email.messages, message
     end
   end

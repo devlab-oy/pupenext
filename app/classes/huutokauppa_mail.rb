@@ -284,13 +284,9 @@ class HuutokauppaMail
   end
 
   def update_order_delivery_info
-    return unless delivery_name
+    return unless delivery_name && find_draft
 
-    order = find_order || find_draft
-
-    return unless order
-
-    order.update!(
+    find_draft.update!(
       toim_email: delivery_email,
       toim_nimi: delivery_name,
       toim_osoite: delivery_address,
@@ -299,7 +295,7 @@ class HuutokauppaMail
       toim_puh: delivery_phone,
     )
 
-    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustiedot."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} toimitustiedot."
 
     true
   end
@@ -371,13 +367,11 @@ class HuutokauppaMail
   end
 
   def update_delivery_method_to_itella_economy_16
-    order = find_order || find_draft
+    return unless find_draft
 
-    return unless order
+    find_draft.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Posti Economy 16'))
 
-    order.update!(delivery_method: DeliveryMethod.find_by!(selite: 'Posti Economy 16'))
-
-    @messages << "Päivitettiin tilauksen #{order_message_info(order)} toimitustavaksi Posti Economy 16."
+    @messages << "Päivitettiin tilauksen #{order_message_info(find_draft)} toimitustavaksi Posti Economy 16."
 
     true
   end
