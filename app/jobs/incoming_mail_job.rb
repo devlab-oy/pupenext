@@ -2,14 +2,17 @@ class IncomingMailJob < ActiveJob::Base
   queue_as :incoming_mail
 
   def perform
-    mailbox_prefix = 'INBOX.'
+    mailbox_prefix = 'INBOX'
     protocol       = :imap
     port           = 993
     enable_ssl     = true
 
     MailServer.all.each do |mail_server|
-      process_dir = "#{mailbox_prefix}#{mail_server.process_dir}"
-      done_dir    = "#{mailbox_prefix}#{mail_server.done_dir}"
+      process_dir = mail_server.process_dir
+      process_dir = process_dir.upcase == mailbox_prefix ? process_dir.upcase : "#{mailbox_prefix}.#{process_dir}"
+
+      done_dir = mail_server.done_dir
+      done_dir = done_dir.upcase == mailbox_prefix ? done_dir.upcase : "#{mailbox_prefix}.#{done_dir}"
 
       Mail.defaults do
         retriever_method protocol, address:    mail_server.imap_server,
