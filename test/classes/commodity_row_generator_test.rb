@@ -509,7 +509,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     }
 
     # Activate commodity on november last year
-    previous_year_activation = Date.today.last_year.change(month: 11)
+    previous_year_activation = Date.today.beginning_of_month.last_year.change(month: 11)
     @commodity.activated_at = previous_year_activation
     @commodity.save!
     assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
@@ -557,7 +557,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @company.tilikausi_alku.end_of_month, rows[-12].transacted_at
     assert_equal @company.tilikausi_loppu.end_of_month, rows.last.transacted_at
 
-    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Date.today.beginning_of_month)
   end
 
   test 'rows split' do
