@@ -33,6 +33,12 @@ class Administration::PackagesController < AdministrationController
     end
   end
 
+  def destroy
+    @package.destroy!
+
+    redirect_to packages_url
+  end
+
   private
 
     def find_resource
