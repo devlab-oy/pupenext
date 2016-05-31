@@ -175,6 +175,7 @@ class HuutokauppaMail
       terms_of_payment: TermsOfPayment.find_by!(rel_pvm: 2),
       chn: 667,
       piiri: 1,
+      category: Keyword::CustomerCategory.find_by!(selite: 1),
     )
 
     customer.laji = 'H' unless company_name
@@ -200,6 +201,7 @@ class HuutokauppaMail
       gsm: customer_phone,
       piiri: 1,
       kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+      category: Keyword::CustomerCategory.find_by!(selite: 1),
     )
 
     if update_success
