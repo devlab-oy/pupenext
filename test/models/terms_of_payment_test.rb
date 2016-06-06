@@ -12,17 +12,29 @@ class TermsOfPaymentTest < ActiveSupport::TestCase
   )
 
   setup do
-    @top = terms_of_payments(:sixty_days_net)
-    @cust = customers(:stubborn_customer)
+    @eighty_days_net  = terms_of_payments :eighty_days_net
+    @hundred_days_net = terms_of_payments :hundred_days_net
+    @ninety_days_net  = terms_of_payments :ninety_days_net
+    @nordea_factoring = terms_of_payments :factoring
+    @not_in_use_net   = terms_of_payments :not_in_use_net
+    @seventy_days_net = terms_of_payments :seventy_days_net
+    @top              = terms_of_payments :sixty_days_net
+
+    @cust = customers :stubborn_customer
   end
 
   test 'all fixtures should be valid' do
-    assert terms_of_payments(:eighty_days_net).valid?
-    assert terms_of_payments(:hundred_days_net).valid?
-    assert terms_of_payments(:ninety_days_net).valid?
-    assert terms_of_payments(:not_in_use_net).valid?
-    assert terms_of_payments(:seventy_days_net).valid?
-    assert terms_of_payments(:sixty_days_net).valid?
+    assert @eighty_days_net.valid?,  @eighty_days_net.errors.full_messages
+    assert @hundred_days_net.valid?, @hundred_days_net.errors.full_messages
+    assert @ninety_days_net.valid?,  @ninety_days_net.errors.full_messages
+    assert @nordea_factoring.valid?, @nordea_factoring.errors.full_messages
+    assert @not_in_use_net.valid?,   @not_in_use_net.errors.full_messages
+    assert @seventy_days_net.valid?, @seventy_days_net.errors.full_messages
+    assert @top.valid?,              @top.errors.full_messages
+  end
+
+  test 'relations' do
+    assert_equal 'Nordea', @nordea_factoring.factoring.factoringyhtio
   end
 
   test 'should be valid date' do

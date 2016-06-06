@@ -3,14 +3,15 @@ class TermsOfPayment < BaseModel
   include Searchable
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
+  belongs_to :factoring
   has_many :translations, foreign_key: :selite, class_name: 'Keyword::TermsOfPaymentTranslation'
 
-  validates :bank_detail, presence: true, unless: Proc.new { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
-  validates :factoring, :sallitut_maat, allow_blank: true, length: { within: 1..50 }
+  validates :bank_detail, presence: true, unless: proc { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
   validates :jv, :itsetulostus, :jaksotettu, :erapvmkasin, inclusion: { in: %w(o) }, allow_blank: true
   validates :kassa_abspvm, :abs_pvm, date: { allow_blank: true }
   validates :kassa_alepros, numericality: true
   validates :rel_pvm, :kassa_relpvm, :jarjestys, numericality: { only_integer: true }, allow_blank: true
+  validates :sallitut_maat, allow_blank: true, length: { within: 1..50 }
   validates :teksti, length: { within: 1..40 }
 
   validate :check_relations, if: :inactive?
