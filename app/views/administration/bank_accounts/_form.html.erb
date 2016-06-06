@@ -21,7 +21,7 @@
     <%= f.input :oletus_kustp, collection: kustp_options %>
     <%= f.input :oletus_kohde, collection: kohde_options %>
     <%= f.input :oletus_projekti, collection: projekti_options %>
-    <%= f.input :factoring, collection: factoring_options, include_blank: false %>
+    <%= f.input :factoring, collection: bank_account_factoring_options, include_blank: false %>
     <%= f.input :tilinylitys, collection: tilinylitys_options, include_blank: false %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @bank_account %>

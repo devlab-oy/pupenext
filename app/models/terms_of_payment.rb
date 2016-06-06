@@ -39,14 +39,6 @@ class TermsOfPayment < BaseModel
     inactive: 'E'
   }
 
-  def factoring_options
-    company.factorings.select(:factoringyhtio, :yhtio).uniq.map(&:factoringyhtio)
-  end
-
-  def bank_details_options
-    company.bank_details.map { |i| [ i.nimitys, i.id ] }
-  end
-
   def translated_locales
     translations.map(&:kieli)
   end

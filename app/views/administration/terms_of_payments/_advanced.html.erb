@@ -14,7 +14,7 @@
   <tr>
     <th><%= f.label :factoring %></th>
     <td>
-      <%= f.select :factoring, @terms_of_payment.factoring_options,
+      <%= f.select :factoring_id, top_factoring_options,
           { include_blank: t('administration.terms_of_payments.edit.no_factoring') },
           class: :large %>
     </td>
@@ -23,7 +23,7 @@
   <tr>
     <th><%= f.label :pankkiyhteystiedot %></th>
     <td>
-      <%= f.select :pankkiyhteystiedot, @terms_of_payment.bank_details_options,
+      <%= f.select :pankkiyhteystiedot, bank_details_options,
           { include_blank: t('administration.terms_of_payments.edit.use_company_defaults') },
           class: :large %>
     </td>
