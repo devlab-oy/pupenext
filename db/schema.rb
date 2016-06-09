@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602112146) do
+ActiveRecord::Schema.define(version: 20160609083844) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20160602112146) do
     t.string   "asiakas_ryhma",     limit: 150,                         default: "",  null: false
     t.integer  "asiakas_segmentti", limit: 8,                           default: 0,   null: false
     t.string   "piiri",             limit: 150,                         default: "",  null: false
+    t.integer  "kampanja",          limit: 4,                           default: 0,   null: false
     t.decimal  "alennus",                       precision: 5, scale: 2, default: 0.0, null: false
     t.integer  "alennuslaji",       limit: 4,                           default: 1,   null: false
     t.integer  "minkpl",            limit: 4,                           default: 0,   null: false
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(version: 20160602112146) do
     t.string   "asiakas_ryhma",     limit: 150,                          default: "",  null: false
     t.integer  "asiakas_segmentti", limit: 8,                            default: 0,   null: false
     t.string   "piiri",             limit: 150,                          default: "",  null: false
+    t.integer  "kampanja",          limit: 4,                            default: 0,   null: false
     t.decimal  "hinta",                         precision: 16, scale: 6, default: 0.0, null: false
     t.string   "valkoodi",          limit: 3,                            default: "",  null: false
     t.integer  "minkpl",            limit: 4,                            default: 0,   null: false
@@ -513,6 +515,12 @@ ActiveRecord::Schema.define(version: 20160602112146) do
   add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, length: {"yhtio"=>nil, "kausi"=>nil, "tuoteno"=>nil, "osasto"=>50, "try"=>50}, using: :btree
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
+  create_table "campaigns", force: :cascade do |t|
+    t.string  "name",        limit: 60,  default: "",   null: false
+    t.string  "description", limit: 255, default: "",   null: false
+    t.boolean "active",                  default: true, null: false
+  end
+
   create_table "customers_users", id: false, force: :cascade do |t|
     t.integer "user_id",     limit: 4, null: false
     t.integer "customer_id", limit: 4, null: false
@@ -702,6 +710,7 @@ ActiveRecord::Schema.define(version: 20160602112146) do
     t.decimal  "alv",                               precision: 5,  scale: 2, default: 0.0, null: false
     t.string   "selite",                limit: 100,                          default: "",  null: false
     t.integer  "yhtion_toimipaikka_id", limit: 4
+    t.integer  "kampanja",              limit: 4,                            default: 0,   null: false
     t.string   "laatija",               limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                               null: false
     t.datetime "muutospvm",                                                                null: false
@@ -1375,6 +1384,7 @@ ActiveRecord::Schema.define(version: 20160602112146) do
     t.string   "tullausnumero",                    limit: 25,                             default: "",         null: false
     t.string   "vientipaperit_palautettu",         limit: 1,                              default: "",         null: false
     t.string   "piiri",                            limit: 150,                            default: "",         null: false
+    t.integer  "kampanja",                         limit: 4,                              default: 0,          null: false
     t.integer  "siirtolistan_vastaanotto",         limit: 4,                              default: 0,          null: false
     t.integer  "varastosiirto_tunnus",             limit: 4,                              default: 0,          null: false
     t.integer  "pakkaamo",                         limit: 4,                              default: 0,          null: false
@@ -2313,6 +2323,7 @@ ActiveRecord::Schema.define(version: 20160602112146) do
     t.string   "hyllytaso",             limit: 5,                              default: "",   null: false
     t.string   "hyllyvali",             limit: 5,                              default: "",   null: false
     t.integer  "suuntalava",            limit: 4,                              default: 0,    null: false
+    t.integer  "kampanja",              limit: 4,                              default: 0,    null: false
     t.boolean  "varastoon",                                                    default: true, null: false
     t.decimal  "vahvistettu_maara",                   precision: 12, scale: 2
     t.text     "vahvistettu_kommentti", limit: 65535
