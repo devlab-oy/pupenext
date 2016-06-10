@@ -54,3 +54,8 @@ not_in_use_net:
   kassa_alepros: 0.00
   kaytossa: E
   <<: *DEFAULTS
+
+factoring:
+  <<: *DEFAULTS
+  factoring: nordea
+  teksti: Nordea rahoitus

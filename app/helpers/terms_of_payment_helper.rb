@@ -12,4 +12,12 @@ module TermsOfPaymentHelper
       [ t("#{ROOT}.in_use_options.#{key}"), key ]
     end
   end
+
+  def top_factoring_options
+    Factoring.pluck(:nimitys, :tunnus)
+  end
+
+  def bank_details_options
+    BankDetail.pluck(:nimitys, :tunnus)
+  end
 end

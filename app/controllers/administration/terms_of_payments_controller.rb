@@ -55,7 +55,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
       params.require(:terms_of_payment).permit(
         :abs_pvm,
         :erapvmkasin,
-        :factoring,
+        :factoring_id,
         :itsetulostus,
         :jaksotettu,
         :jarjestys,

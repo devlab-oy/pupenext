@@ -1,7 +1,14 @@
-sampo:
+DEFAULTS: &DEFAULTS
   yhtio: acme
-  factoringyhtio: Sampo
   laatija: joe
   luontiaika: <%= Date.today %>
   muutospvm: <%= Date.today %>
   muuttaja: joe
+
+sampo:
+  <<: *DEFAULTS
+  factoringyhtio: Sampo
+
+nordea:
+  <<: *DEFAULTS
+  factoringyhtio: Nordea
