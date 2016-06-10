@@ -174,4 +174,10 @@ class Administration::PackagesControllerTest < ActionController::TestCase
       patch :update, id: code.package.id, package: params
     end
   end
+
+  test 'DELETE destroy' do
+    delete :destroy, id: @package.id
+
+    assert_redirected_to packages_url
+  end
 end

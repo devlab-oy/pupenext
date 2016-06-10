@@ -557,6 +557,8 @@ fi:
         special: Erikoispakkaus
       index:
         button_search: Etsi
+        delete: Poista
+        delete_confirmation: Oletko varma, että haluat poistaa tämän pakkauksen?
         header: Pakkaukset
       package_codes:
         link_new: Lisää uusi pakkauskoodi

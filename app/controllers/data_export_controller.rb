@@ -9,7 +9,7 @@ class DataExportController < ApplicationController
 
     @extra_fields = keyword_params[:extra_fields] || []
     @keywords = product_keywords
-    @products = Product.regular.includes(:keywords).search_like(search_params)
+    @products = Product.regular.not_deleted.includes(:keywords).search_like(search_params)
 
     respond_to do |format|
       format.xlsx { render :product_keywords }

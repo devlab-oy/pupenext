@@ -6,7 +6,10 @@
       <th><%= MailServer.human_attribute_name(:imap_server) %></th>
       <th><%= MailServer.human_attribute_name(:smtp_server) %></th>
       <th><%= MailServer.human_attribute_name(:processing_type) %></th>
-      <th></th>
+
+      <% if update_access? %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -16,9 +19,12 @@
         <td><%= link_to(mail_server.imap_server, mail_server) %></td>
         <td><%= mail_server.smtp_server %></td>
         <td><%= mail_server.processing_type %></td>
-        <td><%= link_to t('.delete'),
-                mail_server_path(mail_server),
-                method: :delete, data: { confirm: t('.delete_confirmation') } %></td>
+
+        <% if update_access? %>
+          <td><%= link_to t('.delete'),
+                  mail_server_path(mail_server),
+                  method: :delete, data: { confirm: t('.delete_confirmation') } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -35,6 +35,14 @@ module Searchable
         table = arel_table
       end
 
+      # Enumns don't play well with Arel::Predications#matches, so this hack is necessary
+      if column.to_s.in?(defined_enums)
+        ordinal_value = defined_enums[column.to_s][search_term]
+
+        return self unless ordinal_value
+        return where(column => ordinal_value)
+      end
+
       where table[column].matches("%#{search_term}%")
     end
 

@@ -60,4 +60,14 @@ class PackageTest < ActiveSupport::TestCase
 
     assert_equal 100, Package.new.kayttoprosentti
   end
+
+  test 'associations are destroyed when package is destroyed' do
+    assert_difference     'Package.count',                     -1 do
+      assert_difference   'Keyword::PackageTranslation.count', -1 do
+        assert_difference 'PackageCode.count',                 -1 do
+          @package.destroy
+        end
+      end
+    end
+  end
 end

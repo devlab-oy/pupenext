@@ -6,7 +6,7 @@ module BankAccountsHelper
     ]
   end
 
-  def factoring_options
+  def bank_account_factoring_options
     [
       [ t('administration.bank_accounts.factoring_options.factoring_disabled'), :factoring_disabled ],
       [ t('administration.bank_accounts.factoring_options.factoring_enabled'),  :factoring_enabled  ],

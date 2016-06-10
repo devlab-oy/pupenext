@@ -1,8 +1,8 @@
 class Package < BaseModel
   include Searchable
 
-  has_many :translations, foreign_key: :selite, class_name: 'Keyword::PackageTranslation'
-  has_many :package_codes, foreign_key: :pakkaus
+  has_many :translations, foreign_key: :selite, class_name: 'Keyword::PackageTranslation', dependent: :destroy
+  has_many :package_codes, foreign_key: :pakkaus, dependent: :destroy
 
   validates :pakkaus, presence: true
   validates :pakkauskuvaus, presence: true
