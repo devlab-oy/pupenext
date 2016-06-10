@@ -516,6 +516,7 @@ ActiveRecord::Schema.define(version: 20160609083844) do
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
 
   create_table "campaigns", force: :cascade do |t|
+    t.integer "company_id",  limit: 4
     t.string  "name",        limit: 60,  default: "",   null: false
     t.string  "description", limit: 255, default: "",   null: false
     t.boolean "active",                  default: true, null: false
