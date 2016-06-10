@@ -695,6 +695,18 @@ fi:
       forbidden: Pääsy kielletty!
     authorize:
       unauthorized: Kirjaudu sisään!
+  campaigns:
+    create:
+      create_success: Kampanja luotiin onnistuneesti
+    edit:
+      header: Muokkaa kampanjaa
+    index:
+      button_search: Etsi
+      header: Kampanjat
+      show_active: Näytä aktiiviset
+      show_inactive: Näytä inaktiiviset
+    update:
+      update_success: Kampanja päivitettiin onnistuneesti
   data_export:
     product_keywords:
       choose_extra_fields: Valitse lisäkentät
