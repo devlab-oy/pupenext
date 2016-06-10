@@ -22,6 +22,9 @@ Pupesoft::Application.routes.draw do
     end
   end
 
+  resources :campaigns, except: :destroy do
+  end
+
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
       get :purchase_orders
