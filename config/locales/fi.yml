@@ -60,6 +60,10 @@ fi:
         pankkitili2: Tilinumero
         pankkitili3: Tilinumero
         viite: Vitteen muoto
+      campaign:
+        active: Aktiivinen
+        description: Kuvaus
+        name: Nimitys
       carrier:
         koodi: Koodi
         luontiaika: Luontiaika
@@ -363,6 +367,7 @@ fi:
       account: Tili
       bank_account: Pankkitili
       bank_detail: Pankkiyhteystieto
+      campaign: Kampanja
       carrier: Rahdinkuljettaja
       cash_register: Kassalipas
       currency: Valuutta
