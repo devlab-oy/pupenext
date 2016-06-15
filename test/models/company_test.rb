@@ -170,6 +170,8 @@ class CompanyTest < ActiveSupport::TestCase
   end
 
   test '#copy' do
+    Current.user = users(:bob)
+
     assert_difference 'Company.count' do
       copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
 
@@ -181,6 +183,8 @@ class CompanyTest < ActiveSupport::TestCase
 
       assert_equal '95', copied_company.yhtio
       assert_equal 'Kala Oy', copied_company.nimi
+      assert_equal users(:bob).kuka, copied_company.laatija
+      assert_equal users(:bob).kuka, copied_company.muuttaja
     end
   end
 end

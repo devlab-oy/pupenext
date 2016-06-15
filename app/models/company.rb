@@ -106,12 +106,19 @@ class Company < ActiveRecord::Base
   end
 
   def copy(yhtio:, nimi:)
+    raise 'Current company must be set' unless Current.company
+    raise 'Current user must be set'    unless Current.user
+
     copied_company = dup
 
     copied_company.attributes = {
       yhtio: yhtio,
       konserni: '',
       nimi: nimi,
+      laatija: Current.user.kuka,
+      luontiaika: Time.now.utc,
+      muuttaja: Current.user.kuka,
+      muutospvm: Time.now.utc,
     }
 
     copied_company.save
