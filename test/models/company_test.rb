@@ -168,4 +168,10 @@ class CompanyTest < ActiveSupport::TestCase
     refute @acme.date_in_open_period?('2015-01-01')
     refute @acme.date_in_open_period?('2015-01-01'.to_date)
   end
+
+  test '#copy' do
+    assert_difference 'Company.count' do
+      assert @acme.copy.persisted?
+    end
+  end
 end

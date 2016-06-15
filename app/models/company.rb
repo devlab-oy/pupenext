@@ -104,4 +104,12 @@ class Company < ActiveRecord::Base
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
+
+  def copy
+    copied_company = dup
+
+    copied_company.save
+
+    copied_company
+  end
 end
