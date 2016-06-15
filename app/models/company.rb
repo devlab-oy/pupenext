@@ -109,7 +109,8 @@ class Company < ActiveRecord::Base
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    copied_company = dup
+    copied_company   = dup
+    copied_parameter = parameter.dup
 
     copied_company.attributes = {
       yhtio: yhtio,
@@ -121,7 +122,12 @@ class Company < ActiveRecord::Base
       muutospvm: Time.now.utc,
     }
 
+    copied_parameter.attributes = {
+      yhtio: yhtio,
+    }
+
     copied_company.save
+    copied_parameter.save
 
     copied_company
   end

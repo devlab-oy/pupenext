@@ -172,19 +172,27 @@ class CompanyTest < ActiveSupport::TestCase
   test '#copy' do
     Current.user = users(:bob)
 
+    copied_company = nil
+
     assert_difference 'Company.count' do
-      copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
-
-      assert copied_company.persisted?
-
-      assert_equal 'FI', copied_company.maa
-
-      assert_empty copied_company.konserni
-
-      assert_equal '95', copied_company.yhtio
-      assert_equal 'Kala Oy', copied_company.nimi
-      assert_equal users(:bob).kuka, copied_company.laatija
-      assert_equal users(:bob).kuka, copied_company.muuttaja
+      assert_difference 'Parameter.unscoped.count' do
+        copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+      end
     end
+
+    assert copied_company.persisted?
+
+    assert_equal 'FI', copied_company.maa
+
+    assert_empty copied_company.konserni
+
+    assert_equal '95', copied_company.yhtio
+    assert_equal 'Kala Oy', copied_company.nimi
+    assert_equal users(:bob).kuka, copied_company.laatija
+    assert_equal users(:bob).kuka, copied_company.muuttaja
+
+    Current.company = copied_company
+
+    refute_nil copied_company.parameter
   end
 end
