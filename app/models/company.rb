@@ -60,6 +60,9 @@ class Company < ActiveRecord::Base
     o.has_many :targets,      class_name: 'Qualifier::Target'
 
     o.has_many :revenue_expenditures, class_name: 'Keyword::RevenueExpenditure'
+
+    o.has_many :permissions
+    o.has_many :menus, -> { where(kuka: '', profiili: '') }, class_name: 'Permission'
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
