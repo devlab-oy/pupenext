@@ -125,6 +125,21 @@ class Company < ActiveRecord::Base
 
     copied_parameter.attributes = {
       yhtio: yhtio,
+      finvoice_senderpartyid: '',
+      finvoice_senderintermediator: '',
+      verkkotunnus_vas: '',
+      verkkotunnus_lah: '',
+      verkkosala_vas: '',
+      verkkosala_lah: '',
+      lasku_tulostin: 0,
+      logo: '',
+      lasku_logo: '',
+      lasku_logo_positio: '',
+      lasku_logo_koko: 0,
+      laatija: Current.user.kuka,
+      luontiaika: Time.now.utc,
+      muutospvm: Time.now.utc,
+      muuttaja: Current.user.kuka,
     }
 
     copied_currency.attributes = {
