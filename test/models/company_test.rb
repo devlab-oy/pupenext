@@ -194,5 +194,6 @@ class CompanyTest < ActiveSupport::TestCase
     Current.company = copied_company
 
     refute_nil copied_company.parameter
+    refute_empty copied_company.currencies
   end
 end
