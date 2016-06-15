@@ -115,6 +115,7 @@ class Company < ActiveRecord::Base
     copied_company   = dup
     copied_parameter = parameter.dup
     copied_currency  = currencies.first.dup
+    copied_menus     = menus.map(&:dup)
 
     copied_company.attributes = {
       yhtio: yhtio,
@@ -149,9 +150,16 @@ class Company < ActiveRecord::Base
       yhtio: yhtio,
     }
 
+    copied_menus.each do |menu|
+      menu.attributes = {
+        yhtio: yhtio,
+      }
+    end
+
     copied_company.save
     copied_parameter.save
     copied_currency.save
+    copied_menus.each(&:save)
 
     copied_company
   end

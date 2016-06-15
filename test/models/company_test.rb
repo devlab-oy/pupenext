@@ -196,6 +196,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     refute_nil copied_company.parameter
     refute_empty copied_company.currencies
+    refute_empty copied_company.menus
   end
 
   test 'menus scope' do
