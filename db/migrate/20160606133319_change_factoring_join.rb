@@ -11,7 +11,7 @@ class ChangeFactoringJoin < ActiveRecord::Migration
         # fetch name, find id by name, and update
         name = top.read_attribute :factoring
         fact = Factoring.find_by factoringyhtio: name
-        top.update_attribute :factoring_id, fact.tunnus
+        top.update_attribute :factoring_id, fact.try(:tunnus)
       end
     end
 
