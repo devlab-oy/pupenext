@@ -105,8 +105,14 @@ class Company < ActiveRecord::Base
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
 
-  def copy
+  def copy(yhtio:, nimi:)
     copied_company = dup
+
+    copied_company.attributes = {
+      yhtio: yhtio,
+      konserni: '',
+      nimi: nimi,
+    }
 
     copied_company.save
 

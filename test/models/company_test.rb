@@ -171,7 +171,16 @@ class CompanyTest < ActiveSupport::TestCase
 
   test '#copy' do
     assert_difference 'Company.count' do
-      assert @acme.copy.persisted?
+      copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+
+      assert copied_company.persisted?
+
+      assert_equal 'FI', copied_company.maa
+
+      assert_empty copied_company.konserni
+
+      assert_equal '95', copied_company.yhtio
+      assert_equal 'Kala Oy', copied_company.nimi
     end
   end
 end
