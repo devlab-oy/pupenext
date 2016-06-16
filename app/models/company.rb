@@ -124,9 +124,9 @@ class Company < ActiveRecord::Base
       konserni: '',
       nimi: nimi,
       laatija: Current.user.kuka,
-      luontiaika: Time.now.utc,
+      luontiaika: Time.now,
       muuttaja: Current.user.kuka,
-      muutospvm: Time.now.utc,
+      muutospvm: Time.now,
     }
 
     copied_parameter.attributes = {
@@ -143,8 +143,8 @@ class Company < ActiveRecord::Base
       lasku_logo_positio: '',
       lasku_logo_koko: 0,
       laatija: Current.user.kuka,
-      luontiaika: Time.now.utc,
-      muutospvm: Time.now.utc,
+      luontiaika: Time.now,
+      muutospvm: Time.now,
       muuttaja: Current.user.kuka,
     }
 
@@ -155,12 +155,20 @@ class Company < ActiveRecord::Base
     copied_menus.each do |menu|
       menu.attributes = {
         yhtio: yhtio,
+        laatija: Current.user.kuka,
+        luontiaika: Time.now,
+        muutospvm: Time.now,
+        muuttaja: Current.user.kuka,
       }
     end
 
     copied_profiles.each do |profile|
       profile.attributes = {
         yhtio: yhtio,
+        laatija: Current.user.kuka,
+        luontiaika: Time.now,
+        muutospvm: Time.now,
+        muuttaja: Current.user.kuka,
       }
     end
 

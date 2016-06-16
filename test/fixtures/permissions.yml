@@ -117,8 +117,8 @@ acme_menu_1:
   nimitys: Hae ja selaa
   jarjestys: 70
   yhtio: acme
-  luontiaika: <%= Time.current %>
-  muutospvm: <%= Time.current %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
   muuttaja: bob
 
 acme_profile_1:
@@ -131,6 +131,6 @@ acme_profile_1:
   profiili: Admin profiili
   yhtio: acme
   laatija: bob
-  luontiaika: <%= Time.current %>
-  muutospvm: <%= Time.current %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
   muuttaja: bob
