@@ -1,23 +1,29 @@
 class CompanyCopier
-  def self.copy(company:, yhtio:, nimi:)
+  def initialize(company:, yhtio:, nimi:)
+    @company = company
+    @yhtio   = yhtio
+    @nimi    = nimi
+  end
+
+  def copy
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    copied_company     = company.dup
-    copied_parameter   = company.parameter.dup
-    copied_currency    = company.currencies.first.dup
-    copied_menus       = company.menus.map(&:dup)
-    copied_profiles    = company.profiles.map(&:dup)
-    copied_user        = company.users.find_by!(kuka: 'admin').dup
-    copied_permissions = company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
-    copied_sum_levels  = company.sum_levels.map(&:dup)
-    copied_accounts    = company.accounts.map(&:dup)
-    copied_keywords    = company.keywords.map(&:dup)
+    copied_company     = @company.dup
+    copied_parameter   = @company.parameter.dup
+    copied_currency    = @company.currencies.first.dup
+    copied_menus       = @company.menus.map(&:dup)
+    copied_profiles    = @company.profiles.map(&:dup)
+    copied_user        = @company.users.find_by!(kuka: 'admin').dup
+    copied_permissions = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
+    copied_sum_levels  = @company.sum_levels.map(&:dup)
+    copied_accounts    = @company.accounts.map(&:dup)
+    copied_keywords    = @company.keywords.map(&:dup)
 
     copied_company.update(
-      yhtio: yhtio,
+      yhtio: @yhtio,
       konserni: '',
-      nimi: nimi,
+      nimi: @nimi,
       laatija: Current.user.kuka,
       luontiaika: Time.now,
       muuttaja: Current.user.kuka,

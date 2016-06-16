@@ -3,7 +3,11 @@ require 'test_helper'
 class CompanyCopierTest < ActiveSupport::TestCase
   fixtures :all
 
-  test '.copy' do
+  setup do
+    @copier = CompanyCopier.new(company: companies(:acme), yhtio: 95, nimi: 'Kala Oy')
+  end
+
+  test '#copy' do
     Current.user = users(:bob)
 
     copied_company = nil
@@ -16,7 +20,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
               assert_difference 'SumLevel.unscoped.count', 10 do
                 assert_difference 'Account.unscoped.count', 52 do
                   assert_difference 'Keyword.unscoped.count', 29 do
-                    copied_company = CompanyCopier.copy(company: companies(:acme), yhtio: 95, nimi: 'Kala Oy')
+                    copied_company = @copier.copy
                   end
                 end
               end
