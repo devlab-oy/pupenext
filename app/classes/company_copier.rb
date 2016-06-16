@@ -21,6 +21,7 @@ class CompanyCopier
     @copied_keywords          = @company.keywords.map(&:dup)
     @copied_printers          = @company.printers.map(&:dup)
     @copied_terms_of_payments = @company.terms_of_payments.map(&:dup)
+    @copied_delivery_methods  = @company.delivery_methods.map(&:dup)
 
     @copied_company.assign_attributes(
       yhtio: @yhtio,
@@ -56,6 +57,7 @@ class CompanyCopier
     @copied_keywords.each { |keyword| update_basic_attributes(keyword) }
     @copied_printers.each { |printer| update_basic_attributes(printer) }
     @copied_terms_of_payments.each { |terms_of_payment| update_basic_attributes(terms_of_payment) }
+    @copied_delivery_methods.each { |delivery_method| update_basic_attributes(delivery_method) }
 
     @copied_company
   end
