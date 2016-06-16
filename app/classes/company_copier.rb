@@ -9,42 +9,46 @@ class CompanyCopier
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    @copied_company           = @company.dup
-    @copied_parameter         = @company.parameter.dup
-    @copied_currency          = @company.currencies.first.dup
-    @copied_menus             = @company.menus.map(&:dup)
-    @copied_profiles          = @company.profiles.map(&:dup)
-    @copied_user              = @company.users.find_by!(kuka: 'admin').dup
-    @copied_permissions       = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
-    @copied_sum_levels        = @company.sum_levels.map(&:dup)
-    @copied_accounts          = @company.accounts.map(&:dup)
-    @copied_keywords          = @company.keywords.map(&:dup)
-    @copied_printers          = @company.printers.map(&:dup)
-    @copied_terms_of_payments = @company.terms_of_payments.map(&:dup)
-    @copied_delivery_methods  = @company.delivery_methods.map(&:dup)
-    @copied_warehouses        = @company.warehouses.map(&:dup)
-
-    @copied_company.assign_attributes(
-      yhtio: @yhtio,
-      konserni: '',
-      nimi: @nimi,
+    @copied_company = duplicate(
+      @company,
+      attributes: {
+        yhtio: @yhtio,
+        konserni: '',
+        nimi: @nimi,
+      },
     )
+
+    @copied_parameter = duplicate(
+      @company.parameter,
+      attributes: {
+        finvoice_senderpartyid: '',
+        finvoice_senderintermediator: '',
+        verkkotunnus_vas: '',
+        verkkotunnus_lah: '',
+        verkkosala_vas: '',
+        verkkosala_lah: '',
+        lasku_tulostin: 0,
+        logo: '',
+        lasku_logo: '',
+        lasku_logo_positio: '',
+        lasku_logo_koko: 0,
+      }
+    )
+
+    @copied_currency          = duplicate(@company.currencies.first)
+    @copied_menus             = duplicate(@company.menus)
+    @copied_profiles          = duplicate(@company.profiles)
+    @copied_user              = duplicate(@company.users.find_by!(kuka: 'admin'))
+    @copied_permissions       = duplicate(@company.users.find_by!(kuka: 'admin').permissions)
+    @copied_sum_levels        = duplicate(@company.sum_levels)
+    @copied_accounts          = duplicate(@company.accounts)
+    @copied_keywords          = duplicate(@company.keywords)
+    @copied_printers          = duplicate(@company.printers)
+    @copied_terms_of_payments = duplicate(@company.terms_of_payments)
+    @copied_delivery_methods  = duplicate(@company.delivery_methods)
+    @copied_warehouses        = duplicate(@company.warehouses)
 
     Current.company = @copied_company
-
-    @copied_parameter.assign_attributes(
-      finvoice_senderpartyid: '',
-      finvoice_senderintermediator: '',
-      verkkotunnus_vas: '',
-      verkkotunnus_lah: '',
-      verkkosala_vas: '',
-      verkkosala_lah: '',
-      lasku_tulostin: 0,
-      logo: '',
-      lasku_logo: '',
-      lasku_logo_positio: '',
-      lasku_logo_koko: 0,
-    )
 
     update_basic_attributes(@copied_company)
     update_basic_attributes(@copied_parameter)
@@ -65,6 +69,23 @@ class CompanyCopier
   end
 
   private
+
+    def duplicate(records, attributes: {})
+      return_array = true
+
+      unless records.respond_to?(:map)
+        records      = [records]
+        return_array = false
+      end
+
+      copies = records.map do |record|
+        copy = record.dup
+        copy.assign_attributes(attributes)
+        copy
+      end
+
+      return_array ? copies : copies.first
+    end
 
     def update_basic_attributes(model, user: true)
       model.company    = @copied_company   if model.respond_to?(:company=)
