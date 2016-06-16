@@ -122,6 +122,7 @@ class Company < ActiveRecord::Base
     copied_permissions = users.find_by!(kuka: 'admin').permissions.map(&:dup)
     copied_sum_levels  = sum_levels.map(&:dup)
     copied_accounts    = accounts.map(&:dup)
+    copied_keywords    = keywords.map(&:dup)
 
     copied_company.update(
       yhtio: yhtio,
@@ -197,6 +198,12 @@ class Company < ActiveRecord::Base
 
     copied_accounts.each do |account|
       account.update(
+        yhtio: yhtio,
+      )
+    end
+
+    copied_keywords.each do |keyword|
+      keyword.update(
         yhtio: yhtio,
       )
     end

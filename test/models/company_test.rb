@@ -188,7 +188,9 @@ class CompanyTest < ActiveSupport::TestCase
             assert_difference 'User.unscoped.count' do
               assert_difference 'SumLevel.unscoped.count', 10 do
                 assert_difference 'Account.unscoped.count', 52 do
-                  copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+                  assert_difference 'Keyword.unscoped.count', 29 do
+                    copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+                  end
                 end
               end
             end
@@ -218,5 +220,6 @@ class CompanyTest < ActiveSupport::TestCase
     refute_empty copied_company.users.first.permissions
     refute_empty copied_company.sum_levels
     refute_empty copied_company.accounts
+    refute_empty copied_company.keywords
   end
 end
