@@ -35,7 +35,7 @@ class CompanyCopier
       }
     )
 
-    @copied_currency          = duplicate(@company.currencies.first)
+    @copied_currency          = duplicate(@company.currencies)
     @copied_menus             = duplicate(@company.menus)
     @copied_profiles          = duplicate(@company.profiles)
     @copied_user              = duplicate(@company.users.find_by!(kuka: 'admin'))
