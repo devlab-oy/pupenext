@@ -118,6 +118,7 @@ class Company < ActiveRecord::Base
     copied_currency  = currencies.first.dup
     copied_menus     = menus.map(&:dup)
     copied_profiles  = profiles.map(&:dup)
+    copied_user      = users.find_by!(kuka: 'admin').dup
 
     copied_company.attributes = {
       yhtio: yhtio,
@@ -172,11 +173,16 @@ class Company < ActiveRecord::Base
       }
     end
 
+    copied_user.attributes = {
+      yhtio: yhtio,
+    }
+
     copied_company.save
     copied_parameter.save
     copied_currency.save
     copied_menus.each(&:save)
     copied_profiles.each(&:save)
+    copied_user.save
 
     copied_company
   end

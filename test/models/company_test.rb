@@ -185,7 +185,9 @@ class CompanyTest < ActiveSupport::TestCase
       assert_difference 'Parameter.unscoped.count' do
         assert_difference 'Currency.unscoped.count' do
           assert_difference 'Permission.unscoped.count', 2 do
-            copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+            assert_difference 'User.unscoped.count' do
+              copied_company = @acme.copy(yhtio: 95, nimi: 'Kala Oy')
+            end
           end
         end
       end
@@ -208,5 +210,6 @@ class CompanyTest < ActiveSupport::TestCase
     refute_empty copied_company.currencies
     refute_empty copied_company.menus
     refute_empty copied_company.profiles
+    refute_empty copied_company.users
   end
 end
