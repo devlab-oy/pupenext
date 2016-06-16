@@ -32,6 +32,22 @@ external2:
   muutospvm: <%= Time.now %>
   muuttaja: joe
 
+external3:
+  yhtio: acme
+  tyyppi: 'U'
+  summattava_taso: ''
+  taso: 617
+  nimi: TILIKAUDEN TULOS617
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
 internal:
   yhtio: acme
   tyyppi: 'S'
@@ -70,6 +86,22 @@ internal3:
   summattava_taso: ''
   taso: '333'
   nimi: TILIKAUDEN TULOS3
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+internal3:
+  yhtio: acme
+  tyyppi: 'S'
+  summattava_taso: ''
+  taso: 666
+  nimi: TILIKAUDEN TULOS4
   oletusarvo: 0.00
   kerroin: 0.00
   jakaja: 0.00
