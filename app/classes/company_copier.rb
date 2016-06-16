@@ -9,17 +9,18 @@ class CompanyCopier
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    @copied_company     = @company.dup
-    @copied_parameter   = @company.parameter.dup
-    @copied_currency    = @company.currencies.first.dup
-    @copied_menus       = @company.menus.map(&:dup)
-    @copied_profiles    = @company.profiles.map(&:dup)
-    @copied_user        = @company.users.find_by!(kuka: 'admin').dup
-    @copied_permissions = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
-    @copied_sum_levels  = @company.sum_levels.map(&:dup)
-    @copied_accounts    = @company.accounts.map(&:dup)
-    @copied_keywords    = @company.keywords.map(&:dup)
-    @copied_printers    = @company.printers.map(&:dup)
+    @copied_company           = @company.dup
+    @copied_parameter         = @company.parameter.dup
+    @copied_currency          = @company.currencies.first.dup
+    @copied_menus             = @company.menus.map(&:dup)
+    @copied_profiles          = @company.profiles.map(&:dup)
+    @copied_user              = @company.users.find_by!(kuka: 'admin').dup
+    @copied_permissions       = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
+    @copied_sum_levels        = @company.sum_levels.map(&:dup)
+    @copied_accounts          = @company.accounts.map(&:dup)
+    @copied_keywords          = @company.keywords.map(&:dup)
+    @copied_printers          = @company.printers.map(&:dup)
+    @copied_terms_of_payments = @company.terms_of_payments.map(&:dup)
 
     @copied_company.assign_attributes(
       yhtio: @yhtio,
@@ -54,6 +55,7 @@ class CompanyCopier
     @copied_accounts.each { |account| update_basic_attributes(account) }
     @copied_keywords.each { |keyword| update_basic_attributes(keyword) }
     @copied_printers.each { |printer| update_basic_attributes(printer) }
+    @copied_terms_of_payments.each { |terms_of_payment| update_basic_attributes(terms_of_payment) }
 
     @copied_company
   end
