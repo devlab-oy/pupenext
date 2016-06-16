@@ -36,8 +36,8 @@ external3:
   yhtio: acme
   tyyppi: 'U'
   summattava_taso: ''
-  taso: 617
-  nimi: TILIKAUDEN TULOS617
+  taso: 317
+  nimi: TILIKAUDEN TULOS317
   oletusarvo: 0.00
   kerroin: 0.00
   jakaja: 0.00
@@ -100,7 +100,7 @@ internal3:
   yhtio: acme
   tyyppi: 'S'
   summattava_taso: ''
-  taso: 666
+  taso: 366
   nimi: TILIKAUDEN TULOS4
   oletusarvo: 0.00
   kerroin: 0.00
