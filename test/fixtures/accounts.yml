@@ -117,8 +117,8 @@ account_150_esto:
 accounts_receivable:
   yhtio: acme
   nimi: Myyntisaamiset
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 1700
@@ -133,8 +133,8 @@ accounts_receivable:
 profit_and_loss:
   yhtio: acme
   nimi: Profit and loss
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 1230
@@ -149,8 +149,8 @@ profit_and_loss:
 factoring_accounts_receivable:
   yhtio: acme
   nimi: Factoringmyyntisaamiset
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 1705
@@ -165,8 +165,8 @@ factoring_accounts_receivable:
 concern_accounts_receivable:
   yhtio: acme
   nimi: Konsernimyyntisaamiset
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 1710
@@ -181,8 +181,8 @@ concern_accounts_receivable:
 accounts_payable:
   yhtio: acme
   nimi: Ostovelat
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 2870
@@ -197,8 +197,8 @@ accounts_payable:
 concern_accounts_payable:
   yhtio: acme
   nimi: Konserniostovelat
-  ulkoinen_taso: 617
-  sisainen_taso: 666
+  ulkoinen_taso: 317
+  sisainen_taso: 366
   tulosseuranta_taso: 1
   alv_taso: fi307
   tilino: 2890
