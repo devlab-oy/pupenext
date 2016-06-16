@@ -121,7 +121,7 @@ class Company < ActiveRecord::Base
     copied_user        = users.find_by!(kuka: 'admin').dup
     copied_permissions = users.find_by!(kuka: 'admin').permissions.map(&:dup)
 
-    copied_company.attributes = {
+    copied_company.update(
       yhtio: yhtio,
       konserni: '',
       nimi: nimi,
@@ -129,9 +129,9 @@ class Company < ActiveRecord::Base
       luontiaika: Time.now,
       muuttaja: Current.user.kuka,
       muutospvm: Time.now,
-    }
+    )
 
-    copied_parameter.attributes = {
+    copied_parameter.update(
       yhtio: yhtio,
       finvoice_senderpartyid: '',
       finvoice_senderintermediator: '',
@@ -148,50 +148,41 @@ class Company < ActiveRecord::Base
       luontiaika: Time.now,
       muutospvm: Time.now,
       muuttaja: Current.user.kuka,
-    }
+    )
 
-    copied_currency.attributes = {
+    copied_currency.update(
       yhtio: yhtio,
-    }
+    )
 
     copied_menus.each do |menu|
-      menu.attributes = {
+      menu.update(
         yhtio: yhtio,
         laatija: Current.user.kuka,
         luontiaika: Time.now,
         muutospvm: Time.now,
         muuttaja: Current.user.kuka,
-      }
+      )
     end
 
     copied_profiles.each do |profile|
-      profile.attributes = {
+      profile.update(
         yhtio: yhtio,
         laatija: Current.user.kuka,
         luontiaika: Time.now,
         muutospvm: Time.now,
         muuttaja: Current.user.kuka,
-      }
+      )
     end
 
-    copied_user.attributes = {
+    copied_user.update(
       yhtio: yhtio,
-    }
-
-    copied_company.save
-    copied_parameter.save
-    copied_currency.save
-    copied_menus.each(&:save)
-    copied_profiles.each(&:save)
-    copied_user.save
+    )
 
     copied_permissions.each do |permission|
-      permission.attributes = {
+      permission.update(
         yhtio: yhtio,
         user: copied_user,
-      }
-
-      permission.save
+      )
     end
 
     copied_company
