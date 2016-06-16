@@ -120,6 +120,8 @@ class Company < ActiveRecord::Base
     copied_profiles    = profiles.map(&:dup)
     copied_user        = users.find_by!(kuka: 'admin').dup
     copied_permissions = users.find_by!(kuka: 'admin').permissions.map(&:dup)
+    copied_sum_levels  = sum_levels.map(&:dup)
+    copied_accounts    = accounts.map(&:dup)
 
     copied_company.update(
       yhtio: yhtio,
@@ -130,6 +132,8 @@ class Company < ActiveRecord::Base
       muuttaja: Current.user.kuka,
       muutospvm: Time.now,
     )
+
+    Current.company = copied_company
 
     copied_parameter.update(
       yhtio: yhtio,
@@ -182,6 +186,18 @@ class Company < ActiveRecord::Base
       permission.update(
         yhtio: yhtio,
         user: copied_user,
+      )
+    end
+
+    copied_sum_levels.each do |sum_level|
+      sum_level.update(
+        yhtio: yhtio,
+      )
+    end
+
+    copied_accounts.each do |account|
+      account.update(
+        yhtio: yhtio,
       )
     end
 
