@@ -9,31 +9,26 @@ class CompanyCopier
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    copied_company     = @company.dup
-    copied_parameter   = @company.parameter.dup
-    copied_currency    = @company.currencies.first.dup
-    copied_menus       = @company.menus.map(&:dup)
-    copied_profiles    = @company.profiles.map(&:dup)
-    copied_user        = @company.users.find_by!(kuka: 'admin').dup
-    copied_permissions = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
-    copied_sum_levels  = @company.sum_levels.map(&:dup)
-    copied_accounts    = @company.accounts.map(&:dup)
-    copied_keywords    = @company.keywords.map(&:dup)
+    @copied_company     = @company.dup
+    @copied_parameter   = @company.parameter.dup
+    @copied_currency    = @company.currencies.first.dup
+    @copied_menus       = @company.menus.map(&:dup)
+    @copied_profiles    = @company.profiles.map(&:dup)
+    @copied_user        = @company.users.find_by!(kuka: 'admin').dup
+    @copied_permissions = @company.users.find_by!(kuka: 'admin').permissions.map(&:dup)
+    @copied_sum_levels  = @company.sum_levels.map(&:dup)
+    @copied_accounts    = @company.accounts.map(&:dup)
+    @copied_keywords    = @company.keywords.map(&:dup)
 
-    copied_company.update(
+    @copied_company.assign_attributes(
       yhtio: @yhtio,
       konserni: '',
       nimi: @nimi,
-      laatija: Current.user.kuka,
-      luontiaika: Time.now,
-      muuttaja: Current.user.kuka,
-      muutospvm: Time.now,
     )
 
-    Current.company = copied_company
+    Current.company = @copied_company
 
-    copied_parameter.update(
-      company: copied_company,
+    @copied_parameter.assign_attributes(
       finvoice_senderpartyid: '',
       finvoice_senderintermediator: '',
       verkkotunnus_vas: '',
@@ -45,65 +40,32 @@ class CompanyCopier
       lasku_logo: '',
       lasku_logo_positio: '',
       lasku_logo_koko: 0,
-      laatija: Current.user.kuka,
-      luontiaika: Time.now,
-      muutospvm: Time.now,
-      muuttaja: Current.user.kuka,
     )
 
-    copied_currency.update(
-      company: copied_company,
-    )
+    update_basic_attributes(@copied_company)
+    update_basic_attributes(@copied_parameter)
+    update_basic_attributes(@copied_currency)
+    @copied_menus.each { |menu| update_basic_attributes(menu, user: false) }
+    @copied_profiles.each { |profile| update_basic_attributes(profile, user: false) }
+    update_basic_attributes(@copied_user)
+    @copied_permissions.each { |permission| update_basic_attributes(permission) }
+    @copied_sum_levels.each { |sum_level| update_basic_attributes(sum_level) }
+    @copied_accounts.each { |account| update_basic_attributes(account) }
+    @copied_keywords.each { |keyword| update_basic_attributes(keyword) }
 
-    copied_menus.each do |menu|
-      menu.update(
-        company: copied_company,
-        laatija: Current.user.kuka,
-        luontiaika: Time.now,
-        muutospvm: Time.now,
-        muuttaja: Current.user.kuka,
-      )
-    end
-
-    copied_profiles.each do |profile|
-      profile.update(
-        company: copied_company,
-        laatija: Current.user.kuka,
-        luontiaika: Time.now,
-        muutospvm: Time.now,
-        muuttaja: Current.user.kuka,
-      )
-    end
-
-    copied_user.update(
-      company: copied_company,
-    )
-
-    copied_permissions.each do |permission|
-      permission.update(
-        company: copied_company,
-        user: copied_user,
-      )
-    end
-
-    copied_sum_levels.each do |sum_level|
-      sum_level.update(
-        company: copied_company,
-      )
-    end
-
-    copied_accounts.each do |account|
-      account.update(
-        company: copied_company,
-      )
-    end
-
-    copied_keywords.each do |keyword|
-      keyword.update(
-        company: copied_company,
-      )
-    end
-
-    copied_company
+    @copied_company
   end
+
+  private
+
+    def update_basic_attributes(model, user: true)
+      model.company    = @copied_company   if model.respond_to?(:company=)
+      model.user       = @copied_user      if user && model.respond_to?(:user=)
+      model.laatija    = Current.user.kuka if model.respond_to?(:laatija=)
+      model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
+      model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)
+      model.muuttaja   = Current.user.kuka if model.respond_to?(:muuttaja=)
+
+      model.save
+    end
 end
