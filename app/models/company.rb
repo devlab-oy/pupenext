@@ -137,7 +137,7 @@ class Company < ActiveRecord::Base
     Current.company = copied_company
 
     copied_parameter.update(
-      yhtio: yhtio,
+      company: copied_company,
       finvoice_senderpartyid: '',
       finvoice_senderintermediator: '',
       verkkotunnus_vas: '',
@@ -156,12 +156,12 @@ class Company < ActiveRecord::Base
     )
 
     copied_currency.update(
-      yhtio: yhtio,
+      company: copied_company,
     )
 
     copied_menus.each do |menu|
       menu.update(
-        yhtio: yhtio,
+        company: copied_company,
         laatija: Current.user.kuka,
         luontiaika: Time.now,
         muutospvm: Time.now,
@@ -171,7 +171,7 @@ class Company < ActiveRecord::Base
 
     copied_profiles.each do |profile|
       profile.update(
-        yhtio: yhtio,
+        company: copied_company,
         laatija: Current.user.kuka,
         luontiaika: Time.now,
         muutospvm: Time.now,
@@ -180,31 +180,31 @@ class Company < ActiveRecord::Base
     end
 
     copied_user.update(
-      yhtio: yhtio,
+      company: copied_company,
     )
 
     copied_permissions.each do |permission|
       permission.update(
-        yhtio: yhtio,
+        company: copied_company,
         user: copied_user,
       )
     end
 
     copied_sum_levels.each do |sum_level|
       sum_level.update(
-        yhtio: yhtio,
+        company: copied_company,
       )
     end
 
     copied_accounts.each do |account|
       account.update(
-        yhtio: yhtio,
+        company: copied_company,
       )
     end
 
     copied_keywords.each do |keyword|
       keyword.update(
-        yhtio: yhtio,
+        company: copied_company,
       )
     end
 
