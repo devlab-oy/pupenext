@@ -72,6 +72,19 @@ bob_<%= p %>_update:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+# create update permissions to admin
+admin_<%= p %>_update:
+  yhtio: acme
+  user: admin
+  kuka: admin
+  nimi: pupenext/<%= p %>
+  alanimi: ''
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
 <% end %>
 
 <% classic_permissions.each do |p| %>
@@ -92,6 +105,18 @@ bob_<%= p %>_update:
   yhtio: acme
   user: bob
   kuka: bob
+  nimi: <%= p %>
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
+# create update permissions to admin
+admin_<%= p %>_update:
+  yhtio: acme
+  user: admin
+  kuka: admin
   nimi: <%= p %>
   paivitys: 1
   muuttaja: joe

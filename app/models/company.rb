@@ -113,12 +113,13 @@ class Company < ActiveRecord::Base
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    copied_company   = dup
-    copied_parameter = parameter.dup
-    copied_currency  = currencies.first.dup
-    copied_menus     = menus.map(&:dup)
-    copied_profiles  = profiles.map(&:dup)
-    copied_user      = users.find_by!(kuka: 'admin').dup
+    copied_company     = dup
+    copied_parameter   = parameter.dup
+    copied_currency    = currencies.first.dup
+    copied_menus       = menus.map(&:dup)
+    copied_profiles    = profiles.map(&:dup)
+    copied_user        = users.find_by!(kuka: 'admin').dup
+    copied_permissions = users.find_by!(kuka: 'admin').permissions.map(&:dup)
 
     copied_company.attributes = {
       yhtio: yhtio,
@@ -183,6 +184,15 @@ class Company < ActiveRecord::Base
     copied_menus.each(&:save)
     copied_profiles.each(&:save)
     copied_user.save
+
+    copied_permissions.each do |permission|
+      permission.attributes = {
+        yhtio: yhtio,
+        user: copied_user,
+      }
+
+      permission.save
+    end
 
     copied_company
   end
