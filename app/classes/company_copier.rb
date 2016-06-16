@@ -19,6 +19,7 @@ class CompanyCopier
     @copied_sum_levels  = @company.sum_levels.map(&:dup)
     @copied_accounts    = @company.accounts.map(&:dup)
     @copied_keywords    = @company.keywords.map(&:dup)
+    @copied_printers    = @company.printers.map(&:dup)
 
     @copied_company.assign_attributes(
       yhtio: @yhtio,
@@ -52,6 +53,7 @@ class CompanyCopier
     @copied_sum_levels.each { |sum_level| update_basic_attributes(sum_level) }
     @copied_accounts.each { |account| update_basic_attributes(account) }
     @copied_keywords.each { |keyword| update_basic_attributes(keyword) }
+    @copied_printers.each { |printer| update_basic_attributes(printer) }
 
     @copied_company
   end

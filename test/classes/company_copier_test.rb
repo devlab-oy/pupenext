@@ -20,7 +20,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
               assert_difference 'SumLevel.unscoped.count', 10 do
                 assert_difference 'Account.unscoped.count', 52 do
                   assert_difference 'Keyword.unscoped.count', 29 do
-                    copied_company = @copier.copy
+                    assert_difference 'Printer.unscoped.count', 2 do
+                      copied_company = @copier.copy
+                    end
                   end
                 end
               end
@@ -52,5 +54,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
     refute_empty copied_company.sum_levels
     refute_empty copied_company.accounts
     refute_empty copied_company.keywords
+    refute_empty copied_company.printers
   end
 end
