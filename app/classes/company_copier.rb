@@ -78,9 +78,9 @@ class CompanyCopier
       return_array ? copies : copies.first
     end
 
-    def assign_basic_attributes(model, user: true)
+    def assign_basic_attributes(model)
       model.company    = @copied_company   if model.respond_to?(:company=)
-      model.user       = @copied_user      if user && model.respond_to?(:user=)
+      model.user       = @copied_user      if model.respond_to?(:user=)
       model.laatija    = Current.user.kuka if model.respond_to?(:laatija=)
       model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
       model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)
