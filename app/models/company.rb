@@ -63,6 +63,7 @@ class Company < ActiveRecord::Base
 
     o.has_many :permissions
     o.has_many :menus, -> { where(kuka: '', profiili: '') }, class_name: 'Permission'
+    o.has_many :profiles, -> { where.not(profiili: '').where('profiili = kuka') }, class_name: 'Permission'
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'

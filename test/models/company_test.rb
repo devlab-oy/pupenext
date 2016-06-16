@@ -52,6 +52,12 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.warehouses.count > 0
     assert @acme.incoming_mails.count > 0
     assert @acme.permissions.count > 0
+
+    assert_equal 1, @acme.menus.count
+    assert_equal permissions(:acme_menu_1), @acme.menus.first
+
+    assert_equal 1, @acme.profiles.count
+    assert_equal permissions(:acme_profile_1), @acme.profiles.first
   end
 
   test "company has working STI headings" do
@@ -197,10 +203,5 @@ class CompanyTest < ActiveSupport::TestCase
     refute_nil copied_company.parameter
     refute_empty copied_company.currencies
     refute_empty copied_company.menus
-  end
-
-  test 'menus scope' do
-    assert_equal 1, @acme.menus.count
-    assert_equal permissions(:acme_menu_1), @acme.menus.first
   end
 end

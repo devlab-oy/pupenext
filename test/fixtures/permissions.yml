@@ -120,3 +120,17 @@ acme_menu_1:
   luontiaika: <%= Time.current %>
   muutospvm: <%= Time.current %>
   muuttaja: bob
+
+acme_profile_1:
+  kuka: Admin profiili
+  sovellus: Myyntireskontra
+  nimi: myyntires/kateisotto.php
+  paivitys: 1
+  nimitys: Käteisotto
+  jarjestys: 260
+  profiili: Admin profiili
+  yhtio: acme
+  laatija: bob
+  luontiaika: <%= Time.current %>
+  muutospvm: <%= Time.current %>
+  muuttaja: bob
