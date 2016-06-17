@@ -12,7 +12,7 @@ class Keyword < BaseModel
   end
 
   def self.child_class_names
-    {
+    names = {
       ALV:           Keyword::Vat,
       ALVULK:        Keyword::ForeignVat,
       ASIAKASOSASTO: Keyword::CustomerCategory,
@@ -32,5 +32,7 @@ class Keyword < BaseModel
       TUOTEMERKKI:   Product::Brand,
       TUOTEULK:      Keyword::ProductKeywordType,
     }.stringify_keys
+    names.default = Keyword
+    names
   end
 end
