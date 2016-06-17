@@ -8,16 +8,10 @@ class CompanyCopier
   end
 
   def copy
-    @copied_company = duplicate(
-      Current.company,
-      attributes: {
-        yhtio: @yhtio,
-        konserni: '',
-        nimi: @nimi,
-      },
-    )
+    @copied_company = duplicate(Current.company, attributes: { yhtio: @yhtio, konserni: '', nimi: @nimi })
+    @copied_user    = duplicate(Current.company.users.find_by!(kuka: 'admin'))
 
-    @copied_parameter = duplicate(
+    duplicate(
       Current.company.parameter,
       attributes: {
         finvoice_senderpartyid: '',
@@ -31,21 +25,19 @@ class CompanyCopier
         lasku_logo: '',
         lasku_logo_positio: '',
         lasku_logo_koko: 0,
-      }
+      },
     )
-
-    @copied_currency          = duplicate(Current.company.currencies)
-    @copied_menus             = duplicate(Current.company.menus)
-    @copied_profiles          = duplicate(Current.company.profiles)
-    @copied_user              = duplicate(Current.company.users.find_by!(kuka: 'admin'))
-    @copied_permissions       = duplicate(Current.company.users.find_by!(kuka: 'admin').permissions)
-    @copied_sum_levels        = duplicate(Current.company.sum_levels)
-    @copied_accounts          = duplicate(Current.company.accounts)
-    @copied_keywords          = duplicate(Current.company.keywords, validate: false)
-    @copied_printers          = duplicate(Current.company.printers)
-    @copied_terms_of_payments = duplicate(Current.company.terms_of_payments)
-    @copied_delivery_methods  = duplicate(Current.company.delivery_methods)
-    @copied_warehouses        = duplicate(Current.company.warehouses)
+    duplicate(Current.company.currencies)
+    duplicate(Current.company.menus)
+    duplicate(Current.company.profiles)
+    duplicate(Current.company.users.find_by!(kuka: 'admin').permissions)
+    duplicate(Current.company.sum_levels)
+    duplicate(Current.company.accounts)
+    duplicate(Current.company.keywords, validate: false)
+    duplicate(Current.company.printers)
+    duplicate(Current.company.terms_of_payments)
+    duplicate(Current.company.delivery_methods)
+    duplicate(Current.company.warehouses)
 
     @copied_company
   end
