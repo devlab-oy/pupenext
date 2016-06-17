@@ -67,7 +67,8 @@ class CompanyCopier
         Current.company = @copied_company
 
         assign_basic_attributes(copy)
-        copy.update!(attributes)
+        copy.assign_attributes(attributes)
+        copy.save(validate: false)
 
         Current.company = current_company
 
