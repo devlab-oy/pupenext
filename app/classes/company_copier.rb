@@ -41,7 +41,7 @@ class CompanyCopier
     @copied_permissions       = duplicate(Current.company.users.find_by!(kuka: 'admin').permissions)
     @copied_sum_levels        = duplicate(Current.company.sum_levels)
     @copied_accounts          = duplicate(Current.company.accounts)
-    @copied_keywords          = duplicate(Current.company.keywords)
+    @copied_keywords          = duplicate(Current.company.keywords, validate: false)
     @copied_printers          = duplicate(Current.company.printers)
     @copied_terms_of_payments = duplicate(Current.company.terms_of_payments)
     @copied_delivery_methods  = duplicate(Current.company.delivery_methods)
@@ -52,7 +52,7 @@ class CompanyCopier
 
   private
 
-    def duplicate(records, attributes: {})
+    def duplicate(records, attributes: {}, validate: true)
       return_array = true
 
       unless records.respond_to?(:map)
@@ -68,7 +68,7 @@ class CompanyCopier
 
         assign_basic_attributes(copy)
         copy.assign_attributes(attributes)
-        copy.save(validate: false)
+        copy.save!(validate: validate)
 
         Current.company = current_company
 
