@@ -76,6 +76,7 @@ class Company < ActiveRecord::Base
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
+  validates :nimi, presence: true
   validates :yhtio, uniqueness: true
 
   def fiscal_year(date)
