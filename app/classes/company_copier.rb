@@ -43,6 +43,8 @@ class CompanyCopier
   rescue ActiveRecord::RecordInvalid
     # TODO: This can be achieved much easier with a db transaction.
     #   When those are supported, this should be refactorred.
+    raise unless defined?(@copied_company) && @copied_company
+
     Current.company = @copied_company
 
     Warehouse.delete_all

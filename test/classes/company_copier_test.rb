@@ -85,4 +85,27 @@ class CompanyCopierTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#copy handles duplicate yhtio correctly' do
+    copier = CompanyCopier.new(yhtio: 'acme', nimi: 'Kala Oy')
+
+    assert_no_difference [
+      'Company.unscoped.count',
+      'User.unscoped.count',
+      'Parameter.unscoped.count',
+      'Currency.unscoped.count',
+      'Permission.unscoped.count',
+      'SumLevel.unscoped.count',
+      'Account.unscoped.count',
+      'Keyword.unscoped.count',
+      'Printer.unscoped.count',
+      'TermsOfPayment.unscoped.count',
+      'DeliveryMethod.unscoped.count',
+      'Warehouse.unscoped.count',
+    ] do
+      assert_raise ActiveRecord::RecordInvalid do
+        copier.copy
+      end
+    end
+  end
 end
