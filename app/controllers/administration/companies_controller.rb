@@ -10,7 +10,9 @@ class Administration::CompaniesController < ApplicationController
 
     copied_company = copier.copy
 
-    render json: { company: { id: copied_company.id } }
+    return render json: { company: { id: copied_company.id } } if copied_company.valid?
+
+    render json: { copied_company => copied_company.errors }
   end
 
   private
