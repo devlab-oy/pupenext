@@ -108,4 +108,43 @@ class CompanyCopierTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#copy allows different company to be copied than current company' do
+    Current.company = companies(:estonian)
+
+    esto_counts = OpenStruct.new(
+      sum_level:        SumLevel.count,
+      currency:         Currency.count,
+      menu:             Permission.where(kuka: '').where(profiili: '').count,
+      profile:          Permission.where.not(profiili: '').where('profiili = kuka').count,
+      permission:       User.find_by!(kuka: 'admin').permissions.count,
+      account:          Account.count,
+      keyword:          Keyword.count,
+      printer:          Printer.count,
+      terms_of_payment: TermsOfPayment.count,
+      delivery_method:  DeliveryMethod.count,
+      warehouse:        Warehouse.count,
+    )
+
+    Current.company = companies(:acme)
+
+    copier = CompanyCopier.new(yhtio: 'kala', nimi: 'Kala Oy', company: companies(:estonian))
+
+    copied_company  = copier.copy
+    Current.company = copied_company
+
+    assert_equal esto_counts.currency,         copied_company.currencies.count
+    assert_equal esto_counts.menu,             copied_company.menus.count
+    assert_equal esto_counts.profile,          copied_company.profiles.count
+    assert_equal 1,                            copied_company.users.count
+    assert_equal 'admin',                      copied_company.users.first.kuka
+    assert_equal esto_counts.permission,       copied_company.users.first.permissions.count
+    assert_equal esto_counts.sum_level,        copied_company.sum_levels.count
+    assert_equal esto_counts.account,          copied_company.accounts.count
+    assert_equal esto_counts.keyword,          copied_company.keywords.count
+    assert_equal esto_counts.printer,          copied_company.printers.count
+    assert_equal esto_counts.terms_of_payment, copied_company.terms_of_payments.count
+    assert_equal esto_counts.delivery_method,  copied_company.delivery_methods.count
+    assert_equal esto_counts.warehouse,        copied_company.warehouses.count
+  end
 end

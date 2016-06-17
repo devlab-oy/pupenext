@@ -1,5 +1,7 @@
 class CompanyCopier
-  def initialize(yhtio:, nimi:)
+  def initialize(yhtio:, nimi:, company: nil)
+    Current.company = company if company
+
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
