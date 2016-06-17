@@ -40,6 +40,25 @@ class CompanyCopier
     duplicate(Current.company.warehouses)
 
     @copied_company
+  rescue ActiveRecord::RecordInvalid
+    # TODO: This can be achieved much easier with a db transaction.
+    #   When those are supported, this should be refactorred.
+    Current.company = @copied_company
+
+    Warehouse.delete_all
+    DeliveryMethod.delete_all
+    TermsOfPayment.delete_all
+    Printer.delete_all
+    Keyword.delete_all
+    Account.delete_all
+    SumLevel.delete_all
+    Permission.delete_all
+    Currency.delete_all
+    Parameter.delete_all
+    User.delete_all
+    Current.company.destroy!
+
+    raise
   end
 
   private

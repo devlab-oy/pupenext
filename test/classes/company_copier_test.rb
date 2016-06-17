@@ -62,4 +62,27 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal acme_counts.delivery_method,  copied_company.delivery_methods.count
     assert_equal acme_counts.warehouse,        copied_company.warehouses.count
   end
+
+  test '#copy destroys all copied data if anything goes wrong' do
+    Account.all.update_all(nimi: '')
+
+    assert_no_difference [
+      'Company.unscoped.count',
+      'User.unscoped.count',
+      'Parameter.unscoped.count',
+      'Currency.unscoped.count',
+      'Permission.unscoped.count',
+      'SumLevel.unscoped.count',
+      'Account.unscoped.count',
+      'Keyword.unscoped.count',
+      'Printer.unscoped.count',
+      'TermsOfPayment.unscoped.count',
+      'DeliveryMethod.unscoped.count',
+      'Warehouse.unscoped.count',
+    ] do
+      assert_raise ActiveRecord::RecordInvalid do
+        @copier.copy
+      end
+    end
+  end
 end
