@@ -4,12 +4,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
   fixtures :all
 
   setup do
-    @copier = CompanyCopier.new(company: companies(:acme), yhtio: 95, nimi: 'Kala Oy')
+    Current.company = companies(:acme)
+    Current.user    = users(:bob)
+
+    @copier = CompanyCopier.new(yhtio: 95, nimi: 'Kala Oy')
   end
 
   test '#copy' do
-    Current.user = users(:bob)
-
     copied_company = @copier.copy
 
     assert copied_company.persisted?

@@ -1,16 +1,15 @@
 class CompanyCopier
-  def initialize(company:, yhtio:, nimi:)
-    @company = company
-    @yhtio   = yhtio
-    @nimi    = nimi
-  end
-
-  def copy
+  def initialize(yhtio:, nimi:)
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
+    @yhtio = yhtio
+    @nimi  = nimi
+  end
+
+  def copy
     @copied_company = duplicate(
-      @company,
+      Current.company,
       attributes: {
         yhtio: @yhtio,
         konserni: '',
@@ -19,7 +18,7 @@ class CompanyCopier
     )
 
     @copied_parameter = duplicate(
-      @company.parameter,
+      Current.company.parameter,
       attributes: {
         finvoice_senderpartyid: '',
         finvoice_senderintermediator: '',
@@ -35,18 +34,18 @@ class CompanyCopier
       }
     )
 
-    @copied_currency          = duplicate(@company.currencies)
-    @copied_menus             = duplicate(@company.menus)
-    @copied_profiles          = duplicate(@company.profiles)
-    @copied_user              = duplicate(@company.users.find_by!(kuka: 'admin'))
-    @copied_permissions       = duplicate(@company.users.find_by!(kuka: 'admin').permissions)
-    @copied_sum_levels        = duplicate(@company.sum_levels)
-    @copied_accounts          = duplicate(@company.accounts)
-    @copied_keywords          = duplicate(@company.keywords)
-    @copied_printers          = duplicate(@company.printers)
-    @copied_terms_of_payments = duplicate(@company.terms_of_payments)
-    @copied_delivery_methods  = duplicate(@company.delivery_methods)
-    @copied_warehouses        = duplicate(@company.warehouses)
+    @copied_currency          = duplicate(Current.company.currencies)
+    @copied_menus             = duplicate(Current.company.menus)
+    @copied_profiles          = duplicate(Current.company.profiles)
+    @copied_user              = duplicate(Current.company.users.find_by!(kuka: 'admin'))
+    @copied_permissions       = duplicate(Current.company.users.find_by!(kuka: 'admin').permissions)
+    @copied_sum_levels        = duplicate(Current.company.sum_levels)
+    @copied_accounts          = duplicate(Current.company.accounts)
+    @copied_keywords          = duplicate(Current.company.keywords)
+    @copied_printers          = duplicate(Current.company.printers)
+    @copied_terms_of_payments = duplicate(Current.company.terms_of_payments)
+    @copied_delivery_methods  = duplicate(Current.company.delivery_methods)
+    @copied_warehouses        = duplicate(Current.company.warehouses)
 
     @copied_company
   end
@@ -79,7 +78,7 @@ class CompanyCopier
     end
 
     def assign_basic_attributes(model)
-      model.company    = @copied_company   if model.respond_to?(:company=)
+      model.company    = Current.company   if model.respond_to?(:company=)
       model.user       = @copied_user      if model.respond_to?(:user=)
       model.laatija    = Current.user.kuka if model.respond_to?(:laatija=)
       model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
