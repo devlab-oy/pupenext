@@ -13,6 +13,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   test '#copy' do
     copied_company = @copier.copy
 
+    assert copied_company.valid?
     assert copied_company.persisted?
 
     assert_equal 'FI',             copied_company.maa
@@ -80,9 +81,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'DeliveryMethod.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
-      assert_raise ActiveRecord::RecordInvalid do
-        @copier.copy
-      end
+      assert @copier.copy.invalid?
     end
   end
 
@@ -103,9 +102,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'DeliveryMethod.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
-      assert_raise ActiveRecord::RecordInvalid do
-        copier.copy
-      end
+      assert copier.copy.invalid?
     end
   end
 
@@ -130,7 +127,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
 
     copier = CompanyCopier.new(yhtio: 'kala', nimi: 'Kala Oy', company: companies(:estonian))
 
-    copied_company  = copier.copy
+    copied_company = copier.copy
+    assert copied_company.valid?
+
     Current.company = copied_company
 
     assert_equal esto_counts.currency,         copied_company.currencies.count

@@ -42,10 +42,10 @@ class CompanyCopier
     duplicate(Current.company.warehouses)
 
     @copied_company
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => e
     # TODO: This can be achieved much easier with a db transaction.
     #   When those are supported, this should be refactorred.
-    raise unless defined?(@copied_company) && @copied_company
+    return e.record unless defined?(@copied_company) && @copied_company
 
     Current.company = @copied_company
 
@@ -62,7 +62,7 @@ class CompanyCopier
     User.delete_all
     Current.company.destroy!
 
-    raise
+    return e.record
   end
 
   private
