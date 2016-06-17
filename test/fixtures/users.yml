@@ -36,6 +36,19 @@ admin:
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+admin_esto:
+  yhtio: esto
+  kuka: admin
+  nimi: Admin Testi
+  salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
+  session: PVHOINABDXGRFXVKMQHOETGJY
+  api_key: a2f7d8c21006cf11efba37d81e9f5711
+  muuttaja: admin
+  laatija: admin
+  lastlogin: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 max:
   yhtio: esto
   kuka: max

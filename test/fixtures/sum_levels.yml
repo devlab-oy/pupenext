@@ -144,12 +144,60 @@ profit:
   muutospvm: <%= Time.now %>
   muuttaja: joe
 
+internal_ee:
+  yhtio: esto
+  tyyppi: 'S'
+  summattava_taso: ''
+  taso: 33
+  nimi: TILIKAUDEN TULOS
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
 external_ee:
   yhtio: esto
   tyyppi: 'U'
   summattava_taso: ''
   taso: '112'
   nimi: TILIKAUDEN TULOS112
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+vat_ee:
+  yhtio: esto
+  tyyppi: 'A'
+  summattava_taso: ''
+  taso: 'fi307'
+  nimi: Vero kotimaan myynnistä verokannoittain
+  oletusarvo: 0.00
+  kerroin: 0.00
+  jakaja: 0.00
+  kumulatiivinen: ''
+  kayttotarkoitus: ''
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+
+profit_ee:
+  yhtio: esto
+  tyyppi: 'B'
+  summattava_taso: ''
+  taso: 1
+  nimi: Ei tiedossa
   oletusarvo: 0.00
   kerroin: 0.00
   jakaja: 0.00
