@@ -3,13 +3,11 @@ require 'test_helper'
 class Administration::CompaniesControllerTest < ActionController::TestCase
   fixtures :all
 
-  setup do
-    login users(:bob)
-  end
-
   test 'POST /companies/:id/copy' do
     assert_difference 'Company.unscoped.count' do
-      post :copy, id: companies(:acme).id, company: { yhtio: 'testi', nimi: 'Testi Oy' }
+      post :copy, id: companies(:acme).id,
+                  access_token: users(:admin).api_key,
+                  company: { yhtio: 'testi', nimi: 'Testi Oy' }
 
       assert_response :success
     end
@@ -19,7 +17,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
 
   test 'POST /companies/:id/copy with invalid params' do
     assert_no_difference 'Company.unscoped.count' do
-      post :copy, id: companies(:acme).id, company: { yhtio: 'testi' }
+      post :copy, id: companies(:acme).id, access_token: users(:admin).api_key, company: { yhtio: 'testi' }
 
       assert_includes json_response.to_s, 'ei voi olla tyhjä'
     end
