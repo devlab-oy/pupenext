@@ -65,9 +65,4 @@ class CustomersController < ApplicationController
     def find_by_params
       params.permit(:email)
     end
-
-    def api_authorize
-      @current_user = User.unscoped.find_by_api_key(params[:access_token])
-      head :unauthorized unless @current_user
-    end
 end
