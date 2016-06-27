@@ -6,6 +6,7 @@ class HuutokauppaJobTest < ActiveJob::TestCase
     customers
     delivery_methods
     incoming_mails
+    keyword/customer_categories
     mail_servers
     sales_order/drafts
     sales_order/orders
