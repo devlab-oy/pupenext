@@ -55,26 +55,17 @@ class CompanyCopier
 
     @copied_company
   rescue ActiveRecord::RecordInvalid => e
-    # TODO: This can be achieved much easier with a db transaction.
-    #   When those are supported, this should be refactorred.
     return e.record unless defined?(@copied_company) && @copied_company
 
-    Current.company = @copied_company
-
-    Warehouse.delete_all
-    DeliveryMethod.delete_all
-    TermsOfPayment.delete_all
-    Printer.delete_all
-    Keyword.delete_all
-    Account.delete_all
-    SumLevel.delete_all
-    Permission.delete_all
-    Currency.delete_all
-    Parameter.delete_all
-    User.delete_all
-    Current.company.destroy!
+    delete_partial_data
 
     return e.record
+  rescue
+    raise unless defined?(@copied_company) && @copied_company
+
+    delete_partial_data
+
+    raise
   ensure
     Current.company = @original_current_company
   end
@@ -114,5 +105,24 @@ class CompanyCopier
       model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
       model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)
       model.muuttaja   = Current.user.kuka if model.respond_to?(:muuttaja=)
+    end
+
+    # TODO: This can be achieved much easier with a db transaction.
+    #   When those are supported, this should be refactorred.
+    def delete_partial_data
+      Current.company = @copied_company
+
+      Warehouse.delete_all
+      DeliveryMethod.delete_all
+      TermsOfPayment.delete_all
+      Printer.delete_all
+      Keyword.delete_all
+      Account.delete_all
+      SumLevel.delete_all
+      Permission.delete_all
+      Currency.delete_all
+      Parameter.delete_all
+      User.delete_all
+      Current.company.destroy!
     end
 end
