@@ -24,6 +24,7 @@ stubborn_customer:
   terms_of_payment: sixty_days_net
   osasto: 1
   ryhma: 10
+  alv: 24
   <<: *DEFAULTS
 
 lissu:

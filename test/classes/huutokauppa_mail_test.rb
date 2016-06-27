@@ -566,6 +566,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
         assert_equal '667',                            Customer.last.chn
         assert_equal '1',                              Customer.last.piiri
         assert_equal customer_category,                Customer.last.category
+        assert_equal 24,                               Customer.last.alv
 
         assert_includes email.messages, "Asiakas #{Customer.last.nimi} (#{Customer.last.email}) luotu."
       end

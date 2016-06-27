@@ -176,6 +176,7 @@ class HuutokauppaMail
       chn: 667,
       piiri: 1,
       category: Keyword::CustomerCategory.find_by!(selite: 1),
+      alv: 24,
     )
 
     customer.laji = 'H' unless company_name
