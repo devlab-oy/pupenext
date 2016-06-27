@@ -7,11 +7,12 @@ class CompanyCopier
 
     @yhtio = yhtio
     @nimi  = nimi
+    @user  = Current.company.users.find_by!(kuka: 'admin')
   end
 
   def copy
     @copied_company = duplicate(Current.company, attributes: { yhtio: @yhtio, konserni: '', nimi: @nimi })
-    @copied_user    = duplicate(Current.company.users.find_by!(kuka: 'admin'))
+    @copied_user    = duplicate(@user)
 
     duplicate(
       Current.company.parameter,
@@ -32,7 +33,7 @@ class CompanyCopier
     duplicate(Current.company.currencies)
     duplicate(Current.company.menus)
     duplicate(Current.company.profiles)
-    duplicate(Current.company.users.find_by!(kuka: 'admin').permissions)
+    duplicate(@user.permissions)
     duplicate(Current.company.sum_levels)
     duplicate(Current.company.accounts)
     duplicate(Current.company.keywords, validate: false)
