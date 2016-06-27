@@ -112,17 +112,17 @@ class CompanyCopier
     def delete_partial_data
       Current.company = @copied_company
 
-      Warehouse.delete_all
-      DeliveryMethod.delete_all
-      TermsOfPayment.delete_all
-      Printer.delete_all
-      Keyword.delete_all
-      Account.delete_all
-      SumLevel.delete_all
-      Permission.delete_all
-      Currency.delete_all
-      Parameter.delete_all
-      User.delete_all
+      Warehouse.destroy_all
+      DeliveryMethod.destroy_all
+      TermsOfPayment.destroy_all
+      Printer.destroy_all
+      Keyword.destroy_all
+      Account.destroy_all
+      SumLevel.destroy_all
+      Permission.destroy_all
+      Currency.destroy_all
+      Parameter.destroy_all
+      User.destroy_all
       Current.company.destroy!
     end
 end
