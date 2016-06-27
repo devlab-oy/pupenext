@@ -146,4 +146,20 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal esto_counts.delivery_method,  copied_company.delivery_methods.count
     assert_equal esto_counts.warehouse,        copied_company.warehouses.count
   end
+
+  test 'Current.company is returned to original in any case' do
+    current_company = Current.company
+
+    copier = CompanyCopier.new(yhtio: 'kala', nimi: 'Kala Oy', company: companies(:estonian))
+    copier.copy
+    assert_equal current_company, Current.company
+
+    copier = CompanyCopier.new(yhtio: 'acme', nimi: 'Kala Oy')
+    copier.copy
+    assert_equal current_company, Current.company
+
+    Account.all.update_all(nimi: '')
+    @copier.copy
+    assert_equal current_company, Current.company
+  end
 end

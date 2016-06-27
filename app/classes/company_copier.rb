@@ -1,6 +1,12 @@
 class CompanyCopier
   def initialize(yhtio:, nimi:, company: nil)
-    Current.company = company if company
+    @original_current_company = Current.company
+
+    @company = if company
+                 Current.company = company
+               else
+                 Current.company
+               end
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -8,9 +14,14 @@ class CompanyCopier
     @yhtio = yhtio
     @nimi  = nimi
     @user  = Current.company.users.find_by!(kuka: 'admin')
+
+  ensure
+    Current.company = @original_current_company
   end
 
   def copy
+    Current.company = @company
+
     @copied_company = duplicate(Current.company, attributes: { yhtio: @yhtio, konserni: '', nimi: @nimi })
     @copied_user    = duplicate(@user)
 
@@ -64,6 +75,8 @@ class CompanyCopier
     Current.company.destroy!
 
     return e.record
+  ensure
+    Current.company = @original_current_company
   end
 
   private
