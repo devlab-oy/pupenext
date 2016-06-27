@@ -1,8 +1,8 @@
 class CustomersController < ApplicationController
   protect_from_forgery with: :null_session
 
-  skip_before_filter :authorize, :set_current_info, :set_locale, :access_control
-  before_filter :api_authorize, :set_current_info, :set_locale
+  skip_before_action :authorize,     :set_current_info, :set_locale, :access_control
+  before_action      :api_authorize, :set_current_info, :set_locale, :access_control
 
   def create
     @customer = current_company.customers.build(customer_params)
