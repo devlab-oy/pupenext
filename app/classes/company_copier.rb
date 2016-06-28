@@ -12,8 +12,10 @@ class CompanyCopier
     raise 'Current user must be set'    unless Current.user
 
     @yhtio          = yhtio
-    @company_params = company_params.merge(yhtio: @yhtio, konserni: '')
     @user           = Current.company.users.find_by!(kuka: 'admin')
+    @company_params = company_params.merge(yhtio: @yhtio, konserni: '', nimi: '') do |_k, o, n|
+      o.nil? ? n : o
+    end
   ensure
     Current.company = @original_current_company
   end
