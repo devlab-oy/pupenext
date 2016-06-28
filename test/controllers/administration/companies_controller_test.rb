@@ -58,4 +58,15 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     assert_equal 'Testi Oy',    companies(:acme).reload.nimi
     assert_equal Account.first, BankAccount.last.default_clearing_account
   end
+
+  test 'PATCH /companies/:id with invalid params' do
+    bank_accounts_attributes = [{ nimi: 'Testitili' }]
+    company_params           = { nimi: 'Testi Oy', bank_accounts_attributes: bank_accounts_attributes }
+
+    assert_no_difference 'BankAccount.count' do
+      patch :update, id: companies(:acme).id, access_token: users(:admin).api_key, company: company_params
+    end
+
+    assert_response :unprocessable_entity
+  end
 end
