@@ -7,8 +7,8 @@ class Administration::CompaniesController < ApplicationController
 
     copier = CompanyCopier.new(
       yhtio: company_params[:yhtio],
-      nimi: company_params[:nimi],
       company: company,
+      company_params: company_params,
     )
 
     copied_company = copier.copy
@@ -21,6 +21,6 @@ class Administration::CompaniesController < ApplicationController
   private
 
     def company_params
-      params.require(:company).permit(:yhtio, :nimi)
+      params.require(:company).permit(:yhtio, :nimi, :osoite, :postino, :postitp, :ytunnus)
     end
 end
