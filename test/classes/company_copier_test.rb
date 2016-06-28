@@ -7,7 +7,16 @@ class CompanyCopierTest < ActiveSupport::TestCase
     Current.company = companies(:acme)
     Current.user    = users(:bob)
 
-    @copier = CompanyCopier.new(yhtio: 95, nimi: 'Kala Oy')
+    @copier = CompanyCopier.new(
+      yhtio: 95,
+      company_params: {
+        nimi: 'Kala Oy',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+      }
+    )
   end
 
   test '#copy' do
@@ -20,6 +29,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal '',               copied_company.konserni
     assert_equal '95',             copied_company.yhtio
     assert_equal 'Kala Oy',        copied_company.nimi
+    assert_equal 'Kalatie 2',      copied_company.osoite
+    assert_equal '12345',          copied_company.postino
+    assert_equal 'Kala',           copied_company.postitp
+    assert_equal '1234567-8',      copied_company.ytunnus
     assert_equal users(:bob).kuka, copied_company.laatija
     assert_equal users(:bob).kuka, copied_company.muuttaja
 
@@ -86,7 +99,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy handles duplicate yhtio correctly' do
-    copier = CompanyCopier.new(yhtio: 'acme', nimi: 'Kala Oy')
+    copier = CompanyCopier.new(yhtio: 'acme', company_params: { nimi: 'Kala Oy' })
 
     assert_no_difference [
       'Company.unscoped.count',
@@ -125,7 +138,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
 
     Current.company = companies(:acme)
 
-    copier = CompanyCopier.new(yhtio: 'kala', nimi: 'Kala Oy', company: companies(:estonian))
+    copier = CompanyCopier.new(yhtio: 'kala', company: companies(:estonian), company_params: { nimi: 'Kala Oy' })
 
     copied_company = copier.copy
     assert copied_company.valid?
@@ -150,11 +163,11 @@ class CompanyCopierTest < ActiveSupport::TestCase
   test 'Current.company is returned to original in any case' do
     current_company = Current.company
 
-    copier = CompanyCopier.new(yhtio: 'kala', nimi: 'Kala Oy', company: companies(:estonian))
+    copier = CompanyCopier.new(yhtio: 'kala', company: companies(:estonian), company_params: { nimi: 'Kala Oy' })
     copier.copy
     assert_equal current_company, Current.company
 
-    copier = CompanyCopier.new(yhtio: 'acme', nimi: 'Kala Oy')
+    copier = CompanyCopier.new(yhtio: 'acme', company_params: { nimi: 'Kala Oy' })
     copier.copy
     assert_equal current_company, Current.company
 

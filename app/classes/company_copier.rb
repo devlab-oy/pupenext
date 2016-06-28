@@ -1,5 +1,5 @@
 class CompanyCopier
-  def initialize(yhtio:, nimi:, company: nil)
+  def initialize(yhtio:, company: nil, company_params: {})
     @original_current_company = Current.company
 
     @company = if company
@@ -11,10 +11,9 @@ class CompanyCopier
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    @yhtio = yhtio
-    @nimi  = nimi
-    @user  = Current.company.users.find_by!(kuka: 'admin')
-
+    @yhtio          = yhtio
+    @company_params = company_params.merge(yhtio: @yhtio, konserni: '')
+    @user           = Current.company.users.find_by!(kuka: 'admin')
   ensure
     Current.company = @original_current_company
   end
@@ -22,7 +21,7 @@ class CompanyCopier
   def copy
     Current.company = @company
 
-    @copied_company = duplicate(Current.company, attributes: { yhtio: @yhtio, konserni: '', nimi: @nimi })
+    @copied_company = duplicate(Current.company, attributes: @company_params)
     @copied_user    = duplicate(@user)
 
     duplicate(
