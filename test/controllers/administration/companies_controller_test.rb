@@ -44,12 +44,21 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       },
     ]
 
+    users_attributes = [
+      {
+        kuka: '123',
+        nimi: 'Testi Testaaja',
+        salasana: Digest::MD5.hexdigest('kissa'),
+      },
+    ]
+
     company_params = {
       nimi: 'Testi Oy',
       bank_accounts_attributes: bank_accounts_attributes,
+      users_attributes: users_attributes,
     }
 
-    assert_difference 'BankAccount.count' do
+    assert_difference ['BankAccount.count', 'User.count'] do
       patch :update, id: companies(:acme).id, access_token: users(:admin).api_key, company: company_params
     end
 
@@ -57,6 +66,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
 
     assert_equal 'Testi Oy',    companies(:acme).reload.nimi
     assert_equal Account.first, BankAccount.last.default_clearing_account
+    assert_equal '123',         User.last.kuka
   end
 
   test 'PATCH /companies/:id with invalid params' do

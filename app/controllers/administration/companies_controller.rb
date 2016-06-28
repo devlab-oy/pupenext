@@ -42,6 +42,11 @@ class Administration::CompaniesController < ApplicationController
           :valkoodi,
           :bic,
         ],
+        users_attributes: [
+          :kuka,
+          :nimi,
+          :salasana,
+        ]
       )
     end
 
