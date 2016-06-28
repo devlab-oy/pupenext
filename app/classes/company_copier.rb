@@ -1,21 +1,14 @@
 class CompanyCopier
   def initialize(yhtio:, company: nil, company_params: {})
     @original_current_company = Current.company
-
-    @company = if company
-                 Current.company = company
-               else
-                 Current.company
-               end
+    @company = company ? Current.company = company : Current.company
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
     @yhtio          = yhtio
     @user           = Current.company.users.find_by!(kuka: 'admin')
-    @company_params = company_params.merge(yhtio: @yhtio, konserni: '', nimi: '') do |_k, o, n|
-      o.nil? ? n : o
-    end
+    @company_params = company_params.merge(yhtio: @yhtio, konserni: '', nimi: '') { |_k, o, n| o.nil? ? n : o }
   ensure
     Current.company = @original_current_company
   end
