@@ -109,7 +109,7 @@ class CompanyCopier
     end
 
     # TODO: This can be achieved much easier with a db transaction.
-    #   When those are supported, this should be refactorred.
+    #   When those are supported, this should be refactored.
     def delete_partial_data
       Current.company = @copied_company
 
