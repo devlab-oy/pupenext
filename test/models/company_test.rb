@@ -194,5 +194,16 @@ class CompanyTest < ActiveSupport::TestCase
     @acme.save!
 
     assert_equal 'FI9814283500171141', @acme.bank_accounts.last.iban
+
+    @acme.users_attributes = [
+      {
+        kuka: '123',
+        nimi: 'Testi Testaaja',
+        salasana: Digest::MD5.hexdigest('kissa'),
+      },
+    ]
+    @acme.save!
+
+    assert_equal '1ad99cbe9e425d4f19c53a29d4f12597', @acme.users.last.salasana
   end
 end
