@@ -30,4 +30,32 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       assert_includes json_response.to_s, 'ei voi olla tyhjä'
     end
   end
+
+  test 'PATCH /companies/:id' do
+    bank_accounts_attributes = [
+      {
+        nimi: 'Testitili',
+        iban: 'FI9814283500171141',
+        oletus_selvittelytili: Account.first.tilino,
+        oletus_kulutili: Account.first.tilino,
+        oletus_rahatili: Account.first.tilino,
+        valkoodi: 'EUR',
+        bic: 'NDEAFIHH',
+      },
+    ]
+
+    company_params = {
+      nimi: 'Testi Oy',
+      bank_accounts_attributes: bank_accounts_attributes,
+    }
+
+    assert_difference 'BankAccount.count' do
+      patch :update, id: companies(:acme).id, access_token: users(:admin).api_key, company: company_params
+    end
+
+    assert_response :success
+
+    assert_equal 'Testi Oy',    companies(:acme).reload.nimi
+    assert_equal Account.first, BankAccount.last.default_clearing_account
+  end
 end
