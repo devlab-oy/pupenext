@@ -76,6 +76,8 @@ class Company < ActiveRecord::Base
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
+  before_save :defaults
+
   validates :nimi, presence: true
   validates :yhtio, uniqueness: true
 
@@ -111,4 +113,13 @@ class Company < ActiveRecord::Base
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
+
+  private
+
+    def defaults
+      self.ytunnus ||= ''
+      self.osoite  ||= ''
+      self.postino ||= ''
+      self.postitp ||= ''
+    end
 end
