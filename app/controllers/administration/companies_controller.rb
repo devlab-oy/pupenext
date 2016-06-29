@@ -46,7 +46,15 @@ class Administration::CompaniesController < ApplicationController
           :kuka,
           :nimi,
           :salasana,
+          :profiilit,
           :extranet,
+          :oletus_asiakas,
+          :oletus_asiakastiedot,
+          :oletus_profiili,
+          :kieli,
+          :eposti,
+          :tilaus_valmis,
+          :aktiivinen,
         ],
       )
     end
