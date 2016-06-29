@@ -41,9 +41,9 @@ class BaseModel < ActiveRecord::Base
       next unless column.type == :datetime && send(column.name) == epoch
 
       params[column.name] = zero
-
-      # update_columns skips all validations and updates values directly with sql
-      update_columns params if params.present?
     end
+
+    # update_columns skips all validations and updates values directly with sql
+    update_columns params if params.present?
   end
 end
