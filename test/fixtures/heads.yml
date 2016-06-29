@@ -39,14 +39,14 @@ si_one:
   tapvm: <%= Time.now %>
   lapvm: <%= Time.now %>
   kapvm: <%= Time.now %>
-  erpcm: <%= Time.now %>
+  erpcm: 2016-01-02
   olmapvm: <%= Time.now %>
   kerayspvm: <%= Time.now %>
   toimaika: <%= Time.now %>
   maksuaika: <%= Time.now %>
   lahetepvm: <%= Time.now %>
   laskutettu: <%= Time.now %>
-  h1time: <%= Time.now %>
+  h1time: 2016-01-02 10:00:12
   h2time: <%= Time.now %>
   h3time: <%= Time.now %>
   h4time: <%= Time.now %>
