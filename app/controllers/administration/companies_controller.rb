@@ -46,7 +46,8 @@ class Administration::CompaniesController < ApplicationController
           :kuka,
           :nimi,
           :salasana,
-        ]
+          :extranet,
+        ],
       )
     end
 

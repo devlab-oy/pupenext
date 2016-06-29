@@ -49,6 +49,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
         kuka: '123',
         nimi: 'Testi Testaaja',
         salasana: Digest::MD5.hexdigest('kissa'),
+        extranet: 'X',
       },
     ]
 
@@ -67,6 +68,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     assert_equal 'Testi Oy',    companies(:acme).reload.nimi
     assert_equal Account.first, BankAccount.last.default_clearing_account
     assert_equal '123',         User.last.kuka
+    assert_equal 'X',           User.last.extranet
   end
 
   test 'PATCH /companies/:id with invalid params' do
