@@ -6,9 +6,8 @@ class Administration::CompaniesController < ApplicationController
     company = Company.unscoped.find(params[:id])
 
     copier = CompanyCopier.new(
-      yhtio: company_params[:yhtio],
-      company: company,
-      company_params: company_params,
+      from_company: company,
+      to_company_params: company_params,
     )
 
     copied_company = copier.copy
