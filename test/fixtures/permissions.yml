@@ -72,6 +72,19 @@ bob_<%= p %>_update:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+# create update permissions to admin
+admin_<%= p %>_update:
+  yhtio: acme
+  user: admin
+  kuka: admin
+  nimi: pupenext/<%= p %>
+  alanimi: ''
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
 <% end %>
 
 <% classic_permissions.each do |p| %>
@@ -98,6 +111,18 @@ bob_<%= p %>_update:
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
+
+# create update permissions to admin
+admin_<%= p %>_update:
+  yhtio: acme
+  user: admin
+  kuka: admin
+  nimi: <%= p %>
+  paivitys: 1
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
 <% end %>
 
 update_three:
@@ -110,3 +135,27 @@ update_three:
    laatija: max
    luontiaika: <%= Time.now %>
    muutospvm: <%= Time.now %>
+
+acme_menu_1:
+  sovellus: Asentaja
+  nimi: tilauskasittely/tuote_selaus_haku.php
+  nimitys: Hae ja selaa
+  jarjestys: 70
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+
+acme_profile_1:
+  kuka: Admin profiili
+  sovellus: Myyntireskontra
+  nimi: myyntires/kateisotto.php
+  paivitys: 1
+  nimitys: Käteisotto
+  jarjestys: 260
+  profiili: Admin profiili
+  yhtio: acme
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob

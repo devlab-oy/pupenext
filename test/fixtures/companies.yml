@@ -15,6 +15,7 @@ acme:
   konsernimyyntisaamiset: 1710
   ostovelat: 2870
   konserniostovelat: 2890
+  konserni: acme
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe

@@ -15,11 +15,11 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "fixtures should be valid" do
-    assert @internal.valid?, @internal.errors.full_messages
-    assert @external.valid?, @external.errors.full_messages
-    assert @vat.valid?, @vat.errors.full_messages
-    assert @profit.valid?, @profit.errors.full_messages
-    assert @commodity.valid?, @commodity.errors.full_messages
+    refute_empty SumLevel.all
+
+    SumLevel.all.each do |sum_level|
+      assert sum_level.valid?, "SumLevel #{sum_level.nimi}: #{sum_level.errors.full_messages}"
+    end
   end
 
   test "should return sum level name" do

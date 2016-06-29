@@ -51,6 +51,13 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.users.count > 0
     assert @acme.warehouses.count > 0
     assert @acme.incoming_mails.count > 0
+    assert @acme.permissions.count > 0
+
+    assert_equal 1, @acme.menus.count
+    assert_equal permissions(:acme_menu_1), @acme.menus.first
+
+    assert_equal 1, @acme.profiles.count
+    assert_equal permissions(:acme_profile_1), @acme.profiles.first
   end
 
   test "company has working STI headings" do
@@ -95,7 +102,7 @@ class CompanyTest < ActiveSupport::TestCase
 
   test 'company has working STI sum levels' do
     assert_not_nil @acme.sum_levels
-    assert_equal 9, @acme.sum_levels.count
+    assert_equal 10, @acme.sum_levels.count
 
     assert_not_nil @acme.sum_level_internals
     assert_equal SumLevel::Internal.new.class, @acme.sum_level_internals.first.class
@@ -104,7 +111,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     assert_not_nil @acme.sum_level_externals
     assert_equal SumLevel::External.new.class, @acme.sum_level_externals.first.class
-    assert_equal 2, @acme.sum_level_externals.count
+    assert_equal 3, @acme.sum_level_externals.count
     assert_equal ['U'], @acme.sum_level_externals.collect(&:tyyppi).uniq
 
     assert_not_nil @acme.sum_level_vats
