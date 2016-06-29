@@ -8,14 +8,14 @@ class CompanyCopierTest < ActiveSupport::TestCase
     Current.user    = users(:bob)
 
     @copier = CompanyCopier.new(
-      yhtio: 95,
-      company_params: {
+      to_company_params: {
+        yhtio: 95,
         nimi: 'Kala Oy',
         osoite: 'Kalatie 2',
         postino: '12345',
         postitp: 'Kala',
         ytunnus: '1234567-8',
-      }
+      },
     )
   end
 
@@ -99,7 +99,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy handles duplicate yhtio correctly' do
-    copier = CompanyCopier.new(yhtio: 'acme', company_params: { nimi: 'Kala Oy' })
+    copier = CompanyCopier.new(to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' })
 
     assert_no_difference [
       'Company.unscoped.count',
@@ -138,10 +138,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
 
     Current.company = companies(:acme)
 
-    copier = CompanyCopier.new(yhtio: 'kala', company: companies(:estonian), company_params: { nimi: 'Kala Oy' })
+    copier = CompanyCopier.new(
+      from_company: companies(:estonian),
+      to_company_params: { yhtio: 'kala', nimi: 'Kala Oy' },
+    )
 
     copied_company = copier.copy
-    assert copied_company.valid?
+    assert copied_company.valid?, copied_company.errors.full_messages
 
     Current.company = copied_company
 
@@ -163,11 +166,15 @@ class CompanyCopierTest < ActiveSupport::TestCase
   test 'Current.company is returned to original in any case' do
     current_company = Current.company
 
-    copier = CompanyCopier.new(yhtio: 'kala', company: companies(:estonian), company_params: { nimi: 'Kala Oy' })
-    copier.copy
+    copier = CompanyCopier.new(
+      from_company: companies(:estonian),
+      to_company_params: { yhtio: 'kala', nimi: 'Kala Oy' },
+    )
+    copied_company = copier.copy
+    assert copied_company.valid?, copied_company.errors.full_messages
     assert_equal current_company, Current.company
 
-    copier = CompanyCopier.new(yhtio: 'acme', company_params: { nimi: 'Kala Oy' })
+    copier = CompanyCopier.new(to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' })
     copier.copy
     assert_equal current_company, Current.company
 
