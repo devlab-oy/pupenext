@@ -17,7 +17,11 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "assert fixtures are valid" do
-    assert @account.valid?, @account.errors.messages
+    refute_empty Account.all
+
+    Account.all.each do |account|
+      assert account.valid?, "Account #{account.nimi}: #{account.errors.full_messages}"
+    end
   end
 
   test "assert sti works" do

@@ -61,6 +61,10 @@ class Company < ActiveRecord::Base
     o.has_many :targets,      class_name: 'Qualifier::Target'
 
     o.has_many :revenue_expenditures, class_name: 'Keyword::RevenueExpenditure'
+
+    o.has_many :permissions
+    o.has_many :menus, -> { where(kuka: '', profiili: '') }, class_name: 'Permission'
+    o.has_many :profiles, -> { where.not(profiili: '').where('profiili = kuka') }, class_name: 'Permission'
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'
@@ -72,6 +76,11 @@ class Company < ActiveRecord::Base
 
   self.table_name = :yhtio
   self.primary_key = :tunnus
+
+  before_save :defaults
+
+  validates :nimi, presence: true
+  validates :yhtio, uniqueness: true
 
   def fiscal_year(date)
     fy = fiscal_years.where("tilikausi_alku <= :date and tilikausi_loppu >= :date", date: date)
@@ -105,4 +114,13 @@ class Company < ActiveRecord::Base
   def classic_ui?
     parameter.kayttoliittyma == 'C' || parameter.kayttoliittyma.blank?
   end
+
+  private
+
+    def defaults
+      self.ytunnus ||= ''
+      self.osoite  ||= ''
+      self.postino ||= ''
+      self.postitp ||= ''
+    end
 end

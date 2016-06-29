@@ -48,6 +48,11 @@ Pupesoft::Application.routes.draw do
     resources :carriers
     resources :cash_registers
     resources :cash_registers
+    resources :companies, only: [] do
+      member do
+        post :copy
+      end
+    end
     resources :currencies, except: :destroy
     resources :custom_attributes
     resources :customer_transports

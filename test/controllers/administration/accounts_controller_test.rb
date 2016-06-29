@@ -19,7 +19,7 @@ class Administration::AccountsControllerTest < ActionController::TestCase
     }
     get :index, params
     assert_response :success
-    assert_equal 47, assigns(:accounts).count
+    assert_equal 46, assigns(:accounts).count
 
     params = {
       tilino: 10
