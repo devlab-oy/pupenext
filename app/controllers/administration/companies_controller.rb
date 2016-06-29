@@ -4,7 +4,7 @@ class Administration::CompaniesController < ApplicationController
 
   def copy
     copier = CompanyCopier.new(
-      from_company: company,
+      from_company: @company,
       to_company_params: company_params,
     )
 
