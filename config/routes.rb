@@ -45,7 +45,7 @@ Pupesoft::Application.routes.draw do
     resources :carriers
     resources :cash_registers
     resources :cash_registers
-    resources :companies, only: :update do
+    resources :companies, only: [] do
       collection do
         post :copy
       end
