@@ -1,7 +1,6 @@
 class Administration::CompaniesController < ApplicationController
   skip_before_action :authorize,     :set_current_info, :set_locale, :access_control
   before_action      :api_authorize, :set_current_info, :set_locale, :access_control
-  before_action      :find_company, only: :update
 
   def copy
     copier = CompanyCopier.new(to_company_params: company_params)
@@ -11,14 +10,6 @@ class Administration::CompaniesController < ApplicationController
     return render json: { company: { id: copied_company.id } } if copied_company.valid?
 
     render json: { copied_company => copied_company.errors }
-  end
-
-  def update
-    if @company.update(company_params)
-      head :no_content
-    else
-      render json: @company.errors, status: :unprocessable_entity
-    end
   end
 
   private
@@ -55,9 +46,5 @@ class Administration::CompaniesController < ApplicationController
           :aktiivinen,
         ],
       )
-    end
-
-    def find_company
-      @company = Company.unscoped.find(params[:id])
     end
 end
