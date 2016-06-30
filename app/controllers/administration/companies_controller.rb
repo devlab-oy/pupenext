@@ -7,9 +7,11 @@ class Administration::CompaniesController < ApplicationController
 
     copied_company = copier.copy
 
-    return render json: { company: { id: copied_company.id } } if copied_company.valid?
-
-    render json: { copied_company => copied_company.errors }, status: :unprocessable_entity
+    if copied_company.valid?
+      render json: { company: { id: copied_company.id } }
+    else
+      render json: { copied_company => copied_company.errors }, status: :unprocessable_entity
+    end
   end
 
   private
