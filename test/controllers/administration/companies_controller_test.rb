@@ -54,6 +54,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     assert_no_difference 'Company.unscoped.count' do
       post :copy, access_token: users(:admin).api_key, company: { yhtio: 'testi' }
 
+      assert_response :unprocessable_entity
       assert_includes json_response.to_s, 'ei voi olla tyhjä'
     end
   end

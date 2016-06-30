@@ -9,7 +9,7 @@ class Administration::CompaniesController < ApplicationController
 
     return render json: { company: { id: copied_company.id } } if copied_company.valid?
 
-    render json: { copied_company => copied_company.errors }
+    render json: { copied_company => copied_company.errors }, status: :unprocessable_entity
   end
 
   private
