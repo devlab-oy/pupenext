@@ -6,8 +6,11 @@ class CompanyCopier
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
 
-    @user = Current.company.users.find_by!(kuka: 'admin')
-    @to_company_params = to_company_params.merge(konserni: '', nimi: '') { |_k, o, n| o.nil? ? n : o }
+    to_company_params = to_company_params.merge(konserni: '', nimi: '') { |_k, o, n| o.nil? ? n : o }
+
+    @to_company_params  = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
+    @association_params = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
+    @user               = Current.company.users.find_by!(kuka: 'admin')
   ensure
     Current.company = @original_current_company
   end
@@ -45,6 +48,8 @@ class CompanyCopier
     duplicate(Current.company.terms_of_payments)
     duplicate(Current.company.delivery_methods)
     duplicate(Current.company.warehouses)
+
+    copy_association_attributes
 
     @copied_company
   rescue ActiveRecord::RecordInvalid => e
@@ -98,6 +103,10 @@ class CompanyCopier
       model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
       model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)
       model.muuttaja   = Current.user.kuka if model.respond_to?(:muuttaja=)
+    end
+
+    def copy_association_attributes
+      @copied_company.update!(@association_params)
     end
 
     # TODO: This can be achieved much easier with a db transaction.

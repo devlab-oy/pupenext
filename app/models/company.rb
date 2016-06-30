@@ -73,6 +73,8 @@ class Company < ActiveRecord::Base
   has_many :mail_servers
   has_many :incoming_mails, through: :mail_servers
 
+  accepts_nested_attributes_for :bank_accounts, :users
+
   self.table_name = :yhtio
   self.primary_key = :tunnus
 
