@@ -1,4 +1,6 @@
 class SalesOrder::Order < SalesOrder::Base
+  has_many :installments, foreign_key: :otunnus
+
   validates :tila, inclusion: { in: ['L'] }
 
   scope :not_delivered, -> { where(alatila: %w(A C)) }

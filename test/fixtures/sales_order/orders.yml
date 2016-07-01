@@ -20,25 +20,23 @@ DEFAULTS: &DEFAULTS
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
+  yhtio: acme
+  tila: L
 
 # Myyntitilaus
 so_one:
-  yhtio: acme
-  tila: L
+  nimi: Lenni
   toimitustapa: Nouto
   <<: *DEFAULTS
 
-
 not_delivered_order_1:
-  yhtio: acme
-  tila: L
+  nimi: Kalle
   alatila: A
   terms_of_payment: eighty_days_net
   <<: *DEFAULTS
 
 not_delivered_order_2:
-  yhtio: acme
-  tila: L
+  nimi: Pale
   alatila: C
   terms_of_payment: ninety_days_net
   <<: *DEFAULTS
