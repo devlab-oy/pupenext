@@ -78,7 +78,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy destroys all copied data if anything goes wrong' do
-    Account.all.update_all(nimi: '')
+    Account.any_instance.stubs(:save!).raises(StandardError)
 
     assert_no_difference [
       'Company.unscoped.count',
@@ -94,7 +94,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'DeliveryMethod.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
-      assert @copier.copy.invalid?
+      assert_raise StandardError do
+        @copier.copy
+      end
     end
   end
 
