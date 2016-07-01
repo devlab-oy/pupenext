@@ -1,5 +1,6 @@
 class SalesOrder::Order < SalesOrder::Base
   has_many :installments, foreign_key: :otunnus
+  has_one :invoice, foreign_key: :laskunro, primary_key: :laskunro, class_name: 'Head::SalesInvoice'
 
   validates :tila, inclusion: { in: ['L'] }
 
