@@ -10,19 +10,8 @@ class Reports::FullInstallmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'executing report to screen' do
-    params = {
-      format: :html
-    }
-
-    post :run, params
-  end
-
-  test 'executing report to excel' do
-    params = {
-      format: :xlsx
-    }
-
-    post :run, params
+  test 'executing report' do
+    post :run
+    assert_response :success
   end
 end

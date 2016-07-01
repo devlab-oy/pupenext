@@ -1,0 +1,19 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= form_tag do %>
+
+  <table>
+    <th>
+      <%= label_tag :format, t('.select_format') %>
+    </th>
+
+    <td>
+      <%= select_tag(:format, options_for_select([['HTML', 'html'], ['Excel', 'xlsx']])) %>
+    </td>
+  </table>
+
+  <br>
+
+  <%= submit_tag t('.run') %>
+
+<% end %>

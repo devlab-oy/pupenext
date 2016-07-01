@@ -1150,6 +1150,11 @@ fi:
         procurement_amount: Hankintahinta
         procurement_date: Hankintapäivä
         sum_level: Tilitaso
+    full_installments:
+      index:
+        header: Maksettujen ennakkomaksujen varastonrvo
+        run: Aja raportti
+        select_format: Valitse formaatti
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat

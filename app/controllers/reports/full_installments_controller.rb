@@ -6,8 +6,8 @@ class Reports::FullInstallmentsController < ApplicationController
     @data = Installment.includes(:sales_order).where(osuus: 100, lasku: { alatila: :X })
 
     respond_to do |format|
-      format.html
-      format.xlsx
+      format.html { render :report }
+      format.xlsx { render :report }
     end
   end
 end
