@@ -1160,7 +1160,7 @@ fi:
         customer_name: Asiakkaan nimi
         header: Maksettujen ennakkomaksujen varastonrvo
         inventory_value: Varastonarvo
-        invoice: Laskunumero
+        invoice: Ennakkolasku
         order: Tilausnumero
         paid_at: Maksupäivä
         qty: Määrä

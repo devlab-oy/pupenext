@@ -22,11 +22,11 @@
         </td>
 
         <td>
-          <%= installment.parent_order.laskunro %>
+          <%= installment.sales_order.laskunro %>
         </td>
 
         <td>
-          <%=l installment.parent_order.invoice.mapvm || Time.at(0).to_date %>
+          <%=l installment.sales_order.invoice.mapvm %>
         </td>
 
         <td>
@@ -38,7 +38,7 @@
         </td>
 
         <td class='text-right'>
-          <%= row.kpl %> <%= row.product.yksikko %>
+          <%= row.reserved %> <%= row.product.yksikko %>
         </td>
 
         <td class='text-right'>
@@ -46,8 +46,8 @@
         </td>
 
         <td class='text-right'>
-          <% @total += (row.kpl * row.product.kehahin) %>
-          <%= number_to_currency (row.kpl * row.product.kehahin) %>
+          <% @total += (row.reserved * row.product.kehahin) %>
+          <%= number_to_currency (row.reserved * row.product.kehahin) %>
         </td>
       </tr>
     <% end %>
