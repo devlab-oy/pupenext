@@ -13,44 +13,40 @@
     <th class='text-right'><%=t '.inventory_value' %></th>
   </tr>
 
-  <% @total = 0 %>
-  <% @data.each do |installment| %>
-    <% installment.parent_order.rows.each do |row| %>
-      <tr class='aktiivi'>
-        <td>
-          <%= installment.parent_order.tunnus %>
-        </td>
+  <% @data.each do |row| %>
+    <tr class='aktiivi'>
+      <td>
+        <%= row[:order] %>
+      </td>
 
-        <td>
-          <%= installment.sales_order.laskunro %>
-        </td>
+      <td>
+        <%= row[:invoice] %>
+      </td>
 
-        <td>
-          <%=l installment.sales_order.invoice.mapvm %>
-        </td>
+      <td>
+        <%=l row[:paid_at] %>
+      </td>
 
-        <td>
-          <%= installment.parent_order.nimi %>
-        </td>
+      <td>
+        <%= row[:customer] %>
+      </td>
 
-        <td>
-          <%= row.tuoteno %>
-        </td>
+      <td>
+        <%= row[:sku] %>
+      </td>
 
-        <td class='text-right'>
-          <%= row.reserved %> <%= row.product.yksikko %>
-        </td>
+      <td class='text-right'>
+        <%= row[:qty] %> <%= row[:unit] %>
+      </td>
 
-        <td class='text-right'>
-          <%= number_to_currency row.product.kehahin %>
-        </td>
+      <td class='text-right'>
+        <%= number_to_currency row[:avg_acquisition_cost] %>
+      </td>
 
-        <td class='text-right'>
-          <% @total += (row.reserved * row.product.kehahin) %>
-          <%= number_to_currency (row.reserved * row.product.kehahin) %>
-        </td>
-      </tr>
-    <% end %>
+      <td class='text-right'>
+        <%= number_to_currency row[:inventory_value] %>
+      </td>
+    </tr>
   <% end %>
 
   <tr>
