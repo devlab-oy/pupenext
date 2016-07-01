@@ -1,5 +1,6 @@
 class SalesOrder::Row < Row
   belongs_to :order, foreign_key: :otunnus, class_name: 'SalesOrder::Base'
+  has_one :product, foreign_key: :tuoteno, primary_key: :tuoteno
 
   validates :tyyppi, inclusion: { in: ['L'] }
 
