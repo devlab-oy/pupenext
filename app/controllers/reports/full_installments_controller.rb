@@ -13,9 +13,6 @@ class Reports::FullInstallmentsController < ApplicationController
       .where.not(parent_orders_maksupositio: { alatila: :X })
       .order("invoices_lasku.mapvm")
 
-    respond_to do |format|
-      format.html { render :report }
-      format.xlsx { render :report }
-    end
+    render :report
   end
 end

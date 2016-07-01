@@ -1154,7 +1154,6 @@ fi:
       index:
         header: Maksettujen ennakkomaksujen varastonrvo
         run: Aja raportti
-        select_format: Valitse esitysmuoto
       report:
         avg_acquisition_cost: Keskihankintahinta
         customer_name: Asiakkaan nimi
