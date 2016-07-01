@@ -3,7 +3,9 @@ class Reports::FullInstallmentsController < ApplicationController
   end
 
   def run
-    @data = Installment.includes(:sales_order).where(osuus: 100, lasku: { alatila: :X })
+    @data = Installment.includes(parent_order: [{ rows: :product }, :invoice])
+      .where(osuus: 100, lasku: { alatila: :X }, tuote: { ei_saldoa: '' })
+      .order("invoices_lasku.mapvm")
 
     respond_to do |format|
       format.html { render :report }

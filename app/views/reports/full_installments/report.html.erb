@@ -1,0 +1,69 @@
+<%= render "administration/header", text: t('.header') %>
+
+<table>
+
+  <tr>
+    <th><%=t '.order' %></th>
+    <th><%=t '.invoice' %></th>
+    <th><%=t '.paid_at' %></th>
+    <th><%=t '.customer_name' %></th>
+    <th><%=t '.sku' %></th>
+    <th class='text-right'><%=t '.qty' %></th>
+    <th class='text-right'><%=t '.avg_acquisition_cost' %></th>
+    <th class='text-right'><%=t '.inventory_value' %></th>
+  </tr>
+
+  <% @total = 0 %>
+  <% @data.each do |installment| %>
+    <% installment.parent_order.rows.each do |row| %>
+      <tr class='aktiivi'>
+        <td>
+          <%= installment.parent_order.tunnus %>
+        </td>
+
+        <td>
+          <%= installment.parent_order.laskunro %>
+        </td>
+
+        <td>
+          <%=l installment.parent_order.invoice.mapvm || Time.at(0).to_date %>
+        </td>
+
+        <td>
+          <%= installment.parent_order.nimi %>
+        </td>
+
+        <td>
+          <%= row.tuoteno %>
+        </td>
+
+        <td class='text-right'>
+          <%= row.kpl %> <%= row.product.yksikko %>
+        </td>
+
+        <td class='text-right'>
+          <%= number_to_currency row.product.kehahin %>
+        </td>
+
+        <td class='text-right'>
+          <% @total += (row.kpl * row.product.kehahin) %>
+          <%= number_to_currency (row.kpl * row.product.kehahin) %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th class='text-right'><%= number_to_currency @total %></th>
+  </tr>
+
+</table>
+
+<br><br>

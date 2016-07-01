@@ -1154,7 +1154,17 @@ fi:
       index:
         header: Maksettujen ennakkomaksujen varastonrvo
         run: Aja raportti
-        select_format: Valitse formaatti
+        select_format: Valitse esitysmuoto
+      report:
+        avg_acquisition_cost: Keskihankintahinta
+        customer_name: Asiakkaan nimi
+        header: Maksettujen ennakkomaksujen varastonrvo
+        inventory_value: Varastonarvo
+        invoice: Laskunumero
+        order: Tilausnumero
+        paid_at: Maksupäivä
+        qty: Määrä
+        sku: Tuotenumero
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
