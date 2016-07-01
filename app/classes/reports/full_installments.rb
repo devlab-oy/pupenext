@@ -23,7 +23,7 @@ class Reports::FullInstallments
             inventory_value: (row.reserved * row.product.kehahin),
             invoice: installment.sales_order.laskunro,
             order: installment.send(relation).tunnus,
-            paid_at: (installment.sales_order.invoice.mapvm || Date.today),
+            paid_at: installment.sales_order.invoice.mapvm,
             qty: row.reserved,
             sku: row.tuoteno,
             unit: row.product.yksikko,
@@ -45,6 +45,7 @@ class Reports::FullInstallments
 
       Installment.includes(sales_order: :invoice, relation => [{ rows: :product }])
         .where(osuus: 100, lasku: { alatila: :X}, tuote: { ei_saldoa: '' })
+        .where("invoices_lasku.mapvm != '0000-00-00'")
         .where.not(table => { alatila: :X })
     end
 end
