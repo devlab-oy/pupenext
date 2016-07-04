@@ -5,6 +5,8 @@ class Reports::FullInstallments
   end
 
   def run
+    # joudutaan hakemaan kahteen kertaan ja yhdistämään arrayt,
+    # koska tarvitaan order draftit sekä sales orderit
     result = data(:parent_order) + data(:parent_draft)
     result.sort_by { |row| row[:paid_at] }
   end
@@ -41,6 +43,7 @@ class Reports::FullInstallments
       # parent_order on alkuperäinen tilaus, jolle maksusopimus on tehty (loppulasku)
       # sales_order on tilaus, jolla ko. maksupositio on maksettu
 
+      # passataan sisään relaatio, haetaanko salers orderit vai draftit
       table = "#{relation}s_maksupositio"
 
       Installment.includes(sales_order: :invoice, relation => [{ rows: :product }])
