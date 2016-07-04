@@ -4,6 +4,7 @@ class SalesOrder::OrderTest < ActiveSupport::TestCase
   fixtures %w(
     delivery_methods
     head/voucher_rows
+    installments
     sales_order/orders
     sales_order/rows
   )
@@ -22,5 +23,6 @@ class SalesOrder::OrderTest < ActiveSupport::TestCase
     assert @order.rows.count > 0
     assert_equal "L", @order.rows.first.tyyppi
     assert_equal delivery_methods(:nouto), @order.delivery_method
+    assert_equal 2, @order.installments.count
   end
 end

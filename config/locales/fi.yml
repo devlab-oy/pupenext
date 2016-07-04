@@ -1150,6 +1150,21 @@ fi:
         procurement_amount: Hankintahinta
         procurement_date: Hankintapäivä
         sum_level: Tilitaso
+    full_installments:
+      index:
+        header: Maksettujen ennakkomaksujen varastonarvo
+        run: Aja raportti
+        select_format: Valitse esitysmuoto
+      report:
+        avg_acquisition_cost: Keskihankintahinta
+        customer_name: Asiakkaan nimi
+        header: Maksettujen ennakkomaksujen varastonarvo
+        inventory_value: Varastonarvo
+        invoice: Ennakkolasku
+        order: Tilausnumero
+        paid_at: Maksupäivä
+        qty: Määrä
+        sku: Tuotenumero
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat

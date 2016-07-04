@@ -19,6 +19,7 @@
     depreciation_difference
     downloads
     fiscal_years
+    full_installments
     incoming_mails
     mail_servers
     packages
