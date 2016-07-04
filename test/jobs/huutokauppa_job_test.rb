@@ -2,15 +2,7 @@ require 'minitest/mock'
 require 'test_helper'
 
 class HuutokauppaJobTest < ActiveJob::TestCase
-  fixtures %w(
-    customers
-    delivery_methods
-    incoming_mails
-    mail_servers
-    sales_order/drafts
-    sales_order/orders
-    sales_order/rows
-  )
+  fixtures :all
 
   test 'job is enqueued correctly' do
     assert_enqueued_jobs 0
