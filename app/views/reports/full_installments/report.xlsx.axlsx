@@ -1,3 +1,5 @@
+# -*- mode: ruby;-*-
+
 wb = xlsx_package.workbook
 
 left_align  = wb.styles.add_style(alignment: { horizontal: :left })
