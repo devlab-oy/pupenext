@@ -1,0 +1,36 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  tila: K
+  luontiaika: <%= Time.now %>
+  laatija: joe
+  muutospvm: <%= Time.now %>
+  muuttaja: joe
+  tapvm: <%= Time.now %>
+  lapvm: <%= Time.now %>
+  kapvm: <%= Time.now %>
+  erpcm: <%= Time.now %>
+  olmapvm: <%= Time.now %>
+  kerayspvm: <%= Time.now %>
+  toimaika: <%= Time.now %>
+  maksuaika: <%= Time.now %>
+  lahetepvm: <%= Time.now %>
+  laskutettu: <%= Time.now %>
+  h1time: <%= Time.now %>
+  h2time: <%= Time.now %>
+  h3time: <%= Time.now %>
+  h4time: <%= Time.now %>
+  h5time: <%= Time.now %>
+  mapvm: <%= Time.now %>
+  popvm: <%= Time.now %>
+
+# Keikka / Saapuminen
+arrival_one:
+  vanhatunnus: 0
+  nimi: Apple
+  <<: *DEFAULTS
+
+# Keikkaan liitetty lasku (ei toimiva relaatio for now)
+arrival_invoice:
+  vanhatunnus: 1
+  nimi: Fedex
+  <<: *DEFAULTS
