@@ -1152,12 +1152,12 @@ fi:
         sum_level: Tilitaso
     full_installments:
       index:
-        header: Maksettujen ennakkomaksujen varastonrvo
+        header: Maksettujen ennakkomaksujen varastonarvo
         run: Aja raportti
       report:
         avg_acquisition_cost: Keskihankintahinta
         customer_name: Asiakkaan nimi
-        header: Maksettujen ennakkomaksujen varastonrvo
+        header: Maksettujen ennakkomaksujen varastonarvo
         inventory_value: Varastonarvo
         invoice: Ennakkolasku
         order: Tilausnumero
