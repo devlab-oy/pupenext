@@ -6,6 +6,9 @@ class Reports::FullInstallmentsController < ApplicationController
     @data = Reports::FullInstallments.new.run
     @total = @data.map { |h| h[:inventory_value] }.sum
 
-    render :report
+    respond_to do |format|
+      format.html { render :report }
+      format.xlsx { render :report }
+    end
   end
 end
