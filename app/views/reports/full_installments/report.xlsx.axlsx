@@ -5,8 +5,8 @@ wb = xlsx_package.workbook
 left_align  = wb.styles.add_style(alignment: { horizontal: :left })
 right_align = wb.styles.add_style(alignment: { horizontal: :right }, num_fmt: 5)
 
-types  = [:integer, :integer, :date, :string, :string, :string, :float, :float]
-styles = [left_align, left_align, nil, left_align, left_align, left_align, right_align, right_align]
+types  = [:integer, :integer, :string, :string, :string, :string, :float, :float]
+styles = [left_align, left_align, left_align, left_align, left_align, left_align, right_align, right_align]
 
 wb.add_worksheet(name: 'Workbook') do |sheet|
   sheet.add_row [
