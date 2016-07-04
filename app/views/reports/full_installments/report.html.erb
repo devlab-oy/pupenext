@@ -3,14 +3,37 @@
 <table>
 
   <tr>
-    <th><%=t '.order' %></th>
-    <th><%=t '.invoice' %></th>
-    <th><%=t '.paid_at' %></th>
-    <th><%=t '.customer_name' %></th>
-    <th><%=t '.sku' %></th>
-    <th class='text-right'><%=t '.qty' %></th>
-    <th class='text-right'><%=t '.avg_acquisition_cost' %></th>
-    <th class='text-right'><%=t '.inventory_value' %></th>
+    <th>
+      <%=t '.order' %>
+    </th>
+
+    <th>
+      <%=t '.invoice' %>
+    </th>
+
+    <th>
+      <%=t '.paid_at' %>
+    </th>
+
+    <th>
+      <%=t '.customer_name' %>
+    </th>
+
+    <th>
+      <%=t '.sku' %>
+    </th>
+
+    <th class='text-right'>
+      <%=t '.qty' %>
+    </th>
+
+    <th class='text-right'>
+      <%=t '.avg_acquisition_cost' %>
+    </th>
+
+    <th class='text-right'>
+      <%=t '.inventory_value' %>
+    </th>
   </tr>
 
   <% @data.each do |row| %>
@@ -57,7 +80,9 @@
     <th></th>
     <th></th>
     <th></th>
-    <th class='text-right'><%= number_to_currency @total %></th>
+    <th class='text-right'>
+      <%= number_to_currency @total %>
+    </th>
   </tr>
 
 </table>
