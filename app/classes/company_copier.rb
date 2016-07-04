@@ -120,6 +120,7 @@ class CompanyCopier
       TermsOfPayment.destroy_all
       Printer.destroy_all
       Keyword.destroy_all
+      BankAccount.destroy_all
       Account.destroy_all
       SumLevel.destroy_all
       Permission.destroy_all

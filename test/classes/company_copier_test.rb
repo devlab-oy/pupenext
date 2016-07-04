@@ -111,6 +111,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'Permission.unscoped.count',
       'SumLevel.unscoped.count',
       'Account.unscoped.count',
+      'BankAccount.unscoped.count',
       'Keyword.unscoped.count',
       'Printer.unscoped.count',
       'TermsOfPayment.unscoped.count',
