@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606133319) do
+ActiveRecord::Schema.define(version: 20160705074028) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -512,6 +512,17 @@ ActiveRecord::Schema.define(version: 20160606133319) do
 
   add_index "budjetti_tuote", ["yhtio", "kausi", "tuoteno", "osasto", "try"], name: "tubu", unique: true, length: {"yhtio"=>nil, "kausi"=>nil, "tuoteno"=>nil, "osasto"=>50, "try"=>50}, using: :btree
   add_index "budjetti_tuote", ["yhtio", "tuoteno", "kausi"], name: "yhtio_tuote_kausi", using: :btree
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string   "name",        limit: 60,  default: "",   null: false
+    t.string   "description", limit: 255, default: "",   null: false
+    t.boolean  "active",                  default: true, null: false
+    t.integer  "company_id",  limit: 4
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  add_index "campaigns", ["company_id"], name: "index_campaigns_on_company_id", using: :btree
 
   create_table "customers_users", id: false, force: :cascade do |t|
     t.integer "user_id",     limit: 4, null: false
