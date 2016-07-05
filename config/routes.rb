@@ -116,6 +116,10 @@ Pupesoft::Application.routes.draw do
     post :product_keywords,       to: 'data_import#product_keywords',      as: :product_keyword_import
   end
 
+  namespace :category do
+    resources :products, only: :index
+  end
+
   root to: 'home#index'
   get '/test', to: 'home#test'
 
