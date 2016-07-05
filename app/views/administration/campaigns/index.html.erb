@@ -29,18 +29,17 @@
         <br/>
         <%= text_field_tag :description, params[:description] %>
       </th>
+
       <th>
         <%= sortable :active, Campaign.human_attribute_name(:active) %>
         <br/>
         <%= text_field_tag :active, params[:active] %>
       </th>
 
-    <th class="back">
+      <th class="back">
         <%= submit_tag t('.button_search') %>
       </th>
     </tr>
-
-
 
     <% @campaigns.each do |campaign| %>
       <tr>

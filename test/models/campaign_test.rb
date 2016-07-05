@@ -21,7 +21,7 @@ class CampaignTest < ActiveSupport::TestCase
     assert_equal Campaign.count, Campaign.active.count
     @campaign.active = 0
     @campaign.save!
-    assert_equal Campaign.active.count, 0
+
+    assert_equal 0, Campaign.active.count
   end
 end
-
