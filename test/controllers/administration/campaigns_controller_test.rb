@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CampaignsControllerTest < ActionController::TestCase
+class Administration::CampaignsControllerTest < ActionController::TestCase
   fixtures %w(
     campaigns
   )

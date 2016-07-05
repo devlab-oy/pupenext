@@ -1,4 +1,4 @@
-class CampaignsController < ApplicationController
+class Administration::CampaignsController < ApplicationController
   include ColumnSort
   helper_method :show_inactive?
   before_action :find_resource, only: [:update, :edit]
@@ -35,7 +35,7 @@ class CampaignsController < ApplicationController
   end
 
   private
-     
+
     def show_inactive?
       params[:show_inactive] == "yes"
     end
