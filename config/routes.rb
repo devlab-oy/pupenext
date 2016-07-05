@@ -22,9 +22,6 @@ Pupesoft::Application.routes.draw do
     end
   end
 
-  resources :campaigns, except: :destroy do
-  end
-
   scope module: :fixed_assets do
     resources :commodities, except: :destroy do
       get :purchase_orders
@@ -45,6 +42,7 @@ Pupesoft::Application.routes.draw do
     resources :accounts
     resources :bank_accounts
     resources :bank_details, except: :destroy
+    resources :campaigns, except: :destroy
     resources :carriers
     resources :cash_registers
     resources :cash_registers
