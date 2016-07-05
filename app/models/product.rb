@@ -192,3 +192,5 @@ class Product < BaseModel
       stock_by_date.max || 0
     end
 end
+
+require_dependency 'product/category'

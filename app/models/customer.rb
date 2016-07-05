@@ -1,7 +1,3 @@
-# we need to require these here, so we won't get namespace warnings
-require 'category'
-require 'category/customer'
-
 class Customer < BaseModel
   include UserDefinedValidations
 
