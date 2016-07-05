@@ -1,6 +1,7 @@
 class Row < BaseModel
   include PupenextSingleTableInheritance
 
+  belongs_to :order, foreign_key: :otunnus, class_name: 'SalesOrder::Base'
   belongs_to :product, primary_key: :tuoteno, foreign_key: :tuoteno
 
   validates :product, presence: true

@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
     o.has_many :accounts
     o.has_many :bank_accounts
     o.has_many :bank_details
+    o.has_many :campaigns
     o.has_many :carriers
     o.has_many :cash_registers
     o.has_many :currencies
@@ -72,6 +73,8 @@ class Company < ActiveRecord::Base
   has_many :customer_transports, through: :customers, source: :transports
   has_many :mail_servers
   has_many :incoming_mails, through: :mail_servers
+
+  accepts_nested_attributes_for :bank_accounts, :users
 
   self.table_name = :yhtio
   self.primary_key = :tunnus

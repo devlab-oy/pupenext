@@ -2,6 +2,7 @@ require 'test_helper'
 
 class PurchaseOrder::RowTest < ActiveSupport::TestCase
   fixtures %w(
+    arrivals
     heads
     products
     purchase_order/orders
@@ -17,7 +18,8 @@ class PurchaseOrder::RowTest < ActiveSupport::TestCase
   end
 
   test 'relations' do
-    assert_equal "O", @one.order.tila
+    assert_equal 'O', @one.order.tila
+    assert_equal 'K', @one.arrival.tila
   end
 
   test 'open scope' do

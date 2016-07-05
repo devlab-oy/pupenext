@@ -44,7 +44,6 @@ module PermissionHelper
         Permission.create!(
           kuka: 'admin',
           user_id: admin.tunnus,
-          profiili: 'Admin profiili',
           paivitys: 1,
           sovellus: program,
           nimi: uri,

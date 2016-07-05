@@ -1,4 +1,6 @@
 DEFAULTS: &DEFAULTS
+  yhtio: acme
+  tila: K
   luontiaika: <%= Time.now %>
   laatija: joe
   muutospvm: <%= Time.now %>
@@ -20,23 +22,15 @@ DEFAULTS: &DEFAULTS
   h5time: <%= Time.now %>
   mapvm: <%= Time.now %>
   popvm: <%= Time.now %>
-  yhtio: acme
-  tila: L
 
-# Myyntitilaus
-so_one:
-  nimi: Lenni
-  toimitustapa: Nouto
+# Keikka / Saapuminen
+arrival_one:
+  vanhatunnus: 0
+  nimi: Apple
   <<: *DEFAULTS
 
-not_delivered_order_1:
-  nimi: Kalle
-  alatila: A
-  terms_of_payment: eighty_days_net
-  <<: *DEFAULTS
-
-not_delivered_order_2:
-  nimi: Pale
-  alatila: C
-  terms_of_payment: ninety_days_net
+# Keikkaan liitetty lasku (ei toimiva relaatio for now)
+arrival_invoice:
+  vanhatunnus: 1
+  nimi: Fedex
   <<: *DEFAULTS

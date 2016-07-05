@@ -1,0 +1,21 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  luotu: <%= Date.today %>
+  luonut: joe
+  erpcm: 0
+
+fourty:
+  <<: *DEFAULTS
+  osuus: 40
+  summa: 400
+  kuvaus: Ennen toimitusta
+  uusiotunnus: <%= ActiveRecord::FixtureSet.identify(:not_delivered_order_1) %>
+  otunnus: <%= ActiveRecord::FixtureSet.identify(:so_one) %>
+
+sixty:
+  <<: *DEFAULTS
+  osuus: 60
+  summa: 600
+  kuvaus: Noudettaessa
+  uusiotunnus: <%= ActiveRecord::FixtureSet.identify(:so_one) %>
+  otunnus: <%= ActiveRecord::FixtureSet.identify(:so_one) %>

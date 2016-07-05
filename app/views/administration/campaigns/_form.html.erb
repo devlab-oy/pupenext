@@ -1,0 +1,18 @@
+<%= render "administration/form_errors", resource: @campaign %>
+
+<%= simple_form_for @campaign,
+    builder: AdminFormBuilder,
+    defaults: { input_html: { class: :large } },
+    alias_set: params[:alias_set] do |f| %>
+
+  <table width='600' class='admin-view-30'>
+    <%= f.input :active, include_blank: false %>
+    <%= f.input :name %>
+    <%= f.input :description %>
+  </table>
+
+  <br>
+
+  <%= f.button :submit %>
+
+<% end %>

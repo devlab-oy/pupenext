@@ -1,0 +1,57 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to_new :campaign %>
+
+<%= form_tag campaigns_path, method: :get do %>
+  <%= hidden_field_tag :alias_set, params[:alias_set] %>
+
+  <% if show_inactive? %>
+    <%= submit_tag t('.show_active') %>
+  <% else %>
+    <%= hidden_field_tag :show_inactive, :yes %>
+    <%= submit_tag t(".show_inactive") %>
+  <% end %>
+<% end %>
+
+<br/><br/>
+
+<%= form_tag campaigns_path, method: :get do %>
+  <table>
+    <tr>
+      <th>
+        <%= sortable :name, Campaign.human_attribute_name(:name) %>
+        <br/>
+        <%= text_field_tag :name, params[:name] %>
+      </th>
+
+      <th>
+        <%= sortable :description, Campaign.human_attribute_name(:description) %>
+        <br/>
+        <%= text_field_tag :description, params[:description] %>
+      </th>
+
+      <th>
+        <%= sortable :active, Campaign.human_attribute_name(:active) %>
+        <br/>
+        <%= text_field_tag :active, params[:active] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+    <% @campaigns.each do |campaign| %>
+      <tr>
+        <td><%= link_to campaign.name, edit_campaign_path(campaign) %></td>
+        <td><%= campaign.description %></td>
+        <td><%= campaign.active %></td>
+      </tr>
+
+    <% end %>
+    </table>
+<% end %>
+
+<br/>
+
+<%= button_to_new :campaign %>

@@ -175,4 +175,35 @@ class CompanyTest < ActiveSupport::TestCase
     refute @acme.date_in_open_period?('2015-01-01')
     refute @acme.date_in_open_period?('2015-01-01'.to_date)
   end
+
+  test 'nested attributes' do
+    Current.company = companies(:acme)
+    Current.user    = users(:bob)
+
+    @acme.bank_accounts_attributes = [
+      {
+        nimi: 'Testitili',
+        iban: 'FI9814283500171141',
+        default_clearing_account: Account.first,
+        default_expense_account: Account.first,
+        default_liquidity_account: Account.first,
+        valkoodi: 'EUR',
+        bic: 'NDEAFIHH',
+      },
+    ]
+    @acme.save!
+
+    assert_equal 'FI9814283500171141', @acme.bank_accounts.last.iban
+
+    @acme.users_attributes = [
+      {
+        kuka: '123',
+        nimi: 'Testi Testaaja',
+        salasana: Digest::MD5.hexdigest('kissa'),
+      },
+    ]
+    @acme.save!
+
+    assert_equal '1ad99cbe9e425d4f19c53a29d4f12597', @acme.users.last.salasana
+  end
 end
