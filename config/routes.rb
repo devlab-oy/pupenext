@@ -42,6 +42,7 @@ Pupesoft::Application.routes.draw do
     resources :accounts
     resources :bank_accounts
     resources :bank_details, except: :destroy
+    resources :campaigns, except: :destroy
     resources :carriers
     resources :cash_registers
     resources :cash_registers

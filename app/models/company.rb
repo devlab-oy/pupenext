@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
     o.has_many :accounts
     o.has_many :bank_accounts
     o.has_many :bank_details
+    o.has_many :campaigns
     o.has_many :carriers
     o.has_many :cash_registers
     o.has_many :currencies
