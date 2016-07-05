@@ -11,4 +11,5 @@ po_row_one:
   order: po_one
   tuoteno: hammer123
   tyyppi: O
+  arrival: arrival_one
   <<: *DEFAULTS

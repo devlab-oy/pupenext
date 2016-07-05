@@ -1,0 +1,50 @@
+# -*- mode: ruby;-*-
+
+wb = xlsx_package.workbook
+
+left_align  = wb.styles.add_style(alignment: { horizontal: :left })
+right_align = wb.styles.add_style(alignment: { horizontal: :right }, num_fmt: 5)
+
+types  = [:integer, :integer, :string, :string, :string, :string, :float, :float]
+styles = [left_align, left_align, left_align, left_align, left_align, left_align, right_align, right_align]
+
+wb.add_worksheet(name: 'Workbook') do |sheet|
+  sheet.add_row [
+    t('.order'),
+    t('.invoice'),
+    t('.paid_at'),
+    t('.customer_name'),
+    t('.sku'),
+    t('.qty'),
+    t('.avg_acquisition_cost'),
+    t('.inventory_value'),
+  ], style: styles
+
+  @data.each do |row|
+    data = [
+      row[:order],
+      row[:invoice],
+      row[:paid_at],
+      row[:customer],
+      row[:sku],
+      "#{row[:qty]} #{row[:unit]}",
+      row[:avg_acquisition_cost],
+      row[:inventory_value],
+    ]
+
+    sheet.add_row data, types: types, style: styles
+  end
+
+  sheet.add_row [
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    @total,
+  ], types: types, style: styles
+end
+
+render partial: 'reports/shared/report_information', locals: { wb: wb }

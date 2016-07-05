@@ -47,7 +47,7 @@ Pupesoft::Application.routes.draw do
     resources :cash_registers
     resources :cash_registers
     resources :companies, only: [] do
-      member do
+      collection do
         post :copy
       end
     end
@@ -93,6 +93,8 @@ Pupesoft::Application.routes.draw do
     get :stock_availability,          to: 'stock_availability#index',   as: :stock_availability
     get :run_stock_availability,      to: 'stock_availability#run',     as: :run_stock_availability
     get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
+    get :full_installments,           to: 'full_installments#index',    as: :full_installments
+    post :full_installments,          to: 'full_installments#run',      as: :run_full_installments
 
     resources :commodity_balance_sheet, only: [:index, :create]
     resources :commodity_financial_statements, only: [:index, :create]
