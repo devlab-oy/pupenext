@@ -1,6 +1,3 @@
-# we need to require this here, so we won't get namespace warnings
-require 'category'
-
 class Product::Category < Keyword
   include CategoryFilter
 
