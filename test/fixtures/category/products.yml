@@ -1,12 +1,41 @@
 DEFAULTS: &DEFAULTS
   yhtio: acme
+  laji: tuote
+  laatija: bob
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
-  laji: tuote
+  muuttaja: bob
 
 product_category_shirts:
-  koodi: 1
   nimi: Paidat
+  koodi: 1
+  toimittajan_koodi: 1
+  lft: 1
+  rgt: 6
+  children_count: 1
+  syvyys: 0
+  <<: *DEFAULTS
+
+product_category_shirts_t_shirts:
+  nimi: T-paidat
+  koodi: 11
+  toimittajan_koodi: 11
+  lft: 2
+  rgt: 5
+  children_count: 1
+  parent: product_category_shirts
+  syvyys: 1
+  <<: *DEFAULTS
+
+product_category_shirts_t_shirts_v_necks:
+  nimi: V-aukkoiset
+  koodi: 111
+  toimittajan_koodi: 111
+  lft: 3
+  rgt: 4
+  children_count: 0
+  parent: product_category_shirts_t_shirts
+  syvyys: 2
   <<: *DEFAULTS
 
 product_category_pants:
