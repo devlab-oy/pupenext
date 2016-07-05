@@ -1,0 +1,2 @@
+module Category::ProductsHelper
+end
