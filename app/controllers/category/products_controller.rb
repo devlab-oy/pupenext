@@ -1,2 +1,2 @@
-class Category::ProductsController < ApplicationController
+class Category::ProductsController < CategoriesController
 end
