@@ -3674,6 +3674,7 @@ ActiveRecord::Schema.define(version: 20160705075908) do
     t.string   "lasku_logo_positio",                               limit: 7,                              default: "",    null: false
     t.integer  "lasku_logo_koko",                                  limit: 4,                              default: 0,     null: false
     t.string   "naytetaan_katteet_tilauksella",                    limit: 1,                              default: "",    null: false
+    t.string   "tuotekommentti_tilausriville",                     limit: 1,                              default: "",    null: false
     t.string   "tilauksen_yhteyshenkilot",                         limit: 1,                              default: "",    null: false
     t.string   "tarjouksen_voi_versioida",                         limit: 1,                              default: "",    null: false
     t.string   "nimityksen_muutos_tilauksella",                    limit: 1,                              default: "",    null: false
