@@ -117,7 +117,11 @@ Pupesoft::Application.routes.draw do
   end
 
   namespace :category do
-    resources :products, only: :index
+    resources :products, only: :index do
+      collection do
+        get :tree
+      end
+    end
   end
 
   root to: 'home#index'

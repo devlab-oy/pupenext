@@ -14,4 +14,14 @@ class Category::ProductsControllerTest < ActionController::TestCase
       category.assert_valid_keys(:nimi, :koodi, :tunnus)
     end
   end
+
+  test '#tree' do
+    get :tree, access_token: users(:bob).api_key
+
+    assert_response :success
+
+    json_response.each do |category|
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :children)
+    end
+  end
 end
