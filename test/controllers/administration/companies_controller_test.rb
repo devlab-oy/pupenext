@@ -43,7 +43,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       end
     end
 
-    assert_equal Company.unscoped.last, Company.unscoped.find(json_response['company']['id'])
+    assert_equal Company.unscoped.last, Company.unscoped.find(json_response[:company][:id])
     assert_equal 'Testikatu 3',         Company.unscoped.last.osoite
     assert_equal '440',                 BankAccount.unscoped.last.oletus_selvittelytili
     assert_equal '123',                 User.unscoped.last.kuka

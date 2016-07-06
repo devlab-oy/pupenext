@@ -65,7 +65,7 @@ class ActionController::TestCase
   end
 
   def json_response
-    ActiveSupport::JSON.decode @response.body
+    JSON.parse(response.body, symbolize_names: true)
   end
 end
 
