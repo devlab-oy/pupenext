@@ -2,8 +2,9 @@ require 'test_helper'
 
 class Category::ProductTest < ActiveSupport::TestCase
   fixtures %w(
-    products
+    category/links
     category/products
+    products
   )
 
   setup do
@@ -18,6 +19,12 @@ class Category::ProductTest < ActiveSupport::TestCase
 
   test 'associations work' do
     assert_equal "Acme Corporation", @shirts.company.nimi
+
+    assert_equal 1, @shirts.links.size
+    assert_includes @shirts.links, category_links(:product_category_shirts_hammer)
+
+    assert_equal 1, @shirts.products.size
+    assert_includes @pants.links, category_links(:product_category_pants_helmet)
   end
 
   test '.tree' do
