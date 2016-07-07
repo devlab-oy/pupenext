@@ -121,6 +121,10 @@ Pupesoft::Application.routes.draw do
       collection do
         get :tree
       end
+
+      member do
+        get :children
+      end
     end
   end
 
