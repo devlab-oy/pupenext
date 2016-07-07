@@ -1,11 +1,20 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+product_category_shirts_hammer:
+  liitos: hammer123
+  laji: tuote
+  category: product_category_shirts
+  <<: *DEFAULTS
+
+product_category_pants_helmet:
+  liitos: helmet123
+  laji: tuote
+  category: product_category_pants
+  <<: *DEFAULTS
+
