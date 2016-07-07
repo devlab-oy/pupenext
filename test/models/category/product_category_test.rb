@@ -20,10 +20,11 @@ class Category::ProductTest < ActiveSupport::TestCase
   test 'associations work' do
     assert_equal "Acme Corporation", @shirts.company.nimi
 
-    assert_equal 1, @shirts.links.size
+    assert_equal 2, @shirts.links.size
     assert_includes @shirts.links, category_links(:product_category_shirts_hammer)
+    assert_includes @shirts.links, category_links(:product_category_shirts_ski)
 
-    assert_equal 1, @shirts.products.size
+    assert_equal 1, @pants.products.size
     assert_includes @pants.links, category_links(:product_category_pants_helmet)
   end
 
