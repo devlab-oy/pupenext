@@ -1,4 +1,4 @@
-class Category::Link < ActiveRecord::Base
+class Category::Link < BaseModel
   include PupenextSingleTableInheritance
 
   self.table_name         = :puun_alkio
