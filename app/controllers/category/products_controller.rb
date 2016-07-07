@@ -1,8 +1,12 @@
 class Category::ProductsController < CategoriesController
-  before_action :find_product_category, only: :children
+  before_action :find_product_category, only: [:show, :children]
 
   def index
     render json: Category::Product.roots
+  end
+
+  def show
+    render json: @product_category
   end
 
   def tree
