@@ -1,5 +1,5 @@
 class Category::ProductsController < CategoriesController
-  before_action :find_product_category, only: [:show, :children]
+  before_action :find_product_category, only: [:show, :children, :products]
 
   def index
     render json: Category::Product.roots
@@ -15,6 +15,10 @@ class Category::ProductsController < CategoriesController
 
   def children
     render json: @product_category.children
+  end
+
+  def products
+    render json: @product_category.products
   end
 
   private
