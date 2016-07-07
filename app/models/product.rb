@@ -66,6 +66,11 @@ class Product < BaseModel
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
+  def as_json(options = {})
+    options = { only: :tunnus }.merge(options)
+    super options
+  end
+
   def stock
     return 0 if no_inventory_management?
 
