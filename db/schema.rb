@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705075908) do
+ActiveRecord::Schema.define(version: 20160707063612) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2719,7 +2719,7 @@ ActiveRecord::Schema.define(version: 20160705075908) do
     t.string   "aktiivinen_kuljetus_kansallisuus", limit: 2,                            default: "",  null: false
     t.integer  "kauppatapahtuman_luonne",          limit: 4,                            default: 0,   null: false
     t.integer  "kuljetusmuoto",                    limit: 4,                            default: 0,   null: false
-    t.string   "poistumistoimipaikka_koodi",       limit: 3,                            default: "",  null: false
+    t.string   "poistumistoimipaikka_koodi",       limit: 8,                            default: "",  null: false
     t.decimal  "ulkomaanlisa",                                 precision: 6,  scale: 2, default: 0.0, null: false
     t.string   "sallitut_maat",                    limit: 50,                           default: "",  null: false
     t.decimal  "lisakulu",                                     precision: 5,  scale: 2, default: 0.0, null: false
@@ -3321,7 +3321,7 @@ ActiveRecord::Schema.define(version: 20160705075908) do
     t.string   "erikoistoimitus_toimitustapa",     limit: 50,                           default: "",  null: false
     t.integer  "kauppatapahtuman_luonne",          limit: 4,                            default: 0,   null: false
     t.integer  "kuljetusmuoto",                    limit: 4,                            default: 0,   null: false
-    t.string   "poistumistoimipaikka_koodi",       limit: 3,                            default: "",  null: false
+    t.string   "poistumistoimipaikka_koodi",       limit: 8,                            default: "",  null: false
     t.string   "ulkoinen_jarjestelma",             limit: 1,                            default: "",  null: false
     t.string   "sallitut_maat",                    limit: 50,                           default: "",  null: false
     t.integer  "isa_varasto",                      limit: 4,                            default: 0,   null: false
