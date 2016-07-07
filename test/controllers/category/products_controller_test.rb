@@ -15,6 +15,14 @@ class Category::ProductsControllerTest < ActionController::TestCase
     end
   end
 
+  test '#show' do
+    get :show, id: category_products(:product_category_pants).id, access_token: users(:bob).api_key
+
+    assert_response :success
+
+    json_response.assert_valid_keys(:nimi, :koodi, :tunnus)
+  end
+
   test '#tree' do
     get :tree, access_token: users(:bob).api_key
 

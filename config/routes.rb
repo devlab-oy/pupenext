@@ -117,7 +117,7 @@ Pupesoft::Application.routes.draw do
   end
 
   namespace :category do
-    resources :products, only: :index do
+    resources :products, only: [:index, :show] do
       collection do
         get :tree
       end
