@@ -35,4 +35,12 @@ class Category::ProductTest < ActiveSupport::TestCase
     assert_equal 1, t_paidat['children'].size
     assert_equal 0, v_aukkoiset['children'].size
   end
+
+  test '#tree' do
+    assert_equal 1, @shirts.tree['children'].size
+    assert_equal 1, @shirts.tree['children'][0]['children'].size
+    assert_equal 0, @shirts.tree['children'][0]['children'][0]['children'].size
+
+    assert_equal 0, @pants.tree['children'].size
+  end
 end
