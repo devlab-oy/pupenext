@@ -18,7 +18,11 @@ class Category::ProductsController < CategoriesController
   end
 
   def products
-    render json: @product_category.products
+    if params[:include_descendants]
+      render json: @product_category.self_and_descendants.map(&:products).flatten.uniq
+    else
+      render json: @product_category.products
+    end
   end
 
   private
