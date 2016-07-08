@@ -68,7 +68,7 @@ huutokauppa_delivery_93:
 <% (1..5).step(1) do |shirt| %>
 shirt_<%= shirt %>:
   yhtio: acme
-  tuoteno: 333<%= shirt %>
+  tuoteno: z333<%= shirt %>
   nimitys: Paita <%= shirt %>
   myyntihinta: <%= 30.13*shirt %>
   status: A
