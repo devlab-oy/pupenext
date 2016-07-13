@@ -19,6 +19,20 @@ class Category::ProductsControllerTest < ActionController::TestCase
     end
   end
 
+  test '#index?ids=[1,2,3]' do
+    ids = Category::Product.where(nimi: %w(Paidat V-aukkoiset)).pluck(:tunnus)
+
+    get :index, ids: ids, access_token: users(:bob).api_key
+
+    assert_response :success
+
+    assert_equal 2, json_response.size
+
+    json_response.each do |category|
+      category.assert_valid_keys(:nimi, :koodi, :tunnus)
+    end
+  end
+
   test '#show' do
     get :show, id: category_products(:product_category_pants).id, access_token: users(:bob).api_key
 

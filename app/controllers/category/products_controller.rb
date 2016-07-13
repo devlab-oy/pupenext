@@ -2,7 +2,10 @@ class Category::ProductsController < CategoriesController
   before_action :find_product_category, only: [:show, :children, :products]
 
   def index
-    render json: Category::Product.all
+    categories = Category.all
+    categories = params[:ids] && categories.find(params[:ids]) if params[:ids]
+
+    render json: categories
   end
 
   def show
