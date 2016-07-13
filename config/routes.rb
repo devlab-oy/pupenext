@@ -120,6 +120,7 @@ Pupesoft::Application.routes.draw do
     resources :products, only: [:index, :show] do
       collection do
         get :tree
+        get :roots
       end
 
       member do

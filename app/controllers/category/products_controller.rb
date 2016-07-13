@@ -2,7 +2,7 @@ class Category::ProductsController < CategoriesController
   before_action :find_product_category, only: [:show, :children, :products]
 
   def index
-    render json: Category::Product.roots
+    render json: Category::Product.all
   end
 
   def show
@@ -11,6 +11,10 @@ class Category::ProductsController < CategoriesController
 
   def tree
     render json: Category::Product.tree
+  end
+
+  def roots
+    render json: Category::Product.roots
   end
 
   def children

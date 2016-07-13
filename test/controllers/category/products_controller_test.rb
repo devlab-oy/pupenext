@@ -12,6 +12,8 @@ class Category::ProductsControllerTest < ActionController::TestCase
 
     assert_response :success
 
+    assert_operator json_response.size, :>=, 4
+
     json_response.each do |category|
       category.assert_valid_keys(:nimi, :koodi, :tunnus)
     end
@@ -32,6 +34,16 @@ class Category::ProductsControllerTest < ActionController::TestCase
 
     json_response.each do |category|
       category.assert_valid_keys(:nimi, :koodi, :tunnus, :children)
+    end
+  end
+
+  test '#roots' do
+    get :roots, access_token: users(:bob).api_key
+
+    assert_response :success
+
+    json_response.each do |category|
+      category.assert_valid_keys(:nimi, :koodi, :tunnus)
     end
   end
 
