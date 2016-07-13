@@ -131,9 +131,12 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    metaclass (0.0.4)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.11.3)
     mysql2 (0.3.20)
@@ -283,6 +286,7 @@ DEPENDENCIES
   lightbox2-rails
   localeapp
   minitest
+  mocha
   mysql2 (~> 0.3.18)
   pdfkit
   rails (~> 4.2)
@@ -300,4 +304,4 @@ DEPENDENCIES
   wicked_pdf
 
 BUNDLED WITH
-   1.12.1
+   1.12.5

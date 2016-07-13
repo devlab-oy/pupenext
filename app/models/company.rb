@@ -84,6 +84,10 @@ class Company < ActiveRecord::Base
   validates :nimi, presence: true
   validates :yhtio, uniqueness: true
 
+  def to_s
+    "#{nimi} (#{ytunnus})"
+  end
+
   def fiscal_year(date)
     fy = fiscal_years.where("tilikausi_alku <= :date and tilikausi_loppu >= :date", date: date)
     raise RuntimeError, "Tilikaudet rikki!" unless fy.count == 1

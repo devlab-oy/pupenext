@@ -18,7 +18,7 @@ class CompanyCopier
   def copy
     Current.company = @from_company
 
-    @copied_company = duplicate(Current.company, attributes: @to_company_params)
+    @copied_company = duplicate(Current.company, attributes: @to_company_params, validate: true)
     @copied_user    = duplicate(@user)
 
     duplicate(
@@ -43,7 +43,7 @@ class CompanyCopier
     duplicate(@user.permissions)
     duplicate(Current.company.sum_levels)
     duplicate(Current.company.accounts)
-    duplicate(Current.company.keywords, validate: false)
+    duplicate(Current.company.keywords)
     duplicate(Current.company.printers)
     duplicate(Current.company.terms_of_payments)
     duplicate(Current.company.delivery_methods)
@@ -70,7 +70,7 @@ class CompanyCopier
 
   private
 
-    def duplicate(records, attributes: {}, validate: true)
+    def duplicate(records, attributes: {}, validate: false)
       return_array = true
 
       unless records.respond_to?(:map)
@@ -105,8 +105,9 @@ class CompanyCopier
       model.muuttaja   = Current.user.kuka if model.respond_to?(:muuttaja=)
     end
 
-    def copy_association_attributes
-      @copied_company.update!(@association_params)
+    def copy_association_attributes(validate: false)
+      @copied_company.assign_attributes(@association_params)
+      @copied_company.save!(validate: validate)
     end
 
     # TODO: This can be achieved much easier with a db transaction.
@@ -119,6 +120,7 @@ class CompanyCopier
       TermsOfPayment.destroy_all
       Printer.destroy_all
       Keyword.destroy_all
+      BankAccount.destroy_all
       Account.destroy_all
       SumLevel.destroy_all
       Permission.destroy_all
