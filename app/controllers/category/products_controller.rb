@@ -3,7 +3,7 @@ class Category::ProductsController < CategoriesController
 
   def index
     categories = Category.all
-    categories = params[:ids] && categories.find(params[:ids]) if params[:ids]
+    categories = categories.find(params[:ids].split(',')) if params[:ids]
 
     render json: categories
   end

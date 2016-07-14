@@ -20,7 +20,7 @@ class Category::ProductsControllerTest < ActionController::TestCase
   end
 
   test '#index?ids=[1,2,3]' do
-    ids = Category::Product.where(nimi: %w(Paidat V-aukkoiset)).pluck(:tunnus)
+    ids = Category::Product.where(nimi: %w(Paidat V-aukkoiset)).pluck(:tunnus).join(',')
 
     get :index, ids: ids, access_token: users(:bob).api_key
 
