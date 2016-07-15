@@ -28,6 +28,7 @@ class Administration::CompaniesController < ApplicationController
         :ytunnus,
         bank_accounts_attributes: [
           :nimi,
+          :tilino,
           :oletus_selvittelytili,
           :oletus_kulutili,
           :oletus_rahatili,
