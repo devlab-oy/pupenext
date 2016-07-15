@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Category::ProductsControllerTest < ActionController::TestCase
+class Category::ProductCategoriesControllerTest < ActionController::TestCase
   fixtures %w(
     category/links
     category/products

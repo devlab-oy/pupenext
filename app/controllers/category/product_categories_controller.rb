@@ -1,4 +1,4 @@
-class Category::ProductsController < CategoriesController
+class Category::ProductCategoriesController < CategoriesController
   before_action :find_product_category, only: [:show, :children, :products]
 
   def index
