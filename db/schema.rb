@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "asiakas_ryhma",     limit: 150,                         default: "",  null: false
     t.integer  "asiakas_segmentti", limit: 8,                           default: 0,   null: false
     t.string   "piiri",             limit: 150,                         default: "",  null: false
+    t.integer  "campaign_id",       limit: 4
     t.decimal  "alennus",                       precision: 5, scale: 2, default: 0.0, null: false
     t.integer  "alennuslaji",       limit: 4,                           default: 1,   null: false
     t.integer  "minkpl",            limit: 4,                           default: 0,   null: false
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "asiakas_ryhma",     limit: 150,                          default: "",  null: false
     t.integer  "asiakas_segmentti", limit: 8,                            default: 0,   null: false
     t.string   "piiri",             limit: 150,                          default: "",  null: false
+    t.integer  "campaign_id",       limit: 4
     t.decimal  "hinta",                         precision: 16, scale: 6, default: 0.0, null: false
     t.string   "valkoodi",          limit: 3,                            default: "",  null: false
     t.integer  "minkpl",            limit: 4,                            default: 0,   null: false
@@ -713,6 +715,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.decimal  "alv",                               precision: 5,  scale: 2, default: 0.0, null: false
     t.string   "selite",                limit: 100,                          default: "",  null: false
     t.integer  "yhtion_toimipaikka_id", limit: 4
+    t.integer  "campaign_id",           limit: 4
     t.string   "laatija",               limit: 50,                           default: "",  null: false
     t.datetime "luontiaika",                                                               null: false
     t.datetime "muutospvm",                                                                null: false
@@ -1386,6 +1389,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "tullausnumero",                    limit: 25,                             default: "",         null: false
     t.string   "vientipaperit_palautettu",         limit: 1,                              default: "",         null: false
     t.string   "piiri",                            limit: 150,                            default: "",         null: false
+    t.integer  "campaign_id",                      limit: 4
     t.integer  "siirtolistan_vastaanotto",         limit: 4,                              default: 0,          null: false
     t.integer  "varastosiirto_tunnus",             limit: 4,                              default: 0,          null: false
     t.integer  "pakkaamo",                         limit: 4,                              default: 0,          null: false
@@ -2324,6 +2328,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "hyllytaso",             limit: 5,                              default: "",   null: false
     t.string   "hyllyvali",             limit: 5,                              default: "",   null: false
     t.integer  "suuntalava",            limit: 4,                              default: 0,    null: false
+    t.integer  "campaign_id",           limit: 4
     t.boolean  "varastoon",                                                    default: true, null: false
     t.decimal  "vahvistettu_maara",                   precision: 12, scale: 2
     t.text     "vahvistettu_kommentti", limit: 65535
