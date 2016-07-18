@@ -19,8 +19,8 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     end
   end
 
-  test '#index?ids=[1,2,3]' do
-    ids = Category::Product.where(nimi: %w(Paidat V-aukkoiset)).pluck(:tunnus).join(',')
+  test 'index with ids array' do
+    ids = Category::Product.where(nimi: %w(Paidat V-aukkoiset)).pluck(:tunnus)
 
     get :index, ids: ids, access_token: users(:bob).api_key
 
