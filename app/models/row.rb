@@ -6,9 +6,6 @@ class Row < BaseModel
 
   validates :product, presence: true
 
-  before_create :set_defaults
-  after_create :fix_datetime_fields
-
   self.table_name = :tilausrivi
   self.primary_key = :tunnus
   self.inheritance_column = :tyyppi
@@ -40,33 +37,4 @@ class Row < BaseModel
   def self.picked
     where.not(keratty: '')
   end
-
-  private
-
-    def set_defaults
-      # Date fields can be set to zero
-      self.toimaika  ||= 0
-      self.kerayspvm ||= 0
-
-      # Datetime fields don't accept zero, so let's set them to epoch zero (temporarily)
-      self.laadittu       ||= Time.at(0)
-      self.kerattyaika    ||= Time.at(0)
-      self.toimitettuaika ||= Time.at(0)
-      self.laskutettuaika ||= Time.at(0)
-    end
-
-    def fix_datetime_fields
-      params  = {}
-      zero    = '0000-00-00 00:00:00'
-      epoch   = Time.at(0)
-
-      # Change all datetime fields to zero if they are epoch
-      params[:laadittu]       = zero if laadittu       == epoch
-      params[:kerattyaika]    = zero if kerattyaika    == epoch
-      params[:toimitettuaika] = zero if toimitettuaika == epoch
-      params[:laskutettuaika] = zero if laskutettuaika == epoch
-
-      # update_columns skips all validations and updates values directly with sql
-      update_columns params if params.present?
-    end
 end

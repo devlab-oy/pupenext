@@ -22,9 +22,6 @@ class Head < BaseModel
   scope :paid, -> { where.not(mapvm: 0) }
   scope :unpaid, -> { where(mapvm: 0) }
 
-  before_create :set_date_fields
-  after_create :fix_datetime_fields
-
   def self.default_child_instance
     child_class 'N'
   end
