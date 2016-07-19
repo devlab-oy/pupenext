@@ -11,8 +11,8 @@ class BaseModel < ActiveRecord::Base
         include UserDefinedValidations
         include DateDatetimeDefaults
 
-        before_create :set_date_fields
-        after_create :fix_datetime_fields
+        before_save :set_date_fields
+        after_save :fix_datetime_fields
       end
     end
   end
