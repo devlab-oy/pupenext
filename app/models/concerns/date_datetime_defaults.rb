@@ -3,24 +3,19 @@ module DateDatetimeDefaults
 
   def set_date_fields
     self.class.columns.each do |column|
-      next if !column.type.in?([:date, :datetime]) || send(column.name).present? || column.null
-      next if column.name.in?(['muutospvm', 'luontiaika', 'created_at', 'updated_at'])
+      next unless column.type.in?([:date, :datetime])
+      next if send(column.name).present?
+      next if column.null
+      next if column.name.in?(%w(muutospvm luontiaika created_at updated_at'))
 
-      case column.type
-      # Date fields can be set to zero
-      when :date
-        send("#{column.name}=", 0)
-      # Datetime fields don't accept zero, so let's set them to epoch zero (temporarily)
-      when :datetime
-        send("#{column.name}=", Time.at(0))
-      end
+      assign_attributes value_for_column(column)
     end
   end
 
   def fix_datetime_fields
     params = {}
     zero   = '0000-00-00 00:00:00'
-    epoch  = Time.at(0)
+    epoch  = Time.zone.at 0
 
     # Change all datetime fields to zero if they are epoch
     self.class.columns.each do |column|
@@ -32,4 +27,19 @@ module DateDatetimeDefaults
     # update_columns skips all validations and updates values directly with sql
     update_columns params if params.present?
   end
+
+  private
+
+    def value_for_column(column)
+      case column.type
+      # Date fields can be set to zero
+      when :date
+        value = 0
+      # Datetime fields don't accept zero, so let's set them to epoch zero (temporarily)
+      when :datetime
+        value = Time.zone.at 0
+      end
+
+      { column.name => value }
+    end
 end
