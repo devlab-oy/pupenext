@@ -112,4 +112,15 @@ class DateDatetimeDefaultsTest < ActiveSupport::TestCase
     spi.update! p_added_date: nil
     assert_nil spi.p_added_date
   end
+
+  test 'datetime defaults do not overried created_at/updated_at' do
+    spi = SupplierProductInformation.create! product_id: '123'
+    assert_nil spi.p_added_date
+    assert_not_nil spi.created_at
+    assert_not_nil spi.updated_at
+
+    status = Product::Status.create! selite: 'foo'
+    assert_not_equal @zero_datetime, status.luontiaika_before_type_cast
+    assert_not_equal @zero_datetime, status.muutospvm_before_type_cast
+  end
 end

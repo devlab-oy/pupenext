@@ -4,6 +4,7 @@ module DateDatetimeDefaults
   def set_date_fields
     self.class.columns.each do |column|
       next if !column.type.in?([:date, :datetime]) || send(column.name).present? || column.null
+      next if column.name.in?(['muutospvm', 'luontiaika', 'created_at', 'updated_at'])
 
       case column.type
       # Date fields can be set to zero
