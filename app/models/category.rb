@@ -21,4 +21,5 @@ class Category < BaseModel
   end
 end
 
+require_dependency 'category/customer'
 require_dependency 'category/product'
