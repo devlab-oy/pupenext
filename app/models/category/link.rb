@@ -7,6 +7,8 @@ class Category::Link < BaseModel
 
   belongs_to :category, foreign_key: :puun_tunnus
 
+  before_save :defaults
+
   def self.default_child_instance
     child_class :tuote
   end
@@ -14,4 +16,10 @@ class Category::Link < BaseModel
   def self.child_class_names
     { tuote: Category::ProductLink }.stringify_keys
   end
+
+  private
+
+    def defaults
+      self.kutsuja ||= ''
+    end
 end
