@@ -8,7 +8,6 @@ class BaseModel < ActiveRecord::Base
       subclass.class_eval do
         include CurrentCompany
         include CurrentUser
-        include UserDefinedValidations
         include DateDatetimeDefaults
 
         before_save :set_date_fields

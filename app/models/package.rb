@@ -1,5 +1,6 @@
 class Package < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   has_many :translations, foreign_key: :selite, class_name: 'Keyword::PackageTranslation', dependent: :destroy
   has_many :package_codes, foreign_key: :pakkaus, dependent: :destroy

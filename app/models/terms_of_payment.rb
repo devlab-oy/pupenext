@@ -1,6 +1,7 @@
 class TermsOfPayment < BaseModel
   include AttributeSanitator
   include Searchable
+  include UserDefinedValidations
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
   belongs_to :factoring

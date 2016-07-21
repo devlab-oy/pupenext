@@ -1,5 +1,6 @@
 class Account < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   belongs_to :project,     class_name: 'Qualifier::Project',    foreign_key: :projekti
   belongs_to :target,      class_name: 'Qualifier::Target',     foreign_key: :kohde

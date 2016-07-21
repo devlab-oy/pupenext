@@ -1,4 +1,6 @@
 class DeliveryMethod < BaseModel
+  include UserDefinedValidations
+
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
   with_options foreign_key: :toimitustapa, primary_key: :selite do |o|

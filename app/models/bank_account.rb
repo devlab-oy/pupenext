@@ -1,6 +1,7 @@
 class BankAccount < BaseModel
   include Searchable
   include BankHelper
+  include UserDefinedValidations
 
   with_options class_name: "Account", primary_key: :tilino do |o|
     o.belongs_to :default_liquidity_account, foreign_key: :oletus_rahatili

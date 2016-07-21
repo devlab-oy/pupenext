@@ -1,4 +1,6 @@
 class BankDetail < BaseModel
+  include UserDefinedValidations
+
   validates :nimitys, presence: true
 
   enum viite: {

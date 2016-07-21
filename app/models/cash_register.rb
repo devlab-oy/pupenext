@@ -1,5 +1,6 @@
 class CashRegister < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   validates :nimi, presence: true, uniqueness: true
   validates :kassa, presence: true
