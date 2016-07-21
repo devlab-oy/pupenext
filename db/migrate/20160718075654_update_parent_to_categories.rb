@@ -1,5 +1,8 @@
 class UpdateParentToCategories < ActiveRecord::Migration
   def up
+    # rails on case sensitive STI columnin suhteen, joten päivitetään kaikki lowercase
+    execute 'update dynaaminen_puu set laji = LOWER(laji)'
+
     Company.all.each do |company|
       Current.company = company
 
