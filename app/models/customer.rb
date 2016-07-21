@@ -1,4 +1,6 @@
 class Customer < BaseModel
+  include UserDefinedValidations
+
   belongs_to :terms_of_payment, foreign_key: :maksuehto
 
   with_options primary_key: :selite do |o|

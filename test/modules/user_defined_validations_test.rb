@@ -2,6 +2,8 @@ require 'test_helper'
 
 # Create dummy class for testing UserDefinedValidations concern using asiakas -table
 class UserDefinedValidationsDummyClass < BaseModel
+  include UserDefinedValidations
+
   self.table_name = :asiakas
 end
 

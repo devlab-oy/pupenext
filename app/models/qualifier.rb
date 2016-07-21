@@ -1,6 +1,7 @@
 class Qualifier < BaseModel
   include PupenextSingleTableInheritance
   include Searchable
+  include UserDefinedValidations
 
   self.table_name = :kustannuspaikka
   self.primary_key = :tunnus

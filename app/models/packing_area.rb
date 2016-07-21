@@ -1,5 +1,6 @@
 class PackingArea < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   belongs_to :warehouse, foreign_key: :varasto
 

@@ -1,5 +1,6 @@
 class Carrier < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   has_many :package_codes, primary_key: :koodi, foreign_key: :rahdinkuljettaja
 

@@ -1,5 +1,6 @@
 class Supplier < BaseModel
   include Searchable
+  include UserDefinedValidations
 
   has_many :product_suppliers, foreign_key: :liitostunnus, class_name: 'Product::Supplier'
   has_many :products, through: :product_suppliers

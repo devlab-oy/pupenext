@@ -1,6 +1,7 @@
 class Currency < BaseModel
   include AttributeSanitator
   include Searchable
+  include UserDefinedValidations
 
   before_validation :name_to_uppercase
   validates :nimi, length: { is: 3 }, uniqueness: { scope: :yhtio }
