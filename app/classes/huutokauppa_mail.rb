@@ -344,9 +344,9 @@ class HuutokauppaMail
     return unless find_draft && delivery_price_with_vat && delivery_price_with_vat > 0
 
     product = Product.where(tuoteno: DELIVERY_PRODUCT_NUMBERS)
-                     .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
-                     .order(:myyntihinta)
-                     .first!
+      .where('round(myyntihinta * 1.24, 2) >= ?', delivery_price_with_vat)
+      .order(:myyntihinta)
+      .first!
 
     @messages << "Löydettiin tuote (Tuoteno: #{product.tuoteno}, Hinta: #{product.myyntihinta}) lisättäväksi toimitustuotteeksi."
 

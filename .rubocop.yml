@@ -24,6 +24,9 @@ Style/Documentation:
 Style/AsciiComments:
   Enabled: false
 
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 ##################### Metrics ##################################
 
 Metrics/LineLength:
