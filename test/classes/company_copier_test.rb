@@ -196,7 +196,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
         postitp: 'Kala',
         ytunnus: '1234567-8',
       },
-      create_as_customer_to_ids: [companies(:estonian).id],
+      create_as_customer_to_ids: [companies(:estonian).yhtio],
     )
 
     record = copier.copy
@@ -226,7 +226,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
           },
         ],
       },
-      create_as_customer_to_ids: [companies(:estonian).id],
+      create_as_customer_to_ids: [companies(:estonian).yhtio],
     )
 
     record = copier.copy

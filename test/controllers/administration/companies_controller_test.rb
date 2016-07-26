@@ -38,7 +38,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
                       bank_accounts_attributes: bank_accounts_attributes,
                       users_attributes: users_attributes,
                     },
-                    create_as_customer_to_ids: [companies(:estonian).id]
+                    create_as_customer_to_ids: [companies(:estonian).yhtio]
 
         assert_response :success
       end
