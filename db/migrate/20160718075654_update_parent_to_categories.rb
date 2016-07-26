@@ -7,26 +7,21 @@ class UpdateParentToCategories < ActiveRecord::Migration
       Current.company = company
 
       # päivitetään kaikille tuotekategorioille parent_id
-      company.product_categories.each do |c|
-        parent_id = company.product_categories.select(:tunnus)
-          .where('laji = ? AND lft < ? AND rgt > ? AND tunnus != ?', c.laji, c.lft, c.rgt, c.tunnus)
-          .order('lft DESC').limit(1).try(:first).try(:tunnus)
-
-        c.update(parent_id: parent_id)
-      end
+      company.product_categories.each { |c| update_parent_for_node(c) }
 
       # päivitetään kaikille asiakaskategorioille parent_id
-      company.customer_categories.each do |c|
-        parent_id = company.product_categories.select(:tunnus)
-          .where('laji = ? AND lft < ? AND rgt > ? AND tunnus != ?', c.laji, c.lft, c.rgt, c.tunnus)
-          .order('lft DESC').limit(1).try(:first).try(:tunnus)
-
-        c.update(parent_id: parent_id)
-      end
-
-      # ajetaan vielä acts_as_nested_set korjausajot varmuudenvuoksi
-      Category::Product.rebuild!
-      Category::Customer.rebuild!
+      company.customer_categories.each { |c| update_parent_for_node(c) }
     end
   end
+
+  private
+
+    def update_parent_for_node(node)
+      parent_id = node.class.select(:tunnus)
+        .where('lft < ? AND rgt > ? AND tunnus != ?', node.lft, node.rgt, node.tunnus)
+        .order('lft DESC').limit(1).try(:first).try(:tunnus)
+
+      # käytetään update columns, että ohitetaan callbackit
+      node.update_columns parent_id: parent_id
+    end
 end
