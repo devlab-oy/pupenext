@@ -185,4 +185,27 @@ class CompanyCopierTest < ActiveSupport::TestCase
     @copier.copy
     assert_equal current_company, Current.company
   end
+
+  test 'company can be created as customer to specified companies' do
+    copier = CompanyCopier.new(
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+      },
+      create_as_customer_to_ids: [companies(:estonian).id],
+    )
+
+    record = copier.copy
+
+    assert record.valid?, record.errors.full_messages
+
+    Current.company = companies(:estonian)
+
+    assert_equal 1, Customer.count
+    assert_equal 'Kala Oy', Customer.first.nimi
+  end
 end

@@ -1,5 +1,5 @@
 class CompanyCopier
-  def initialize(from_company: nil, to_company_params: {})
+  def initialize(from_company: nil, to_company_params: {}, create_as_customer_to_ids: [])
     @original_current_company = Current.company
     @from_company = from_company ? Current.company = from_company : Current.company
 
@@ -8,9 +8,10 @@ class CompanyCopier
 
     to_company_params = to_company_params.merge(konserni: '', nimi: '') { |_k, o, n| o.nil? ? n : o }
 
-    @to_company_params  = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
-    @association_params = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
-    @user               = Current.company.users.find_by!(kuka: 'admin')
+    @to_company_params     = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
+    @association_params    = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
+    @user                  = Current.company.users.find_by!(kuka: 'admin')
+    @create_as_customer_to = Company.find(create_as_customer_to_ids)
   ensure
     Current.company = @original_current_company
   end
@@ -50,6 +51,8 @@ class CompanyCopier
     duplicate(Current.company.warehouses)
 
     copy_association_attributes
+
+    create_as_customer_to_specified_companies
 
     @copied_company
   rescue ActiveRecord::RecordInvalid => e
@@ -108,6 +111,19 @@ class CompanyCopier
     def copy_association_attributes(validate: false)
       @copied_company.assign_attributes(@association_params)
       @copied_company.save!(validate: validate)
+    end
+
+    def create_as_customer_to_specified_companies
+      @create_as_customer_to.each do |company|
+        Current.company = company
+
+        Customer.create!(
+          nimi: @copied_company.nimi,
+          ytunnus: @copied_company.ytunnus,
+          kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+          alv: Keyword::Vat.first.selite,
+        )
+      end
     end
 
     # TODO: This can be achieved much easier with a db transaction.
