@@ -70,13 +70,13 @@ module SupplierProductInformationTransfer
       }
 
       if extra_attributes[:p_tree_id]
-        dynamic_tree = DynamicTree.find(extra_attributes[:p_tree_id])
+        dynamic_tree = Category::Product.find(extra_attributes[:p_tree_id])
 
-        supplier_product_information_params[:dynamic_tree] = dynamic_tree
+        supplier_product_information_params[:product_category] = dynamic_tree
 
-        product.dynamic_tree_nodes.create(
-          dynamic_tree: dynamic_tree,
-          kutsuja:      'SupplierProductInformationTransfer'
+        product.product_links.create(
+          category: dynamic_tree,
+          kutsuja: 'SupplierProductInformationTransfer'
         )
       end
 

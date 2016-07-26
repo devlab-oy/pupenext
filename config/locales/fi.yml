@@ -312,7 +312,7 @@ fi:
         category_text3: Kategoria 3
         category_text4: Kategoria 4
         description: Kuvaus
-        dynamic_tree: Puun alkio
+        product_category: Puun alkio
         manufacturer_ean: Valmistajan EAN-koodi
         manufacturer_name: Valmistaja
         manufacturer_part_number: Valmistajan tuotekoodi
