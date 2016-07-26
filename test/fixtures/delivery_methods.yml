@@ -1,11 +1,24 @@
 DEFAULTS: &DEFAULTS
-  yhtio: acme
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
 kaukokiito:
+  yhtio: acme
+  kauppatapahtuman_luonne: 11
+  poistumistoimipaikka_koodi: FI0
+  lajittelupiste: FIVAT
+  kuljetusmuoto: 1
+  osoitelappu: tiivistetty
+  rahdinkuljettaja: Kaukokiito
+  rahtikirja: rahtikirja.inc
+  selite: Kaukokiito
+  tulostustapa: H
+  <<: *DEFAULTS
+
+kaukokiito_esto:
+  yhtio: esto
   kauppatapahtuman_luonne: 11
   poistumistoimipaikka_koodi: FI0
   lajittelupiste: FIVAT
@@ -18,6 +31,7 @@ kaukokiito:
   <<: *DEFAULTS
 
 kiitolinja:
+  yhtio: acme
   rahdinkuljettaja: Kiitolinja
   rahtikirja: rahtikirja_pdf.inc
   selite: Kiitolinja
@@ -25,12 +39,14 @@ kiitolinja:
   <<: *DEFAULTS
 
 posti_economy_16:
+  yhtio: acme
   selite: Posti Economy 16
   tulostustapa: H
   rahtikirja: rahtikirja_unifaun_uo_siirto.inc
   <<: *DEFAULTS
 
 nouto:
+  yhtio: acme
   selite: Nouto
   tulostustapa: E
   rahtikirja: rahtikirja_tyhja.inc
