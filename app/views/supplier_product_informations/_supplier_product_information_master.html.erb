@@ -9,7 +9,7 @@
   <th><%= Product::Subcategory.model_name.human %></th>
   <th><%= Product::Brand.model_name.human %></th>
   <th>
-    <%= SupplierProductInformation.human_attribute_name(:dynamic_tree) %>
+    <%= SupplierProductInformation.human_attribute_name(:product_category) %>
   </th>
   <th><%= Product.human_attribute_name(:nakyvyys) %></th>
   <th><%= Product::Status.model_name.human %></th>
@@ -50,7 +50,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_information_master_p_tree_id",
-                   options_from_collection_for_select(DynamicTree.all.order(:nimi),
+                   options_from_collection_for_select(Category::Product.all.order(:nimi),
                                                       :tunnus,
                                                       :nimi),
                    class: :dynamic_tree_master,

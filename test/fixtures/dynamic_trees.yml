@@ -1,8 +1,0 @@
-DEFAULTS: &DEFAULTS
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  yhtio: acme
-
-one:
-  nimi: Testing
-  <<: *DEFAULTS

@@ -2,7 +2,8 @@ require 'test_helper'
 
 class SupplierProductInformationTest < ActiveSupport::TestCase
   fixtures %w(
-    dynamic_trees
+    category/links
+    category/products
     products
     supplier_product_informations
     suppliers
@@ -34,11 +35,11 @@ class SupplierProductInformationTest < ActiveSupport::TestCase
   end
 
   test 'dynamic_tree_association works' do
-    assert_equal dynamic_trees(:one), @one.dynamic_tree
+    assert_equal category_products(:product_category_shirts), @one.product_category
   end
 
   test 'searching works' do
-    search_result = SupplierProductInformation.search_like({ product_name: 'ramb' })
+    search_result = SupplierProductInformation.search_like(product_name: 'ramb')
 
     assert_includes search_result, @one
     assert_not_includes search_result, @two

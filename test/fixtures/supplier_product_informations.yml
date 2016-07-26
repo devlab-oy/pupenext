@@ -38,7 +38,7 @@ one:
   p_added_date: 2015-12-02 16:16:53
   p_last_update_date: 2015-12-02 16:16:53
   p_nakyvyys: MyString
-  dynamic_tree: one
+  product_category: product_category_shirts
 
 two:
   product_id: pr2
@@ -79,4 +79,4 @@ two:
   p_added_date: 2015-12-02 16:16:53
   p_last_update_date: 2015-12-02 16:16:53
   p_nakyvyys: MyString
-  dynamic_tree: one
+  product_category: product_category_shirts

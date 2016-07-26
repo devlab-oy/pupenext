@@ -4,10 +4,10 @@ require 'minitest/mock'
 class ProductTest < ActiveSupport::TestCase
   fixtures %w(
     attachment/product_attachments
+    category/links
+    category/products
     customer_prices
     customers
-    dynamic_tree_nodes
-    dynamic_trees
     keyword/customer_subcategories
     keywords
     manufacture_order/composite_rows
@@ -51,8 +51,8 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.attachments.count > 0
     assert @product.customer_prices.count > 0
     assert @product.customers.count > 0
-    assert_includes @product.dynamic_tree_nodes, dynamic_tree_nodes(:one)
-    assert_includes @product.dynamic_trees, dynamic_trees(:one)
+    assert_includes @product.product_links, category_links(:product_category_shirts_hammer)
+    assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
   test 'product stock' do

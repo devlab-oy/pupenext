@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SupplierProductInformationsControllerTest < ActionController::TestCase
   fixtures %i(
-    dynamic_tree_nodes
-    dynamic_trees
+    category/links
+    category/products
     keywords
     product/suppliers
     products
@@ -25,7 +25,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     @status_active = keywords(:status_active)
 
-    @dynamic_tree_one = dynamic_trees(:one)
+    @dynamic_tree_one = category_products(:product_category_shirts)
 
     session[:supplier] = @domestic_supplier.id
 
@@ -173,7 +173,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal 1, @one.reload.p_price_update
     assert_equal 1, @one.reload.p_qty_update
     assert_equal Product.last, @one.reload.product
-    assert_equal @dynamic_tree_one, @one.reload.dynamic_tree
+    assert_equal @dynamic_tree_one, @one.reload.product_category
   end
 
   test 'correct fields are copied to product' do
@@ -211,7 +211,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
   end
 
   test 'dynamic tree product node is created correctly' do
-    assert_difference('DynamicTreeNode::ProductNode.count') do
+    assert_difference('Category::ProductLink.count') do
       post :transfer, @params
     end
   end

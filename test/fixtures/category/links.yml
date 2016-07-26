@@ -1,0 +1,32 @@
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
+
+product_category_shirts_hammer:
+  liitos: hammer123
+  laji: tuote
+  category: product_category_shirts
+  <<: *DEFAULTS
+
+product_category_shirts_ski:
+  liitos: ski1
+  laji: tuote
+  category: product_category_shirts
+  <<: *DEFAULTS
+
+product_category_pants_helmet:
+  liitos: helmet123
+  laji: tuote
+  category: product_category_pants
+  <<: *DEFAULTS
+
+<% (1..5).step(1) do |shirt| %>
+product_category_shirt<%= shirt %>:
+  liitos: z333<%= shirt %>
+  laji: tuote
+  category: product_category_shirts_t_shirts_v_necks
+  <<: *DEFAULTS
+<% end %>

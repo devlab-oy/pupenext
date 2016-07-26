@@ -12,8 +12,8 @@ class Product < BaseModel
   has_many :attachments, foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment'
   has_many :customer_prices, foreign_key: :tuoteno, primary_key: :tuoteno
   has_many :customers, through: :customer_prices
-  has_many :dynamic_tree_nodes, class_name: 'DynamicTreeNode::ProductNode', foreign_key: :liitos, primary_key: :tuoteno
-  has_many :dynamic_trees, through: :dynamic_tree_nodes
+  has_many :product_links, foreign_key: :liitos, primary_key: :tuoteno, class_name: 'Category::ProductLink'
+  has_many :product_categories, through: :product_links, source: :category, class_name: 'Category::Product'
 
   with_options foreign_key: :liitostunnus, class_name: 'Attachment::ProductAttachment' do |o|
     o.has_one :cover_image, -> { where(kayttotarkoitus: :tk).order(:jarjestys, :tunnus) }
@@ -65,6 +65,11 @@ class Product < BaseModel
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
   scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
+
+  def as_json(options = {})
+    options = { only: :tunnus }.merge(options)
+    super options
+  end
 
   def stock
     return 0 if no_inventory_management?
@@ -192,3 +197,5 @@ class Product < BaseModel
       stock_by_date.max || 0
     end
 end
+
+require_dependency 'product/category'

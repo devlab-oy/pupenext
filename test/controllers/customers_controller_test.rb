@@ -55,7 +55,7 @@ class CustomersControllerTest < ActionController::TestCase
 
       assert_response :created
       assert assigns(:customer)
-      assert_equal "111", json_response["asiakasnro"]
+      assert_equal "111", json_response[:asiakasnro]
     end
   end
 
@@ -76,22 +76,22 @@ class CustomersControllerTest < ActionController::TestCase
     patch :update, id: @customer, customer: { nimi: "Antti Asiakas" }, access_token: @user.api_key
 
     assert_equal "Antti Asiakas", @customer.reload.nimi
-    assert_equal "100", json_response["asiakasnro"]
+    assert_equal "100", json_response[:asiakasnro]
   end
 
   test 'should not update customer' do
     patch :update, id: @customer, customer: { nimi: "" }, access_token: @user.api_key
     assert_response :unprocessable_entity
-    assert_not_equal "", json_response["error_messages"]
+    assert_not_equal "", json_response[:error_messages]
   end
 
   test 'should find customer by email' do
     get :find_by_email, email: "notfound@example.com", access_token: @user.api_key
     assert_response :not_found
-    assert_equal "Not found", json_response["error_messages"]
+    assert_equal "Not found", json_response[:error_messages]
 
     get :find_by_email, email: @customer.email, access_token: @user.api_key
     assert_response :success
-    assert_equal @customer.nimi, json_response["nimi"]
+    assert_equal @customer.nimi, json_response[:nimi]
   end
 end

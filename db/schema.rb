@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708074715) do
+ActiveRecord::Schema.define(version: 20160718075654) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -548,9 +548,11 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "nimi",              limit: 120, default: "", null: false
     t.integer  "koodi",             limit: 4,   default: 0,  null: false
     t.integer  "toimittajan_koodi", limit: 4,   default: 0,  null: false
-    t.integer  "lft",               limit: 4,   default: 0,  null: false
-    t.integer  "rgt",               limit: 4,   default: 0,  null: false
+    t.integer  "lft",               limit: 4,                null: false
+    t.integer  "rgt",               limit: 4,                null: false
     t.string   "laji",              limit: 30,  default: "", null: false
+    t.integer  "children_count",    limit: 4,   default: 0,  null: false
+    t.integer  "parent_id",         limit: 4
     t.integer  "syvyys",            limit: 4,   default: 0,  null: false
     t.string   "laatija",           limit: 50,  default: "", null: false
     t.datetime "luontiaika",                                 null: false
@@ -558,6 +560,7 @@ ActiveRecord::Schema.define(version: 20160708074715) do
     t.string   "muuttaja",          limit: 50,  default: "", null: false
   end
 
+  add_index "dynaaminen_puu", ["parent_id"], name: "index_dynaaminen_puu_on_parent_id", using: :btree
   add_index "dynaaminen_puu", ["yhtio", "laji", "koodi"], name: "yhtio_laji_koodi", using: :btree
   add_index "dynaaminen_puu", ["yhtio", "laji", "lft"], name: "yhtio_laji_lft", using: :btree
   add_index "dynaaminen_puu", ["yhtio", "laji", "rgt"], name: "yhtio_laji_rgt", using: :btree
