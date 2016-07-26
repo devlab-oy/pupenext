@@ -127,7 +127,7 @@ class CompanyCopier
         next unless @association_params[:users_attributes]
 
         @association_params[:users_attributes].each do |user_params|
-          user_params.merge!(
+          user_params = user_params.merge(
             kuka: "#{user_params[:kuka]}extra",
             extranet: 'X',
             profiilit: 'Extranet',
