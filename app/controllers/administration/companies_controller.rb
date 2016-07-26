@@ -5,7 +5,10 @@ class Administration::CompaniesController < ApplicationController
   before_action      :api_authorize, :set_current_info, :set_locale, :access_control
 
   def copy
-    copier = CompanyCopier.new(to_company_params: company_params)
+    copier = CompanyCopier.new(
+      to_company_params: company_params,
+      create_as_customer_to_ids: params[:create_as_customer_to_ids],
+    )
 
     copied_company = copier.copy
 

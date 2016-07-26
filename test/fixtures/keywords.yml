@@ -11,6 +11,13 @@ vat:
   laji: ALV
   <<: *DEFAULTS
 
+vat_esto:
+  yhtio: esto
+  selite: 24
+  selitetark: o
+  laji: ALV
+  <<: *DEFAULTS
+
 foreign_vat:
   yhtio: acme
   selite: 5.5
@@ -147,8 +154,21 @@ lahetetyyppi:
   selite: tulosta_lahete_eiale_eihinta.inc
   <<: *DEFAULTS
 
+lahetetyyppi_esto:
+  yhtio: esto
+  laji: LAHETETYYPPI
+  selite: tulosta_lahete_eiale_eihinta.inc
+  <<: *DEFAULTS
+
 nature_of_transaction_1:
   yhtio: acme
+  laji: KT
+  selite: 11
+  selitetark: Testing
+  <<: *DEFAULTS
+
+nature_of_transaction_1_esto:
+  yhtio: esto
   laji: KT
   selite: 11
   selitetark: Testing
