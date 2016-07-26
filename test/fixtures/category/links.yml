@@ -5,7 +5,6 @@ DEFAULTS: &DEFAULTS
   muutospvm: <%= Time.now %>
   muuttaja: bob
 
-
 product_category_shirts_hammer:
   liitos: hammer123
   laji: tuote
@@ -31,4 +30,3 @@ product_category_shirt<%= shirt %>:
   category: product_category_shirts_t_shirts_v_necks
   <<: *DEFAULTS
 <% end %>
-
