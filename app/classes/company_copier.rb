@@ -11,7 +11,7 @@ class CompanyCopier
     @to_company_params     = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
     @association_params    = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
     @user                  = Current.company.users.find_by!(kuka: 'admin')
-    @create_as_customer_to = Company.find(create_as_customer_to_ids)
+    @create_as_customer_to = create_as_customer_to_ids ? Company.find(create_as_customer_to_ids) : []
   ensure
     Current.company = @original_current_company
   end
