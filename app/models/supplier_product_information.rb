@@ -1,7 +1,7 @@
 class SupplierProductInformation < ActiveRecord::Base
   include Searchable
 
-  belongs_to :dynamic_tree, foreign_key: :p_tree_id
+  belongs_to :product_category, foreign_key: :p_tree_id, class_name: 'Category::Product'
   belongs_to :product, foreign_key: :p_product_id
   belongs_to :supplier
 
