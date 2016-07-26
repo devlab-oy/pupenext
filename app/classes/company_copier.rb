@@ -117,7 +117,7 @@ class CompanyCopier
       @create_as_customer_to.each do |company|
         Current.company = company
 
-        Customer.create!(
+        customer = Customer.create!(
           nimi: @copied_company.nimi,
           ytunnus: @copied_company.ytunnus,
           kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
@@ -132,6 +132,8 @@ class CompanyCopier
             extranet: 'X',
             profiilit: 'Extranet',
             oletus_profiili: 'Extranet',
+            oletus_asiakas: customer.id,
+            oletus_asiakastiedot: customer.id,
           )
 
           User.create!(user_params)
