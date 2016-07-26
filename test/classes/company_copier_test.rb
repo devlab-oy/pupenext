@@ -208,4 +208,38 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal 1, Customer.count
     assert_equal 'Kala Oy', Customer.first.nimi
   end
+
+  test 'extranet users are created for companies where the company is a customer' do
+    copier = CompanyCopier.new(
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        users_attributes: [
+          {
+            kuka: '123',
+            nimi: 'Testi Testaaja',
+            salasana: Digest::MD5.hexdigest('kissa'),
+          },
+        ],
+      },
+      create_as_customer_to_ids: [companies(:estonian).id],
+    )
+
+    record = copier.copy
+
+    assert record.valid?, record.errors.full_messages
+
+    Current.company = companies(:estonian)
+
+    assert_equal 3,                              User.count
+    assert_equal '123extra',                     User.last.kuka
+    assert_equal 'Testi Testaaja',               User.last.nimi
+    assert_equal Digest::MD5.hexdigest('kissa'), User.last.salasana
+    assert_equal 'X',                            User.last.extranet
+    assert_equal 'Extranet',                     User.last.profiilit
+  end
 end

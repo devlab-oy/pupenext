@@ -52,7 +52,7 @@ class CompanyCopier
 
     copy_association_attributes
 
-    create_as_customer_to_specified_companies
+    create_as_customer_to_specified_companies_with_extranet_users
 
     @copied_company
   rescue ActiveRecord::RecordInvalid => e
@@ -113,7 +113,7 @@ class CompanyCopier
       @copied_company.save!(validate: validate)
     end
 
-    def create_as_customer_to_specified_companies
+    def create_as_customer_to_specified_companies_with_extranet_users
       @create_as_customer_to.each do |company|
         Current.company = company
 
@@ -123,6 +123,19 @@ class CompanyCopier
           kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
           alv: Keyword::Vat.first.selite,
         )
+
+        next unless @association_params[:users_attributes]
+
+        @association_params[:users_attributes].each do |user_params|
+          user_params.merge!(
+            kuka: "#{user_params[:kuka]}extra",
+            extranet: 'X',
+            profiilit: 'Extranet',
+            oletus_profiili: 'Extranet',
+          )
+
+          User.create!(user_params)
+        end
       end
     end
 
