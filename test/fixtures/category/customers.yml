@@ -7,9 +7,13 @@ DEFAULTS: &DEFAULTS
 customer_category_dealers:
   koodi: 1
   nimi: Dealers
+  lft: 1
+  rgt: 2
   <<: *DEFAULTS
 
 customer_category_partners:
   koodi: 2
   nimi: Partners
+  lft: 3
+  rgt: 4
   <<: *DEFAULTS

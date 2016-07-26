@@ -41,4 +41,6 @@ product_category_shirts_t_shirts_v_necks:
 product_category_pants:
   koodi: 2
   nimi: Housut
+  lft: 7
+  rgt: 8
   <<: *DEFAULTS
