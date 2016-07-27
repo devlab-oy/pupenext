@@ -78,7 +78,7 @@ class Customer < BaseModel
       self.tilino_ei_eu = tilino if tilino_ei_eu.blank?
       self.tilino_eu    = tilino if tilino_eu.blank?
       self.toim_maa     = maa if toim_maa.blank?
-      self.toimitustapa = DeliveryMethod.first if toimitustapa.blank?
+      self.toimitustapa = DeliveryMethod.first.try(:selite) if toimitustapa.blank?
       self.valkoodi     = Currency.order(:jarjestys).first.try(:nimi) if valkoodi.blank?
     end
 

@@ -18,7 +18,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
 
     users_attributes = [
       {
-        kuka: '123',
+        kuka: 'testi.testaaja@example.com',
         nimi: 'Testi Testaaja',
         salasana: Digest::MD5.hexdigest('kissa'),
         extranet: 'X',
@@ -44,15 +44,15 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       end
     end
 
-    assert_equal Company.unscoped.last, Company.unscoped.find(json_response[:company][:id])
-    assert_equal 'Testikatu 3',         Company.unscoped.last.osoite
-    assert_equal '440',                 BankAccount.unscoped.last.oletus_selvittelytili
-    assert_equal '123',                 User.unscoped[-2].kuka
-    assert_equal 'X',                   User.unscoped[-2].extranet
+    assert_equal Company.unscoped.last,        Company.unscoped.find(json_response[:company][:id])
+    assert_equal 'Testikatu 3',                Company.unscoped.last.osoite
+    assert_equal '440',                        BankAccount.unscoped.last.oletus_selvittelytili
+    assert_equal 'testi.testaaja@example.com', User.unscoped[-2].kuka
+    assert_equal 'X',                          User.unscoped[-2].extranet
 
     # Extranet user for company where customer
-    assert_equal '123extra', User.unscoped[-1].kuka
-    assert_equal 'X',        User.unscoped[-1].extranet
+    assert_equal 'testi.testaaja@example.com', User.unscoped[-1].kuka
+    assert_equal 'X',                          User.unscoped[-1].extranet
   end
 
   test 'POST /companies/copy with invalid params' do

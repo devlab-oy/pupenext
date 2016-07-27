@@ -220,7 +220,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
         ytunnus: '1234567-8',
         users_attributes: [
           {
-            kuka: '123',
+            kuka: 'testi.testaaja@example.com',
             nimi: 'Testi Testaaja',
             salasana: Digest::MD5.hexdigest('kissa'),
           },
@@ -236,7 +236,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
     Current.company = companies(:estonian)
 
     assert_equal 3,                              User.count
-    assert_equal '123extra',                     User.last.kuka
+    assert_equal 'testi.testaaja@example.com',   User.last.kuka
     assert_equal 'Testi Testaaja',               User.last.nimi
     assert_equal Digest::MD5.hexdigest('kissa'), User.last.salasana
     assert_equal 'X',                            User.last.extranet

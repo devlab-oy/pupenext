@@ -128,7 +128,7 @@ class CompanyCopier
 
         @association_params[:users_attributes].each do |user_params|
           user_params = user_params.merge(
-            kuka: "#{user_params[:kuka]}extra",
+            kuka: "#{user_params[:kuka]}",
             extranet: 'X',
             profiilit: 'Extranet',
             oletus_profiili: 'Extranet',
