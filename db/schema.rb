@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718075654) do
+ActiveRecord::Schema.define(version: 20160728121419) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1183,11 +1183,11 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.integer  "sla",                                limit: 4,     default: 0,  null: false
     t.string   "sd_sla",                             limit: 60,    default: "", null: false
     t.string   "valmistajan_sopimusnumero",          limit: 60,    default: "", null: false
-    t.string   "laatija",                            limit: 10,    default: "", null: false
+    t.string   "laatija",                            limit: 50,    default: "", null: false
     t.datetime "luontiaika",                                                    null: false
     t.datetime "muutospvm",                                                     null: false
     t.date     "valmistajan_sopimus_paattymispaiva",                            null: false
-    t.string   "muuttaja",                           limit: 10,    default: "", null: false
+    t.string   "muuttaja",                           limit: 50,    default: "", null: false
   end
 
   add_index "laite", ["yhtio", "koodi"], name: "yhtio_koodi", using: :btree
@@ -1197,10 +1197,10 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.string   "yhtio",               limit: 5,  default: "", null: false
     t.integer  "laitteen_tunnus",     limit: 4,  default: 0,  null: false
     t.integer  "sopimusrivin_tunnus", limit: 4,  default: 0,  null: false
-    t.string   "laatija",             limit: 10, default: "", null: false
+    t.string   "laatija",             limit: 50, default: "", null: false
     t.datetime "luontiaika",                                  null: false
     t.datetime "muutospvm",                                   null: false
-    t.string   "muuttaja",            limit: 10, default: "", null: false
+    t.string   "muuttaja",            limit: 50, default: "", null: false
   end
 
   create_table "lasku", primary_key: "tunnus", force: :cascade do |t|
@@ -1693,10 +1693,10 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.string   "yhtio",         limit: 5,   default: "", null: false
     t.string   "hidden",        limit: 1,   default: "", null: false
     t.string   "usermanualurl", limit: 255, default: "", null: false
-    t.string   "laatija",       limit: 10,  default: "", null: false
+    t.string   "laatija",       limit: 50,  default: "", null: false
     t.datetime "luontiaika",                             null: false
     t.datetime "muutospvm",                              null: false
-    t.string   "muuttaja",      limit: 10,  default: "", null: false
+    t.string   "muuttaja",      limit: 50,  default: "", null: false
   end
 
   add_index "oikeu", ["user_id"], name: "user_id", using: :btree
@@ -1955,10 +1955,10 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.decimal  "ale",                           precision: 5,  scale: 2, default: 0.0, null: false
     t.string   "rekisterinumero",    limit: 7,                           default: "",  null: false
     t.string   "status",             limit: 1,                           default: "",  null: false
-    t.string   "laatija",            limit: 10,                          default: "",  null: false
+    t.string   "laatija",            limit: 50,                          default: "",  null: false
     t.datetime "luontiaika",                                                           null: false
     t.datetime "muutospvm",                                                            null: false
-    t.string   "muuttaja",           limit: 10,                          default: "",  null: false
+    t.string   "muuttaja",           limit: 50,                          default: "",  null: false
   end
 
   add_index "sahkoisen_lahetteen_rivit", ["yhtio", "otunnus", "tilausrivin_tunnus"], name: "yhtio_otunnus_tilausrivin_tunnus", using: :btree
@@ -3063,10 +3063,10 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.integer  "toim_tuoteno_tunnus", limit: 4,  default: 0,  null: false
     t.string   "pakkauskoko",         limit: 30, default: "", null: false
     t.string   "yksikko",             limit: 30, default: "", null: false
-    t.string   "laatija",             limit: 10, default: "", null: false
+    t.string   "laatija",             limit: 50, default: "", null: false
     t.datetime "luontiaika"
     t.datetime "muutospvm"
-    t.string   "muuttaja",            limit: 10, default: "", null: false
+    t.string   "muuttaja",            limit: 50, default: "", null: false
   end
 
   add_index "tuotteen_toimittajat_pakkauskoot", ["yhtio", "toim_tuoteno_tunnus", "pakkauskoko"], name: "yhtio_toimtuotenotunnus_pakkauskoko", unique: true, using: :btree
@@ -3093,7 +3093,7 @@ ActiveRecord::Schema.define(version: 20160718075654) do
     t.string   "tyostatus_selite",  limit: 60, default: "", null: false
     t.string   "vastuuhenkilo",     limit: 60, default: "", null: false
     t.datetime "luontiaika",                                null: false
-    t.string   "laatija",           limit: 10, default: "", null: false
+    t.string   "laatija",           limit: 50, default: "", null: false
     t.string   "kommentti",         limit: 60, default: "", null: false
   end
 
