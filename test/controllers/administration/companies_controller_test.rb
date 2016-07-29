@@ -26,7 +26,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     ]
 
     assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count', 'Customer.unscoped.count'] do
-      assert_difference 'User.unscoped.count', 3 do
+      assert_difference 'User.unscoped.count', 5 do
         post :copy, access_token: users(:admin).api_key,
                     company: {
                       yhtio: 'testi',
