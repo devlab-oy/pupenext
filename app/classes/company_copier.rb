@@ -10,7 +10,6 @@ class CompanyCopier
 
     @to_company_params     = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
     @association_params    = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
-    @user                  = Current.company.users.find_by!(kuka: 'admin')
     @create_as_customer_to = Company.where(yhtio: create_as_customer_to_ids)
   ensure
     Current.company = @original_current_company
@@ -20,8 +19,7 @@ class CompanyCopier
     Current.company = @from_company
 
     @copied_company = duplicate(Current.company, attributes: @to_company_params, validate: true)
-    @copied_user    = duplicate(@user)
-
+    @admin = duplicate(Current.company.users).find { |user| user.kuka == 'admin' }
     duplicate(
       Current.company.parameter,
       attributes: {
@@ -39,9 +37,7 @@ class CompanyCopier
       },
     )
     duplicate(Current.company.currencies)
-    duplicate(Current.company.menus)
-    duplicate(Current.company.profiles)
-    duplicate(@user.permissions)
+    duplicate(Current.company.permissions)
     duplicate(Current.company.sum_levels)
     duplicate(Current.company.accounts)
     duplicate(Current.company.keywords)
@@ -101,7 +97,7 @@ class CompanyCopier
 
     def assign_basic_attributes(model)
       model.company    = Current.company   if model.respond_to?(:company=)
-      model.user       = @copied_user      if model.respond_to?(:user=)
+      model.user       = @admin            if model.respond_to?(:user=)
       model.laatija    = Current.user.kuka if model.respond_to?(:laatija=)
       model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
       model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)

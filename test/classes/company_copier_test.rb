@@ -41,7 +41,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       currency:         Currency.count,
       menu:             Permission.where(kuka: '').where(profiili: '').count,
       profile:          Permission.where.not(profiili: '').where('profiili = kuka').count,
-      permission:       User.find_by!(kuka: 'admin').permissions.count,
+      permission:       Permission.count,
       account:          Account.count,
       keyword:          Keyword.count,
       printer:          Printer.count,
@@ -64,10 +64,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal acme_counts.profile, copied_company.profiles.count
     assert_equal 'Admin profiili',    copied_company.profiles.first.profiili
 
-    assert_equal 1,       copied_company.users.count
+    assert_equal 3,       copied_company.users.count
     assert_equal 'admin', copied_company.users.first.kuka
 
-    assert_equal acme_counts.permission,       copied_company.users.first.permissions.count
+    assert_equal acme_counts.permission,       copied_company.permissions.count
     assert_equal acme_counts.sum_level,        copied_company.sum_levels.count
     assert_equal acme_counts.account,          copied_company.accounts.count
     assert_equal acme_counts.keyword,          copied_company.keywords.count
@@ -130,7 +130,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       currency:         Currency.count,
       menu:             Permission.where(kuka: '').where(profiili: '').count,
       profile:          Permission.where.not(profiili: '').where('profiili = kuka').count,
-      permission:       User.find_by!(kuka: 'admin').permissions.count,
+      permission:       Permission.count,
       account:          Account.count,
       keyword:          Keyword.count,
       printer:          Printer.count,
@@ -154,9 +154,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal esto_counts.currency,         copied_company.currencies.count
     assert_equal esto_counts.menu,             copied_company.menus.count
     assert_equal esto_counts.profile,          copied_company.profiles.count
-    assert_equal 1,                            copied_company.users.count
+    assert_equal 2,                            copied_company.users.count
     assert_equal 'admin',                      copied_company.users.first.kuka
-    assert_equal esto_counts.permission,       copied_company.users.first.permissions.count
+    assert_equal esto_counts.permission,       copied_company.permissions.count
     assert_equal esto_counts.sum_level,        copied_company.sum_levels.count
     assert_equal esto_counts.account,          copied_company.accounts.count
     assert_equal esto_counts.keyword,          copied_company.keywords.count
