@@ -6,6 +6,7 @@ class Administration::CompaniesController < ApplicationController
 
   def copy
     copier = CompanyCopier.new(
+      from_company: Current.company,
       to_company_params: company_params,
       create_as_customer_to_ids: params[:create_as_customer_to_ids],
     )

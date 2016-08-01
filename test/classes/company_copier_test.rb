@@ -4,10 +4,11 @@ class CompanyCopierTest < ActiveSupport::TestCase
   fixtures :all
 
   setup do
-    Current.company = companies(:acme)
-    Current.user    = users(:bob)
+    Current.user = users :bob
+    @company = companies :acme
 
     @copier = CompanyCopier.new(
+      from_company: @company,
       to_company_params: {
         yhtio: 95,
         nimi: 'Kala Oy',
@@ -101,7 +102,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy handles duplicate yhtio correctly' do
-    copier = CompanyCopier.new(to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' })
+    copier = CompanyCopier.new(
+      from_company: @company,
+      to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' },
+    )
 
     assert_no_difference [
       'Company.unscoped.count',
@@ -167,7 +171,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test 'Current.company is returned to original in any case' do
-    current_company = Current.company
+    current_company = @company
 
     copier = CompanyCopier.new(
       from_company: companies(:estonian),
@@ -175,19 +179,23 @@ class CompanyCopierTest < ActiveSupport::TestCase
     )
     copied_company = copier.copy
     assert copied_company.valid?, copied_company.errors.full_messages
-    assert_equal current_company, Current.company
+    assert_equal current_company, @company
 
-    copier = CompanyCopier.new(to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' })
+    copier = CompanyCopier.new(
+      from_company: @company,
+      to_company_params: { yhtio: 'acme', nimi: 'Kala Oy' },
+    )
     copier.copy
-    assert_equal current_company, Current.company
+    assert_equal current_company, @company
 
     Account.all.update_all(nimi: '')
     @copier.copy
-    assert_equal current_company, Current.company
+    assert_equal current_company, @company
   end
 
   test 'company can be created as customer to specified companies' do
     copier = CompanyCopier.new(
+      from_company: @company,
       to_company_params: {
         yhtio: 95,
         nimi: 'Kala Oy',
@@ -211,6 +219,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
 
   test 'extranet users are created for companies where the company is a customer' do
     copier = CompanyCopier.new(
+      from_company: @company,
       to_company_params: {
         yhtio: 95,
         nimi: 'Kala Oy',

@@ -1,7 +1,7 @@
 class CompanyCopier
   def initialize(from_company: nil, to_company_params: {}, create_as_customer_to_ids: [])
     @original_current_company = Current.company
-    @from_company = from_company ? Current.company = from_company : Current.company
+    @from_company = Current.company = from_company
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
