@@ -27,15 +27,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert copied_company.persisted?
 
     assert_equal 'FI',             copied_company.maa
-    assert_equal '',               copied_company.konserni
+    assert_equal 'acme',           copied_company.konserni
     assert_equal '95',             copied_company.yhtio
     assert_equal 'Kala Oy',        copied_company.nimi
     assert_equal 'Kalatie 2',      copied_company.osoite
     assert_equal '12345',          copied_company.postino
     assert_equal 'Kala',           copied_company.postitp
     assert_equal '1234567-8',      copied_company.ytunnus
-    assert_equal users(:bob).kuka, copied_company.laatija
-    assert_equal users(:bob).kuka, copied_company.muuttaja
 
     acme_counts = OpenStruct.new(
       sum_level:        SumLevel.count,
@@ -204,7 +202,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
         postitp: 'Kala',
         ytunnus: '1234567-8',
       },
-      create_as_customer_to_ids: [companies(:estonian).yhtio],
+      customer_companies: [companies(:estonian).yhtio],
     )
 
     record = copier.copy
@@ -235,7 +233,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
           },
         ],
       },
-      create_as_customer_to_ids: [companies(:estonian).yhtio],
+      customer_companies: [companies(:estonian).yhtio],
     )
 
     record = copier.copy
