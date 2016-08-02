@@ -36,16 +36,17 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal '1234567-8',      copied_company.ytunnus
 
     acme_counts = OpenStruct.new(
-      sum_level:        SumLevel.count,
-      currency:         Currency.count,
-      menu:             Permission.where(kuka: '').where(profiili: '').count,
-      profile:          Permission.where.not(profiili: '').where('profiili = kuka').count,
-      permission:       Permission.count,
       account:          Account.count,
-      keyword:          Keyword.count,
-      printer:          Printer.count,
-      terms_of_payment: TermsOfPayment.count,
+      currency:         Currency.count,
+      customer:         Customer.count,
       delivery_method:  DeliveryMethod.count,
+      keyword:          Keyword.count,
+      menu:             Permission.where(kuka: '').where(profiili: '').count,
+      permission:       Permission.count,
+      printer:          Printer.count,
+      profile:          Permission.where.not(profiili: '').where('profiili = kuka').count,
+      sum_level:        SumLevel.count,
+      terms_of_payment: TermsOfPayment.count,
       warehouse:        Warehouse.count,
     )
 
@@ -66,13 +67,14 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal 3,       copied_company.users.count
     assert_equal 'admin', copied_company.users.first.kuka
 
-    assert_equal acme_counts.permission,       copied_company.permissions.count
-    assert_equal acme_counts.sum_level,        copied_company.sum_levels.count
     assert_equal acme_counts.account,          copied_company.accounts.count
-    assert_equal acme_counts.keyword,          copied_company.keywords.count
-    assert_equal acme_counts.printer,          copied_company.printers.count
-    assert_equal acme_counts.terms_of_payment, copied_company.terms_of_payments.count
+    assert_equal acme_counts.customer,         copied_company.customers.count
     assert_equal acme_counts.delivery_method,  copied_company.delivery_methods.count
+    assert_equal acme_counts.keyword,          copied_company.keywords.count
+    assert_equal acme_counts.permission,       copied_company.permissions.count
+    assert_equal acme_counts.printer,          copied_company.printers.count
+    assert_equal acme_counts.sum_level,        copied_company.sum_levels.count
+    assert_equal acme_counts.terms_of_payment, copied_company.terms_of_payments.count
     assert_equal acme_counts.warehouse,        copied_company.warehouses.count
   end
 
@@ -80,17 +82,18 @@ class CompanyCopierTest < ActiveSupport::TestCase
     Account.any_instance.stubs(:save!).raises(StandardError)
 
     assert_no_difference [
-      'Company.unscoped.count',
-      'User.unscoped.count',
-      'Parameter.unscoped.count',
-      'Currency.unscoped.count',
-      'Permission.unscoped.count',
-      'SumLevel.unscoped.count',
       'Account.unscoped.count',
-      'Keyword.unscoped.count',
-      'Printer.unscoped.count',
-      'TermsOfPayment.unscoped.count',
+      'Company.unscoped.count',
+      'Currency.unscoped.count',
+      'Customer.unscoped.count',
       'DeliveryMethod.unscoped.count',
+      'Keyword.unscoped.count',
+      'Parameter.unscoped.count',
+      'Permission.unscoped.count',
+      'Printer.unscoped.count',
+      'SumLevel.unscoped.count',
+      'TermsOfPayment.unscoped.count',
+      'User.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
       assert_raise StandardError do
@@ -106,18 +109,18 @@ class CompanyCopierTest < ActiveSupport::TestCase
     )
 
     assert_no_difference [
-      'Company.unscoped.count',
-      'User.unscoped.count',
-      'Parameter.unscoped.count',
-      'Currency.unscoped.count',
-      'Permission.unscoped.count',
-      'SumLevel.unscoped.count',
       'Account.unscoped.count',
-      'BankAccount.unscoped.count',
-      'Keyword.unscoped.count',
-      'Printer.unscoped.count',
-      'TermsOfPayment.unscoped.count',
+      'Company.unscoped.count',
+      'Currency.unscoped.count',
+      'Customer.unscoped.count',
       'DeliveryMethod.unscoped.count',
+      'Keyword.unscoped.count',
+      'Parameter.unscoped.count',
+      'Permission.unscoped.count',
+      'Printer.unscoped.count',
+      'SumLevel.unscoped.count',
+      'TermsOfPayment.unscoped.count',
+      'User.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
       assert copier.copy.invalid?

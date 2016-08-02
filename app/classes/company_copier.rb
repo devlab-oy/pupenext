@@ -1,5 +1,5 @@
 # from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
-# to_company_params sallii bank_accounts ja users -nested attribuutteja
+# to_company_params nested attribuutteja (kts Company -model)
 # customer_companies sisältää Pupesoftin yhtiökoodeja, joista perustetaan asiakkaita to_companyyn
 class CompanyCopier
   attr_reader :from_company
@@ -43,6 +43,7 @@ class CompanyCopier
     def duplicate_data
       duplicate :accounts
       duplicate :currencies
+      duplicate :customers
       duplicate :delivery_methods
       duplicate :keywords
       duplicate :parameter, attributes: default_parameter_attributes
@@ -88,6 +89,7 @@ class CompanyCopier
     def delete_partial_data
       destroy :accounts
       destroy :currencies
+      destroy :customers
       destroy :delivery_methods
       destroy :keywords
       destroy :parameter
