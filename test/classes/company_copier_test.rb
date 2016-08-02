@@ -191,7 +191,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal current_company, @company
   end
 
-  test 'company can be created as customer to specified companies' do
+  test 'customers are created from passed customer_companies' do
+    estonian = companies(:estonian)
+
     copier = CompanyCopier.new(
       from_company: @company,
       to_company_params: {
@@ -202,20 +204,20 @@ class CompanyCopierTest < ActiveSupport::TestCase
         postitp: 'Kala',
         ytunnus: '1234567-8',
       },
-      customer_companies: [companies(:estonian).yhtio],
-    )
+      customer_companies: [estonian.yhtio],
+    ).copy
+    assert copier.valid?, copier.errors.full_messages
 
-    record = copier.copy
-
-    assert record.valid?, record.errors.full_messages
-
-    Current.company = companies(:estonian)
-
+    Current.company = estonian
     assert_equal 1, Customer.count
     assert_equal 'Kala Oy', Customer.first.nimi
   end
 
-  test 'extranet users are created for companies where the company is a customer' do
+  test 'users are created for companies' do
+    kissa_pass = Digest::MD5.hexdigest('kissa')
+    koira_pass = Digest::MD5.hexdigest('koira')
+    users_count = @company.users.count + 2
+
     copier = CompanyCopier.new(
       from_company: @company,
       to_company_params: {
@@ -227,26 +229,29 @@ class CompanyCopierTest < ActiveSupport::TestCase
         ytunnus: '1234567-8',
         users_attributes: [
           {
-            kuka: 'testi.testaaja@example.com',
-            nimi: 'Testi Testaaja',
-            salasana: Digest::MD5.hexdigest('kissa'),
+            kuka: 'erkki.eka@example.com',
+            nimi: 'Erkki',
+            salasana: kissa_pass,
+          },
+          {
+            kuka: 'totti.toka@example.com',
+            nimi: 'Totti',
+            salasana: koira_pass,
           },
         ],
       },
-      customer_companies: [companies(:estonian).yhtio],
-    )
+    ).copy
 
-    record = copier.copy
+    Current.company = copier
+    assert copier.valid?
+    assert_equal users_count, User.count
 
-    assert record.valid?, record.errors.full_messages
+    assert_equal 'erkki.eka@example.com', User.first.kuka
+    assert_equal 'Erkki',                 User.first.nimi
+    assert_equal kissa_pass,              User.first.salasana
 
-    Current.company = companies(:estonian)
-
-    assert_equal 3,                              User.count
-    assert_equal 'testi.testaaja@example.com',   User.last.kuka
-    assert_equal 'Testi Testaaja',               User.last.nimi
-    assert_equal Digest::MD5.hexdigest('kissa'), User.last.salasana
-    assert_equal 'X',                            User.last.extranet
-    assert_equal 'Extranet',                     User.last.profiilit
+    assert_equal 'totti.toka@example.com', User.second.kuka
+    assert_equal 'Totti',                  User.second.nimi
+    assert_equal koira_pass,               User.second.salasana
   end
 end

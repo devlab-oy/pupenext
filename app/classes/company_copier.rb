@@ -1,3 +1,6 @@
+# from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
+# to_company_params sallii bank_accounts ja users -nested attribuutteja
+# customer_companies sisältää Pupesoftin yhtiökoodeja, joista perustetaan asiakkaita to_companyyn
 class CompanyCopier
   attr_reader :from_company
 
@@ -71,31 +74,12 @@ class CompanyCopier
       customer_companies.each do |company|
         Current.company = company
 
-        customer = Customer.create!(
+        Customer.create!(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
           alv: Keyword::Vat.first.selite,
         )
-
-        create_users_for customer
-      end
-    end
-
-    def create_users_for(customer)
-      return if association_params[:users_attributes].blank?
-
-      association_params[:users_attributes].each do |user_params|
-        user_params = user_params.merge(
-          kuka: user_params[:kuka],
-          extranet: 'X',
-          profiilit: 'Extranet',
-          oletus_profiili: 'Extranet',
-          oletus_asiakas: customer.id,
-          oletus_asiakastiedot: customer.id,
-        )
-
-        User.create!(user_params)
       end
     end
 
