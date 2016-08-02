@@ -194,28 +194,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal current_company, @company
   end
 
-  test 'customers are created from passed customer_companies' do
-    estonian = companies(:estonian)
-
-    copier = CompanyCopier.new(
-      from_company: @company,
-      to_company_params: {
-        yhtio: 95,
-        nimi: 'Kala Oy',
-        osoite: 'Kalatie 2',
-        postino: '12345',
-        postitp: 'Kala',
-        ytunnus: '1234567-8',
-      },
-      customer_companies: [estonian.yhtio],
-    ).copy
-    assert copier.valid?, copier.errors.full_messages
-
-    Current.company = estonian
-    assert_equal 1, Customer.count
-    assert_equal 'Kala Oy', Customer.first.nimi
-  end
-
   test 'users are created for companies' do
     kissa_pass = Digest::MD5.hexdigest('kissa')
     koira_pass = Digest::MD5.hexdigest('koira')

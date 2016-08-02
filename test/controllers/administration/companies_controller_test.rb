@@ -8,27 +8,6 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
   end
 
   test 'POST /companies/copy' do
-    bank_accounts_attributes = [
-      {
-        nimi: 'Testitili',
-        iban: 'FI9814283500171141',
-        oletus_selvittelytili: 440,
-        oletus_kulutili: 440,
-        oletus_rahatili: 440,
-        valkoodi: 'EUR',
-        bic: 'NDEAFIHH',
-      },
-    ]
-
-    users_attributes = [
-      {
-        kuka: 'extranet@example.com',
-        nimi: 'Extranet Testaaja',
-        salasana: Digest::MD5.hexdigest('kissa'),
-        extranet: 'Z',
-      },
-    ]
-
     company_attributes = {
       yhtio: 'testi',
       nimi: 'Testi Oy',
@@ -36,15 +15,33 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       postino: '12345',
       postitp: 'Testikaupunki',
       ytunnus: '1234567-8',
-      bank_accounts_attributes: bank_accounts_attributes,
-      users_attributes: users_attributes,
+      bank_accounts_attributes: [
+        {
+          nimi: 'Testitili',
+          iban: 'FI9814283500171141',
+          oletus_selvittelytili: 440,
+          oletus_kulutili: 440,
+          oletus_rahatili: 440,
+          valkoodi: 'EUR',
+          bic: 'NDEAFIHH',
+        },
+      ],
+      users_attributes: [
+        {
+          kuka: 'extranet@example.com',
+          nimi: 'Extranet Testaaja',
+          salasana: Digest::MD5.hexdigest('kissa'),
+          extranet: 'Z',
+        },
+      ],
     }
 
-    assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count', 'Customer.unscoped.count'] do
-      assert_difference 'User.unscoped.count', 5 do
-        post :copy, access_token: @admin.api_key,
-                    company: company_attributes,
-                    customer_companies: [companies(:estonian).yhtio]
+    # We copy all the users from current company and create the extra user we passed in
+    user_count = User.count + 1
+
+    assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count'] do
+      assert_difference 'User.unscoped.count', user_count do
+        post :copy, access_token: @admin.api_key, company: company_attributes
         assert_response :success
       end
     end

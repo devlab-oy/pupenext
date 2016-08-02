@@ -1,14 +1,12 @@
 # from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
-# to_company_params nested attribuutteja (kts Company -model)
-# customer_companies sisältää Pupesoftin yhtiökoodeja, joista perustetaan asiakkaita to_companyyn
+# to_company_params sallii nested attribuutteja (kts Company -model)
 class CompanyCopier
   attr_reader :from_company
 
-  def initialize(from_company: nil, to_company_params: {}, customer_companies: [])
+  def initialize(from_company: nil, to_company_params: {})
     @original_current_company = Current.company
     @from_company = Current.company = from_company
     @to_company_params = to_company_params
-    @customer_companies = customer_companies
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -19,8 +17,6 @@ class CompanyCopier
   def copy
     copied_company = new_company
     duplicate_data
-    create_customers
-
     copied_company
   rescue ActiveRecord::RecordInvalid => e
     return e.record unless defined?(copied_company) && copied_company
@@ -71,19 +67,6 @@ class CompanyCopier
       end
     end
 
-    def create_customers
-      customer_companies.each do |company|
-        Current.company = company
-
-        Customer.create!(
-          nimi: new_company.nimi,
-          ytunnus: new_company.ytunnus,
-          kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
-          alv: Keyword::Vat.first.selite,
-        )
-      end
-    end
-
     # TODO: This can be achieved much easier with a db transaction.
     # When those are supported, this should be refactored.
     def delete_partial_data
@@ -118,10 +101,6 @@ class CompanyCopier
 
     def association_params
       @to_company_params.select { |attribute| attribute.match(/_attributes$/) }
-    end
-
-    def customer_companies
-      Company.where(yhtio: @customer_companies)
     end
 
     def default_parameter_attributes

@@ -8,7 +8,6 @@ class Administration::CompaniesController < ApplicationController
     copier = CompanyCopier.new(
       from_company: Current.company,
       to_company_params: company_params,
-      customer_companies: params[:customer_companies],
     )
 
     copied_company = copier.copy
