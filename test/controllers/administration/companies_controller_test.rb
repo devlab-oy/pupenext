@@ -8,6 +8,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
   end
 
   test 'POST /companies/copy' do
+    estonia = companies(:estonian)
     company_attributes = {
       yhtio: 'testi',
       nimi: 'Testi Oy',
@@ -30,18 +31,21 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
         {
           kuka: 'extranet@example.com',
           nimi: 'Extranet Testaaja',
+          profiilit: 'Perustoiminnot',
+          oletus_profiili: 'Perustoiminnot',
           salasana: Digest::MD5.hexdigest('kissa'),
           extranet: 'Z',
         },
       ],
     }
 
-    # We copy all the users from current company and create the extra user we passed in
-    user_count = User.count + 1
+    # We copy all the users from current company
+    # and create the extra user we passed in as user and extranet user
+    user_count = User.count + 2
 
     assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count'] do
       assert_difference 'User.unscoped.count', user_count do
-        post :copy, access_token: @admin.api_key, company: company_attributes
+        post :copy, access_token: @admin.api_key, company: company_attributes, customer_companies: [estonia.yhtio]
         assert_response :success
       end
     end
@@ -53,6 +57,16 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     assert_equal '440',                   company.bank_accounts.last.oletus_selvittelytili
     assert_equal 'extranet@example.com',  company.users.first.kuka
     assert_equal 'Z',                     company.users.first.extranet
+    assert_equal 'Perustoiminnot',        company.users.first.profiilit
+    assert_equal 'Perustoiminnot',        company.users.first.oletus_profiili
+
+    Current.company = estonia
+    assert_equal 'Testi Oy',              estonia.customers.last.nimi
+    assert_equal '1234567-8',             estonia.customers.last.ytunnus
+    assert_equal 'extranet@example.com',  estonia.users.last.kuka
+    assert_equal 'X',                     estonia.users.last.extranet
+    assert_equal 'Extranet',              estonia.users.last.profiilit
+    assert_equal 'Extranet',              estonia.users.last.oletus_profiili
   end
 
   test 'POST /companies/copy with invalid params' do
