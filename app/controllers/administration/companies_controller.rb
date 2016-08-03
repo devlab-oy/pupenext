@@ -30,6 +30,7 @@ class Administration::CompaniesController < ApplicationController
         :postino,
         :postitp,
         :ytunnus,
+        :jarjestys,
         bank_accounts_attributes: [
           :nimi,
           :tilino,

@@ -16,6 +16,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       postino: '12345',
       postitp: 'Testikaupunki',
       ytunnus: '1234567-8',
+      jarjestys: '12',
       bank_accounts_attributes: [
         {
           nimi: 'Testitili',
@@ -54,6 +55,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
 
     assert_equal 'Testi Oy',              company.nimi
     assert_equal 'Testikatu 3',           company.osoite
+    assert_equal 12,                      company.jarjestys
     assert_equal '440',                   company.bank_accounts.last.oletus_selvittelytili
     assert_equal 'extranet@example.com',  company.users.first.kuka
     assert_equal 'Z',                     company.users.first.extranet
