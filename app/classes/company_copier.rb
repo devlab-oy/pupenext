@@ -128,7 +128,7 @@ class CompanyCopier
 
       new_company = from_company.dup
       new_company.assign_attributes @to_company_params
-      new_company.save! validate: true
+      new_company.save!
 
       @new_company = new_company
     end
