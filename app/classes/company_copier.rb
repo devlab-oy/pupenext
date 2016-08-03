@@ -138,16 +138,43 @@ class CompanyCopier
       customer_companies.each do |company|
         Current.company = company
 
-        Customer.create!(
+        customer = Customer.create!(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
           alv: Keyword::Vat.first.selite,
         )
+
+        # all users created to to_company are also created as extranet users to customer_companies
+        create_extranet_user customer
       end
     end
 
     def customer_companies
       Company.where(yhtio: @customer_companies)
+    end
+
+    def create_extranet_user(customer)
+      return if user_attributes.blank?
+
+      Current.company = customer.company
+
+      user_attributes.each do |user_params|
+        user = user_params.merge(
+          extranet: 'X',
+          profiilit: 'Extranet',
+          oletus_profiili: 'Extranet',
+          oletus_asiakas: customer.id,
+          oletus_asiakastiedot: customer.id,
+        )
+
+        User.create! user
+      end
+    end
+
+    def user_attributes
+      users = @to_company_params.select { |p| p.match(/users_attributes$/) }
+
+      users[:users_attributes] || []
     end
 end

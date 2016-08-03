@@ -202,6 +202,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
     estonian = companies(:estonian)
 
     # create new company 'Kala Oy', and create it as a customer to estonian -company
+    # create all users also as extranet users to estonian -company
     copier = CompanyCopier.new(
       from_company: @company,
       to_company_params: {
@@ -211,6 +212,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
         postino: '12345',
         postitp: 'Kala',
         ytunnus: '1234567-8',
+        users_attributes: [
+          {
+            kuka: 'extranet-user@example.com',
+            nimi: 'Euser',
+            salasana: 'foo',
+          },
+        ],
       },
       customer_companies: [estonian.yhtio],
     ).copy
@@ -218,6 +226,12 @@ class CompanyCopierTest < ActiveSupport::TestCase
 
     Current.company = estonian
     assert_not_nil estonian.customers.find_by(nimi: 'Kala Oy Esimerkki')
+
+    user = estonian.users.find_by(kuka: 'extranet-user@example.com')
+    assert_not_nil user
+    assert_equal 'X', user.extranet
+    assert_equal 'Extranet', user.profiilit
+    assert_equal 'Extranet', user.oletus_profiili
   end
 
   test 'users are created for companies' do
