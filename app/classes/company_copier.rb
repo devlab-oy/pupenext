@@ -43,7 +43,7 @@ class CompanyCopier
       duplicate :delivery_methods
       duplicate :keywords
       duplicate :parameter, attributes: default_parameter_attributes
-      duplicate :permissions, attributes: default_permission_attributes
+      duplicate :permissions
       duplicate :printers
       duplicate :sum_levels
       duplicate :terms_of_payments
@@ -95,14 +95,6 @@ class CompanyCopier
       records.delete if records.respond_to?(:delete)
     end
 
-    def company_params
-      @to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
-    end
-
-    def association_params
-      @to_company_params.select { |attribute| attribute.match(/_attributes$/) }
-    end
-
     def default_parameter_attributes
       {
         finvoice_senderpartyid: '',
@@ -116,12 +108,6 @@ class CompanyCopier
         lasku_logo: '',
         lasku_logo_positio: '',
         lasku_logo_koko: 0,
-      }
-    end
-
-    def default_permission_attributes
-      {
-        user: new_company.users.find_by(kuka: :admin),
       }
     end
 
@@ -139,8 +125,7 @@ class CompanyCopier
       return @new_company if @new_company
 
       new_company = from_company.dup
-      new_company.assign_attributes company_params
-      new_company.assign_attributes association_params
+      new_company.assign_attributes @to_company_params
       new_company.save! validate: true
 
       @new_company = new_company
