@@ -218,6 +218,11 @@ class CompanyCopierTest < ActiveSupport::TestCase
             nimi: 'Euser',
             salasana: 'foo',
           },
+          {
+            kuka: 'second-user@example.com',
+            nimi: 'Secuser',
+            salasana: 'bar',
+          },
         ],
       },
       customer_companies: [estonian.yhtio],
@@ -225,7 +230,9 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert copier.valid?, copier.errors.full_messages
 
     Current.company = estonian
-    assert_not_nil estonian.customers.find_by(nimi: 'Kala Oy Esimerkki')
+    customer = estonian.customers.find_by(nimi: 'Kala Oy Esimerkki')
+    assert_not_nil customer
+    assert_equal 'extranet-user@example.com, second-user@example.com', customer.email
 
     user = estonian.users.find_by(kuka: 'extranet-user@example.com')
     assert_not_nil user
