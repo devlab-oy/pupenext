@@ -83,7 +83,6 @@ class CompanyCopier
       destroy :users
       destroy :warehouses
 
-      Current.company = new_company
       new_company.destroy!
     end
 

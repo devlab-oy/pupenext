@@ -100,6 +100,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
         @copier.copy
       end
     end
+
+    # make sure we delete the correct company at the end
+    assert_nil Company.find_by(nimi: 'Kala Oy')
+    assert_not_nil Company.find_by(nimi: @company.nimi)
   end
 
   test '#copy handles duplicate yhtio correctly' do
