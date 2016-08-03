@@ -1,12 +1,14 @@
 # from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
 # to_company_params sallii nested attribuutteja (kts Company -model)
+# customer_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan asiakkaaksi
 class CompanyCopier
   attr_reader :from_company
 
-  def initialize(from_company: nil, to_company_params: {})
+  def initialize(from_company: nil, to_company_params: {}, customer_companies: [])
     @original_current_company = Current.company
     @from_company = Current.company = from_company
     @to_company_params = to_company_params
+    @customer_companies = customer_companies
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -17,6 +19,7 @@ class CompanyCopier
   def copy
     copied_company = new_company
     duplicate_data
+    create_as_customer
     copied_company
   rescue ActiveRecord::RecordInvalid => e
     return e.record unless defined?(copied_company) && copied_company
@@ -128,5 +131,23 @@ class CompanyCopier
       new_company.save! validate: true
 
       @new_company = new_company
+    end
+
+    def create_as_customer
+      # creates to_company as customer to given companies
+      customer_companies.each do |company|
+        Current.company = company
+
+        Customer.create!(
+          nimi: new_company.nimi,
+          ytunnus: new_company.ytunnus,
+          kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+          alv: Keyword::Vat.first.selite,
+        )
+      end
+    end
+
+    def customer_companies
+      Company.where(yhtio: @customer_companies)
     end
 end
