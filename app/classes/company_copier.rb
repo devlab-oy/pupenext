@@ -1,28 +1,104 @@
+# from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
+# to_company_params sallii nested attribuutteja (kts Company -model)
+# customer_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan asiakkaaksi
 class CompanyCopier
-  def initialize(from_company: nil, to_company_params: {}, create_as_customer_to_ids: [])
+  attr_reader :from_company
+
+  def initialize(from_company: nil, to_company_params: {}, customer_companies: [])
     @original_current_company = Current.company
-    @from_company = from_company ? Current.company = from_company : Current.company
+    @from_company = Current.company = from_company
+    @to_company_params = to_company_params
+    @customer_companies = customer_companies
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
-
-    to_company_params = to_company_params.merge(konserni: '', nimi: '') { |_k, o, n| o.nil? ? n : o }
-
-    @to_company_params     = to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
-    @association_params    = to_company_params.select { |attribute| attribute.match(/_attributes$/) }
-    @create_as_customer_to = Company.where(yhtio: create_as_customer_to_ids)
   ensure
     Current.company = @original_current_company
   end
 
   def copy
-    Current.company = @from_company
+    copied_company = new_company
+    duplicate_data
+    create_as_customer
+    copied_company
+  rescue ActiveRecord::RecordInvalid => e
+    return e.record unless defined?(copied_company) && copied_company
 
-    @copied_company = duplicate(Current.company, attributes: @to_company_params, validate: true)
-    @admin = duplicate(Current.company.users).find { |user| user.kuka == 'admin' }
-    duplicate(
-      Current.company.parameter,
-      attributes: {
+    delete_partial_data
+
+    return e.record
+  rescue
+    raise unless defined?(copied_company) && copied_company
+
+    delete_partial_data
+
+    raise
+  ensure
+    Current.company = @original_current_company
+  end
+
+  private
+
+    def duplicate_data
+      duplicate :accounts
+      duplicate :currencies
+      duplicate :customers
+      duplicate :delivery_methods
+      duplicate :keywords
+      duplicate :parameter, attributes: default_parameter_attributes
+      duplicate :permissions
+      duplicate :printers
+      duplicate :sum_levels
+      duplicate :terms_of_payments
+      duplicate :users
+      duplicate :warehouses
+    end
+
+    def duplicate(model, attributes: {})
+      Current.company = from_company
+
+      records = from_company.send model
+      records = [records] unless records.respond_to?(:map)
+
+      records.map do |record|
+        Current.company = new_company
+
+        copy = record.dup
+        copy.assign_attributes attributes.merge(default_attributes)
+        copy.save! validate: false
+        copy
+      end
+    end
+
+    # TODO: This can be achieved much easier with a db transaction.
+    # When those are supported, this should be refactored.
+    def delete_partial_data
+      destroy :accounts
+      destroy :currencies
+      destroy :customers
+      destroy :delivery_methods
+      destroy :keywords
+      destroy :parameter
+      destroy :permissions
+      destroy :printers
+      destroy :sum_levels
+      destroy :terms_of_payments
+      destroy :users
+      destroy :warehouses
+
+      new_company.destroy!
+    end
+
+    def destroy(model)
+      Current.company = new_company
+      records = new_company.send(model)
+
+      records.destroy_all if records.respond_to?(:destroy_all)
+      records.delete if records.respond_to?(:delete)
+    end
+
+    def default_parameter_attributes
+      {
         finvoice_senderpartyid: '',
         finvoice_senderintermediator: '',
         verkkotunnus_vas: '',
@@ -34,126 +110,71 @@ class CompanyCopier
         lasku_logo: '',
         lasku_logo_positio: '',
         lasku_logo_koko: 0,
-      },
-    )
-    duplicate(Current.company.currencies)
-    duplicate(Current.company.permissions)
-    duplicate(Current.company.sum_levels)
-    duplicate(Current.company.accounts)
-    duplicate(Current.company.keywords)
-    duplicate(Current.company.printers)
-    duplicate(Current.company.terms_of_payments)
-    duplicate(Current.company.delivery_methods)
-    duplicate(Current.company.warehouses)
-
-    copy_association_attributes
-
-    create_as_customer_to_specified_companies_with_extranet_users
-
-    @copied_company
-  rescue ActiveRecord::RecordInvalid => e
-    return e.record unless defined?(@copied_company) && @copied_company
-
-    delete_partial_data
-
-    return e.record
-  rescue
-    raise unless defined?(@copied_company) && @copied_company
-
-    delete_partial_data
-
-    raise
-  ensure
-    Current.company = @original_current_company
-  end
-
-  private
-
-    def duplicate(records, attributes: {}, validate: false)
-      return_array = true
-
-      unless records.respond_to?(:map)
-        records      = [records]
-        return_array = false
-      end
-
-      copies = records.map do |record|
-        copy = record.dup
-
-        current_company = Current.company
-        Current.company = @copied_company
-
-        assign_basic_attributes(copy)
-        copy.assign_attributes(attributes)
-        copy.save!(validate: validate)
-
-        Current.company = current_company
-
-        copy
-      end
-
-      return_array ? copies : copies.first
+      }
     end
 
-    def assign_basic_attributes(model)
-      model.company    = Current.company   if model.respond_to?(:company=)
-      model.user       = @admin            if model.respond_to?(:user=)
-      model.laatija    = Current.user.kuka if model.respond_to?(:laatija=)
-      model.luontiaika = Time.now          if model.respond_to?(:luontiaika=)
-      model.muutospvm  = Time.now          if model.respond_to?(:muutospvm=)
-      model.muuttaja   = Current.user.kuka if model.respond_to?(:muuttaja=)
+    def default_attributes
+      {
+        company:    new_company,
+        laatija:    nil,
+        luontiaika: nil,
+        muutospvm:  nil,
+        muuttaja:   nil,
+      }
     end
 
-    def copy_association_attributes(validate: false)
-      @copied_company.assign_attributes(@association_params)
-      @copied_company.save!(validate: validate)
+    def new_company
+      return @new_company if @new_company
+
+      new_company = from_company.dup
+      new_company.assign_attributes @to_company_params
+      new_company.save!
+
+      @new_company = new_company
     end
 
-    def create_as_customer_to_specified_companies_with_extranet_users
-      @create_as_customer_to.each do |company|
+    def create_as_customer
+      # creates to_company as customer to given companies
+      customer_companies.each do |company|
         Current.company = company
 
         customer = Customer.create!(
-          nimi: @copied_company.nimi,
-          ytunnus: @copied_company.ytunnus,
+          nimi: new_company.nimi,
+          ytunnus: new_company.ytunnus,
           kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
           alv: Keyword::Vat.first.selite,
         )
 
-        next unless @association_params[:users_attributes]
-
-        @association_params[:users_attributes].each do |user_params|
-          user_params = user_params.merge(
-            kuka: "#{user_params[:kuka]}",
-            extranet: 'X',
-            profiilit: 'Extranet',
-            oletus_profiili: 'Extranet',
-            oletus_asiakas: customer.id,
-            oletus_asiakastiedot: customer.id,
-          )
-
-          User.create!(user_params)
-        end
+        # all users created to to_company are also created as extranet users to customer_companies
+        create_extranet_user customer
       end
     end
 
-    # TODO: This can be achieved much easier with a db transaction.
-    #   When those are supported, this should be refactored.
-    def delete_partial_data
-      Current.company = @copied_company
+    def customer_companies
+      Company.where(yhtio: @customer_companies)
+    end
 
-      Warehouse.destroy_all
-      DeliveryMethod.destroy_all
-      TermsOfPayment.destroy_all
-      Printer.destroy_all
-      Keyword.destroy_all
-      BankAccount.destroy_all
-      Account.destroy_all
-      SumLevel.destroy_all
-      Permission.destroy_all
-      Currency.destroy_all
-      Parameter.destroy_all
-      User.destroy_all
-      Current.company.destroy!
+    def create_extranet_user(customer)
+      return if user_attributes.blank?
+
+      Current.company = customer.company
+
+      user_attributes.each do |user_params|
+        user = user_params.merge(
+          extranet: 'X',
+          profiilit: 'Extranet',
+          oletus_profiili: 'Extranet',
+          oletus_asiakas: customer.id,
+          oletus_asiakastiedot: customer.id,
+        )
+
+        User.create! user
+      end
+    end
+
+    def user_attributes
+      users = @to_company_params.select { |p| p.match(/users_attributes$/) }
+
+      users[:users_attributes] || []
     end
 end
