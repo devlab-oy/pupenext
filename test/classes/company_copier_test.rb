@@ -16,6 +16,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
         postino: '12345',
         postitp: 'Kala',
         ytunnus: '1234567-8',
+        jarjestys: 7,
       },
     )
   end
@@ -34,6 +35,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal '12345',          copied_company.postino
     assert_equal 'Kala',           copied_company.postitp
     assert_equal '1234567-8',      copied_company.ytunnus
+    assert_equal 7,                copied_company.jarjestys
 
     acme_counts = OpenStruct.new(
       account:          Account.count,
