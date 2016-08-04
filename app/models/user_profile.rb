@@ -1,6 +1,4 @@
 class UserProfile < BaseModel
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :kuka, presence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :alanimi] }
   validates :nimitys, presence: true

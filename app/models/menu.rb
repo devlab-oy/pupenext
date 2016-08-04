@@ -1,6 +1,4 @@
 class Menu < BaseModel
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   validates :kuka, absence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :sovellus, :alanimi, :kuka, :profiili] }
   validates :nimitys, presence: true
