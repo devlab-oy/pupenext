@@ -3,6 +3,7 @@ class UserProfile < BaseModel
 
   validates :kuka, presence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :alanimi] }
+  validates :nimitys, presence: true
   validates :profiili, presence: true
 
   # käyttöoikeus on 'Menu' jos profiili ja kuka on tyhjää

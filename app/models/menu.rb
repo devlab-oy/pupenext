@@ -3,6 +3,7 @@ class Menu < BaseModel
 
   validates :kuka, absence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :sovellus, :alanimi, :kuka, :profiili] }
+  validates :nimitys, presence: true
   validates :profiili, absence: true
 
   # käyttöoikeus on 'Menu' jos profiili ja kuka on tyhjää
