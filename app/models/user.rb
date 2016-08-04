@@ -1,7 +1,7 @@
 class User < BaseModel
   has_many :downloads, class_name: 'Download::Download'
   has_many :files, through: :downloads, class_name: 'Download::File'
-  has_many :permissions, -> { where(profiili: '').where.not(kuka: '') }
+  has_many :permissions
 
   self.table_name = :kuka
   self.primary_key = :tunnus
