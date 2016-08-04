@@ -49,89 +49,73 @@
   }
 %>
 
-<% permississions.each do |p| %>
-# create read permissions to joe
-joe_<%= p %>_read:
+DEFAULTS: &DEFAULTS
   yhtio: acme
-  user: joe
-  kuka: joe
-  sovellus: Myynti
-  nimi: pupenext/<%= p %>
-  alanimi: ''
-  paivitys: 0
   muuttaja: joe
   laatija: joe
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
 
+<% permississions.each do |p| %>
+# create read permissions to joe
+joe_<%= p %>_read:
+  user: joe
+  kuka: joe
+  sovellus: Myynti
+  nimi: pupenext/<%= p %>
+  alanimi: ''
+  lukittu: 1
+  paivitys: 0
+  <<: *DEFAULTS
+
 # create update permissions to bob
 bob_<%= p %>_update:
-  yhtio: acme
   user: bob
   kuka: bob
   sovellus: Myynti
   nimi: pupenext/<%= p %>
   alanimi: ''
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 # create update permissions to admin
 admin_<%= p %>_update:
-  yhtio: acme
   user: admin
   kuka: admin
   sovellus: Myynti
   nimi: pupenext/<%= p %>
   alanimi: ''
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 <% end %>
 
 <% classic_permissions.each do |p| %>
 # create read permissions to joe
 joe_<%= p %>_read:
-  yhtio: acme
   user: joe
   kuka: joe
   sovellus: Myynti
   nimi: <%= p %>
   paivitys: 0
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 # create update permissions to bob
 bob_<%= p %>_update:
-  yhtio: acme
   user: bob
   kuka: bob
   sovellus: Myynti
   nimi: <%= p %>
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 # create update permissions to admin
 admin_<%= p %>_update:
-  yhtio: acme
   user: admin
   kuka: admin
   sovellus: Myynti
   nimi: <%= p %>
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 <% end %>
 
 update_three:
