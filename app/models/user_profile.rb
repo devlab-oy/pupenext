@@ -1,10 +1,13 @@
 class UserProfile < BaseModel
   belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
 
-  validates :profiili, presence: true
+  validates :kuka, presence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :alanimi] }
+  validates :profiili, presence: true
 
-  # käyttäjäprofiili on 'Permission', jossa profiili kenttä ei ole tyhjää
+  # käyttöoikeus on 'Menu' jos profiili ja kuka on tyhjää
+  # käyttöoikeus on 'Permission' jos profiili on tyhjää ja kuka ei ole tyhjää
+  # käyttöoikeus on 'UserProfile' jos profiili ei ole tyhjää, ja kuka = profiili
   default_scope { where.not(profiili: '').where('oikeu.kuka = oikeu.profiili') }
 
   self.table_name = :oikeu
