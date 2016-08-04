@@ -1,4 +1,5 @@
 class UserProfile < BaseModel
+  validates :jarjestys, uniqueness: { scope: [:yhtio, :sovellus, :jarjestys2] }
   validates :kuka, presence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :alanimi] }
   validates :nimitys, presence: true

@@ -41,6 +41,7 @@
     test
     transports
   }
+ jarjestys = 0
 %>
 
 # list of permissions to pupesoft classic
@@ -67,6 +68,7 @@ joe_<%= p %>_read:
   alanimi: ''
   lukittu: 1
   paivitys: 0
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 
 # create update permissions to bob
@@ -78,6 +80,7 @@ bob_<%= p %>_update:
   nimitys: <%= p %>
   alanimi: ''
   paivitys: 1
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 
 # create update permissions to admin
@@ -89,6 +92,7 @@ admin_<%= p %>_update:
   nimitys: <%= p %>
   alanimi: ''
   paivitys: 1
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 <% end %>
 
@@ -101,6 +105,7 @@ joe_<%= p %>_read:
   nimi: <%= p %>
   nimitys: <%= p %>
   paivitys: 0
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 
 # create update permissions to bob
@@ -111,6 +116,7 @@ bob_<%= p %>_update:
   nimi: <%= p %>
   nimitys: <%= p %>
   paivitys: 1
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 
 # create update permissions to admin
@@ -121,6 +127,7 @@ admin_<%= p %>_update:
   nimi: <%= p %>
   nimitys: <%= p %>
   paivitys: 1
+  jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
 <% end %>
 
@@ -134,5 +141,6 @@ update_three:
    paivitys: 1
    muuttaja: max
    laatija: max
+   jarjestys: 999
    luontiaika: <%= Time.now %>
    muutospvm: <%= Time.now %>
