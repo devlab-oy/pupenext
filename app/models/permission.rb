@@ -1,7 +1,7 @@
 class Permission < BaseModel
   belongs_to :user
 
-  validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :kuka, :sovellus, :alanimi] }
+  validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :user, :kuka, :sovellus, :alanimi] }
   validates :profiili, absence: true
   validates :sovellus, presence: true
   validates :user, presence: true
