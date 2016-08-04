@@ -45,11 +45,13 @@ class CompanyCopier
       duplicate :customers
       duplicate :delivery_methods
       duplicate :keywords
+      duplicate :menus
       duplicate :parameter, attributes: default_parameter_attributes
       duplicate :permissions
       duplicate :printers
       duplicate :sum_levels
       duplicate :terms_of_payments
+      duplicate :user_profiles
       duplicate :users
       duplicate :warehouses
     end
@@ -78,11 +80,13 @@ class CompanyCopier
       destroy :customers
       destroy :delivery_methods
       destroy :keywords
+      destroy :menus
       destroy :parameter
       destroy :permissions
       destroy :printers
       destroy :sum_levels
       destroy :terms_of_payments
+      destroy :user_profiles
       destroy :users
       destroy :warehouses
 
