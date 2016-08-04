@@ -1,0 +1,13 @@
+acme_profile_1:
+  kuka: Admin profiili
+  sovellus: Myyntireskontra
+  nimi: myyntires/kateisotto.php
+  paivitys: 1
+  nimitys: Käteisotto
+  jarjestys: 260
+  profiili: Admin profiili
+  yhtio: acme
+  laatija: bob
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob

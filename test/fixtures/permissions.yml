@@ -138,27 +138,3 @@ update_three:
    laatija: max
    luontiaika: <%= Time.now %>
    muutospvm: <%= Time.now %>
-
-acme_menu_1:
-  sovellus: Asentaja
-  nimi: tilauskasittely/tuote_selaus_haku.php
-  nimitys: Hae ja selaa
-  jarjestys: 70
-  yhtio: acme
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: bob
-
-acme_profile_1:
-  kuka: Admin profiili
-  sovellus: Myyntireskontra
-  nimi: myyntires/kateisotto.php
-  paivitys: 1
-  nimitys: Käteisotto
-  jarjestys: 260
-  profiili: Admin profiili
-  yhtio: acme
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: bob

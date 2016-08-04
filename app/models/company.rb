@@ -9,20 +9,23 @@ class Company < ActiveRecord::Base
     o.has_many :carriers
     o.has_many :cash_registers
     o.has_many :currencies
-    o.has_many :customers
     o.has_many :customer_categories, class_name: 'Category::Customer'
+    o.has_many :customers
     o.has_many :delivery_methods
     o.has_many :factorings
     o.has_many :fiscal_years
     o.has_many :keywords
     o.has_many :locations
+    o.has_many :menus
     o.has_many :package_codes
     o.has_many :packages
     o.has_many :packing_areas
+    o.has_many :permissions
     o.has_many :printers
     o.has_many :shelf_locations
     o.has_many :suppliers
     o.has_many :terms_of_payments
+    o.has_many :user_profiles
     o.has_many :users
     o.has_many :warehouses
 
@@ -64,9 +67,6 @@ class Company < ActiveRecord::Base
 
     o.has_many :revenue_expenditures, class_name: 'Keyword::RevenueExpenditure'
 
-    o.has_many :permissions
-    o.has_many :menus, -> { where(kuka: '', profiili: '') }, class_name: 'Permission'
-    o.has_many :profiles, -> { where.not(profiili: '').where('profiili = kuka') }, class_name: 'Permission'
   end
 
   has_many :commodities, class_name: 'FixedAssets::Commodity'

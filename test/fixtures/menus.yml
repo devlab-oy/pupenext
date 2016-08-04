@@ -1,0 +1,9 @@
+acme_menu_1:
+  sovellus: Asentaja
+  nimi: tilauskasittely/tuote_selaus_haku.php
+  nimitys: Hae ja selaa
+  jarjestys: 70
+  yhtio: acme
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+  muuttaja: bob
