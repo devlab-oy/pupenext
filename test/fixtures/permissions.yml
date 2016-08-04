@@ -55,6 +55,7 @@ joe_<%= p %>_read:
   yhtio: acme
   user: joe
   kuka: joe
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
   alanimi: ''
   paivitys: 0
@@ -68,6 +69,7 @@ bob_<%= p %>_update:
   yhtio: acme
   user: bob
   kuka: bob
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
   alanimi: ''
   paivitys: 1
@@ -81,6 +83,7 @@ admin_<%= p %>_update:
   yhtio: acme
   user: admin
   kuka: admin
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
   alanimi: ''
   paivitys: 1
@@ -96,6 +99,7 @@ joe_<%= p %>_read:
   yhtio: acme
   user: joe
   kuka: joe
+  sovellus: Myynti
   nimi: <%= p %>
   paivitys: 0
   muuttaja: joe
@@ -108,6 +112,7 @@ bob_<%= p %>_update:
   yhtio: acme
   user: bob
   kuka: bob
+  sovellus: Myynti
   nimi: <%= p %>
   paivitys: 1
   muuttaja: joe
@@ -120,6 +125,7 @@ admin_<%= p %>_update:
   yhtio: acme
   user: admin
   kuka: admin
+  sovellus: Myynti
   nimi: <%= p %>
   paivitys: 1
   muuttaja: joe
@@ -132,6 +138,7 @@ update_three:
    yhtio: esto
    user: max
    kuka: max
+   sovellus: Myynti
    nimi: pupenext/currencies
    paivitys: 1
    muuttaja: max
