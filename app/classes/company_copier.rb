@@ -54,7 +54,7 @@ class CompanyCopier
       duplicate :accounts
       duplicate :delivery_methods
       duplicate :terms_of_payments
-      duplicate :customers
+      duplicate :customers, attributes: { kauppatapahtuman_luonne: 0 }
       duplicate :printers
     end
 
@@ -150,7 +150,7 @@ class CompanyCopier
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           email: user_attributes.map { |h| h[:kuka] }.join(', '),
-          kauppatapahtuman_luonne: Keyword::NatureOfTransaction.first.selite,
+          kauppatapahtuman_luonne: 0,
           alv: Keyword::Vat.first.selite,
         )
 
