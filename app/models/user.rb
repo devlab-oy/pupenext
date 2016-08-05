@@ -3,6 +3,8 @@ class User < BaseModel
   has_many :files, through: :downloads, class_name: 'Download::File'
   has_many :permissions
 
+  validates :kuka, presence: true, uniqueness: { scope: [:yhtio] }
+
   self.table_name = :kuka
   self.primary_key = :tunnus
 
