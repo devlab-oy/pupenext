@@ -134,6 +134,9 @@ class CompanyCopier
       new_company.assign_attributes @to_company_params
       new_company.save!
 
+      # update permissions for all users
+      new_company.users.find_each(&:update_permissions)
+
       @new_company = new_company
     end
 
@@ -173,7 +176,8 @@ class CompanyCopier
           oletus_asiakastiedot: customer.id,
         )
 
-        User.create! user
+        new_user = User.create! user
+        new_user.update_permissions
       end
     end
 
