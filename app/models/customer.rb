@@ -22,7 +22,7 @@ class Customer < BaseModel
   validates :ryhma, inclusion: { in: ->(_c) { Keyword::CustomerSubcategory.pluck(:selite) } }, allow_blank: true
   validates :ytunnus, presence: true, uniqueness: { scope: :yhtio }
   validates :alv, inclusion: { in: ->(_c) { Keyword::Vat.pluck(:selite).map(&:to_i) } }
-  validates :kauppatapahtuman_luonne, inclusion: { in: ->(_c) { Keyword::NatureOfTransaction.pluck(:selite).map(&:to_i) } }
+  validates :kauppatapahtuman_luonne, inclusion: { in: ->(_c) { Keyword::NatureOfTransaction.valid_values } }
 
   validate :validate_chn
   validate :validate_delivery_method
