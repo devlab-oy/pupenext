@@ -1,8 +1,6 @@
 class Category < BaseModel
   include PupenextSingleTableInheritance
 
-  belongs_to :company, foreign_key: :yhtio, primary_key: :yhtio
-
   acts_as_nested_set depth_column: :syvyys, primary_column: :tunnus, scope: [:yhtio, :laji]
 
   self.table_name         = :dynaaminen_puu

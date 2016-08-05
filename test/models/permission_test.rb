@@ -1,16 +1,21 @@
 require 'test_helper'
 
 class PermissionTest < ActiveSupport::TestCase
-  fixtures %w(permissions)
+  fixtures %w(
+    permissions
+  )
 
   setup do
     @read = permissions(:joe_customers_read)
     @update = permissions(:bob_customers_update)
   end
 
-  test "fixtures is valid" do
-    assert @read.valid?
-    assert @update.valid?
+  test 'fixtures is valid' do
+    refute_empty Permission.all
+
+    Permission.all.each do |permission|
+      assert permission.valid?, "Permission #{permission.nimi}: #{permission.errors.full_messages}"
+    end
   end
 
   test "permission has a user" do

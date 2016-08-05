@@ -6,7 +6,6 @@
     campaigns
     carriers
     cash_registers
-    product_categories
     commodities
     commodity_balance_sheet
     commodity_financial_statements
@@ -28,6 +27,7 @@
     packing_areas
     pending_product_updates
     printers
+    product_categories
     products
     qualifiers
     revenue_expenditure
@@ -41,6 +41,7 @@
     test
     transports
   }
+ jarjestys = 0
 %>
 
 # list of permissions to pupesoft classic
@@ -49,116 +50,96 @@
   }
 %>
 
+DEFAULTS: &DEFAULTS
+  yhtio: acme
+  muuttaja: joe
+  laatija: joe
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 <% permississions.each do |p| %>
 # create read permissions to joe
 joe_<%= p %>_read:
-  yhtio: acme
   user: joe
   kuka: joe
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
+  nimitys: <%= p %>
   alanimi: ''
   paivitys: 0
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 
 # create update permissions to bob
 bob_<%= p %>_update:
-  yhtio: acme
   user: bob
   kuka: bob
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
+  nimitys: <%= p %>
   alanimi: ''
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 
 # create update permissions to admin
 admin_<%= p %>_update:
-  yhtio: acme
   user: admin
   kuka: admin
+  sovellus: Myynti
   nimi: pupenext/<%= p %>
+  nimitys: <%= p %>
   alanimi: ''
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 <% end %>
 
 <% classic_permissions.each do |p| %>
 # create read permissions to joe
 joe_<%= p %>_read:
-  yhtio: acme
   user: joe
   kuka: joe
+  sovellus: Myynti
   nimi: <%= p %>
+  nimitys: <%= p %>
   paivitys: 0
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 
 # create update permissions to bob
 bob_<%= p %>_update:
-  yhtio: acme
   user: bob
   kuka: bob
+  sovellus: Myynti
   nimi: <%= p %>
+  nimitys: <%= p %>
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 
 # create update permissions to admin
 admin_<%= p %>_update:
-  yhtio: acme
   user: admin
   kuka: admin
+  sovellus: Myynti
   nimi: <%= p %>
+  nimitys: <%= p %>
   paivitys: 1
-  muuttaja: joe
-  laatija: joe
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  jarjestys: <%= jarjestys += 1 %>
+  <<: *DEFAULTS
 <% end %>
 
 update_three:
    yhtio: esto
    user: max
    kuka: max
+   sovellus: Myynti
    nimi: pupenext/currencies
+   nimitys: currencies
    paivitys: 1
    muuttaja: max
    laatija: max
+   jarjestys: 999
    luontiaika: <%= Time.now %>
    muutospvm: <%= Time.now %>
-
-acme_menu_1:
-  sovellus: Asentaja
-  nimi: tilauskasittely/tuote_selaus_haku.php
-  nimitys: Hae ja selaa
-  jarjestys: 70
-  yhtio: acme
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: bob
-
-acme_profile_1:
-  kuka: Admin profiili
-  sovellus: Myyntireskontra
-  nimi: myyntires/kateisotto.php
-  paivitys: 1
-  nimitys: Käteisotto
-  jarjestys: 260
-  profiili: Admin profiili
-  yhtio: acme
-  laatija: bob
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
-  muuttaja: bob
