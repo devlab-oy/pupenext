@@ -6,7 +6,6 @@
     campaigns
     carriers
     cash_registers
-    product_categories
     commodities
     commodity_balance_sheet
     commodity_financial_statements
@@ -28,6 +27,7 @@
     packing_areas
     pending_product_updates
     printers
+    product_categories
     products
     qualifiers
     revenue_expenditure
@@ -66,7 +66,6 @@ joe_<%= p %>_read:
   nimi: pupenext/<%= p %>
   nimitys: <%= p %>
   alanimi: ''
-  lukittu: 1
   paivitys: 0
   jarjestys: <%= jarjestys += 1 %>
   <<: *DEFAULTS
