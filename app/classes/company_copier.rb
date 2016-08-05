@@ -133,6 +133,8 @@ class CompanyCopier
 
       new_company = from_company.dup
       new_company.assign_attributes @to_company_params
+
+      Current.company = new_company
       new_company.save!
 
       @new_company = new_company
