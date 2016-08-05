@@ -1,9 +1,10 @@
 class UserProfile < BaseModel
-  validates :jarjestys, uniqueness: { scope: [:yhtio, :sovellus, :jarjestys2] }
+  validates :jarjestys, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :jarjestys2] }
   validates :kuka, presence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :profiili, :sovellus, :alanimi] }
   validates :nimitys, presence: true
   validates :profiili, presence: true
+  validates :user_id, absence: true
 
   # käyttöoikeus on 'Menu' jos profiili ja kuka on tyhjää
   # käyttöoikeus on 'Permission' jos profiili on tyhjää ja kuka ei ole tyhjää
