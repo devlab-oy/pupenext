@@ -20,6 +20,7 @@ class CompanyCopier
     copied_company = new_company
     duplicate_data
     create_as_customer
+    update_user_permissions
     copied_company
   rescue ActiveRecord::RecordInvalid => e
     return e.record unless defined?(copied_company) && copied_company
@@ -134,9 +135,6 @@ class CompanyCopier
       new_company.assign_attributes @to_company_params
       new_company.save!
 
-      # update permissions for all users
-      new_company.users.find_each(&:update_permissions)
-
       @new_company = new_company
     end
 
@@ -185,5 +183,12 @@ class CompanyCopier
       users = @to_company_params.select { |p| p.match(/users_attributes$/) }
 
       users[:users_attributes] || []
+    end
+
+    def update_user_permissions
+      Current.company = new_company
+
+      # update permissions for all users
+      new_company.users.find_each(&:update_permissions)
     end
 end

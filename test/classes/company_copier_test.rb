@@ -266,11 +266,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
           {
             kuka: 'erkki.eka@example.com',
             nimi: 'Erkki',
+            profiilit: 'Admin profiili',
             salasana: kissa_pass,
           },
           {
             kuka: 'totti.toka@example.com',
             nimi: 'Totti',
+            profiilit: 'Admin profiili',
             salasana: koira_pass,
           },
         ],
@@ -281,12 +283,18 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert copier.valid?
     assert_equal users_count, User.count
 
-    assert_equal 'erkki.eka@example.com', User.first.kuka
-    assert_equal 'Erkki',                 User.first.nimi
-    assert_equal kissa_pass,              User.first.salasana
+    erkki = copier.users.find_by kuka: 'erkki.eka@example.com'
+    assert erkki.valid?
+    assert_equal 'Erkki',          erkki.nimi
+    assert_equal 'Admin profiili', erkki.profiilit
+    assert_equal kissa_pass,       erkki.salasana
+    assert_not_empty               erkki.permissions
 
-    assert_equal 'totti.toka@example.com', User.second.kuka
-    assert_equal 'Totti',                  User.second.nimi
-    assert_equal koira_pass,               User.second.salasana
+    totti = copier.users.find_by kuka: 'totti.toka@example.com'
+    assert totti.valid?
+    assert_equal 'Totti',          totti.nimi
+    assert_equal 'Admin profiili', totti.profiilit
+    assert_equal koira_pass,       totti.salasana
+    assert_not_empty               totti.permissions
   end
 end
