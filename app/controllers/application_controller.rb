@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
     end
 
     def api_authorize
-      @current_user = User.unscoped.find_by_api_key(params[:access_token])
+      @current_user = User.unscoped.order(:tunnus).find_by_api_key(params[:access_token])
       head :unauthorized unless @current_user
     end
 end
