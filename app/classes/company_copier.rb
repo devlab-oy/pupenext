@@ -19,6 +19,7 @@ class CompanyCopier
   def copy
     copied_company = new_company
     duplicate_data
+    update_nested_attributes
     create_as_customer
     update_user_permissions
     copied_company
@@ -132,7 +133,7 @@ class CompanyCopier
       return @new_company if @new_company
 
       new_company = from_company.dup
-      new_company.assign_attributes @to_company_params
+      new_company.assign_attributes company_attributes
 
       Current.company = new_company
       new_company.save!
@@ -179,6 +180,23 @@ class CompanyCopier
         new_user = User.create! user
         new_user.update_permissions
       end
+    end
+
+    def update_nested_attributes
+      Current.company = new_company
+
+      new_company.update! bank_accounts_attributes: bank_account_attributes
+      new_company.update! users_attributes: user_attributes
+    end
+
+    def company_attributes
+      @to_company_params.reject { |attribute| attribute.match(/_attributes$/) }
+    end
+
+    def bank_account_attributes
+      accounts = @to_company_params.select { |p| p.match(/bank_accounts_attributes$/) }
+
+      accounts[:bank_accounts_attributes] || []
     end
 
     def user_attributes
