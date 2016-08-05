@@ -24,7 +24,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   test '#copy' do
     copied_company = @copier.copy
 
-    assert copied_company.valid?
+    assert copied_company.valid?, copied_company.errors.full_messages
     assert copied_company.persisted?
 
     assert_equal 'FI',             copied_company.maa
@@ -44,7 +44,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
       delivery_method:  DeliveryMethod.count,
       keyword:          Keyword.count,
       menu:             Menu.count,
-      permission:       Permission.count,
       printer:          Printer.count,
       profile:          UserProfile.count,
       sum_level:        SumLevel.count,
@@ -70,7 +69,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal acme_counts.delivery_method,  copied_company.delivery_methods.count
     assert_equal acme_counts.keyword,          copied_company.keywords.count
     assert_equal acme_counts.menu,             copied_company.menus.count
-    assert_equal acme_counts.permission,       copied_company.permissions.count
     assert_equal acme_counts.printer,          copied_company.printers.count
     assert_equal acme_counts.profile,          copied_company.user_profiles.count
     assert_equal acme_counts.sum_level,        copied_company.sum_levels.count
@@ -90,7 +88,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'Keyword.unscoped.count',
       'Menu.unscoped.count',
       'Parameter.unscoped.count',
-      'Permission.unscoped.count',
       'Printer.unscoped.count',
       'SumLevel.unscoped.count',
       'TermsOfPayment.unscoped.count',
@@ -123,7 +120,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'Keyword.unscoped.count',
       'Menu.unscoped.count',
       'Parameter.unscoped.count',
-      'Permission.unscoped.count',
       'Printer.unscoped.count',
       'SumLevel.unscoped.count',
       'TermsOfPayment.unscoped.count',
@@ -145,7 +141,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
       delivery_method:  DeliveryMethod.count,
       keyword:          Keyword.count,
       menu:             Menu.count,
-      permission:       Permission.count,
       printer:          Printer.count,
       profile:          UserProfile.count,
       sum_level:        SumLevel.count,
@@ -174,7 +169,6 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal esto_counts.delivery_method,  copied_company.delivery_methods.count
     assert_equal esto_counts.keyword,          copied_company.keywords.count
     assert_equal esto_counts.menu,             copied_company.menus.count
-    assert_equal esto_counts.permission,       copied_company.permissions.count
     assert_equal esto_counts.printer,          copied_company.printers.count
     assert_equal esto_counts.profile,          copied_company.user_profiles.count
     assert_equal esto_counts.sum_level,        copied_company.sum_levels.count

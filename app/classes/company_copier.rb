@@ -41,20 +41,20 @@ class CompanyCopier
   private
 
     def duplicate_data
-      duplicate :accounts
-      duplicate :currencies
-      duplicate :customers
-      duplicate :delivery_methods
-      duplicate :keywords
-      duplicate :menus
+      # these need to be duplicated in this order, otherwise relations are incorrect
       duplicate :parameter, attributes: default_parameter_attributes
-      duplicate :permissions
-      duplicate :printers
+      duplicate :keywords
       duplicate :sum_levels
-      duplicate :terms_of_payments
+      duplicate :menus
       duplicate :user_profiles
       duplicate :users
+      duplicate :currencies
       duplicate :warehouses
+      duplicate :accounts
+      duplicate :delivery_methods
+      duplicate :terms_of_payments
+      duplicate :customers
+      duplicate :printers
     end
 
     def duplicate(model, attributes: {})
@@ -68,7 +68,7 @@ class CompanyCopier
 
         copy = record.dup
         copy.assign_attributes attributes.merge(default_attributes)
-        copy.save! validate: false
+        copy.save!
         copy
       end
     end
@@ -83,7 +83,7 @@ class CompanyCopier
       destroy :keywords
       destroy :menus
       destroy :parameter
-      destroy :permissions
+      destroy :permissions # permissions need to be destroyed, even if we dont duplicate
       destroy :printers
       destroy :sum_levels
       destroy :terms_of_payments
