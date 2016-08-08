@@ -3,25 +3,24 @@ module PermissionHelper
     Company.find_each do |company|
       Current.company = company.yhtio
 
-      jarjestys = Permission.where(kuka: '', sovellus: program).maximum(:jarjestys).to_i + 10
+      # Haetaan admin user
+      admin = User.find_by(kuka: :admin)
+      Current.user = admin
+
+      jarjestys = Menu.where(sovellus: program).maximum(:jarjestys).to_i + 10
 
       # Luodaan valikko
-      Permission.create!(
-        kuka: '',
+      Menu.create!(
         sovellus: program,
         nimi: uri,
         alanimi: suburi,
         nimitys: name,
         hidden: hidden,
         jarjestys: jarjestys,
-        laatija: 'admin',
-        luontiaika: Time.now,
-        muuttaja: 'admin',
-        muutospvm: Time.now,
       )
 
       # Lisätään Admin profiiliin
-      Permission.create!(
+      UserProfile.create!(
         kuka: 'Admin profiili',
         profiili: 'Admin profiili',
         paivitys: 1,
@@ -31,15 +30,9 @@ module PermissionHelper
         nimitys: name,
         hidden: hidden,
         jarjestys: jarjestys,
-        laatija: 'admin',
-        luontiaika: Time.now,
-        muuttaja: 'admin',
-        muutospvm: Time.now,
       )
 
       # Lisätään Adminille käyttöoikeus
-      admin = User.find_by(kuka: 'admin')
-
       if admin
         Permission.create!(
           kuka: 'admin',
@@ -51,10 +44,6 @@ module PermissionHelper
           hidden: hidden,
           nimitys: name,
           jarjestys: jarjestys,
-          laatija: 'admin',
-          luontiaika: Time.now,
-          muuttaja: 'admin',
-          muutospvm: Time.now,
         )
       end
     end
@@ -65,6 +54,8 @@ module PermissionHelper
       Current.company = company.yhtio
 
       Permission.where(nimi: uri, alanimi: suburi).delete_all
+      Menu.where(nimi: uri, alanimi: suburi).delete_all
+      UserProfile.where(nimi: uri, alanimi: suburi).delete_all
     end
   end
 end
