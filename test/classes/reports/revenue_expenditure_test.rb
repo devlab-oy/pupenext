@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
+class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
   fixtures %w(heads head/voucher_rows accounts)
 
   setup do
@@ -22,11 +22,11 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
 
   test 'initialization with wrong values' do
     assert_raise ArgumentError do
-      Reports::RevenueExpenditureReport.new(nil)
+      Reports::RevenueExpenditure.new(nil)
     end
 
     assert_raise ArgumentError do
-      Reports::RevenueExpenditureReport.new('')
+      Reports::RevenueExpenditure.new('')
     end
   end
 
@@ -81,7 +81,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_five.accounting_rows.create!(tilino: @receivable_factoring, summa: 43.3, tapvm: invoice_five.tapvm)
 
     # history_revenue should include invoice one and four.
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 178.62, response[:history_revenue]
   end
 
@@ -133,7 +133,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     keyword_one.save!
 
     # history_expenditure should include invoice one and three
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 150.30, response[:history_expenditure]
   end
 
@@ -159,7 +159,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 543.39, tapvm: invoice_one.tapvm)
 
     # sales should be 153.39
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 153.39, response[:weekly][0][:sales].to_f
 
     # Second invoice unpaid, but due last week, should not be included
@@ -175,7 +175,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_two.tapvm)
 
     # sales should be 153.39
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 153.39, response[:weekly][0][:sales].to_f
 
     # Third invoice is overdue factoring
@@ -191,7 +191,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_three.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_three.tapvm)
 
     # sales should be 153.39 + 66.6
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 219.99, response[:weekly][0][:sales].to_f
 
     # Fourth invoice is factoring, due 1 week from now. event date is yesterday
@@ -207,7 +207,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_four.accounting_rows.create!(tilino: @receivable_concern, summa: 53.39, tapvm: invoice_four.tapvm)
 
     # sales should be 153.39 + 66.6 + 58.8
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 278.79, response[:weekly][0][:sales].to_f
   end
 
@@ -236,7 +236,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_one.tapvm)
 
     # We should have 300
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 300, response[:weekly][0][:purchases].to_f
 
     # Second invoice is unpaid, outside of current week
@@ -250,7 +250,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -543.39, tapvm: invoice_two.tapvm)
 
     # We should have 300 + 0
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 300, response[:weekly][0][:purchases].to_f
 
     current_week = "#{Date.today.cweek} / #{Date.today.year}"
@@ -270,7 +270,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     keyword_two.save!
 
     # we should have 300 + 100
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 400, response[:weekly][0][:purchases].to_f
   end
 
@@ -291,7 +291,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @receivable_concern, summa: 200.20, tapvm: invoice_one.tapvm)
 
     # we should have 200.20
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 200.20, response[:weekly][0][:concern_accounts_receivable].to_f
 
     # Second invoice is outside of current week
@@ -305,7 +305,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @receivable_concern, summa: 200.20, tapvm: invoice_two.tapvm)
 
     # we should have 200.20
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 200.20, response[:weekly][0][:concern_accounts_receivable].to_f
   end
 
@@ -327,7 +327,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_one.accounting_rows.create!(tilino: @payable_concern, summa: -123.34, tapvm: invoice_one.tapvm)
 
     # concern accounts payable should include invoice one
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 666.73, response[:weekly][0][:concern_accounts_payable].to_f
 
     # Second invoice is sent, unpaid, but outside of current week
@@ -342,7 +342,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     invoice_two.accounting_rows.create!(tilino: @payable_concern, summa: -123.34, tapvm: invoice_two.tapvm)
 
     # concern accounts payable should include invoice one
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 666.73, response[:weekly][0][:concern_accounts_payable].to_f
   end
 
@@ -359,7 +359,7 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 53.39, response[:weekly][0][:alternative_expenditures][0][:amount].to_f
   end
 
@@ -367,10 +367,10 @@ class Reports::RevenueExpenditureReportTest < ActiveSupport::TestCase
     # Let's travel to a static date, so we know how many weeks to expect
     travel_to Date.parse '2015-08-14'
 
-    response = Reports::RevenueExpenditureReport.new(1).data
+    response = Reports::RevenueExpenditure.new(1).data
     assert_equal 5, response[:weekly].count
 
-    response = Reports::RevenueExpenditureReport.new(2).data
+    response = Reports::RevenueExpenditure.new(2).data
     assert_equal 9, response[:weekly].count
   end
 end

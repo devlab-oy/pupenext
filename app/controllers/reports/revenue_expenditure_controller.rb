@@ -2,7 +2,7 @@ class Reports::RevenueExpenditureController < ApplicationController
   def index
     period = revenue_expenditure_params[:period].to_i
 
-    @data = Reports::RevenueExpenditureReport.new(period).data unless period.zero?
+    @data = Reports::RevenueExpenditure.new(period).data unless period.zero?
 
     respond_to do |format|
       format.html

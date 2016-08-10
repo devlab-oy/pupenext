@@ -1,4 +1,4 @@
-module Administration::RevenueExpenditureReportDatumHelper
+module Administration::RevenueExpenditureHelper
   def week_options(week_year)
 
     if week_year.empty?

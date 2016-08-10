@@ -1,4 +1,4 @@
-class Reports::RevenueExpenditureReport
+class Reports::RevenueExpenditure
   # @param period [Integer] how many months in the future report calculates weekly sums, example: 1, 2, 3, 6 or 12
   def initialize(period)
     raise ArgumentError, "pass month as integer" unless period.is_a? Integer
