@@ -1,14 +1,14 @@
-class RevenueExpenditureReport
+class Reports::RevenueExpenditure
   # @param period [Integer] how many months in the future report calculates weekly sums, example: 1, 2, 3, 6 or 12
   def initialize(period)
-    raise ArgumentError, "pass month as integer" unless period.is_a? Integer
+    raise ArgumentError, 'pass month as integer' unless period.is_a? Integer
 
     @period = period
   end
 
   def data
-    time_start = Time.at(0).to_date
-    yesterday  = Date.today - 1.day
+    time_start = Time.zone.at(0).to_date
+    yesterday  = Time.zone.today - 1.day
 
     {
       history_revenue: myyntisaamiset(time_start, yesterday) + factoring_myyntisaamiset_sum(time_start, yesterday),
@@ -30,7 +30,7 @@ class RevenueExpenditureReport
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.myyntisaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa")
+        .sum('tiliointi.summa')
     end
 
     def factoring_myyntisaamiset_sum(start, stop)
@@ -43,21 +43,21 @@ class RevenueExpenditureReport
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.factoringsaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa")
+        .sum('tiliointi.summa')
     end
 
     def factoring_myyntisaamiset_tapvm(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.factoringsaamiset })
         .where(tapvm: start..stop)
-        .sum("tiliointi.summa")
+        .sum('tiliointi.summa')
     end
 
     def konserni_myyntisaamiset(start, stop)
       company.sales_invoices.sent.unpaid.joins(:accounting_rows)
         .where(tiliointi: { tilino: company.konsernimyyntisaamiset })
         .where(erpcm: start..stop)
-        .sum("tiliointi.summa")
+        .sum('tiliointi.summa')
     end
 
     def ostovelat(start, stop)
@@ -90,8 +90,9 @@ class RevenueExpenditureReport
     end
 
     def history_revenue_expenditures_details
-      year_week = Date.today.strftime "%Y%V"
-      company.revenue_expenditures.where("selite < ?", year_week).pluck(:selitetark_2).map(&:to_d).sum
+      year_week = Week.new(Time.zone.today).compact
+
+      company.revenue_expenditures.where('selite < ?', year_week).pluck(:selitetark_2).map(&:to_d).sum
     end
 
     #  calculate weekly amounts for
@@ -102,7 +103,6 @@ class RevenueExpenditureReport
     #  - alternative expenditures
     def weekly
       @weekly ||= loop_weeks.map do |number, year_week, start, stop|
-
         # Myyntisaamiset menee myyntiin sellaisenaan.
         # Factoring myynnistä 70% kuuluu laittaa viikolle tapahtumapäivän (+ 1pv) mukaan
         # ja loput 30% eräpäivän mukaan.
@@ -137,18 +137,19 @@ class RevenueExpenditureReport
 
     # return week numbers and start/end dates for weeks in the requested perioid
     def loop_weeks
-      date_start = Date.today.beginning_of_week
+      date_start = Time.zone.today.beginning_of_week
       date_end = date_start + @period.months
 
       date_start.upto(date_end).map do |date|
         beginning_of_week = date.beginning_of_week
-        beginning_of_week = Date.today if beginning_of_week == date_start
+        beginning_of_week = Time.zone.today if beginning_of_week == date_start
+        week = Week.new(date)
 
         [
-          "#{date.cweek} / #{date.cwyear}",
-          date.strftime("%Y%V"),
+          week.human,
+          week.compact,
           beginning_of_week,
-          date.end_of_week
+          date.end_of_week,
         ]
       end.uniq
     end

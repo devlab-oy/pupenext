@@ -33,7 +33,7 @@ class Administration::RevenueExpendituresControllerTest < ActionController::Test
       selitetark_2: 1000,
     }
 
-    assert_difference("Keyword::RevenueExpenditure.count") do
+    assert_difference('Keyword::RevenueExpenditure.count') do
       post :create, revenue_expenditure: params
     end
 
@@ -47,14 +47,14 @@ class Administration::RevenueExpendituresControllerTest < ActionController::Test
       selitetark_2: 'kek',
     }
 
-    assert_no_difference("Keyword::RevenueExpenditure.count") do
+    assert_no_difference('Keyword::RevenueExpenditure.count') do
       post :create, revenue_expenditure: params
       assert_template :edit
     end
   end
 
   test 'should update keyword' do
-    params = { selitetark: "Here comes the boom" }
+    params = { selitetark: 'Here comes the boom' }
 
     patch :update, id: @data.id, revenue_expenditure: params
     assert_redirected_to revenue_expenditures_path
@@ -67,8 +67,8 @@ class Administration::RevenueExpendituresControllerTest < ActionController::Test
     assert_template :edit
   end
 
-  test "should delete keyword" do
-    assert_difference("Keyword::RevenueExpenditure.count", -1) do
+  test 'should delete keyword' do
+    assert_difference('Keyword::RevenueExpenditure.count', -1) do
       delete :destroy, id: @data.id
     end
 

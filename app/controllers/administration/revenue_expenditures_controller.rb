@@ -6,8 +6,10 @@ class Administration::RevenueExpendituresController < AdministrationController
   end
 
   def new
-    current_week = Date.today.strftime "%Y%V"
+    current_week = Week.new(Time.zone.today).compact
+
     @revenue_expenditure = Keyword::RevenueExpenditure.new selite: current_week
+
     render :edit
   end
 
