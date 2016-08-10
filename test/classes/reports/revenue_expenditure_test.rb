@@ -377,4 +377,15 @@ class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
     response = Reports::RevenueExpenditure.new(2).data
     assert_equal 9, response[:weekly].count
   end
+
+  test 'week numbers when week 1 is in the middle of the week' do
+    travel_to Date.parse '2016-12-19'
+
+    response = Reports::RevenueExpenditure.new(1).data
+    weeks = response[:weekly].map { |week| week[:week] }
+
+    assert_equal '51 / 2016', weeks.first,  'first should be week 51'
+    assert_equal '52 / 2016', weeks.second, 'second should be week 52'
+    assert_equal '01 / 2017', weeks.third,  'third should be week 1'
+  end
 end
