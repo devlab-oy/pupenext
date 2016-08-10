@@ -30,7 +30,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       ],
       users_attributes: [
         {
-          kuka: 'extranet@example.com',
+          kuka: 'extranet@foobar.com',
           nimi: 'Extranet Testaaja',
           profiilit: 'Perustoiminnot',
           oletus_profiili: 'Perustoiminnot',
@@ -52,23 +52,26 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
     end
 
     company = Current.company = Company.unscoped.find(json_response[:company][:id])
+    user = company.users.find_by kuka: 'extranet@foobar.com'
 
-    assert_equal 'Testi Oy',              company.nimi
-    assert_equal 'Testikatu 3',           company.osoite
-    assert_equal 12,                      company.jarjestys
-    assert_equal '440',                   company.bank_accounts.last.oletus_selvittelytili
-    assert_equal 'extranet@example.com',  company.users.first.kuka
-    assert_equal 'Z',                     company.users.first.extranet
-    assert_equal 'Perustoiminnot',        company.users.first.profiilit
-    assert_equal 'Perustoiminnot',        company.users.first.oletus_profiili
+    assert_equal 'Testi Oy',            company.nimi
+    assert_equal 'Testikatu 3',         company.osoite
+    assert_equal 12,                    company.jarjestys
+    assert_equal '440',                 company.bank_accounts.last.oletus_selvittelytili
+    assert_equal 'extranet@foobar.com', user.kuka
+    assert_equal 'Z',                   user.extranet
+    assert_equal 'Perustoiminnot',      user.profiilit
+    assert_equal 'Perustoiminnot',      user.oletus_profiili
 
     Current.company = estonia
-    assert_equal 'Testi Oy',              estonia.customers.last.nimi
-    assert_equal '1234567-8',             estonia.customers.last.ytunnus
-    assert_equal 'extranet@example.com',  estonia.users.last.kuka
-    assert_equal 'X',                     estonia.users.last.extranet
-    assert_equal 'Extranet',              estonia.users.last.profiilit
-    assert_equal 'Extranet',              estonia.users.last.oletus_profiili
+    user = estonia.users.find_by kuka: 'extranet@foobar.com'
+
+    assert_equal 'Testi Oy',            estonia.customers.last.nimi
+    assert_equal '1234567-8',           estonia.customers.last.ytunnus
+    assert_equal 'extranet@foobar.com', user.kuka
+    assert_equal 'X',                   user.extranet
+    assert_equal 'Extranet',            user.profiilit
+    assert_equal 'Extranet',            user.oletus_profiili
   end
 
   test 'POST /companies/copy with invalid params' do
