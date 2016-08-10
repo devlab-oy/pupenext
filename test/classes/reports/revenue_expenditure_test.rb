@@ -132,7 +132,7 @@ class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
     # Lets add one alternative expenditure for previous week
     keyword_one = keywords(:weekly_alternative_expenditure_one)
     selite_date = Time.zone.today - 1.week
-    keyword_one.selite = selite_date.strftime '%Y%V'
+    keyword_one.selite = Week.new(selite_date).compact
     keyword_one.selitetark_2 = '22.30'
     keyword_one.save!
 
@@ -262,14 +262,14 @@ class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
 
     # Lets add one alternative expenditure for current week
     # this should be added to purchases
-    keyword_one.selite = Time.zone.today.strftime '%Y%V'
+    keyword_one.selite = Week.new(Time.zone.today).compact
     keyword_one.selitetark_2 = '100'
     keyword_one.save!
 
     # Lets add another one alternative expenditure for next week
     # Should not be added to purchases
     keyword_two = keyword_one.dup
-    keyword_two.selite = 1.week.from_now.to_date.strftime '%Y%V'
+    keyword_two.selite = Week.new(1.week.from_now.to_date).compact
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 
@@ -353,13 +353,13 @@ class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
   test 'weekly alternative expenditures' do
     # Lets add one alternative expenditure for current week
     keyword_one = keywords(:weekly_alternative_expenditure_one)
-    keyword_one.selite = Time.zone.today.strftime '%Y%V'
+    keyword_one.selite = Week.new(Time.zone.today).compact
     keyword_one.selitetark_2 = '53.39'
     keyword_one.save!
 
     # Should not sum this keyword's amount
     keyword_two = keyword_one.dup
-    keyword_two.selite = 1.week.from_now.to_date.strftime '%Y%V'
+    keyword_two.selite = Week.new(1.week.from_now.to_date).compact
     keyword_two.selitetark_2 = '100'
     keyword_two.save!
 

@@ -90,7 +90,8 @@ class Reports::RevenueExpenditure
     end
 
     def history_revenue_expenditures_details
-      year_week = Time.zone.today.strftime '%Y%V'
+      year_week = Week.new(Time.zone.today).compact
+
       company.revenue_expenditures.where('selite < ?', year_week).pluck(:selitetark_2).map(&:to_d).sum
     end
 
@@ -142,10 +143,11 @@ class Reports::RevenueExpenditure
       date_start.upto(date_end).map do |date|
         beginning_of_week = date.beginning_of_week
         beginning_of_week = Time.zone.today if beginning_of_week == date_start
+        week = Week.new(date)
 
         [
-          "#{date.cweek} / #{date.cwyear}",
-          date.strftime('%Y%V'),
+          week.human,
+          week.compact,
           beginning_of_week,
           date.end_of_week,
         ]

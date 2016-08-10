@@ -4,10 +4,9 @@ module Administration::RevenueExpenditureHelper
     date_to   = parse_date(week_year).years_since(1)
 
     date_from.upto(date_to).map do |d|
-      value = d.strftime '%Y%V'
-      text  = d.strftime '%W / %Y'
+      week = Week.new(d)
 
-      [text, value]
+      [week.human, week.compact]
     end.uniq
   end
 
