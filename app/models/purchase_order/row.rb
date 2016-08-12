@@ -6,7 +6,7 @@ class PurchaseOrder::Row < Row
 
   scope :complete_in_stock, -> { includes(:arrival).where.not(lasku: { mapvm: '0000-00-00' }) }
   scope :incomplete_in_stock, -> { includes(:arrival).where(lasku: { mapvm: '0000-00-00' }) }
-  scope :open, -> { where(laskutettuaika: '0000-00-00').where('(tilausrivi.varattu + tilausrivi.jt) > 0') }
+  scope :open, -> { where("(tilausrivi.varattu + tilausrivi.jt) > 0 AND tilausrivi.laskutettuaika = '0000-00-00'") }
 
   # Rails requires sti_name method to return type column (tyyppi) value
   def self.sti_name
