@@ -1,6 +1,10 @@
 class StockAvailability
-  ProductStockAvailability = Struct.new(:sku, :label, :initial_stock, :overdue,
-    :upcoming, :weekly_data, :total_stock, :total_amount_sold, :total_amount_purchased)
+  attr_reader :company
+
+  ProductStockAvailability = Struct.new(
+    :sku, :label, :initial_stock, :overdue, :upcoming, :weekly_data, :total_stock,
+    :total_amount_sold, :total_amount_purchased
+  )
 
   def initialize(company_id:, baseline_week:, constraints:)
     @company = Company.find company_id
@@ -14,16 +18,12 @@ class StockAvailability
   end
 
   def to_file(html)
-    kit = PDFKit.new(html, :page_size => 'Letter')
+    kit = PDFKit.new(html, page_size: 'Letter')
     kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets', 'reports', 'pdf_styles.css')
     kit.to_pdf
   end
 
   private
-
-    def company
-      @company
-    end
 
     def products
       return @products if @products
@@ -85,28 +85,21 @@ class StockAvailability
           weekly_data,
           final_stock,
           final_sold,
-          final_purchased
+          final_purchased,
         )
       end
     end
 end
 
 class StockAvailability::WeeklyRow
+  attr_reader :product_row, :baseline_week
+
   WeeklyData = Struct.new(:week, :stock_values)
-  StockValues = Struct.new(:amount_sold, :amount_purchased,
-    :total_stock_change, :order_numbers)
+  StockValues = Struct.new(:amount_sold, :amount_purchased, :total_stock_change, :order_numbers)
 
   def initialize(product_row, baseline_week)
     @product_row = product_row
     @baseline_week = baseline_week
-  end
-
-  def product_row
-    @product_row
-  end
-
-  def baseline_week
-    @baseline_week
   end
 
   def total_stock
@@ -121,7 +114,7 @@ class StockAvailability::WeeklyRow
 
       WeeklyData.new(
         "#{week_number} / #{year}",
-        stock_values
+        stock_values,
       )
     end
   end
@@ -135,7 +128,7 @@ class StockAvailability::WeeklyRow
     end
 
     def all_weeks
-      date_start = Date.today.beginning_of_week
+      date_start = Time.zone.today.beginning_of_week
       date_end = date_start.advance(weeks: @baseline_week)
 
       date_start.upto(date_end).map do |date|
@@ -152,18 +145,15 @@ class StockAvailability::WeeklyRow
 
       StockValues.new(amount_sold, amount_purchased, amount_change, order_numbers)
     end
-
 end
 
 class StockAvailability::ProductRow
+  attr_reader :product
+
   Amounts = Struct.new(:sales, :purchases, :change)
 
   def initialize(product)
     @product = product
-  end
-
-  def product
-    @product
   end
 
   def stock
@@ -192,11 +182,11 @@ class StockAvailability::ProductRow
     end
 
     def previous_weeks_end
-      Date.today.last_week.end_of_week.end_of_day
+      Time.zone.today.last_week.end_of_week.end_of_day
     end
 
     def baseline_weeks_end(baseline_week)
-      date_start = Date.today.beginning_of_week
+      date_start = Time.zone.today.beginning_of_week
       date_start.advance(weeks: baseline_week).end_of_week.end_of_day
     end
 

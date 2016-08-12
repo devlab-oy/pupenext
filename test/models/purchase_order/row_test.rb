@@ -23,6 +23,23 @@ class PurchaseOrder::RowTest < ActiveSupport::TestCase
   end
 
   test 'open scope' do
-    assert_equal 0, @one.order.rows.open.count
+    all_rows = PurchaseOrder::Row.all
+
+    # update all rows open, varattu non-zero
+    all_rows.update_all varattu: 1, kpl: 0, jt: 0, laskutettuaika: 0
+    assert_not_empty all_rows
+    assert_equal all_rows.count, PurchaseOrder::Row.open.count
+
+    # if jt non-zero, open
+    all_rows.update_all varattu: 0, kpl: 0, jt: 1, laskutettuaika: 0
+    assert_not_empty all_rows.open
+
+    # if varattu and jt is zero, not open
+    all_rows.update_all varattu: 0, kpl: 0, jt: 0, laskutettuaika: 0
+    assert_empty all_rows.open
+
+    # if laskutettu is non-zero, not open
+    all_rows.update_all varattu: 1, kpl: 0, jt: 0, laskutettuaika: '2015-01-01'
+    assert_empty all_rows.open
   end
 end
