@@ -1,4 +1,4 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   $('#supplier').on 'change', ->
     this.form.submit()
 

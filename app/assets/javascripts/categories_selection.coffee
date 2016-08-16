@@ -1,3 +1,3 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   $('.categories-selection').find('select').on 'change', ->
     this.form.submit()
