@@ -124,7 +124,7 @@ class Product < BaseModel
     if target.is_a? Customer
       customer_price_with_info(target.id)[:contract_price]
     elsif target.is_a? ::Keyword::CustomerSubcategory
-      customer_subcategory_price_with_info(target.id)[:contract_price]
+      customer_subcategory_price_with_info(target.selite)[:contract_price]
     else
       false
     end
