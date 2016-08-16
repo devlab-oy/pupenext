@@ -1,4 +1,4 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   $(".chosen-select").chosen({
     no_results_text: "<%= I18n.t('errors.messages.inclusion') %>",
     disable_search_threshold: 10

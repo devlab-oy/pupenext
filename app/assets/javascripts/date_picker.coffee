@@ -1,4 +1,4 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   if $('.pickadate').length
     $('.pickadate').pickadate({
       firstDay: true,
