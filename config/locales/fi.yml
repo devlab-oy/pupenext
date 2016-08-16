@@ -1124,7 +1124,6 @@ fi:
         filename: asiakashinnasto
         invalid_target_type: Kohdetyypin täytyy olla asiakas tai asiakasryhmä
         message: Viesti
-        no_filters_specified: Et antanut tuoterajauksia
         page: Sivu
         products_not_found: Tuotteita ei löytynyt
       footer:
