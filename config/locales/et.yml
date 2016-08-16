@@ -57,6 +57,8 @@ et:
         pankkitili2: Konto number
         pankkitili3: Konto number
         viite:
+      campaign:
+        name: Nimetus
       carrier:
         koodi: Kood
         luontiaika: Koostamise aeg
@@ -116,7 +118,7 @@ et:
         myynninvaluuttaero: Müügi valuutakursi vahed
         myynti: Müük
         myynti_ei_eu:
-        myynti_eu: "Ühendatud müük"
+        myynti_eu: Ühendatud müük
         myynti_kaanteinen: Müük, pöördkäibemaks
         myynti_kohde: Müügi vaikimisi objekt
         myynti_kustp: Müügi vaikimisi kulukoht
@@ -176,6 +178,12 @@ et:
         viivastyskorko: Viivise protsent
         www: WWW
         ytunnus: KMKR Nr.
+      customer:
+        asiakasnumero: Reg.Nr.
+        maksuehto: Maksetingimus
+        toimitustapa: Kohaletoimetamise viis
+      incoming_mail:
+        status: Staatus
       keyword:
         jarjestys: Järjekord
         kieli: Keel
@@ -233,6 +241,8 @@ et:
         printteri7:
         prio:
         varasto: Ladu
+      pending_updates:
+        value: Väärtus
       printer:
         ip: ip
         jarjestys: Järjekord
@@ -261,6 +271,9 @@ et:
         puhelin: Telefon
         unifaun_nimi:
         yhteyshenkilo: Kontaktisik
+      product:
+        nimitys: Nimetus
+        tuoteno: Toote nr
       qualifier:
         isa_tarkenne:
         kaytossa: Kasutusel
@@ -268,6 +281,10 @@ et:
         nimi: Nimi
         tunnus:
         tyyppi: Tyyp
+      supplier_product_information:
+        net_price: Ostuhind
+        product_id: Tootekood
+        supplier_name: Tarnija
       terms_of_payment:
         abs_pvm: Maksepäev
         erapvmkasin:
@@ -292,6 +309,11 @@ et:
       translations:
         kieli:
         selitetark:
+      transport:
+        password: Parool
+        username: Kasutajatunnus
+      user:
+        myyja: Myyja
     models:
       account: Arve
       bank_account: Pangakonto
@@ -299,6 +321,7 @@ et:
       carrier:
       cash_register: Kassa
       currency: Valuuta
+      customer: Klient
       fiscal_year: Aruandeperiood
       head/purchase_invoice/approval:
       head/purchase_invoice/approved:
@@ -311,10 +334,16 @@ et:
       head/sales_order_draft: Myygitellimus pooleli
       head/voucher:
       keyword/custom_attribute:
+      keyword/customer_category: Kliendiosakond
+      keyword/customer_subcategory: Kliendiryhm
       package: Pakend
       package_code:
       packing_area:
       printer: Printer
+      product/brand: Tootemärk
+      product/category: Tootesektsioon
+      product/keyword: Toote märksonad
+      product/subcategory: Tooteryhm
       qualifier: TÃ¤psustus
       qualifier/cost_center: Kulukoht
       qualifier/project: Projekt
@@ -325,6 +354,7 @@ et:
       sum_level/internal: Sisemine
       sum_level/profit:
       sum_level/vat: Km
+      supplier: Tarnija
       terms_of_payment: Maksutingimus
   administration:
     accounts:
@@ -393,6 +423,10 @@ et:
       empty:
       finnish: Soome
       swedish: Rootsi
+    campaigns:
+      index:
+        button_search: Otsi
+        header: Kampaaniad
     carriers:
       edit:
         header:
@@ -447,6 +481,12 @@ et:
         header: Majandusaasta
       update:
         update_success:
+    incoming_mails:
+      index:
+        button_search: Otsi
+    mail_servers:
+      index:
+        delete: Kustuta
     packages:
       create:
         create_success:
@@ -457,6 +497,7 @@ et:
         special:
       index:
         button_search: Otsi
+        delete: Kustuta
         header:
       package_codes:
         link_new:
@@ -578,6 +619,12 @@ et:
       forbidden:
     authorize:
       unauthorized:
+  data_export:
+    product_keywords:
+      header: Toote märksonad
+  data_import:
+    index:
+      destroy: Kustuta
   date:
     abbr_day_names:
     - P
@@ -653,8 +700,8 @@ et:
         one: vähem kui %{count} sekund
         other: vähem kui %{count} sekundit
       over_x_years:
-        one: "üle %{count} aasta"
-        other: "üle %{count} aasta"
+        one: üle %{count} aasta
+        other: üle %{count} aasta
       x_days:
         one: "%{count} päev"
         other: "%{count} päeva"
@@ -674,6 +721,10 @@ et:
       month: Kuu
       second: Sekundit
       year: Aasta
+  downloads:
+    index:
+      created_at: Koostamise aeg
+      destroy: Kustuta
   errors:
     cash_register:
       kassa_missing:
@@ -724,7 +775,7 @@ et:
     template:
       body: 'Probleeme ilmnes järgmiste väljadega:'
       header:
-        one: "Üks viga takistas objekti %{model} salvestamist"
+        one: Üks viga takistas objekti %{model} salvestamist
         other: "%{count} viga takistasid objekti %{model} salvestamist"
     terms_of_payment:
       in_use_customers:
@@ -737,13 +788,15 @@ et:
         activation_success:
       commodity_rows:
         button_show_hide: Näita / Peida
-        commodity_row_amount:
+        commodity_row_amount: Ridu
         header:
       confirm_sale:
         sale_failure:
         sale_success:
       create:
         create_success:
+      create_form:
+        name: Nimetus
       depreciations:
         button_show_hide: Näita / Peida
         depreciation_difference_amount:
@@ -757,10 +810,16 @@ et:
         button_sell:
         header:
       form:
+        account: Konto
         bookkeeping_value:
         bookkeeping_value_now:
+        cost_centre: Kulukoht
+        name: Nimetus
+        project: Projekt
+        status: Staatus
+        target: Objekt
       index:
-        button_search:
+        button_search: Otsi
         header:
       link_order:
         link_order_success:
@@ -772,15 +831,16 @@ et:
       new:
         header:
       procurement_rows:
-        button_remove:
+        button_remove: Kustuta
         header:
       purchase_orders:
         button_add:
-        button_search:
+        button_search: Otsi
         header:
       sell:
         confirm_sale:
         header:
+        sales_account: Myygiarve
       unlink:
         unlink_success:
       unlink_voucher_row:
@@ -789,7 +849,7 @@ et:
         update_success:
       vouchers:
         button_add:
-        button_search:
+        button_search: Otsi
         header:
   helpers:
     select:
@@ -840,12 +900,100 @@ et:
     percentage:
       format:
         format: "%n %"
+  pending_product_updates:
+    index:
+      deleted: Staatus
+      label: Nimetus
+      search: Otsi
+      sku: Tootenumber
+      suppliers_sku: Tarnija tootenumber
+    list:
+      label: Nimetus
+      price: hind
+      save: Salvesta muudatused
+      sku: Tootenumber
+    list_of_changes:
+      not_found: Yhtki toodet ei leitud
+    pending_columns_options:
+      sales_price: Myygihind
+    pending_price_options:
+      sales_price: Myygihind
+    pending_update_fields:
+      delete: Kustuta
+  products:
+    categories_selection:
+      brand: Märk
+      category: Osakond
   reports:
+    commodity_balance_sheet:
+      index:
+        end_date: Loppkuupäev
+        run: Käita aruannet
+        start_date: Alguskuupäev
+      report:
+        difference: Vahe
+    commodity_financial_statements:
+      index:
+        end_date: Loppkuupäev
+        run: Käita aruannet
+        start_date: Alguskuupäev
+    customer_price_lists:
+      create:
+        message: Sonum
+        page: Lehekulg
+      footer:
+        business_id: KMKR Nr.
+        domicile: Asukoht
+        email: E-post
+        phone: Telefon
+      index:
+        date_end: Lopukuupäev
+        date_start: Alguskuupäev
+        product_filter: Toote piiritlemine
+      report:
+        header: Kliendihinnakiri
+        price: Hind
+        printed: Väljastatud
+    depreciation_difference:
+      index:
+        end_date: Loppkuupäev
+        run: Käita aruannet
+        start_date: Alguskuupäev
+      report:
+        account: Konto
+    full_installments:
+      index:
+        run: Käita aruannet
+      report:
+        customer_name: Kliendi nimi
+        inventory_value: Laoväärtus
+        order: Tellimuse number
+        paid_at: Maksepäev
+        qty: Kogus
+        sku: Tootenumber
     revenue_expenditure:
       index:
         accounts_receivable: Laekumised myygist
         summary: Kokku
         week: Nädal
+    stock_availability:
+      form:
+        constraints: Piiritlemine
+      show_data:
+        product: Toode
+        stock: Laosaldo
+        total: Kokku
+        week: Nädal
+      view_connected_sales_orders:
+        information: Tellimuse viide
+        order_number: Tellimuse number
+        ordered_amount: Tellitud
+        product_info: Tootenumber
+        shipping_address: Tarne sihtaadress
+        total_amount: Arve summa
+    stock_listing_csv:
+      index:
+        run: Käita aruannet
   shared:
     excel:
       user: Kasutaja
@@ -853,6 +1001,11 @@ et:
   simple_form:
     'no': Ei
     'yes': Jah
+  supplier_product_informations:
+    supplier_product_informations:
+      transfer: Kanna yle, paiguta ymber
+    supplier_selection:
+      choose: Vali
   support:
     array:
       last_word_connector: " ja "
