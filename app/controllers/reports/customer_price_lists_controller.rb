@@ -52,10 +52,6 @@ class Reports::CustomerPriceListsController < ApplicationController
         errors << t('reports.customer_price_lists.create.customer_not_found')
       end
 
-      unless params[:osasto] || params[:try] || params[:tuotemerkki]
-        errors << t('reports.customer_price_lists.create.no_filters_specified')
-      end
-
       case params[:target_type].to_i
       when 1 # Customer
         @customer = Customer.find_by(asiakasnro: params[:target])
