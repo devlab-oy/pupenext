@@ -214,9 +214,20 @@ class CompanyCopier
     end
 
     def write_css
-      compiled_assets_path = 'public/assets/**/*'
-      compiled_assets_hash = Dir.glob(compiled_assets_path).hash
+      assets_before = compiled_assetes
 
+      run_rake_tasks
+
+      return if assets_before == compiled_assetes
+
+      FileUtils.touch(Rails.root.join('tmp', 'restart.txt'))
+    end
+
+    def compiled_assetes
+      Dir.glob('public/assets/**/*').hash
+    end
+
+    def run_rake_tasks
       Pupesoft::Application.load_tasks
 
       Rake::Task['css:write'].reenable
@@ -224,11 +235,5 @@ class CompanyCopier
 
       Rake::Task['assets:precompile'].reenable
       Rake::Task['assets:precompile'].invoke
-
-      new_compiled_assets_hash = Dir.glob(compiled_assets_path).hash
-
-      return if compiled_assets_hash == new_compiled_assets_hash
-
-      FileUtils.touch(Rails.root.join('tmp', 'restart.txt'))
     end
 end
