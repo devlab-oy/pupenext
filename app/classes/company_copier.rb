@@ -214,7 +214,7 @@ class CompanyCopier
     end
 
     def write_css
-      compiled_assets_path = Rails.root.join('public/assets/**/*')
+      compiled_assets_path = 'public/assets/**/*'
       compiled_assets_hash = Dir.glob(compiled_assets_path).hash
 
       Pupesoft::Application.load_tasks
