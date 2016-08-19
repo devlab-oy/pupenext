@@ -22,6 +22,7 @@ class CompanyCopier
     update_nested_attributes
     create_as_customer
     update_user_permissions
+    write_css
     copied_company
   rescue ActiveRecord::RecordInvalid => e
     return e.record unless defined?(copied_company) && copied_company
@@ -210,5 +211,29 @@ class CompanyCopier
 
       # update permissions for all users
       new_company.users.find_each(&:update_permissions)
+    end
+
+    def write_css
+      assets_before = compiled_assetes
+
+      run_rake_tasks
+
+      return if assets_before == compiled_assetes
+
+      FileUtils.touch(Rails.root.join('tmp', 'restart.txt'))
+    end
+
+    def compiled_assetes
+      Dir.glob('public/assets/**/*').hash
+    end
+
+    def run_rake_tasks
+      Pupesoft::Application.load_tasks
+
+      Rake::Task['css:write'].reenable
+      Rake::Task['css:write'].invoke
+
+      Rake::Task['assets:precompile'].reenable
+      Rake::Task['assets:precompile'].invoke
     end
 end
