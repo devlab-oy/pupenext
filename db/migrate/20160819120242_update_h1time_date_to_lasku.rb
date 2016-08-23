@@ -3,13 +3,15 @@ class UpdateH1timeDateToLasku < ActiveRecord::Migration
     Company.find_each do |company|
       Current.company = company.yhtio
 
-      purchase_orders = PurchaseOrder::Order.where(alatila: %w(A X))
+      PurchaseOrder::Order.where(alatila: %w(A X))
+        .where("lasku.h1time = '0000-00-00 00:00:00'")
+        .where("lasku.lahetepvm != '0000-00-00 00:00:00'")
+        .update_all('lasku.h1time = lasku.lahetepvm, lasku.hyvak1 = lasku.laatija')
 
-      purchase_orders.find_each do |po|
-        h1time = po.lahetepvm ? po.lahetepvm : po.luontiaika
-        hyvak1 = po.laatija
-        po.update!(h1time: h1time, hyvak1: hyvak1)
-      end
+      PurchaseOrder::Order.where(alatila: %w(A X))
+        .where("lasku.h1time = '0000-00-00 00:00:00'")
+        .where("lasku.luontiaika != '0000-00-00 00:00:00'")
+        .update_all('lasku.h1time = lasku.luontiaika, lasku.hyvak1 = lasku.laatija')
     end
   end
 
@@ -17,11 +19,8 @@ class UpdateH1timeDateToLasku < ActiveRecord::Migration
     Company.find_each do |company|
       Current.company = company.yhtio
 
-      purchase_orders = PurchaseOrder::Order.where(alatila: %w(A X))
-
-      purchase_orders.find_each do |po|
-        po.update!(h1time: '0000-00-00 00:00:00', hyvak1: '')
-      end
+      PurchaseOrder::Order.where(alatila: %w(A X))
+        .update_all("lasku.h1time = '0000-00-00 00:00:00', lasku.hyvak1 = ''")
     end
   end
 end
