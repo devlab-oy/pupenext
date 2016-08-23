@@ -11,7 +11,7 @@ class Reports::CustomerPriceListProduct
     if @customer
       @product.customer_price_with_info(@customer.id)
     else
-      @product.customer_subcategory_price_with_info(@customer_subcategory)
+      @product.customer_subcategory_price_with_info(@customer_subcategory.selite)
     end
   end
 
