@@ -19,17 +19,17 @@ switch_input = (e) ->
     $textarea = $(document.createElement('textarea'))
 
     $textarea.attr('name', $input.attr('name'))
-             .attr('id', $input.attr('id'))
-             .attr('cols', 40)
-             .attr('rows', 5)
-             .attr('style', "margin-bottom:-12px;")
+      .attr('id', $input.attr('id'))
+      .attr('cols', 40)
+      .attr('rows', 5)
+      .attr('style', "margin-bottom:-12px;")
 
     $input.replaceWith($textarea)
   else if $textarea
     $input = $(document.createElement('input'))
 
     $input.attr('name', $textarea.attr('name'))
-          .attr('id', $textarea.attr('id'))
-          .attr('class', 'medium')
+      .attr('id', $textarea.attr('id'))
+      .attr('class', 'medium')
 
-    $textarea.replaceWith($input);
+    $textarea.replaceWith($input)
