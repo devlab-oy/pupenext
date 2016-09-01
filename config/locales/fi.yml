@@ -1059,6 +1059,7 @@ fi:
       short_description: Lyhytkuvaus
       show_price: Näytä hinta
       sku: Tuotenumero
+      shop_price: Myymälähinta
     list_of_changes:
       not_found: Yhtään tuotetta ei löytynyt
     pending_columns_options:
