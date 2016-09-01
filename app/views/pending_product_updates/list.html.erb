@@ -11,28 +11,17 @@
 
 <br><br>
 
-<table width='1100'>
+<table class="full-width">
 
 <tr>
-  <th width='100'>
-  </th>
-  <th width='100'>
-    <%= t('.sku') %>
-  </th>
-  <th width='250'>
-    <%= t('.label') %>
-  </th>
-  <th width='100'>
-    <%= t('.price') %>
-  </th>
-  <th width='100'>
-    <%= t('.shop_price') %>
-  </th>
-  <th width='100'>
-    <%= t('.short_description') %>
-  </th>
-  <th width='450'>
-  </th>
+  <th></th>
+  <th><%= t('.sku') %></th>
+  <th><%= t('.label') %></th>
+  <th><%= t('.price') %></th>
+  <th><%= t('.shop_price') %></th>
+  <th><%= t('.short_description') %></th>
+  <th><%= Product.human_attribute_name(:muutospvm) %></th>
+  <th></th>
 </tr>
 
 <% @products.each do |product| %>
@@ -48,25 +37,12 @@
       <% end %>
     </td>
 
-    <td class='ptop'>
-      <%= product.tuoteno %>
-    </td>
-
-    <td class='ptop'>
-      <%= product.nimitys %>
-    </td>
-
-    <td class='ptop'>
-      <%= number_to_currency(product.myyntihinta) %>
-    </td>
-
-    <td class='ptop'>
-      <%= number_to_currency(product.myymalahinta) %>
-    </td>
-
-    <td class='ptop'>
-      <%= product.lyhytkuvaus %>
-    </td>
+    <td class='ptop'><%= product.tuoteno %></td>
+    <td class='ptop'><%= product.nimitys %></td>
+    <td class='ptop'><%= number_to_currency(product.myyntihinta) %></td>
+    <td class='ptop'><%= number_to_currency(product.myymalahinta) %></td>
+    <td class='ptop'><%= product.lyhytkuvaus %></td>
+    <td class="ptop"><%= l(product.muutospvm) %></td>
 
     <td class='ptop pending_update'>
       <%= form_for product, url: pending_product_update_path(product.id), remote: true do |f| %>
