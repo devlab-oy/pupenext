@@ -1,5 +1,5 @@
 <div class='nested-fields' style='padding-bottom: 10px; white-space: nowrap;'>
-  <%= f.select :key, pending_columns_options %>
+  <%= f.select :key, pending_columns_options, {}, class: 'key-select' %>
   <%= f.text_field :value, class: :medium %>
   <%= f.label :_destroy, t('.delete') %> <%= f.check_box :_destroy %>
 </div>
