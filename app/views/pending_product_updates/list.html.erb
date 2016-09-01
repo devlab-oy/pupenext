@@ -11,24 +11,6 @@
 
 <br><br>
 
-<%= form_tag pending_product_updates_list_path, method: :get do %>
-
-  <% params.each do |k,v| %>
-    <% if v.is_a? Array %>
-      <%= hidden_field_tag "#{k}[]", v %>
-    <% else %>
-      <%= hidden_field_tag k, v %>
-    <% end %>
-  <% end %>
-
-  <%= label_tag :hinta, t('.show_price') %>
-  <%= select_tag :hinta,
-                  options_for_select(pending_price_options, params[:hinta]),
-                  { class: 'chosen-select price-select' } %>
-<% end %>
-
-<br><br>
-
 <table width='1100'>
 
 <tr>
@@ -42,6 +24,9 @@
   </th>
   <th width='100'>
     <%= t('.price') %>
+  </th>
+  <th width='100'>
+    <%= t('.shop_price') %>
   </th>
   <th width='100'>
     <%= t('.short_description') %>
@@ -72,11 +57,11 @@
     </td>
 
     <td class='ptop'>
-      <% if params[:hinta] == 'myymalahinta' %>
-        <%= product.myymalahinta %>
-      <% else %>
-        <%= product.myyntihinta %>
-      <% end %>
+      <%= number_to_currency(product.myyntihinta) %>
+    </td>
+
+    <td class='ptop'>
+      <%= number_to_currency(product.myymalahinta) %>
     </td>
 
     <td class='ptop'>
