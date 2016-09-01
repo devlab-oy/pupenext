@@ -6,7 +6,7 @@
   <% @products.pluck(:tunnus).each do |id| %>
     <%= f.hidden_field :product_ids, multiple: true, value: id %>
   <% end %>
-  <%= f.submit t('.deploy_all') %>
+  <%= f.submit t('.deploy_all'), data: { confirm: t('.deploy_confirmation') } %>
 <% end %>
 
 <br><br>

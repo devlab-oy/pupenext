@@ -1050,6 +1050,7 @@ fi:
       suppliers_sku: Toimittajan tuotenumero
     list:
       deploy_all: Aja listatut päivitykset tuotteille
+      deploy_confirmation: Oletko varma, että haluat ajaa kaikki päivitykset?
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
       price: hinta
