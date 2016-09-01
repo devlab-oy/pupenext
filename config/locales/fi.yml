@@ -1045,6 +1045,7 @@ fi:
       inventory_management_products: Varastokäsittely
       label: Nimitys
       list_all: Listaa kaikki tallennetut tulevat päivitykset
+      only_catalog: Näytä vain kuvastoon tulevat tuotteet
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
