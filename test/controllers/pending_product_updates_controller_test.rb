@@ -35,7 +35,7 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
     get :list, { commit: 'search', hinta: 'myymalahinta' }
     assert_template :list, "By selecting price template should be list"
     assert_not_nil assigns(:products)
-    assert_select "td", { text: '315.0', count: 1 }
+    assert_select "td", { text: '315,00 €', count: 1 }
 
     get :list, { commit: 'search', 'tuotteen_toimittajat.toim_tuoteno' => 'masterhammer' }
     assert_select "td", { text: 'hammer123', count: 1 }
