@@ -18,6 +18,8 @@ switch_input = (e) ->
   if $input && $(e.target).val() == 'lyhytkuvaus'
     $textarea = $(document.createElement('textarea'))
 
+    $textarea.val($input.val());
+
     $textarea.attr('name', $input.attr('name'))
       .attr('id', $input.attr('id'))
       .attr('cols', 40)
@@ -27,6 +29,8 @@ switch_input = (e) ->
     $input.replaceWith($textarea)
   else if $textarea
     $input = $(document.createElement('input'))
+
+    $input.val($textarea.val());
 
     $input.attr('name', $textarea.attr('name'))
       .attr('id', $textarea.attr('id'))
