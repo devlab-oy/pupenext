@@ -1045,17 +1045,19 @@ fi:
       inventory_management_products: Varastokäsittely
       label: Nimitys
       list_all: Listaa kaikki tallennetut tulevat päivitykset
+      only_catalog: Näytä vain kuvastoon tulevat tuotteet
       search: Etsi
       sku: Tuotenumero
       suppliers_sku: Toimittajan tuotenumero
     list:
       deploy_all: Aja listatut päivitykset tuotteille
+      deploy_confirmation: Oletko varma, että haluat ajaa kaikki päivitykset?
       label: Nimitys
       link_new: Lisää uusi tuleva päivitys
       price: hinta
       save: Tallenna muutokset
+      shop_price: Myymälähinta
       short_description: Lyhytkuvaus
-      show_price: Näytä hinta
       sku: Tuotenumero
     list_of_changes:
       not_found: Yhtään tuotetta ei löytynyt

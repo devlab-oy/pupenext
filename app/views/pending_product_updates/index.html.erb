@@ -54,6 +54,15 @@
       </td>
     </tr>
 
+    <tr>
+      <th align='right'>
+        <%= label_tag :only_catalog, t('.only_catalog') %>
+      </th>
+      <td>
+        <%= check_box_tag :only_catalog %>
+      </td>
+    </tr>
+
   </table>
 
   <%= render 'products/categories_selection' %>
