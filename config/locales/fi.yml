@@ -1056,10 +1056,9 @@ fi:
       link_new: Lisää uusi tuleva päivitys
       price: hinta
       save: Tallenna muutokset
-      short_description: Lyhytkuvaus
-      show_price: Näytä hinta
-      sku: Tuotenumero
       shop_price: Myymälähinta
+      short_description: Lyhytkuvaus
+      sku: Tuotenumero
     list_of_changes:
       not_found: Yhtään tuotetta ei löytynyt
     pending_columns_options:
