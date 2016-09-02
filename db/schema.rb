@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819120242) do
+ActiveRecord::Schema.define(version: 20160830135154) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3627,6 +3627,7 @@ ActiveRecord::Schema.define(version: 20160819120242) do
     t.string   "tyomaarays_asennuskalenteri_muistutus",            limit: 1,                              default: "",    null: false
     t.string   "viivakoodi_purkulistaan",                          limit: 1,                              default: "",    null: false
     t.string   "purkulistan_asettelu",                             limit: 1,                              default: "",    null: false
+    t.string   "kerayslista_kerayspaikka",                         limit: 1,                              default: "",    null: false
     t.integer  "laskutuskielto",                                   limit: 4,                              default: 0,     null: false
     t.string   "saldovirhe_esto_laskutus",                         limit: 1,                              default: "",    null: false
     t.string   "kehahinvirhe_esto_laskutus",                       limit: 1,                              default: "",    null: false
@@ -3794,6 +3795,7 @@ ActiveRecord::Schema.define(version: 20160819120242) do
     t.string   "tilauksen_myyntieratiedot",                        limit: 1,                              default: "",    null: false
     t.string   "tilaukselle_mittatiedot",                          limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_tilauksella",                        limit: 1,                              default: "",    null: false
+    t.integer  "livetuotehaku_minimi",                             limit: 1,                              default: 3,     null: false
     t.string   "livetuotehaku_hakutapa",                           limit: 1,                              default: "",    null: false
     t.string   "livetuotehaku_poistetut",                          limit: 1,                              default: "",    null: false
     t.string   "poistetut_lisays",                                 limit: 1,                              default: "",    null: false
