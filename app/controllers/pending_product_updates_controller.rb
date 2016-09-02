@@ -10,6 +10,7 @@ class PendingProductUpdatesController < ApplicationController
     render :index and return if params[:commit].blank?
 
     products = Product.regular
+    products = products.where(nakyvyys: 'K') if params[:only_catalog]
 
     if search_params['tuotteen_toimittajat.toim_tuoteno']
       products = products.joins(:product_suppliers)
