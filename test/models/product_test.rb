@@ -55,21 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'product stock' do
-    stock = @product.stock
-    assert stock > 0
-
-    loc = @product.shelf_locations.first.dup
-    loc.saldo = 100
-    loc.hyllytaso = 'foo'
-    loc.save!
-
-    assert_equal stock + 100, @product.stock
-
-    @product.update_attribute :ei_saldoa, :no_inventory_management
-    assert_equal 0, @product.stock
-  end
-
   test 'product reserved stock' do
     # these rows should affect reserved stock, let's zero them out
     @product.sales_order_rows.update_all(varattu: 0)
