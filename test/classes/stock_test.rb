@@ -2,8 +2,11 @@ require 'test_helper'
 
 class StockTest < ActiveSupport::TestCase
   fixtures %w(
+    manufacture_order/rows
     products
+    sales_order/rows
     shelf_locations
+    stock_transfer/rows
   )
 
   setup do
@@ -65,5 +68,24 @@ class StockTest < ActiveSupport::TestCase
 
     @product.update_attribute :ei_saldoa, :no_inventory_management
     assert_equal 0, Stock.new(@product).stock_available
+  end
+
+  test 'sales order rows product stock is reserved by pick date' do
+    # set stock management by pick date
+    @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date)
+    assert_equal 0, Stock.new(@product).stock_reserved
+
+    one = @product.sales_order_rows.first.dup
+    two = @product.sales_order_rows.first.dup
+
+    # SO rows due to be picked today or in the past, should reserve stock (picked or not picked)
+    one.update!(kerayspvm: Date.current, varattu: 10, keratty: '')
+    two.update!(kerayspvm: Date.current, varattu: 10, keratty: 'joe')
+    assert_equal 20, Stock.new(@product).stock_reserved
+
+    # SO rows due to be picked in the future, should not affect reserve stock, unless picked
+    one.update!(kerayspvm: 1.day.from_now, varattu: 5,  keratty: '')
+    two.update!(kerayspvm: 1.day.from_now, varattu: 15, keratty: 'joe')
+    assert_equal 15, Stock.new(@product).stock_reserved
   end
 end
