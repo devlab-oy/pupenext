@@ -18,11 +18,21 @@ class Stock
     elsif @product.company.parameter.stock_management_by_pick_date_and_with_future_reservations?
       @product.send(:pick_date_and_future_reserved, stock_date: @stock_date)
     else
-      @product.send(:default_stock_reserved)
+      default_stock_reserved
     end
   end
 
   def stock_available
     stock - stock_reserved
   end
+
+  private
+
+    def default_stock_reserved
+      # sales, manufacture, and stock trasfer rows reserve stock
+      stock_reserved  = @product.sales_order_rows.reserved
+      stock_reserved += @product.manufacture_rows.reserved
+      stock_reserved += @product.stock_transfer_rows.reserved
+      stock_reserved
+    end
 end

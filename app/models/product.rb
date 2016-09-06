@@ -126,14 +126,6 @@ class Product < BaseModel
       self.vienti ||= ''
     end
 
-    def default_stock_reserved
-      # sales, manufacture, and stock trasfer rows reserve stock
-      stock_reserved  = sales_order_rows.reserved
-      stock_reserved += manufacture_rows.reserved
-      stock_reserved += stock_transfer_rows.reserved
-      stock_reserved
-    end
-
     def pick_date_stock_reserved(stock_date: Date.today)
       # sales, manufacture, and stock trasfer rows
       # *reserve stock* if they are due to be picked in the past
