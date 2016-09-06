@@ -55,29 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'product reserved stock' do
-    # these rows should affect reserved stock, let's zero them out
-    @product.sales_order_rows.update_all(varattu: 0)
-    @product.manufacture_rows.update_all(varattu: 0)
-    @product.stock_transfer_rows.update_all(varattu: 0)
-    assert_equal 0, @product.stock_reserved
-
-    brand = keywords :brand_tools
-    assert_equal brand.name, @product.brand.name
-
-    @product.sales_order_rows.first.update!(varattu: 10)
-    assert_equal 10, @product.stock_reserved
-
-    @product.manufacture_rows.first.update!(varattu: 5)
-    assert_equal 15, @product.stock_reserved
-
-    @product.stock_transfer_rows.first.update!(varattu: 6)
-    assert_equal 21, @product.stock_reserved
-
-    @product.update_attribute :ei_saldoa, :no_inventory_management
-    assert_equal 0, @product.stock_reserved
-  end
-
   test 'product stock available' do
     # these should affect stock available, let's zero them out
     @product.shelf_locations.update_all(saldo: 0)
