@@ -171,4 +171,43 @@ class StockTest < ActiveSupport::TestCase
     @product.purchase_order_rows.first.update!(toimaika: 1.day.from_now, varattu: 10)
     assert_equal 0, Stock.new(@product.reload).stock_reserved
   end
+
+  test 'product stock is reserved by pick date with future reservations' do
+    # set stock management by pick date with future reservations
+    # this uses same logic as stock_management_by_pick_date, so we don't need to test everything again
+    # this returns the "worst case" stock reserve, se we'll never sell out our stock
+    @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date_and_with_future_reservations)
+    assert_equal 0, Stock.new(@product).stock_reserved
+
+    one    = @product.stock_transfer_rows.first
+    two    = @product.stock_transfer_rows.first.dup
+    po_one = @product.purchase_order_rows.first
+
+    # sell 100 day one, we have 100 reserved no matter what date
+    one.update!(varattu: 100, kerayspvm: 1.day.from_now)
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.ago).stock_reserved
+    assert_equal 100, Stock.new(@product).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.from_now).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 2.days.from_now).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 3.days.from_now).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 9.days.from_now).stock_reserved
+
+    # purchase 60 day three, we have 100 reserved before purchase, and 40 after
+    po_one.update!(varattu: 60, toimaika: 3.days.from_now)
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.ago).stock_reserved
+    assert_equal 100, Stock.new(@product).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.from_now).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 2.days.from_now).stock_reserved
+    assert_equal 40,  Stock.new(@product, stock_date: 3.days.from_now).stock_reserved
+    assert_equal 40,  Stock.new(@product, stock_date: 9.days.from_now).stock_reserved
+
+    # sell 30 day five, we have 100 reserved before puchase, and 70 after
+    two.update!(varattu: 30, kerayspvm: 5.days.from_now)
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.ago).stock_reserved
+    assert_equal 100, Stock.new(@product).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 1.day.from_now).stock_reserved
+    assert_equal 100, Stock.new(@product, stock_date: 2.days.from_now).stock_reserved
+    assert_equal 70,  Stock.new(@product, stock_date: 3.days.from_now).stock_reserved
+    assert_equal 70,  Stock.new(@product, stock_date: 9.days.from_now).stock_reserved
+  end
 end
