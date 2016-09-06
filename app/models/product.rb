@@ -76,16 +76,8 @@ class Product < BaseModel
     Stock.new(self).stock
   end
 
-  def stock_reserved(stock_date: Date.today)
-    return 0 if no_inventory_management?
-
-    if company.parameter.stock_management_by_pick_date?
-      pick_date_stock_reserved stock_date: stock_date
-    elsif company.parameter.stock_management_by_pick_date_and_with_future_reservations?
-      pick_date_and_future_reserved stock_date: stock_date
-    else
-      default_stock_reserved
-    end
+  def stock_reserved(stock_date: Date.current)
+    Stock.new(self, stock_date: stock_date).stock_reserved
   end
 
   def stock_available(stock_date: Date.today)
