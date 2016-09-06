@@ -6,22 +6,9 @@ class ProductTest < ActiveSupport::TestCase
     attachment/product_attachments
     category/links
     category/products
-    customer_prices
     customers
     keyword/customer_subcategories
-    keywords
-    manufacture_order/composite_rows
-    manufacture_order/recursive_composite_rows
-    manufacture_order/rows
-    pending_updates
-    product/keywords
-    product/suppliers
     products
-    purchase_order/rows
-    sales_order/rows
-    shelf_locations
-    stock_transfer/rows
-    suppliers
   )
 
   setup do
