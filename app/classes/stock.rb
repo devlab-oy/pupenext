@@ -1,15 +1,18 @@
 class Stock
-  attr_accessor :product, :stock_date
+  attr_accessor :product, :stock_date, :warehouse_ids
 
-  def initialize(product, stock_date: Date.current)
-    self.product    = product
-    self.stock_date = stock_date
+  def initialize(product, stock_date: Date.current, warehouse_ids: nil)
+    self.product       = product
+    self.stock_date    = stock_date
+    self.warehouse_ids = warehouse_ids
   end
 
   def stock
     return 0 if product.no_inventory_management?
 
-    product.shelf_locations.sum(:saldo)
+    stock = product.shelf_locations
+    stock = stock.where(varasto: warehouse_ids) if warehouse_ids
+    stock.sum(:saldo)
   end
 
   def stock_reserved

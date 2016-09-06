@@ -10,6 +10,7 @@ class StockTest < ActiveSupport::TestCase
     sales_order/rows
     shelf_locations
     stock_transfer/rows
+    warehouses
   )
 
   setup do
@@ -30,6 +31,12 @@ class StockTest < ActiveSupport::TestCase
 
     @product.update_attribute :ei_saldoa, :no_inventory_management
     assert_equal 0, Stock.new(@product).stock
+  end
+
+  test '#stock with warehouses specified' do
+    stock = Stock.new(@product, warehouse_ids: [warehouses(:kontula).id])
+
+    assert_equal 2, stock.stock
   end
 
   test '#stock_reserved' do
