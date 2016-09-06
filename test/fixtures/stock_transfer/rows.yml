@@ -12,3 +12,10 @@ st_row_one:
   tuoteno: hammer123
   tyyppi: G
   <<: *DEFAULTS
+
+st_row_two:
+  yhtio: acme
+  order: st_one
+  tuoteno: hammer123
+  tyyppi: G
+  <<: *DEFAULTS

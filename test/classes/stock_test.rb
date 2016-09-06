@@ -62,6 +62,32 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 0, Stock.new(@product).stock_reserved
   end
 
+  test '#stock_reserved with warehouses specified' do
+    # these rows should affect reserved stock, let's zero them out
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+    assert_equal 0, Stock.new(@product, warehouse_ids: [warehouses(:kontula).id]).stock_reserved
+
+    brand = keywords(:brand_tools)
+    assert_equal brand.name, @product.brand.name
+
+    @product.sales_order_rows.first.update!(varattu: 10, warehouse: warehouses(:veikkola))
+    @product.sales_order_rows.second.update!(varattu: 1, warehouse: warehouses(:kontula))
+    assert_equal 10, Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id]).stock_reserved
+
+    @product.manufacture_rows.first.update!(varattu: 5, warehouse: warehouses(:kontula))
+    @product.manufacture_rows.second.update!(varattu: 7, warehouse: warehouses(:veikkola))
+    assert_equal 6, Stock.new(@product, warehouse_ids: [warehouses(:kontula).id]).stock_reserved
+
+    @product.stock_transfer_rows.first.update!(varattu: 9, warehouse: warehouses(:veikkola))
+    @product.stock_transfer_rows.second.update!(varattu: 3, warehouse: warehouses(:kontula))
+    assert_equal 26, Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id]).stock_reserved
+
+    @product.update_attribute :ei_saldoa, :no_inventory_management
+    assert_equal 0, Stock.new(@product, warehouse_ids: [warehouses(:kontula).id]).stock_reserved
+  end
+
   test '#stock_available' do
     # these should affect stock available, let's zero them out
     @product.shelf_locations.update_all(saldo: 0)

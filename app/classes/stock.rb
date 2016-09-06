@@ -35,32 +35,76 @@ class Stock
 
     def default_stock_reserved
       # sales, manufacture, and stock trasfer rows reserve stock
-      stock_reserved  = product.sales_order_rows.reserved
-      stock_reserved += product.manufacture_rows.reserved
-      stock_reserved += product.stock_transfer_rows.reserved
+      stock_reserved  = product.sales_order_rows
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.manufacture_rows
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.stock_transfer_rows
+        .send(*warehouse_filter)
+        .reserved
+
       stock_reserved
     end
 
     def pick_date_stock_reserved(stock_date: self.stock_date)
       # sales, manufacture, and stock trasfer rows
       # *reserve stock* if they are due to be picked in the past
-      stock_reserved  = product.sales_order_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
-      stock_reserved += product.manufacture_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
-      stock_reserved += product.stock_transfer_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
+      stock_reserved = product.sales_order_rows
+        .where('tilausrivi.kerayspvm <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.manufacture_rows
+        .where('tilausrivi.kerayspvm <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.stock_transfer_rows
+        .where('tilausrivi.kerayspvm <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
 
       # sales, manufacture, and stock trasfer rows
       # *reserve stock* if they are due to be picked in the future, but are already picked
-      stock_reserved += product.sales_order_rows.picked.where('tilausrivi.kerayspvm > ?', stock_date).reserved
-      stock_reserved += product.manufacture_rows.picked.where('tilausrivi.kerayspvm > ?', stock_date).reserved
-      stock_reserved += product.stock_transfer_rows.picked.where('tilausrivi.kerayspvm > ?', stock_date).reserved
+      stock_reserved += product.sales_order_rows
+        .picked
+        .where('tilausrivi.kerayspvm > ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.manufacture_rows
+        .picked
+        .where('tilausrivi.kerayspvm > ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved += product.stock_transfer_rows
+        .picked
+        .where('tilausrivi.kerayspvm > ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
 
       # manufacture composite rows and manufacture recursive composite rows
       # *decrease stock reservation* if they are due to be picked in the past
-      stock_reserved -= product.manufacture_composite_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
-      stock_reserved -= product.manufacture_recursive_composite_rows.where('tilausrivi.kerayspvm <= ?', stock_date).reserved
+      stock_reserved -= product.manufacture_composite_rows
+        .where('tilausrivi.kerayspvm <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
+
+      stock_reserved -= product.manufacture_recursive_composite_rows
+        .where('tilausrivi.kerayspvm <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
 
       # purchase orders due to arrive in the past *decrease stock reservation*
-      stock_reserved -= product.purchase_order_rows.where('tilausrivi.toimaika <= ?', stock_date).reserved
+      stock_reserved -= product.purchase_order_rows
+        .where('tilausrivi.toimaika <= ?', stock_date)
+        .send(*warehouse_filter)
+        .reserved
 
       stock_reserved
     end
@@ -81,6 +125,7 @@ class Stock
         product.send(relation)
           .where('tilausrivi.kerayspvm > ?', stock_date)
           .where('tilausrivi.varattu + tilausrivi.jt != 0')
+          .send(*warehouse_filter)
           .select(:kerayspvm)
           .distinct
           .map(&:kerayspvm)
@@ -93,5 +138,9 @@ class Stock
 
       # return maximum stock reservation in the future (worst case)
       stock_by_date.max || 0
+    end
+
+    def warehouse_filter
+      warehouse_ids ? [:where, varasto: warehouse_ids] : :itself
     end
 end
