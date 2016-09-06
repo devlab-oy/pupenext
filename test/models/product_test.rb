@@ -8,6 +8,7 @@ class ProductTest < ActiveSupport::TestCase
     category/products
     customers
     keyword/customer_subcategories
+    keywords
     manufacture_order/rows
     products
     purchase_order/rows
