@@ -63,14 +63,14 @@ class Stock
     end
 
     def pick_date_and_future_reserved
-      relations = %w{
+      relations = %w(
         manufacture_composite_rows
         manufacture_recursive_composite_rows
         manufacture_rows
         purchase_order_rows
         sales_order_rows
         stock_transfer_rows
-      }
+      )
 
       # fetch all distinct pick dates for all product rows
       dates = [stock_date]
