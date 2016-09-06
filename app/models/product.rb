@@ -73,9 +73,7 @@ class Product < BaseModel
   end
 
   def stock
-    return 0 if no_inventory_management?
-
-    shelf_locations.sum(:saldo)
+    Stock.new(self).stock
   end
 
   def stock_reserved(stock_date: Date.today)
