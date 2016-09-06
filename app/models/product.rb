@@ -80,8 +80,8 @@ class Product < BaseModel
     Stock.new(self, stock_date: stock_date).stock_reserved
   end
 
-  def stock_available(stock_date: Date.today)
-    stock - stock_reserved(stock_date: stock_date)
+  def stock_available(stock_date: Date.current)
+    Stock.new(self, stock_date: stock_date).stock_available
   end
 
   def customer_price(customer_id)

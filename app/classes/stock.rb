@@ -21,4 +21,8 @@ class Stock
       @product.send(:default_stock_reserved)
     end
   end
+
+  def stock_available
+    stock - stock_reserved
+  end
 end
