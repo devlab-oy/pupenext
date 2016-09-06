@@ -2,6 +2,7 @@ require 'test_helper'
 
 class StockTest < ActiveSupport::TestCase
   fixtures %w(
+    manufacture_order/composite_rows
     manufacture_order/rows
     products
     sales_order/rows
@@ -108,7 +109,7 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 15, Stock.new(@product).stock_reserved
   end
 
-  test 'stock_transfer_rows product stock reserved by pick date' do
+  test 'stock_transfer_rows product stock is reserved by pick date' do
     # set stock management by pick date
     @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date)
     assert_equal 0, Stock.new(@product).stock_reserved
@@ -125,5 +126,19 @@ class StockTest < ActiveSupport::TestCase
     one.update!(kerayspvm: 1.day.from_now, varattu: 5,  keratty: '')
     two.update!(kerayspvm: 1.day.from_now, varattu: 15, keratty: 'joe')
     assert_equal 15, Stock.new(@product).stock_reserved
+  end
+
+  test 'manufacture composite rows product stock is reserved by pick date' do
+    # set stock management by pick date
+    @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date)
+    assert_equal 0, Stock.new(@product).stock_reserved
+
+    # MF composite rows due to be picked today or earlier, should decrease stock reservation
+    @product.manufacture_composite_rows.first.update!(kerayspvm: Date.current, varattu: 10, keratty: '')
+    assert_equal -10, Stock.new(@product).stock_reserved
+
+    # MF composite rows due to be picked in the future, should not affect reserve stock
+    @product.manufacture_composite_rows.first.update!(kerayspvm: 1.day.from_now, varattu: 10, keratty: '')
+    assert_equal 0, Stock.new(@product).stock_reserved
   end
 end

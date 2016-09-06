@@ -55,20 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'manufacture_composite_rows product stock reserved by pick date' do
-    # set stock management by pick date
-    @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
-    assert_equal 0, @product.stock_reserved
-
-    # MF composite rows due to be picked today or earlier, should decrease stock reservation
-    @product.manufacture_composite_rows.first.update! kerayspvm: Date.today, varattu: 10, keratty: ''
-    assert_equal -10, @product.stock_reserved
-
-    # MF composite rows due to be picked in the future, should not affect reserve stock
-    @product.manufacture_composite_rows.first.update! kerayspvm: 1.day.from_now, varattu: 10, keratty: ''
-    assert_equal 0, @product.stock_reserved
-  end
-
   test 'manufacture_recursive_composite_rows product stock reserved by pick date' do
     # set stock management by pick date
     @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
