@@ -55,20 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'purchase_order_rows product stock reserved by pick date' do
-    # set stock management by pick date
-    @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
-    assert_equal 0, @product.stock_reserved
-
-    # PO rows due in today or earlier, should decrease stock reservation
-    @product.purchase_order_rows.first.update! toimaika: Date.today, varattu: 10
-    assert_equal -10, @product.stock_reserved
-
-    # PO rows in the future, should not affect reserve stock
-    @product.purchase_order_rows.first.update! toimaika: 1.day.from_now, varattu: 10
-    assert_equal 0, @product.reload.stock_reserved
-  end
-
   test 'product stock reserved by pick date with future reservations' do
     # set stock management by pick date with future reservations
     # this uses same logic as stock_management_by_pick_date, so we don't need to test everything again

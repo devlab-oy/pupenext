@@ -6,6 +6,7 @@ class StockTest < ActiveSupport::TestCase
     manufacture_order/recursive_composite_rows
     manufacture_order/rows
     products
+    purchase_order/rows
     sales_order/rows
     shelf_locations
     stock_transfer/rows
@@ -155,5 +156,19 @@ class StockTest < ActiveSupport::TestCase
     # MF recursive composite rows due to be picked in the future, should not reserve stock
     @product.manufacture_recursive_composite_rows.first.update!(kerayspvm: 1.day.from_now, varattu: 10, keratty: '')
     assert_equal 0, Stock.new(@product).stock_reserved
+  end
+
+  test 'purchase order rows product stock is reserved by pick date' do
+    # set stock management by pick date
+    @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date)
+    assert_equal 0, Stock.new(@product).stock_reserved
+
+    # PO rows due in today or earlier, should decrease stock reservation
+    @product.purchase_order_rows.first.update!(toimaika: Date.current, varattu: 10)
+    assert_equal -10, Stock.new(@product).stock_reserved
+
+    # PO rows in the future, should not affect reserve stock
+    @product.purchase_order_rows.first.update!(toimaika: 1.day.from_now, varattu: 10)
+    assert_equal 0, Stock.new(@product.reload).stock_reserved
   end
 end
