@@ -55,24 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'product stock available' do
-    # these should affect stock available, let's zero them out
-    @product.shelf_locations.update_all(saldo: 0)
-    @product.sales_order_rows.update_all(varattu: 0)
-    @product.manufacture_rows.update_all(varattu: 0)
-    @product.stock_transfer_rows.update_all(varattu: 0)
-    assert_equal 0, @product.stock_available
-
-    @product.sales_order_rows.first.update!(varattu: 10)
-    assert_equal -10, @product.stock_available
-
-    @product.shelf_locations.first.update!(saldo: 100)
-    assert_equal 90, @product.stock_available
-
-    @product.update_attribute :ei_saldoa, :no_inventory_management
-    assert_equal 0, @product.stock_available
-  end
-
   test 'sales_order_rows product stock reserved by pick date' do
     # set stock management by pick date
     @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
