@@ -55,25 +55,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_categories, category_products(:product_category_shirts)
   end
 
-  test 'stock_transfer_rows product stock reserved by pick date' do
-    # set stock management by pick date
-    @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
-    assert_equal 0, @product.stock_reserved
-
-    one = @product.stock_transfer_rows.first.dup
-    two = @product.stock_transfer_rows.first.dup
-
-    # ST rows due to be picked today or in the past, should reserve stock (picked or not picked)
-    one.update! kerayspvm: Date.today, varattu: 10, keratty: ''
-    two.update! kerayspvm: Date.today, varattu: 10, keratty: 'joe'
-    assert_equal 20, @product.stock_reserved
-
-    # ST rows due to be picked in the future, should not affect reserve stock, unless picked
-    one.update! kerayspvm: 1.day.from_now, varattu: 5,  keratty: ''
-    two.update! kerayspvm: 1.day.from_now, varattu: 15, keratty: 'joe'
-    assert_equal 15, @product.stock_reserved
-  end
-
   test 'manufacture_composite_rows product stock reserved by pick date' do
     # set stock management by pick date
     @product.company.parameter.update! saldo_kasittely: :stock_management_by_pick_date
