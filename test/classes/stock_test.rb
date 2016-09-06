@@ -106,6 +106,25 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 0, Stock.new(@product).stock_available
   end
 
+  test '#stock_available with warehouses specified' do
+    # these should affect stock available, let's zero them out
+    @product.shelf_locations.update_all(saldo: 0)
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+    assert_equal 0, Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id]).stock_available
+
+    @product.sales_order_rows.first.update!(varattu: 8, warehouse: warehouses(:veikkola))
+    @product.sales_order_rows.second.update!(varattu: 16, warehouse: warehouses(:kontula))
+    assert_equal -16, Stock.new(@product, warehouse_ids: [warehouses(:kontula)]).stock_available
+
+    shelf_locations(:two).update!(saldo: 100)
+    assert_equal 84, Stock.new(@product, warehouse_ids: [warehouses(:kontula).id]).stock_available
+
+    @product.update_attribute :ei_saldoa, :no_inventory_management
+    assert_equal 0, Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id]).stock_available
+  end
+
   test 'sales order rows product stock is reserved by pick date' do
     # set stock management by pick date
     @product.company.parameter.update!(saldo_kasittely: :stock_management_by_pick_date)
