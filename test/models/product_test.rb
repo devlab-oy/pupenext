@@ -8,7 +8,11 @@ class ProductTest < ActiveSupport::TestCase
     category/products
     customers
     keyword/customer_subcategories
+    manufacture_order/rows
     products
+    purchase_order/rows
+    sales_order/rows
+    stock_transfer/rows
   )
 
   setup do
