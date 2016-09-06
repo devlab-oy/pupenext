@@ -35,6 +35,8 @@ class Product < BaseModel
     o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
   end
 
+  has_many :warehouses, through: :shelf_locations
+
   accepts_nested_attributes_for :pending_updates, allow_destroy: true
 
   validates :nimitys, presence: true

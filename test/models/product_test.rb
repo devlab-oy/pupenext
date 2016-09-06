@@ -14,6 +14,7 @@ class ProductTest < ActiveSupport::TestCase
     purchase_order/rows
     sales_order/rows
     stock_transfer/rows
+    warehouses
   )
 
   setup do
@@ -45,6 +46,7 @@ class ProductTest < ActiveSupport::TestCase
     assert @product.customers.count > 0
     assert_includes @product.product_links, category_links(:product_category_shirts_hammer)
     assert_includes @product.product_categories, category_products(:product_category_shirts)
+    assert @product.warehouses.count > 0
   end
 
   test 'active scope' do
