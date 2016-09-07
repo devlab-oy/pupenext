@@ -19,4 +19,10 @@ class StocksControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal({ '198948233': '10.0', '250043353': '2.0' }, json_response)
   end
+
+  test '#stock_available without warehouse_ids' do
+    get :stock_available, product_id: @product.id, access_token: users(:bob).api_key
+
+    assert_response :bad_request
+  end
 end

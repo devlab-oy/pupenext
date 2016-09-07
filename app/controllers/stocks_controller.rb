@@ -5,6 +5,10 @@ class StocksController < ApplicationController
   before_action      :api_authorize, :set_current_info, :set_locale, :access_control
 
   def stock_available
+    unless params[:warehouse_ids] && params[:warehouse_ids].respond_to?(:each_with_object)
+      return render json: { error: 'warehouse_ids parameter is required' }, status: :bad_request
+    end
+
     stock_available = params[:warehouse_ids].each_with_object({}) do |warehouse_id, stocks|
       stocks[warehouse_id] = Stock.new(Product.find(params[:product_id]), warehouse_ids: [warehouse_id]).stock_available
     end
