@@ -17,11 +17,7 @@ class Stock
   end
 
   def stock_per_warehouse
-    warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
-      @warehouse_filter = [:where, varasto: warehouse_id]
-
-      stocks[warehouse_id] = stock
-    end
+    per_warehouse(:stock)
   end
 
   def stock_reserved
@@ -37,11 +33,7 @@ class Stock
   end
 
   def stock_reserved_per_warehouse
-    warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
-      @warehouse_filter = [:where, varasto: warehouse_id]
-
-      stocks[warehouse_id] = stock_reserved
-    end
+    per_warehouse(:stock_reserved)
   end
 
   def stock_available
@@ -49,11 +41,7 @@ class Stock
   end
 
   def stock_available_per_warehouse
-    warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
-      @warehouse_filter = [:where, varasto: warehouse_id]
-
-      stocks[warehouse_id] = stock_available
-    end
+    per_warehouse(:stock_available)
   end
 
   private
@@ -163,5 +151,17 @@ class Stock
 
       # return maximum stock reservation in the future (worst case)
       stock_by_date.max || 0
+    end
+
+    def per_warehouse(method)
+      old_filter = @warehouse_filter
+
+      warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
+        @warehouse_filter = [:where, varasto: warehouse_id]
+
+        stocks[warehouse_id] = send(method)
+      end
+    ensure
+      @warehouse_filter = old_filter
     end
 end
