@@ -6,14 +6,18 @@ class ProductTest < ActiveSupport::TestCase
     attachment/product_attachments
     category/links
     category/products
+    customer_prices
     customers
     keyword/customer_subcategories
     keywords
     manufacture_order/rows
+    pending_updates
+    product/keywords
     products
     purchase_order/rows
     sales_order/rows
     stock_transfer/rows
+    suppliers
     warehouses
   )
 
