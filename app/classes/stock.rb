@@ -36,6 +36,14 @@ class Stock
     end
   end
 
+  def stock_reserved_per_warehouse
+    warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
+      @warehouse_filter = [:where, varasto: warehouse_id]
+
+      stocks[warehouse_id] = stock_reserved
+    end
+  end
+
   def stock_available
     stock - stock_reserved
   end

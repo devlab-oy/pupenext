@@ -69,6 +69,16 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 0, Stock.new(@product).stock_reserved
   end
 
+  test '#stock_reserved_per_warehouse' do
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+
+    @product.sales_order_rows.first.update!(varattu: 10, varasto: warehouses(:veikkola).id)
+    stock = Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id, warehouses(:kontula).id])
+    assert_equal({ warehouses(:veikkola).id => 10, warehouses(:kontula).id => 0 }, stock.stock_reserved_per_warehouse)
+  end
+
   test '#stock_reserved with warehouses specified' do
     # these rows should affect reserved stock, let's zero them out
     @product.sales_order_rows.update_all(varattu: 0)
