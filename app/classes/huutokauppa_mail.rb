@@ -382,7 +382,9 @@ class HuutokauppaMail
   def mark_as_done
     return unless find_draft
 
-    response = find_draft.mark_as_done(create_preliminary_invoice: true)
+    create_preliminary_invoice = find_draft.invoice.nil?
+
+    response = find_draft.mark_as_done(create_preliminary_invoice: create_preliminary_invoice)
 
     @messages << "Merkittiin tilaus #{order_message_info(find_draft)} valmiiksi."
 
