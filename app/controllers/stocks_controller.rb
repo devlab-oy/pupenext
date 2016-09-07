@@ -9,11 +9,9 @@ class StocksController < ApplicationController
       return render json: { error: 'warehouse_ids parameter is required' }, status: :bad_request
     end
 
-    stock_available = params[:warehouse_ids].each_with_object({}) do |warehouse_id, stocks|
-      stocks[warehouse_id] = Stock.new(@product, warehouse_ids: [warehouse_id]).stock_available
-    end
+    stock = Stock.new(@product, warehouse_ids: params[:warehouse_ids]).stock_available_per_warehouse
 
-    render json: stock_available
+    render json: stock
   end
 
   private

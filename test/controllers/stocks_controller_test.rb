@@ -2,8 +2,14 @@ require 'test_helper'
 
 class StocksControllerTest < ActionController::TestCase
   fixtures %w(
+    manufacture_order/composite_rows
+    manufacture_order/recursive_composite_rows
+    manufacture_order/rows
     products
+    purchase_order/rows
+    sales_order/rows
     shelf_locations
+    stock_transfer/rows
     warehouses
   )
 
