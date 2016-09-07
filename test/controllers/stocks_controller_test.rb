@@ -25,4 +25,10 @@ class StocksControllerTest < ActionController::TestCase
 
     assert_response :bad_request
   end
+
+  test '#stock_available with empty warehouse_ids' do
+    get :stock_available, product_id: @product.id, warehouse_ids: [], access_token: users(:bob).api_key
+
+    assert_response :success
+  end
 end
