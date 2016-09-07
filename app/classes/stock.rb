@@ -48,6 +48,14 @@ class Stock
     stock - stock_reserved
   end
 
+  def stock_available_per_warehouse
+    warehouse_ids.each_with_object({}) do |warehouse_id, stocks|
+      @warehouse_filter = [:where, varasto: warehouse_id]
+
+      stocks[warehouse_id] = stock_available
+    end
+  end
+
   private
 
     def default_stock_reserved

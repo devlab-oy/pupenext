@@ -123,6 +123,19 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 0, Stock.new(@product).stock_available
   end
 
+  test '#stock_available_per_warehouse' do
+    @product.shelf_locations.update_all(saldo: 0)
+    @product.sales_order_rows.update_all(varattu: 0)
+    @product.manufacture_rows.update_all(varattu: 0)
+    @product.stock_transfer_rows.update_all(varattu: 0)
+
+    @product.sales_order_rows.first.update!(varattu: 10, varasto: warehouses(:veikkola).id)
+
+    stock = Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id]).stock_available_per_warehouse
+
+    assert_equal({ warehouses(:veikkola).id => -10 }, stock)
+  end
+
   test '#stock_available with warehouses specified' do
     # these should affect stock available, let's zero them out
     @product.shelf_locations.update_all(saldo: 0)
