@@ -39,6 +39,13 @@ class StockTest < ActiveSupport::TestCase
     assert_equal 2, stock.stock
   end
 
+  test '#stock_per_warehouse' do
+    stock = Stock.new(@product, warehouse_ids: [warehouses(:veikkola).id, warehouses(:kontula).id])
+    stock_per_warehouse = stock.stock_per_warehouse
+
+    assert_equal({ warehouses(:veikkola).id => 10, warehouses(:kontula).id => 2 }, stock_per_warehouse)
+  end
+
   test '#stock_reserved' do
     # these rows should affect reserved stock, let's zero them out
     @product.sales_order_rows.update_all(varattu: 0)
