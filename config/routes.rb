@@ -131,7 +131,7 @@ Pupesoft::Application.routes.draw do
   end
 
   resources :products, only: [] do
-    get :stock_available, to: 'stocks#stock_available'
+    get :stock_available_per_warehouse, to: 'stocks#stock_available_per_warehouse'
   end
 
   root to: 'home#index'
