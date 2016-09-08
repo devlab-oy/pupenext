@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902070241) do
+ActiveRecord::Schema.define(version: 20160908131400) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3686,6 +3686,7 @@ ActiveRecord::Schema.define(version: 20160902070241) do
     t.string   "lasku_logo",                                       limit: 100,                            default: "",    null: false
     t.string   "lasku_logo_positio",                               limit: 7,                              default: "",    null: false
     t.integer  "lasku_logo_koko",                                  limit: 4,                              default: 0,     null: false
+    t.string   "extranet_logo",                                    limit: 100,                            default: "",    null: false
     t.string   "naytetaan_katteet_tilauksella",                    limit: 1,                              default: "",    null: false
     t.string   "tuotekommentti_tilausriville",                     limit: 1,                              default: "",    null: false
     t.string   "tilauksen_yhteyshenkilot",                         limit: 1,                              default: "",    null: false
