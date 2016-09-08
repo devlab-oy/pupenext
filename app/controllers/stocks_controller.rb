@@ -9,9 +9,7 @@ class StocksController < ApplicationController
       return render json: { error: 'warehouse_ids parameter is required' }, status: :bad_request
     end
 
-    stock = Rails.cache.fetch("#{@product.id}/#{@product.shelf_locations.maximum(:muutospvm)}") do
-      Stock.new(@product, warehouse_ids: params[:warehouse_ids]).stock_available_per_warehouse.to_json
-    end
+    stock = Stock.new(@product, warehouse_ids: params[:warehouse_ids]).stock_available_per_warehouse.to_json
 
     render json: stock
   end
