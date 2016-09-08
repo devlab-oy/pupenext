@@ -1,3 +1,7 @@
+DEFAULTS: &DEFAULTS
+  luontiaika: <%= Time.current %>
+  muutospvm: <%= Time.current %>
+
 veikkola:
   yhtio: acme
   alkuhyllyalue: A
@@ -5,7 +9,10 @@ veikkola:
   loppuhyllyalue: Z
   loppuhyllynro: 99
   nimitys: Veikkolan varasto
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
   laatija: joe
   muuttaja: joe
+  <<: *DEFAULTS
+
+kontula:
+  yhtio: acme
+  <<: *DEFAULTS

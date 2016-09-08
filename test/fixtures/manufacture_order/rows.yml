@@ -12,3 +12,10 @@ mo_row_one:
   tuoteno: hammer123
   tyyppi: V
   <<: *DEFAULTS
+
+mo_row_two:
+  yhtio: acme
+  order: mo_one
+  tuoteno: hammer123
+  tyyppi: V
+  <<: *DEFAULTS

@@ -3,6 +3,7 @@ class Row < BaseModel
 
   belongs_to :order, foreign_key: :otunnus, class_name: 'SalesOrder::Base'
   belongs_to :product, primary_key: :tuoteno, foreign_key: :tuoteno
+  belongs_to :warehouse, foreign_key: :varasto
 
   validates :product, presence: true
 

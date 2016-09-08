@@ -4,6 +4,7 @@ DEFAULTS: &DEFAULTS
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   inventointiaika: <%= Time.now %>
+  saldoaika: <%= Time.now %>
 
 one:
   yhtio: acme
@@ -14,5 +15,11 @@ one:
   hyllytaso: 7
   hyllyvali: 2
   saldo: 10
-  saldoaika: <%= Time.now %>
+  <<: *DEFAULTS
+
+two:
+  yhtio: acme
+  warehouse: kontula
+  tuoteno: hammer123
+  saldo: 2
   <<: *DEFAULTS
