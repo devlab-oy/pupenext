@@ -13,10 +13,10 @@ module ProductHelper
 
   def product_status_options
     statuses = [
-      [ 'Aktiivi',      'A' ],
-      [ 'Ennakkotuote', 'E' ],
-      [ 'Tilaustuote',  'T' ],
-      [ 'Poistettu',    'P' ],
+      ['Aktiivi',      'A'],
+      ['Ennakkotuote', 'E'],
+      ['Tilaustuote',  'T'],
+      ['Poistettu',    'P'],
     ]
 
     statuses += Product::Status.pluck(:selitetark, :selite)
