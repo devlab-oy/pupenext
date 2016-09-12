@@ -23,7 +23,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     @subcategory_tools = keywords(:subcategory_tools)
     @brand_tools       = keywords(:brand_tools)
 
-    @status_active = keywords(:status_active)
+    @status_active = keywords(:status_active).selite
 
     @dynamic_tree_one = category_products(:product_category_shirts)
 
@@ -38,7 +38,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
           tuotemerkki: @brand_tools.id,
           p_tree_id:   @dynamic_tree_one,
           nakyvyys:    'Y',
-          status:      @status_active.id
+          status:      @status_active
         }
       }
     }
