@@ -138,7 +138,7 @@ class PendingProductUpdatesControllerTest < ActionController::TestCase
 
     product = products :hammer
 
-    text = I18n.t 'pending_product_updates.list.link_new'
+    text = I18n.t 'pending_product_updates.form.link_new'
     assert_select 'a[data-association=pending_update]', { minimum: 1, html: text }, 'form must have data-association link'
 
     assert_select "td[class='ptop pending_update']", { minimum: 1 }, 'must have pending update td'
