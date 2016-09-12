@@ -13,6 +13,6 @@ class Product::StatusTest < ActiveSupport::TestCase
 
   test 'relations' do
     product = products :hammer
-    assert_equal @status.description, product.status.description
+    assert_includes @status.products.pluck(:nimitys), product.nimitys
   end
 end
