@@ -30,8 +30,7 @@
                categories:    Product::Category.all,
                subcategories: Product::Subcategory.all,
                brands:        Product::Brand.all,
-               trees:         Category::Product.all.order(:nimi),
-               statuses:      Product::Status.all
+               trees:         Category::Product.all.order(:nimi)
              }
     %>
   </table>
