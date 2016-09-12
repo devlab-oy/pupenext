@@ -23,11 +23,13 @@ class ProductTest < ActiveSupport::TestCase
 
   setup do
     @product = products :hammer
+    @product_random = products :rnd
     @product_image = attachment_product_attachments(:product_image_2)
   end
 
   test 'all fixtures should be valid' do
     assert @product.valid?
+    assert @product_random.valid?
     assert @product_image.valid?
   end
 
@@ -35,7 +37,7 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'OSASTO', @product.category.laji
     assert_equal 'TRY', @product.subcategory.laji
     assert_equal 'TUOTEMERKKI', @product.brand.laji
-    assert_equal 'S', @product.status.laji
+    assert_equal 'S', @product_random.status.laji
     assert @product.keywords.count > 0
     assert @product.manufacture_rows.count > 0
     assert @product.pending_updates.count > 0
