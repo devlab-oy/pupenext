@@ -1,0 +1,19 @@
+<%= form_for product, url: pending_product_update_path(product.id), remote: true do |f| %>
+  <div id='<%= "pending_updates_#{product.id}" %>'>
+    <div class='notifications'></div>
+
+    <%= f.fields_for :pending_updates do |pending_update| %>
+      <%= render 'pending_update_fields', f: pending_update %>
+    <% end %>
+  </div>
+
+  <%= link_to_add_association t('.link_new'), f, :pending_updates,
+      partial: 'pending_update_fields',
+      data: {
+        association_insertion_method: :append,
+        association_insertion_node: "#pending_updates_#{product.id}"
+      } %>
+
+  <% hidden = product.pending_updates.present? ? '' : 'hidden' %>
+  <%= f.submit t('.save'), class: "submit right #{hidden}" %>
+<% end %>
