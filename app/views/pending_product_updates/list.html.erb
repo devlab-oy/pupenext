@@ -43,7 +43,9 @@
     <td class='ptop'><%= number_to_currency(product.myymalahinta) %></td>
     <td class='ptop'><%= product.lyhytkuvaus %></td>
     <td class="ptop"><%= l(product.muutospvm) %></td>
-    <td class='ptop pending_update'><%= render 'form', product: product %></td>
+    <td id="pending_update_container_<%= product.id %>" class='ptop pending_update'>
+      <%= render 'form', product: product %>
+    </td>
   </tr>
 <% end %>
 
