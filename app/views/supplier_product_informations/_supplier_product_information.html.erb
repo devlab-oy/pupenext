@@ -113,10 +113,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][status]",
-                   options_from_collection_for_select(statuses,
-                                                      :tunnus,
-                                                      :selitetark,
-                                                      previous_params[:status]),
+                   product_status_options,
                    class: :status) %>
   </td>
   <td colspan="2">
