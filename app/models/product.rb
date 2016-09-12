@@ -8,7 +8,6 @@ class Product < BaseModel
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
   belongs_to :brand,        foreign_key: :tuotemerkki, primary_key: :selite,  class_name: 'Product::Brand'
-  belongs_to :status,       foreign_key: :status,      primary_key: :selite,  class_name: 'Product::Status'
 
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
   has_many :suppliers, through: :product_suppliers
@@ -45,6 +44,8 @@ class Product < BaseModel
   validates :nimitys, presence: true
   validates :tuoteno, presence: true, uniqueness: { scope: [:yhtio] }
   validates_numericality_of :myyntihinta, :myymalahinta
+
+  validate :check_status
 
   self.table_name = :tuote
   self.primary_key = :tunnus
@@ -126,6 +127,13 @@ class Product < BaseModel
   end
 
   private
+
+  private
+
+    def check_status
+      valid_statuses = company.product_statuses.map(&:selite) + %w(A E P T)
+      errors.add :status, I18n.t('errors.messages.invalid') unless status.present? && valid_statuses.include?(status)
+    end
 
     def defaults
       self.vienti ||= ''

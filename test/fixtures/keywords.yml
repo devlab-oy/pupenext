@@ -148,6 +148,13 @@ status_active:
   laji: S
   <<: *DEFAULTS
 
+status_imaginary:
+  yhtio: acme
+  selite: I
+  selitetark: Kuvitteellinen
+  laji: S
+  <<: *DEFAULTS
+
 lahetetyyppi:
   yhtio: acme
   laji: LAHETETYYPPI
