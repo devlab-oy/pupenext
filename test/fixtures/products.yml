@@ -50,6 +50,13 @@ pr1:
   tuotetyyppi: A
   <<: *DEFAULTS
 
+rnd:
+  yhtio: acme
+  tuoteno: rnd
+  nimitys: Random product using made up status
+  status: R
+  <<: *DEFAULTS
+
 freight:
   yhtio: acme
   tuoteno: RAHTI
