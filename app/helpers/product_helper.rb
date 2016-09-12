@@ -11,6 +11,18 @@ module ProductHelper
     options_for_select brand_filter, params[:tuotemerkki]
   end
 
+  def product_status_options
+    statuses = [
+      [ 'Aktiivi',      'A' ],
+      [ 'Ennakkotuote', 'E' ],
+      [ 'Tilaustuote',  'T' ],
+      [ 'Poistettu',    'P' ],
+    ]
+
+    statuses += Product::Status.pluck(:selitetark, :selite)
+    options_for_select statuses, params[:status]
+  end
+
   def product_export_fields
     [
       [ Product.human_attribute_name(:aleryhma),                      "aleryhma"                     ],
