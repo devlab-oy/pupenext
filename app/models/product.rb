@@ -131,8 +131,8 @@ class Product < BaseModel
   private
 
     def check_status
-      valid_statuses = company.product_statuses.map(&:selite) + %w(A E P T)
-      errors.add :status, I18n.t('errors.messages.invalid') unless status.present? && valid_statuses.include?(status)
+      valid_statuses = company.product_statuses.pluck(:selite) + %w(A E P T)
+      errors.add :status, I18n.t('errors.messages.invalid') if valid_statuses.exclude?(status)
     end
 
     def defaults

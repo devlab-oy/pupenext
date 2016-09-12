@@ -57,12 +57,25 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'A', @product.status
 
     @product.status = 'T'
-    @product.save!
+    assert @product.valid?
+
+    @product.status = 'E'
+    assert @product.valid?
+
+    @product.status = 'P'
     assert @product.valid?
 
     @product.status = 'I'
-    @product.save!
     assert @product.valid?
+
+    @product.status = nil
+    refute @product.valid?
+
+    @product.status = ''
+    refute @product.valid?
+
+    @product.status = 'invalid_status'
+    refute @product.valid?
   end
 
   test 'active scope' do
