@@ -1,6 +1,9 @@
 class Product < BaseModel
+  include AttributeSanitator
   include Searchable
   include UserDefinedValidations
+
+  float_columns :myyntihinta, :myymalahinta
 
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
