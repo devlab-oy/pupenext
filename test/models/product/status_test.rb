@@ -4,7 +4,7 @@ class Product::StatusTest < ActiveSupport::TestCase
   fixtures %w(keywords products)
 
   setup do
-    @status = keywords :status_active
+    @status = keywords :status_made_up_random
   end
 
   test 'fixtures are valid' do
@@ -12,7 +12,7 @@ class Product::StatusTest < ActiveSupport::TestCase
   end
 
   test 'relations' do
-    product = products :hammer
+    product = products :rnd
     assert_equal @status.description, product.status.description
   end
 end

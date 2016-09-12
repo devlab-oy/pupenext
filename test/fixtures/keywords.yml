@@ -141,7 +141,7 @@ weekly_alternative_expenditure_one:
   selitetark_2: 300
   <<: *DEFAULTS
 
-status_active:
+status_made_up_random:
   yhtio: acme
   selite: R
   selitetark: Random
