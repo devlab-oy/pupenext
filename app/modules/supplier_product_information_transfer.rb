@@ -54,7 +54,7 @@ module SupplierProductInformationTransfer
       end
 
       if extra_attributes[:status]
-        product_params[:status] = Product::Status.find(extra_attributes[:status])
+        product_params[:status] = extra_attributes[:status]
       end
 
       if extra_attributes[:try]
