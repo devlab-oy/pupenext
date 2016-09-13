@@ -29,7 +29,7 @@
 
         <td>
           <% download.files.each do |file| %>
-            <%= link_to file.filename, download_file_path(file) %><br>
+            <%= link_to file.filename, download_file_path(file), target: '_blank' %><br>
           <% end %>
         </td>
 
