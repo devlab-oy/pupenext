@@ -916,7 +916,6 @@ sv:
     list:
       label: Benämning
       price: Pris
-      save: Spara ändringarna
       short_description: Kort beskrivning
       sku: Artikelnummer
     list_of_changes:

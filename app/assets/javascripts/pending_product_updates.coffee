@@ -1,15 +1,12 @@
 $(document).on 'turbolinks:load', ->
-  $('.key-select').on 'change', switch_input
+  $('.pending_update').on 'change', '.key-select', switch_input
   $('.key-select').trigger('change')
 
   $('.pending_update').on 'cocoon:after-insert', (e, added_row) ->
     added_row.parent().parent().find(".submit").show()
 
-    $('.key-select').on 'change', switch_input
-
   $('.price-select').on 'change', ->
       this.form.submit()
-
 
 switch_input = (e) ->
   $input    = $(e.target).next('input')

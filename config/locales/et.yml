@@ -910,7 +910,6 @@ et:
     list:
       label: Nimetus
       price: hind
-      save: Salvesta muudatused
       sku: Tootenumber
     list_of_changes:
       not_found: Yhtki toodet ei leitud

@@ -1039,6 +1039,9 @@ fi:
       format:
         format: "%n %"
   pending_product_updates:
+    form:
+      link_new: Lisää uusi tuleva päivitys
+      save: Tallenna muutokset
     index:
       deleted: Tila
       header: Tuotteen tulevat muutokset
@@ -1053,9 +1056,7 @@ fi:
       deploy_all: Aja listatut päivitykset tuotteille
       deploy_confirmation: Oletko varma, että haluat ajaa kaikki päivitykset?
       label: Nimitys
-      link_new: Lisää uusi tuleva päivitys
       price: hinta
-      save: Tallenna muutokset
       shop_price: Myymälähinta
       short_description: Lyhytkuvaus
       sku: Tuotenumero

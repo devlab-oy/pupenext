@@ -927,7 +927,6 @@ de:
     list:
       label: Bezeichnung
       price: Preis
-      save: Änderungen speichern
       short_description: Kurzbeschreibung
       sku: Artikelnummer
     list_of_changes:

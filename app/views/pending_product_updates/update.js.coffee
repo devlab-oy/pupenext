@@ -18,4 +18,11 @@ if count == 0
 
 <% end %>
 
+$('#pending_update_container_<%= @product.id %>')
+  .html('<%= j render 'form', product: @product %>')
+
+product_row = $('<%= "#pending_updates_#{@product.id}" %>')
+
 product_row.find('div.notifications').html(message)
+
+$('.key-select').trigger('change')
