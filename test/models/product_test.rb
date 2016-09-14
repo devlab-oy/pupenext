@@ -13,6 +13,7 @@ class ProductTest < ActiveSupport::TestCase
     manufacture_order/rows
     pending_updates
     product/keywords
+    product/suppliers
     products
     purchase_order/rows
     sales_order/rows
