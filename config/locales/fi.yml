@@ -361,7 +361,62 @@ fi:
         transportable_id: Tunnus
         username: Käyttäjätunnus
       user:
-        myyja: Myyjä
+        aktiivinen: Aktiivinen
+        asema: Asema
+        budjetti: Budjetti
+        dynaaminen_kassamyynti: Kassamyyjä / kassalippaan valinta tilauksella
+        eilahetetta: Tilaukset oletuksena suoraan laskutukseen
+        eposti: Sähköpostiosoite
+        fyysinen_sijainti: Käyttäjän fyysinen sijainti
+        hierarkia: Organisaatiopuu
+        hinnat: Hinnat
+        hyvaksyja: Hyväksyjä
+        hyvaksyja_maksimisumma: Hyväksyjän maksimisumma
+        ip: IP
+        jyvitys: Jyvitys
+        kassalipas_otto: Kassalippaat, joihin käyttäjällä on otto oikeus
+        kassamyyja: Kassamyyjä / oletuskassalipas
+        kayttoliittyma: Käyttöliittymä
+        keraajanro: Kerääjänumero
+        keraysvyohyke: Keräysvyöhyke
+        kieli: Kieli
+        kirjoitin: Henkilökohtainen tulostin
+        kuittitulostin: Kuittitulostin
+        kuka: Käyttäjätunnus
+        kulujen_laskeminen_hintoihin: Kuluprosentin esittäminen
+        lahetetulostin: Lähetetulostin
+        lomaoikeus: Lomaoikeus
+        maksuehto: Oletusmaksuehto
+        maksupaate_ip: Maksupäätteen IP
+        maksupaate_kassamyynti: Maksupääte kassamyynti
+        max_keraysera_alustat: Max keräysvyöhyke alustat
+        mitatoi_tilauksia: Tilausten mitätöiminen
+        myyja: Myyjänumero
+        naytetaan_asiakashinta: Näytetään asiakashinta tuotehaussa
+        naytetaan_katteet_tilauksella: Katteet näytetään tilauksentekovaiheessa ja CRM:ssä
+        naytetaan_tilaukset: Näytettävät tilaukset verkkokaupassa
+        naytetaan_tuotteet: Näytettävät tuotteet verkkokaupan tuotehaussa
+        nimi: Nimi
+        oletus_asiakas: Oletusasiakas
+        oletus_asiakastiedot: Oletusasiakastiedot
+        oletus_ohjelma: Oletusohjelma
+        oletus_ostovarasto: Valitse käyttäjän oletusostovarasto
+        oletus_pakkaamo: Oletus pakkaamo
+        oletus_profiili: Oletusprofiili
+        oletus_varasto: Oletusvarasto
+        osasto: Osasto
+        piirit: Asiakaspiirit, joihin käyttäjä saa myydä
+        profiilit: Profiilit
+        puhno: Puhelinnumero
+        rahtikirjatulostin: Rahtikirjatulostin
+        saatavat: Saatavat
+        salasana: Salasana
+        taso: Hyväksyjätaso
+        tilaus_valmis: Tilauksen käsittely
+        toimipaikka: Toimipaikka
+        toimitustapa: Oletustoimitustapa
+        tuuraaja: Sijainen laskujen hyväksynnässä
+        varasto: Varastot, joista käyttäjä saa myydä
     errors:
       models:
         customer:
@@ -418,6 +473,7 @@ fi:
       supplier: Toimittaja
       terms_of_payment: Maksuehto
       transport: Tiedonsiirtoyhteys
+      user: Käyttäjä
   administration:
     accounts:
       create:
@@ -713,6 +769,18 @@ fi:
       no_conversion: Ei muuteta merkistöä
     update_access:
       forbidden: Sinulla ei ole oikeutta päivittää tätä tietuetta!
+    users:
+      create:
+        create_success: Uusi käyttäjä perustettu
+      destroy:
+        destroy_success: Käyttäjä poistettu
+      edit:
+        header: Muokkaa käyttäjää
+      index:
+        button_search: Etsi
+        header: Käyttäjät
+      update:
+        update_success: Käyttäjätiedot päivitetty
   application:
     access_control:
       forbidden: Pääsy kielletty!
