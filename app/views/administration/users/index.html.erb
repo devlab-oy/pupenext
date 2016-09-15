@@ -1,0 +1,62 @@
+<%= render "administration/header", text: t('.header') %>
+
+<%= button_to_new :user %>
+
+<br/><br/>
+
+<%= form_tag currencies_path, method: :get do %>
+
+  <table>
+    <tr>
+      <th>
+        <%= sortable 'nimi', User.human_attribute_name(:nimi) %>
+        <br/>
+        <%= text_field_tag :nimi, params[:nimi] %>
+      </th>
+
+      <th>
+        <%= sortable 'kuka', User.human_attribute_name(:kuka) %>
+        <br/>
+        <%= text_field_tag :kuka, params[:kuka] %>
+      </th>
+
+      <th>
+        <%= sortable 'eposti', User.human_attribute_name(:eposti) %>
+        <br/>
+        <%= text_field_tag :eposti, params[:eposti] %>
+      </th>
+
+      <th class="back">
+        <%= submit_tag t('.button_search') %>
+      </th>
+    </tr>
+
+    <% @users.each do |user| %>
+      <tr class="aktiivi">
+        <td>
+          <% if update_access? %>
+            <%= link_to user.nimi, edit_user_path(user.id) %>
+          <% else %>
+            <%= user.nimi %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= user.kuka %>
+        </td>
+
+        <td>
+          <%= user.eposti %>
+        </td>
+
+        <td class="back"></td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
+
+<br/>
+
+<%= button_to_new :user %>
