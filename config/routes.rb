@@ -74,6 +74,7 @@ Pupesoft::Application.routes.draw do
     resources :sum_levels
     resources :terms_of_payments, except: :destroy
     resources :transports
+    resources :users
   end
 
   get :downloads, to: 'downloads#index'
