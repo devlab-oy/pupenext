@@ -34,7 +34,7 @@ class Import::CustomerSales
       elsif header && row.product
         params = {
           tuoteno: row.product.tuoteno,
-          varattu: row.quantity,
+          kpl: row.quantity,
           hinta: row.price,
           rivihinta: row.quantity * row.price,
           laskutettuaika: @end_of_month,
