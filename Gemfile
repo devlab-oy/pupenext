@@ -46,6 +46,7 @@ group :test, :development do
   gem 'codeclimate-test-reporter'
   gem 'i18n-tasks'
   gem 'localeapp'
+  gem 'byebug'
 end
 
 group :test do
