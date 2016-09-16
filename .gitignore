@@ -32,3 +32,6 @@
 
 # Ignore localeapp log
 log/localeapp.yml
+
+# Ignore byebug history file
+/.byebug_history
