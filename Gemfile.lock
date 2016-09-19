@@ -49,6 +49,7 @@ GEM
       axlsx (>= 2.0.1)
     bcrypt (3.1.11)
     builder (3.2.2)
+    byebug (9.0.5)
     chronic (0.10.2)
     cocoon (1.2.9)
     codeclimate-test-reporter (0.6.0)
@@ -281,6 +282,7 @@ DEPENDENCIES
   axlsx
   axlsx_rails
   bcrypt
+  byebug
   cocoon
   codeclimate-test-reporter
   coffee-rails
@@ -315,4 +317,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

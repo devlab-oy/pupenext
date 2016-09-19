@@ -34,6 +34,7 @@ class Keyword < BaseModel
       EXTRANET_TEEMA:  Keyword,
       GS1_SSCC:        Keyword,
       HAE_JA_SELAA:    Keyword,
+      HALYRAP:         Keyword,
       HAMMASTUS:       Keyword,
       HENKILO_OSASTO:  Keyword,
       HINNAT_CRON:     Keyword,
