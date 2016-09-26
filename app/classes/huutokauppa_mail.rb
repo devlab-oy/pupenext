@@ -382,7 +382,7 @@ class HuutokauppaMail
   def mark_as_done
     return unless find_draft
 
-    create_preliminary_invoice = find_draft.invoice.nil?
+    create_preliminary_invoice = find_draft.jaksotettu > 0
 
     response = find_draft.mark_as_done(create_preliminary_invoice: create_preliminary_invoice)
 
