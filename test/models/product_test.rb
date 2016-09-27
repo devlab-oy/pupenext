@@ -55,7 +55,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test 'valid status' do
-    assert_equal 'A', @product.status
+    assert_equal 'status_active', @product.status
 
     @product.status = 'T'
     assert @product.valid?
@@ -66,17 +66,15 @@ class ProductTest < ActiveSupport::TestCase
     @product.status = 'P'
     assert @product.valid?
 
-    @product.status = 'I'
-    assert @product.valid?
-
     @product.status = nil
     refute @product.valid?
 
     @product.status = ''
     refute @product.valid?
 
-    @product.status = 'invalid_status'
-    refute @product.valid?
+    assert_raise(ArgumentError) do
+      @product.status = 'invalid_status'
+    end
   end
 
   test 'active scope' do
