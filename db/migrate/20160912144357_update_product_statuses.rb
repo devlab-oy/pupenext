@@ -3,7 +3,7 @@ class UpdateProductStatuses < ActiveRecord::Migration
     Company.all.each do |company|
       Current.company = company
 
-      company.products.where(status: '').update_all(status: 'A')
+      company.products.where.not(status: %w(A E P T)).update_all(status: 'A')
     end
   end
 end
