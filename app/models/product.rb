@@ -133,6 +133,7 @@ class Product < BaseModel
 
     def defaults
       self.vienti ||= ''
+      self.status ||= :status_active
     end
 end
 
