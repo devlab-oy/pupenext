@@ -29,16 +29,16 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
 
     @params = {
       supplier_product_informations: {
-        "#{@one.id}" => {
+        @one.id.to_s => {
           transfer:    1,
           osasto:      @category_tools.id,
           try:         @subcategory_tools.id,
           tuotemerkki: @brand_tools.id,
           p_tree_id:   @dynamic_tree_one,
           nakyvyys:    'Y',
-          status:      @status_active
-        }
-      }
+          status:      :status_active,
+        },
+      },
     }
   end
 
