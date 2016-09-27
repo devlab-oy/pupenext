@@ -23,8 +23,6 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     @subcategory_tools = keywords(:subcategory_tools)
     @brand_tools       = keywords(:brand_tools)
 
-    @status_active = keywords(:status_active).selite
-
     @dynamic_tree_one = category_products(:product_category_shirts)
 
     session[:supplier] = @domestic_supplier.id
@@ -183,7 +181,7 @@ class SupplierProductInformationsControllerTest < ActionController::TestCase
     assert_equal @one.product_name,             Product.last.nimitys
     assert_equal 24.to_d,                       Product.last.alv
     assert_equal @one.manufacturer_ean,         Product.last.eankoodi
-    assert_equal @status_active,                Product.last.status
+    assert_equal 'status_active',               Product.last.status
     assert_equal @category_tools,               Product.last.category
     assert_equal @subcategory_tools,            Product.last.subcategory
     assert_equal @brand_tools,                  Product.last.brand
