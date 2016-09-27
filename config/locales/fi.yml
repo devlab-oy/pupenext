@@ -296,6 +296,11 @@ fi:
         kuvaus: Kuvaus
         lyhytkuvaus: Lyhytkuvaus
         nimitys: Nimitys
+        statuses:
+          deleted: Poistettu
+          order_only: Tilaustuote
+          preorder: Ennakkotuote
+          status_active: Aktiivinen
         tuoteno: Tuoteno
         voimassa: Voimassa
       qualifier:

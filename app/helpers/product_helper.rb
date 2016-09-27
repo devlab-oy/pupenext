@@ -12,15 +12,11 @@ module ProductHelper
   end
 
   def product_status_options
-    statuses = [
-      %w(Aktiivi A),
-      %w(Ennakkotuote E),
-      %w(Tilaustuote T),
-      %w(Poistettu P),
-    ]
+    options = Product.statuses.map do |key, value|
+      [t("activerecord.attributes.product.statuses.#{key}"), value]
+    end
 
-    statuses += Product::Status.pluck(:selitetark, :selite)
-    options_for_select statuses, params[:status]
+    options_for_select(options, params[:status])
   end
 
   def product_export_fields
