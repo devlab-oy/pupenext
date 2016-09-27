@@ -119,8 +119,10 @@ class DateDatetimeDefaultsTest < ActiveSupport::TestCase
     assert_not_nil spi.created_at
     assert_not_nil spi.updated_at
 
-    status = Product::Status.create! selite: 'foo'
-    assert_not_equal @zero_datetime, status.luontiaika_before_type_cast
-    assert_not_equal @zero_datetime, status.muutospvm_before_type_cast
+    product = Product.new
+    product.save(validate: false)
+
+    assert_not_equal @zero_datetime, product.luontiaika_before_type_cast
+    assert_not_equal @zero_datetime, product.muutospvm_before_type_cast
   end
 end
