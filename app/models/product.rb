@@ -43,6 +43,7 @@ class Product < BaseModel
 
   validates :nimitys, presence: true
   validates :tuoteno, presence: true, uniqueness: { scope: [:yhtio] }
+  validates :status, presence: true
   validates_numericality_of :myyntihinta, :myymalahinta
 
   self.table_name = :tuote
