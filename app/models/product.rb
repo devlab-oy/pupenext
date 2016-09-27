@@ -45,12 +45,17 @@ class Product < BaseModel
   validates :tuoteno, presence: true, uniqueness: { scope: [:yhtio] }
   validates_numericality_of :myyntihinta, :myymalahinta
 
-  validate :check_status
-
   self.table_name = :tuote
   self.primary_key = :tunnus
 
   before_save :defaults
+
+  enum status: {
+    status_active: 'A',
+    preorder: 'E',
+    deleted: 'P',
+    order_only: 'T',
+  }
 
   enum tuotetyyppi: {
     expence: 'B',
@@ -67,11 +72,9 @@ class Product < BaseModel
   }
 
   scope :active, -> { not_deleted.regular }
-  scope :deleted, -> { where(status: :P) }
   scope :not_deleted, -> { where.not(status: :P) }
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
-  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def as_json(options = {})
     options = { only: :tunnus }.merge(options)
@@ -127,11 +130,6 @@ class Product < BaseModel
   end
 
   private
-
-    def check_status
-      valid_statuses = company.product_statuses.pluck(:selite) + %w(A E P T)
-      errors.add :status, I18n.t('errors.messages.invalid') if valid_statuses.exclude?(status)
-    end
 
     def defaults
       self.vienti ||= ''
