@@ -57,20 +57,15 @@ class ProductTest < ActiveSupport::TestCase
   test 'valid status' do
     assert_equal 'status_active', @product.status
 
-    @product.status = 'T'
-    assert @product.valid?
+    %w(E P T X).each do |status|
+      @product.status = status
+      assert @product.valid?, @product.errors.full_messages
+    end
 
-    @product.status = 'E'
-    assert @product.valid?
-
-    @product.status = 'P'
-    assert @product.valid?
-
-    @product.status = nil
-    refute @product.valid?
-
-    @product.status = ''
-    refute @product.valid?
+    [nil, ''].each do |invalid_status|
+      @product.status = invalid_status
+      refute @product.valid?
+    end
 
     assert_raise(ArgumentError) do
       @product.status = 'invalid_status'
