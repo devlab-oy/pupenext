@@ -56,6 +56,7 @@ class Product < BaseModel
     preorder: 'E',
     deleted: 'P',
     order_only: 'T',
+    to_be_deleted: 'X',
   }
 
   enum tuotetyyppi: {
