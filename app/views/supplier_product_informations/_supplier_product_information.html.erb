@@ -67,7 +67,7 @@
     <%= SupplierProductInformation.human_attribute_name(:product_category) %>
   </th>
   <th><%= Product.human_attribute_name(:nakyvyys) %></th>
-  <th><%= Product::Status.model_name.human %></th>
+  <th><%= Product.human_attribute_name(:status) %></th>
   <th colspan="2"><%= t('.update_net_price') %></th>
   <th colspan="1"><%= t('.update_available_quantity') %></th>
 <% end %>
@@ -113,10 +113,7 @@
   </td>
   <td>
     <%= select_tag("supplier_product_informations[#{s.id}][status]",
-                   options_from_collection_for_select(statuses,
-                                                      :tunnus,
-                                                      :selitetark,
-                                                      previous_params[:status]),
+                   product_status_options,
                    class: :status) %>
   </td>
   <td colspan="2">

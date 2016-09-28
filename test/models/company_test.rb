@@ -39,7 +39,6 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.packing_areas.count > 0
     assert @acme.printers.count > 0
     assert @acme.product_categories.count > 0
-    assert @acme.product_statuses.count > 0
     assert @acme.product_suppliers.count > 0
     assert @acme.products.count > 0
     assert @acme.projects.count > 0

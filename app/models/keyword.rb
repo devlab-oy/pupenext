@@ -93,7 +93,6 @@ class Keyword < BaseModel
       RELEX_TUOTEPAR:  Keyword,
       RESEPTI_KENTAT:  Keyword,
       REVENUEREP:      Keyword::RevenueExpenditure,
-      S:               Product::Status,
       SAHKTILTUN:      Keyword,
       SALDOVAHVISTUS:  Keyword,
       SARJANUMERON_LI: Keyword,

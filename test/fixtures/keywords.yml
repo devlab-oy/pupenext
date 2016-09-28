@@ -141,13 +141,6 @@ weekly_alternative_expenditure_one:
   selitetark_2: 300
   <<: *DEFAULTS
 
-status_active:
-  yhtio: acme
-  selite: A
-  selitetark: Aktiivi
-  laji: S
-  <<: *DEFAULTS
-
 lahetetyyppi:
   yhtio: acme
   laji: LAHETETYYPPI

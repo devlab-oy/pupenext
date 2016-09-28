@@ -8,7 +8,6 @@ class Product < BaseModel
   belongs_to :category,     foreign_key: :osasto,      primary_key: :selite,  class_name: 'Product::Category'
   belongs_to :subcategory,  foreign_key: :try,         primary_key: :selite,  class_name: 'Product::Subcategory'
   belongs_to :brand,        foreign_key: :tuotemerkki, primary_key: :selite,  class_name: 'Product::Brand'
-  belongs_to :status,       foreign_key: :status,      primary_key: :selite,  class_name: 'Product::Status'
 
   has_many :pending_updates, as: :pending_updatable, dependent: :destroy
   has_many :suppliers, through: :product_suppliers
@@ -44,12 +43,21 @@ class Product < BaseModel
 
   validates :nimitys, presence: true
   validates :tuoteno, presence: true, uniqueness: { scope: [:yhtio] }
+  validates :status, presence: true
   validates_numericality_of :myyntihinta, :myymalahinta
 
   self.table_name = :tuote
   self.primary_key = :tunnus
 
   before_save :defaults
+
+  enum status: {
+    status_active: 'A',
+    preorder: 'E',
+    deleted: 'P',
+    order_only: 'T',
+    to_be_deleted: 'X',
+  }
 
   enum tuotetyyppi: {
     expence: 'B',
@@ -66,11 +74,9 @@ class Product < BaseModel
   }
 
   scope :active, -> { not_deleted.regular }
-  scope :deleted, -> { where(status: :P) }
   scope :not_deleted, -> { where.not(status: :P) }
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
-  scope :active, -> { not_deleted.where(tuotetyyppi: ['', :R, :M, :K]) }
 
   def as_json(options = {})
     options = { only: :tunnus }.merge(options)
@@ -129,6 +135,7 @@ class Product < BaseModel
 
     def defaults
       self.vienti ||= ''
+      self.status ||= :status_active
     end
 end
 

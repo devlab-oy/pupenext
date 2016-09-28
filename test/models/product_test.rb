@@ -17,6 +17,7 @@ class ProductTest < ActiveSupport::TestCase
     products
     purchase_order/rows
     sales_order/rows
+    shelf_locations
     stock_transfer/rows
     suppliers
     warehouses
@@ -36,7 +37,6 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal 'OSASTO', @product.category.laji
     assert_equal 'TRY', @product.subcategory.laji
     assert_equal 'TUOTEMERKKI', @product.brand.laji
-    assert_equal 'S', @product.status.laji
     assert @product.keywords.count > 0
     assert @product.manufacture_rows.count > 0
     assert @product.pending_updates.count > 0
@@ -52,6 +52,24 @@ class ProductTest < ActiveSupport::TestCase
     assert_includes @product.product_links, category_links(:product_category_shirts_hammer)
     assert_includes @product.product_categories, category_products(:product_category_shirts)
     assert @product.warehouses.count > 0
+  end
+
+  test 'valid status' do
+    assert_equal 'status_active', @product.status
+
+    %w(E P T X).each do |status|
+      @product.status = status
+      assert @product.valid?, @product.errors.full_messages
+    end
+
+    [nil, ''].each do |invalid_status|
+      @product.status = invalid_status
+      refute @product.valid?
+    end
+
+    assert_raise(ArgumentError) do
+      @product.status = 'invalid_status'
+    end
   end
 
   test 'active scope' do
