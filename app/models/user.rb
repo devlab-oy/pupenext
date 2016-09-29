@@ -11,8 +11,7 @@ class User < BaseModel
   self.primary_key = :tunnus
 
   def locale
-    locales = %w(fi se en de ee)
-    locales.include?(kieli) ? kieli : 'fi'
+    Dictionary.locales.include?(kieli) ? kieli : 'fi'
   end
 
   def can_read?(resource, options = {})

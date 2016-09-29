@@ -2,7 +2,7 @@ class Dictionary < ActiveRecord::Base
   self.table_name = :sanakirja
   self.primary_key = :tunnus
 
-  SUPPORTED_LOCALES = %w{fi ee en no se de dk ru}
+  SUPPORTED_LOCALES = %w(fi ee en no se de dk ru).freeze
 
   def self.translate(string, language = 'fi')
     # Return the string if don't have the translation
@@ -32,17 +32,15 @@ class Dictionary < ActiveRecord::Base
     SUPPORTED_LOCALES
   end
 
-  private
+  def self.fetch_translation(string)
+    # Generate a cache key for the string
+    cache_key = string.hash
 
-    def self.fetch_translation(string)
-      # Generate a cache key for the string
-      cache_key = string.hash
-
-      # Fetch the translation (cache does not expire)
-      translation = Rails.cache.fetch("translation_#{cache_key}") do
-        where("fi = BINARY ?", string.to_s).first
-      end
-
-      translation
+    # Fetch the translation (cache does not expire)
+    translation = Rails.cache.fetch("translation_#{cache_key}") do
+      find_by('fi = BINARY ?', string.to_s)
     end
+
+    translation
+  end
 end
