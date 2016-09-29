@@ -388,6 +388,9 @@ fi:
         kuittitulostin: Kuittitulostin
         kuka: Käyttäjätunnus
         kulujen_laskeminen_hintoihin: Kuluprosentin esittäminen
+        kulujen_laskeminen_hintoihins:
+          expense_add: Hintoihin ei lasketa kuluprosenttia
+          expense_dont_add: Hintoihin lasketaan kuluprosentti
         lahetetulostin: Lähetetulostin
         lomaoikeus: Lomaoikeus
         maksuehto: Oletusmaksuehto

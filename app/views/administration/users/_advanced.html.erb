@@ -18,7 +18,7 @@
   <%= f.input :keraajanro %>
   <%= f.input :keraysvyohyke %>
   <%= f.input :kuittitulostin %>
-  <%= f.input :kulujen_laskeminen_hintoihin %>
+  <%= f.input :kulujen_laskeminen_hintoihin, collection: user_expense_options, include_blank: false %>
   <%= f.input :lahetetulostin %>
   <%= f.input :lomaoikeus %>
   <%= f.input :maksuehto %>

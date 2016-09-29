@@ -30,6 +30,11 @@ class User < BaseModel
     show_prices: 0,
   }
 
+  enum kulujen_laskeminen_hintoihin: {
+    expense_add: 'K',
+    expense_dont_add: '',
+  }
+
   self.table_name = :kuka
   self.primary_key = :tunnus
 

@@ -37,4 +37,13 @@ module UserHelper
       [t("#{node}.no_prices"),             :no_prices],
     ]
   end
+
+  def user_expense_options
+    node = 'activerecord.attributes.user.kulujen_laskeminen_hintoihins'
+
+    [
+      [t("#{node}.expense_dont_add"), :expense_dont_add],
+      [t("#{node}.expense_add"),      :expense_add],
+    ]
+  end
 end
