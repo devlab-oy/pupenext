@@ -1,8 +1,6 @@
 module UserHelper
   def kuka_options
-    User.all.order(:nimi).map do |u|
-      ["#{u.nimi} (#{u.kuka})", u.kuka]
-    end
+    User.all.order(:nimi).map(&:display_name)
   end
 
   def user_taso_options
@@ -15,9 +13,7 @@ module UserHelper
   end
 
   def user_temp_acceptor_options
-    User.temp_acceptors.order(:nimi).map do |u|
-      ["#{u.nimi} (#{u.kuka})", u.kuka]
-    end
+    User.temp_acceptors.order(:nimi).map(&:display_name)
   end
 
   def user_order_ready_options

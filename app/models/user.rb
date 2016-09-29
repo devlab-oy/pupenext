@@ -39,6 +39,10 @@ class User < BaseModel
     Dictionary.locales.include?(kieli) ? kieli : 'fi'
   end
 
+  def display_name
+    "#{nimi} (#{kuka})"
+  end
+
   def can_read?(resource, options = {})
     permissions.read_access(resource, options).present?
   end
