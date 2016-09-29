@@ -8,6 +8,13 @@ class User < BaseModel
   validates :kuka, presence: true, uniqueness: { scope: [:yhtio] }
   validates :kieli, inclusion: { in: Dictionary.locales }
 
+  enum taso: {
+    acceptor_admin: 2,
+    acceptor_basic: 1,
+    acceptor_beginner: 9,
+    acceptor_super: 3,
+  }
+
   self.table_name = :kuka
   self.primary_key = :tunnus
 

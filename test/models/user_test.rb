@@ -131,4 +131,17 @@ class UserTest < ActiveSupport::TestCase
       @joe.update_permissions
     end
   end
+
+  test 'valid taso' do
+    [1, 2, 3, 9, nil, ''].each do |taso|
+      @joe.taso = taso
+      assert @joe.valid?, @joe.errors.full_messages
+    end
+
+    [4, 5, 6, 'foo'].each do |invalid_taso|
+      assert_raise(ArgumentError) do
+        @joe.taso = invalid_taso
+      end
+    end
+  end
 end

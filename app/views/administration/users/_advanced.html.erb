@@ -8,7 +8,8 @@
   <%= f.input :fyysinen_sijainti %>
   <%= f.input :hierarkia %>
   <%= f.input :hinnat %>
-  <%= f.input :hyvaksyja %>
+  <%= f.input :hyvaksyja, as: :boolean %>
+  <%= f.input :taso, collection: user_taso_options, include_blank: false %>
   <%= f.input :hyvaksyja_maksimisumma %>
   <%= f.input :ip %>
   <%= f.input :jyvitys %>

@@ -412,6 +412,11 @@ fi:
         saatavat: Saatavat
         salasana: Salasana
         taso: Hyväksyjätaso
+        tasos:
+          acceptor_admin: Tehohyväksyjä, tiliöntejä voi muuttaa
+          acceptor_basic: Perushyväksyjä, tiliöntejä ei voi muuttaa
+          acceptor_beginner: Aloittelijahyväksyjä, tiliöintejä ei näytetä
+          acceptor_super: Tehohyväksyjä, lukittujakin tiliöintejä voi muuttaa
         tilaus_valmis: Tilauksen käsittely
         toimipaikka: Toimipaikka
         toimitustapa: Oletustoimitustapa
