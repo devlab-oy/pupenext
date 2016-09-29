@@ -132,4 +132,14 @@ class CustomerTest < ActiveSupport::TestCase
 
     assert_equal keys, @one.as_json.keys
   end
+
+  test 'y-tunnus uniqueness check ignores deleted customers' do
+    Customer.delete_all
+
+    Customer.new(ytunnus: 1, laji: 'P').save(validate: false)
+
+    customer = Customer.new(ytunnus: 1, nimi: 'Test')
+
+    assert customer.valid?, customer.errors.full_messages
+  end
 end
