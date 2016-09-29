@@ -21,6 +21,7 @@ class User < BaseModel
     order_ready_approve: '2',
     order_ready_approve_foreign: '3',
     order_ready_denied: '4',
+    order_ready_automatic_workorder: '9',
   }
 
   self.table_name = :kuka

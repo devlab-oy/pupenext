@@ -24,10 +24,11 @@ module UserHelper
     node = 'activerecord.attributes.user.tilaus_valmiss'
 
     [
-      [t("#{node}.order_ready_ok"),              :order_ready_ok],
-      [t("#{node}.order_ready_approve"),         :order_ready_approve],
-      [t("#{node}.order_ready_approve_foreign"), :order_ready_approve_foreign],
-      [t("#{node}.order_ready_denied"),          :order_ready_denied],
+      [t("#{node}.order_ready_ok"),                  :order_ready_ok],
+      [t("#{node}.order_ready_approve"),             :order_ready_approve],
+      [t("#{node}.order_ready_approve_foreign"),     :order_ready_approve_foreign],
+      [t("#{node}.order_ready_denied"),              :order_ready_denied],
+      [t("#{node}.order_ready_automatic_workorder"), :order_ready_automatic_workorder],
     ]
   end
 end
