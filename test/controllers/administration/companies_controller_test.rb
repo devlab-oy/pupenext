@@ -36,6 +36,7 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
           oletus_profiili: 'Perustoiminnot',
           salasana: Digest::MD5.hexdigest('kissa'),
           extranet: 'Z',
+          kieli: 'fi',
         },
       ],
     }

@@ -218,11 +218,13 @@ class CompanyCopierTest < ActiveSupport::TestCase
             kuka: 'extranet-user@example.com',
             nimi: 'Euser',
             salasana: 'foo',
+            kieli: 'fi',
           },
           {
             kuka: 'second-user@example.com',
             nimi: 'Secuser',
             salasana: 'bar',
+            kieli: 'fi',
           },
         ],
       },
@@ -258,12 +260,14 @@ class CompanyCopierTest < ActiveSupport::TestCase
         ytunnus: '1234567-8',
         users_attributes: [
           {
+            kieli: 'fi',
             kuka: 'erkki.eka@example.com',
             nimi: 'Erkki',
             profiilit: 'Admin profiili',
             salasana: kissa_pass,
           },
           {
+            kieli: 'fi',
             kuka: 'totti.toka@example.com',
             nimi: 'Totti',
             profiilit: 'Admin profiili',

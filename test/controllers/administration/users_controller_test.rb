@@ -39,6 +39,7 @@ class Administration::UsersControllerTest < ActionController::TestCase
         kuka: 'juma',
         eposti: 'juma@example.com',
         salasana: 'foobar',
+        kieli: 'fi',
       }
 
       post :create, user: params

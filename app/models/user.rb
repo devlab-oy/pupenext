@@ -6,6 +6,7 @@ class User < BaseModel
   has_many :permissions
 
   validates :kuka, presence: true, uniqueness: { scope: [:yhtio] }
+  validates :kieli, inclusion: { in: Dictionary.locales }
 
   self.table_name = :kuka
   self.primary_key = :tunnus

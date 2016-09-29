@@ -1,14 +1,18 @@
+DEFAULTS: &DEFAULTS
+  kieli: fi
+  muuttaja: joe
+  laatija: joe
+  lastlogin: <%= Time.now %>
+  luontiaika: <%= Time.now %>
+  muutospvm: <%= Time.now %>
+
 joe:
   yhtio: acme
   kuka: joe
   nimi: Joe Danger
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   session: IAOZQQAXYYDWMDBSWOEFSVBBI
-  muuttaja: joe
-  laatija: joe
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 bob:
   yhtio: acme
@@ -17,11 +21,7 @@ bob:
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   session: VNBMDDNKLLQJZQOFJBRSFIOOV
   api_key: 62ef4a4a53c04f5ca20ff748b295be5a
-  muuttaja: bob
-  laatija: bob
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 admin:
   yhtio: acme
@@ -30,11 +30,7 @@ admin:
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   session: PVHOINABDXGRFXVKMQHOETGJY
   api_key: a2f7d8c21006cf11efba37d81e9f5711
-  muuttaja: admin
-  laatija: admin
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 admin_esto:
   yhtio: esto
@@ -43,11 +39,7 @@ admin_esto:
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   session: PVHOINABDXGRFXVKMQHOETGJY
   api_key: a2f7d8c21006cf11efba37d81e9f5711
-  muuttaja: admin
-  laatija: admin
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS
 
 max:
   yhtio: esto
@@ -55,8 +47,4 @@ max:
   salasana: <%= Digest::MD5.hexdigest('hevonen123') %>
   nimi: Maxwell Pronto
   session: OZDROQPMPVZKNFTTMOHOMBRBU
-  muuttaja: bob
-  laatija: bob
-  lastlogin: <%= Time.now %>
-  luontiaika: <%= Time.now %>
-  muutospvm: <%= Time.now %>
+  <<: *DEFAULTS

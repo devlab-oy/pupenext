@@ -199,6 +199,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     @acme.users_attributes = [
       {
+        kieli: 'fi',
         kuka: '123',
         nimi: 'Testi Testaaja',
         salasana: Digest::MD5.hexdigest('kissa'),
