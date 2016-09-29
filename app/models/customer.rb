@@ -20,7 +20,7 @@ class Customer < BaseModel
   validates :nimi, presence: true
   validates :osasto, inclusion: { in: ->(_c) { Keyword::CustomerCategory.pluck(:selite) } }, allow_blank: true
   validates :ryhma, inclusion: { in: ->(_c) { Keyword::CustomerSubcategory.pluck(:selite) } }, allow_blank: true
-  validates :ytunnus, presence: true, uniqueness: { conditions: -> { deleted }, scope: :yhtio }
+  validates :ytunnus, presence: true, uniqueness: { conditions: -> { active }, scope: :yhtio }
   validates :alv, inclusion: { in: ->(_c) { Keyword::Vat.pluck(:selite).map(&:to_i) } }
   validates :kauppatapahtuman_luonne, inclusion: { in: ->(_c) { Keyword::NatureOfTransaction.valid_values } }
 
@@ -30,9 +30,9 @@ class Customer < BaseModel
 
   before_validation :defaults
 
-  scope :deleted, -> { where.not(laji: %w(P R)) }
+  scope :active, -> { where.not(laji: %w(P R)) }
 
-  default_scope { deleted }
+  default_scope { active }
 
   self.table_name = :asiakas
   self.primary_key = :tunnus
