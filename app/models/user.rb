@@ -24,6 +24,12 @@ class User < BaseModel
     order_ready_automatic_workorder: '9',
   }
 
+  enum hinnat: {
+    no_prices: -1,
+    show_only_sales_price: 1,
+    show_prices: 0,
+  }
+
   self.table_name = :kuka
   self.primary_key = :tunnus
 

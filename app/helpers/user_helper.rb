@@ -31,4 +31,14 @@ module UserHelper
       [t("#{node}.order_ready_automatic_workorder"), :order_ready_automatic_workorder],
     ]
   end
+
+  def user_prices_options
+    node = 'activerecord.attributes.user.hinnats'
+
+    [
+      [t("#{node}.show_prices"),           :show_prices],
+      [t("#{node}.show_only_sales_price"), :show_only_sales_price],
+      [t("#{node}.no_prices"),             :no_prices],
+    ]
+  end
 end

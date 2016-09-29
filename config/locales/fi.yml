@@ -370,6 +370,10 @@ fi:
         fyysinen_sijainti: Käyttäjän fyysinen sijainti
         hierarkia: Organisaatiopuu
         hinnat: Hinnat
+        hinnats:
+          show_prices: Normaali
+          show_only_sales_price: Näytetään vain tuotteen myyntihinta
+          no_prices: Hintoja ei näytetä
         hyvaksyja: Hyväksyjä
         hyvaksyja_maksimisumma: Hyväksyjän maksimisumma
         ip: IP

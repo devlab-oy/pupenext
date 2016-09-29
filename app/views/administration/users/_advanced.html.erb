@@ -7,7 +7,7 @@
   <%= f.input :eilahetetta %>
   <%= f.input :fyysinen_sijainti %>
   <%= f.input :hierarkia %>
-  <%= f.input :hinnat %>
+  <%= f.input :hinnat, collection: user_prices_options, include_blank: false %>
   <%= f.input :hyvaksyja, as: :boolean %>
   <%= f.input :taso, collection: user_taso_options, include_blank: false %>
   <%= f.input :hyvaksyja_maksimisumma %>
