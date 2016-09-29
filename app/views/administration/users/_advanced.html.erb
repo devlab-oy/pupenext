@@ -45,7 +45,7 @@
   <%= f.input :tilaus_valmis %>
   <%= f.input :toimipaikka %>
   <%= f.input :toimitustapa %>
-  <%= f.input :tuuraaja %>
+  <%= f.input :tuuraaja, collection: user_temp_acceptor_options, include_blank: t('.no_temp_acceptor')  %>
   <%= f.input :varasto %>
 
 </table>

@@ -144,4 +144,27 @@ class UserTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'temp acceptors scope and values' do
+    @bob.tuuraaja = ''
+    assert @bob.valid?, @bob.errors.full_messages
+
+    @bob.tuuraaja = @joe.kuka
+
+    User.all.update_all hyvaksyja: '', extranet: ''
+    assert_equal 0, User.temp_acceptors.count
+    refute @bob.valid?
+
+    @joe.update_attributes! hyvaksyja: '', extranet: 'X'
+    assert_equal 0, User.temp_acceptors.count
+    refute @bob.valid?
+
+    @joe.update_attributes! hyvaksyja: 'X', extranet: 'X'
+    assert_equal 0, User.temp_acceptors.count
+    refute @bob.valid?
+
+    @joe.update_attributes! hyvaksyja: 'X', extranet: ''
+    assert_equal 1, User.temp_acceptors.count
+    assert @bob.valid?, @bob.errors.full_messages
+  end
 end

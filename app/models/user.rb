@@ -7,6 +7,7 @@ class User < BaseModel
 
   validates :kuka, presence: true, uniqueness: { scope: [:yhtio] }
   validates :kieli, inclusion: { in: Dictionary.locales }
+  validates :tuuraaja, inclusion: { in: ->(_) { User.temp_acceptors.pluck(:kuka) } }, allow_blank: true
 
   enum taso: {
     acceptor_admin: 2,
@@ -17,6 +18,8 @@ class User < BaseModel
 
   self.table_name = :kuka
   self.primary_key = :tunnus
+
+  scope :temp_acceptors, -> { where("hyvaksyja != '' and extranet = ''") }
 
   def locale
     Dictionary.locales.include?(kieli) ? kieli : 'fi'
