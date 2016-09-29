@@ -16,6 +16,13 @@ class User < BaseModel
     acceptor_super: 3,
   }
 
+  enum tilaus_valmis: {
+    order_ready_ok: '1',
+    order_ready_approve: '2',
+    order_ready_approve_foreign: '3',
+    order_ready_denied: '4',
+  }
+
   self.table_name = :kuka
   self.primary_key = :tunnus
 

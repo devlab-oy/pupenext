@@ -42,10 +42,10 @@
   <%= f.input :piirit %>
   <%= f.input :rahtikirjatulostin %>
   <%= f.input :saatavat %>
-  <%= f.input :tilaus_valmis %>
+  <%= f.input :tilaus_valmis, collection: user_order_ready_options, include_blank: false %>
   <%= f.input :toimipaikka %>
   <%= f.input :toimitustapa %>
-  <%= f.input :tuuraaja, collection: user_temp_acceptor_options, include_blank: t('.no_temp_acceptor')  %>
+  <%= f.input :tuuraaja, collection: user_temp_acceptor_options, include_blank: t('administration.users.edit.no_temp_acceptor')  %>
   <%= f.input :varasto %>
 
 </table>

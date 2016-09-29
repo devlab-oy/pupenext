@@ -418,6 +418,11 @@ fi:
           acceptor_beginner: Aloittelijahyväksyjä, tiliöintejä ei näytetä
           acceptor_super: Tehohyväksyjä, lukittujakin tiliöintejä voi muuttaa
         tilaus_valmis: Tilauksen käsittely
+        tilaus_valmiss:
+          order_ready_approve: Tilaukset pitää hyväksyä ennen keräystä
+          order_ready_approve_foreign: Tilaukset pitää hyväksyä ennen keräystä jos tilauksella on tuotteita ulkomaan varastoista (muuten menevät suoraan keräykseen)
+          order_ready_denied: Käyttäjä ei saa laittaa tilauksia valmiiksi
+          order_ready_ok: Tilaukset menevät suoraan keräykseen
         toimipaikka: Toimipaikka
         toimitustapa: Oletustoimitustapa
         tuuraaja: Sijainen laskujen hyväksynnässä
@@ -781,6 +786,7 @@ fi:
         destroy_success: Käyttäjä poistettu
       edit:
         header: Muokkaa käyttäjää
+        no_temp_acceptor: Ei tuuraajaa
       index:
         button_search: Etsi
         header: Käyttäjät

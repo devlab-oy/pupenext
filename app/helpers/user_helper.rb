@@ -19,4 +19,15 @@ module UserHelper
       ["#{u.nimi} (#{u.kuka})", u.kuka]
     end
   end
+
+  def user_order_ready_options
+    node = 'activerecord.attributes.user.tilaus_valmiss'
+
+    [
+      [t("#{node}.order_ready_ok"),              :order_ready_ok],
+      [t("#{node}.order_ready_approve"),         :order_ready_approve],
+      [t("#{node}.order_ready_approve_foreign"), :order_ready_approve_foreign],
+      [t("#{node}.order_ready_denied"),          :order_ready_denied],
+    ]
+  end
 end
