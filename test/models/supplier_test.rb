@@ -32,9 +32,29 @@ class SupplierTest < ActiveSupport::TestCase
       'for_every_product'       => 'L',
       'travelling_expense_user' => 'K',
       'inactive'                => 'P',
-      'deleted'                 => 'PP',
     }
 
     assert_equal expected, Supplier.tyyppis
+  end
+
+  test '.active scope' do
+    count = Supplier.all.count
+
+    types = {
+      active: ['', 'L', 'K'],
+      inactive: %w(P),
+    }
+
+    types[:active].each do |type|
+      Supplier.all.update_all(tyyppi: type)
+
+      assert_equal count, Supplier.active.count
+    end
+
+    types[:inactive].each do |type|
+      Supplier.all.update_all(tyyppi: type)
+
+      assert_equal 0, Supplier.active.count
+    end
   end
 end
