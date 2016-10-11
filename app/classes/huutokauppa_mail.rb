@@ -382,7 +382,14 @@ class HuutokauppaMail
   def mark_as_done
     return unless find_draft
 
-    create_preliminary_invoice = find_draft.jaksotettu > 0
+    create_preliminary_invoice = find_draft.jaksotettu.zero?
+
+    @messages <<
+      if create_preliminary_invoice
+        "Luodaan ennakkolasku tilaukselle #{order_message_info(find_draft)}."
+      else
+        "Ei luoda ennakkolaskua tilaukselle #{order_message_info(find_draft)}, sillä se on jo luotu."
+      end
 
     response = find_draft.mark_as_done(create_preliminary_invoice: create_preliminary_invoice)
 
