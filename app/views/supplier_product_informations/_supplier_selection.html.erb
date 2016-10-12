@@ -4,7 +4,7 @@
       <th><%= label_tag :supplier, Supplier.model_name.human %></th>
       <td>
         <%= select_tag :supplier,
-                       options_from_collection_for_select(Supplier.all,
+                       options_from_collection_for_select(Supplier.active.where.not(pikaperustus: ''),
                                                           :tunnus,
                                                           :nimi,
                                                           session[:supplier]) %>

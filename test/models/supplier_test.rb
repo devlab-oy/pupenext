@@ -25,4 +25,36 @@ class SupplierTest < ActiveSupport::TestCase
     assert_includes @supplier.supplier_product_informations, supplier_product_informations(:two)
     assert_not_includes @supplier.supplier_product_informations, supplier_product_informations(:one)
   end
+
+  test '.tyyppi enum' do
+    expected = {
+      'normal'                  => '',
+      'for_every_product'       => 'L',
+      'travelling_expense_user' => 'K',
+      'inactive'                => 'P',
+    }
+
+    assert_equal expected, Supplier.tyyppis
+  end
+
+  test '.active scope' do
+    count = Supplier.all.count
+
+    types = {
+      active: ['', 'L', 'K'],
+      inactive: %w(P),
+    }
+
+    types[:active].each do |type|
+      Supplier.all.update_all(tyyppi: type)
+
+      assert_equal count, Supplier.active.count
+    end
+
+    types[:inactive].each do |type|
+      Supplier.all.update_all(tyyppi: type)
+
+      assert_equal 0, Supplier.active.count
+    end
+  end
 end
