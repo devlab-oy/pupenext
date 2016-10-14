@@ -9,6 +9,7 @@ class Reports::CustomerPriceListsController < ApplicationController
     products = products.where(osasto: params[:osasto]) if params[:osasto]
     products = products.where(try: params[:try]) if params[:try]
     products = products.where(tuotemerkki: params[:tuotemerkki]) if params[:tuotemerkki]
+    products = products.order(:osasto, :try, :tuoteno)
 
     if params[:contract_filter].to_i == 2
       products = products.select { |p| p.contract_price?(@target) }
