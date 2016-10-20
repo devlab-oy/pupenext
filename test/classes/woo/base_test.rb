@@ -15,8 +15,12 @@ class Woo::BaseTest < ActiveSupport::TestCase
   end
 
   test 'generates edi_order from json response' do
-     orders = File.read(Rails.root.join('test', 'assets', 'woocommerce', 'orders.json'))
-     # @woocommerce.build_edi_order(orders)
-     JSON.parse(orders).first
+    json_orders = File.read(Rails.root.join('test', 'assets', 'woocommerce', 'orders.json'))
+    assert_match /OSTOTILRIV 1/, @woocommerce.build_edi_order(JSON.parse(json_orders).first)
+  end
+
+  test 'writes edi orders to file' do
+    json_orders = File.read(Rails.root.join('test', 'assets', 'woocommerce', 'orders.json'))
+    assert_equal "", @woocommerce.write_to_file(JSON.parse(json_orders))
   end
 end
