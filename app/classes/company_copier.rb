@@ -70,7 +70,7 @@ class CompanyCopier
 
         copy = record.dup
         copy.assign_attributes attributes.merge(default_attributes)
-        copy.save!
+        copy.save(validate: false)
         copy
       end
     end
