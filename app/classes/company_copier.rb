@@ -79,6 +79,7 @@ class CompanyCopier
     # When those are supported, this should be refactored.
     def delete_partial_data
       destroy :accounts
+      destroy :bank_accounts
       destroy :currencies
       destroy :customers
       destroy :delivery_methods
