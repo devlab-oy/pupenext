@@ -233,7 +233,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
     Current.company = estonian
     customer = estonian.customers.find_by(nimi: 'Kala Oy Esimerkki')
     assert_not_nil customer
-    assert_equal 'extranet-user@example.com, second-user@example.com', customer.email
+    assert_equal 'extranet-user@example.com', customer.email
 
     user = estonian.users.find_by(kuka: 'extranet-user@example.com')
     assert_not_nil user

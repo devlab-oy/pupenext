@@ -150,7 +150,7 @@ class CompanyCopier
         customer = Customer.create!(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
-          email: user_attributes.map { |h| h[:kuka] }.join(', '),
+          email: user_attributes.first[:kuka],
           kauppatapahtuman_luonne: 0,
           alv: Keyword::Vat.first.selite,
         )
