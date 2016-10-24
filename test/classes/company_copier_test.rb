@@ -94,6 +94,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'User.unscoped.count',
       'UserProfile.unscoped.count',
       'Warehouse.unscoped.count',
+      'BankAccount.unscoped.count',
     ] do
       assert_raise StandardError do
         @copier.copy
