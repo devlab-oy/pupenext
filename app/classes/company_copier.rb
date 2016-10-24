@@ -51,12 +51,14 @@ class CompanyCopier
       duplicate :user_profiles
       duplicate :users
       duplicate :currencies
-      duplicate :warehouses
+      duplicate :printers
+      duplicate :warehouses, attributes: (
+        Warehouse::PRINTER_NUMBERS.each_with_object({}) { |i, a| a["printteri#{i}"] = Printer.first }
+      )
       duplicate :accounts
       duplicate :delivery_methods
       duplicate :terms_of_payments
       duplicate :customers, attributes: { kauppatapahtuman_luonne: 0 }
-      duplicate :printers
     end
 
     def duplicate(model, attributes: {})

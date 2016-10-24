@@ -63,6 +63,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal 3,                copied_company.users.count
     assert_equal 'admin',          copied_company.users.first.kuka
 
+    [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].each do |number|
+      assert_equal Printer.first, Printer.find(copied_company.warehouses.first.send("printteri#{number}").id)
+    end
+
     assert_equal acme_counts.account,          copied_company.accounts.count
     assert_equal acme_counts.currency,         copied_company.currencies.count
     assert_equal acme_counts.customer,         copied_company.customers.count
