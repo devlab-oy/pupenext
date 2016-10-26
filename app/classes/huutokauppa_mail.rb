@@ -236,10 +236,11 @@ class HuutokauppaMail
   def find_draft
     @draft ||= SalesOrder::Draft.find_by(viesti: auction_id)
 
-    return @draft if @draft
+    unless @draft
+      raise ActiveRecord::RecordNotFound, "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
+    end
 
-    @messages << "Kesken olevaa myyntitilausta ei löytynyt huutokaupalle #{auction_id}."
-    nil
+    @draft
   end
 
   def find_order
