@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Woo::BaseTest < ActiveSupport::TestCase
+class Woo::OrdersTest < ActiveSupport::TestCase
   setup do
     @woocommerce = Woo::Orders.new
   end
 
   test 'should initialize' do
-    assert_instance_of Woo::Base, @woo
+    assert_instance_of Woo::Orders.new, @woocommerce
   end
 
   test 'should get orders' do
