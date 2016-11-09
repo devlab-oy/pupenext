@@ -32,6 +32,7 @@ class Keyword < BaseModel
       ELINKAARI:       Keyword,
       EXTASAVAINSANA:  Keyword,
       EXTRANET_TEEMA:  Keyword,
+      FINV_TULPALVELU: Keyword,
       GS1_SSCC:        Keyword,
       HAE_JA_SELAA:    Keyword,
       HALYRAP:         Keyword,
