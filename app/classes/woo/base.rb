@@ -3,7 +3,7 @@ require "woocommerce_api"
 class Woo::Base
   def initialize
     @woocommerce = WooCommerce::API.new(
-      "http://dev.flowcosmetics.com",
+      Rails.application.secrets.woocommerce_store_url,
       Rails.application.secrets.woocommerce_consumer_key,
       Rails.application.secrets.woocommerce_consumer_secret,
       {
