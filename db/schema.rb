@@ -3863,6 +3863,7 @@ ActiveRecord::Schema.define(version: 20161104091444) do
     t.string   "paivita_oletuspaikka",                             limit: 1,                              default: "",    null: false
     t.string   "myyntihinta_paivitys_saapuminen",                  limit: 1,                              default: "",    null: false
     t.string   "suoratoim_lisamyynti_osto",                        limit: 1,                              default: "",    null: false
+    t.string   "editilaus_suoratoimitus",                          limit: 1,                              default: "",    null: false
     t.string   "toimipaikkakasittely",                             limit: 1,                              default: "",    null: false
     t.string   "tarkenteiden_prioriteetti",                        limit: 1,                              default: "",    null: false
     t.integer  "suoratoimitusvarasto",                             limit: 4,                              default: 0,     null: false
