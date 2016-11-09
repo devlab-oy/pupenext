@@ -43,6 +43,7 @@ end
 group :test, :development do
   gem 'rake'
   gem 'minitest'
+  gem 'simplecov'
   gem 'codeclimate-test-reporter'
   gem 'i18n-tasks'
   gem 'localeapp'

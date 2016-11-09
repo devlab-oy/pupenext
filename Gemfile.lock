@@ -73,6 +73,7 @@ GEM
     date_validator (0.9.0)
       activemodel
       activesupport
+    docile (1.1.5)
     domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.1)
@@ -214,6 +215,11 @@ GEM
     simple_form (3.3.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
+    simplecov (0.12.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -298,6 +304,7 @@ DEPENDENCIES
   resque-web
   roo
   simple_form
+  simplecov
   therubyracer
   turbolinks
   uglifier
