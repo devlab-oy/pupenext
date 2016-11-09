@@ -11,7 +11,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
   test 'creates products to woocommerce' do
     response = Woo::Products.new.create
-    assert_equal 1, response
+    assert_equal "", response
   end
 
   test 'get products' do
@@ -22,5 +22,9 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     response = {name: 'Combosukset', slug: 'ski1', type: 'simple', description: nil, short_description: nil, regular_price: 0.0, stock_quantity: 0.0}
     product = Woo::Products.new.get_products.first
     assert_equal response, Woo::Products.new.product_data(product)
+  end
+
+  test 'filter products from woocommerce' do
+    assert_equal "", Woo::Products.new.find_by_sku('123')["id"]
   end
 end

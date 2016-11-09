@@ -70,6 +70,7 @@ class Product::Keyword < BaseModel
           toimpalautus
           try
           varastopalautus
+          woocommerce_product_id
         )
       end
     end
