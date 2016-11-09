@@ -6,7 +6,7 @@ gem 'rails', '~> 4.2'
 gem 'bcrypt'
 gem 'jquery-rails'
 gem 'coffee-rails'
-gem 'mysql2', '~> 0.3.18'
+gem 'mysql2'
 gem 'turbolinks'
 gem 'dotenv-rails'
 
