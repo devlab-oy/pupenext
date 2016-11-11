@@ -131,4 +131,15 @@ class UserTest < ActiveSupport::TestCase
       @joe.update_permissions
     end
   end
+
+  test 'username length' do
+    @joe.kuka = 'foo'
+    assert @joe.valid?
+
+    @joe.kuka = 'X' * 51
+    refute @joe.valid?
+
+    @joe.kuka = ''
+    refute @joe.valid?
+  end
 end

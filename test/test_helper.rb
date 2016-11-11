@@ -1,23 +1,13 @@
-require 'codeclimate-test-reporter'
-ENV["RAILS_ENV"] ||= "test"
+ENV['RAILS_ENV'] ||= 'test'
+
+require 'simplecov'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'login_helper'
 require 'spreadsheets_helper'
 require 'mocha/mini_test'
 
-if ENV['CODECLIMATE_REPO_TOKEN']
-  SimpleCov.formatters = [
-    SimpleCov::Formatter::HTMLFormatter,
-    CodeClimate::TestReporter::Formatter
-  ]
-else
-  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
-  SimpleCov.add_group 'Validators', '/app/validators/'
-  SimpleCov.add_group 'Modules', '/app/modules/'
-end
-
-SimpleCov.start 'rails'
+SimpleCov.start
 
 def assets_file(name)
   File.read(Rails.root.join('test', 'assets', name)).chomp

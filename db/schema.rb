@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104093006) do
+ActiveRecord::Schema.define(version: 20161109125651) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2701,7 +2701,6 @@ ActiveRecord::Schema.define(version: 20161104093006) do
     t.string   "erikoispakkaus_kielto",            limit: 1,                            default: "",  null: false
     t.string   "nouto",                            limit: 1,                            default: "",  null: false
     t.string   "lauantai",                         limit: 1,                            default: "",  null: false
-    t.string   "kuljyksikko",                      limit: 1,                            default: "",  null: false
     t.decimal  "erilliskasiteltavakulu",                       precision: 5,  scale: 2, default: 0.0, null: false
     t.string   "merahti",                          limit: 1,                            default: "",  null: false
     t.string   "kuljetusvakuutus_tuotenumero",     limit: 60,                           default: "",  null: false
@@ -3864,6 +3863,7 @@ ActiveRecord::Schema.define(version: 20161104093006) do
     t.string   "paivita_oletuspaikka",                             limit: 1,                              default: "",    null: false
     t.string   "myyntihinta_paivitys_saapuminen",                  limit: 1,                              default: "",    null: false
     t.string   "suoratoim_lisamyynti_osto",                        limit: 1,                              default: "",    null: false
+    t.string   "editilaus_suoratoimitus",                          limit: 1,                              default: "",    null: false
     t.string   "toimipaikkakasittely",                             limit: 1,                              default: "",    null: false
     t.string   "tarkenteiden_prioriteetti",                        limit: 1,                              default: "",    null: false
     t.integer  "suoratoimitusvarasto",                             limit: 4,                              default: 0,     null: false

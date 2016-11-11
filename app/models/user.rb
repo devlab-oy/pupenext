@@ -4,6 +4,7 @@ class User < BaseModel
   has_many :permissions
 
   validates :kuka, presence: true, uniqueness: { scope: [:yhtio] }
+  validates :kuka, length: { maximum: 50 }
 
   self.table_name = :kuka
   self.primary_key = :tunnus
