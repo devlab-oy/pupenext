@@ -1296,3 +1296,7 @@ fi:
     logs:
       index:
         logs: Pupesoft lokitiedostot
+  will_paginate:
+    next_label: Seuraava sivu
+    page_gap: "&hellip;"
+    previous_label: Edellinen sivu
