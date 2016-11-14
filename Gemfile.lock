@@ -269,6 +269,7 @@ GEM
     whenever (0.9.7)
       chronic (>= 0.6.3)
     wicked_pdf (1.1.0)
+    will_paginate (3.1.5)
     ya2yaml (0.31)
 
 PLATFORMS
@@ -310,6 +311,7 @@ DEPENDENCIES
   uglifier
   whenever
   wicked_pdf
+  will_paginate
 
 RUBY VERSION
    ruby 2.3.1p112

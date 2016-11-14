@@ -1,5 +1,11 @@
 <%= render 'administration/header', text: t('.header') %>
 
+<div class='text-center'>
+  <%= will_paginate @incoming_mails %>
+</div>
+
+<br>
+
 <%= form_tag incoming_mails_path, method: :get do %>
   <%= hidden_field_tag :alias_set, params[:alias_set] %>
 
@@ -54,3 +60,11 @@
     </tbody>
   </table>
 <% end %>
+
+<br><br>
+
+<div class='text-center'>
+  <%= will_paginate @incoming_mails %>
+</div>
+
+<br><br>
