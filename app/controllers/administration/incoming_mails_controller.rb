@@ -1,6 +1,8 @@
 class Administration::IncomingMailsController < AdministrationController
   def index
-    @incoming_mails = IncomingMail.search_like(search_params).order(order_params)
+    @incoming_mails = IncomingMail
+      .paginate(page: params[:page], per_page: 200)
+      .search_like(search_params).order(order_params)
   end
 
   private
