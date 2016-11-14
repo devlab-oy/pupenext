@@ -46,27 +46,27 @@ class HuutokauppaMail
   end
 
   def name
-    company_name || customer_name
+    parse_value (company_name || customer_name), 60
   end
 
   def customer_email
-    customer_info[:email]
+    parse_value customer_info[:email], 100
   end
 
   def customer_phone
-    customer_info[:phone]
+    parse_value customer_info[:phone], 50
   end
 
   def customer_address
-    customer_info[:address]
+    parse_value customer_info[:address], 55
   end
 
   def customer_postcode
-    customer_info[:postcode]
+    parse_value customer_info[:postcode], 35
   end
 
   def customer_city
-    customer_info[:city]
+    parse_value customer_info[:city], 35
   end
 
   def customer_country
@@ -74,27 +74,27 @@ class HuutokauppaMail
   end
 
   def delivery_name
-    delivery_info[:name]
+    parse_value delivery_info[:name], 60
   end
 
   def delivery_address
-    delivery_info[:address]
+    parse_value delivery_info[:address], 55
   end
 
   def delivery_postcode
-    delivery_info[:postcode]
+    parse_value delivery_info[:postcode], 35
   end
 
   def delivery_city
-    delivery_info[:city]
+    parse_value delivery_info[:city], 35
   end
 
   def delivery_phone
-    delivery_info[:phone]
+    parse_value delivery_info[:phone], 50
   end
 
   def delivery_email
-    delivery_info[:email]
+    parse_value delivery_info[:email], 100
   end
 
   def delivery_price_without_vat
@@ -136,7 +136,7 @@ class HuutokauppaMail
   end
 
   def auction_closing_date
-    Time.parse(auction_info[:closing_date])
+    Time.zone.parse(auction_info[:closing_date])
   end
 
   def auction_price_without_vat
@@ -493,5 +493,11 @@ class HuutokauppaMail
 
     def order_message_info(order)
       "(Tilausnumero: #{order.id}, Huutokauppa: #{auction_id})"
+    end
+
+    def parse_value(value, max_length)
+      return unless value
+
+      value.to_s[0, max_length]
     end
 end
