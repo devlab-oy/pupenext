@@ -228,7 +228,13 @@ class HuutokauppaMail
       customer = create_customer
     end
 
-    find_draft.update!(customer: customer)
+    if customer.valid?
+      find_draft.update!(customer: customer)
+    else
+      @messages << 'Asiakkaan tiedot virheelliset, ei voida päivittää asiakasta tilaukselle.' \
+                   "#{order_message_info(find_draft)} " \
+                   "Virheilmoitus: #{customer.errors.full_messages.to_sentence}."
+    end
 
     customer
   end
