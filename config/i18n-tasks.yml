@@ -40,3 +40,4 @@ ignore_unused:
 - 'administration.qualifiers.{kaytossa_options}.*'
 - 'administration.packages.{erikoispakkaus_options,yksin_eraan_options}.*'
 - 'simple_form.*'
+- 'will_paginate.*'
