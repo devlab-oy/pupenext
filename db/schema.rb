@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109125651) do
+ActiveRecord::Schema.define(version: 20161116115806) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3542,6 +3542,8 @@ ActiveRecord::Schema.define(version: 20161109125651) do
     t.string   "verkkosala_lah",                                   limit: 100,                            default: "",    null: false
     t.string   "apix_tunnus",                                      limit: 100,                            default: "",    null: false
     t.string   "apix_avain",                                       limit: 100,                            default: "",    null: false
+    t.string   "apix_edi_tunnus",                                  limit: 100,                            default: "",    null: false
+    t.string   "apix_edi_avain",                                   limit: 100,                            default: "",    null: false
     t.string   "maventa_api_avain",                                limit: 100,                            default: "",    null: false
     t.string   "maventa_yrityksen_uuid",                           limit: 100,                            default: "",    null: false
     t.string   "maventa_ohjelmisto_api_avain",                     limit: 100,                            default: "",    null: false
