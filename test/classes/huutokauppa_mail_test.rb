@@ -441,19 +441,19 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#auction_closing_date' do
-    assert_equal "2016-03-25 20:30".to_time, @auction_ended.auction_closing_date
-    assert_equal "2016-04-13 19:45".to_time, @bidder_picks_up.auction_closing_date
-    assert_equal "2016-03-25 20:20".to_time, @delivery_offer_request.auction_closing_date
-    assert_equal "2016-03-25 19:38".to_time, @delivery_ordered.auction_closing_date
-    assert_equal "2016-03-25 20:10".to_time, @offer_accepted.auction_closing_date
-    assert_equal "2016-05-01 20:25".to_time, @offer_accepted_2.auction_closing_date
-    assert_equal "2016-05-15 19:52".to_time, @offer_accepted_3.auction_closing_date
-    assert_equal "2016-03-25 20:20".to_time, @offer_automatically_accepted.auction_closing_date
-    assert_equal "2016-05-15 21:00".to_time, @offer_automatically_accepted_2.auction_closing_date
-    assert_equal "2016-03-25 19:40".to_time, @offer_declined.auction_closing_date
-    assert_equal "2016-03-25 20:20".to_time, @purchase_price_paid.auction_closing_date
-    assert_equal "2016-04-23 19:40".to_time, @purchase_price_paid_2.auction_closing_date
-    assert_equal "2016-04-26 19:46".to_time, @purchase_price_paid_3.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 20:30"), @auction_ended.auction_closing_date
+    assert_equal Time.zone.parse("2016-04-13 19:45"), @bidder_picks_up.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 20:20"), @delivery_offer_request.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 19:38"), @delivery_ordered.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 20:10"), @offer_accepted.auction_closing_date
+    assert_equal Time.zone.parse("2016-05-01 20:25"), @offer_accepted_2.auction_closing_date
+    assert_equal Time.zone.parse("2016-05-15 19:52"), @offer_accepted_3.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 20:20"), @offer_automatically_accepted.auction_closing_date
+    assert_equal Time.zone.parse("2016-05-15 21:00"), @offer_automatically_accepted_2.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 19:40"), @offer_declined.auction_closing_date
+    assert_equal Time.zone.parse("2016-03-25 20:20"), @purchase_price_paid.auction_closing_date
+    assert_equal Time.zone.parse("2016-04-23 19:40"), @purchase_price_paid_2.auction_closing_date
+    assert_equal Time.zone.parse("2016-04-26 19:46"), @purchase_price_paid_3.auction_closing_date
   end
 
   test '#auction_price_without_vat' do

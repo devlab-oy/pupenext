@@ -23,7 +23,7 @@ class HuutokauppaJob < ActiveJob::Base
     return false unless success
 
     @incoming_mail.update!(
-      processed_at: Time.now,
+      processed_at: Time.zone.now,
       status: :ok,
       status_message: @huutokauppa_mail.messages.join("\n"),
     )
@@ -64,7 +64,7 @@ class HuutokauppaJob < ActiveJob::Base
       @huutokauppa_mail.messages << exception.message
 
       @incoming_mail.update!(
-        processed_at: Time.now,
+        processed_at: Time.zone.now,
         status: :error,
         status_message: @huutokauppa_mail.messages.join("\n"),
       )
