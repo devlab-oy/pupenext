@@ -47,7 +47,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -79,7 +79,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: @default_detail_product,
-      customer: @default_detail_customer,
+      customer_number: @default_detail_customer,
     }
 
     sales = Import::CustomerSales.new params
@@ -111,7 +111,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -151,7 +151,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     # We get only one error
@@ -182,7 +182,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -210,7 +210,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -241,7 +241,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -260,7 +260,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     assert_raises(ArgumentError) { Import::CustomerSales.new params }
@@ -281,7 +281,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     # We get only one error
@@ -311,7 +311,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       month: 1,
       year: 2016,
       product: nil,
-      customer: nil,
+      customer_number: nil,
     }
 
     # We get only one error
