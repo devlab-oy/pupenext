@@ -26,7 +26,10 @@ class Import::CustomerSales
         next
       end
 
-      row = Row.new(excel_row, product: @product, customer_number: @customer_number)
+      excel_row[:product] = @product
+      excel_row[:customer_number] = @customer_number
+
+      row = Row.new(excel_row)
 
       errors = []
 
@@ -64,17 +67,15 @@ class Import::CustomerSales
 end
 
 class Import::CustomerSales::Row
-  def initialize(hash, product:, customer_number:)
+  def initialize(hash)
     @hash = hash.dup
-    @default_product = product
-    @default_customer_number = customer_number
   end
 
   def product
     return unless product_raw.present?
 
     @product ||= Product.find_by tuoteno: product_raw
-    @product ||= Product.find_by tuoteno: @default_product if @default_product.present?
+    @product ||= Product.find_by tuoteno: default_product if default_product.present?
     @product
   end
 
@@ -82,7 +83,7 @@ class Import::CustomerSales::Row
     return unless customer_raw.present?
 
     @customer ||= Customer.find_by asiakasnro: customer_raw
-    @customer ||= Customer.find_by asiakasnro: @default_customer_number if @default_customer_number.present?
+    @customer ||= Customer.find_by asiakasnro: default_customer if default_customer.present?
     @customer
   end
 
@@ -132,8 +133,16 @@ class Import::CustomerSales::Row
       identifier if quantity.present?
     end
 
+    def default_product
+      values[:product]
+    end
+
     def customer_raw
       identifier if quantity.blank? && identifier != "Yhteensä"
+    end
+
+    def default_customer
+      values[:customer_number]
     end
 
     def required_fields
