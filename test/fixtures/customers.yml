@@ -45,6 +45,12 @@ lissu:
   ryhma: 10
   <<: *DEFAULTS
 
+default_detail_customer:
+  nimi: Erikoismyynnin oletusasiakas
+  ytunnus: 324545
+  asiakasnro: 123456999
+  <<: *DEFAULTS
+
 huutokauppa_customer_1:
   email: testit@testi.tes
   gsm: +123 45 6789012
