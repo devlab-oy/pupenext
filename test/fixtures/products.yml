@@ -65,6 +65,14 @@ huutokauppa_delivery_93:
   status: A
   <<: *DEFAULTS
 
+default_detail_product:
+  yhtio: acme
+  tuoteno: ERIKOISMYYNTITUOTE
+  nimitys: Erikoismyynnin oletustuote
+  myyntihinta: 5
+  status: A
+  <<: *DEFAULTS
+
 <% (1..5).step(1) do |shirt| %>
 shirt_<%= shirt %>:
   yhtio: acme
