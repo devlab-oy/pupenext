@@ -1,14 +1,14 @@
 class Import::CustomerSales
   include Import::Base
 
-  def initialize(company_id:, user_id:, filename:, month:, year:, product:, customer:)
+  def initialize(company_id:, user_id:, filename:, month:, year:, product:, customer_number:)
     Current.company = Company.find company_id
     Current.user = User.find user_id
 
     @file = setup_file filename
     @end_of_month = Date.new(year.to_i, month.to_i, 1).end_of_month
     @product = product
-    @customer = customer
+    @customer_number = customer_number
   end
 
   def import
@@ -26,7 +26,7 @@ class Import::CustomerSales
         next
       end
 
-      row = Row.new(excel_row, product: @product, customer: @customer)
+      row = Row.new(excel_row, product: @product, customer_number: @customer_number)
 
       errors = []
 
@@ -64,10 +64,10 @@ class Import::CustomerSales
 end
 
 class Import::CustomerSales::Row
-  def initialize(hash, product:, customer:)
+  def initialize(hash, product:, customer_number:)
     @hash = hash.dup
     @default_product = product
-    @default_customer = customer
+    @default_customer_number = customer_number
   end
 
   def product
@@ -82,7 +82,7 @@ class Import::CustomerSales::Row
     return unless customer_raw.present?
 
     @customer ||= Customer.find_by asiakasnro: customer_raw
-    @customer ||= Customer.find_by asiakasnro: @default_customer if @default_customer.present?
+    @customer ||= Customer.find_by asiakasnro: @default_customer_number if @default_customer_number.present?
     @customer
   end
 
