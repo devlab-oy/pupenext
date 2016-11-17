@@ -2,6 +2,7 @@ require "woocommerce_api"
 
 class Woo::Base
   def initialize
+    @logger = Logger.new(STDOUT) # Rails.env.production?
     @woocommerce = WooCommerce::API.new(
       Rails.application.secrets.woocommerce_store_url,
       Rails.application.secrets.woocommerce_consumer_key,
@@ -12,4 +13,10 @@ class Woo::Base
       }
     )
   end
+
+  protected
+
+    def logger
+      @logger
+    end
 end
