@@ -124,6 +124,7 @@ Pupesoft::Application.routes.draw do
       end
 
       member do
+        get :breadcrumbs
         get :children
         get :products
       end
