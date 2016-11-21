@@ -105,4 +105,25 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
       product.assert_valid_keys(:tunnus)
     end
   end
+
+  test 'category breadcrumbs' do
+    get :breadcrumbs, id: @shirts.id, access_token: @bob.api_key
+
+    # reponse should be an array of {id => name} hashes
+    json_value = [{ :"#{@shirts.id}" => "Paidat" }]
+
+    assert_response :success
+    assert_equal json_value, json_response
+
+    # add long sleeve child category to shirts
+    longsleeve = Category::Product.create! nimi: 'Pitkähihaiset'
+    longsleeve.move_to_child_of(@shirts)
+
+    json_value << { :"#{longsleeve.id}" => "Pitkähihaiset" }
+
+    get :breadcrumbs, id: longsleeve.id, access_token: @bob.api_key
+
+    assert_response :success
+    assert_equal json_value, json_response
+  end
 end

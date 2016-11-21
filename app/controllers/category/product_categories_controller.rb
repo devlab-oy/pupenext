@@ -1,5 +1,5 @@
 class Category::ProductCategoriesController < CategoriesController
-  before_action :find_product_category, only: [:show, :children, :products]
+  before_action :find_product_category, only: [:show, :children, :products, :breadcrumbs]
 
   def index
     categories = Category.all
@@ -30,6 +30,10 @@ class Category::ProductCategoriesController < CategoriesController
     else
       render json: @product_category.products
     end
+  end
+
+  def breadcrumbs
+    render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi } }
   end
 
   private
