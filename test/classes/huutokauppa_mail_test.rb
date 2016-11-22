@@ -26,6 +26,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     @auction_ended                  = HuutokauppaMail.new huutokauppa_email(:auction_ended_1)
     @bidder_picks_up                = HuutokauppaMail.new huutokauppa_email(:bidder_picks_up_1)
     @delivery_offer_request         = HuutokauppaMail.new huutokauppa_email(:delivery_offer_request_1)
+    @delivery_offer_request_2       = HuutokauppaMail.new huutokauppa_email(:delivery_offer_request_2)
     @delivery_ordered               = HuutokauppaMail.new huutokauppa_email(:delivery_ordered_1)
     @invalid_customer_info          = HuutokauppaMail.new huutokauppa_email(:invalid_customer_info)
     @offer_accepted                 = HuutokauppaMail.new huutokauppa_email(:offer_accepted_1)
@@ -42,6 +43,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
       @auction_ended,
       @bidder_picks_up,
       @delivery_offer_request,
+      @delivery_offer_request_2,
       @delivery_ordered,
       @offer_declined,
     ]
@@ -87,6 +89,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal :auction_ended,                @auction_ended.type
     assert_equal :bidder_picks_up,              @bidder_picks_up.type
     assert_equal :delivery_offer_request,       @delivery_offer_request.type
+    assert_equal :delivery_offer_request,       @delivery_offer_request_2.type
     assert_equal :delivery_ordered,             @delivery_ordered.type
     assert_equal :offer_accepted,               @invalid_customer_info.type
     assert_equal :offer_accepted,               @offer_accepted.type
@@ -108,6 +111,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @auction_ended.company_name
     assert_nil @bidder_picks_up.company_name
     assert_nil @delivery_offer_request.company_name
+    assert_nil @delivery_offer_request_2.company_name
     assert_nil @delivery_ordered.company_name
     assert_nil @invalid_customer_info.company_name
     assert_nil @offer_accepted.company_name
@@ -126,6 +130,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_nil @auction_ended.company_id
     assert_nil @bidder_picks_up.company_id
     assert_nil @delivery_offer_request.company_id
+    assert_nil @delivery_offer_request_2.company_id
     assert_nil @delivery_ordered.company_id
     assert_nil @invalid_customer_info.company_id
     assert_nil @offer_accepted.company_id
@@ -247,6 +252,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_name' do
     assert_equal 'Test-testi Testite',         @delivery_offer_request.delivery_name
+    assert_equal 'Topi Olavi Sorsa',           @delivery_offer_request_2.delivery_name
     assert_equal 'Test-testi testit Testites', @delivery_ordered.delivery_name
 
     @emails_without_delivery_info.each do |mail|
@@ -256,6 +262,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_address' do
     assert_equal 'Testitesti 123', @delivery_offer_request.delivery_address
+    assert_equal 'Sorsantie 78',   @delivery_offer_request_2.delivery_address
     assert_equal 'Testitest 1',    @delivery_ordered.delivery_address
 
     @emails_without_delivery_info.each do |mail|
@@ -265,6 +272,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_postcode' do
     assert_equal '12345', @delivery_offer_request.delivery_postcode
+    assert_equal '64850', @delivery_offer_request_2.delivery_postcode
     assert_equal '23456', @delivery_ordered.delivery_postcode
 
     @emails_without_delivery_info.each do |mail|
@@ -274,6 +282,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_city' do
     assert_equal 'Testitesti',   @delivery_offer_request.delivery_city
+    assert_equal 'Möykky',       @delivery_offer_request_2.delivery_city
     assert_equal 'Testitestite', @delivery_ordered.delivery_city
 
     @emails_without_delivery_info.each do |mail|
@@ -283,6 +292,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_phone' do
     assert_equal '+123 45 6789012', @delivery_offer_request.delivery_phone
+    assert_equal '555 5525255',     @delivery_offer_request_2.delivery_phone
     assert_equal '123 4567890',     @delivery_ordered.delivery_phone
 
     @emails_without_delivery_info.each do |mail|
@@ -292,6 +302,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
   test '#delivery_email' do
     assert_equal 'te.testite@testi.tes',                @delivery_offer_request.delivery_email
+    assert_equal 'Topi.Sorsa@foobar.fi',                @delivery_offer_request_2.delivery_email
     assert_equal 'test-testi.testites@te-testitest.te', @delivery_ordered.delivery_email
 
     @emails_without_delivery_info.each do |mail|
@@ -307,6 +318,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     assert_nil @auction_ended.delivery_price_without_vat
     assert_nil @delivery_offer_request.delivery_price_without_vat
+    assert_nil @delivery_offer_request_2.delivery_price_without_vat
     assert_nil @offer_accepted.delivery_price_without_vat
     assert_nil @offer_accepted_2.delivery_price_without_vat
     assert_nil @offer_accepted_3.delivery_price_without_vat
@@ -324,6 +336,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     assert_nil @auction_ended.delivery_price_with_vat
     assert_nil @delivery_offer_request.delivery_price_with_vat
+    assert_nil @delivery_offer_request_2.delivery_price_with_vat
     assert_nil @offer_accepted.delivery_price_with_vat
     assert_nil @offer_accepted_2.delivery_price_with_vat
     assert_nil @offer_accepted_3.delivery_price_with_vat
@@ -341,6 +354,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     assert_nil @auction_ended.delivery_vat_percent
     assert_nil @delivery_offer_request.delivery_vat_percent
+    assert_nil @delivery_offer_request_2.delivery_vat_percent
     assert_nil @offer_accepted.delivery_vat_percent
     assert_nil @offer_accepted_2.delivery_vat_percent
     assert_nil @offer_accepted_3.delivery_vat_percent
@@ -358,6 +372,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     assert_nil @auction_ended.delivery_vat_amount
     assert_nil @delivery_offer_request.delivery_vat_amount
+    assert_nil @delivery_offer_request_2.delivery_vat_amount
     assert_nil @offer_accepted.delivery_vat_amount
     assert_nil @offer_accepted_2.delivery_vat_amount
     assert_nil @offer_accepted_3.delivery_vat_amount
@@ -372,6 +387,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 129.55,     @delivery_ordered.total_price_with_vat
     assert_equal 806.0,      @auction_ended.total_price_with_vat
     assert_equal 372.0,      @delivery_offer_request.total_price_with_vat
+    assert_equal 1054,       @delivery_offer_request_2.total_price_with_vat
     assert_equal 824.6,      @offer_accepted.total_price_with_vat
     assert_equal 10_664.0,   @offer_accepted_2.total_price_with_vat
     assert_equal 2000.0,     @offer_accepted_3.total_price_with_vat
@@ -387,6 +403,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal '279590', @auction_ended.auction_id
     assert_equal '285888', @bidder_picks_up.auction_id
     assert_equal '270265', @delivery_offer_request.auction_id
+    assert_equal '376132', @delivery_offer_request_2.auction_id
     assert_equal '274472', @delivery_ordered.auction_id
     assert_equal '277075', @offer_accepted.auction_id
     assert_equal '293363', @offer_accepted_2.auction_id
@@ -408,6 +425,9 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
 
     title = 'Auton keinunostin, 1500 kg, UUSI'
     assert_equal title, @delivery_offer_request.auction_title
+
+    title = 'Rocla TTS12TRE6500 3-mastoinen ajettava pinoamisvaunu'
+    assert_equal title, @delivery_offer_request_2.auction_title
 
     title = '2,5 KW petroolilämmitin, UUSI, takuu 12 kk'
     assert_equal title, @delivery_ordered.auction_title
@@ -441,25 +461,27 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
   end
 
   test '#auction_closing_date' do
-    assert_equal Time.zone.parse("2016-03-25 20:30"), @auction_ended.auction_closing_date
-    assert_equal Time.zone.parse("2016-04-13 19:45"), @bidder_picks_up.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 20:20"), @delivery_offer_request.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 19:38"), @delivery_ordered.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 20:10"), @offer_accepted.auction_closing_date
-    assert_equal Time.zone.parse("2016-05-01 20:25"), @offer_accepted_2.auction_closing_date
-    assert_equal Time.zone.parse("2016-05-15 19:52"), @offer_accepted_3.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 20:20"), @offer_automatically_accepted.auction_closing_date
-    assert_equal Time.zone.parse("2016-05-15 21:00"), @offer_automatically_accepted_2.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 19:40"), @offer_declined.auction_closing_date
-    assert_equal Time.zone.parse("2016-03-25 20:20"), @purchase_price_paid.auction_closing_date
-    assert_equal Time.zone.parse("2016-04-23 19:40"), @purchase_price_paid_2.auction_closing_date
-    assert_equal Time.zone.parse("2016-04-26 19:46"), @purchase_price_paid_3.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 20:30'), @auction_ended.auction_closing_date
+    assert_equal Time.zone.parse('2016-04-13 19:45'), @bidder_picks_up.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 20:20'), @delivery_offer_request.auction_closing_date
+    assert_equal Time.zone.parse('2016-11-20 21:15'), @delivery_offer_request_2.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 19:38'), @delivery_ordered.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 20:10'), @offer_accepted.auction_closing_date
+    assert_equal Time.zone.parse('2016-05-01 20:25'), @offer_accepted_2.auction_closing_date
+    assert_equal Time.zone.parse('2016-05-15 19:52'), @offer_accepted_3.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 20:20'), @offer_automatically_accepted.auction_closing_date
+    assert_equal Time.zone.parse('2016-05-15 21:00'), @offer_automatically_accepted_2.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 19:40'), @offer_declined.auction_closing_date
+    assert_equal Time.zone.parse('2016-03-25 20:20'), @purchase_price_paid.auction_closing_date
+    assert_equal Time.zone.parse('2016-04-23 19:40'), @purchase_price_paid_2.auction_closing_date
+    assert_equal Time.zone.parse('2016-04-26 19:46'), @purchase_price_paid_3.auction_closing_date
   end
 
   test '#auction_price_without_vat' do
     assert_equal 650,  @auction_ended.auction_price_without_vat
     assert_equal 170,  @bidder_picks_up.auction_price_without_vat
     assert_equal 300,  @delivery_offer_request.auction_price_without_vat
+    assert_equal 850,  @delivery_offer_request_2.auction_price_without_vat
     assert_equal 90,   @delivery_ordered.auction_price_without_vat
     assert_equal 665,  @offer_accepted.auction_price_without_vat
     assert_equal 8600, @offer_accepted_2.auction_price_without_vat
@@ -476,6 +498,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 806.0,     @auction_ended.auction_price_with_vat
     assert_equal 210.8,     @bidder_picks_up.auction_price_with_vat
     assert_equal 372.0,     @delivery_offer_request.auction_price_with_vat
+    assert_equal 1054,      @delivery_offer_request_2.auction_price_with_vat
     assert_equal 111.6,     @delivery_ordered.auction_price_with_vat
     assert_equal 824.6,     @offer_accepted.auction_price_with_vat
     assert_equal 10_664.0,  @offer_accepted_2.auction_price_with_vat
@@ -492,6 +515,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 24, @auction_ended.auction_vat_percent
     assert_equal 24, @bidder_picks_up.auction_vat_percent
     assert_equal 24, @delivery_offer_request.auction_vat_percent
+    assert_equal 24, @delivery_offer_request_2.auction_vat_percent
     assert_equal 24, @delivery_ordered.auction_vat_percent
     assert_equal 24, @offer_accepted.auction_vat_percent
     assert_equal 24, @offer_accepted_2.auction_vat_percent
@@ -508,6 +532,7 @@ class HuutokauppaMailTest < ActiveSupport::TestCase
     assert_equal 156.0,  @auction_ended.auction_vat_amount
     assert_equal 40.8,   @bidder_picks_up.auction_vat_amount
     assert_equal 72.0,   @delivery_offer_request.auction_vat_amount
+    assert_equal 204,    @delivery_offer_request_2.auction_vat_amount
     assert_equal 21.6,   @delivery_ordered.auction_vat_amount
     assert_equal 159.6,  @offer_accepted.auction_vat_amount
     assert_equal 2064.0, @offer_accepted_2.auction_vat_amount
