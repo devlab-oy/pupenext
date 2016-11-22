@@ -27,6 +27,9 @@ Style/AsciiComments:
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
+Style/VariableNumber:
+  EnforcedStyle: snake_case
+
 ##################### Metrics ##################################
 
 Metrics/LineLength:
