@@ -8,42 +8,43 @@ class Woo::Products < Woo::Base
     created_count = 0
     get_products.each do |product|
       if find_by_sku(product.tuoteno).present?
-        puts "Tuote #{product.tuoteno} on jo verkkokaupassa"
+        logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
       else
-        response = @woocommerce.post("products", product_data(product)).parsed_response
+        response = @woocommerce.post("products", product_hash(product)).parsed_response
         if response["id"]
           created_count += 1
-          puts "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
+          logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
         else
           # log errors
-          puts response["message"]
+          logger.error response["message"]
         end
       end
-
     end
 
-    puts "Lisättiin #{created_count} tuotetta verkkokauppaan"
+    logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
   end
 
-  # Update product
+  # Update product stock quantity
   def update
     # Find products where stock has changed, or update all?
     get_products.each do |product|
       if find_by_sku(product.tuoteno).present?
-        data = {stock_quantity: product.stock_available.to_s}
+        data = { stock_quantity: product.stock_available.to_s }
         product_id = find_by_sku(product.tuoteno)["id"]
         @woocommerce.put("products/#{product_id}", data).parsed_response
       else
-        puts "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetä"
+        logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetty"
       end
     end
   end
 
   def get_products
-    Product.where(hinnastoon: 'e')
+    # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
+    # verkkokauppa näkyvyys päällä
+    Product.where(status: ['A', 'P']).where(hinnastoon: 'W')
   end
 
-  def product_data(product)
+  def product_hash(product)
     {
       name: product.nimitys,
       slug: product.tuoteno,

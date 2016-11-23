@@ -12,9 +12,9 @@ OSTOTIL.OT_VERKKOKAUPPA_KOHDE:
 OSTOTIL.OT_TILAUSAIKA:<%= @order["date_created"] %>
 OSTOTIL.OT_KASITTELIJA:
 OSTOTIL.OT_TOIMITUSAIKA:
-OSTOTIL.OT_TOIMITUSTAPA:
+OSTOTIL.OT_TOIMITUSTAPA:<%= @order["shipping_lines"].map { |shipping| shipping["method_title"] }.join %>
 OSTOTIL.OT_TOIMITUSEHTO:
-OSTOTIL.OT_MAKSETTU:<%= @order["status"] # vai aina maksettu valmiiksi? %>
+OSTOTIL.OT_MAKSETTU:<%= @order["status"] %>
 OSTOTIL.OT_MAKSUEHTO:
 OSTOTIL.OT_VIITTEEMME:
 OSTOTIL.OT_VIITTEENNE:
@@ -30,7 +30,7 @@ OSTOTIL.OT_VAHVISTUS_FAKSILLA:
 OSTOTIL.OT_FAKSI:
 OSTOTIL.OT_ASIAKASNRO:<%= @order["customer_id"] %>
 OSTOTIL.OT_ASIAKASOVT:
-OSTOTIL.OT_YRITYS: <%= @order["billing"]["company"] %>
+OSTOTIL.OT_YRITYS:<%= @order["billing"]["company"] %>
 OSTOTIL.OT_YHTEYSHENKILO:<%= "#{@order["billing"]["first_name"]} #{@order["billing"]["last_name"]}" %>
 OSTOTIL.OT_KATUOSOITE:<%= @order["billing"]["address_1"] %>
 OSTOTIL.OT_POSTITOIMIPAIKKA:<%= @order["billing"]["city"] %>
