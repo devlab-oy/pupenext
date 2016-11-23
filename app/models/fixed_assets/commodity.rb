@@ -215,18 +215,18 @@ class FixedAssets::Commodity < BaseModel
   end
 
   # kertyneet sumu-poistot välillä
-  def depreciation_between(date1, date2)
-     depreciation_rows.where(tapvm: date1..date2).sum(:summa)
+  def depreciation_between(date_begin, date_end)
+    depreciation_rows.where(tapvm: date_begin..date_end).sum(:summa)
   end
 
   # kertyneet poistoerot välillä
-  def difference_between(date1, date2)
-    depreciation_difference_rows.where(tapvm: date1..date2).sum(:summa)
+  def difference_between(date_begin, date_end)
+    depreciation_difference_rows.where(tapvm: date_begin..date_end).sum(:summa)
   end
 
   # kertyneet evl-poistot välillä
-  def evl_between(date1, date2)
-    commodity_rows.where(transacted_at: date1..date2).sum(:amount)
+  def evl_between(date_begin, date_end)
+    commodity_rows.where(transacted_at: date_begin..date_end).sum(:amount)
   end
 
   # alkuperäinen hankintahinta

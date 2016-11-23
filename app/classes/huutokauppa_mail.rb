@@ -8,7 +8,6 @@ class HuutokauppaMail
     raise 'Current user must be set'    unless Current.user
 
     @mail     = Mail.new(raw_source)
-    @doc      = Nokogiri::HTML(@mail.body.to_s.force_encoding(Encoding::UTF_8))
     @messages = []
   end
 
@@ -423,7 +422,7 @@ class HuutokauppaMail
           (?<country>.*$)
         }x
 
-        extract_info(regex, @doc.content)
+        extract_info(regex, mail_body)
       end
     end
 
@@ -438,7 +437,7 @@ class HuutokauppaMail
           (?<email>\S*)
         }x
 
-        extract_info(regex, @doc.content)
+        extract_info(regex, mail_body)
       end
     end
 
@@ -473,7 +472,7 @@ class HuutokauppaMail
           Yhteensä:\s*(?<total_price_with_vat>#{currency_number}))?
         }ix
 
-        extract_info(regex, @doc.content)
+        extract_info(regex, mail_body)
       end
     end
 
@@ -505,5 +504,18 @@ class HuutokauppaMail
       return unless value
 
       value.to_s[0, max_length]
+    end
+
+    def mail_body
+      return @mail_body if @mail_body
+
+      # take first part if multipart, decode, and force utf8
+      mail = @mail.multipart? ? @mail.parts.first : @mail
+      body = mail.decoded.force_encoding(Encoding::UTF_8)
+
+      # if we have html message, strip the tags
+      body = Nokogiri::HTML(body).content if mail.content_type.include?('html')
+
+      @mail_body = body
     end
 end

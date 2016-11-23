@@ -1,0 +1,100 @@
+Return-Path: <bounces@automated.huutokaupat.com>
+Received: from cloud13.hostingpalvelu.fi
+  by cloud13.hostingpalvelu.fi (Dovecot) with LMTP id ecbPDyjRM1gSVQ4AZiXe+w
+  ; Tue, 22 Nov 2016 07:01:28 +0200
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: oar@unshroud.net
+Delivery-date: Tue, 22 Nov 2016 07:01:28 +0200
+Received: from filter2.hostingservice.fi ([31.217.192.174]:54999)
+  by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+  (Exim 4.87)
+  (envelope-from <bounces@automated.huutokaupat.com>)
+  id 1c93Cu-003wPw-Bs; Tue, 22 Nov 2016 07:01:25 +0200
+Received: from server.huutokaupat.com ([83.150.76.4])
+  by filter2.hostingservice.fi with esmtp (Exim 4.86)
+  (envelope-from <bounces@automated.huutokaupat.com>)
+  id 1c93Cq-0001CF-RF; Tue, 22 Nov 2016 07:01:21 +0200
+Received: from localhost (unknown [10.10.10.130])
+  by server.huutokaupat.com (Postfix) with ESMTP id 3269820061B;
+  Tue, 22 Nov 2016 07:01:20 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+  s=default; t=1479790880;
+  bh=y/EOqsqTXjq2l0BaEYenDvVD+KDRjOJHpOLqZvjnWco=;
+  h=From:Subject:To:Date;
+  b=01Y+79V4705ezxhVADujoDXCq6K/cXNR1DxSxUoT9tNaQtP4gW3gLdvd43Dc8cvqG
+   e9UXT3F1gVG3Wby3cpSzj5NvbZCQ3EXlQyizm3daXwAWf9TBcBJdIIwb+Ra2RWXl7U
+   KpubrV4hJBFj7UWfjNmTQ7F/FUCMfQtG6IGy5qCs=
+Message-Id: <d7e76c62d059dfbbc2c53d1d66cdadd1cc8d806f@server.huutokaupat.com>
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+Subject: =?utf-8?Q?Toimitus=20tilattu=20kohteelle=20376510:=20Lajitelma=20?=
+ =?utf-8?Q?ruuvausk=C3=A4rki=C3=A4=20sek=C3=A4=20kuviosahan=20ja=20?=
+ =?utf-8?Q?poranteri=C3=A4=2C=20Nuuttilantie=2032=2C=2015700=20Lahti?=
+To: matricidal@canadite.co.uk
+Date: Tue, 22 Nov 2016 07:01:20 +0200
+Content-Type: multipart/alternative;
+ boundary="=_b19605e578e95275e519127d1532143c"
+MIME-Version: 1.0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwZHf
+ WZYD82R/uX1kWNJz4wES3dsoT4fYpUWtq2l6tT6ampYbIWehzfMhBX2xrya8NiYD1ptUVn6ByrDO
+ Wen4bPcvcplYN5zMlHdXzOu7gRr7JZBJUDyXddX3lRgqX8VJ+tAeq+cds6nJlNErvZtFoqBG5Tpk
+ D/Jv7PkKJQMLl7iniwQzKw+6v3CaIMG6s7LqJAIIBVgPWFQrNNt4skZxEXKQm4E4p26nSSkPphfX
+ rBhTiG4XwpsXfeh5n1ZI7qO6rgm3sj9lmtbo8r2I2S7vXK4PgPuXXlp7nr3Yc++djqGBe+rrxbVY
+ RI5qM5mkwzDs9idlTZ/1FHjgq2v1uRnTIQkzjyjL/QuDtdf6sFzW2z/xrZ1imVBgEPlWeT9NV68R
+ zTGyrcyC2vCRmxz47BFeriZoD7bAeKsWl/oNzWdtNsPTrUXX5D+Zk7NvU6DQewiNCincCmK8uaqK
+ pmdh0n2Qm1Vxy/ihLCT5uxnmHhGGy2O3GwTuewy/HmZZ5Q1Q/X20UmtnqtxYC4A8Mpq5s+pEiB7R
+ rozQuRVmTz0MvEjBP3L2CCqB9MF1QnIcvR4Oc30Set++dzS2U7nKMHPJjR66Knzy8PsbvOGQC8Rk
+ xXXi70l4QCjD5CFhDgWZDuq0TejmL1C6yAg7PQlNtgw29ArPlaU=
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Classification: whitelisted/sender
+X-Recommended-Action: accept
+
+--=_b19605e578e95275e519127d1532143c
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Huutaja on tilannut kohteelle toimituksen ja maksanut sen Huutokaupat.co=
+min asiakasvaratilille.=0A=0A Toimitusosoite=0A Bambi Petteri Ruudolf/Es=
+imerkiksi=0A pienikuja 77=0A 12344 merenp=C3=A4=C3=A4=0A 555 999999=0A=
+ Bambito.oy@gmail.com=0A=0AKohteen tiedot=0A Kohdenumero: 376510=0A Otsi=
+kkokentt=C3=A4: Lajitelma ruuvausk=C3=A4rki=C3=A4 sek=C3=A4 kuviosahan j=
+a poranteri=C3=A4=0A P=C3=A4=C3=A4ttymisaika: Perjantai 18.11.2016 klo 1=
+9:48=0A Huudettu: 110 EUR=0A ALV-osuus: 26,40 EUR=0A Summa: 136,40 EUR,=
+ ALV 24 %=0A Toimitus: 22,50 EUR, ALV 24 %, ALV-osuus 4,36 EUR =0A Yhtee=
+ns=C3=A4: 158,90 EUR=0A=0AMyyj=C3=A4n/toimeksisaaneen yhteystiedot=0A Ma=
+cea compan oy=0A Y-tunnus: 1104224-9=0A=0A Rahti Tilaukset=0A myynti@mac=
+ea.fi=0A=0A=0A Ilmoittajan viite: 263/1/68087=0A=0A Yst=C3=A4v=C3=A4llis=
+in terveisin,=0A Huutokaupat.com
+
+--=_b19605e578e95275e519127d1532143c
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w=
+ww.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">=0A<html>=0A    <head>=
+=0A        <meta http-equiv=3D"Content-Type" content=3D"text/html; chars=
+et=3DUTF-8" />=0A        <meta name=3D"viewport" content=3D"width=3Ddevi=
+ce-width" />=0A    </head>=0A=0A    <body>=0A        <p>Huutaja on tilan=
+nut kohteelle toimituksen ja maksanut sen Huutokaupat.comin asiakasvarat=
+ilille.</p>=0A=0A=0A<p>=0A            <b>Toimitusosoite</b><br>=0A     =
+   Bambi Petteri Ruudolf/Esimerkiksi<br>=0A        pienikuja 77<br>=0A =
+       12344 merenp=C3=A4=C3=A4<br>=0A                    555 999999<br=
+>=0A                            Bambito.oy@gmail.com<br>=0A            =
+    <br>=0A    =0A    <b>Kohteen tiedot</b><br>=0A=0A    Kohdenumero: 37=
+6510<br>=0A    Otsikkokentt=C3=A4: Lajitelma ruuvausk=C3=A4rki=C3=A4 sek=
+=C3=A4 kuviosahan ja poranteri=C3=A4<br>=0A    P=C3=A4=C3=A4ttymisaika:=
+ Perjantai 18.11.2016 klo 19:48<br>=0A    Huudettu: 110 EUR<br>=0A    AL=
+V-osuus: 26,40 EUR<br>=0A    Summa: 136,40 EUR, ALV 24 %<br>=0A        =
+    Toimitus:=0A        22,50 EUR,=0A        ALV 24 %,=0A        ALV-osu=
+us 4,36 EUR=0A        <br>=0A        Yhteens=C3=A4: 158,90 EUR<br>=0A  =
+      <br>=0A=0A    <b>Myyj=C3=A4n/toimeksisaaneen yhteystiedot</b><br>=
+=0A    foofo compan oy<br>=0A    Y-tunnus: 1104224-9<br>=0A            <=
+br>=0A        Rahti Tilaukset<br>=0A        myynti@foofo.fi<br>=0A     =
+   <br>=0A                <br>=0A        Ilmoittajan viite: 263/1/68087<=
+br>=0A    </p>=0A=0A<p>=0A    =0AYst=C3=A4v=C3=A4llisin terveisin,<br/>=
+=0AHuutokaupat.com=0A=0A</p>=0A=0A    </body>=0A</html>=0A
+
+--=_b19605e578e95275e519127d1532143c--
