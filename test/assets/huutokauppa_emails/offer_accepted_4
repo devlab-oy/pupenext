@@ -1,0 +1,119 @@
+Return-Path: <bounces@automated.huutokaupat.com>
+Received: from cloud13.hostingpalvelu.fi
+  by cloud13.hostingpalvelu.fi (Dovecot) with LMTP id 8QfEIKfzMViLZA0AZiXe+w
+  ; Sun, 20 Nov 2016 21:04:07 +0200
+Return-path: <bounces@automated.huutokaupat.com>
+Envelope-to: lagothrix@antisplitting.co.uk
+Delivery-date: Sun, 20 Nov 2016 21:04:07 +0200
+Received: from filter2.hostingservice.fi ([31.217.192.174]:41163)
+  by cloud13.hostingpalvelu.fi with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+  (Exim 4.87)
+  (envelope-from <bounces@automated.huutokaupat.com>)
+  id 1c8XPL-003gvz-Ff; Sun, 20 Nov 2016 21:04:07 +0200
+Received: from server.huutokaupat.com ([83.150.76.4])
+  by filter2.hostingservice.fi with esmtp (Exim 4.86)
+  (envelope-from <bounces@automated.huutokaupat.com>)
+  id 1c8XPH-0000lX-4y; Sun, 20 Nov 2016 21:04:04 +0200
+Received: from localhost (app2 [10.10.10.129])
+  by server.huutokaupat.com (Postfix) with ESMTP id D555F2006E8;
+  Sun, 20 Nov 2016 21:04:02 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=huutokaupat.com;
+  s=default; t=1479668642;
+  bh=W4RySExgv5KG2OAQrgP5BW3YvZ+9Kg+n3lE7/4iKtJc=;
+  h=From:To:Subject:Date;
+  b=jugrj6OnAgtXzlqq7nmxEFLL6y5Z7cXSSyrrBDeYLBx2Cxc7ij+xTPzKP3NHezXpw
+   /xJ6o0UxtGJLlzZDd7V/GdcyRSROW8wvF8nLdrvu37Bm0KScMI9LnojvxO3iVOJoJj
+   CEuQ1AVX/HgzOOLatMUjSBKbmcOS0oZJuSU1ETZo=
+From: "Huutokaupat.com" <asiakaspalvelu@huutokaupat.com>
+Message-Id: <15a73bdad6ac25a3b78f9c93dd8ae9fdb25bc636@huutokaupat.com>
+To: fluer@periblem.edu
+Subject: =?utf-8?Q?Tarjous=20hyv=C3=A4ksytty=20Huutokaupat.com=20?=
+ =?utf-8?Q?nettihuutokauppa:=20kohde=20#376766?=
+Date: Sun, 20 Nov 2016 21:04:02 +0200
+Content-Type: multipart/alternative;
+ boundary="=_6b6af6f20435be9edf3115ad04974741"
+MIME-Version: 1.0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIeAyHwHIceqjIqYzluv0NUpuO2tWUqBCEbdShNj29n29hTQlI8BJQNwf
+ dZmIYTr6GnVEJQAYV9ff1+lJ+Sf2nQ3k+GDP+f6xF7XLnlq3j2ne/5FdbgtqnqT56S7k+tyLwZHf
+ WZYD82R/uX1kWNJz4wES3dsoT4fYpUWtq2l6tT6ampYbIWehzfMhBX2xrya8NiYD1ptUVn6ByrDO
+ Wen4bPcvcplYN5zMlHdXzOu7gRr7JZBJUDyXddX3lRgqX8VJ+gZ2Oot2XYq2kcVIzFMQkte6tPHt
+ LyzZCWuI1lWShN2ZvFYRgX+0Ga+wpZneZoLeknD+IIJA3sPCXJmtDrxlA0glf6If6o0H9OmL2MOG
+ CCKu14EZcYQodZ3dtTOBObK8rTtAhvZ+jk3KQHpIxt+LqsM0/26KQQ56kksWPWkuPM4rtB1p1RN7
+ JSzNBzFGf4PsYYWZxsWCa+f6fyvLrAx4rCEccBIk1Sag4dKiqCrF8eZZ1QKGh0qWElWVzMt+gDDu
+ PCxbLkMTkueS9eLMwBBrl0DLaj1rrhV9FTOiKy3QCCy0nEDOOfnFvfsNckTY9armW6du7YBkSkRX
+ Tt/+TR/4nZ9cx27wGwS5kLDevm+s6yZpv6YduA8Lx1fCvcudebVC4TVCN2yBNFfEjtFAzcQKhve1
+ /yKwIsn5lhTLVd3ts+3J3753NLZTucowc8mNHroqfN38xsMaJqpQXhTdrZKZ4pxWvhrH/0RI1Ygm
+ C2egZaYwot5OtxkmsUUseoTPSYQjcrcFP/Fxqx7uULDQRB3NLRBaMe5iU7V0whZJxAmzTve1qw+Q
+ Gd5oG5wmjv8l6i8rvQ==
+X-Report-Abuse-To: spam@filter1.hostingservice.fi
+Authentication-Results: hostingservice.fi; dkim=pass header.i=huutokaupat.com
+X-SpamExperts-Class: whitelisted
+X-SpamExperts-Evidence: sender
+X-Classification: whitelisted/sender
+X-Recommended-Action: accept
+
+--=_6b6af6f20435be9edf3115ad04974741
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+ Olette hyv=C3=A4ksyneet tarjouksen seuraavasta kohteesta:=0A=0A Kohde #=
+376766=0A Otsikkokentt=C3=A4: 15.11.-20.11. Husgvarna K760 timantti- / H=
+olvisaha, Lahti=0A P=C3=A4=C3=A4ttymisaika: Sunnuntai 20.11.2016 klo 20:=
+27=0A Huudettu: 375 EUR=0A Alv-osuus: 90 EUR=0A Summa: 465 EUR, ALV 24 %=
+=0A=0A Ostajan yhteystiedot:=0A Antti Esimerk=0A Antti.Esimerk@habababab=
+a.fi=0A Puhelin: +358 50 5559999=0A Osoite:=0A M=C3=A4ntytie 28=0A 12345=
+ Etelä=0A Suomi=0A=0A Myyj=C3=A4n/toimeksisaaneen yhteystiedot:=0A firma=
+ Companyoy=0A Y-tunnus: 1104224-9=0A Rahti tilaukset=0A myynti@firma.fi=
+=0A=0A=0A Osmos Foob=C3=A4n=C3=A4inen=0A Osmos.Foobanainen@firma.fi=0A +=
+358 40 7606710=0A=0A Ilmoittajan viite: 563-1 / 01328=0A=0A=0A Maksutapa=
+: Verkkopankkimaksu. Pankit: Nordea, Danske Bank, Osuuspankki, S-pankki,=
+ Aktia, Handelsbanken, =C3=85landsbanken, Pop-pankki, S=C3=A4=C3=A4st=C3=
+=B6pankki, Oma S=C3=A4=C3=A4st=C3=B6pankki=0A=0A Huutokaupan tilana n=C3=
+=A4kyy ilmoituksessa: P=C3=A4=C3=A4ttynyt =E2=80=93 tarjous hyv=C3=A4ksy=
+tty.=0A=0A Kohteen ostajalla on kaksi arkip=C3=A4iv=C3=A4=C3=A4 aikaa su=
+orittaa kauppahinta Huutokaupat.com palvelua yll=C3=A4pit=C3=A4v=C3=A4n=
+ Mezzoforte Oy:n asiakastilille. Saatte meilt=C3=A4 s=C3=A4hk=C3=B6posti=
+lla vahvistuksen toteutuneesta kauppasummasta.=0A=0A Maksusuorituksen j=
+=C3=A4lkeen huutokaupan tilana n=C3=A4kyy ilmoituksessa: Myyty.=0A=0A My=
+yntikohde n=C3=A4kyy myynnin toteuduttua sivuilla 7 p=C3=A4iv=C3=A4=C3=
+=A4 ja poistuu t=C3=A4m=C3=A4n j=C3=A4lkeen sivuilta automaattisesti.=0A=
+=0A Yst=C3=A4v=C3=A4llisin terveisin,=0A Huutokaupat.com
+
+--=_6b6af6f20435be9edf3115ad04974741
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w=
+ww.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">=0A<html>=0A    <head>=
+=0A        <meta http-equiv=3D"Content-Type" content=3D"text/html; chars=
+et=3DUTF-8" />=0A        <meta name=3D"viewport" content=3D"width=3Ddevi=
+ce-width" />=0A    </head>=0A=0A    <body>=0A        <p>=0A    Olette hy=
+v=C3=A4ksyneet tarjouksen seuraavasta kohteesta:=0A</p>=0A=0A<p>=0A    K=
+ohde #376766<br/>=0A    Otsikkokentt=C3=A4: 15.11.-20.11. Husgvarna K760=
+ timantti- / Holvisaha, Lahti<br/>=0A    P=C3=A4=C3=A4ttymisaika: Sunnun=
+tai 20.11.2016 klo 20:27<br/>=0A    Huudettu: 375 EUR<br/>=0A    Alv-osu=
+us: 90 EUR<br/>=0A    Summa: 465 EUR, ALV 24 %=0A</p>=0A=0A<p>=0A    Ost=
+ajan yhteystiedot:<br/>=0A        Antti Esimerk<br/>=0A    Antti.Esimerk=
+@hababababa.fi<br/>=0A            Puhelin: +358 50 5559999<br/>=0A     =
+   Osoite:<br/>=0A    M=C3=A4ntytie 28<br/>=0A    12345 Etelä<br/>=0A  =
+  Suomi=0A</p>=0A=0A<p>=0A    Myyj=C3=A4n/toimeksisaaneen yhteystiedot:<=
+br/>=0A    firma Companyoy<br />=0AY-tunnus: 1104224-9<br />=0ARahti til=
+aukset<br />=0Amyynti@firma.fi<br />=0A<br />=0A<br />=0AOsmos Foob=C3=
+=A4n=C3=A4inen<br />=0AOsmos.Foobanainen@firma.fi<br />=0A+358 40 760671=
+0<br />=0A<br />=0AIlmoittajan viite: 563-1 / 01328<br />=0A<br/>=0A   =
+ <br/>=0A    Maksutapa: Verkkopankkimaksu. Pankit: Nordea, Danske Bank,=
+ Osuuspankki, S-pankki, Aktia, Handelsbanken, =C3=85landsbanken, Pop-pan=
+kki, S=C3=A4=C3=A4st=C3=B6pankki, Oma S=C3=A4=C3=A4st=C3=B6pankki<br/>=
+=0A    <br/>=0A    Huutokaupan tilana n=C3=A4kyy ilmoituksessa: P=C3=A4=
+=C3=A4ttynyt =E2=80=93 tarjous hyv=C3=A4ksytty.<br/>=0A    <br/>=0A    K=
+ohteen ostajalla on kaksi arkip=C3=A4iv=C3=A4=C3=A4 aikaa suorittaa kaup=
+pahinta Huutokaupat.com palvelua yll=C3=A4pit=C3=A4v=C3=A4n Mezzoforte O=
+y:n asiakastilille.  Saatte meilt=C3=A4 s=C3=A4hk=C3=B6postilla vahvistu=
+ksen toteutuneesta kauppasummasta.<br/>=0A    <br/>=0A    Maksusuorituks=
+en j=C3=A4lkeen huutokaupan tilana n=C3=A4kyy ilmoituksessa: Myyty.<br/>=
+=0A    <br/>=0A    Myyntikohde n=C3=A4kyy myynnin toteuduttua sivuilla 7=
+ p=C3=A4iv=C3=A4=C3=A4 ja poistuu t=C3=A4m=C3=A4n j=C3=A4lkeen sivuilta=
+ automaattisesti.=0A</p>=0A=0A<p>=0A    =0AYst=C3=A4v=C3=A4llisin tervei=
+sin,<br/>=0AHuutokaupat.com=0A=0A</p>=0A=0A    </body>=0A</html>=0A
+
+--=_6b6af6f20435be9edf3115ad04974741--
