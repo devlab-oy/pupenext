@@ -6,7 +6,7 @@ class Woo::OrdersTest < ActiveSupport::TestCase
   end
 
   test 'should initialize' do
-    assert_instance_of Woo::Orders.new, @woocommerce
+    assert_instance_of Woo::Orders, @woocommerce
   end
 
   test 'should get orders' do
