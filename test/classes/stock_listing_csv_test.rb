@@ -8,6 +8,7 @@ class StockListingCsvTest < ActiveSupport::TestCase
     sales_order/orders
     sales_order/rows
     shelf_locations
+    warehouses
   )
 
   setup do
@@ -76,5 +77,36 @@ class StockListingCsvTest < ActiveSupport::TestCase
     assert_equal report.csv_data, File.open(filename, "rb").read
 
     File.delete filename
+  end
+
+  test 'pass in warehouse ids' do
+    veikkola = warehouses :veikkola
+    kontula  = warehouses :kontula
+    warehouse_ids = [veikkola.id, kontula.id]
+
+    # hammer should be in veikkola and kontula, update stock to 10 in both
+    hammer = products :hammer
+    hammer.shelf_locations.where.not(varasto: warehouse_ids).delete_all
+    hammer.shelf_locations.update_all(saldo: 10)
+
+    # we should have 20 stock
+    report = StockListingCsv.new(company_id: @company.id)
+    output = "hammer123,EANHAMMER123,All-around hammer,20,,\n"
+    assert report.csv_data.lines.include?(output), report.csv_data.lines
+
+    # pass warehouses as a string
+    report = StockListingCsv.new(company_id: @company.id, warehouse_ids: warehouse_ids.join(','))
+    output = "hammer123,EANHAMMER123,All-around hammer,20,,\n"
+    assert report.csv_data.lines.include?(output), report.csv_data.lines
+
+    # pass warehouses as an array
+    report = StockListingCsv.new(company_id: @company.id, warehouse_ids: warehouse_ids)
+    output = "hammer123,EANHAMMER123,All-around hammer,20,,\n"
+    assert report.csv_data.lines.include?(output), report.csv_data.lines
+
+    # only veikkola should have 10
+    report = StockListingCsv.new(company_id: @company.id, warehouse_ids: veikkola.id)
+    output = "hammer123,EANHAMMER123,All-around hammer,10,,\n"
+    assert report.csv_data.lines.include?(output), report.csv_data.lines
   end
 end
