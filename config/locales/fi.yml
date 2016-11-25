@@ -1190,6 +1190,12 @@ fi:
         paid_at: Maksupäivä
         qty: Määrä
         sku: Tuotenumero
+    product_stock_pdf:
+      find:
+        product_not_found: Tuotetta "%{sku}" ei löytynyt!
+      index:
+        header: Tuotteen hyllytarra
+        run: Avaa PDF
     revenue_expenditure:
       index:
         accounts_payable: Ostovelat
