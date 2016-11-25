@@ -4,4 +4,8 @@ class ShelfLocation < BaseModel
 
   self.table_name = :tuotepaikat
   self.primary_key = :tunnus
+
+  def to_s
+    "#{hyllyalue}-#{hyllynro}-#{hyllyvali}-#{hyllytaso}"
+  end
 end
