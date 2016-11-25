@@ -1,11 +1,14 @@
 require 'csv'
 
 class StockListingCsv
-  def initialize(company_id:, column_separator: ',')
+  attr_reader :company
+
+  def initialize(company_id:, column_separator: ',', warehouse_ids: nil)
     @company = Company.find company_id
     Current.company = @company
 
     @options = { col_sep: column_separator }
+    @warehouse_ids = warehouse_ids
   end
 
   def csv_data
@@ -15,9 +18,9 @@ class StockListingCsv
   end
 
   def to_file
-    filename = Tempfile.new ["stock_listing-", ".csv"]
+    filename = Tempfile.new ['stock_listing-', '.csv']
 
-    CSV.open(filename, "wb", @options) do |csv|
+    CSV.open(filename, 'wb', @options) do |csv|
       data.map { |row| csv << row }
     end
 
@@ -26,13 +29,9 @@ class StockListingCsv
 
   private
 
-    def company
-      @company
-    end
-
     def data
       @data ||= company.products.inventory_management.active.find_each.map do |product|
-        row = ProductRow.new product
+        row = ProductRow.new product, warehouse_ids: warehouses
 
         [
           row.product.tuoteno,
@@ -44,15 +43,22 @@ class StockListingCsv
         ]
       end
     end
+
+    def warehouses
+      return if @warehouse_ids.blank?
+
+      return @warehouse_ids if @warehouse_ids.is_a?(Array)
+
+      @warehouse_ids.to_s.split(',')
+    end
 end
 
 class StockListingCsv::ProductRow
-  def initialize(product)
-    @product = product
-  end
+  attr_reader :product, :warehouse_ids
 
-  def product
-    @product
+  def initialize(product, warehouse_ids: nil)
+    @product = product
+    @warehouse_ids = warehouse_ids
   end
 
   def stock
@@ -74,7 +80,7 @@ class StockListingCsv::ProductRow
   private
 
     def stock_raw
-      @stock ||= product.stock_available
+      @stock ||= Stock.new(product, warehouse_ids: warehouse_ids).stock_available
     end
 
     def next_order
