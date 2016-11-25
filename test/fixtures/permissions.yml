@@ -23,6 +23,7 @@
     full_installments
     incoming_mails
     mail_servers
+    online_stores
     packages
     packing_areas
     pending_product_updates

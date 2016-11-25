@@ -1,0 +1,13 @@
+pupeshop:
+  company:  acme
+  name:     Pupeshop
+  type:     OnlineStore::Pupeshop
+  theme:    one
+  products: hammer, helmet
+
+magento:
+  company:  acme
+  name:     Magento
+  type:     OnlineStore::Magento
+  theme:    two
+  products: helmet

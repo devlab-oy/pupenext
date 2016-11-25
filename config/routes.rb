@@ -57,6 +57,7 @@ Pupesoft::Application.routes.draw do
     resources :fiscal_years, except: :destroy
     resources :incoming_mails, only: :index
     resources :mail_servers
+    resources :online_stores
     resources :packages
     resources :packing_areas
     resources :printers

@@ -222,6 +222,11 @@ fi:
         smtp_password: SMPT-palvelimen salasana
         smtp_server: SMPT-palvelin
         smtp_username: SMPT-palvelimen käyttäjätunnus
+      online_store:
+        name: Nimi
+        products: Tuotteet
+        theme: Teema
+        type: Tyyppi
       package:
         erikoispakkaus: Erikoispakkaus
         jarjestys: Järjestys
@@ -395,6 +400,7 @@ fi:
       keyword/customer_subcategory: Asiakasryhmä
       keyword/revenue_expenditure: Vaihtoehtoinen meno
       mail_server: Sähköpostipalvelin
+      online_store: Verkkokauppa
       package: Pakkaus
       package_code: Pakkauskoodi
       packing_area: Pakkaamo
@@ -570,6 +576,18 @@ fi:
         header: Sähköpostipalvelimet
       new:
         header: Uusi sähköpostipalvelin
+    online_stores:
+      create:
+        success: Verkkokauppa luotiin onnistuneesti
+      destroy:
+        success: Verkkokauppa poistettiin onnistuneesti
+      edit:
+        button_remove: Poista verkkokauppa
+        confirm_remove: Haluatko varmasti poistaa tämän verkkokakupan?
+      index:
+        header: Verkkokaupat
+      update:
+        success: Verkkokauppa päivitettiin onnistuneesti
     packages:
       create:
         create_success: Pakkaus lisättiin onnistuneesti

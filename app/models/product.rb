@@ -22,6 +22,8 @@ class Product < BaseModel
     o.has_one :cover_thumbnail, -> { where(kayttotarkoitus: :th).order(:jarjestys, :tunnus) }
   end
 
+  has_and_belongs_to_many :online_stores, join_table: :online_stores_products
+
   delegate :images, to: :attachments
   delegate :thumbnails, to: :attachments
 
@@ -129,6 +131,10 @@ class Product < BaseModel
     else
       false
     end
+  end
+
+  def to_s
+    "#{tuoteno}: #{nimitys}"
   end
 
   private

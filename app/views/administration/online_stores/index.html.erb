@@ -1,0 +1,27 @@
+<%= render 'administration/header', text: t('.header') %>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= OnlineStore.human_attribute_name(:name) %></th>
+      <th><%= OnlineStore.human_attribute_name(:theme) %></th>
+      <th><%= OnlineStore.human_attribute_name(:type) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @online_stores.each do |online_store| %>
+      <tr class="aktiivi">
+        <td><%= link_to online_store, online_store %></td>
+        <td><%= online_store.theme %></td>
+        <td><%= online_store.type.demodulize %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= button_to_new 'online_store', new_online_store_path %>

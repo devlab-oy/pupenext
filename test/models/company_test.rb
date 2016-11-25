@@ -54,6 +54,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert @acme.warehouses.count > 0
     assert @acme.incoming_mails.count > 0
     assert @acme.permissions.count > 0
+    assert @acme.online_stores.count > 0
 
     assert_equal 1, @acme.menus.count
     assert_equal menus(:acme_menu_1), @acme.menus.first
