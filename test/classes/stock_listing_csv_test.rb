@@ -104,6 +104,11 @@ class StockListingCsvTest < ActiveSupport::TestCase
     output = "hammer123,EANHAMMER123,All-around hammer,20,,\n"
     assert report.csv_data.lines.include?(output), report.csv_data.lines
 
+    # pass warehouses as an empty string
+    report = StockListingCsv.new(company_id: @company.id, warehouse_ids: "")
+    output = "hammer123,EANHAMMER123,All-around hammer,20,,\n"
+    assert report.csv_data.lines.include?(output), report.csv_data.lines
+
     # only veikkola should have 10
     report = StockListingCsv.new(company_id: @company.id, warehouse_ids: veikkola.id)
     output = "hammer123,EANHAMMER123,All-around hammer,10,,\n"

@@ -45,7 +45,7 @@ class StockListingCsv
     end
 
     def warehouses
-      return unless @warehouse_ids
+      return if @warehouse_ids.blank?
 
       return @warehouse_ids if @warehouse_ids.is_a?(Array)
 
