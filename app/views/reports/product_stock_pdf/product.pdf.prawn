@@ -20,7 +20,7 @@ prawn_document(page_layout: :landscape) do |pdf|
   pdf.draw_text 'Varastopaikka', at: [0, 205], size: 30
   pdf.bounding_box([0, 195], width: 770, height: 80) do
     pdf.stroke_bounds
-    pdf.text_box @product.shelf_locations.first.to_s, text_box_params
+    pdf.text_box @product.default_shelf_location.to_s, text_box_params
   end
 
   # Kpl laatikko
