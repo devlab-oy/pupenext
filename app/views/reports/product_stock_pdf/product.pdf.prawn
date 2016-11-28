@@ -27,7 +27,7 @@ prawn_document(page_layout: :landscape) do |pdf|
   pdf.draw_text 'KPL', at: [0, 85], size: 30
   pdf.bounding_box([0, 80], width: 380, height: 80) do
     pdf.stroke_bounds
-    pdf.text_box @kpl, text_box_params
+    pdf.text_box @qty, text_box_params
   end
 
   # Pvm laatikko

@@ -97,7 +97,7 @@ Pupesoft::Application.routes.draw do
     post :full_installments,          to: 'full_installments#run',      as: :run_full_installments
     get :product_stock_pdf,           to: 'product_stock_pdf#index',    as: :product_stock_pdf_index
     post :product_stock_pdf,          to: 'product_stock_pdf#find',     as: :product_stock_pdf_find
-    get 'product_stock_pdf/:id',      to: 'product_stock_pdf#show',     as: :product_stock_pdf
+    get 'product_stock_pdf/:qty/:id', to: 'product_stock_pdf#show',     as: :product_stock_pdf
 
     resources :commodity_balance_sheet, only: [:index, :create]
     resources :commodity_financial_statements, only: [:index, :create]

@@ -1195,6 +1195,7 @@ fi:
         product_not_found: Tuotetta "%{sku}" ei löytynyt!
       index:
         header: Tuotteen hyllytarra
+        qty: Kpl
         run: Avaa PDF
     revenue_expenditure:
       index:

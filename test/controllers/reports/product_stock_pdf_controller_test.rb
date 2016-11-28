@@ -19,14 +19,14 @@ class Reports::ProductStockPdfControllerTest < ActionController::TestCase
 
   test 'finds a product' do
     get :find, sku: @hammer.tuoteno
-    assert_redirected_to product_stock_pdf_path(@hammer, format: :pdf)
+    assert_redirected_to product_stock_pdf_path(1, @hammer, format: :pdf)
 
     get :find, sku: 'invalid_sku'
-    assert_redirected_to product_stock_pdf_index_path
+    assert_redirected_to product_stock_pdf_index_path(sku: 'invalid_sku')
   end
 
   test 'renders a pdf' do
-    get :show, id: @hammer.tunnus, format: :pdf
+    get :show, qty: 1, id: @hammer.tunnus, format: :pdf
     assert_response :success
   end
 end

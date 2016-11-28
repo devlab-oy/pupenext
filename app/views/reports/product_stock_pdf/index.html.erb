@@ -9,7 +9,16 @@
         <%= label_tag :sku, Product.human_attribute_name(:tuoteno) %>
       </th>
       <td>
-        <%= text_field_tag :sku %>
+        <%= text_field_tag :sku, params[:sku],  autofocus: true %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= label_tag :qty, t('.qty') %>
+      </th>
+      <td>
+        <%= text_field_tag :qty, params[:qty] %>
       </td>
     </tr>
   </table>
