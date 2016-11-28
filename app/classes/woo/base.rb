@@ -1,4 +1,4 @@
-require "woocommerce_api"
+require 'woocommerce_api'
 
 class Woo::Base
   def initialize
@@ -9,7 +9,7 @@ class Woo::Base
       Rails.application.secrets.woocommerce_consumer_secret,
       {
         wp_api: true,
-        version: "wc/v1"
+        version: 'wc/v1'
       }
     )
   end

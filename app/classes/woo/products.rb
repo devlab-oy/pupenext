@@ -1,5 +1,4 @@
 class Woo::Products < Woo::Base
-
   # 1. adds products to webstore
   # 2. update stock of products in webstore
 
@@ -10,13 +9,13 @@ class Woo::Products < Woo::Base
       if find_by_sku(product.tuoteno).present?
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
       else
-        response = @woocommerce.post("products", product_hash(product)).parsed_response
-        if response["id"]
+        response = @woocommerce.post('products', product_hash(product)).parsed_response
+        if response['id']
           created_count += 1
           logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
         else
           # log errors
-          logger.error response["message"]
+          logger.error response['message']
         end
       end
     end
@@ -30,7 +29,7 @@ class Woo::Products < Woo::Base
     get_products.each do |product|
       if find_by_sku(product.tuoteno).present?
         data = { stock_quantity: product.stock_available.to_s }
-        product_id = find_by_sku(product.tuoteno)["id"]
+        product_id = find_by_sku(product.tuoteno)['id']
         @woocommerce.put("products/#{product_id}", data).parsed_response
       else
         logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetty"
@@ -55,11 +54,11 @@ class Woo::Products < Woo::Base
       regular_price: product.myyntihinta.to_s,
       manage_stock: true,
       stock_quantity: product.stock_available.to_s,
-      status: 'pending'
+      status: 'pending',
     }
   end
 
   def find_by_sku(sku)
-    @woocommerce.get("products", {sku: sku}).parsed_response.first
+    @woocommerce.get('products', sku: sku).parsed_response.first
   end
 end

@@ -1,5 +1,5 @@
 class Woo::Orders < Woo::Base
-  EDI_ORDERS_PATH = "tmp/orders/"
+  EDI_ORDERS_PATH = 'tmp/orders/'
 
   # Fetch new WooCommerce orders and set status to processing
   def fetch
