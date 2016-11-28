@@ -160,4 +160,8 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal false, @product.contract_price?('kissa')
   end
+
+  test 'default shelf location' do
+    assert_equal 'o', @product.default_shelf_location.oletus
+  end
 end

@@ -22,4 +22,5 @@ two:
   warehouse: kontula
   tuoteno: hammer123
   saldo: 2
+  oletus: o
   <<: *DEFAULTS
