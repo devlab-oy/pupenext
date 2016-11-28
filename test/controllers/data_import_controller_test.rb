@@ -14,6 +14,9 @@ class DataImportControllerTest < ActionController::TestCase
 
   setup do
     login users(:bob)
+
+    @default_detail_product = products(:default_detail_product).tuoteno
+    @default_detail_customer = customers(:default_detail_customer).asiakasnro
   end
 
   test "should get index" do
@@ -29,6 +32,28 @@ class DataImportControllerTest < ActionController::TestCase
       file: file,
       'month_year(2i)' => 1,
       'month_year(1i)' => 2016,
+    }
+
+    assert_difference 'SalesOrder::Detail.count', 1 do
+      assert_difference 'SalesOrder::DetailRow.count', 2 do
+        post :customer_sales, data_import: params
+      end
+    end
+
+    assert assigns(:spreadsheet)
+    assert_response :success
+  end
+
+  test 'should add customer sales with default customer number and default product' do
+    file = fixture_file_upload 'files/customer_sales_test.xlsx'
+    SalesOrder::Detail.delete_all
+
+    params = {
+      file: file,
+      'month_year(2i)' => 1,
+      'month_year(1i)' => 2016,
+      product: @default_detail_product,
+      customer_number: @default_detail_customer,
     }
 
     assert_difference 'SalesOrder::Detail.count', 1 do

@@ -730,9 +730,11 @@ fi:
     destroy_customer_sales:
       destroy_success: Erikoismyynnit poistettiin onnistuneesti
     index:
+      customer_number: Asiakasnumero
       destroy: Poista
       header: Tietojen sisäänluku
       import: Sisäänlue
+      product_number: Tuotenumero
   date:
     abbr_day_names:
     - su

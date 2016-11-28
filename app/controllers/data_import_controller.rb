@@ -11,6 +11,8 @@ class DataImportController < ApplicationController
       filename: @uploaded_file,
       month: customer_sales_params["month_year(2i)"],
       year: customer_sales_params["month_year(1i)"],
+      product: customer_sales_params[:product],
+      customer_number: customer_sales_params[:customer_number],
     ).import
 
     @text = SalesOrder::Detail.model_name.human
@@ -71,7 +73,12 @@ class DataImportController < ApplicationController
     end
 
     def customer_sales_params
-      params.require(:data_import).permit('month_year(1i)', 'month_year(2i)')
+      params.require(:data_import).permit(
+        'month_year(1i)',
+        'month_year(2i)',
+        :product,
+        :customer_number,
+      )
     end
 
     def data_import_params
