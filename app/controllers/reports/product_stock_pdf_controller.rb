@@ -6,7 +6,8 @@ class Reports::ProductStockPdfController < ApplicationController
     product = Product.find_by tuoteno: product_params[:sku]
 
     if product
-      redirect_to product_stock_pdf_path(product_params[:qty], product.id, format: :pdf)
+      qty = product_params[:qty].blank? ? 1 : product_params[:qty]
+      redirect_to product_stock_pdf_path(qty, product.id, format: :pdf)
     else
       notice = t('.product_not_found', sku: product_params[:sku])
       redirect_to product_stock_pdf_index_path(product_params), notice: notice
