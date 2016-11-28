@@ -131,6 +131,10 @@ class Product < BaseModel
     end
   end
 
+  def default_shelf_location
+    shelf_locations.where.not(oletus: '').try(:first)
+  end
+
   private
 
     def defaults

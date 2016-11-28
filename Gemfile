@@ -28,6 +28,8 @@ gem 'lightbox2-rails'
 gem 'wicked_pdf'
 gem 'whenever', require: false
 gem 'will_paginate'
+gem 'prawn'
+gem 'prawn-rails'
 
 group :assets do
   gem 'uglifier'

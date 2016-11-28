@@ -1,0 +1,30 @@
+<%= render "administration/header", text: t('.header') %>
+<%= render "administration/notice" %>
+
+<%= form_tag product_stock_pdf_find_path do %>
+
+  <table>
+    <tr>
+      <th>
+        <%= label_tag :sku, Product.human_attribute_name(:tuoteno) %>
+      </th>
+      <td>
+        <%= text_field_tag :sku, params[:sku], autofocus: true, autocomplete: :off %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= label_tag :qty, t('.qty') %>
+      </th>
+      <td>
+        <%= text_field_tag :qty, params[:qty], autocomplete: :off %>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <%= submit_tag t('.run') %>
+
+<% end %>

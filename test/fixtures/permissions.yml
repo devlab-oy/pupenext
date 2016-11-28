@@ -28,6 +28,7 @@
     pending_product_updates
     printers
     product_categories
+    product_stock_pdf
     products
     qualifiers
     revenue_expenditure
