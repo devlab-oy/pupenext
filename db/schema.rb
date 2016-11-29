@@ -3332,6 +3332,7 @@ ActiveRecord::Schema.define(version: 20161125140304) do
     t.integer  "kuljetusmuoto",                    limit: 4,                            default: 0,   null: false
     t.string   "poistumistoimipaikka_koodi",       limit: 8,                            default: "",  null: false
     t.string   "ulkoinen_jarjestelma",             limit: 1,                            default: "",  null: false
+    t.integer  "pikahakuarvo",                     limit: 4,                            default: 0
     t.string   "sallitut_maat",                    limit: 50,                           default: "",  null: false
     t.integer  "isa_varasto",                      limit: 4,                            default: 0,   null: false
     t.integer  "prioriteetti",                     limit: 4,                            default: 0,   null: false
