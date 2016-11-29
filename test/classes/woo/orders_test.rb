@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Woo::OrdersTest < ActiveSupport::TestCase
   setup do
-    @woocommerce = Woo::Orders.new
+    @woocommerce = Woo::Orders.new(companies(:acme).id)
   end
 
   test 'should initialize' do

@@ -1,8 +1,10 @@
 require 'woocommerce_api'
 
 class Woo::Base
-  def initialize
+  def initialize(company_id)
     raise(ArgumentError, "WooCommerce ENV variables missing") unless(valid_configuration?)
+
+    Current.company = Company.find(company_id)
 
     @logger = Logger.new(STDOUT) # Rails.env.production?
     @woocommerce = WooCommerce::API.new(

@@ -7,7 +7,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   )
 
   setup do
-    @woocommerce = Woo::Products.new
+    @woocommerce = Woo::Products.new(companies(:acme).id)
   end
 
   test 'should initialize' do
@@ -16,14 +16,14 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
   test 'get products' do
     products(:ski).update(hinnastoon: 'w')
-    assert_equal 1, Woo::Products.new.get_products.count
+    assert_equal 1, @woocommerce.get_products.count
   end
 
   test 'product hash' do
     products(:ski).update(hinnastoon: 'w')
     response = {name: 'Combosukset', slug: 'ski1', sku: 'ski1', type: 'simple', description: nil, short_description: nil, regular_price: '0.0', manage_stock: true, stock_quantity: '0.0', status: 'pending'}
-    product = Woo::Products.new.get_products.first
-    assert_equal response, Woo::Products.new.product_hash(product)
+    product = @woocommerce.get_products.first
+    assert_equal response, @woocommerce.product_hash(product)
   end
 
   test 'filter products from woocommerce' do

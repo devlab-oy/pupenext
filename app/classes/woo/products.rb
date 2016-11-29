@@ -25,16 +25,21 @@ class Woo::Products < Woo::Base
 
   # Update product stock quantity
   def update
+    updated_count = 0
     # Find products where stock has changed, or update all?
     get_products.each do |product|
       if find_by_sku(product.tuoteno).present?
         data = { stock_quantity: product.stock_available.to_s }
         product_id = find_by_sku(product.tuoteno)['id']
         @woocommerce.put("products/#{product_id}", data).parsed_response
+        updated_count += 1
+        logger.info "Tuoteen #{product.tuoteno} #{product.nimitys} saldo päivitetty"
       else
         logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetty"
       end
     end
+
+    logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
   def get_products
