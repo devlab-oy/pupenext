@@ -1,11 +1,14 @@
 require 'woocommerce_api'
 
 class Woo::Base
-  def initialize(company_id)
+  attr_reader :logger, :woocommerce
+
+  def initialize(company_id:, orders_path: 'tmp/orders_path')
     raise(ArgumentError, "WooCommerce ENV variables missing") unless(valid_configuration?)
 
     Current.company = Company.find(company_id)
 
+    @edi_orders_path = orders_path
     @logger = Logger.new(STDOUT) # Rails.env.production?
     @woocommerce = WooCommerce::API.new(
       Rails.application.secrets.woocommerce_store_url,
@@ -20,11 +23,9 @@ class Woo::Base
 
   protected
 
-    def logger
-      @logger
-    end
-
     def valid_configuration?
-      Rails.application.secrets.woocommerce_store_url.present? && Rails.application.secrets.woocommerce_consumer_key.present? && Rails.application.secrets.woocommerce_consumer_secret.present?
+      Rails.application.secrets.woocommerce_store_url.present? &&
+      Rails.application.secrets.woocommerce_consumer_key.present? &&
+      Rails.application.secrets.woocommerce_consumer_secret.present?
     end
 end

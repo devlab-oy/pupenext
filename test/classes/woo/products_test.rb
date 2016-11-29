@@ -7,7 +7,9 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   )
 
   setup do
-    @woocommerce = Woo::Products.new(companies(:acme).id)
+    @woocommerce = Woo::Products.new(company_id: companies(:acme).id)
+    Product.update_all(hinnastoon: '')
+    products(:ski).update(hinnastoon: 'w')
   end
 
   test 'should initialize' do
@@ -15,13 +17,22 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'get products' do
-    products(:ski).update(hinnastoon: 'w')
     assert_equal 1, @woocommerce.get_products.count
   end
 
   test 'product hash' do
-    products(:ski).update(hinnastoon: 'w')
-    response = {name: 'Combosukset', slug: 'ski1', sku: 'ski1', type: 'simple', description: nil, short_description: nil, regular_price: '0.0', manage_stock: true, stock_quantity: '0.0', status: 'pending'}
+    response = {
+      name: 'Combosukset',
+      slug: 'ski1',
+      sku: 'ski1',
+      type: 'simple',
+      description: nil,
+      short_description: nil,
+      regular_price: '0.0',
+      manage_stock: true,
+      stock_quantity: '0.0',
+      status: 'pending'
+    }
     product = @woocommerce.get_products.first
     assert_equal response, @woocommerce.product_hash(product)
   end
