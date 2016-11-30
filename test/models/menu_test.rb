@@ -3,6 +3,8 @@ require 'test_helper'
 class MenuTest < ActiveSupport::TestCase
   fixtures %w(
     menus
+    permissions
+    user_profiles
   )
 
   test 'fixtures are valid' do

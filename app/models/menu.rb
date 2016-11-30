@@ -1,5 +1,5 @@
 class Menu < BaseModel
-  validates :jarjestys, uniqueness: { scope: [:yhtio, :sovellus, :jarjestys2] }
+  validates :jarjestys, uniqueness: { scope: [:yhtio, :sovellus, :jarjestys2, :kuka, :profiili] }
   validates :kuka, absence: true
   validates :nimi, presence: true, uniqueness: { scope: [:yhtio, :sovellus, :alanimi, :kuka, :profiili] }
   validates :nimitys, presence: true
