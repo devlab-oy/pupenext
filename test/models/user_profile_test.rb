@@ -2,6 +2,8 @@ require 'test_helper'
 
 class UserProfileTest < ActiveSupport::TestCase
   fixtures %w(
+    menus
+    permissions
     user_profiles
   )
 
