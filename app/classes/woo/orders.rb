@@ -10,11 +10,11 @@ class Woo::Orders < Woo::Base
         if @woocommerce.put("orders/#{order['id']}", status: 'processing').success?
           write_to_file(order, @edi_orders_path)
         else
-          logger.error "error in updating order status"
+          logger.error 'error in updating order status'
         end
       end
     else
-      logger.error "error in fetching orders"
+      logger.error 'error in fetching orders'
     end
   end
 
@@ -31,7 +31,7 @@ class Woo::Orders < Woo::Base
   end
 
   def write_to_file(order, path)
-    File.open(File.join(path, "order_#{order["id"]}.txt"), 'w') do |file|
+    File.open(File.join(path, "order_#{order['id']}.txt"), 'w') do |file|
       file.write(build_edi_order(order))
     end
   end

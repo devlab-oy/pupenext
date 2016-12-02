@@ -4,7 +4,7 @@ class Woo::Base
   attr_reader :logger, :woocommerce
 
   def initialize(company_id:, orders_path: 'tmp/orders_path')
-    raise(ArgumentError, "WooCommerce ENV variables missing") unless(valid_configuration?)
+    raise(ArgumentError, 'WooCommerce ENV variables missing') unless valid_configuration?
 
     Current.company = Company.find(company_id)
 
@@ -16,7 +16,7 @@ class Woo::Base
       Rails.application.secrets.woocommerce_consumer_secret,
       {
         wp_api: true,
-        version: 'wc/v1'
+        version: 'wc/v1',
       }
     )
   end
