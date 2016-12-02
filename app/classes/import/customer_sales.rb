@@ -16,7 +16,6 @@ class Import::CustomerSales
     header = nil
 
     spreadsheet.each do |spreadsheet_row|
-
       # create hash of the row (defined in Import::Base)
       excel_row = row_to_hash spreadsheet_row
 
@@ -74,17 +73,13 @@ class Import::CustomerSales::Row
   def product
     return unless product_raw.present?
 
-    @product ||= Product.find_by tuoteno: product_raw
-    @product ||= Product.find_by tuoteno: default_product if default_product.present?
-    @product
+    @product ||= Product.find_by(tuoteno: product_raw) || default_product
   end
 
   def customer
     return unless customer_raw.present?
 
-    @customer ||= Customer.find_by asiakasnro: customer_raw
-    @customer ||= Customer.find_by asiakasnro: default_customer if default_customer.present?
-    @customer
+    @customer ||= Customer.find_by(asiakasnro: customer_raw) || default_customer
   end
 
   def errors
@@ -134,22 +129,26 @@ class Import::CustomerSales::Row
     end
 
     def default_product
-      values[:product]
+      return unless values[:product].present?
+
+      Product.find_by tuoteno: values[:product]
     end
 
     def customer_raw
-      identifier if quantity.blank? && identifier != "Yhteensä"
+      identifier if quantity.blank? && identifier != 'Yhteensä'
     end
 
     def default_customer
-      values[:customer_number]
+      return unless values[:customer_number].present?
+
+      Customer.find_by asiakasnro: values[:customer_number]
     end
 
     def required_fields
       [
         'kpl',
         'myynti eur',
-        'asiakas/tuote'
+        'asiakas/tuote',
       ]
     end
 end
