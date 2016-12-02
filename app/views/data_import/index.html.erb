@@ -52,6 +52,12 @@
 
     <td>
       <%= form_for :data_import, url: customer_sales_import_path do |f| %>
+        <%= f.label :product_number, t('.product_number') %>
+        <%= f.text_field :product, size: 30, value: 'ERIKOISMYYNTITUOTE' %><br />
+
+        <%= f.label :customer_number, t('.customer_number') %>
+        <%= f.text_field :customer_number, size: 30, value: 'ERIKOISMYYNTIASIAKAS' %><br />
+
         <%= f.date_select :month_year, discard_day: true %>
         <%= f.file_field :file %>
         <%= f.submit t('.import') %>

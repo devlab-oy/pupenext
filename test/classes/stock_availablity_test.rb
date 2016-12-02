@@ -37,10 +37,14 @@ class StockAvailabilityTest < ActiveSupport::TestCase
 
   test 'report output' do
     today = Time.zone.today
-    week = Week.new(today).human
+    week  = Week.new(today).human
+
+    # products are ordered by tuoteno, so we'll make sure this is the first one
     shelf = @company.shelf_locations.first
-    product = Product.find_by_tuoteno shelf.tuoteno
+    product = Product.find_by! tuoteno: shelf.tuoteno
     product.shelf_locations.first.update!(saldo: 330)
+
+    @company.products.where('tuoteno < ?', product.tuoteno).delete_all
 
     # Create past, now and future rows in purchase and sales orders
     # Past

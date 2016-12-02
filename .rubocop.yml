@@ -30,6 +30,9 @@ Style/MultilineMethodCallIndentation:
 Style/VariableNumber:
   EnforcedStyle: snake_case
 
+Style/EmptyMethod:
+  Enabled: false
+
 ##################### Metrics ##################################
 
 Metrics/LineLength:
@@ -43,6 +46,9 @@ Metrics/ModuleLength:
 
 Metrics/MethodLength:
   Max: 20
+
+Metrics/CountKeywordArgs:
+  Enabled: false
 
 ##################### Lint ##################################
 

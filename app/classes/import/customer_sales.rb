@@ -1,12 +1,14 @@
 class Import::CustomerSales
   include Import::Base
 
-  def initialize(company_id:, user_id:, filename:, month:, year:)
+  def initialize(company_id:, user_id:, filename:, month:, year:, product:, customer_number:)
     Current.company = Company.find company_id
     Current.user = User.find user_id
 
     @file = setup_file filename
     @end_of_month = Date.new(year.to_i, month.to_i, 1).end_of_month
+    @product = product
+    @customer_number = customer_number
   end
 
   def import
@@ -14,7 +16,6 @@ class Import::CustomerSales
     header = nil
 
     spreadsheet.each do |spreadsheet_row|
-
       # create hash of the row (defined in Import::Base)
       excel_row = row_to_hash spreadsheet_row
 
@@ -24,7 +25,10 @@ class Import::CustomerSales
         next
       end
 
-      row = Row.new excel_row
+      excel_row[:product] = @product
+      excel_row[:customer_number] = @customer_number
+
+      row = Row.new(excel_row)
 
       errors = []
 
@@ -69,13 +73,13 @@ class Import::CustomerSales::Row
   def product
     return unless product_raw.present?
 
-    @product ||= Product.find_by tuoteno: product_raw
+    @product ||= Product.find_by(tuoteno: product_raw) || default_product
   end
 
   def customer
     return unless customer_raw.present?
 
-    @customer ||= Customer.find_by asiakasnro: customer_raw
+    @customer ||= Customer.find_by(asiakasnro: customer_raw) || default_customer
   end
 
   def errors
@@ -124,15 +128,27 @@ class Import::CustomerSales::Row
       identifier if quantity.present?
     end
 
+    def default_product
+      return unless values[:product].present?
+
+      Product.find_by tuoteno: values[:product]
+    end
+
     def customer_raw
-      identifier if quantity.blank? && identifier != "Yhteensä"
+      identifier if quantity.blank? && identifier != 'Yhteensä'
+    end
+
+    def default_customer
+      return unless values[:customer_number].present?
+
+      Customer.find_by asiakasnro: values[:customer_number]
     end
 
     def required_fields
       [
         'kpl',
         'myynti eur',
-        'asiakas/tuote'
+        'asiakas/tuote',
       ]
     end
 end

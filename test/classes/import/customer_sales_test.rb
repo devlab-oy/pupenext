@@ -20,6 +20,9 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     @hammer = products :hammer
     @hammer.update! tuoteno: '67890'
 
+    @default_detail_product = products(:default_detail_product).tuoteno
+    @default_detail_customer = customers(:default_detail_customer).asiakasnro
+
     @customer = customers :stubborn_customer
     @lissu    = customers :lissu
   end
@@ -43,12 +46,46 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
 
     assert_difference 'SalesOrder::Detail.count', 2 do
       assert_difference 'SalesOrder::DetailRow.count', 4 do
+        response = sales.import
+        assert_equal Import::Response, response.class
+        assert_equal [], response.rows.map(&:errors).flatten.compact
+      end
+    end
+  end
+
+  test 'adding with invalid data should fallback to defaults' do
+    filename = create_xlsx([
+      ['Asiakas/Tuote',                            'Kpl', 'Myynti EUR' ],
+      ['Yhteensä',                                 '',    123000       ],
+      ["666 #{@customer.nimi}",                    '',    23000        ],
+      ["foobar",                                   '',    23000        ],
+      ["999 #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["foobar",                                   10,    23000        ],
+      ['Yhteensä',                                 '',    123000       ],
+    ])
+
+    params = {
+      company_id: @company,
+      user_id: @user,
+      filename: filename,
+      month: 1,
+      year: 2016,
+      product: @default_detail_product,
+      customer_number: @default_detail_customer,
+    }
+
+    sales = Import::CustomerSales.new params
+
+    assert_difference 'SalesOrder::Detail.count', 2 do
+      assert_difference 'SalesOrder::DetailRow.count', 2 do
         response = sales.import
         assert_equal Import::Response, response.class
         assert_equal [], response.rows.map(&:errors).flatten.compact
@@ -73,6 +110,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -111,6 +150,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     # We get only one error
@@ -140,6 +181,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -166,6 +209,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -195,6 +240,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     sales = Import::CustomerSales.new params
@@ -212,6 +259,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       user_id: @user,
       filename: filename,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     assert_raises(ArgumentError) { Import::CustomerSales.new params }
@@ -231,6 +280,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     # We get only one error
@@ -259,6 +310,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       filename: filename,
       month: 1,
       year: 2016,
+      product: nil,
+      customer_number: nil,
     }
 
     # We get only one error
