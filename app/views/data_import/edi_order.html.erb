@@ -1,8 +1,8 @@
 *IS
 *MS <%= @order["id"] %>
 *RS OSTOTIL
-OSTOTIL.OT_TOIMITTAJANRO:003708381055 <%# devlabin ovt-tunnus %>
-OSTOTIL.OT_NRO:
+OSTOTIL.OT_TOIMITTAJANRO:<%= @company.ovttunnus %>
+OSTOTIL.OT_NRO:<%= @order["id"] %>
 OSTOTIL.OT_TILAUSTYYPPI:9 <%# 9 = ohitetaan varastoprosessi %>
 OSTOTIL.VERKKOKAUPPA:
 OSTOTIL.OT_VERKKOKAUPPA_ASIAKASNRO:
@@ -56,7 +56,7 @@ OSTOTIL.OT_TOIMITUS_EMAIL:
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
 *RS OSTOTILRIV <%= index+1 %>
-OSTOTILRIV.OTR_NRO:
+OSTOTILRIV.OTR_NRO:<%= @order["id"] %>
 OSTOTILRIV.OTR_RIVINRO:
 OSTOTILRIV.OTR_TOIMITTAJANRO:
 OSTOTILRIV.OTR_TUOTEKOODI:<%= line_item["sku"] %>
