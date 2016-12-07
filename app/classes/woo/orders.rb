@@ -1,8 +1,9 @@
 class Woo::Orders < Woo::Base
-  attr_accessor :edi_orders_path
+  attr_accessor :edi_orders_path, :customer_id
 
-  def initialize(company_id:, orders_path:)
+  def initialize(company_id:, orders_path:, customer_id: nil)
     self.edi_orders_path = orders_path
+    self.customer_id = customer_id
 
     super
   end
@@ -53,7 +54,7 @@ class Woo::Orders < Woo::Base
   end
 
   def build_edi_order(order)
-    locals = { :@company => Current.company, :@order => order }
+    locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id }
 
     ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
   end

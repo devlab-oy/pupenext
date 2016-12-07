@@ -28,7 +28,7 @@ OSTOTIL.OT_KULJETUSOHJE:
 OSTOTIL.OT_LAHETYSTAPA:
 OSTOTIL.OT_VAHVISTUS_FAKSILLA:
 OSTOTIL.OT_FAKSI:
-OSTOTIL.OT_ASIAKASNRO:<%= @order["customer_id"] %>
+OSTOTIL.OT_ASIAKASNRO:<%= @customer_id || @order["customer_id"] %>
 OSTOTIL.OT_ASIAKASOVT:
 OSTOTIL.OT_YRITYS:<%= @order["billing"]["company"] %>
 OSTOTIL.OT_YHTEYSHENKILO:<%= "#{@order["billing"]["first_name"]} #{@order["billing"]["last_name"]}" %>
