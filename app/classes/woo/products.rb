@@ -5,11 +5,13 @@ class Woo::Products < Woo::Base
   # Create products to woocommerce
   def create
     created_count = 0
-    get_products.each do |product|
-      if find_by_sku(product.tuoteno).present?
+
+    products.each do |product|
+      if get_sku(product.tuoteno).present?
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
       else
         response = @woocommerce.post('products', product_hash(product)).parsed_response
+
         if response['id']
           created_count += 1
           logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
@@ -26,12 +28,16 @@ class Woo::Products < Woo::Base
   # Update product stock quantity
   def update
     updated_count = 0
+
     # Find products where stock has changed, or update all?
-    get_products.each do |product|
-      if find_by_sku(product.tuoteno).present?
+    products.each do |product|
+      woo_product = get_sku(product.tuoteno)
+
+      if woo_product.present?
         data = { stock_quantity: product.stock_available.to_s }
-        product_id = find_by_sku(product.tuoteno)['id']
-        @woocommerce.put("products/#{product_id}", data).parsed_response
+
+        @woocommerce.put("products/#{woo_product['id']}", data).parsed_response
+
         updated_count += 1
         logger.info "Tuoteen #{product.tuoteno} #{product.nimitys} saldo päivitetty"
       else
@@ -42,10 +48,10 @@ class Woo::Products < Woo::Base
     logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
-  def get_products
+  def products
     # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
     # verkkokauppa näkyvyys päällä
-    Product.where(status: ['A', 'P']).where(hinnastoon: 'W')
+    Product.where(status: %w(A P)).where(hinnastoon: 'W')
   end
 
   def product_hash(product)
@@ -63,7 +69,7 @@ class Woo::Products < Woo::Base
     }
   end
 
-  def find_by_sku(sku)
+  def get_sku(sku)
     @woocommerce.get('products', sku: sku).parsed_response.first
   end
 end

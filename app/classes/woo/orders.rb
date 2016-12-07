@@ -37,7 +37,8 @@ class Woo::Orders < Woo::Base
   end
 
   def build_edi_order(order)
-    ApplicationController.new.render_to_string 'data_import/edi_order',
-      layout: false, locals: { :@company => Current.company, :@order => order }
+    locals = { :@company => Current.company, :@order => order }
+
+    ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
   end
 end
