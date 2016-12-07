@@ -10,38 +10,42 @@ class Woo::Orders < Woo::Base
   # Fetch new WooCommerce orders and set status to processing
   def fetch
     # Fetch orders from woocommerce
-    response = @woocommerce.get('orders', status: 'any')
+    response = woo_get('orders', status: 'any')
+    return unless response
 
-    if response.success?
-      response.parsed_response.each do |order|
-        # update orders status to 'fetched'
-        if @woocommerce.put("orders/#{order['id']}", status: 'processing').success?
-          write_to_file(order, edi_orders_path)
-        else
-          logger.error 'error in updating order status'
-        end
-      end
-    else
-      logger.error 'error in fetching orders'
+    response.each do |order|
+      # update orders status to 'fetched'
+      status = woo_put("orders/#{order['id']}", status: 'processing')
+
+      next unless status
+
+      write_to_file(order)
     end
   end
 
   # Set WooCommerce order status to complete
-  def complete_order(order_number)
-    order = @woocommerce.get("orders/#{order_number}").parsed_response
-    if @woocommerce.put("orders/#{order['id']}", status: 'completed').success?
-      # TODO: Tracking code as order note
-      # woocommerce.post("orders/#{order_number}/notes", { note: tracking_code, customer_note: true }).parsed_response
-      logger.info "Order #{order['id']} status set to completed"
-    else
-      logger.error "Error in completing order #{order['id']}"
-    end
+  def complete_order(order_number, tracking_code = nil)
+    order = woo_get("orders/#{order_number}")
+    return unless order
+
+    status = woo_put("orders/#{order['id']}", status: 'completed')
+    return unless status
+
+    data = { note: tracking_code, customer_note: true }
+    status = woo_post("orders/#{order_number}/notes", data)
+    return unless status
+
+    logger.info "Order #{order['id']} status set to completed"
   end
 
-  def write_to_file(order, path)
-    File.open(File.join(path, "order_#{order['id']}.txt"), 'w') do |file|
+  def write_to_file(order)
+    filepath = File.join(edi_orders_path, "order_#{order['id']}.txt")
+
+    File.open(filepath, 'w') do |file|
       file.write(build_edi_order(order))
     end
+
+    logger.info "Tallennettiin tilaus #{filepath}"
   end
 
   def build_edi_order(order)
