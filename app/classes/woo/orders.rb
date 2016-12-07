@@ -9,13 +9,13 @@ class Woo::Orders < Woo::Base
 
   # Fetch new WooCommerce orders and set status to processing
   def fetch
-    # Fetch orders from woocommerce
-    response = woo_get('orders', status: 'any')
+    # Fetch only order that are 'processing'
+    response = woo_get('orders', status: 'processing')
     return unless response
 
     response.each do |order|
-      # update orders status to 'fetched'
-      status = woo_put("orders/#{order['id']}", status: 'processing')
+      # update orders status to 'on-hold'
+      status = woo_put("orders/#{order['id']}", status: 'on-hold')
 
       next unless status
 
@@ -25,17 +25,21 @@ class Woo::Orders < Woo::Base
 
   # Set WooCommerce order status to complete
   def complete_order(order_number, tracking_code = nil)
+    # only update if order is 'on-hold'
     order = woo_get("orders/#{order_number}")
-    return unless order
+    return unless order && order['status'] == 'on-hold'
 
     status = woo_put("orders/#{order['id']}", status: 'completed')
     return unless status
+
+    logger.info "Order #{order['id']} status set to completed"
+    return unless tracking_code
 
     data = { note: tracking_code, customer_note: true }
     status = woo_post("orders/#{order_number}/notes", data)
     return unless status
 
-    logger.info "Order #{order['id']} status set to completed"
+    logger.info "Order #{order['id']} tracking code set to #{tracking_code}"
   end
 
   def write_to_file(order)
