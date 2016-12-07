@@ -65,7 +65,7 @@ class Woo::Products < Woo::Base
       response = woo_get('products', sku: sku)
       product = response.try(:first)
 
-      return if product.nil? || product.dig('id').blank?
+      return if product.nil? || product['id'].blank?
 
       response.first
     end
