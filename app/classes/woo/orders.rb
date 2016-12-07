@@ -1,4 +1,12 @@
 class Woo::Orders < Woo::Base
+  attr_accessor :edi_orders_path
+
+  def initialize(company_id:, orders_path:)
+    self.edi_orders_path = orders_path
+
+    super
+  end
+
   # Fetch new WooCommerce orders and set status to processing
   def fetch
     # Fetch orders from woocommerce
@@ -8,7 +16,7 @@ class Woo::Orders < Woo::Base
       response.parsed_response.each do |order|
         # update orders status to 'fetched'
         if @woocommerce.put("orders/#{order['id']}", status: 'processing').success?
-          write_to_file(order, @edi_orders_path)
+          write_to_file(order, edi_orders_path)
         else
           logger.error 'error in updating order status'
         end

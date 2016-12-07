@@ -3,19 +3,18 @@ require 'woocommerce_api'
 class Woo::Base
   attr_reader :logger, :woocommerce
 
-  def initialize(company_id:, orders_path: 'tmp/orders_path')
+  def initialize(company_id:, **_)
     raise ArgumentError, 'WooCommerce ENV variables missing' unless valid_configuration?
 
     Current.company = Company.find(company_id)
 
-    @edi_orders_path = orders_path
     @logger = Logger.new(STDOUT) # Rails.env.production?
     @woocommerce = WooCommerce::API.new(
       store_url,
       consumer_key,
       consumer_secret,
       wp_api: true,
-      version: 'wc/v1'
+      version: 'wc/v1',
     )
   end
 
