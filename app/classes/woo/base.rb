@@ -35,4 +35,32 @@ class Woo::Base
     def consumer_secret
       Rails.application.secrets.woocommerce_consumer_secret
     end
+
+    def woo_get(uri, data = {})
+      response = woocommerce.get(uri, data)
+
+      parse_response response
+    end
+
+    def woo_post(uri, data = {})
+      response = woocommerce.post(uri, data)
+
+      parse_response response
+    end
+
+    def woo_put(uri, data = {})
+      response = woocommerce.put(uri, data)
+
+      parse_response response
+    end
+
+  private
+
+    def parse_response(response)
+      return response.parsed_response if response.success?
+
+      logger.error response.message
+
+      nil
+    end
 end

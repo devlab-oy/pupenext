@@ -17,7 +17,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'get products' do
-    assert_equal 1, @woocommerce.products.count
+    assert_equal 1, @woocommerce.send(:products).count
   end
 
   test 'product hash' do
@@ -31,13 +31,10 @@ class Woo::ProductsTest < ActiveSupport::TestCase
       regular_price: '0.0',
       manage_stock: true,
       stock_quantity: '0.0',
-      status: 'pending'
+      status: 'pending',
     }
-    product = @woocommerce.products.first
-    assert_equal response, @woocommerce.product_hash(product)
-  end
 
-  test 'filter products from woocommerce' do
-    #assert_equal "", Woo::Products.new.find_by_sku('123')["id"]
+    product = @woocommerce.send(:products).first
+    assert_equal response, @woocommerce.send(:product_hash, product)
   end
 end

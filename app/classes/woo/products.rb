@@ -7,19 +7,13 @@ class Woo::Products < Woo::Base
     created_count = 0
 
     products.each do |product|
-      if get_sku(product.tuoteno).present?
+      if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
-      else
-        response = @woocommerce.post('products', product_hash(product)).parsed_response
 
-        if response['id']
-          created_count += 1
-          logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
-        else
-          # log errors
-          logger.error response['message']
-        end
+        next
       end
+
+      created_count += create_product(product)
     end
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
@@ -29,47 +23,70 @@ class Woo::Products < Woo::Base
   def update
     updated_count = 0
 
-    # Find products where stock has changed, or update all?
     products.each do |product|
       woo_product = get_sku(product.tuoteno)
 
-      if woo_product.present?
-        data = { stock_quantity: product.stock_available.to_s }
-
-        @woocommerce.put("products/#{woo_product['id']}", data).parsed_response
-
-        updated_count += 1
-        logger.info "Tuoteen #{product.tuoteno} #{product.nimitys} saldo päivitetty"
-      else
+      unless woo_product
         logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetty"
+
+        next
       end
+
+      updated_count += update_stock(woo_product['id'], product)
     end
 
     logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
-  def products
-    # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
-    # verkkokauppa näkyvyys päällä
-    Product.where(status: %w(A P)).where(hinnastoon: 'W')
-  end
+  private
 
-  def product_hash(product)
-    {
-      name: product.nimitys,
-      slug: product.tuoteno,
-      sku: product.tuoteno,
-      type: 'simple',
-      description: product.kuvaus,
-      short_description: product.lyhytkuvaus,
-      regular_price: product.myyntihinta.to_s,
-      manage_stock: true,
-      stock_quantity: product.stock_available.to_s,
-      status: 'pending',
-    }
-  end
+    def products
+      # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
+      # verkkokauppa näkyvyys päällä
+      Product.where(status: %w(A P)).where(hinnastoon: 'W')
+    end
 
-  def get_sku(sku)
-    @woocommerce.get('products', sku: sku).parsed_response.first
-  end
+    def product_hash(product)
+      {
+        name: product.nimitys,
+        slug: product.tuoteno,
+        sku: product.tuoteno,
+        type: 'simple',
+        description: product.kuvaus,
+        short_description: product.lyhytkuvaus,
+        regular_price: product.myyntihinta.to_s,
+        manage_stock: true,
+        stock_quantity: product.stock_available.to_s,
+        status: 'pending',
+      }
+    end
+
+    def get_sku(sku)
+      response = woo_get('products', sku: sku)
+      product = response.try(:first)
+
+      return if product.nil? || product.dig('id').blank?
+
+      response.first
+    end
+
+    def create_product(product)
+      response = woo_post('products', product_hash(product))
+
+      return 0 unless response && response['id']
+
+      logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
+
+      1
+    end
+
+    def update_stock(id, product)
+      data = { stock_quantity: product.stock_available.to_s }
+      response = woo_put("products/#{id}", data)
+
+      return 0 unless response
+
+      logger.info "Tuotteen #{product.tuoteno} #{product.nimitys} saldo #{product.stock_available}"
+      1
+    end
 end
