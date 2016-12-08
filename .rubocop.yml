@@ -47,8 +47,9 @@ Metrics/ModuleLength:
 Metrics/MethodLength:
   Max: 20
 
-Metrics/CountKeywordArgs:
-  Enabled: false
+Metrics/ParameterLists:
+  Max: 5
+  CountKeywordArgs: false
 
 ##################### Lint ##################################
 
