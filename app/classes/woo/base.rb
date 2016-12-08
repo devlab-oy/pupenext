@@ -3,9 +3,7 @@ require 'woocommerce_api'
 class Woo::Base
   attr_reader :woocommerce
 
-  def initialize(company_id:, **_)
-    raise ArgumentError, 'WooCommerce ENV variables missing' unless valid_configuration?
-
+  def initialize(company_id:, store_url:, consumer_key:, consumer_secret:)
     Current.company = Company.find(company_id)
 
     @woocommerce = WooCommerce::API.new(
@@ -27,22 +25,6 @@ class Woo::Base
       file = self.class.name.demodulize.downcase
 
       @logger = Logger.new("#{path}/woocommerce_#{file}.log")
-    end
-
-    def valid_configuration?
-      store_url.present? && consumer_key.present? && consumer_secret.present?
-    end
-
-    def store_url
-      Rails.application.secrets.woocommerce_store_url
-    end
-
-    def consumer_key
-      Rails.application.secrets.woocommerce_consumer_key
-    end
-
-    def consumer_secret
-      Rails.application.secrets.woocommerce_consumer_secret
     end
 
     def woo_get(uri, data = {})

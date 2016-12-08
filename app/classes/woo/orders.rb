@@ -1,15 +1,11 @@
 class Woo::Orders < Woo::Base
   attr_accessor :edi_orders_path, :customer_id
 
-  def initialize(company_id:, orders_path:, customer_id: nil)
+  # Fetch new WooCommerce orders and set status to processing
+  def fetch(orders_path:, customer_id: nil)
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
 
-    super
-  end
-
-  # Fetch new WooCommerce orders and set status to processing
-  def fetch
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: 'processing')
     return unless response
@@ -34,7 +30,7 @@ class Woo::Orders < Woo::Base
     return unless status
 
     logger.info "Order #{order['id']} status set to completed"
-    return unless tracking_code
+    return unless tracking_code.present?
 
     data = { note: tracking_code, customer_note: true }
     status = woo_post("orders/#{order_number}/notes", data)
