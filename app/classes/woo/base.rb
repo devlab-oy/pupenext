@@ -3,7 +3,7 @@ require 'woocommerce_api'
 class Woo::Base
   attr_reader :woocommerce
 
-  def initialize(company_id:, **_)
+  def initialize(company_id:)
     raise ArgumentError, 'WooCommerce ENV variables missing' unless valid_configuration?
 
     Current.company = Company.find(company_id)

@@ -5,7 +5,7 @@ class Woo::Orders < Woo::Base
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
 
-    super
+    super company_id: company_id
   end
 
   # Fetch new WooCommerce orders and set status to processing
