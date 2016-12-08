@@ -5,6 +5,7 @@ class Woo::OrdersTest < ActiveSupport::TestCase
     @woocommerce = Woo::Orders.new(
       company_id: companies(:acme).id,
       orders_path: '/tmp',
+      customer_id: 'customer_foo_123',
     )
   end
 
@@ -14,7 +15,11 @@ class Woo::OrdersTest < ActiveSupport::TestCase
 
   test 'generates edi_order from json response' do
     json_orders = File.read(Rails.root.join('test', 'assets', 'woocommerce', 'orders.json'))
+    order = JSON.parse(json_orders).first
+    edi_order = @woocommerce.build_edi_order(order)
 
-    assert_match /OSTOTILRIV 1/, @woocommerce.build_edi_order(JSON.parse(json_orders).first)
+    assert_match(/OSTOTIL.OT_ASIAKASNRO:customer_foo_123\n/, edi_order)
+    assert_match(/OSTOTILRIV.OTR_TUOTEKOODI:A2\n/,           edi_order)
+    assert_match(/OSTOTILRIV.OTR_TILATTUMAARA:2\n/,          edi_order)
   end
 end
