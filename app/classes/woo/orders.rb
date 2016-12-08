@@ -1,11 +1,16 @@
 class Woo::Orders < Woo::Base
   attr_accessor :edi_orders_path, :customer_id
 
-  def initialize(company_id:, orders_path:, customer_id: nil)
+  def initialize(company_id:, store_url:, consumer_key:, consumer_secret:, orders_path:, customer_id: nil)
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
 
-    super company_id: company_id
+    super(
+      store_url: store_url,
+      consumer_key: consumer_key,
+      consumer_secret: consumer_secret,
+      company_id: company_id
+    )
   end
 
   # Fetch new WooCommerce orders and set status to processing

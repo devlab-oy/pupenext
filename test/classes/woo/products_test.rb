@@ -7,7 +7,13 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   )
 
   setup do
-    @woocommerce = Woo::Products.new(company_id: companies(:acme).id)
+    @woocommerce = Woo::Products.new(
+      store_url: 'dummy_url',
+      consumer_key: 'test_key',
+      consumer_secret: 'test_secret',
+      company_id: companies(:acme).id,
+    )
+
     Product.update_all(hinnastoon: '')
     products(:ski).update(hinnastoon: 'w')
   end
