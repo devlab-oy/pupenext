@@ -1,7 +1,7 @@
 class Woo::Orders < Woo::Base
   attr_accessor :edi_orders_path, :customer_id
 
-  def initialize(company_id:, store_url:, consumer_key:, consumer_secret:, orders_path:, customer_id: nil)
+  def initialize(company_id:, store_url:, consumer_key:, consumer_secret:, orders_path: nil, customer_id: nil)
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
 
