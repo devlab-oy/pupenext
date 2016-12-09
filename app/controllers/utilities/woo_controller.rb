@@ -18,6 +18,8 @@ class Utilities::WooController < ApplicationController
     else
       render json: { error_messages: 'virhe tilauksen päivityksessä' }, status: :unprocessable_entity
     end
+  rescue => e
+    render json: { error_messages: 'internal server error' }, status: :internal_server_error
   end
 
   private

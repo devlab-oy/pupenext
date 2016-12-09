@@ -23,7 +23,6 @@ class Utilities::WooControllerTest < ActionController::TestCase
       }
     }
 
-
     # failing complete order
     woo_orders = MiniTest::Mock.new
     woo_orders.expect :complete_order, nil, ["123", "ff123456"]
