@@ -52,6 +52,10 @@ class Import::CustomerSales
         header = nil
       end
 
+      # remove default product & customer number from response
+      excel_row.delete :product
+      excel_row.delete :customer_number
+
       response.add_row columns: excel_row.values, errors: errors.compact
     end
 
