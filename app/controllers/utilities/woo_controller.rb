@@ -9,12 +9,12 @@ class Utilities::WooController < ApplicationController
       store_url: params[:store_url],
       consumer_key: params[:test_key],
       consumer_secret: params[:consumer_secret],
-      company_id: params[:company_id]
+      company_id: current_company.id,
     )
 
     # Woo::Orders.complete_order returns true if everything went ok!
     if woo_orders.complete_order(order_params[:order_number], order_params[:tracking_code])
-      render json: { message: 'tilaus päivitetty onnistuneesti'}
+      render json: { message: 'tilaus päivitetty onnistuneesti' }
     else
       render json: { error_messages: 'virhe tilauksen päivityksessä' }, status: :unprocessable_entity
     end
@@ -25,8 +25,7 @@ class Utilities::WooController < ApplicationController
     def order_params
       params.require(:order).permit(
         :order_number,
-        :tracking_code
+        :tracking_code,
       )
     end
-
 end
