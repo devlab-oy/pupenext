@@ -11,10 +11,10 @@ class Utilities::WooController < ApplicationController
     if woo_orders.complete_order(order_params[:order_number], order_params[:tracking_code])
       render json: { message: 'tilaus päivitetty onnistuneesti' }
     else
-      render json: { error_messages: 'virhe tilauksen päivityksessä' }, status: :unprocessable_entity
+      render json: { message: 'virhe tilauksen päivityksessä' }, status: :unprocessable_entity
     end
   rescue
-    render json: { error_messages: 'internal server error' }, status: :internal_server_error
+    render json: { message: 'internal server error' }, status: :internal_server_error
   end
 
   private

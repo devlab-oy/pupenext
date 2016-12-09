@@ -21,7 +21,7 @@ class Utilities::WooControllerTest < ActionController::TestCase
     woo_orders = MiniTest::Mock.new
     woo_orders.expect :complete_order, nil, %w(123 ff123456)
 
-    error_response = { error_messages: 'virhe tilauksen päivityksessä' }
+    error_response = { message: 'virhe tilauksen päivityksessä' }
     Woo::Orders.stub :new, woo_orders do
       get :complete_order, params
       assert_equal error_response, json
