@@ -8,12 +8,12 @@ class WooPermissionsAgain < ActiveRecord::Migration
     PermissionHelper.add_item(
       program: 'Ylläpito',
       name: 'WooCommerce API',
-      uri: 'woo_complete_order',
+      uri: 'pupenext/woo_complete_order',
       hidden: 'H',
     )
   end
 
   def down
-    PermissionHelper.remove_all uri: 'woo_complete_order'
+    PermissionHelper.remove_all uri: 'pupenext/woo_complete_order'
   end
 end
