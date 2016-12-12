@@ -40,7 +40,7 @@ class Woo::Orders < Woo::Base
   end
 
   def write_to_file(order)
-    filepath = File.join(edi_orders_path, "order_#{order['id']}.txt")
+    filepath = File.join(edi_orders_path, "woo-order-#{order['id']}.txt")
 
     File.open(filepath, 'w') do |file|
       file.write(build_edi_order(order))
