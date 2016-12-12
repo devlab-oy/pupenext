@@ -13,6 +13,8 @@ class Utilities::WooController < ApplicationController
     else
       render json: { message: 'virhe tilauksen päivityksessä' }, status: :unprocessable_entity
     end
+  rescue ActionController::ParameterMissing => e
+    render json: { message: e.to_s }, status: :bad_request
   rescue
     render json: { message: 'internal server error' }, status: :internal_server_error
   end
@@ -28,9 +30,9 @@ class Utilities::WooController < ApplicationController
 
     def order_attributes
       {
-        store_url: params[:store_url],
-        consumer_key: params[:test_key],
-        consumer_secret: params[:consumer_secret],
+        store_url: params.require(:store_url),
+        consumer_key: params.require(:consumer_key),
+        consumer_secret: params.require(:consumer_secret),
         company_id: current_company.id,
       }
     end
