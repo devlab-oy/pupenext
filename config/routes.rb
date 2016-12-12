@@ -84,7 +84,7 @@ Pupesoft::Application.routes.draw do
     get 'qr_codes/generate'
     get 'logs', to: 'logs#index'
     get 'logs/show/:name', to: 'logs#show', as: :show_log
-    get 'woo/complete_order', to: 'woo#complete_order', as: :complete_order
+    get 'woo_complete_order', to: 'woo#complete_order', as: :complete_order
   end
 
   scope module: :reports do
