@@ -43,7 +43,13 @@ module Searchable
         return where(column => ordinal_value)
       end
 
-      where table[column].matches("%#{search_term}%")
+      p table[column]
+
+      if column.ONKO_TÄÄ_NUMEERINEN_INTTI_TAI_DESIMAALI?
+        return where(column => search_term)
+      end
+
+      where(table[column].matches("%#{search_term}%"))
     end
 
     private

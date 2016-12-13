@@ -32,6 +32,7 @@ estonian:
   ostoreskontrakausi_loppu: <%= Date.today %>
   myyntireskontrakausi_alku: <%= Date.today %>
   myyntireskontrakausi_loppu: <%= Date.today %>
+  tullikamari: 1
   luontiaika: <%= Time.now %>
   muutospvm: <%= Time.now %>
   muuttaja: joe
