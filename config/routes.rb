@@ -135,9 +135,7 @@ Pupesoft::Application.routes.draw do
     end
   end
 
-  scope :products do
-    get :stock_available_per_warehouse, to: 'stocks#stock_available_per_warehouse'
-  end
+  get :stock_available_per_warehouse, to: 'stocks#stock_available_per_warehouse'
 
   root to: 'home#index'
   get '/test', to: 'home#test'
