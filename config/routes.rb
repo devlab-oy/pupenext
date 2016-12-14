@@ -84,6 +84,7 @@ Pupesoft::Application.routes.draw do
     get 'qr_codes/generate'
     get 'logs', to: 'logs#index'
     get 'logs/show/:name', to: 'logs#show', as: :show_log
+    get 'woo_complete_order', to: 'woo#complete_order', as: :complete_order
   end
 
   scope module: :reports do
@@ -134,9 +135,7 @@ Pupesoft::Application.routes.draw do
     end
   end
 
-  resources :products, only: [] do
-    get :stock_available_per_warehouse, to: 'stocks#stock_available_per_warehouse'
-  end
+  get :stock_available_per_warehouse, to: 'stocks#stock_available_per_warehouse'
 
   root to: 'home#index'
   get '/test', to: 'home#test'

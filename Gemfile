@@ -31,6 +31,8 @@ gem 'will_paginate'
 gem 'prawn'
 gem 'prawn-rails'
 
+gem 'woocommerce_api'
+
 group :assets do
   gem 'uglifier'
 end

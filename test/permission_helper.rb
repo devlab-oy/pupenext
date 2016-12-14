@@ -49,7 +49,7 @@ module PermissionHelper
     end
   end
 
-  def remove_all(uri:, suburi: nil)
+  def remove_all(uri:, suburi: '')
     Company.find_each do |company|
       Current.company = company.yhtio
 
