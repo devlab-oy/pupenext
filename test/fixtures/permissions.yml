@@ -34,6 +34,7 @@
     revenue_expenditure
     revenue_expenditures
     stock_availability
+    stock_available_per_warehouse
     stock_listing_csv
     sum_levels
     supplier_product_informations
