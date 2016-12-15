@@ -39,7 +39,7 @@ class Import::CustomerSales
         params = {
           tuoteno: row.product.tuoteno,
           kpl: row.quantity,
-          hinta: row.price / row.quantity,
+          hinta: row.quantity.zero? ? 0 : row.price / row.quantity,
           rivihinta: row.price,
           laskutettuaika: @end_of_month,
           laskutettu: Current.user.kuka,

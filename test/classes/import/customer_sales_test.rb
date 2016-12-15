@@ -35,7 +35,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
       ["#{@lissu.asiakasnro} #{@lissu.nimi}",                     '',    100000       ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 0,     23000        ],
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
       ['Yhteensä',                                                '',    123000       ],
     ])
