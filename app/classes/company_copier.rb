@@ -151,8 +151,6 @@ class CompanyCopier
     end
 
     def create_as_customer
-      return if user_attributes.empty?
-
       # creates to_company as customer to given companies
       customer_companies.each do |company|
         Current.company = company
@@ -160,7 +158,7 @@ class CompanyCopier
         customer = Customer.create!(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
-          email: user_attributes.first[:kuka],
+          email: user_email,
           kauppatapahtuman_luonne: 0,
           alv: Keyword::Vat.first.selite,
         )
@@ -184,7 +182,7 @@ class CompanyCopier
           maa: new_company.maa,
           ultilno: bank_account_attributes.first[:iban],
           swift: bank_account_attributes.first[:bic],
-          email: user_attributes.first[:kuka],
+          email: user_email,
         )
       end
     end
@@ -237,6 +235,10 @@ class CompanyCopier
       users = @to_company_params.select { |p| p.match(/users_attributes$/) }
 
       users[:users_attributes] || []
+    end
+
+    def user_email
+      user_attributes.blank? ? '' : user_attributes.first[:kuka]
     end
 
     def update_user_permissions
