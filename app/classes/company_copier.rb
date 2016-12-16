@@ -1,14 +1,16 @@
 # from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
 # to_company_params sallii nested attribuutteja (kts Company -model)
 # customer_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan asiakkaaksi
+# supplier_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan toimittajaksi
 class CompanyCopier
   attr_reader :from_company
 
-  def initialize(from_company: nil, to_company_params: {}, customer_companies: [])
+  def initialize(from_company: nil, to_company_params: {}, customer_companies: [], supplier_companies: [])
     @original_current_company = Current.company
     @from_company = Current.company = from_company
     @to_company_params = to_company_params
     @customer_companies = customer_companies
+    @supplier_companies = supplier_companies
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -21,6 +23,7 @@ class CompanyCopier
     duplicate_data
     update_nested_attributes
     create_as_customer
+    create_as_supplier
     update_user_permissions
     write_css
     copied_company
@@ -52,9 +55,7 @@ class CompanyCopier
       duplicate :users
       duplicate :currencies
       duplicate :printers
-      duplicate :warehouses, attributes: (
-        Warehouse::PRINTER_NUMBERS.each_with_object({}) { |i, a| a["printteri#{i}"] = Printer.first }
-      )
+      duplicate :warehouses, attributes: default_warehouse_attributes
       duplicate :accounts
       duplicate :delivery_methods
       duplicate :terms_of_payments
@@ -123,6 +124,10 @@ class CompanyCopier
       }
     end
 
+    def default_warehouse_attributes
+      Warehouse::PRINTER_NUMBERS.each_with_object({}) { |i, a| a["printteri#{i}"] = Printer.first }
+    end
+
     def default_attributes
       {
         company:    new_company,
@@ -163,8 +168,31 @@ class CompanyCopier
       end
     end
 
+    def create_as_supplier
+      return if bank_account_attributes.empty?
+
+      # creates to_company as supplier to given companies
+      supplier_companies.each do |company|
+        Current.company = company
+
+        Supplier.create!(
+          nimi: new_company.nimi,
+          ytunnus: new_company.ytunnus,
+          oletus_valkoodi: new_company.valkoodi,
+          maa: new_company.maa,
+          ultilno: bank_account_attributes.first[:iban],
+          swift: bank_account_attributes.first[:bic],
+          email: user_attributes.first[:kuka],
+        )
+      end
+    end
+
     def customer_companies
       Company.where(yhtio: @customer_companies)
+    end
+
+    def supplier_companies
+      Company.where(yhtio: @supplier_companies)
     end
 
     def create_extranet_user(customer)
