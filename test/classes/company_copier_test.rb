@@ -296,4 +296,87 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal koira_pass,       totti.salasana
     assert_not_empty               totti.permissions
   end
+
+  test 'company is created as supplier to companies passed in supplier_companies' do
+    estonian = companies(:estonian)
+    Current.company = estonian
+    count = estonian.suppliers.count
+
+    # create new company 'Kala Oy', and create it as a supplier to estonian -company
+    copier = CompanyCopier.new(
+      from_company: @company,
+      supplier_companies: [estonian.yhtio],
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy Esimerkki',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        bank_accounts_attributes: [
+          {
+            nimi: 'Ainopankki',
+            tilino: '12345600000785',
+            oletus_kulutili: '300',
+            oletus_rahatili: '300',
+            oletus_selvittelytili: '300',
+            iban: 'FI2112345600000785',
+            valkoodi: 'EUR',
+            bic: 'AINOFIHH',
+          },
+        ],
+        users_attributes: [
+          {
+            kuka: 'extranet-user@example.com',
+            nimi: 'Euser',
+            salasana: 'foo',
+          },
+        ],
+      },
+    )
+
+    assert_difference 'Company.count' do
+      copier.copy
+    end
+
+    supplier = estonian.suppliers.find_by(nimi: 'Kala Oy Esimerkki')
+    assert_not_nil supplier
+    assert_equal 'extranet-user@example.com', supplier.email
+    assert count + 1, estonian.suppliers.reload.count
+  end
+
+  test 'supplier creation invalid data' do
+    estonian = companies(:estonian)
+    Current.company = estonian
+    count = estonian.suppliers.count
+
+    # create new company 'Kala Oy', and create it as a supplier to estonian -company
+    # bank_accounts_attributes iban and bic are required
+    copier = CompanyCopier.new(
+      from_company: @company,
+      supplier_companies: [estonian.yhtio],
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy Esimerkki',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        bank_accounts_attributes: [],
+        users_attributes: [
+          {
+            kuka: 'extranet-user@example.com',
+            nimi: 'Euser',
+            salasana: 'foo',
+          },
+        ],
+      },
+    )
+
+    assert_difference 'Company.count' do
+      copier.copy
+    end
+
+    assert count, estonian.suppliers.reload.count
+  end
 end
