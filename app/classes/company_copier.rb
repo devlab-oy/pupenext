@@ -151,6 +151,8 @@ class CompanyCopier
     end
 
     def create_as_customer
+      return if user_attributes.empty?
+
       # creates to_company as customer to given companies
       customer_companies.each do |company|
         Current.company = company

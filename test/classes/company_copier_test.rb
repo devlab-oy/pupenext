@@ -247,6 +247,34 @@ class CompanyCopierTest < ActiveSupport::TestCase
     assert_equal 'Extranet', user.oletus_profiili
   end
 
+  test 'customer creation invalid data' do
+    estonian = companies(:estonian)
+    Current.company = estonian
+    count = estonian.customers.count
+
+    # create new company 'Kala Oy', and create it as a customer to estonian -company
+    # users_attributes is required, so pass it empty
+    copier = CompanyCopier.new(
+      from_company: @company,
+      customer_companies: [estonian.yhtio],
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy Esimerkki',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        users_attributes: [],
+      },
+    )
+
+    assert_difference 'Company.count' do
+      copier.copy
+    end
+
+    assert_equal count, estonian.customers.reload.count
+  end
+
   test 'users are created for companies' do
     kissa_pass = Digest::MD5.hexdigest('kissa')
     koira_pass = Digest::MD5.hexdigest('koira')
