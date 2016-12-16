@@ -169,8 +169,6 @@ class CompanyCopier
     end
 
     def create_as_supplier
-      return if bank_account_attributes.empty?
-
       # creates to_company as supplier to given companies
       supplier_companies.each do |company|
         Current.company = company
@@ -180,8 +178,8 @@ class CompanyCopier
           ytunnus: new_company.ytunnus,
           oletus_valkoodi: new_company.valkoodi,
           maa: new_company.maa,
-          ultilno: bank_account_attributes.first[:iban],
-          swift: bank_account_attributes.first[:bic],
+          ultilno: bank_iban,
+          swift: bank_bic,
           email: user_email,
         )
       end
@@ -239,6 +237,14 @@ class CompanyCopier
 
     def user_email
       user_attributes.blank? ? '' : user_attributes.first[:kuka]
+    end
+
+    def bank_iban
+      bank_account_attributes.blank? ? '' : bank_account_attributes.first[:iban]
+    end
+
+    def bank_bic
+      bank_account_attributes.blank? ? '' : bank_account_attributes.first[:bic]
     end
 
     def update_user_permissions

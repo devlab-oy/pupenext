@@ -351,6 +351,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
     count = estonian.suppliers.count
 
     # create new company 'Kala Oy', and create it as a supplier to estonian -company
+    # bank_accounts_attributes iban and bic are required
     copier = CompanyCopier.new(
       from_company: @company,
       supplier_companies: [estonian.yhtio],
