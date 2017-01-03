@@ -20,7 +20,7 @@ class IncomingMailJob < ActiveJob::Base
         connection.expunge
 
         # save message source to db
-        incoming_mail = mail_server.incoming_mails.create(raw_source: message.raw_source)
+        incoming_mail = mail_server.incoming_mails.create!(raw_source: message.raw_source)
 
         # process message
         "#{mail_server.processing_type}Job".constantize.perform_later(id: incoming_mail.id)
