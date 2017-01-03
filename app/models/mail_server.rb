@@ -1,6 +1,7 @@
 class MailServer < ActiveRecord::Base
   PROCESSING_TYPES = %w(
     Huutokauppa
+    InvoiceEmail
   ).freeze
 
   belongs_to :company, required: true

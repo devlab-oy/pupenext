@@ -19,5 +19,5 @@ two:
   smtp_password: secret
   process_dir: to_be_processed
   done_dir: done
-  processing_type: Huutokauppa
+  processing_type: InvoiceMail
   company: acme
