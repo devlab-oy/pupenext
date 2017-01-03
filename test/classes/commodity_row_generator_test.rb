@@ -13,7 +13,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
   setup do
     @commodity = fixed_assets_commodities(:commodity_one)
-    @commodity.activated_at = Date.today
+    @commodity.activated_at = Time.zone.today
     @commodity.save!
 
     @company = companies(:acme)
@@ -33,7 +33,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal 12, fiscal_year
 
     # We activate on today (seventh month from fiscal start)
-    assert_equal Date.today, @commodity.activated_at
+    assert_equal Time.zone.today, @commodity.activated_at
   end
 
   test 'should calculate with fixed by percentage' do
@@ -152,11 +152,11 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     superlong_fiscal = @commodity.company.fiscal_years.first.dup
     FiscalYear.delete_all
     superlong_fiscal.tilikausi_alku = 60.months.ago
-    superlong_fiscal.tilikausi_loppu = Date.today.advance(months: 12)
+    superlong_fiscal.tilikausi_loppu = Time.zone.today.advance(months: 12)
     superlong_fiscal.save!
 
     @commodity.company.tilikausi_alku = 60.months.ago
-    @commodity.company.tilikausi_loppu = Date.today.advance(months: 12)
+    @commodity.company.tilikausi_loppu = Time.zone.today.advance(months: 12)
     @commodity.company.save!
 
     @commodity.activated_at = 24.months.ago
@@ -496,8 +496,8 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     # Open fiscal periods for 2014 - 2015
     params = {
-      tilikausi_alku: '2014-01-01',
-      tilikausi_loppu: '2015-12-31'
+      tilikausi_alku: Time.zone.today.beginning_of_year.last_year,
+      tilikausi_loppu: Time.zone.today.end_of_year.last_year,
     }
     @commodity.company.update_attributes! params
 
@@ -505,14 +505,14 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     params = {
       commodity_id: @commodity.id,
       fiscal_id: fiscal_years(:one).id,
-      user_id: @bob.id
+      user_id: @bob.id,
     }
 
     # Activate commodity on november last year
-    previous_year_activation = Date.today.beginning_of_month.last_year.change(month: 11)
+    previous_year_activation = Time.zone.today.beginning_of_month.last_year.change(month: 11)
     @commodity.activated_at = previous_year_activation
     @commodity.save!
-    assert_equal 0.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 0.0, @commodity.accumulated_depreciation_at(Time.zone.today)
     @generator = CommodityRowGenerator.new(params).generate_rows
     @commodity.reload
 
@@ -527,7 +527,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal previous_year_activation.end_of_month.to_date, rows.first.transacted_at
     assert_equal previous_year_activation.next_month.end_of_month, rows.last.transacted_at
 
-    assert_equal 3500.0, @commodity.accumulated_depreciation_at(Date.today)
+    assert_equal 3500.0, @commodity.accumulated_depreciation_at(Time.zone.today)
   end
 
   test 'depreciation generation and dates works like they should in current' do
@@ -557,7 +557,7 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
     assert_equal @company.tilikausi_alku.end_of_month, rows[-12].transacted_at
     assert_equal @company.tilikausi_loppu.end_of_month, rows.last.transacted_at
 
-    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Date.today.beginning_of_month)
+    assert_equal 1764.72, @commodity.accumulated_depreciation_at(Time.zone.today.beginning_of_month)
   end
 
   test 'rows split' do
@@ -601,13 +601,13 @@ class CommodityRowGeneratorTest < ActiveSupport::TestCase
 
     salesparams = {
       amount_sold: 9800,
-      deactivated_at: Date.today,
+      deactivated_at: Time.zone.today,
       profit_account: accounts(:account_100),
       sales_account: accounts(:account_110),
       depreciation_remainder_handling: 'S',
     }
     @commodity.attributes = salesparams
-    @commodity.activated_at = Date.today.beginning_of_year
+    @commodity.activated_at = Time.zone.today.beginning_of_year
     @commodity.save!
 
     CommodityRowGenerator.new(commodity_id: @commodity.id, user_id: @bob.id).generate_rows

@@ -122,8 +122,8 @@ class StockAvailability::WeeklyRow
   private
 
     def find_dates_for_week_and_year(week_number, year)
-      week_begin = Date.commercial(year, week_number, 1).beginning_of_day
-      week_end = Date.commercial(year, week_number, 7).end_of_day
+      week_begin = Date.commercial(year, week_number.to_i, 1).beginning_of_day
+      week_end = Date.commercial(year, week_number.to_i, 7).end_of_day
       week_begin..week_end
     end
 
@@ -132,7 +132,8 @@ class StockAvailability::WeeklyRow
       date_end = date_start.advance(weeks: @baseline_week)
 
       date_start.upto(date_end).map do |date|
-        [date.cweek, date.cwyear]
+        week = Week.new(date)
+        [week.week_number, week.year]
       end.uniq
     end
 
