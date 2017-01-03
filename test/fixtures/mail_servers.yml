@@ -19,5 +19,5 @@ two:
   smtp_password: secret
   process_dir: to_be_processed
   done_dir: done
-  processing_type: InvoiceMail
+  processing_type: InvoiceEmail
   company: acme

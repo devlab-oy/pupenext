@@ -11,13 +11,11 @@ class Week
     "#{year}#{week_number}"
   end
 
-  private
+  def year
+    @date.cwyear
+  end
 
-    def year
-      @date.cwyear
-    end
-
-    def week_number
-      @date.cweek.to_s.rjust(2, '0')
-    end
+  def week_number
+    @date.cweek.to_s.rjust(2, '0')
+  end
 end
