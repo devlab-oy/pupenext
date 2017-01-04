@@ -28,11 +28,9 @@
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
     <td class='ptop'>
       <% if product.cover_image.present? %>
-        <% product.attachments.images.order(:jarjestys, :tunnus).each_with_index do |f, i| %>
-          <a href='gallery/<%= f.id %>' data-lightbox='<%= product.id %>'>
-            <% klass = i > 0 ? 'hidden' : '' %>
-            <img src="gallery/<%= f.id %>" alt="thumb1" height="100" class='<%= klass %>' />
-          </a>
+        <% if image = product.attachments.images.order(:jarjestys, :tunnus).first %>
+          <% url = pending_gallery_path(image.id) %>
+          <%= link_to(image_tag(url, height: 100), url, data: { lightbox: product.id, turbolinks: false }) %>
         <% end %>
       <% end %>
     </td>
