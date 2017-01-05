@@ -28,10 +28,8 @@
   <tr class='rows aktiivi <%= cycle('', :tumma) %>'>
     <td class='ptop'>
       <% if product.cover_image.present? %>
-        <% if image = product.attachments.images.order(:jarjestys, :tunnus).first %>
-          <% url = pending_gallery_path(image.id) %>
-          <%= link_to(image_tag(url, height: 100), url, data: { lightbox: product.id, turbolinks: false }) %>
-        <% end %>
+        <% url = pending_gallery_path(product.cover_image.id) %>
+        <%= link_to(image_tag(url, height: 100), url, data: { lightbox: product.id, turbolinks: false }) %>
       <% end %>
     </td>
 
