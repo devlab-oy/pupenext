@@ -32,9 +32,13 @@ class CompanyCopier
     update_nested_attributes
     create_as_customer
     create_as_supplier
-    update_user_permissions
-    write_css
-    delete_partial_data if errors.present?
+
+    if errors.present?
+      delete_partial_data
+    else
+      update_user_permissions
+      write_css
+    end
 
     self
   rescue
