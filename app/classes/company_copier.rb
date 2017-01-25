@@ -37,6 +37,10 @@ class CompanyCopier
     delete_partial_data if errors.present?
 
     self
+  rescue
+    delete_partial_data
+
+    self
   ensure
     Current.company = @original_current_company
   end
@@ -100,7 +104,7 @@ class CompanyCopier
       destroy :users
       destroy :warehouses
 
-      new_company.destroy!
+      new_company.destroy
     end
 
     def destroy(model)
@@ -158,7 +162,7 @@ class CompanyCopier
       customer_companies.each do |company|
         Current.company = company
 
-        customer = Customer.create!(
+        customer = Customer.create(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           email: user_email,
@@ -167,7 +171,11 @@ class CompanyCopier
         )
 
         # all users created to to_company are also created as extranet users to customer_companies
-        create_extranet_user customer
+        if customer.valid?
+          create_extranet_user customer
+        else
+          @errors << customer.errors.full_messages
+        end
       end
     end
 
