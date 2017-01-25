@@ -3,7 +3,7 @@
 # customer_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan asiakkaaksi
 # supplier_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan toimittajaksi
 class CompanyCopier
-  attr_reader :from_company
+  attr_reader :from_company, :errors
 
   def initialize(from_company: nil, to_company_params: {}, customer_companies: [], supplier_companies: [])
     @original_current_company = Current.company
@@ -11,6 +11,7 @@ class CompanyCopier
     @to_company_params = to_company_params
     @customer_companies = customer_companies
     @supplier_companies = supplier_companies
+    @errors = []
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -20,27 +21,28 @@ class CompanyCopier
 
   def copy
     copied_company = new_company
+
+    unless copied_company.valid?
+      @errors << copied_company.errors.full_messages
+
+      return self
+    end
+
     duplicate_data
     update_nested_attributes
     create_as_customer
     create_as_supplier
     update_user_permissions
     write_css
-    copied_company
-  rescue ActiveRecord::RecordInvalid => e
-    return e.record unless defined?(copied_company) && copied_company
+    delete_partial_data if errors.present?
 
-    delete_partial_data
-
-    return e.record
-  rescue
-    raise unless defined?(copied_company) && copied_company
-
-    delete_partial_data
-
-    raise
+    self
   ensure
     Current.company = @original_current_company
+  end
+
+  def copied_company
+    @new_company
   end
 
   private
@@ -73,8 +75,9 @@ class CompanyCopier
 
         copy = record.dup
         copy.assign_attributes attributes.merge(default_attributes)
-        copy.save(validate: false)
-        copy
+        copy.save
+
+        @errors << copy.errors.full_messages unless copy.valid?
       end
     end
 
@@ -145,7 +148,7 @@ class CompanyCopier
       new_company.assign_attributes company_attributes
 
       Current.company = new_company
-      new_company.save!
+      new_company.save
 
       @new_company = new_company
     end
@@ -173,7 +176,7 @@ class CompanyCopier
       supplier_companies.each do |company|
         Current.company = company
 
-        Supplier.create!(
+        sup = Supplier.create(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           oletus_valkoodi: new_company.valkoodi,
@@ -182,6 +185,8 @@ class CompanyCopier
           swift: bank_bic,
           email: user_email,
         )
+
+        @errors << sup.errors.full_messages unless sup.valid?
       end
     end
 
@@ -207,16 +212,27 @@ class CompanyCopier
           oletus_asiakastiedot: customer.id,
         )
 
-        new_user = User.create! user
-        new_user.update_permissions
+        new_user = User.create user
+
+        if new_user.valid?
+          new_user.update_permissions
+        else
+          @errors << new_user.errors.full_messages unless new_user.valid?
+        end
       end
     end
 
     def update_nested_attributes
       Current.company = new_company
 
-      new_company.update! bank_accounts_attributes: bank_account_attributes
-      new_company.update! users_attributes: user_attributes
+      new_company.assign_attributes(
+        bank_accounts_attributes: bank_account_attributes,
+        users_attributes: user_attributes,
+      )
+
+      @errors << new_company.errors.full_messages unless new_company.valid?
+
+      new_company.save
     end
 
     def company_attributes
