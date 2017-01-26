@@ -5,6 +5,8 @@
 class CompanyCopier
   attr_reader :from_company, :errors
 
+  CompanyCopierError = Struct.new :class_name, :values, :errors
+
   def initialize(from_company: nil, to_company_params: {}, customer_companies: [], supplier_companies: [])
     @original_current_company = Current.company
     @from_company = Current.company = from_company
@@ -23,7 +25,7 @@ class CompanyCopier
     copied_company = new_company
 
     unless copied_company.valid?
-      @errors << copied_company.errors.full_messages
+      add_error copied_company
 
       return self
     end
@@ -85,7 +87,7 @@ class CompanyCopier
         copy.assign_attributes attributes.merge(default_attributes)
         copy.save
 
-        @errors << copy.errors.full_messages unless copy.valid?
+        add_error(copy) unless copy.valid?
       end
     end
 
@@ -178,7 +180,7 @@ class CompanyCopier
         if customer.valid?
           create_extranet_user customer
         else
-          @errors << customer.errors.full_messages
+          add_error customer
         end
       end
     end
@@ -198,7 +200,7 @@ class CompanyCopier
           email: user_email,
         )
 
-        @errors << sup.errors.full_messages unless sup.valid?
+        add_error(sup) unless sup.valid?
       end
     end
 
@@ -229,7 +231,7 @@ class CompanyCopier
         if new_user.valid?
           new_user.update_permissions
         else
-          @errors << new_user.errors.full_messages unless new_user.valid?
+          add_error new_user
         end
       end
     end
@@ -242,7 +244,7 @@ class CompanyCopier
         users_attributes: user_attributes,
       )
 
-      @errors << new_company.errors.full_messages unless new_company.valid?
+      add_error(new_company) unless new_company.valid?
 
       new_company.save
     end
@@ -304,5 +306,13 @@ class CompanyCopier
 
       Rake::Task['assets:precompile'].reenable
       Rake::Task['assets:precompile'].invoke
+    end
+
+    def add_error(instance)
+      @errors << CompanyCopierError.new(
+        instance.class.to_s,
+        instance.attributes,
+        instance.errors.full_messages,
+      ).to_h
     end
 end
