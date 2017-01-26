@@ -293,7 +293,9 @@ class CompanyCopier
       Current.company = new_company
 
       # update permissions for all users
-      new_company.users.find_each(&:update_permissions)
+      new_company.users.find_each do |user|
+        user.update_permissions validate: false
+      end
     end
 
     def write_css
