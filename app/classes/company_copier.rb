@@ -36,6 +36,9 @@ class CompanyCopier
     create_as_supplier
 
     if errors.present?
+      Rails.logger.error 'Company Copy FAILED!'
+      Rails.logger.error errors
+
       delete_partial_data
     else
       update_user_permissions
@@ -43,7 +46,16 @@ class CompanyCopier
     end
 
     self
-  rescue
+  rescue => e
+    @errors << CompanyCopierError.new(
+      'Exception',
+      {},
+      [e.message],
+    ).to_h
+
+    Rails.logger.error 'Company Copy Exception raised!'
+    Rails.logger.error errors
+
     delete_partial_data
 
     self
