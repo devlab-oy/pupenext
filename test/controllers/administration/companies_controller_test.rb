@@ -92,7 +92,10 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       post :copy, access_token: @admin.api_key, company: { yhtio: 'acme' }
 
       assert_response :unprocessable_entity
-      assert_includes json_response.to_s, 'on jo käytössä'
+
+      error = json_response[:errors].first
+      assert_equal 'Company',              error[:class_name],   json_response
+      assert_equal 'Yhtio on jo käytössä', error[:errors].first, json_response
     end
   end
 end
