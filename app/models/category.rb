@@ -23,7 +23,7 @@ class Category < BaseModel
   end
 
   def as_json(options = {})
-    options = { only: [:nimi, :koodi, :tunnus] }.merge(options)
+    options = { only: [:nimi, :koodi, :tunnus, :nimi_en] }.merge(options)
     super options
   end
 
