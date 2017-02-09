@@ -232,6 +232,7 @@ class CompanyCopier
       user_attributes.each do |user_params|
         user = user_params.merge(
           extranet: 'X',
+          saatavat: 1,
           profiilit: 'Extranet',
           oletus_profiili: 'Extranet',
           oletus_asiakas: customer.id,
