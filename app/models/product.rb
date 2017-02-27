@@ -77,6 +77,7 @@ class Product < BaseModel
   scope :not_deleted, -> { where.not(status: :P) }
   scope :regular, -> { where(tuotetyyppi: ['', :R, :M, :K]) }
   scope :viranomaistuotteet, -> { not_deleted.where(tuotetyyppi: [:A, :B]) }
+  scope :webstore_visible, -> {active.where(hinnastoon: [:W, :V])}
 
   def as_json(options = {})
     options = { only: :tunnus }.merge(options)

@@ -26,7 +26,7 @@ class Category::ProductCategoriesController < CategoriesController
 
   def products
     if params[:pupeshop].present?
-      render json: @product_category.products.not_deleted()
+      render json: @product_category.products.webstore_visible()
     elsif params[:include_descendants]
       render json: @product_category.self_and_descendants.map(&:products).flatten.uniq
     else
