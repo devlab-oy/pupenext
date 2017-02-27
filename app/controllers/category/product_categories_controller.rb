@@ -25,12 +25,12 @@ class Category::ProductCategoriesController < CategoriesController
   end
 
   def products
-    if params[:pupeshop].present?
-      render json: @product_category.products.webstore_visible()
-    elsif params[:include_descendants]
-      render json: @product_category.self_and_descendants.map(&:products).flatten.uniq
+    _products = params[:pupeshop].present? ? @product_category.products.webstore_visible() : @product_category.products
+
+    if params[:include_descendants]
+      render json: @product_category.self_and_descendants.map(TÄHÄ JOTTAI KIKKAA: &:products).flatten.uniq
     else
-      render json: @product_category.products
+      render json: _products
     end
   end
 
