@@ -35,16 +35,18 @@ class Category::ProductCategoriesController < CategoriesController
   end
 
   def breadcrumbs
-    if params[:locale] == "en"
-      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi_en } }
-    else
-      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi } }
-    end
+    render json: @product_category.self_and_ancestors.map { |c| { c.id => c.send(name_field) } }
   end
 
   private
 
     def find_product_category
       @product_category = Category::Product.find(params[:id])
+    end
+
+    def name_field
+      return :nimi_en if params[:locale] == 'en'
+
+      :nimi
     end
 end
