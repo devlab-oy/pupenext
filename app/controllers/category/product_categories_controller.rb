@@ -35,7 +35,11 @@ class Category::ProductCategoriesController < CategoriesController
   end
 
   def breadcrumbs
-    render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi } }
+    if params[:locale] == "en"
+      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi_en } }
+    else
+      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi } }
+    end
   end
 
   private
