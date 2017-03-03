@@ -26,23 +26,27 @@ class Category::ProductCategoriesController < CategoriesController
 
   def products
     if params[:include_descendants]
-      render json: @product_category.self_and_descendants.map(&:products).flatten.uniq
+      products = @product_category.self_and_descendants.map { |c| c.products.webstore_visible }
+
+      render json: products.flatten.uniq
     else
-      render json: @product_category.products
+      render json: @product_category.products.webstore_visible
     end
   end
 
   def breadcrumbs
-    if params[:locale] == "en"
-      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi_en } }
-    else
-      render json: @product_category.self_and_ancestors.map { |c| { c.id => c.nimi } }
-    end
+    render json: @product_category.self_and_ancestors.map { |c| { c.id => c.send(name_field) } }
   end
 
   private
 
     def find_product_category
       @product_category = Category::Product.find(params[:id])
+    end
+
+    def name_field
+      return :nimi_en if params[:locale] == 'en'
+
+      :nimi
     end
 end
