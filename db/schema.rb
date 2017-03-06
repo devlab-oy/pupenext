@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130131740) do
+ActiveRecord::Schema.define(version: 20170303151244) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3810,6 +3810,7 @@ ActiveRecord::Schema.define(version: 20170130131740) do
     t.string   "iltasiivo_mitatoi_ext_tilauksia",                  limit: 3,                              default: "",    null: false
     t.string   "extranet_tilaus_varaa_saldoa",                     limit: 3,                              default: "",    null: false
     t.string   "extranet_nayta_saldo",                             limit: 1,                              default: "",    null: false
+    t.string   "extranet_nayta_kuvaus",                            limit: 1,                              default: "",    null: false
     t.string   "extranet_poikkeava_toimitusosoite",                limit: 1,                              default: "",    null: false
     t.string   "extranet_keraysprioriteetti",                      limit: 1,                              default: "",    null: false
     t.string   "extranet_private_label",                           limit: 1,                              default: "",    null: false
