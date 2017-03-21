@@ -7,6 +7,7 @@
 <table>
   <thead>
     <tr>
+      <th><%= Transport.human_attribute_name(:transport_name) %></th>
       <th><%= Transport.human_attribute_name(:hostname) %></th>
       <th><%= Transport.human_attribute_name(:port) %></th>
       <th><%= Transport.human_attribute_name(:username) %></th>
@@ -18,7 +19,7 @@
   <tbody>
     <% @transports.each do |transport| %>
       <tr>
-        <td><%= transport.transportable_type %></td>
+        <td><%= transport.transport_name %></td>
         <td><%= link_to transport.hostname, edit_transport_path(transport) %></td>
         <td><%= transport.port %></td>
         <td><%= transport.username %></td>

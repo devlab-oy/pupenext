@@ -352,6 +352,7 @@ fi:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
       transport:
+        transport_name: Yhteyden nimi
         encoding: Merkistö
         filename: Vakio tiedostonimi palvelimella
         hostname: Palvelin
