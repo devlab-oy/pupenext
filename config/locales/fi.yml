@@ -352,6 +352,7 @@ fi:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
       transport:
+        transport_name: Yhteyden nimi
         encoding: Merkistö
         filename: Vakio tiedostonimi palvelimella
         hostname: Palvelin
@@ -707,7 +708,7 @@ fi:
       edit:
         button_remove: Poista tiedonsiirtoyhteys
         confirm_remove: Oletko varma, että haluat poistaa tiedonsiirtoyhteyden?
-        header: Tiedonsiirtoryhteys
+        header: Tiedonsiirtoyhteys
       index:
         header: Tiedonsiirtoyhteydet
       no_conversion: Ei muuteta merkistöä
