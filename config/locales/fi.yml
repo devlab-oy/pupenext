@@ -707,7 +707,7 @@ fi:
       edit:
         button_remove: Poista tiedonsiirtoyhteys
         confirm_remove: Oletko varma, että haluat poistaa tiedonsiirtoyhteyden?
-        header: Tiedonsiirtoryhteys
+        header: Tiedonsiirtoyhteys
       index:
         header: Tiedonsiirtoyhteydet
       no_conversion: Ei muuteta merkistöä
