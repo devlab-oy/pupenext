@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317134407) do
+ActiveRecord::Schema.define(version: 20170329103743) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3024,6 +3024,7 @@ ActiveRecord::Schema.define(version: 20170317134407) do
     t.string   "muuttaja",   limit: 50,    default: "", null: false
   end
 
+  add_index "tuotteen_avainsanat", ["yhtio", "kieli", "laji", "selite"], name: "yhtio_kieli_laji_selite", length: {"yhtio"=>nil, "kieli"=>nil, "laji"=>nil, "selite"=>150}, using: :btree
   add_index "tuotteen_avainsanat", ["yhtio", "kieli", "laji", "tuoteno"], name: "yhtio_kieli_laji_tuoteno", using: :btree
   add_index "tuotteen_avainsanat", ["yhtio", "kieli", "tuoteno"], name: "yhtio_kieli_tuoteno", using: :btree
   add_index "tuotteen_avainsanat", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
