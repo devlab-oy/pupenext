@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20170329103743) do
     t.decimal  "erikoisale",                                     precision: 5,  scale: 2, default: 0.0, null: false
     t.string   "myyntikielto",                     limit: 1,                              default: "",  null: false
     t.string   "myynninseuranta",                  limit: 1,                              default: "",  null: false
+    t.string   "abc_raportointi",                  limit: 1,                              default: "",  null: false
     t.decimal  "luottoraja",                                     precision: 12, scale: 2, default: 0.0, null: false
     t.string   "luottovakuutettu",                 limit: 1,                              default: "",  null: false
     t.decimal  "kuluprosentti",                                  precision: 8,  scale: 3, default: 0.0, null: false
