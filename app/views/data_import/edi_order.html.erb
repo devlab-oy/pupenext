@@ -33,7 +33,7 @@ OSTOTIL.OT_ASIAKASOVT:
 OSTOTIL.OT_YRITYS:<%= @order["billing"]["company"] %>
 OSTOTIL.OT_YHTEYSHENKILO:<%= "#{@order["billing"]["first_name"]} #{@order["billing"]["last_name"]}" %>
 OSTOTIL.OT_KATUOSOITE:<%= @order["billing"]["address_1"] %>
-OSTOTIL.OT_POSTITOIMIPAIKKA:<%= @order["billing"]["city"] %>
+OSTOTIL.OT_POSTITOIMIPAIKKA:<%= "#{@order["billing"]["city"]} #{@order["billing"]["state"]}" %>
 OSTOTIL.OT_POSTINRO:<%= @order["billing"]["postcode"] %>
 OSTOTIL.OT_YHTEYSHENKILONPUH:<%= @order["billing"]["phone"] %>
 OSTOTIL.OT_YHTEYSHENKILONFAX:
@@ -52,7 +52,7 @@ OSTOTIL.OT_TOIMITUS_POSTITOIMIPAIKKA:
 OSTOTIL.OT_TOIMITUS_POSTINRO:
 OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["billing"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
-OSTOTIL.OT_TOIMITUS_EMAIL:
+OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
 *RS OSTOTILRIV <%= index+1 %>
