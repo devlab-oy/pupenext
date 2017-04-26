@@ -25,6 +25,6 @@ class MonitoringController < ApplicationController
     end
 
     def from_devlab?
-      request.remote_ip == "82.181.96.80" || Rails.env.test?
+      request.remote_ip == "91.153.225.1" || Rails.env.test?
     end
 end
