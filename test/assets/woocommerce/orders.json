@@ -122,7 +122,8 @@
         "method_id": "flat_rate",
         "total": "10.00",
         "total_tax": "0.00",
-        "taxes": []
+        "taxes": [],
+        "postnord_service_point_id": "4047"
       }
     ],
     "fee_lines": [],
@@ -220,7 +221,8 @@
         "method_id": "flat_rate",
         "total": "10.00",
         "total_tax": "0.00",
-        "taxes": []
+        "taxes": [],
+        "postnord_service_point_id": "4045"
       }
     ],
     "fee_lines": [],
