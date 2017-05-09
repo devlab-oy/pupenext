@@ -35,3 +35,5 @@ log/localeapp.yml
 
 # Ignore byebug history file
 /.byebug_history
+
+.env_org
