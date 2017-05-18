@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509080901) do
+ActiveRecord::Schema.define(version: 20170518115717) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1604,6 +1604,7 @@ ActiveRecord::Schema.define(version: 20170509080901) do
     t.string   "jv",                 limit: 1,                          default: "",  null: false
     t.string   "kateinen",           limit: 1,                          default: "",  null: false
     t.integer  "factoring_id",       limit: 4
+    t.integer  "directdebit_id",     limit: 4,                          default: 0,   null: false
     t.integer  "pankkiyhteystiedot", limit: 4,                          default: 0,   null: false
     t.string   "itsetulostus",       limit: 1,                          default: "",  null: false
     t.string   "jaksotettu",         limit: 1,                          default: "",  null: false
