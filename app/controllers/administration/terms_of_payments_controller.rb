@@ -56,6 +56,7 @@ class Administration::TermsOfPaymentsController < AdministrationController
         :abs_pvm,
         :erapvmkasin,
         :factoring_id,
+        :directdebit_id,
         :itsetulostus,
         :jaksotettu,
         :jarjestys,

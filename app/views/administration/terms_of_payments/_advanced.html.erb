@@ -21,6 +21,15 @@
   </tr>
 
   <tr>
+    <th><%= f.label :directdebit %></th>
+    <td>
+      <%= f.select :directdebit_id, top_directdebit_options,
+          { include_blank: t('administration.terms_of_payments.edit.no_directdebit') },
+          class: :large %>
+    </td>
+  </tr>
+
+  <tr>
     <th><%= f.label :pankkiyhteystiedot %></th>
     <td>
       <%= f.select :pankkiyhteystiedot, bank_details_options,

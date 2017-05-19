@@ -906,6 +906,7 @@ fi:
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
+      dd_or_factoring: 'HUOM: Direct Debit maksuehdolla ei voi olla factoringsopimusta'
   fixed_assets:
     commodities:
       activate:
