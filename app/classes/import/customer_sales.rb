@@ -1,7 +1,7 @@
 class Import::CustomerSales
   include Import::Base
 
-  def initialize(company_id:, user_id:, filename:, month:, year:, product:, customer_number:)
+  def initialize(company_id:, user_id:, filename:, month:, year:, product:, customer_number:, customer_category:)
     Current.company = Company.find company_id
     Current.user = User.find user_id
 
@@ -9,6 +9,7 @@ class Import::CustomerSales
     @end_of_month = Date.new(year.to_i, month.to_i, 1).end_of_month
     @product = product
     @customer_number = customer_number
+    @customer_category = customer_category
   end
 
   def import
@@ -27,6 +28,7 @@ class Import::CustomerSales
 
       excel_row[:product] = @product
       excel_row[:customer_number] = @customer_number
+      excel_row[:customer_category] = @customer_category
 
       row = Row.new(excel_row)
 
@@ -52,9 +54,10 @@ class Import::CustomerSales
         header = nil
       end
 
-      # remove default product & customer number from response
+      # remove default product & customer number & customer_category from response
       excel_row.delete :product
       excel_row.delete :customer_number
+      excel_row.delete :customer_category
 
       response.add_row columns: excel_row.values, errors: errors.compact
     end
@@ -83,7 +86,13 @@ class Import::CustomerSales::Row
   def customer
     return unless customer_raw.present?
 
-    @customer ||= Customer.find_by(asiakasnro: customer_raw) || default_customer
+    if chosen_customer_category.present?
+      cust = Customer.find_by(asiakasnro: customer_raw, category: chosen_customer_category)
+    else
+      cust = Customer.find_by(asiakasnro: customer_raw)
+    end
+
+    @customer ||= cust || default_customer
   end
 
   def errors
@@ -130,6 +139,10 @@ class Import::CustomerSales::Row
 
     def product_raw
       identifier if quantity.present?
+    end
+
+    def chosen_customer_category
+      return values[:customer_category]
     end
 
     def default_product
