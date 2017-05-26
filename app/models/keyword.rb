@@ -139,6 +139,7 @@ class Keyword < BaseModel
       VARASTOLUOKKA:   Keyword,
       VARASTORYHMA:    Keyword,
       VARTOIMTULOSTIN: Keyword,
+      WOO_FIELD:       Keyword::WooField,
       Y:               Keyword,
     }.stringify_keys
   end
