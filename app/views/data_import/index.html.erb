@@ -59,8 +59,9 @@
         <%= f.text_field :customer_number, size: 30, value: 'ERIKOISMYYNTIASIAKAS' %><br />
 
         <%= f.label :customer_category, t('.customer_category') %>
-        <%= select_tag :customer_category, customer_category_options(params[:customer_category]),
-            include_blank: true %>
+        <%= f.select :customer_category,
+                     customer_category_options(params[:data_import].try(:[], :customer_category)),
+                     include_blank: true %>
 
         <%= f.date_select :month_year, discard_day: true %>
         <%= f.file_field :file %>
