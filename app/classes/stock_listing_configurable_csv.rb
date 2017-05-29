@@ -14,20 +14,9 @@ class StockListingConfigurableCsv < StockListingCsv
   private
 
     def data
-      brands_to_include = Keyword::StockListingFilter.where(selite: 'tuotemerkki').where(selitetark: 'on').pluck(:selitetark_2)
-      brands_to_include = brands_to_include.empty? ? Product::Brand.all.pluck(:selite) : brands_to_include
-      brands_to_exclude = Keyword::StockListingFilter.where(selite: 'tuotemerkki').where(selitetark: 'off').pluck(:selitetark_2)
-      brands_to_include -= brands_to_exclude
-
-      subcategories_to_include = Keyword::StockListingFilter.where(selite: 'try').where(selitetark: 'on').pluck(:selitetark_2)
-      subcategories_to_include = subcategories_to_include.empty? ? Product::Subcategory.all.pluck(:selite) : subcategories_to_include
-      subcategories_to_exclude = Keyword::StockListingFilter.where(selite: 'try').where(selitetark: 'off').pluck(:selitetark_2)
-      subcategories_to_include -= subcategories_to_exclude
-
-      categories_to_include = Keyword::StockListingFilter.where(selite: 'osasto').where(selitetark: 'on').pluck(:selitetark_2)
-      categories_to_include = categories_to_include.empty? ? Product::Category.all.pluck(:selite) : categories_to_include
-      categories_to_exclude = Keyword::StockListingFilter.where(selite: 'osasto').where(selitetark: 'off').pluck(:selitetark_2)
-      categories_to_include -= categories_to_exclude
+      brands_to_include        = Keyword::StockListingFilter.brands_to_include
+      subcategories_to_include = Keyword::StockListingFilter.subcategories_to_include
+      categories_to_include    = Keyword::StockListingFilter.categories_to_include
 
       products = company
         .products
