@@ -47,7 +47,7 @@ class ProductHelperTest < ActionView::TestCase
       tuotemerkki: %w(Bosch Alpinestars)
     }
 
-    brands = %w(Alpinestars Bosch)
+    brands = %w(Alpinestars Bosch Karhu)
 
     # if we don't filter by categories or subcategories, we'll always get all brands
     assert_equal brands, brand_filter
