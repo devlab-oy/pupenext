@@ -2,13 +2,13 @@ require 'csv'
 
 class StockListingConfigurableCsv < StockListingCsv
   def to_file
-    filename = Tempfile.new ['Varastosaldot FIN CSV ', '.csv']
+    filename = "#{Dir.tmpdir}/Varastosaldot FIN CSV #{Time.zone.today.strftime('%d.%m.%Y')}.csv"
 
     CSV.open(filename, 'wb', @options) do |csv|
       data.map { |row| csv << row }
     end
 
-    filename.path
+    filename
   end
 
   private
