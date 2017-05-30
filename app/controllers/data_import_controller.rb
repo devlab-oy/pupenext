@@ -65,6 +65,7 @@ class DataImportController < ApplicationController
         'month_year(2i)',
         :product,
         :customer_number,
+        :customer_category,
       )
     end
 
@@ -92,6 +93,7 @@ class DataImportController < ApplicationController
         year: customer_sales_params['month_year(1i)'],
         product: customer_sales_params[:product],
         customer_number: customer_sales_params[:customer_number],
+        customer_category: customer_sales_params[:customer_category],
       }
     end
 

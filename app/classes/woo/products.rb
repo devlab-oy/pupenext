@@ -47,7 +47,7 @@ class Woo::Products < Woo::Base
     end
 
     def product_hash(product)
-      {
+      defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
         sku: product.tuoteno,
@@ -59,6 +59,19 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
+
+      from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
+        selite = selite.to_sym
+
+        if selitetark.blank?
+          defaults.delete(selite)
+          nil
+        else
+          [selite, product.send(selitetark)]
+        end
+      end.compact.to_h
+
+      defaults.merge(from_keywords)
     end
 
     def get_sku(sku)

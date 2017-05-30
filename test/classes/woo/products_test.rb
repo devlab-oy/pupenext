@@ -43,4 +43,64 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     product = @woocommerce.send(:products).first
     assert_equal response, @woocommerce.send(:product_hash, product)
   end
+
+  test 'values in product hash can be added with keywords' do
+    Keyword::WooField.create!(selite: 'product_mass', selitetark: 'tuotemassa')
+
+    response = {
+      name: 'Combosukset',
+      slug: 'ski1',
+      sku: 'ski1',
+      type: 'simple',
+      description: nil,
+      short_description: nil,
+      regular_price: '0.0',
+      manage_stock: true,
+      stock_quantity: '0.0',
+      status: 'pending',
+      product_mass: 0,
+    }
+
+    product = @woocommerce.send(:products).first
+    assert_equal response, @woocommerce.send(:product_hash, product)
+  end
+
+  test 'values in product hash can be overriden with keywords' do
+    Keyword::WooField.create!(selite: 'slug', selitetark: 'tuotemerkki')
+
+    response = {
+      name: 'Combosukset',
+      slug: 'Karhu',
+      sku: 'ski1',
+      type: 'simple',
+      description: nil,
+      short_description: nil,
+      regular_price: '0.0',
+      manage_stock: true,
+      stock_quantity: '0.0',
+      status: 'pending',
+    }
+
+    product = @woocommerce.send(:products).first
+    assert_equal response, @woocommerce.send(:product_hash, product)
+  end
+
+  test 'values in product hash can be removed with keywords' do
+    Keyword::WooField.create!(selite: 'name', selitetark: '')
+
+    response = {
+      slug: 'ski1',
+      sku: 'ski1',
+      type: 'simple',
+      description: nil,
+      short_description: nil,
+      regular_price: '0.0',
+      manage_stock: true,
+      stock_quantity: '0.0',
+      status: 'pending',
+    }
+
+    product = @woocommerce.send(:products).first
+    assert_equal response, @woocommerce.send(:product_hash, product)
+  end
 end

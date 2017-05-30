@@ -52,21 +52,32 @@
 
     <td>
       <%= form_for :data_import, url: customer_sales_import_path do |f| %>
-        <%= f.label :product_number, t('.product_number') %>
-        <%= f.text_field :product, size: 30, value: 'ERIKOISMYYNTITUOTE' %><br />
+        <table>
+        <tr><th><%= f.label :product_number, t('.product_number') %></th>
+        <td><%= f.text_field :product, size: 30, value: 'ERIKOISMYYNTITUOTE' %></td></tr>
 
-        <%= f.label :customer_number, t('.customer_number') %>
-        <%= f.text_field :customer_number, size: 30, value: 'ERIKOISMYYNTIASIAKAS' %><br />
+        <tr><th><%= f.label :customer_number, t('.customer_number') %></th>
+        <td><%= f.text_field :customer_number, size: 30, value: 'ERIKOISMYYNTIASIAKAS' %></td></tr>
 
-        <%= f.date_select :month_year, discard_day: true %>
-        <%= f.file_field :file %>
-        <%= f.submit t('.import') %>
+        <tr><th><%= f.label :customer_category, t('.customer_category') %></th>
+        <td><%= f.select :customer_category,
+                     customer_category_options(params[:data_import].try(:[], :customer_category)),
+                     include_blank: true %></td></tr>
+
+        <tr><th><%= f.label :date_range, t('.date_range') %></th>
+        <td><%= f.date_select :month_year, discard_day: true %></td></tr>
+
+        <tr><th><%= f.label :file, t('.file') %></th>
+        <td><%= f.file_field :file %>
+        <%= f.submit t('.import') %></td></tr>
       <% end %>
     </td>
   </tr>
 
   <tr class='aktiivi'>
     <td>
+    <br />
+      <%= t('.remove_specialsales') %>:<br />
       <%= form_for :data_import, url: destroy_customer_sales_import_path do |f| %>
         <%= f.date_select :month_year, discard_day: true %>
         <%= f.submit t('.destroy'), class: 'poista_btn' %>
