@@ -17,6 +17,10 @@ module TermsOfPaymentHelper
     Factoring.pluck(:nimitys, :tunnus)
   end
 
+  def top_directdebit_options
+    Directdebit.pluck(:nimitys, :tunnus)
+  end
+
   def bank_details_options
     BankDetail.pluck(:nimitys, :tunnus)
   end

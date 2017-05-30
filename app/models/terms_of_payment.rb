@@ -5,6 +5,7 @@ class TermsOfPayment < BaseModel
 
   belongs_to :bank_detail, foreign_key: :pankkiyhteystiedot
   belongs_to :factoring
+  belongs_to :directdebit
   has_many :translations, foreign_key: :selite, class_name: 'Keyword::TermsOfPaymentTranslation'
 
   validates :bank_detail, presence: true, unless: proc { |t| t.pankkiyhteystiedot.nil? || t.pankkiyhteystiedot.zero? }
@@ -16,6 +17,8 @@ class TermsOfPayment < BaseModel
   validates :teksti, length: { within: 1..40 }
 
   validate :check_relations, if: :inactive?
+
+  validate :check_dd_or_factoring, if: :directdebit_id?
 
   float_columns :kassa_alepros
   accepts_nested_attributes_for :translations, allow_destroy: true
@@ -61,6 +64,14 @@ class TermsOfPayment < BaseModel
 
       count = company.sales_order_drafts.where(maksuehto: tunnus).count
       errors.add(:base, I18n.t("#{root}.in_use_sales_order_drafts", count: count)) unless count.zero?
+    end
+
+    def check_dd_or_factoring
+      root = 'errors.terms_of_payment'
+
+      if factoring_id?
+        errors.add(:base, I18n.t("#{root}.dd_or_factoring"))
+      end
     end
 
     def defaults

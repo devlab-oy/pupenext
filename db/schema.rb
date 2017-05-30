@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517110327) do
+ActiveRecord::Schema.define(version: 20170518115717) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -533,6 +533,32 @@ ActiveRecord::Schema.define(version: 20170517110327) do
 
   add_index "customers_users", ["customer_id"], name: "index_customers_users_on_customer_id", using: :btree
   add_index "customers_users", ["user_id"], name: "index_customers_users_on_user_id", using: :btree
+
+  create_table "directdebit", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",                  limit: 5,  default: "", null: false
+    t.string   "rahalaitos",             limit: 20, default: "", null: false
+    t.string   "nimitys",                limit: 50, default: "", null: false
+    t.string   "palvelutunnus",          limit: 35, default: "", null: false
+    t.string   "suoraveloitusmandaatti", limit: 50, default: "", null: false
+    t.string   "muuttaja",               limit: 50, default: "", null: false
+    t.string   "laatija",                limit: 50, default: "", null: false
+    t.datetime "luontiaika",                                     null: false
+    t.datetime "muutospvm",                                      null: false
+  end
+
+  create_table "directdebit_asiakas", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",          limit: 5,  default: "", null: false
+    t.integer  "liitostunnus",   limit: 4,  default: 0,  null: false
+    t.integer  "directdebit_id", limit: 4
+    t.string   "valtuutus_id",   limit: 35, default: "", null: false
+    t.date     "valtuutus_pvm",                          null: false
+    t.string   "maksajan_iban",  limit: 35, default: "", null: false
+    t.string   "maksajan_swift", limit: 11, default: "", null: false
+    t.string   "muuttaja",       limit: 50, default: "", null: false
+    t.string   "laatija",        limit: 50, default: "", null: false
+    t.datetime "luontiaika",                             null: false
+    t.datetime "muutospvm",                              null: false
+  end
 
   create_table "downloads", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
@@ -1400,6 +1426,7 @@ ActiveRecord::Schema.define(version: 20170517110327) do
     t.integer  "pakkaamo",                         limit: 4,                              default: 0,          null: false
     t.integer  "jaksotettu",                       limit: 4,                              default: 0,          null: false
     t.integer  "factoringsiirtonumero",            limit: 4,                              default: 0,          null: false
+    t.integer  "directdebitsiirtonumero",          limit: 4,                              default: 0,          null: false
     t.string   "ohjelma_moduli",                   limit: 50,                             default: "PUPESOFT", null: false
     t.integer  "label",                            limit: 4,                              default: 0,          null: false
     t.integer  "tunnusnippu",                      limit: 4,                              default: 0,          null: false
@@ -1605,6 +1632,7 @@ ActiveRecord::Schema.define(version: 20170517110327) do
     t.string   "jv",                 limit: 1,                          default: "",  null: false
     t.string   "kateinen",           limit: 1,                          default: "",  null: false
     t.integer  "factoring_id",       limit: 4
+    t.integer  "directdebit_id",     limit: 4
     t.integer  "pankkiyhteystiedot", limit: 4,                          default: 0,   null: false
     t.string   "itsetulostus",       limit: 1,                          default: "",  null: false
     t.string   "jaksotettu",         limit: 1,                          default: "",  null: false
