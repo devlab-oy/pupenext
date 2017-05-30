@@ -15,6 +15,7 @@ class Import::CustomerSales
   def import
     first_row = true
     header = nil
+    active_customer = ''
 
     spreadsheet.each do |spreadsheet_row|
       # create hash of the row (defined in Import::Base)
@@ -37,6 +38,7 @@ class Import::CustomerSales
       if row.customer.present?
         header = row.customer.sales_details.create tapvm: @end_of_month
         errors += header.errors.full_messages
+        active_customer = row.customer.asiakasnro
       elsif header && row.product
         params = {
           tuoteno: row.product.tuoteno,
@@ -49,23 +51,40 @@ class Import::CustomerSales
 
         row = header.rows.create params
         errors += row.errors.full_messages
+
+        addtoresponse(row, excel_row, errors, active_customer)
       else
         errors += row.errors
         header = nil
+
+        addtoresponse(row, excel_row, errors, active_customer)
       end
-
-      # remove default product & customer number & customer_category from response
-      excel_row.delete :product
-      excel_row.delete :customer_number
-      excel_row.delete :customer_category
-
-      response.add_row columns: excel_row.values, errors: errors.compact
     end
 
     response
   end
 
   private
+
+    def addtoresponse(row, excel_row, errors, active_customer)
+      if row.product.tuoteno == @product || active_customer == @customer_number || errors.present?
+
+        if row.product.tuoteno == @product
+          errors += ["Kirjattu #{@product} tuotteelle. "]
+        end
+
+        if active_customer == @customer_number
+          errors += ["Kirjattu #{@customer_number} asiakkaalle. "]
+        end
+
+        # remove default product & customer number & customer_category from response
+        excel_row.delete :product
+        excel_row.delete :customer_number
+        excel_row.delete :customer_category
+
+        response.add_row columns: excel_row.values, errors: errors.compact
+      end
+    end
 
     def response
       @response ||= Import::Response.new

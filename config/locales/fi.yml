@@ -736,6 +736,12 @@ fi:
       header: Tietojen sisäänluku
       import: Sisäänlue
       product_number: Tuotenumero
+      customer_category: Osasto
+      date_range: Kausi
+      file: Tiedosto
+      remove_specialsales: Poista erikoismyynti
+    results:
+      rows_with_errors: Virheet ja rivit jotka on kirjattu kaatoasiakkaalle tai kaatotuotteelle
   date:
     abbr_day_names:
     - su
