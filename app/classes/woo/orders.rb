@@ -13,7 +13,9 @@ class Woo::Orders < Woo::Base
     response.each do |order|
       # update orders status to 'on-hold'
       status = woo_put("orders/#{order['id']}", status: 'on-hold')
-
+      
+      logger.info "Order #{order['id']} status set to #{status}"
+      
       next unless status
 
       write_to_file(order)
