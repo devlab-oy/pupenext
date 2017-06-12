@@ -352,13 +352,13 @@ fi:
         kieli: Käännöksen kieli
         selitetark: Käännetty teksti
       transport:
-        transport_name: Yhteyden nimi
         encoding: Merkistö
         filename: Vakio tiedostonimi palvelimella
         hostname: Palvelin
         password: Salasana
         path: Polku palvelimella
         port: Portti
+        transport_name: Yhteyden nimi
         transportable_id: Tunnus
         username: Käyttäjätunnus
       user:
@@ -688,6 +688,7 @@ fi:
         create_success: Maksuehto luotiin onnistuneesti
       edit:
         header: Maksuehto
+        no_directdebit: No directdebit
         no_factoring: Ei factoroida
         use_company_defaults: Käytä yrityksen oletuksia
       in_use_options:
@@ -731,14 +732,14 @@ fi:
     destroy_customer_sales:
       destroy_success: Erikoismyynnit poistettiin onnistuneesti
     index:
+      customer_category: Osasto
       customer_number: Asiakasnumero
+      date_range: Kausi
       destroy: Poista
+      file: Tiedosto
       header: Tietojen sisäänluku
       import: Sisäänlue
       product_number: Tuotenumero
-      customer_category: Osasto
-      date_range: Kausi
-      file: Tiedosto
       remove_specialsales: Poista erikoismyynti
     results:
       rows_with_errors: Virheet ja rivit jotka on kirjattu kaatoasiakkaalle tai kaatotuotteelle
@@ -909,10 +910,10 @@ fi:
         one: Yksi virhe esti %{model} tietueen tallentamisen
         other: "%{count} virhettä esti %{model} tietueen tallentamisen"
     terms_of_payment:
+      dd_or_factoring: 'HUOM: Direct Debit maksuehdolla ei voi olla factoringsopimusta'
       in_use_customers: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} asiakkaalla'
       in_use_sales_order_drafts: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} keskeneräisellä myyntitilauksella'
       in_use_sales_orders: 'HUOM: Maksuehtoa ei voi poistaa, koska se on käytössä %{count} toimittamattomalla myyntitilauksella'
-      dd_or_factoring: 'HUOM: Direct Debit maksuehdolla ei voi olla factoringsopimusta'
   fixed_assets:
     commodities:
       activate:
@@ -1259,6 +1260,10 @@ fi:
         shipping_address: Toimitusosoite
         total_amount: Laskun summa
         unit: Kappaletta
+    stock_listing_configurable_csv:
+      index:
+        header: Varastosaldot FIN CSV
+        run: Aja raportti
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
