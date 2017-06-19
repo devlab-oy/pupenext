@@ -90,6 +90,7 @@ Pupesoft::Application.routes.draw do
   scope module: :reports do
     get :revenue_expenditure,             to: 'revenue_expenditure#index',            as: :revenue_expenditure_report
     get :stock_listing_csv,               to: 'stock_listing_csv#index',              as: :stock_listing_csv
+    post :stock_listing_csv,              to: 'stock_listing_csv#run',                as: :run_stock_listing_csv
     get :stock_listing_configurable_csv,  to: 'stock_listing_configurable_csv#index', as: :stock_listing_configurable_csv
     post :stock_listing_configurable_csv, to: 'stock_listing_configurable_csv#run',   as: :run_stock_listing_configurable_csv
     get :stock_availability,              to: 'stock_availability#index',             as: :stock_availability
