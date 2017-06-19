@@ -56,14 +56,7 @@ class StockListingConfigurableCsvTest < ActiveSupport::TestCase
     Keyword::StockListingFilter.create!(selite: 'osasto', selitetark: 'on', selitetark_2: '1000')
     report = StockListingConfigurableCsv.new(company_id: @company.id)
 
-    assert_equal 1, report.csv_data.lines.count
-  end
-
-  test 'report output when one category to be excluded' do
-    Keyword::StockListingFilter.create!(selite: 'osasto', selitetark: 'off', selitetark_2: '1000')
-    report = StockListingConfigurableCsv.new(company_id: @company.id)
-
-    assert_equal 2, report.csv_data.lines.count
+    assert_equal 3, report.csv_data.lines.count
   end
 
   test 'saving report to file' do

@@ -27,10 +27,6 @@ class Keyword::StockListingFilter < Keyword
   end
 
   def self.categories_to_include
-    categories_to_include = category.include.pluck(:selitetark_2)
-    categories_to_include.empty? && categories_to_include = Product::Category.all.pluck(:selite)
-    categories_to_exclude = category.exclude.pluck(:selitetark_2)
-
-    categories_to_include - categories_to_exclude
+    category.include.pluck(:selitetark_2)
   end
 end

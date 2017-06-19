@@ -20,11 +20,10 @@ class StockListingConfigurableCsv < StockListingCsv
 
       products = company
         .products
-        .where(tuotemerkki: brands_to_include)
-        .where(try: subcategories_to_include)
-        .where(osasto: categories_to_include)
-        .inventory_management
         .active
+        .inventory_management
+        .where('(tuotemerkki IN (?) AND try IN (?)) OR osasto IN (?)',
+               brands_to_include, subcategories_to_include, categories_to_include)
 
       @data ||= products.find_each.map do |product|
         row = ProductRow.new product, warehouse_ids: warehouses
