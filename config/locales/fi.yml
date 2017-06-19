@@ -1267,7 +1267,6 @@ fi:
     stock_listing_csv:
       index:
         header: Varastosaldot CSV
-        header_configurable: Varastosaldot FIN CSV
         header_ean: Varastosaldot EAN CSV
         run: Aja raportti
         running: Raporttia ajetaan! Valmis raportti löytyy omalta download arealtasi!
