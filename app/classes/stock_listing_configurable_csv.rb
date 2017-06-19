@@ -29,8 +29,8 @@ class StockListingConfigurableCsv < StockListingCsv
         row = ProductRow.new product, warehouse_ids: warehouses
 
         [
-          row.product.eankoodi,
           row.product.tuoteno,
+          row.product.eankoodi,
           row.product.nimitys,
           row.stock,
           row.order_date,
