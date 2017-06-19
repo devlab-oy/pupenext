@@ -21,6 +21,7 @@ class StockListingConfigurableCsv < StockListingCsv
       products = company
         .products
         .active
+        .where.not(status: Product.statuses[:order_only])
         .inventory_management
         .where('(tuotemerkki IN (?) AND try IN (?)) OR osasto IN (?)',
                brands_to_include, subcategories_to_include, categories_to_include)
