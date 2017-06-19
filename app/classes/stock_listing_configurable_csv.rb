@@ -35,7 +35,7 @@ class StockListingConfigurableCsv < StockListingCsv
           row.product.nimitys,
           row.stock,
           row.order_date,
-          row.stock_after_order,
+          row.coming_in_next_order,
         ]
       end
     end
