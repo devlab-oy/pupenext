@@ -69,6 +69,8 @@ class Import::CustomerSales
   private
 
     def addtoresponse(row, excel_row, errors, active_customer, raw_customer)
+      return unless row.product
+
       if row.product.tuoteno == @product || active_customer == @customer_number || errors.present?
 
         if row.product.tuoteno == @product
