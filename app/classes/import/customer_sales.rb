@@ -16,6 +16,7 @@ class Import::CustomerSales
     first_row = true
     header = nil
     active_customer = ''
+    raw_customer = nil
 
     spreadsheet.each do |spreadsheet_row|
       # create hash of the row (defined in Import::Base)
@@ -39,6 +40,7 @@ class Import::CustomerSales
         header = row.customer.sales_details.create tapvm: @end_of_month
         errors += header.errors.full_messages
         active_customer = row.customer.asiakasnro
+        raw_customer = row.data
       elsif header && row.product
         params = {
           tuoteno: row.product.tuoteno,
@@ -52,12 +54,12 @@ class Import::CustomerSales
         row = header.rows.create params
         errors += row.errors.full_messages
 
-        addtoresponse(row, excel_row, errors, active_customer)
+        addtoresponse(row, excel_row, errors, active_customer, raw_customer)
       else
         errors += row.errors
         header = nil
 
-        addtoresponse(row, excel_row, errors, active_customer)
+        addtoresponse(row, excel_row, errors, active_customer, raw_customer)
       end
     end
 
@@ -66,7 +68,7 @@ class Import::CustomerSales
 
   private
 
-    def addtoresponse(row, excel_row, errors, active_customer)
+    def addtoresponse(row, excel_row, errors, active_customer, raw_customer)
       if row.product.tuoteno == @product || active_customer == @customer_number || errors.present?
 
         if row.product.tuoteno == @product
@@ -81,6 +83,8 @@ class Import::CustomerSales
         excel_row.delete :product
         excel_row.delete :customer_number
         excel_row.delete :customer_category
+
+        excel_row['asiakas/tuote'].prepend("#{raw_customer}, ") if raw_customer
 
         response.add_row columns: excel_row.values, errors: errors.compact
       end
