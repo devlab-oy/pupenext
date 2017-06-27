@@ -13,13 +13,19 @@ class Woo::Orders < Woo::Base
     response.each do |order|
       # update orders status to 'on-hold'
       status = woo_put("orders/#{order['id']}", status: 'on-hold')
-      
-      order = woo_get("orders/#{order['id']}")
-      logger.info "Order #{order['id']} status set to #{order['status']}"
-      
+      logger.info "Order #{order['id']} status set to 'on-hold'"
       next unless status
 
-      write_to_file(order)
+      # Check if order already is in Pupesoft
+      @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+      @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+
+      if @pupe_draft.nil? && @pupe_order.nil?
+        logger.info "Order #{order['id']} fetched and put in Pupesoft processing queue"
+        write_to_file(order)
+      else
+        logger.info "Order #{order['id']} NOT fetched beacause it already exists in Pupesoft"
+      end
     end
   end
 
