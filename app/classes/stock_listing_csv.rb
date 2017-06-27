@@ -77,6 +77,10 @@ class StockListingCsv::ProductRow
     next_order ? next_order.toimaika : nil
   end
 
+  def coming_in_next_order
+    next_order && next_order.varattu && format('%g', next_order.varattu)
+  end
+
   private
 
     def stock_raw

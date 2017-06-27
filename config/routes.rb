@@ -88,17 +88,19 @@ Pupesoft::Application.routes.draw do
   end
 
   scope module: :reports do
-    get :revenue_expenditure,         to: 'revenue_expenditure#index',  as: :revenue_expenditure_report
-    get :stock_listing_csv,           to: 'stock_listing_csv#index',    as: :stock_listing_csv
-    post :stock_listing_csv,          to: 'stock_listing_csv#run',      as: :run_stock_listing_csv
-    get :stock_availability,          to: 'stock_availability#index',   as: :stock_availability
-    get :run_stock_availability,      to: 'stock_availability#run',     as: :run_stock_availability
-    get :view_connected_sales_orders, to: 'stock_availability#view_connected_sales_orders'
-    get :full_installments,           to: 'full_installments#index',    as: :full_installments
-    post :full_installments,          to: 'full_installments#run',      as: :run_full_installments
-    get :product_stock_pdf,           to: 'product_stock_pdf#index',    as: :product_stock_pdf_index
-    post :product_stock_pdf,          to: 'product_stock_pdf#find',     as: :product_stock_pdf_find
-    get 'product_stock_pdf/:qty/:id', to: 'product_stock_pdf#show',     as: :product_stock_pdf
+    get :revenue_expenditure,             to: 'revenue_expenditure#index',            as: :revenue_expenditure_report
+    get :stock_listing_csv,               to: 'stock_listing_csv#index',              as: :stock_listing_csv
+    post :stock_listing_csv,              to: 'stock_listing_csv#run',                as: :run_stock_listing_csv
+    get :stock_listing_configurable_csv,  to: 'stock_listing_configurable_csv#index', as: :stock_listing_configurable_csv
+    post :stock_listing_configurable_csv, to: 'stock_listing_configurable_csv#run',   as: :run_stock_listing_configurable_csv
+    get :stock_availability,              to: 'stock_availability#index',             as: :stock_availability
+    get :run_stock_availability,          to: 'stock_availability#run',               as: :run_stock_availability
+    get :view_connected_sales_orders,     to: 'stock_availability#view_connected_sales_orders'
+    get :full_installments,               to: 'full_installments#index',              as: :full_installments
+    post :full_installments,              to: 'full_installments#run',                as: :run_full_installments
+    get :product_stock_pdf,               to: 'product_stock_pdf#index',              as: :product_stock_pdf_index
+    post :product_stock_pdf,              to: 'product_stock_pdf#find',               as: :product_stock_pdf_find
+    get 'product_stock_pdf/:qty/:id',     to: 'product_stock_pdf#show',               as: :product_stock_pdf
 
     resources :commodity_balance_sheet, only: [:index, :create]
     resources :commodity_financial_statements, only: [:index, :create]

@@ -85,6 +85,13 @@ brand_gears:
   laji: TUOTEMERKKI
   <<: *DEFAULTS
 
+brand_karhu:
+  yhtio: acme
+  selite: Karhu
+  kieli: fi
+  laji: TUOTEMERKKI
+  <<: *DEFAULTS
+
 top_locale_se:
   yhtio: acme
   selite: <%= ActiveRecord::FixtureSet.identify(:sixty_days_net) %>
