@@ -1,13 +1,14 @@
 class Woo::Orders < Woo::Base
-  attr_accessor :edi_orders_path, :customer_id
+  attr_accessor :edi_orders_path, :customer_id, :order_status
 
   # Fetch new WooCommerce orders and set status to processing
-  def fetch(orders_path:, customer_id: nil)
+  def fetch(orders_path:, customer_id: nil, order_status: 'processing')
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
+    self.order_status = order_status
 
     # Fetch only order that are 'processing'
-    response = woo_get('orders', status: 'processing')
+    response = woo_get('orders', status: order_status)
     return unless response
 
     response.each do |order|
