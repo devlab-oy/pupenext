@@ -207,7 +207,7 @@ class SumLevelTest < ActiveSupport::TestCase
   end
 
   test "subclass_from_attributes returns nil if subclass can't be found with the provided tyyppi" do
-    assert_equal nil, SumLevel.subclass_from_attributes({ tyyppi: "M" })
+    assert_nil SumLevel.subclass_from_attributes({ tyyppi: "M" })
   end
 
   test "SumLevel::Commodity should have multiple accounts" do
