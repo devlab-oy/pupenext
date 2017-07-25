@@ -74,6 +74,7 @@ OSTOTILRIV.OTR_YKSIKKO:
 *RE  OSTOTILRIV <%= index+1 %>
 <% end %>
 <% @order["shipping_lines"].each_with_index do |shipping_lines, index| %>
+<% next if shipping_lines["total"].to_d.zero? %>
 *RS OSTOTILRIV <%= index+1 %>
 OSTOTILRIV.OTR_NRO:<%= @order["id"] %>
 OSTOTILRIV.OTR_RIVINRO:
