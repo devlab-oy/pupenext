@@ -103,6 +103,7 @@ class Keyword < BaseModel
       SOP_LAITLUET:    Keyword,
       SOPIMUS_KENTTA:  Keyword,
       SSCC:            Keyword,
+      STCK_LST_FLTR:   Keyword::StockListingFilter,
       TARJOUS_VAKIOTE: Keyword,
       TARRATYYPPI:     Keyword,
       TERMINAALIALUE:  Keyword,
@@ -139,6 +140,7 @@ class Keyword < BaseModel
       VARASTOLUOKKA:   Keyword,
       VARASTORYHMA:    Keyword,
       VARTOIMTULOSTIN: Keyword,
+      WOO_FIELD:       Keyword::WooField,
       Y:               Keyword,
     }.stringify_keys
   end

@@ -4,7 +4,7 @@
 
 default: &default
   adapter:   mysql2
-  encoding:  latin1
+  encoding:  <%= Rails.application.secrets.db_encoding %>
   pool:      <%= Rails.application.secrets.db_pool %>
   host:      <%= Rails.application.secrets.db_host %>
   database:  <%= Rails.application.secrets.db_name %>

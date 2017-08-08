@@ -33,7 +33,7 @@ OSTOTIL.OT_ASIAKASOVT:
 OSTOTIL.OT_YRITYS:<%= @order["billing"]["company"] %>
 OSTOTIL.OT_YHTEYSHENKILO:<%= "#{@order["billing"]["first_name"]} #{@order["billing"]["last_name"]}" %>
 OSTOTIL.OT_KATUOSOITE:<%= @order["billing"]["address_1"] %>
-OSTOTIL.OT_POSTITOIMIPAIKKA:<%= @order["billing"]["city"] %>
+OSTOTIL.OT_POSTITOIMIPAIKKA:<%= "#{@order["billing"]["city"]} #{@order["billing"]["state"]}" %>
 OSTOTIL.OT_POSTINRO:<%= @order["billing"]["postcode"] %>
 OSTOTIL.OT_YHTEYSHENKILONPUH:<%= @order["billing"]["phone"] %>
 OSTOTIL.OT_YHTEYSHENKILONFAX:
@@ -45,14 +45,15 @@ OSTOTIL.OT_MYYNTI_MAAKOODI:
 OSTOTIL.OT_MYYNTI_YHTEYSHENKILO:
 OSTOTIL.OT_MYYNTI_YHTEYSHENKILONPUH:
 OSTOTIL.OT_MYYNTI_YHTEYSHENKILONFAX:
-OSTOTIL.OT_TOIMITUS_YRITYS:
-OSTOTIL.OT_TOIMITUS_NIMI:
-OSTOTIL.OT_TOIMITUS_KATUOSOITE:
-OSTOTIL.OT_TOIMITUS_POSTITOIMIPAIKKA:
-OSTOTIL.OT_TOIMITUS_POSTINRO:
+OSTOTIL.OT_TOIMITUS_YRITYS:<%= @order["shipping"]["company"] %>
+OSTOTIL.OT_TOIMITUS_NIMI:<%= "#{@order["shipping"]["first_name"]} #{@order["shipping"]["last_name"]}" %>
+OSTOTIL.OT_TOIMITUS_KATUOSOITE:<%= @order["shipping"]["address_1"] %>
+OSTOTIL.OT_TOIMITUS_POSTITOIMIPAIKKA:<%= "#{@order["shipping"]["city"]} #{@order["shipping"]["state"]}" %>
+OSTOTIL.OT_TOIMITUS_POSTINRO:<%= @order["shipping"]["postcode"] %>
 OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["billing"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
-OSTOTIL.OT_TOIMITUS_EMAIL:
+OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
+OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= @order["shipping_lines"][0]["postnord_service_point_id"] %>
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
 *RS OSTOTILRIV <%= index+1 %>
@@ -65,7 +66,26 @@ OSTOTILRIV.OTR_TILATTUMAARA:<%= line_item["quantity"] %>
 OSTOTILRIV.OTR_RIVISUMMA:<%= line_item["total"] %>
 OSTOTILRIV.OTR_VEROKANTA:<%= (line_item["total_tax"].to_f / line_item["total"].to_f * 100).round(2) %>
 OSTOTILRIV.OTR_OSTOHINTA:<%= line_item["price"] %>
-OSTOTILRIV.OTR_ALENNUS:
+OSTOTILRIV.OTR_ALENNUS:0
+OSTOTILRIV.OTR_VIITE:
+OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
+OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
+OSTOTILRIV.OTR_YKSIKKO:
+*RE  OSTOTILRIV <%= index+1 %>
+<% end %>
+<% @order["shipping_lines"].each_with_index do |shipping_lines, index| %>
+<% next if shipping_lines["total"].to_d.zero? %>
+*RS OSTOTILRIV <%= index+1 %>
+OSTOTILRIV.OTR_NRO:<%= @order["id"] %>
+OSTOTILRIV.OTR_RIVINRO:
+OSTOTILRIV.OTR_TOIMITTAJANRO:
+OSTOTILRIV.OTR_TUOTEKOODI:<%= @company.parameter.rahti_tuotenumero %>
+OSTOTILRIV.OTR_NIMI:<%= shipping_lines["method_title"] %>
+OSTOTILRIV.OTR_TILATTUMAARA:1
+OSTOTILRIV.OTR_RIVISUMMA:<%= shipping_lines["total"] %>
+OSTOTILRIV.OTR_VEROKANTA:<%= (shipping_lines["total_tax"].to_f / shipping_lines["total"].to_f * 100).round(2) %>
+OSTOTILRIV.OTR_OSTOHINTA:<%= shipping_lines["total"] %>
+OSTOTILRIV.OTR_ALENNUS:0
 OSTOTILRIV.OTR_VIITE:
 OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
 OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:

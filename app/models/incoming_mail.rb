@@ -9,6 +9,7 @@ class IncomingMail < ActiveRecord::Base
   validates :raw_source, presence: true
 
   delegate :subject, to: :mail, allow_nil: true
+  delegate :from, to: :mail, allow_nil: true
 
   def mail
     @mail ||= Mail.new(raw_source)

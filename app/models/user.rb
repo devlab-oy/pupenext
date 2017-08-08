@@ -26,7 +26,7 @@ class User < BaseModel
     kayttoliittyma == 'C' || (kayttoliittyma.blank? && company.classic_ui?)
   end
 
-  def update_permissions
+  def update_permissions(validate: true)
     # mark all current user permissions with a uid
     marked_for_delete = SecureRandom.uuid
     permissions.update_all muuttaja: marked_for_delete
@@ -37,7 +37,8 @@ class User < BaseModel
       permission = permissions.find_or_initialize_by find_by_parameters(p)
 
       # update permission with valid info, don't raise exception, just fail if incorret
-      permission.update update_with_parameters(p)
+      permission.assign_attributes update_with_parameters(p)
+      permission.save validate: validate
     end
 
     # remove permission user no longer has. update above changes muuttaja to current user

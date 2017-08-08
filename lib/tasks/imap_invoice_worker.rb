@@ -66,7 +66,6 @@ class ImapInvoiceWorker
   end
 
   def self.process_message(msg)
-
     # Default directory for saving attachments
     attach_dir = SAVE_DIRECTORY.dup
 
@@ -77,12 +76,11 @@ class ImapInvoiceWorker
     lang = language(address)
 
     # Check "to"-address of mail
-    toaddress = msg.to.first.split('@').first
+    toaddress = parse_to_address(msg)
 
     # This is a "Travel expense"-mail
     # We assume format of something.username@ALLOWED_DOMAIN
     if toaddress.include? "+"
-
       # Extract username
       te_user = toaddress.split('+').last
 
@@ -204,6 +202,11 @@ class ImapInvoiceWorker
     check
   end
 
+  def self.parse_to_address(msg)
+    return '' unless msg.to.respond_to? :first
+
+    msg.to.first.to_s.split('@').first || ''
+  end
 end
 
 ImapInvoiceWorker.fetch_messages

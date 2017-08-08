@@ -22,10 +22,11 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy' do
-    copied_company = @copier.copy
+    @copier.copy
 
-    assert copied_company.valid?, copied_company.errors.full_messages
-    assert copied_company.persisted?
+    assert @copier.errors.empty?, @copier.errors
+    assert @copier.copied_company.persisted?
+    copied_company = @copier.copied_company
 
     assert_equal 'FI',             copied_company.maa
     assert_equal 'acme',           copied_company.konserni
@@ -81,7 +82,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
   end
 
   test '#copy destroys all copied data if anything goes wrong' do
-    Account.any_instance.stubs(:save).raises(StandardError)
+    Account.any_instance.stubs(:valid?).returns(false)
 
     assert_no_difference [
       'Account.unscoped.count',
@@ -100,9 +101,8 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'Warehouse.unscoped.count',
       'BankAccount.unscoped.count',
     ] do
-      assert_raise StandardError do
-        @copier.copy
-      end
+      @copier.copy
+      assert @copier.errors.present?
     end
 
     # make sure we delete the correct company at the end
@@ -132,7 +132,8 @@ class CompanyCopierTest < ActiveSupport::TestCase
       'UserProfile.unscoped.count',
       'Warehouse.unscoped.count',
     ] do
-      assert copier.copy.invalid?
+      copier.copy
+      assert copier.errors.present?
     end
   end
 
@@ -160,9 +161,10 @@ class CompanyCopierTest < ActiveSupport::TestCase
       to_company_params: { yhtio: 'kala', nimi: 'Kala Oy' },
     )
 
-    copied_company = copier.copy
-    assert copied_company.valid?, copied_company.errors.full_messages
+    copier.copy
+    assert copier.errors.empty?, copier.errors
 
+    copied_company = copier.copied_company
     Current.company = copied_company
 
     assert_equal 2,                            copied_company.users.count
@@ -189,7 +191,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       to_company_params: { yhtio: 'kala', nimi: 'Kala Oy' },
     )
     copied_company = copier.copy
-    assert copied_company.valid?, copied_company.errors.full_messages
+    assert copied_company.errors.empty?, copied_company.errors
     assert_equal current_company, @company
 
     copier = CompanyCopier.new(
@@ -233,7 +235,7 @@ class CompanyCopierTest < ActiveSupport::TestCase
       },
       customer_companies: [estonian.yhtio],
     ).copy
-    assert copier.valid?, copier.errors.full_messages
+    assert copier.errors.empty?, copier.errors
 
     Current.company = estonian
     customer = estonian.customers.find_by(nimi: 'Kala Oy Esimerkki')
@@ -278,22 +280,106 @@ class CompanyCopierTest < ActiveSupport::TestCase
       },
     ).copy
 
-    Current.company = copier
-    assert copier.valid?
+    copied_company = copier.copied_company
+    Current.company = copied_company
+    assert copier.errors.empty?
     assert_equal users_count, User.count
 
-    erkki = copier.users.find_by kuka: 'erkki.eka@example.com'
+    erkki = copied_company.users.find_by kuka: 'erkki.eka@example.com'
     assert erkki.valid?
     assert_equal 'Erkki',          erkki.nimi
     assert_equal 'Admin profiili', erkki.profiilit
     assert_equal kissa_pass,       erkki.salasana
     assert_not_empty               erkki.permissions
 
-    totti = copier.users.find_by kuka: 'totti.toka@example.com'
+    totti = copied_company.users.find_by kuka: 'totti.toka@example.com'
     assert totti.valid?
     assert_equal 'Totti',          totti.nimi
     assert_equal 'Admin profiili', totti.profiilit
     assert_equal koira_pass,       totti.salasana
     assert_not_empty               totti.permissions
+  end
+
+  test 'company is created as supplier to companies passed in supplier_companies' do
+    estonian = companies(:estonian)
+    Current.company = estonian
+    count = estonian.suppliers.count
+
+    # create new company 'Kala Oy', and create it as a supplier to estonian -company
+    copier = CompanyCopier.new(
+      from_company: @company,
+      supplier_companies: [estonian.yhtio],
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy Esimerkki',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        bank_accounts_attributes: [
+          {
+            nimi: 'Ainopankki',
+            tilino: '12345600000785',
+            oletus_kulutili: '300',
+            oletus_rahatili: '300',
+            oletus_selvittelytili: '300',
+            iban: 'FI2112345600000785',
+            valkoodi: 'EUR',
+            bic: 'AINOFIHH',
+          },
+        ],
+        users_attributes: [
+          {
+            kuka: 'extranet-user@example.com',
+            nimi: 'Euser',
+            salasana: 'foo',
+          },
+        ],
+      },
+    )
+
+    assert_difference 'Company.count' do
+      copier.copy
+    end
+
+    supplier = estonian.suppliers.find_by(nimi: 'Kala Oy Esimerkki')
+    assert_not_nil supplier
+    assert_equal 'extranet-user@example.com', supplier.email
+    assert count + 1, estonian.suppliers.reload.count
+  end
+
+  test 'supplier creation invalid data' do
+    estonian = companies(:estonian)
+    Current.company = estonian
+    count = estonian.suppliers.count
+
+    # create new company 'Kala Oy', and create it as a supplier to estonian -company
+    # bank_accounts_attributes iban and bic are required
+    copier = CompanyCopier.new(
+      from_company: @company,
+      supplier_companies: [estonian.yhtio],
+      to_company_params: {
+        yhtio: 95,
+        nimi: 'Kala Oy Esimerkki',
+        osoite: 'Kalatie 2',
+        postino: '12345',
+        postitp: 'Kala',
+        ytunnus: '1234567-8',
+        bank_accounts_attributes: [],
+        users_attributes: [
+          {
+            kuka: 'extranet-user@example.com',
+            nimi: 'Euser',
+            salasana: 'foo',
+          },
+        ],
+      },
+    )
+
+    assert_difference 'Company.count' do
+      copier.copy
+    end
+
+    assert count, estonian.suppliers.reload.count
   end
 end

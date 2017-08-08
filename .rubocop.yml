@@ -39,13 +39,13 @@ Metrics/LineLength:
   Max: 140
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 500
 
 Metrics/ModuleLength:
-  Max: 200
+  Max: 500
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 50
 
 Metrics/ParameterLists:
   Max: 5

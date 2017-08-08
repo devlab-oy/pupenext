@@ -5,6 +5,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
   fixtures %w(
     customers
+    keyword/customer_categories
     products
     sales_order/detail_rows
     sales_order/details
@@ -25,6 +26,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
 
     @customer = customers :stubborn_customer
     @lissu    = customers :lissu
+
+    @customer_category = keyword_customer_categories(:customer_category_1)
   end
 
   test 'imports sales and returns response' do
@@ -35,7 +38,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
       ["#{@lissu.asiakasnro} #{@lissu.nimi}",                     '',    100000       ],
-      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 10,    23000        ],
+      ["#{@helmet.tuoteno} #{@helmet.osasto} #{@helmet.nimitys}", 0,     23000        ],
       ["#{@hammer.tuoteno} #{@hammer.osasto} #{@hammer.nimitys}", 23,    100000       ],
       ['Yhteensä',                                                '',    123000       ],
     ])
@@ -48,6 +51,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -80,6 +84,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: @default_detail_product,
       customer_number: @default_detail_customer,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -88,7 +93,13 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       assert_difference 'SalesOrder::DetailRow.count', 2 do
         response = sales.import
         assert_equal Import::Response, response.class
-        assert_equal [], response.rows.map(&:errors).flatten.compact
+        expected = [
+          'Kirjattu ERIKOISMYYNTITUOTE tuotteelle. ',
+          'Kirjattu 123456999 asiakkaalle. ',
+          'Kirjattu ERIKOISMYYNTITUOTE tuotteelle. ',
+          'Kirjattu 123456999 asiakkaalle. ',
+        ]
+        assert_equal expected, response.rows.map(&:errors).flatten.compact
       end
     end
   end
@@ -112,6 +123,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -119,10 +131,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_no_difference 'SalesOrder::Detail.count' do
       assert_no_difference 'SalesOrder::DetailRow.count' do
         response = sales.import
-        assert_equal 'Asiakasta "666" ei löytynyt!', response.rows.second.errors.first
-        assert_equal 'Asiakasta "foobar" ei löytynyt!', response.rows.third.errors.first
-        assert_equal 'Tuotetta "999" ei löytynyt!', response.rows.fourth.errors.first
-        assert_equal 'Tuotetta "foobar" ei löytynyt!', response.rows.fifth.errors.first
+        assert_empty response.rows
       end
     end
   end
@@ -152,6 +161,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     # We get only one error
@@ -160,8 +170,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_difference 'SalesOrder::Detail.count', 2 do
       assert_difference 'SalesOrder::DetailRow.count', 4 do
         result = sales.import
-        error = I18n.t('errors.import.customer_not_found', customer: '999')
-        assert_equal error, result.rows[4].errors.first
+        assert_empty result.rows
       end
     end
   end
@@ -183,6 +192,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -190,8 +200,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_no_difference 'SalesOrder::Detail.count' do
       assert_no_difference 'SalesOrder::DetailRow.count' do
         response = sales.import
-        assert_equal 3, response.rows.map(&:errors).flatten.count
-        assert_equal 1, response.rows.map(&:errors).flatten.uniq.count
+        assert_equal 0, response.rows.map(&:errors).flatten.count
+        assert_equal 0, response.rows.map(&:errors).flatten.uniq.count
       end
     end
 
@@ -211,6 +221,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -218,8 +229,8 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_no_difference 'SalesOrder::Detail.count' do
       assert_no_difference 'SalesOrder::DetailRow.count' do
         response = sales.import
-        assert_equal 3, response.rows.map(&:errors).flatten.count
-        assert_equal 1, response.rows.map(&:errors).flatten.uniq.count
+        assert_equal 0, response.rows.map(&:errors).flatten.count
+        assert_equal 0, response.rows.map(&:errors).flatten.uniq.count
       end
     end
   end
@@ -242,6 +253,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     sales = Import::CustomerSales.new params
@@ -249,7 +261,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_difference 'SalesOrder::Detail.count', 1 do
       assert_difference 'SalesOrder::DetailRow.count', 1 do
         result = sales.import
-        assert_equal nil, result.rows.second.errors.first
+        assert_empty result.rows
       end
     end
 
@@ -282,6 +294,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     # We get only one error
@@ -290,8 +303,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_difference 'SalesOrder::Detail.count', 1 do
       assert_no_difference 'SalesOrder::DetailRow.count' do
         result = sales.import
-        error = I18n.t('errors.import.product_not_found', product: '666')
-        assert_equal error, result.rows.third.errors.first
+        assert_empty result.rows
       end
     end
 
@@ -312,6 +324,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
       year: 2016,
       product: nil,
       customer_number: nil,
+      customer_category: @customer_category.selite,
     }
 
     # We get only one error
@@ -320,8 +333,7 @@ class Import::CustomerSalesTest < ActiveSupport::TestCase
     assert_no_difference 'SalesOrder::Detail.count' do
       assert_no_difference 'SalesOrder::DetailRow.count' do
         result = sales.import
-        error = I18n.t('errors.import.customer_not_found', customer: '999')
-        assert_equal error, result.rows.second.errors.first
+        assert_empty result.rows
       end
     end
   end

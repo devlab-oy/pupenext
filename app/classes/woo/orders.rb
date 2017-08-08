@@ -1,22 +1,32 @@
 class Woo::Orders < Woo::Base
-  attr_accessor :edi_orders_path, :customer_id
+  attr_accessor :edi_orders_path, :customer_id, :order_status
 
   # Fetch new WooCommerce orders and set status to processing
-  def fetch(orders_path:, customer_id: nil)
+  def fetch(orders_path:, customer_id: nil, order_status: 'processing')
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
+    self.order_status = order_status
 
     # Fetch only order that are 'processing'
-    response = woo_get('orders', status: 'processing')
+    response = woo_get('orders', status: order_status)
     return unless response
 
     response.each do |order|
       # update orders status to 'on-hold'
       status = woo_put("orders/#{order['id']}", status: 'on-hold')
-
+      logger.info "Order #{order['id']} status set to 'on-hold'"
       next unless status
 
-      write_to_file(order)
+      # Check if order already is in Pupesoft
+      @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+      @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+
+      if @pupe_draft.nil? && @pupe_order.nil?
+        logger.info "Order #{order['id']} fetched and put in Pupesoft processing queue"
+        write_to_file(order)
+      else
+        logger.info "Order #{order['id']} NOT fetched beacause it already exists in Pupesoft"
+      end
     end
   end
 

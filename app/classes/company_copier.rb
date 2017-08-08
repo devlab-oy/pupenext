@@ -1,14 +1,19 @@
 # from_company yrityksen tiedot duplikoidaan to_companyyn (kts duplicate_data)
 # to_company_params sallii nested attribuutteja (kts Company -model)
 # customer_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan asiakkaaksi
+# supplier_companies sisältää Pupesoftin yhtiökoodeja, joihin to_company perustetaan toimittajaksi
 class CompanyCopier
-  attr_reader :from_company
+  attr_reader :from_company, :errors
 
-  def initialize(from_company: nil, to_company_params: {}, customer_companies: [])
+  CompanyCopierError = Struct.new :class_name, :values, :errors
+
+  def initialize(from_company: nil, to_company_params: {}, customer_companies: [], supplier_companies: [])
     @original_current_company = Current.company
     @from_company = Current.company = from_company
     @to_company_params = to_company_params
     @customer_companies = customer_companies
+    @supplier_companies = supplier_companies
+    @errors = []
 
     raise 'Current company must be set' unless Current.company
     raise 'Current user must be set'    unless Current.user
@@ -18,26 +23,48 @@ class CompanyCopier
 
   def copy
     copied_company = new_company
+
+    unless copied_company.valid?
+      add_error copied_company
+
+      return self
+    end
+
     duplicate_data
     update_nested_attributes
     create_as_customer
-    update_user_permissions
-    write_css
-    copied_company
-  rescue ActiveRecord::RecordInvalid => e
-    return e.record unless defined?(copied_company) && copied_company
+    create_as_supplier
+
+    if errors.present?
+      Rails.logger.error 'Company Copy FAILED!'
+      Rails.logger.error errors
+
+      delete_partial_data
+    else
+      update_user_permissions
+      write_css
+    end
+
+    self
+  rescue => e
+    @errors << CompanyCopierError.new(
+      'Exception',
+      {},
+      [e.message],
+    ).to_h
+
+    Rails.logger.error 'Company Copy Exception raised!'
+    Rails.logger.error errors
 
     delete_partial_data
 
-    return e.record
-  rescue
-    raise unless defined?(copied_company) && copied_company
-
-    delete_partial_data
-
-    raise
+    self
   ensure
     Current.company = @original_current_company
+  end
+
+  def copied_company
+    @new_company
   end
 
   private
@@ -52,9 +79,7 @@ class CompanyCopier
       duplicate :users
       duplicate :currencies
       duplicate :printers
-      duplicate :warehouses, attributes: (
-        Warehouse::PRINTER_NUMBERS.each_with_object({}) { |i, a| a["printteri#{i}"] = Printer.first }
-      )
+      duplicate :warehouses, attributes: default_warehouse_attributes
       duplicate :accounts
       duplicate :delivery_methods
       duplicate :terms_of_payments
@@ -72,8 +97,9 @@ class CompanyCopier
 
         copy = record.dup
         copy.assign_attributes attributes.merge(default_attributes)
-        copy.save(validate: false)
-        copy
+        copy.save
+
+        add_error(copy) unless copy.valid?
       end
     end
 
@@ -96,7 +122,7 @@ class CompanyCopier
       destroy :users
       destroy :warehouses
 
-      new_company.destroy!
+      new_company.destroy
     end
 
     def destroy(model)
@@ -123,6 +149,10 @@ class CompanyCopier
       }
     end
 
+    def default_warehouse_attributes
+      Warehouse::PRINTER_NUMBERS.each_with_object({}) { |i, a| a["printteri#{i}"] = Printer.first }
+    end
+
     def default_attributes
       {
         company:    new_company,
@@ -140,7 +170,7 @@ class CompanyCopier
       new_company.assign_attributes company_attributes
 
       Current.company = new_company
-      new_company.save!
+      new_company.save
 
       @new_company = new_company
     end
@@ -150,21 +180,48 @@ class CompanyCopier
       customer_companies.each do |company|
         Current.company = company
 
-        customer = Customer.create!(
+        customer = Customer.create(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
-          email: user_attributes.first[:kuka],
+          email: user_email,
           kauppatapahtuman_luonne: 0,
           alv: Keyword::Vat.first.selite,
         )
 
         # all users created to to_company are also created as extranet users to customer_companies
-        create_extranet_user customer
+        if customer.valid?
+          create_extranet_user customer
+        else
+          add_error customer
+        end
+      end
+    end
+
+    def create_as_supplier
+      # creates to_company as supplier to given companies
+      supplier_companies.each do |company|
+        Current.company = company
+
+        sup = Supplier.create(
+          nimi: new_company.nimi,
+          ytunnus: new_company.ytunnus,
+          oletus_valkoodi: new_company.valkoodi,
+          maa: new_company.maa,
+          ultilno: bank_iban,
+          swift: bank_bic,
+          email: user_email,
+        )
+
+        add_error(sup) unless sup.valid?
       end
     end
 
     def customer_companies
       Company.where(yhtio: @customer_companies)
+    end
+
+    def supplier_companies
+      Company.where(yhtio: @supplier_companies)
     end
 
     def create_extranet_user(customer)
@@ -175,22 +232,34 @@ class CompanyCopier
       user_attributes.each do |user_params|
         user = user_params.merge(
           extranet: 'X',
+          saatavat: 1,
           profiilit: 'Extranet',
           oletus_profiili: 'Extranet',
           oletus_asiakas: customer.id,
           oletus_asiakastiedot: customer.id,
         )
 
-        new_user = User.create! user
-        new_user.update_permissions
+        new_user = User.create user
+
+        if new_user.valid?
+          new_user.update_permissions
+        else
+          add_error new_user
+        end
       end
     end
 
     def update_nested_attributes
       Current.company = new_company
 
-      new_company.update! bank_accounts_attributes: bank_account_attributes
-      new_company.update! users_attributes: user_attributes
+      new_company.assign_attributes(
+        bank_accounts_attributes: bank_account_attributes,
+        users_attributes: user_attributes,
+      )
+
+      add_error(new_company) unless new_company.valid?
+
+      new_company.save
     end
 
     def company_attributes
@@ -209,11 +278,25 @@ class CompanyCopier
       users[:users_attributes] || []
     end
 
+    def user_email
+      user_attributes.blank? ? '' : user_attributes.first[:kuka]
+    end
+
+    def bank_iban
+      bank_account_attributes.blank? ? '' : bank_account_attributes.first[:iban]
+    end
+
+    def bank_bic
+      bank_account_attributes.blank? ? '' : bank_account_attributes.first[:bic]
+    end
+
     def update_user_permissions
       Current.company = new_company
 
       # update permissions for all users
-      new_company.users.find_each(&:update_permissions)
+      new_company.users.find_each do |user|
+        user.update_permissions validate: false
+      end
     end
 
     def write_css
@@ -238,5 +321,13 @@ class CompanyCopier
 
       Rake::Task['assets:precompile'].reenable
       Rake::Task['assets:precompile'].invoke
+    end
+
+    def add_error(instance)
+      @errors << CompanyCopierError.new(
+        instance.class.to_s,
+        instance.attributes,
+        instance.errors.full_messages,
+      ).to_h
     end
 end

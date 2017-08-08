@@ -257,7 +257,7 @@ class Reports::RevenueExpenditureTest < ActiveSupport::TestCase
     response = Reports::RevenueExpenditure.new(1).data
     assert_equal 300, response[:weekly][0][:purchases].to_f
 
-    current_week = "#{Time.zone.today.cweek} / #{Time.zone.today.year}"
+    current_week = Week.new(Time.zone.today).human
     assert_equal current_week, response[:weekly][0][:week]
 
     # Lets add one alternative expenditure for current week

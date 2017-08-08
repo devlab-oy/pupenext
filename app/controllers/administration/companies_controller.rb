@@ -9,14 +9,15 @@ class Administration::CompaniesController < ApplicationController
       from_company: Current.company,
       to_company_params: company_params,
       customer_companies: params[:customer_companies],
+      supplier_companies: params[:supplier_companies],
     )
 
-    copied_company = copier.copy
+    copier.copy
 
-    if copied_company.valid?
-      render json: { company: { id: copied_company.id } }
+    if copier.errors.empty?
+      render json: { company: { id: copier.copied_company.id } }
     else
-      render json: { copied_company => copied_company.errors }, status: :unprocessable_entity
+      render json: { errors: copier.errors }, status: :unprocessable_entity
     end
   end
 

@@ -1,0 +1,103 @@
+Return-Path: <joni@devlab.fi>
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+   by sloti21d1t08 (Cyrus fastmail-fmjessie43064-14319-git-fastmail-14319) with LMTPA;
+   Tue, 03 Jan 2017 03:23:42 -0500
+X-Cyrus-Session-Id: sloti21d1t08-1858440-1483431822-2-16233984693424443019
+X-Sieve: CMU Sieve 2.4
+X-Spam-known-sender: yes ("Address joni@devlab.fi in From header is in addressbook"),
+  in-addressbook
+X-Spam-score: 0.0
+X-Spam-hits: BAYES_00 -1.9, HEADER_FROM_DIFFERENT_DOMAINS 0.001,
+  RCVD_IN_DNSWL_NONE -0.0001, RCVD_IN_MSPIKE_H2 -1.156,
+  RCVD_IN_SORBS_SPAM 0.5, LANGUAGES unknown, BAYES_USED global,
+  SA_VERSION 3.4.0
+X-Spam-source: IP='209.85.217.171', Host='mail-ua0-f171.google.com', Country='US',
+  FromHeader='org', MailFrom='fi'
+X-Spam-charsets: subject='utf-8', plain='utf-8', plain='us-ascii'
+X-Attached: Photo.jpg
+X-Resolved-to: joni@devlab.fi
+X-Delivered-to: joni@devlab.fi
+X-Mail-from: joni@devlab.fi
+Received: from mx2 ([10.202.2.201])
+  by compute6.internal (LMTPProxy); Tue, 03 Jan 2017 03:23:42 -0500
+Received: from mx2.messagingengine.com (localhost [127.0.0.1])
+  by mailmx.nyi.internal (Postfix) with ESMTP id 0F4B3D8157
+  for <joni@devlab.fi>; Tue,  3 Jan 2017 03:23:42 -0500 (EST)
+Received: from mx2.messagingengine.com (localhost [127.0.0.1])
+    by mx2.messagingengine.com (Authentication Milter) with ESMTP
+    id CFA2C38D8D0;
+    Tue, 3 Jan 2017 03:23:42 -0500
+Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com [209.85.217.171])
+  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+  (No client certificate requested)
+  by mx2.messagingengine.com (Postfix) with ESMTPS
+  for <joni@devlab.fi>; Tue,  3 Jan 2017 03:23:41 -0500 (EST)
+Received: by mail-ua0-f171.google.com with SMTP id i68so212552485uad.0
+        for <joni@devlab.fi>; Tue, 03 Jan 2017 00:23:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:delivered-to:dkim-signature:dkim-signature
+         :content-transfer-encoding:from:mime-version:date:subject:message-id
+         :to;
+        bh=D6DO3GmvCd9vvzplBrgTy8WW2r9KARJlvf3AwrjYrss=;
+        b=F8CYkqzRfKKKzdbNEMcIwUcejEaD/S2/1fgbGsT3V+P1WzqAf9pmnd7kx7kSk7TI5u
+         wBl5yE49Mqq70IdZFz+Bd01wxyM1yVQEqGQay/Af77JMsJOVCDgs03FHLXSLRbWKUkF+
+         hNuh0fJlzApU2leEgbyOEN3cks19bX/rLaRsfUSENlb35vOHGJgZ8qZI86jN1tDIMUdf
+         RetC2J/g4CEJvnlZfGbvOAHiJU0PTQtGzFB0CzTAYL7SwWLPfnNA8R3veDozkVYAMLVX
+         ImdRII+C6rvheEcwIz/JOYYZABfsckUOYFFHnIdU6Q0+XzJqSFkBWeqQI/aaITGtZJQW
+         RcfA==
+X-Gm-Message-State: AIkVDXKE4QgDHQNeaVEBkc0ji+ZkV8DfGpV4mYRP6oZdCunxgSR5nBcP0QgFGYtl3dCnr5gnNXfsYYzaiXhO2A3AhgFDsSw=
+X-Received: by 10.176.85.83 with SMTP id u19mr37679390uaa.82.1483431820295;
+        Tue, 03 Jan 2017 00:23:40 -0800 (PST)
+X-Forwarded-To: joni@devlab.fi
+X-Forwarded-For: joni@devlab.fi joni@devlab.fi
+X-Remote-Delivered-To: joni@devlab.fi
+Received: by 10.159.32.101 with SMTP id 92csp6600107uam;
+        Tue, 3 Jan 2017 00:23:39 -0800 (PST)
+X-Received: by 10.233.216.7 with SMTP id u7mr57976327qkf.220.1483431819435;
+        Tue, 03 Jan 2017 00:23:39 -0800 (PST)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com. [66.111.4.224])
+        by mx.google.com with ESMTPS id t14si33029851qkt.296.2017.01.03.00.23.39
+        for <joni@devlab.fi>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Jan 2017 00:23:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of joni@devlab.fi designates 66.111.4.224 as permitted sender) client-ip=66.111.4.224;
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+  by mailnew.nyi.internal (Postfix) with ESMTP id D5E9AAB1
+  for <joni@devlab.fi>; Tue,  3 Jan 2017 03:23:38 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+  by compute7.internal (MEProxy); Tue, 03 Jan 2017 03:23:38 -0500
+X-ME-Sender: <xms:il9rWI1lWA2yW9kuw6ooRrt7kYeUo6PoODWuwNX_ModnxxnOLyvBuQ>
+X-Sasl-enc: FJQBnvvxU3CJiWkfC2hjnztuLhk/OjKV/m/cmw0tXogj 1483431817
+Received: from [192.168.1.4] (62-78-245-176.bb.dnainternet.fi [62.78.245.176])
+  by mail.messagingengine.com (Postfix) with ESMTPA id 84E387E9B3
+  for <joni@devlab.fi>; Tue,  3 Jan 2017 03:23:37 -0500 (EST)
+Content-Type: multipart/mixed; boundary=Apple-Mail-5E8EBED2-74FC-4E24-987C-5083897C44C9
+Content-Transfer-Encoding: 7bit
+From: Joni Kanerva <joni@devlab.fi>
+Mime-Version: 1.0 (1.0)
+Date: Tue, 3 Jan 2017 10:23:35 +0200
+Subject: =?utf-8?Q?T=C3=A4ss=C3=A4_kuva!?=
+Message-Id: <BCD22CA9-F31A-48E8-A49B-4D50347BCE5F@devlab.fi>
+To: Joni Kanerva <joni@devlab.fi>
+X-Mailer: iPhone Mail (14C92)
+
+
+--Apple-Mail-5E8EBED2-74FC-4E24-987C-5083897C44C9
+Content-Type: text/plain;
+  charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Body teksti=C3=A4.
+
+
+--Apple-Mail-5E8EBED2-74FC-4E24-987C-5083897C44C9
+Content-Type: text/plain;
+  charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+
+
+
+Sent from my iPhone
+--Apple-Mail-5E8EBED2-74FC-4E24-987C-5083897C44C9--

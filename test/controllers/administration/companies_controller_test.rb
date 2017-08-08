@@ -40,14 +40,24 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       ],
     }
 
+    params = {
+      access_token: @admin.api_key,
+      company: company_attributes,
+      customer_companies: [estonia.yhtio],
+      supplier_companies: [estonia.yhtio],
+    }
+
     # We copy all the users from current company
     # and create the extra user we passed in as user and extranet user
     user_count = User.count + 2
+    customer_count = Customer.count + 1
 
-    assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count'] do
+    assert_difference ['Company.unscoped.count', 'BankAccount.unscoped.count', 'Supplier.unscoped.count'] do
       assert_difference 'User.unscoped.count', user_count do
-        post :copy, access_token: @admin.api_key, company: company_attributes, customer_companies: [estonia.yhtio]
-        assert_response :success
+        assert_difference 'Customer.unscoped.count', customer_count do
+          post :copy, params
+          assert_response :success
+        end
       end
     end
 
@@ -68,6 +78,9 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
 
     assert_equal 'Testi Oy',            estonia.customers.last.nimi
     assert_equal '1234567-8',           estonia.customers.last.ytunnus
+    assert_equal 'Testi Oy',            estonia.suppliers.last.nimi
+    assert_equal '1234567-8',           estonia.suppliers.last.ytunnus
+    assert_equal 'FI9814283500171141',  estonia.suppliers.last.ultilno
     assert_equal 'extranet@foobar.com', user.kuka
     assert_equal 'X',                   user.extranet
     assert_equal 'Extranet',            user.profiilit
@@ -79,7 +92,10 @@ class Administration::CompaniesControllerTest < ActionController::TestCase
       post :copy, access_token: @admin.api_key, company: { yhtio: 'acme' }
 
       assert_response :unprocessable_entity
-      assert_includes json_response.to_s, 'on jo käytössä'
+
+      error = json_response[:errors].first
+      assert_equal 'Company',              error[:class_name],   json_response
+      assert_equal 'Yhtio on jo käytössä', error[:errors].first, json_response
     end
   end
 end

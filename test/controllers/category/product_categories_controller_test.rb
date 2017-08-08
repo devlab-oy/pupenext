@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Category::ProductCategoriesControllerTest < ActionController::TestCase
   fixtures %w(
+
     category/links
     category/products
     products
@@ -22,7 +23,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     assert_operator json_response.size, :>=, 4
 
     json_response.each do |category|
-      category.assert_valid_keys(:nimi, :koodi, :tunnus)
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :nimi_en)
     end
   end
 
@@ -36,7 +37,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     assert_equal 2, json_response.size
 
     json_response.each do |category|
-      category.assert_valid_keys(:nimi, :koodi, :tunnus)
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :nimi_en)
     end
   end
 
@@ -45,7 +46,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
 
     assert_response :success
 
-    json_response.assert_valid_keys(:nimi, :koodi, :tunnus)
+    json_response.assert_valid_keys(:nimi, :koodi, :tunnus, :nimi_en)
   end
 
   test '#tree' do
@@ -54,7 +55,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     assert_response :success
 
     json_response.each do |category|
-      category.assert_valid_keys(:nimi, :koodi, :tunnus, :children)
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :children, :nimi_en)
     end
   end
 
@@ -64,7 +65,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     assert_response :success
 
     json_response.each do |category|
-      category.assert_valid_keys(:nimi, :koodi, :tunnus)
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :nimi_en)
     end
   end
 
@@ -74,7 +75,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
     assert_response :success
 
     json_response.each do |category|
-      category.assert_valid_keys(:nimi, :koodi, :tunnus)
+      category.assert_valid_keys(:nimi, :koodi, :tunnus, :nimi_en)
     end
   end
 
@@ -83,7 +84,7 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
 
     assert_response :success
 
-    assert_equal @shirts.products.count, json_response.count
+    assert_equal @shirts.products.webstore_visible.count, json_response.count
 
     json_response.each do |product|
       product.assert_valid_keys(:tunnus)
@@ -95,9 +96,9 @@ class Category::ProductCategoriesControllerTest < ActionController::TestCase
 
     assert_response :success
 
-    total_shirts_count = category_products(:product_category_shirts_t_shirts_v_necks).products.count
-    total_shirts_count += category_products(:product_category_shirts_t_shirts).products.count
-    total_shirts_count += @shirts.products.count
+    total_shirts_count = category_products(:product_category_shirts_t_shirts_v_necks).products.webstore_visible.count
+    total_shirts_count += category_products(:product_category_shirts_t_shirts).products.webstore_visible.count
+    total_shirts_count += @shirts.products.webstore_visible.count
 
     assert_equal total_shirts_count, json_response.count
 

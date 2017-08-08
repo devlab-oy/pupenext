@@ -3,7 +3,7 @@
 <ul>
   <% @files.each do |file| %>
     <li>
-      <%= link_to file, show_log_path(file) %>
+      <%= link_to file, show_log_path(file), data: { turbolinks: false } %>
     </li>
   <% end %>
 </ul>
