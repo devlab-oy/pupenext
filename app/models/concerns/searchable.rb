@@ -43,9 +43,7 @@ module Searchable
         return where(column => ordinal_value)
       end
 
-      p table[column]
-
-      if column.ONKO_TÄÄ_NUMEERINEN_INTTI_TAI_DESIMAALI?
+      if columns_hash[column.to_s] && columns_hash[column.to_s].type.in?(%i[integer decimal])
         return where(column => search_term)
       end
 
