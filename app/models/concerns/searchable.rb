@@ -43,7 +43,11 @@ module Searchable
         return where(column => ordinal_value)
       end
 
-      where table[column].matches("%#{search_term}%")
+      if columns_hash[column.to_s] && columns_hash[column.to_s].type.in?(%i[integer decimal])
+        return where(column => search_term)
+      end
+
+      where(table[column].matches("%#{search_term}%"))
     end
 
     private

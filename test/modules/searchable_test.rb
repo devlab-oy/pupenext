@@ -103,4 +103,12 @@ class SearchableTest < ActiveSupport::TestCase
     assert_equal 1, IncomingMail.search_like(status: 'ok').count
     assert_equal 1, IncomingMail.search_like(status: 'error').count
   end
+
+  test 'numeric search' do
+    params = { tullikamari: 1 }
+
+    company = DummyClass.search_like(params).first
+
+    assert_equal "esto", company.yhtio
+  end
 end
