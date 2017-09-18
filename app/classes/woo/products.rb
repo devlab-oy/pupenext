@@ -16,7 +16,7 @@ class Woo::Products < Woo::Base
       created_count += create_product(product)
     end
 
-    Keyword::WooCheckpoint.create!(selite: Time.current)
+    Keyword::WooCheckpoint.update_timestamp(:create)
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
   end

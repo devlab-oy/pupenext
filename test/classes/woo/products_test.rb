@@ -104,7 +104,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     assert_equal response, @woocommerce.send(:product_hash, product)
   end
 
-  test 'checkpoint is created after first run' do
+  test 'checkpoint is created after first create run' do
     @woocommerce.stub :get_sku, nil do
       @woocommerce.stub :woo_post, 'id' => 1 do
         assert_difference 'Keyword::WooCheckpoint.count' do
@@ -112,5 +112,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
         end
       end
     end
+
+    assert_in_delta Keyword::WooCheckpoint.last_run_at(:create), Time.current, 10
   end
 end
