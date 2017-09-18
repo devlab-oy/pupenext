@@ -37,6 +37,8 @@ class Woo::Products < Woo::Base
       updated_count += update_stock(woo_product['id'], product)
     end
 
+    Keyword::WooCheckpoint.update_timestamp(:update)
+
     logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
