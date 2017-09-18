@@ -103,4 +103,14 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     product = @woocommerce.send(:products).first
     assert_equal response, @woocommerce.send(:product_hash, product)
   end
+
+  test 'checkpoint is created after first run' do
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, 'id' => 1 do
+        assert_difference 'Keyword::WooCheckpoint.count' do
+          @woocommerce.create
+        end
+      end
+    end
+  end
 end
