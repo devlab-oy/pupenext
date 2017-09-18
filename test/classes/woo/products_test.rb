@@ -139,4 +139,18 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
     assert_in_delta Keyword::WooCheckpoint.last_run_at(:update), Time.current, 10
   end
+
+  test 'different timestamps in checkpoint work independently' do
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, 'id' => 1 do
+        assert_difference 'Keyword::WooCheckpoint.count' do
+          travel(-1.day) { @woocommerce.create }
+          @woocommerce.update
+        end
+      end
+    end
+
+    refute_in_delta Keyword::WooCheckpoint.last_run_at(:create), Time.current, 10
+    assert_in_delta Keyword::WooCheckpoint.last_run_at(:update), Time.current, 10
+  end
 end
