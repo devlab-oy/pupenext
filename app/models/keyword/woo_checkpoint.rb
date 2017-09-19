@@ -12,6 +12,8 @@ class Keyword::WooCheckpoint < Keyword
   end
 
   def self.last_run_at(run_type)
-    Time.zone.parse(JSON.parse(last.selite, symbolize_names: true)[run_type.to_sym])
+    checkpoint = last
+    return unless checkpoint
+    Time.zone.parse(JSON.parse(checkpoint.selite, symbolize_names: true)[run_type.to_sym])
   end
 end

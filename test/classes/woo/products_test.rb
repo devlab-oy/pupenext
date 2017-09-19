@@ -153,4 +153,44 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     refute_in_delta Keyword::WooCheckpoint.last_run_at(:create), Time.current, 10
     assert_in_delta Keyword::WooCheckpoint.last_run_at(:update), Time.current, 10
   end
+
+  test 'all products are created if no create timestamp in checkpoint' do
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, block do
+        @woocommerce.create
+      end
+    end
+
+    assert_equal 1, counter
+  end
+
+  test 'only new products are created when create timestamp is found' do
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, 'id' => 1 do
+        @woocommerce.create
+      end
+    end
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, block do
+        @woocommerce.create
+      end
+    end
+
+    assert_equal 0, counter
+  end
 end

@@ -4,9 +4,11 @@ class Woo::Products < Woo::Base
 
   # Create products to woocommerce
   def create
+    timestamp = Keyword::WooCheckpoint.last_run_at(:create)
+
     created_count = 0
 
-    products.each do |product|
+    products(timestamp).each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -44,10 +46,12 @@ class Woo::Products < Woo::Base
 
   private
 
-    def products
+    def products(timestamp = nil)
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä
-      Product.where(status: %w(A P)).where(hinnastoon: 'W')
+      products = Product.where(status: %w(A P)).where(hinnastoon: 'W')
+      timestamp && products = products.where('luontiaika >= ?', timestamp)
+      products
     end
 
     def product_hash(product)
