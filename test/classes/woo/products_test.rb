@@ -193,4 +193,27 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
     assert_equal 0, counter
   end
+
+  test 'all products can be created by passign option even when timestamp is found' do
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, 'id' => 1 do
+        @woocommerce.create
+      end
+    end
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, nil do
+      @woocommerce.stub :woo_post, block do
+        @woocommerce.create(all: true)
+      end
+    end
+
+    assert_equal 1, counter
+  end
 end

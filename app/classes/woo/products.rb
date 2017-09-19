@@ -3,8 +3,8 @@ class Woo::Products < Woo::Base
   # 2. update stock of products in webstore
 
   # Create products to woocommerce
-  def create
-    timestamp = Keyword::WooCheckpoint.last_run_at(:create)
+  def create(all: false)
+    timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:create)
 
     created_count = 0
 
