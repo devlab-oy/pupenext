@@ -119,7 +119,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     assert_in_delta Keyword::WooCheckpoint.last_run_at(:create), Time.current, 10
   end
 
-  test 'checkpoint is updated after if already present when creating products' do
+  test 'checkpoint is updated if already present when creating products' do
     @woocommerce.stub :get_sku, nil do
       @woocommerce.stub :woo_post, 'id' => 1 do
         assert_difference 'Keyword::WooCheckpoint.count' do
