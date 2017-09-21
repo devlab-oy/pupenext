@@ -8,7 +8,7 @@ class Woo::Products < Woo::Base
 
     created_count = 0
 
-    products(timestamp).each do |product|
+    products_to_create(timestamp).each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -24,10 +24,12 @@ class Woo::Products < Woo::Base
   end
 
   # Update product stock quantity
-  def update
+  def update(all: false)
+    timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:update)
+
     updated_count = 0
 
-    products.each do |product|
+    products_to_update(timestamp).each do |product|
       woo_product = get_sku(product.tuoteno)
 
       unless woo_product
@@ -46,12 +48,24 @@ class Woo::Products < Woo::Base
 
   private
 
-    def products(timestamp = nil)
+    def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä
-      products = Product.where(status: %w(A P)).where(hinnastoon: 'W')
-      timestamp && products = products.where('luontiaika >= ?', timestamp)
-      products
+      Product.where(status: %w(A P)).where(hinnastoon: 'W')
+    end
+
+    def products_to_create(timestamp)
+      return products unless timestamp
+
+      products.where('luontiaika >= ?', timestamp)
+    end
+
+    def products_to_update(timestamp)
+      return products unless timestamp
+
+      products.select do |product|
+        product.rows.where('laadittu >= ?', timestamp).any?
+      end
     end
 
     def product_hash(product)

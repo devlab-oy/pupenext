@@ -4,6 +4,7 @@ require 'test_helper'
 class Woo::ProductsTest < ActiveSupport::TestCase
   fixtures %w(
     products
+    sales_order/rows
   )
 
   setup do
@@ -16,6 +17,8 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
     Product.update_all(hinnastoon: '')
     products(:ski).update(hinnastoon: 'w')
+
+    Keyword::WooCheckpoint.delete_all
   end
 
   test 'should initialize' do
@@ -178,6 +181,8 @@ class Woo::ProductsTest < ActiveSupport::TestCase
       end
     end
 
+    products(:ski).update!(luontiaika: 10.seconds.ago)
+
     counter = 0
 
     block = proc do
@@ -194,7 +199,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     assert_equal 0, counter
   end
 
-  test 'all products can be created by passign option even when timestamp is found' do
+  test 'all products can be created by passing option even when timestamp is found' do
     @woocommerce.stub :get_sku, nil do
       @woocommerce.stub :woo_post, 'id' => 1 do
         @woocommerce.create
@@ -211,6 +216,86 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     @woocommerce.stub :get_sku, nil do
       @woocommerce.stub :woo_post, block do
         @woocommerce.create(all: true)
+      end
+    end
+
+    assert_equal 1, counter
+  end
+
+  test 'all products are updated if no update timestamp in checkpoint' do
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update
+      end
+    end
+
+    assert_equal 1, counter
+  end
+
+  test 'only products with new rows are updated when update timestamp is found' do
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, 'id' => 1 do
+        @woocommerce.update
+      end
+    end
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update
+      end
+    end
+
+    assert_equal 0, counter
+
+    products(:ski).sales_order_rows.create!(laadittu: Time.current)
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update
+      end
+    end
+
+    assert_equal 1, counter
+  end
+
+  test 'all products can be updated by passing option even when timestamp is found' do
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, 'id' => 1 do
+        @woocommerce.update
+      end
+    end
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update(all: true)
       end
     end
 
