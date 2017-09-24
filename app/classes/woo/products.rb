@@ -4,11 +4,9 @@ class Woo::Products < Woo::Base
 
   # Create products to woocommerce
   def create(all: false)
-    timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:create)
-
     created_count = 0
 
-    products_to_create(timestamp).each do |product|
+    products_to_create(all: all).each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -25,11 +23,9 @@ class Woo::Products < Woo::Base
 
   # Update product stock quantity
   def update(all: false)
-    timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:update)
-
     updated_count = 0
 
-    products_to_update(timestamp).each do |product|
+    products_to_update(all: all).each do |product|
       woo_product = get_sku(product.tuoteno)
 
       unless woo_product
@@ -54,13 +50,17 @@ class Woo::Products < Woo::Base
       Product.where(status: %w(A P)).where(hinnastoon: 'W')
     end
 
-    def products_to_create(timestamp)
+    def products_to_create(all: false)
+      timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:create)
+
       return products unless timestamp
 
       products.where('luontiaika >= ?', timestamp)
     end
 
-    def products_to_update(timestamp)
+    def products_to_update(all: false)
+      timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:update)
+
       return products unless timestamp
 
       products.select do |product|
