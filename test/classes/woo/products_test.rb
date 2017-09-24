@@ -19,6 +19,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     products(:ski).update(hinnastoon: 'w')
 
     Keyword::WooCheckpoint.delete_all
+    Product::Transaction.delete_all
   end
 
   test 'should initialize' do
@@ -132,8 +133,8 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'checkpoint is updated after updating stocks' do
-    @woocommerce.stub :get_sku, nil do
-      @woocommerce.stub :woo_post, 'id' => 1 do
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, 'id' => 1 do
         assert_difference 'Keyword::WooCheckpoint.count' do
           2.times { @woocommerce.update }
         end
@@ -175,13 +176,9 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'only new products are created when create timestamp is found' do
-    @woocommerce.stub :get_sku, nil do
-      @woocommerce.stub :woo_post, 'id' => 1 do
-        @woocommerce.create
-      end
-    end
+    products(:ski).update!(luontiaika: 1.second.ago)
 
-    products(:ski).update!(luontiaika: 10.seconds.ago)
+    Keyword::WooCheckpoint.update_timestamp(:create)
 
     counter = 0
 
@@ -200,11 +197,9 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'all products can be created by passing option even when timestamp is found' do
-    @woocommerce.stub :get_sku, nil do
-      @woocommerce.stub :woo_post, 'id' => 1 do
-        @woocommerce.create
-      end
-    end
+    products(:ski).update!(luontiaika: 1.second.ago)
+
+    Keyword::WooCheckpoint.update_timestamp(:create)
 
     counter = 0
 
@@ -240,11 +235,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'only products with new rows are updated when update timestamp is found' do
-    @woocommerce.stub :get_sku, {} do
-      @woocommerce.stub :woo_put, 'id' => 1 do
-        @woocommerce.update
-      end
-    end
+    Keyword::WooCheckpoint.update_timestamp(:update)
 
     counter = 0
 
@@ -260,10 +251,12 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     end
 
     assert_equal 0, counter
+  end
 
-    products(:ski).sales_order_rows.create!(laadittu: Time.current)
+  test 'products with new rows are updated when timestamp is found' do
+    Keyword::WooCheckpoint.update_timestamp(:update)
 
-    sleep 1
+    products(:ski).sales_order_rows.create!(laadittu: 1.second.from_now)
 
     counter = 0
 
@@ -279,25 +272,12 @@ class Woo::ProductsTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, counter
+  end
 
-    counter = 0
+  test 'products with new transactions are updated when timestamp is found' do
+    Keyword::WooCheckpoint.update_timestamp(:update)
 
-    block = proc do
-      counter += 1
-      { 'id' => 1 }
-    end
-
-    @woocommerce.stub :get_sku, {} do
-      @woocommerce.stub :woo_put, block do
-        @woocommerce.update
-      end
-    end
-
-    assert_equal 0, counter
-
-    products(:ski).transactions.create!(laadittu: Time.current)
-
-    sleep 1
+    products(:ski).transactions.create!(laadittu: 1.second.from_now)
 
     counter = 0
 
@@ -316,11 +296,7 @@ class Woo::ProductsTest < ActiveSupport::TestCase
   end
 
   test 'all products can be updated by passing option even when timestamp is found' do
-    @woocommerce.stub :get_sku, {} do
-      @woocommerce.stub :woo_put, 'id' => 1 do
-        @woocommerce.update
-      end
-    end
+    Keyword::WooCheckpoint.update_timestamp(:update)
 
     counter = 0
 
