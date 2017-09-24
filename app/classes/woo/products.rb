@@ -64,7 +64,8 @@ class Woo::Products < Woo::Base
       return products unless timestamp
 
       products.select do |product|
-        product.rows.where('laadittu >= ?', timestamp).any?
+        product.rows.where('laadittu >= ?', timestamp).any? ||
+          product.transactions.where('laadittu >= ?', timestamp).any?
       end
     end
 

@@ -263,6 +263,42 @@ class Woo::ProductsTest < ActiveSupport::TestCase
 
     products(:ski).sales_order_rows.create!(laadittu: Time.current)
 
+    sleep 1
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update
+      end
+    end
+
+    assert_equal 1, counter
+
+    counter = 0
+
+    block = proc do
+      counter += 1
+      { 'id' => 1 }
+    end
+
+    @woocommerce.stub :get_sku, {} do
+      @woocommerce.stub :woo_put, block do
+        @woocommerce.update
+      end
+    end
+
+    assert_equal 0, counter
+
+    products(:ski).transactions.create!(laadittu: Time.current)
+
+    sleep 1
+
     counter = 0
 
     block = proc do
