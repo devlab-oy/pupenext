@@ -2,7 +2,7 @@ require 'csv'
 
 class StockListingConfigurableCsv < StockListingCsv
   def to_file
-    filename = "#{Dir.tmpdir}/stocklisting_new.csv"
+    filename = "#{Dir.tmpdir}/Varastosaldot FIN CSV #{Time.zone.today.strftime('%d.%m.%Y')}.csv"
 
     CSV.open(filename, 'wb', @options) do |csv|
       data.map { |row| csv << row }
