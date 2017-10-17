@@ -47,7 +47,7 @@ class FtpSendJob < ActiveJob::Base
     end
 
     def convert_encoding
-      return unless @transport.encoding
+      return unless @transport.encoding.to_s.length > 0
 
       FileEncodingConverter.new(filename: @file, encoding: @transport.encoding).convert
     end
