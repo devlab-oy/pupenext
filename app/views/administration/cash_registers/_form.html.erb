@@ -16,6 +16,7 @@
     <%= f.input :kateisotto, collection: tili_options, include_blank: t('administration.cash_registers.edit.no_select') %>
     <%= f.input :kustp, collection: kustp_options, include_blank: t('administration.cash_registers.edit.no_select') %>
     <%= f.input :toimipaikka, collection: toimipaikka_options, include_blank: t('administration.cash_registers.edit.no_select') %>
+    <%= f.input :email %>
 
     <%= render 'administration/resource_timestamps_and_users', resource: @cash_register %>
 
