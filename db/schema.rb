@@ -3179,6 +3179,12 @@ ActiveRecord::Schema.define(version: 20171106111713) do
     t.string   "hyvaksy",                   limit: 55,                             default: "",  null: false
   end
 
+  create_table "uutinen_asiakassegmentti", primary_key: "tunnus", force: :cascade do |t|
+    t.string  "yhtio",           limit: 5, default: "", null: false
+    t.integer "uutistunnus",     limit: 4, default: 0,  null: false
+    t.integer "segmenttitunnus", limit: 4, default: 0,  null: false
+  end
+
   create_table "vaihtoehtoiset_verkkolaskutunnukset", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",        limit: 5,  default: "", null: false
     t.integer  "toimi_tunnus", limit: 4,  default: 0,  null: false
