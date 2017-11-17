@@ -618,7 +618,7 @@ fi:
         button_search: Etsi
         header: Kirjoittimet
       mediatyyppi_options:
-        media_a4: A5
+        media_a4: A4
         media_a5: A5
         media_default: Ei valintaa
         media_receipt: kuittitulostin
