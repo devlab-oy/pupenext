@@ -22,6 +22,6 @@ class SalesPriceTrigger < ActiveRecord::Migration
   end
 
   def down
-    drop_trigger :changelog_tuote_myyntihinta;
+    execute "drop trigger changelog_tuote_myyntihinta"
   end
 end
