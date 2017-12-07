@@ -8,7 +8,7 @@ class SalesPriceTrigger < ActiveRecord::Migration
         then
           INSERT INTO changelog SET
           `yhtio` = NEW.yhtio,
-          `table` = NEW.tuoteno,
+          `table` = 'tuote',
           `key` = NEW.tunnus,
           `field` = 'myyntihinta',
           `value_str` = NEW.myyntihinta,
