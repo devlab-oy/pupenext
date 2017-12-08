@@ -527,15 +527,17 @@ ActiveRecord::Schema.define(version: 20171207134820) do
   add_index "campaigns", ["company_id"], name: "index_campaigns_on_company_id", using: :btree
 
   create_table "changelog", force: :cascade do |t|
-    t.string   "yhtio",      limit: 5,   default: "", null: false
-    t.string   "table",      limit: 150, default: "", null: false
-    t.integer  "key",        limit: 4,   default: 0,  null: false
-    t.string   "field",      limit: 150, default: "", null: false
-    t.string   "value_str",  limit: 255, default: "", null: false
-    t.string   "laatija",    limit: 50,  default: "", null: false
-    t.datetime "luontiaika",                          null: false
+    t.string   "yhtio",         limit: 5,   default: "", null: false
+    t.string   "table",         limit: 150, default: "", null: false
+    t.integer  "key",           limit: 4,   default: 0,  null: false
+    t.string   "field",         limit: 150, default: "", null: false
+    t.string   "old_value_str", limit: 255, default: "", null: false
+    t.string   "new_value_str", limit: 255, default: "", null: false
+    t.string   "laatija",       limit: 50,  default: "", null: false
+    t.datetime "luontiaika",                             null: false
   end
 
+  add_index "changelog", ["yhtio", "table", "field", "luontiaika"], name: "yhtio_table_field_luontiaika", unique: true, using: :btree
   add_index "changelog", ["yhtio", "table", "key", "field", "luontiaika"], name: "yhtio_table_key_field_luontiaika", unique: true, using: :btree
 
   create_table "customers_users", id: false, force: :cascade do |t|

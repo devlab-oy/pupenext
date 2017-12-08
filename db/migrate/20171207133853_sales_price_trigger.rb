@@ -11,7 +11,8 @@ class SalesPriceTrigger < ActiveRecord::Migration
           `table` = 'tuote',
           `key` = NEW.tunnus,
           `field` = 'myyntihinta',
-          `value_str` = NEW.myyntihinta,
+          `old_value_str` = OLD.myyntihinta,
+          `new_value_str` = NEW.myyntihinta,
           `laatija` = NEW.muuttaja,
           `luontiaika` = now();
         end if;
