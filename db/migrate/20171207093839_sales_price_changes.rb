@@ -11,8 +11,8 @@ class SalesPriceChanges < ActiveRecord::Migration
       t.datetime :luontiaika, null: false, default: 0
     end
 
-    add_index :changelog, [:yhtio, :table, :key, :field, :luontiaika], name: "yhtio_table_key_field_luontiaika", unique: true
-    add_index :changelog, [:yhtio, :table, :field, :luontiaika], name: "yhtio_table_field_luontiaika", unique: true
+    add_index :changelog, [:yhtio, :table, :key, :field, :luontiaika], name: "yhtio_table_key_field_luontiaika", unique: false
+    add_index :changelog, [:yhtio, :table, :field, :luontiaika], name: "yhtio_table_field_luontiaika", unique: false
 
   end
 

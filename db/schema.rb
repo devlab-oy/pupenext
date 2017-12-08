@@ -537,8 +537,8 @@ ActiveRecord::Schema.define(version: 20171207134820) do
     t.datetime "luontiaika",                             null: false
   end
 
-  add_index "changelog", ["yhtio", "table", "field", "luontiaika"], name: "yhtio_table_field_luontiaika", unique: true, using: :btree
-  add_index "changelog", ["yhtio", "table", "key", "field", "luontiaika"], name: "yhtio_table_key_field_luontiaika", unique: true, using: :btree
+  add_index "changelog", ["yhtio", "table", "field", "luontiaika"], name: "yhtio_table_field_luontiaika", using: :btree
+  add_index "changelog", ["yhtio", "table", "key", "field", "luontiaika"], name: "yhtio_table_key_field_luontiaika", using: :btree
 
   create_table "customers_users", id: false, force: :cascade do |t|
     t.integer "user_id",     limit: 4, null: false
