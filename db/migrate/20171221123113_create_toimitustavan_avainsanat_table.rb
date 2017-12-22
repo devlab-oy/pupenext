@@ -30,7 +30,7 @@ class CreateToimitustavanAvainsanatTable < ActiveRecord::Migration
   end
 
   def down
-    drop_table :changelog
+    drop_table :toimitustavan_avainsanat
 
     PermissionHelper.remove_all(
       uri: 'yllapito.php',
