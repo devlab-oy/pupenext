@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207134820) do
+ActiveRecord::Schema.define(version: 20171221123113) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2790,6 +2790,22 @@ ActiveRecord::Schema.define(version: 20171207134820) do
 
   add_index "toimitustapa", ["yhtio", "selite"], name: "selite_index", using: :btree
   add_index "toimitustapa", ["yhtio", "selite"], name: "yhtio_selite", unique: true, using: :btree
+
+  create_table "toimitustavan_avainsanat", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",        limit: 5,   default: "",  null: false
+    t.integer  "liitostunnus", limit: 4,   default: 0,   null: false
+    t.string   "kieli",        limit: 2,   default: "0", null: false
+    t.string   "laji",         limit: 150, default: "",  null: false
+    t.text     "selite",       limit: 255
+    t.text     "selitetark",   limit: 255
+    t.string   "laatija",      limit: 50,  default: "",  null: false
+    t.datetime "luontiaika",                             null: false
+    t.string   "muuttaja",     limit: 50,  default: "",  null: false
+    t.datetime "muutospvm",                              null: false
+  end
+
+  add_index "toimitustavan_avainsanat", ["yhtio", "kieli", "laji", "liitostunnus"], name: "yhtio__kieli_laji_liitostunnus", using: :btree
+  add_index "toimitustavan_avainsanat", ["yhtio", "liitostunnus", "kieli", "laji"], name: "yhtio_liitostunnus_kieli_laji", using: :btree
 
   create_table "toimitustavan_lahdot", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",                limit: 5,   default: "",                    null: false
