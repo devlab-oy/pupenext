@@ -1,7 +1,6 @@
 class NewVatTypes < ActiveRecord::Migration
   def up
     Company.find_each do |company|
-      sql = ""
       execute "INSERT INTO `taso` (`yhtio`, `tyyppi`, `taso`, `nimi`) VALUES ('#{company.yhtio}', 'A', 'fi304', 'Vero tavaroiden maahantuonnista EU:n ulkop.');"
       execute "INSERT INTO `taso` (`yhtio`, `tyyppi`, `taso`, `nimi`) VALUES ('#{company.yhtio}', 'A', 'fi310', 'Tavaroiden maahantuonnit EU:n ulkop.');"
     end
