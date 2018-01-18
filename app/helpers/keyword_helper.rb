@@ -3,7 +3,7 @@ module KeywordHelper
     vat = Keyword::Vat.all.map do |k|
       [
         number_to_percentage(k.selite, strip_insignificant_zeros: true),
-        k.selite
+        k.selite.to_f.to_s
       ]
     end
 
