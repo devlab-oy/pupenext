@@ -30,7 +30,7 @@ gem 'whenever', require: false
 gem 'will_paginate'
 gem 'prawn'
 gem 'prawn-rails'
-
+gem 'mail', '~> 2.6.0'
 gem 'woocommerce_api'
 
 group :assets do
