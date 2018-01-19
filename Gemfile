@@ -31,6 +31,7 @@ gem 'will_paginate'
 gem 'prawn'
 gem 'prawn-rails'
 gem 'mail', '~> 2.6.0'
+gem 'rubyzip', '~> 1.2.1'
 gem 'woocommerce_api'
 
 group :assets do
