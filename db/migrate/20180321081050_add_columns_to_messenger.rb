@@ -1,6 +1,6 @@
 class AddColumnsToMessenger < ActiveRecord::Migration
   def up
-    add_column :messenger, :ryhma, :char, default: '', null: false, after: :vastaanottaja
+    add_column :messenger, :ryhma, :string, limit: 50, default: '', null: false, after: :vastaanottaja
   end
 
   def down
