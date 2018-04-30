@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425110757) do
+ActiveRecord::Schema.define(version: 20180430061234) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -772,6 +772,19 @@ ActiveRecord::Schema.define(version: 20180425110757) do
 
   add_index "hinnasto", ["yhtio", "tuoteno"], name: "yhtio_tuoteno", using: :btree
   add_index "hinnasto", ["yhtion_toimipaikka_id"], name: "index_hinnasto_on_yhtion_toimipaikka_id", using: :btree
+
+  create_table "hyvaksyttavat_dokumentit", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",      limit: 5,   default: "",  null: false
+    t.string   "nimi",       limit: 150, default: "",  null: false
+    t.text     "selite",     limit: 255
+    t.string   "tila",       limit: 2,   default: "0", null: false
+    t.string   "laatija",    limit: 50,  default: "",  null: false
+    t.datetime "luontiaika",                           null: false
+    t.string   "muuttaja",   limit: 50,  default: "",  null: false
+    t.datetime "muutospvm",                            null: false
+  end
+
+  add_index "hyvaksyttavat_dokumentit", ["yhtio", "tila"], name: "yhtio_tila", using: :btree
 
   create_table "hyvityssaannot", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
