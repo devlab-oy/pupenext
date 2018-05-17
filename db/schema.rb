@@ -774,14 +774,27 @@ ActiveRecord::Schema.define(version: 20180430061234) do
   add_index "hinnasto", ["yhtion_toimipaikka_id"], name: "index_hinnasto_on_yhtion_toimipaikka_id", using: :btree
 
   create_table "hyvaksyttavat_dokumentit", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",      limit: 5,   default: "",  null: false
-    t.string   "nimi",       limit: 150, default: "",  null: false
-    t.text     "selite",     limit: 255
-    t.string   "tila",       limit: 2,   default: "0", null: false
-    t.string   "laatija",    limit: 50,  default: "",  null: false
-    t.datetime "luontiaika",                           null: false
-    t.string   "muuttaja",   limit: 50,  default: "",  null: false
-    t.datetime "muutospvm",                            null: false
+    t.string   "yhtio",             limit: 5,   default: "",  null: false
+    t.string   "nimi",              limit: 150, default: "",  null: false
+    t.text     "kuvaus",            limit: 255
+    t.text     "kommentit",         limit: 255
+    t.string   "tila",              limit: 2,   default: "0", null: false
+    t.string   "hyvak1",            limit: 50,  default: "",  null: false
+    t.datetime "h1time",                                      null: false
+    t.string   "hyvak2",            limit: 50,  default: "",  null: false
+    t.datetime "h2time",                                      null: false
+    t.string   "hyvak3",            limit: 50,  default: "",  null: false
+    t.datetime "h3time",                                      null: false
+    t.string   "hyvak4",            limit: 50,  default: "",  null: false
+    t.datetime "h4time",                                      null: false
+    t.string   "hyvak5",            limit: 50,  default: "",  null: false
+    t.datetime "h5time",                                      null: false
+    t.string   "hyvaksyja_nyt",     limit: 50,  default: "",  null: false
+    t.string   "hyvaksynnanmuutos", limit: 1,   default: "",  null: false
+    t.string   "laatija",           limit: 50,  default: "",  null: false
+    t.datetime "luontiaika",                                  null: false
+    t.string   "muuttaja",          limit: 50,  default: "",  null: false
+    t.datetime "muutospvm",                                   null: false
   end
 
   add_index "hyvaksyttavat_dokumentit", ["yhtio", "tila"], name: "yhtio_tila", using: :btree

@@ -49,13 +49,23 @@ module PermissionHelper
     end
   end
 
-  def remove_all(uri:, suburi: '')
+  def remove_all(uri:, suburi: '', program: '')
     Company.find_each do |company|
       Current.company = company.yhtio
 
-      Permission.where(nimi: uri, alanimi: suburi).delete_all
-      Menu.where(nimi: uri, alanimi: suburi).delete_all
-      UserProfile.where(nimi: uri, alanimi: suburi).delete_all
+      perm = Permission.where(nimi: uri, alanimi: suburi)
+      menu = Menu.where(nimi: uri, alanimi: suburi)
+      prof = UserProfile.where(nimi: uri, alanimi: suburi)
+
+      if program.present?
+        perm.where(sevellus: program)
+        menu.where(sevellus: program)
+        prof.where(sevellus: program)
+      end
+
+      perm.delete_all
+      menu.delete_all
+      prof.delete_all
     end
   end
 end
