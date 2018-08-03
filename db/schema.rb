@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614120335) do
+ActiveRecord::Schema.define(version: 20180801131537) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -3644,6 +3644,7 @@ ActiveRecord::Schema.define(version: 20180614120335) do
     t.string   "changelog_email",                                  limit: 100,                            default: "",    null: false
     t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                            default: "",    null: false
     t.string   "ostotilaus_email",                                 limit: 100,                            default: "",    null: false
+    t.string   "hyvaksyttavat_extranet_email",                     limit: 255,                            default: "",    null: false
     t.string   "alert_varasto_kayttajat",                          limit: 100,                            default: "",    null: false
     t.string   "verkkolasku_lah",                                  limit: 10,                             default: "",    null: false
     t.string   "finvoice_versio",                                  limit: 1,                              default: "",    null: false
