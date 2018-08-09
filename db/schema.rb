@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731120309) do
+ActiveRecord::Schema.define(version: 20180802065347) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -778,6 +778,7 @@ ActiveRecord::Schema.define(version: 20180731120309) do
     t.string   "nimi",              limit: 150, default: "",  null: false
     t.text     "kuvaus",            limit: 255
     t.text     "kommentit",         limit: 255
+    t.string   "tiedostotyyppi",    limit: 150, default: "",  null: false
     t.string   "tila",              limit: 2,   default: "0", null: false
     t.string   "hyvak1",            limit: 50,  default: "",  null: false
     t.datetime "h1time",                                      null: false
@@ -798,6 +799,25 @@ ActiveRecord::Schema.define(version: 20180731120309) do
   end
 
   add_index "hyvaksyttavat_dokumentit", ["yhtio", "tila"], name: "yhtio_tila", using: :btree
+
+  create_table "hyvaksyttavat_dokumenttityypit", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",      limit: 5,   default: "", null: false
+    t.string   "tyyppi",     limit: 150, default: "", null: false
+    t.string   "laatija",    limit: 50,  default: "", null: false
+    t.datetime "luontiaika",                          null: false
+    t.string   "muuttaja",   limit: 50,  default: "", null: false
+    t.datetime "muutospvm",                           null: false
+  end
+
+  create_table "hyvaksyttavat_dokumenttityypit_kayttajat", primary_key: "tunnus", force: :cascade do |t|
+    t.string   "yhtio",              limit: 5,  default: "", null: false
+    t.integer  "doku_tyyppi_tunnus", limit: 4,  default: 0,  null: false
+    t.string   "kuka",               limit: 50, default: "", null: false
+    t.string   "laatija",            limit: 50, default: "", null: false
+    t.datetime "luontiaika",                                 null: false
+    t.string   "muuttaja",           limit: 50, default: "", null: false
+    t.datetime "muutospvm",                                  null: false
+  end
 
   create_table "hyvityssaannot", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",             limit: 5,                           default: "",  null: false
@@ -3644,6 +3664,7 @@ ActiveRecord::Schema.define(version: 20180731120309) do
     t.string   "changelog_email",                                  limit: 100,                            default: "",    null: false
     t.string   "hyvaksyttavia_tilauksia_email",                    limit: 100,                            default: "",    null: false
     t.string   "ostotilaus_email",                                 limit: 100,                            default: "",    null: false
+    t.string   "hyvaksyttavat_extranet_email",                     limit: 255,                            default: "",    null: false
     t.string   "alert_varasto_kayttajat",                          limit: 100,                            default: "",    null: false
     t.string   "verkkolasku_lah",                                  limit: 10,                             default: "",    null: false
     t.string   "finvoice_versio",                                  limit: 1,                              default: "",    null: false
