@@ -3874,6 +3874,7 @@ ActiveRecord::Schema.define(version: 20180802065347) do
     t.string   "vienti_erittelyn_tulostus",                        limit: 1,                              default: "",    null: false
     t.string   "vientierittelyn_painot",                           limit: 1,                              default: "",    null: false
     t.string   "vientikiellon_ohitus",                             limit: 1,                              default: "",    null: false
+    t.string   "vientitietojen_autosyotto",                        limit: 1,                              default: "",    null: false
     t.integer  "oletus_lahetekpl",                                 limit: 4,                              default: 0,     null: false
     t.integer  "oletus_lahetekpl_siirtolista",                     limit: 4,                              default: 1,     null: false
     t.integer  "oletus_laskukpl_toimitatilaus",                    limit: 4,                              default: 1,     null: false
