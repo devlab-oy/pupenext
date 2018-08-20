@@ -409,7 +409,7 @@ class HuutokauppaMail
     def customer_info
       @customer_info ||= begin
         regex = %r{
-          Ostajan\syhteystiedot:\s*
+          Huutajan\syhteystiedot:\s*
           (Yritys:\s*
           (?<company_name>.*$)\s*
           (?<company_id>.*$)\s*)?
