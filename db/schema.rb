@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181012110447) do
+ActiveRecord::Schema.define(version: 20181015064622) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2998,7 +2998,7 @@ ActiveRecord::Schema.define(version: 20181012110447) do
     t.decimal  "varmuus_varasto",                             precision: 12, scale: 2, default: 0.0, null: false
     t.decimal  "tilausmaara",                                 precision: 12, scale: 2, default: 0.0, null: false
     t.string   "ostoehdotus",                   limit: 1,                              default: "",  null: false
-    t.string   "tahtituote",                    limit: 10,                             default: "",  null: false
+    t.string   "tahtituote",                    limit: 15,                             default: "",  null: false
     t.decimal  "tarrakerroin",                                precision: 5,  scale: 2, default: 0.0, null: false
     t.decimal  "tarrakpl",                                    precision: 4,            default: 0,   null: false
     t.decimal  "myynti_era",                                  precision: 12, scale: 2, default: 0.0, null: false
