@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181015064622) do
+ActiveRecord::Schema.define(version: 20181017113828) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20181015064622) do
     t.string   "laskun_jarjestys_suunta",          limit: 4,                              default: "",  null: false
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                              default: "",  null: false
     t.string   "vienti",                           limit: 1,                              default: "",  null: false
+    t.string   "vientitietojen_autosyotto",        limit: 1,                              default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                              default: "",  null: false
     t.string   "koontilaskut_yhdistetaan",         limit: 1,                              default: "",  null: false
     t.string   "luokka",                           limit: 50,                             default: "",  null: false
