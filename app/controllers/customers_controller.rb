@@ -62,7 +62,8 @@ class CustomersController < ApplicationController
         :toimitusvahvistus,
         :laji,
         :chn,
-        :lasku_email
+        :lasku_email,
+        :tila
       )
     end
 
