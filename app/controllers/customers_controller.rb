@@ -58,7 +58,11 @@ class CustomersController < ApplicationController
         :sisviesti1,
         :tilino,
         :toimitustapa,
-        :ytunnus
+        :ytunnus,
+        :toimitusvahvistus,
+        :laji,
+        :chn,
+        :lasku_email
       )
     end
 
