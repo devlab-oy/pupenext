@@ -4000,7 +4000,7 @@ ActiveRecord::Schema.define(version: 20181105095714) do
     t.string   "ei_alennuksia_lapsituotteille",                    limit: 1,                              default: "",    null: false
     t.string   "epakurantoinnin_myyntihintaleikkuri",              limit: 1,                              default: "",    null: false
     t.string   "ennakkolaskun_tyyppi",                             limit: 1,                              default: "",    null: false
-    t.string   "asiakasvarasto",                                   limit: 1,                              default: "",    null: false
+    t.string   "asiakasvarasto",                                   limit: 5,                              default: "",    null: false
     t.string   "maksusopimus_toimitus",                            limit: 1,                              default: "",    null: false
     t.string   "ennakkolasku_myyntitilaukselta",                   limit: 1,                              default: "",    null: false
     t.string   "matkalaskun_tarkastus",                            limit: 1,                              default: "",    null: false

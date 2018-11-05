@@ -1,6 +1,6 @@
 class AsiakasvarastoCompanyParameter < ActiveRecord::Migration
   def up
-    add_column :yhtion_parametrit, :asiakasvarasto, :char, default: '', null: false, after: :Ennakkolaskun_tyyppi
+    add_column :yhtion_parametrit, :asiakasvarasto, :string, limit: 5, default: '', null: false, after: :Ennakkolaskun_tyyppi
   end
 
     def down
