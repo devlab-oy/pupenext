@@ -55,6 +55,7 @@ class CompanyCopier
 
     Rails.logger.error 'Company Copy Exception raised!'
     Rails.logger.error errors
+    Rails.logger.error  e.backtrace
 
     delete_partial_data
 
@@ -185,7 +186,7 @@ class CompanyCopier
           ytunnus: new_company.ytunnus,
           email: user_email,
           kauppatapahtuman_luonne: 0,
-          alv: Keyword::Vat.first.selite,
+          alv: "24.00",
         )
 
         # all users created to to_company are also created as extranet users to customer_companies
@@ -302,7 +303,7 @@ class CompanyCopier
     def write_css
       assets_before = compiled_assetes
 
-      run_rake_tasks
+      #run_rake_tasks
 
       return if assets_before == compiled_assetes
 
