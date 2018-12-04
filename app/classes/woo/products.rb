@@ -5,18 +5,39 @@ class Woo::Products < Woo::Base
   # Create products to woocommerce
   def create
     created_count = 0
+    variants = {}
 
     products.each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
-
         next
       end
-
-      created_count += create_product(product)
+      # check if there is parametri_variaatio
+      # make a hash of all variation products keyed by parametri_variaatio
+      if product.select{|kw| kw.laji == 'parametri_variaatio'}.present?
+        variant = product.select{|kw| kw.laji == 'parametri_variaatio'}.first
+        if not grouped_variants[variant.selite].present?
+          grouped_variants[variant.selite] = []
+        end
+        grouped_variants[variant.selite].append variant.tunnus
+      else
+        #normal product without variants
+        created_count += create_product(product)
+      end
     end
 
+    grouped_variants.each do |key,value|
+      next
+    end
+    
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
+  end
+
+  #go through any products with variants
+  def create_variants
+    grouped_variants = Product::Keyword.select("selite,tunnus").where(laji: "parametri_variaatio").group_by(&:selite)
+    #Product::Keyword.select("selite,tunnus").where(laji: "parametri_variaatio", selite: "Rib-knit Jacket").group_by(&:selite)
+
   end
 
   # Update product stock quantity
@@ -58,6 +79,7 @@ class Woo::Products < Woo::Base
         manage_stock: true,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
+        images: [],
       }
 
       from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
@@ -74,6 +96,22 @@ class Woo::Products < Woo::Base
       defaults.merge(from_keywords)
     end
 
+    def variant_hash(product)
+      defaults = {
+        name: product.nimitys,
+        slug: product.tuoteno,
+        sku: product.tuoteno,
+        type: 'variable'
+        description: product.kuvaus,
+        short_description: product.lyhytkuvaus
+        regular_price: product.myyntihinta.to_s,
+        manage_stock: true,
+        stock_quantity: product.stock_available.to_s,
+        status: 'pending',
+        images: [],
+        attributes: [],
+      }
+      
     def get_sku(sku)
       response = woo_get('products', sku: sku)
       product = response.try(:first)
