@@ -98,7 +98,7 @@ class Woo::Products < Woo::Base
       defaults.merge(from_keywords)
     end
 
-    def variant_main_hash(product)
+    def variant_main_hash(product, color_id, size_id)
       defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
@@ -111,7 +111,22 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
         #images: [product.attachments.first.tunnus],
-        attributes: []
+        attributes: [
+          {
+            id: color_id,
+            position: 0,
+            visible: false,
+            variation: true,
+            options: color_list
+          },
+          {
+            id: size_id,
+            position: 0,
+            visible: false,
+            variation: true,
+            options: size_list
+          },
+        ]
       }
       
     def get_sku(sku)
@@ -137,15 +152,18 @@ class Woo::Products < Woo::Base
       
       attribs = woocommerce.get("products/attributes").parsed_response
       attribs.each do |attrib|
-        if attrib["name"] == "Color"
+        if attrib['name'] == 'Color'
           color_id = attrib["id"]
         end
-        if attrib["name"] == "Size"
-          size_id = attrib["id"]
+        if attrib['name'] == 'Size'
+          size_id = attrib['id']
         end
       end
 
-      response = woo_post('products', variant_main_hash(product))
+      size_list = []
+      color_list = []
+
+      response = woo_post('products', variant_main_hash(product, color_id, size_id,color_list,size_list))
 
       return 0 unless response && response['id']
 
