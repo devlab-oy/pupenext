@@ -29,7 +29,7 @@ class Woo::Products < Woo::Base
     end
 
     grouped_variants.each do |key,value|
-      create_variant(key, value)
+      create_product_with_variants(key, value)
     end
   end
 
@@ -117,15 +117,33 @@ class Woo::Products < Woo::Base
             position: 0,
             visible: false,
             variation: true,
-            options: color_list
+            options: keywords.where(laji: 'parametri_vari').first
           },
           {
             id: size_id,
             position: 0,
             visible: false,
             variation: true,
-            options: size_list
+            options: keywords.where(laji: 'parametri_koko').first
           },
+        ]
+      }
+
+    def variant_hash(product, color_id,size_id)
+      data = {
+        regular_price: product.myyntihinta.to_s,
+        #image: {
+        #  id: FUUUUUUUUUUUUUUUUUUUUUUUUUU
+        #},
+        attributes: [
+          {
+            id: size_id,
+            option: keywords.where(laji: 'parametri_koko').first
+          },
+          {
+            id: color_id,
+            option: keywords.where(laji: 'parametri_koko').first
+          }
         ]
       }
       
@@ -163,11 +181,15 @@ class Woo::Products < Woo::Base
       size_list = []
       color_list = []
 
+      #creating the main product
       response = woo_post('products', variant_main_hash(product, color_id, size_id,color_list,size_list))
 
       return 0 unless response && response['id']
 
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
+
+      #createing the variants to the main product
+      response = woo_post('products', variant_hash())
 
       1
     end
