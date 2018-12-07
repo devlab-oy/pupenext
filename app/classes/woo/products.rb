@@ -111,10 +111,7 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
         #images: [product.attachments.first.tunnus],
-        attributes: [{
-          name: "Color",
-          option: "Red"
-        }]
+        attributes: []
       }
       
     def get_sku(sku)
@@ -138,8 +135,15 @@ class Woo::Products < Woo::Base
 
     def create_product_with_variants(product)
       
-      #attribs = woocommerce.get("products/attributes").parsed_response
-      #color_id = attribs
+      attribs = woocommerce.get("products/attributes").parsed_response
+      attribs.each do |attrib|
+        if attrib["name"] == "Color"
+          color_id = attrib["id"]
+        end
+        if attrib["name"] == "Size"
+          size_id = attrib["id"]
+        end
+      end
 
       response = woo_post('products', variant_main_hash(product))
 
