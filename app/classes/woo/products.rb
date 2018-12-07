@@ -5,39 +5,32 @@ class Woo::Products < Woo::Base
   # Create products to woocommerce
   def create
     created_count = 0
-    variants = {}
 
     products.each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
         next
       end
-      # check if there is parametri_variaatio
-      # make a hash of all variation products keyed by parametri_variaatio
-      if product.select{|kw| kw.laji == 'parametri_variaatio'}.present?
-        variant = product.select{|kw| kw.laji == 'parametri_variaatio'}.first
-        if not grouped_variants[variant.selite].present?
-          grouped_variants[variant.selite] = []
-        end
-        grouped_variants[variant.selite].append variant.tunnus
-      else
-        #normal product without variants
-        created_count += create_product(product)
-      end
+      created_count += create_product(product)
     end
 
-    grouped_variants.each do |key,value|
-      next
-    end
-    
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
   end
 
-  #go through any products with variants
+  #go through any products with variants and create variant sets
   def create_variants
-    grouped_variants = Product::Keyword.select("selite,tunnus").where(laji: "parametri_variaatio").group_by(&:selite)
-    #Product::Keyword.select("selite,tunnus").where(laji: "parametri_variaatio", selite: "Rib-knit Jacket").group_by(&:selite)
+    grouped_variants = {}
+    variant_products.each do |product|
+          variant_code = product.keywords.where(laji: 'parametri_variaatio').first
+          if not grouped_variants[variant_code.selite].present?
+            grouped_variants[variant_code.selite] = []
+          end
+          grouped_variants[variant_code.selite].append product
+    end
 
+    grouped_variants.each do |key,value|
+      create_variant(key, value)
+    end
   end
 
   # Update product stock quantity
@@ -63,9 +56,18 @@ class Woo::Products < Woo::Base
 
     def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
-      # verkkokauppa näkyvyys päällä
-      Product.where(status: %w(A P)).where(hinnastoon: 'W')
+      # verkkokauppa näkyvyys päällä ei variantteja
+      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
     end
+
+    def variant_products
+      # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
+      # verkkokauppa näkyvyys päällä on variantteja
+      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
+    end
+
+
+    def 
 
     def product_hash(product)
       defaults = {
@@ -79,7 +81,7 @@ class Woo::Products < Woo::Base
         manage_stock: true,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
-        images: [],
+        #images: [product.attachments.first.tunnus],
       }
 
       from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
@@ -96,7 +98,7 @@ class Woo::Products < Woo::Base
       defaults.merge(from_keywords)
     end
 
-    def variant_hash(product)
+    def variant_main_hash(product)
       defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
@@ -108,8 +110,11 @@ class Woo::Products < Woo::Base
         manage_stock: true,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
-        images: [],
-        attributes: [],
+        #images: [product.attachments.first.tunnus],
+        attributes: [{
+          name: "Color",
+          option: "Red"
+        }]
       }
       
     def get_sku(sku)
@@ -123,6 +128,20 @@ class Woo::Products < Woo::Base
 
     def create_product(product)
       response = woo_post('products', product_hash(product))
+
+      return 0 unless response && response['id']
+
+      logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
+
+      1
+    end
+
+    def create_product_with_variants(product)
+      
+      #attribs = woocommerce.get("products/attributes").parsed_response
+      #color_id = attribs
+
+      response = woo_post('products', variant_main_hash(product))
 
       return 0 unless response && response['id']
 
