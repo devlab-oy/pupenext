@@ -10,7 +10,7 @@ class Woo::Orders < Woo::Base
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: order_status)
 
-    logger.info "Order #{order['id']} json: \n\n #{response.to_s}\n\n'"
+    logger.info "json: \n\n #{response.to_s}\n\n'"
 
     return unless response
 
