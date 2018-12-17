@@ -9,6 +9,9 @@ class Woo::Orders < Woo::Base
 
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: order_status)
+
+    logger.info "Order #{order['id']} json: \n\nOrder #{response}\n\n'"
+
     return unless response
 
     response.each do |order|
