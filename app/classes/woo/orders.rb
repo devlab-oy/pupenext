@@ -23,7 +23,7 @@ class Woo::Orders < Woo::Base
       #changing the postnord_service_point_id to carrier_agent_id form metadata
       carrier_agent_id = order['meta_data'].select {|meta| meta["key"] == '_woo_carrier_agent_id'}
       unless carrier_agent_id.empty?
-        order["shipping_lines"][0]["postnord_service_point_id"] = carrier_agent_id["value"]
+        order["shipping_lines"][0]["postnord_service_point_id"] = carrier_agent_id[0]["value"]
       end
 
       # Check if order already is in Pupesoft
