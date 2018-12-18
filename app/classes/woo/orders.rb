@@ -20,6 +20,12 @@ class Woo::Orders < Woo::Base
       logger.info "Order #{order['id']} status set to 'on-hold'"
       next unless status
 
+      #changing the postnord_service_point_id to carrier_agent_id form metadata
+      carrier_agent_id = order['meta_data'].select {|meta| meta["key"] == '_woo_carrier_agent_id'}
+      unless carrier_agent_id.empty?
+        ["shipping_lines"][0]["postnord_service_point_id"] = carrier_agent_id["value"]
+      end
+
       # Check if order already is in Pupesoft
       @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
       @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
