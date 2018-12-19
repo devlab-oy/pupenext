@@ -32,7 +32,8 @@ class Woo::Products < Woo::Base
     end
   
     grouped_variants.each do |variant_set|
-      main_product = product_hash(variant_set.first) 
+      response = woo_post('products', product_hash(product)) 
+      variantpath = "products/#{response['id'].to_s}/variations/batch"
       #create the attributes
       size = get_size_id()
       colour = get_colour_id()
@@ -41,11 +42,13 @@ class Woo::Products < Woo::Base
       #create the main product
       product_id = create_product(main_product)[id]
       #create the variants
-      variants = []
+      variants_data = {create: []}
       each in variant_set do |variant|
-      variants.append(create_variant_hash(variant))
+        variants_data["create"].append(create_variant_hash(variant))
       end
-      woo_post("products/#{product_id}/variations/batch", variants)
+      variant_response = woo_post(logpath, variant_data)
+      logger.info "Response to variations #{variant_response.to_s}"
+
     end
 
   end
@@ -126,6 +129,29 @@ class Woo::Products < Woo::Base
 
       defaults.merge(from_keywords)
     end
+    
+    def create_variant_hash(product)
+
+      defaults = {
+        regular_price: "10.00", #product price
+        attributes: [
+        {
+          id: 3, #size id
+          option: "XL" #product keyword variantti_koko
+          sku: #product_sku
+        }
+      ]
+      }
+    
+    end
+
+    def get_colour_id
+      #colour id code
+    end
+
+    def get_size_id
+      #size id code
+    endhttps://www.instagram.com/
 
     def get_sku(sku)
       response = woo_get('products', sku: sku)
