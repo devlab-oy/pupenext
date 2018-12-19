@@ -5,32 +5,49 @@ class Woo::Products < Woo::Base
   # Create products to woocommerce
   def create
     created_count = 0
-
+    #creating the simple products
     products.each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
+
         next
       end
+
       created_count += create_product(product)
     end
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
-  end
 
-  #go through any products with variants and create variant sets
-  def create_variants
-    grouped_variants = {}
-    variant_products.each do |product|
-          variant_code = product.keywords.where(laji: 'parametri_variaatio').first
-          if not grouped_variants[variant_code.selite].present?
-            grouped_variants[variant_code.selite] = []
-          end
-          grouped_variants[variant_code.selite].append product
+    #creating the variable products
+    
+	  grouped_variants = {}
+    
+	  #create the batches of variant products grouped together
+	  variant_products.each do |product|
+      variant_code = product.keywords.where(laji: 'parametri_variaatio').first
+      if not grouped_variants[variant_code.selite].present?
+        grouped_variants[variant_code.selite] = []
+      end
+      grouped_variants[variant_code.selite].append product
+    end
+  
+    grouped_variants.each do |variant_set|
+      main_product = product_hash(variant_set.first) 
+      #create the attributes
+      size = get_size_id()
+      colour = get_colour_id()
+      attribs = []
+      main_product.append(attribs)
+      #create the main product
+      product_id = create_product(main_product)[id]
+      #create the variants
+      variants = []
+      each in variant_set do |variant|
+      variants.append(create_variant_hash(variant))
+      end
+      woo_post("products/#{product_id}/variations/batch", variants)
     end
 
-    grouped_variants.each do |key,value|
-      create_product_with_variants(key, value)
-    end
   end
 
   # Update product stock quantity
@@ -66,10 +83,18 @@ class Woo::Products < Woo::Base
       variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
     end
 
-
-    def 
-
     def product_hash(product)
+      #get the images of the product
+      images = []
+      product_images = product.attachments
+      #where(kayttotarkoitus: "Tuotekuva")
+      unless product_images.empty?
+      	product_images.each do |image|
+          image_hash = {src: "https://kuvamakia.devlab.fi/view.php?id="+image.tunnus.to_s}.compact.to_h
+          images.append(image_hash)
+        end
+      end
+
       defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
@@ -81,8 +106,12 @@ class Woo::Products < Woo::Base
         manage_stock: true,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
-        #images: [product.attachments.first.tunnus],
       }
+
+      unless images.empty?
+         logger.info "Images #{images}"
+         defaults.merge!({ images: images})
+      end
 
       from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
         selite = selite.to_sym
@@ -98,55 +127,6 @@ class Woo::Products < Woo::Base
       defaults.merge(from_keywords)
     end
 
-    def variant_main_hash(product, color_id, size_id)
-      defaults = {
-        name: product.nimitys,
-        slug: product.tuoteno,
-        sku: product.tuoteno,
-        type: 'variable'
-        description: product.kuvaus,
-        short_description: product.lyhytkuvaus
-        regular_price: product.myyntihinta.to_s,
-        manage_stock: true,
-        stock_quantity: product.stock_available.to_s,
-        status: 'pending',
-        #images: [product.attachments.first.tunnus],
-        attributes: [
-          {
-            id: color_id,
-            position: 0,
-            visible: false,
-            variation: true,
-            options: keywords.where(laji: 'parametri_vari').first
-          },
-          {
-            id: size_id,
-            position: 0,
-            visible: false,
-            variation: true,
-            options: keywords.where(laji: 'parametri_koko').first
-          },
-        ]
-      }
-
-    def variant_hash(product, color_id,size_id)
-      data = {
-        regular_price: product.myyntihinta.to_s,
-        #image: {
-        #  id: FUUUUUUUUUUUUUUUUUUUUUUUUUU
-        #},
-        attributes: [
-          {
-            id: size_id,
-            option: keywords.where(laji: 'parametri_koko').first
-          },
-          {
-            id: color_id,
-            option: keywords.where(laji: 'parametri_koko').first
-          }
-        ]
-      }
-      
     def get_sku(sku)
       response = woo_get('products', sku: sku)
       product = response.try(:first)
@@ -158,38 +138,9 @@ class Woo::Products < Woo::Base
 
     def create_product(product)
       response = woo_post('products', product_hash(product))
-
-      return 0 unless response && response['id']
-
+      logger.info "Response #{response.to_s}"
+      #return 0 unless response && response['id']
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
-
-      1
-    end
-
-    def create_product_with_variants(product)
-      
-      attribs = woocommerce.get("products/attributes").parsed_response
-      attribs.each do |attrib|
-        if attrib['name'] == 'Color'
-          color_id = attrib["id"]
-        end
-        if attrib['name'] == 'Size'
-          size_id = attrib['id']
-        end
-      end
-
-      size_list = []
-      color_list = []
-
-      #creating the main product
-      response = woo_post('products', variant_main_hash(product, color_id, size_id,color_list,size_list))
-
-      return 0 unless response && response['id']
-
-      logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
-
-      #createing the variants to the main product
-      response = woo_post('products', variant_hash())
 
       1
     end
