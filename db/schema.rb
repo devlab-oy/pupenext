@@ -3594,6 +3594,7 @@ ActiveRecord::Schema.define(version: 20181105095714) do
     t.string   "pyoristys",                         limit: 6,                           default: "",  null: false
     t.string   "varasto",                           limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarasto",                 limit: 6,                           default: "",  null: false
+    t.string   "ennakkolaskun_asiakasvarasto",      limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos",                    limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarastonmuutos",          limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos_valmistuksesta",     limit: 6,                           default: "",  null: false
