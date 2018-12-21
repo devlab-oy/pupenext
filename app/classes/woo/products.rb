@@ -4,7 +4,7 @@ class Woo::Products < Woo::Base
 
   # Create products to woocommerce
   def create
-    logger.info "Woof: #{def get_all_colors(variant_group_id)}"
+    
     created_count = 0
     #creating the simple products
     products.each do |product|
@@ -35,13 +35,16 @@ class Woo::Products < Woo::Base
      
       #create the main product
       response = create_product(variants.first)
+      logger.info "Response #{response}"
       variantpath = "products/#{response['id']}/variations/batch"
-    
+      logger.info "Variantpath: #{variantpath}"
       #create the variants
       variants_data = {create: []}
       variants.each do |variant|
+        logger.info "Variant: #{variant}"
         variants_data[:create].append(create_variant_hash(variant))
       end
+      logger.info"Variants: #{variants_data}"
       variant_response = woo_post(variantpath, variants_data)
       logger.info "Response to variations #{variant_response.to_s}"
     end
@@ -95,9 +98,12 @@ class Woo::Products < Woo::Base
       if product.keywords.where(laji: 'parametri_variaatio').exists?
         type = "variable"
         sku = product.keywords.where(laji: 'parametri_variaatio').first["selite"]
-        #logger.info "SKU: #{sku}"
+        logger.info "SKU: #{sku}"
         
-        get_all_colors(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
+        colors = get_all_colors(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
+        logger.info "Colors! #{colors}"
+        sizes = get_all_sizes(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
+        logger.info "Sizes! #{sizes}"
 
         #create the attributes
         attribs = [{
@@ -105,14 +111,14 @@ class Woo::Products < Woo::Base
         position: 0,
         visible: true, 
         variation: true,
-        options: []
+        options: sizes
         },
         {
-        id: get_colour_id,
+        id: get_colour_id(),
         position: 0,
         visible: true,
         variation: true,
-        options: []
+        options: colors
         }]
 
       else 
@@ -163,8 +169,12 @@ class Woo::Products < Woo::Base
         regular_price: "10.00",
         attributes: [
         {
-          id: 3,
+          id: get_size_id(),
           option: "XL"
+        },
+        {
+          id: get_colour_id(),
+          option: "Blue"
         }
         ]
       }
@@ -191,12 +201,15 @@ class Woo::Products < Woo::Base
     end
 
     def get_all_colors(variant_group_id)
-       variants = Product::Keyword.where(laji: "parametri_variaatio" and selite: variant_group_id).pluck(:tunnus)
-       Product::Keyword.where(laji: "parametri_vari").where(tunnus in variants).pluck(:selite).uniq
+       variants = Product::Keyword.where(laji: "parametri_variaatio").where(selite: variant_group_id).pluck("tuoteno")
+       #logger.info "Variants? #{variants}"
+       Product::Keyword.where(laji: "parametri_vari").where(tuoteno: variants).pluck(:selite)
     end
 
-    def get_all_sizes(product)
-       Product::Keyword.where(laji: "parametri_koko").pluck(:selite).uniq
+    def get_all_sizes(variant_group_id)
+       variants = Product::Keyword.where(laji: "parametri_variaatio").where(selite: variant_group_id).pluck("tuoteno")
+       logger.info "Variants? #{variants}"
+       Product::Keyword.where(laji: "parametri_koko").where(tuoteno: variants).pluck(:selite)
     end
 
     def get_sku(sku)
@@ -210,10 +223,7 @@ class Woo::Products < Woo::Base
 
     def create_product(product)
       response = woo_post('products', product_hash(product))
-      logger.info "Response #{response.to_s}"
-      #return 0 unless response && response['id']
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
-      #1
       return response
     end
 
