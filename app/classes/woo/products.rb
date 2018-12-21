@@ -4,6 +4,7 @@ class Woo::Products < Woo::Base
 
   # Create products to woocommerce
   def create
+    logger.info "Woof: #{def get_all_colors(variant_group_id)}"
     created_count = 0
     #creating the simple products
     products.each do |product|
@@ -13,17 +14,16 @@ class Woo::Products < Woo::Base
         next
       end
 
-      created_count += create_product(product, false)
+      created_count += create_product(product)
     end
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
 
     #creating the variable products
+    grouped_variants = {}
     
-	  grouped_variants = {}
-    
-	  #create the batches of variant products grouped together
-	  variant_products.each do |product|
+    #create the batches of variant products grouped together
+    variant_products.each do |product|
       variant_code = product.keywords.where(laji: 'parametri_variaatio').first
       if not grouped_variants[variant_code.selite].present?
         grouped_variants[variant_code.selite] = []
@@ -31,24 +31,19 @@ class Woo::Products < Woo::Base
       grouped_variants[variant_code.selite].append product
     end
   
-    grouped_variants.each do |variant_set|
-      response = woo_post('products', product_hash(product)) 
-      variantpath = "products/#{response['id'].to_s}/variations/batch"
-      #create the attributes
-      size = get_size_id()
-      colour = get_colour_id()
-      attribs = []
-      main_product.append(attribs)
+    grouped_variants.each do |code, variants|
+     
       #create the main product
-      product_id = create_product(main_product)[id]
+      response = create_product(variants.first)
+      variantpath = "products/#{response['id']}/variations/batch"
+    
       #create the variants
       variants_data = {create: []}
-      each in variant_set do |variant|
-        variants_data["create"].append(create_variant_hash(variant))
+      variants.each do |variant|
+        variants_data[:create].append(create_variant_hash(variant))
       end
-      variant_response = woo_post(logpath, variant_data)
+      variant_response = woo_post(variantpath, variants_data)
       logger.info "Response to variations #{variant_response.to_s}"
-
     end
 
   end
@@ -89,8 +84,7 @@ class Woo::Products < Woo::Base
     def product_hash(product)
       #get the images of the product
       images = []
-      product_images = product.attachments
-      #where(kayttotarkoitus: "Tuotekuva")
+      product_images = product.attachments.where(kayttotarkoitus: "TK")
       unless product_images.empty?
       	product_images.each do |image|
           image_hash = {src: "https://kuvamakia.devlab.fi/view.php?id="+image.tunnus.to_s}.compact.to_h
@@ -98,17 +92,39 @@ class Woo::Products < Woo::Base
         end
       end
       
-      if .product.keywords.where(laji: 'parametri_variaatio').exists?
-        type = variable
+      if product.keywords.where(laji: 'parametri_variaatio').exists?
+        type = "variable"
+        sku = product.keywords.where(laji: 'parametri_variaatio').first["selite"]
+        #logger.info "SKU: #{sku}"
+        
+        get_all_colors(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
+
+        #create the attributes
+        attribs = [{
+      	id: get_size_id(),
+        position: 0,
+        visible: true, 
+        variation: true,
+        options: []
+        },
+        {
+        id: get_colour_id,
+        position: 0,
+        visible: true,
+        variation: true,
+        options: []
+        }]
+
       else 
-        type = simple
+        type = "simple"
+        sku = product.tuoteno
       end 
       
       defaults = {
         name: product.nimitys,
-        slug: product.tuoteno,
-        sku: product.tuoteno,
-        type: 'simple',
+        slug: sku,
+        sku: sku,
+        type: type,
         description: product.kuvaus,
         short_description: product.lyhytkuvaus,
         regular_price: product.myyntihinta.to_s,
@@ -117,10 +133,14 @@ class Woo::Products < Woo::Base
         status: 'pending',
       }
 
-      unless images.empty?
-         logger.info "Images #{images}"
-         defaults.merge!({ images: images})
+      #unless images.empty?
+      #   defaults.merge!({ images: images})
+      #end
+
+      unless attribs.empty?
+         defaults.merge!({ attributes: attribs })
       end
+
 
       from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
         selite = selite.to_sym
@@ -139,25 +159,45 @@ class Woo::Products < Woo::Base
     def create_variant_hash(product)
 
       defaults = {
-        regular_price: "10.00", #product price
+        sku: product.tuoteno,
+        regular_price: "10.00",
         attributes: [
         {
-          id: 3, #size id
-          option: "XL" #product keyword variantti_koko
-          sku: #product_sku
+          id: 3,
+          option: "XL"
         }
-      ]
+        ]
       }
+      return defaults
     
     end
 
-    def get_colour_id
-      #colour id code
+    def get_colour_id()
+      response = woo_get("products/attributes")
+      response.each do |attrib|
+	if attrib["slug"] == "pa_color"
+          return attrib["id"]
+        end
+      end
     end
 
-    def get_size_id
-      #size id code
-    endhttps://www.instagram.com/
+    def get_size_id()
+      response = woo_get("products/attributes")
+      response.each do |attrib|
+        if attrib["slug"] == "pa_size"
+         return attrib["id"]
+        end
+      end
+    end
+
+    def get_all_colors(variant_group_id)
+       variants = Product::Keyword.where(laji: "parametri_variaatio" and selite: variant_group_id).pluck(:tunnus)
+       Product::Keyword.where(laji: "parametri_vari").where(tunnus in variants).pluck(:selite).uniq
+    end
+
+    def get_all_sizes(product)
+       Product::Keyword.where(laji: "parametri_koko").pluck(:selite).uniq
+    end
 
     def get_sku(sku)
       response = woo_get('products', sku: sku)
@@ -173,8 +213,8 @@ class Woo::Products < Woo::Base
       logger.info "Response #{response.to_s}"
       #return 0 unless response && response['id']
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
-
-      1
+      #1
+      return response
     end
 
     def update_stock(id, product)
