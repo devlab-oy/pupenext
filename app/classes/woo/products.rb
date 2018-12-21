@@ -13,7 +13,7 @@ class Woo::Products < Woo::Base
         next
       end
 
-      created_count += create_product(product)
+      created_count += create_product(product, false)
     end
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
@@ -97,7 +97,13 @@ class Woo::Products < Woo::Base
           images.append(image_hash)
         end
       end
-
+      
+      if .product.keywords.where(laji: 'parametri_variaatio').exists?
+        type = variable
+      else 
+        type = simple
+      end 
+      
       defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
