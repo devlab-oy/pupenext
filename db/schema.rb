@@ -3594,6 +3594,7 @@ ActiveRecord::Schema.define(version: 20181219145539) do
     t.string   "pyoristys",                         limit: 6,                           default: "",  null: false
     t.string   "varasto",                           limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarasto",                 limit: 6,                           default: "",  null: false
+    t.string   "ennakkolaskun_asiakasvarasto",      limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos",                    limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarastonmuutos",          limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos_valmistuksesta",     limit: 6,                           default: "",  null: false
@@ -4001,6 +4002,7 @@ ActiveRecord::Schema.define(version: 20181219145539) do
     t.string   "ei_alennuksia_lapsituotteille",                    limit: 1,                              default: "",    null: false
     t.string   "epakurantoinnin_myyntihintaleikkuri",              limit: 1,                              default: "",    null: false
     t.string   "ennakkolaskun_tyyppi",                             limit: 1,                              default: "",    null: false
+    t.string   "asiakasvarasto",                                   limit: 5,                              default: "",    null: false
     t.string   "maksusopimus_toimitus",                            limit: 1,                              default: "",    null: false
     t.string   "ennakkolasku_myyntitilaukselta",                   limit: 1,                              default: "",    null: false
     t.string   "matkalaskun_tarkastus",                            limit: 1,                              default: "",    null: false
