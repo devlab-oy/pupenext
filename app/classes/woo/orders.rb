@@ -50,8 +50,15 @@ class Woo::Orders < Woo::Base
 
     logger.info "Order #{order['id']} status set to completed"
     return unless tracking_code.present?
-
-    data = { note: tracking_code, customer_note: true }
+  
+    data = { note: tracking_code, customer_note: true,
+    meta_data: [
+      {
+        key: "_tracking_code",
+        value: tracking_code
+      }
+    ],
+    }
     status = woo_post("orders/#{order_number}/notes", data)
     return unless status
 
