@@ -2,13 +2,10 @@ class Woo::Orders < Woo::Base
   attr_accessor :edi_orders_path, :customer_id, :order_status, :order_status_after
 
   # Fetch new WooCommerce orders and set status to processing
-  def fetch(orders_path:, customer_id: nil, order_status: 'processing')
+  def fetch(orders_path:, customer_id: nil, order_status: 'processing', order_status_after: 'testi')
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
     self.order_status = order_status
-    self.order_status_after = order_status_after
-
-    
 
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: order_status)
@@ -46,7 +43,9 @@ class Woo::Orders < Woo::Base
   def complete_order(order_number, tracking_code = nil)
     # only update if order is 'on-hold'
     order = woo_get("orders/#{order_number}")
-    return unless order && order['status'] == 'on-hold'
+    logger.info "#{order}"
+    return unless order
+    return unless order['status'] == 'on-hold' || order['status'] == 'warehouse-process'
 
     status = woo_put("orders/#{order['id']}", status: 'completed')
     return unless status
