@@ -1,11 +1,14 @@
 class Woo::Orders < Woo::Base
-  attr_accessor :edi_orders_path, :customer_id, :order_status
+  attr_accessor :edi_orders_path, :customer_id, :order_status, :order_status_after
 
   # Fetch new WooCommerce orders and set status to processing
   def fetch(orders_path:, customer_id: nil, order_status: 'processing')
     self.edi_orders_path = orders_path
     self.customer_id = customer_id
     self.order_status = order_status
+    self.order_status_after = order_status_after
+
+    
 
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: order_status)
@@ -16,8 +19,8 @@ class Woo::Orders < Woo::Base
 
     response.each do |order|
       # update orders status to 'on-hold'
-      status = woo_put("orders/#{order['id']}", status: 'on-hold')
-      logger.info "Order #{order['id']} status set to 'on-hold'"
+      status = woo_put("orders/#{order['id']}", status: order_status_after)
+      logger.info "Order #{order['id']} status set to #{order_status_after}"
       next unless status
 
       #changing the postnord_service_point_id to carrier_agent_id form metadata
