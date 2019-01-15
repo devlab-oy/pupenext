@@ -48,9 +48,6 @@ class Woo::Orders < Woo::Base
     return unless order
     return unless order['status'] == 'on-hold' || order['status'] == 'warehouse-process'
 
-    status = woo_put("orders/#{order['id']}", status: 'completed')
-    return unless status
-
     logger.info "Order #{order['id']} status set to completed"
     return unless tracking_code.present?
   
@@ -63,6 +60,7 @@ class Woo::Orders < Woo::Base
     }
 
     meta_reply =  woo_put("orders/#{order['id']}", data)
+    status = woo_put("orders/#{order['id']}", status: 'completed')
     return unless status
     logger.info "Meta data #{meta_reply}"
     logger.info "Order #{order['id']} tracking code set to #{tracking_code}"
