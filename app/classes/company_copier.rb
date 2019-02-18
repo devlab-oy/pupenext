@@ -184,7 +184,7 @@ class CompanyCopier
         customer = Customer.create(
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
-          email: user_email,
+          email: new_company.email,
           kauppatapahtuman_luonne: 0,
           alv: "24.00",
         )
@@ -210,7 +210,7 @@ class CompanyCopier
           maa: new_company.maa,
           ultilno: bank_iban,
           swift: bank_bic,
-          email: user_email,
+          email: new_company.email,
         )
 
         add_error(sup) unless sup.valid?
