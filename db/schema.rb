@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181219145539) do
+ActiveRecord::Schema.define(version: 20190222135833) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1640,6 +1640,7 @@ ActiveRecord::Schema.define(version: 20181219145539) do
     t.integer  "image_bits",      limit: 4,          default: 0,  null: false
     t.integer  "image_channels",  limit: 4,          default: 0,  null: false
     t.string   "kayttotarkoitus", limit: 150,        default: "", null: false
+    t.string   "external_id",     limit: 25,         default: "", null: false
     t.integer  "jarjestys",       limit: 4,          default: 0,  null: false
     t.string   "laatija",         limit: 50,         default: "", null: false
     t.datetime "luontiaika",                                      null: false
