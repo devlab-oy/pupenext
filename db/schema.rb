@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180810063706) do
+ActiveRecord::Schema.define(version: 20181219145539) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.string   "lahetteen_jarjestys",              limit: 1,                              default: "",  null: false
     t.string   "lahetteen_jarjestys_suunta",       limit: 4,                              default: "",  null: false
     t.string   "koontilahete_kollitiedot",         limit: 1,                              default: "",  null: false
+    t.string   "asiakasviivakoodi",                limit: 1,                              default: "",  null: false
     t.integer  "laskutyyppi",                      limit: 4,                              default: 0,   null: false
     t.integer  "laskutusvkopv",                    limit: 4,                              default: 0,   null: false
     t.string   "maksusopimus_toimitus",            limit: 1,                              default: "",  null: false
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.string   "laskun_jarjestys_suunta",          limit: 4,                              default: "",  null: false
     t.string   "extranet_tilaus_varaa_saldoa",     limit: 3,                              default: "",  null: false
     t.string   "vienti",                           limit: 1,                              default: "",  null: false
+    t.string   "vientitietojen_autosyotto",        limit: 1,                              default: "",  null: false
     t.string   "ketjutus",                         limit: 1,                              default: "",  null: false
     t.string   "koontilaskut_yhdistetaan",         limit: 1,                              default: "",  null: false
     t.string   "luokka",                           limit: 50,                             default: "",  null: false
@@ -2997,7 +2999,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.decimal  "varmuus_varasto",                             precision: 12, scale: 2, default: 0.0, null: false
     t.decimal  "tilausmaara",                                 precision: 12, scale: 2, default: 0.0, null: false
     t.string   "ostoehdotus",                   limit: 1,                              default: "",  null: false
-    t.string   "tahtituote",                    limit: 10,                             default: "",  null: false
+    t.string   "tahtituote",                    limit: 15,                             default: "",  null: false
     t.decimal  "tarrakerroin",                                precision: 5,  scale: 2, default: 0.0, null: false
     t.decimal  "tarrakpl",                                    precision: 4,            default: 0,   null: false
     t.decimal  "myynti_era",                                  precision: 12, scale: 2, default: 0.0, null: false
@@ -3592,6 +3594,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.string   "pyoristys",                         limit: 6,                           default: "",  null: false
     t.string   "varasto",                           limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarasto",                 limit: 6,                           default: "",  null: false
+    t.string   "ennakkolaskun_asiakasvarasto",      limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos",                    limit: 6,                           default: "",  null: false
     t.string   "raaka_ainevarastonmuutos",          limit: 6,                           default: "",  null: false
     t.string   "varastonmuutos_valmistuksesta",     limit: 6,                           default: "",  null: false
@@ -3892,6 +3895,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.string   "myyntitilaus_tarjoukseksi",                        limit: 1,                              default: "",    null: false
     t.string   "myyntitilauksen_liitteet",                         limit: 1,                              default: "",    null: false
     t.string   "myyntitilauksen_toimipaikka",                      limit: 1,                              default: "",    null: false
+    t.string   "asiakasmyyja_tilaukselle",                         limit: 1,                              default: "",    null: false
     t.string   "varastopaikan_lippu",                              limit: 1,                              default: "",    null: false
     t.string   "varastopaikkojen_maarittely",                      limit: 1,                              default: "",    null: false
     t.string   "varastontunniste",                                 limit: 1,                              default: "",    null: false
@@ -3998,6 +4002,7 @@ ActiveRecord::Schema.define(version: 20180810063706) do
     t.string   "ei_alennuksia_lapsituotteille",                    limit: 1,                              default: "",    null: false
     t.string   "epakurantoinnin_myyntihintaleikkuri",              limit: 1,                              default: "",    null: false
     t.string   "ennakkolaskun_tyyppi",                             limit: 1,                              default: "",    null: false
+    t.string   "asiakasvarasto",                                   limit: 5,                              default: "",    null: false
     t.string   "maksusopimus_toimitus",                            limit: 1,                              default: "",    null: false
     t.string   "ennakkolasku_myyntitilaukselta",                   limit: 1,                              default: "",    null: false
     t.string   "matkalaskun_tarkastus",                            limit: 1,                              default: "",    null: false
