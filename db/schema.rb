@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190408095115) do
+ActiveRecord::Schema.define(version: 20190409060102) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2938,99 +2938,100 @@ ActiveRecord::Schema.define(version: 20190408095115) do
   add_index "tullinimike", ["cn"], name: "tullinimike_cn", using: :btree
 
   create_table "tuote", primary_key: "tunnus", force: :cascade do |t|
-    t.string   "yhtio",                         limit: 5,                              default: "",  null: false
-    t.string   "tuoteno",                       limit: 60,                             default: "",  null: false
-    t.string   "nimitys",                       limit: 100,                            default: "",  null: false
-    t.integer  "osasto",                        limit: 4,                              default: 0,   null: false
-    t.integer  "try",                           limit: 4,                              default: 0,   null: false
-    t.string   "tuotemerkki",                   limit: 30,                             default: "",  null: false
-    t.string   "malli",                         limit: 100,                            default: "",  null: false
-    t.string   "mallitarkenne",                 limit: 100,                            default: "",  null: false
-    t.text     "kuvaus",                        limit: 65535
-    t.text     "lyhytkuvaus",                   limit: 65535
-    t.text     "mainosteksti",                  limit: 65535
-    t.string   "aleryhma",                      limit: 15,                             default: "",  null: false
-    t.string   "muuta",                         limit: 250,                            default: "",  null: false
-    t.text     "tilausrivi_kommentti",          limit: 65535
-    t.text     "kerayskommentti",               limit: 65535
-    t.text     "purkukommentti",                limit: 65535
-    t.text     "ostokommentti",                 limit: 65535
-    t.decimal  "myyntihinta",                                 precision: 16, scale: 6, default: 0.0, null: false
-    t.integer  "myyntihinta_maara",             limit: 4,                              default: 0,   null: false
-    t.decimal  "kehahin",                                     precision: 16, scale: 6, default: 0.0, null: false
-    t.decimal  "vihahin",                                     precision: 16, scale: 6, default: 0.0, null: false
-    t.date     "vihapvm",                                                                            null: false
-    t.integer  "myyntikate",                    limit: 4,                              default: 0,   null: false
-    t.integer  "myymalakate",                   limit: 4,                              default: 0,   null: false
-    t.integer  "nettokate",                     limit: 4,                              default: 0,   null: false
-    t.string   "yksikko",                       limit: 10,                             default: "",  null: false
-    t.string   "ei_saldoa",                     limit: 1,                              default: "",  null: false
-    t.string   "kommentoitava",                 limit: 1,                              default: "",  null: false
-    t.string   "tuotetyyppi",                   limit: 1,                              default: "",  null: false
-    t.string   "myynninseuranta",               limit: 1,                              default: "",  null: false
-    t.string   "hinnastoon",                    limit: 1,                              default: "",  null: false
-    t.string   "sarjanumeroseuranta",           limit: 1,                              default: "",  null: false
-    t.integer  "automaattinen_sarjanumerointi", limit: 1,                              default: 0,   null: false
-    t.string   "suoratoimitus",                 limit: 1,                              default: "",  null: false
-    t.string   "status",                        limit: 10,                             default: "",  null: false
-    t.string   "yksin_kerailyalustalle",        limit: 1,                              default: "",  null: false
-    t.integer  "keraysvyohyke",                 limit: 4,                              default: 0,   null: false
-    t.string   "panttitili",                    limit: 1,                              default: "",  null: false
-    t.string   "tilino",                        limit: 6,                              default: "",  null: false
-    t.string   "tilino_eu",                     limit: 6,                              default: "",  null: false
-    t.string   "tilino_ei_eu",                  limit: 6,                              default: "",  null: false
-    t.string   "tilino_kaanteinen",             limit: 6,                              default: "",  null: false
-    t.string   "tilino_marginaali",             limit: 6,                              default: "",  null: false
-    t.string   "tilino_osto_marginaali",        limit: 6,                              default: "",  null: false
-    t.string   "tilino_triang",                 limit: 6,                              default: "",  null: false
-    t.integer  "kustp",                         limit: 4,                              default: 0,   null: false
-    t.integer  "kohde",                         limit: 4,                              default: 0,   null: false
-    t.integer  "projekti",                      limit: 4,                              default: 0,   null: false
-    t.string   "laatija",                       limit: 50,                             default: "",  null: false
-    t.datetime "luontiaika",                                                                         null: false
-    t.datetime "muutospvm",                                                                          null: false
-    t.string   "muuttaja",                      limit: 50,                             default: "",  null: false
-    t.string   "eankoodi",                      limit: 20,                             default: "",  null: false
-    t.date     "epakurantti25pvm",                                                                   null: false
-    t.date     "epakurantti50pvm",                                                                   null: false
-    t.date     "epakurantti75pvm",                                                                   null: false
-    t.date     "epakurantti100pvm",                                                                  null: false
-    t.decimal  "myymalahinta",                                precision: 16, scale: 6, default: 0.0, null: false
-    t.decimal  "nettohinta",                                  precision: 16, scale: 6, default: 0.0, null: false
-    t.decimal  "halytysraja",                                 precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "varmuus_varasto",                             precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "tilausmaara",                                 precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "ostoehdotus",                   limit: 1,                              default: "",  null: false
-    t.string   "tahtituote",                    limit: 15,                             default: "",  null: false
-    t.decimal  "tarrakerroin",                                precision: 5,  scale: 2, default: 0.0, null: false
-    t.decimal  "tarrakpl",                                    precision: 4,            default: 0,   null: false
-    t.decimal  "myynti_era",                                  precision: 12, scale: 2, default: 0.0, null: false
-    t.decimal  "minimi_era",                                  precision: 12, scale: 2, default: 0.0, null: false
-    t.string   "valmistuslinja",                limit: 150,                            default: "",  null: false
-    t.integer  "valmistusaika_sekunneissa",     limit: 4,                              default: 0,   null: false
-    t.string   "tullikohtelu",                  limit: 4,                              default: "",  null: false
-    t.string   "tullinimike1",                  limit: 8,                              default: "",  null: false
-    t.string   "tullinimike2",                  limit: 4,                              default: "",  null: false
-    t.decimal  "toinenpaljous_muunnoskerroin",                precision: 12, scale: 2, default: 0.0, null: false
-    t.text     "vienti",                        limit: 65535,                                        null: false
-    t.decimal  "tuotekorkeus",                                precision: 10, scale: 4, default: 0.0, null: false
-    t.decimal  "tuoteleveys",                                 precision: 10, scale: 4, default: 0.0, null: false
-    t.decimal  "tuotesyvyys",                                 precision: 10, scale: 4, default: 0.0, null: false
-    t.decimal  "tuotemassa",                                  precision: 12, scale: 4, default: 0.0, null: false
-    t.string   "tuotekuva",                     limit: 50,                             default: "",  null: false
-    t.string   "nakyvyys",                      limit: 100,                            default: "",  null: false
-    t.decimal  "kuluprosentti",                               precision: 8,  scale: 3, default: 0.0, null: false
-    t.string   "vakkoodi",                      limit: 100,                            default: "",  null: false
-    t.string   "vakmaara",                      limit: 50,                             default: "",  null: false
-    t.string   "leimahduspiste",                limit: 50,                             default: "",  null: false
-    t.string   "meria_saastuttava",             limit: 50,                             default: "",  null: false
-    t.integer  "vak_imdg_koodi",                limit: 4,                              default: 0,   null: false
-    t.text     "kuljetusohje",                  limit: 65535
-    t.string   "pakkausmateriaali",             limit: 50,                             default: "",  null: false
-    t.decimal  "alv",                                         precision: 5,  scale: 2, default: 0.0, null: false
-    t.integer  "myyjanro",                      limit: 4,                              default: 0,   null: false
-    t.integer  "ostajanro",                     limit: 4,                              default: 0,   null: false
-    t.integer  "tuotepaallikko",                limit: 4,                              default: 0,   null: false
+    t.string   "yhtio",                                limit: 5,                              default: "",  null: false
+    t.string   "tuoteno",                              limit: 60,                             default: "",  null: false
+    t.string   "nimitys",                              limit: 100,                            default: "",  null: false
+    t.integer  "osasto",                               limit: 4,                              default: 0,   null: false
+    t.integer  "try",                                  limit: 4,                              default: 0,   null: false
+    t.string   "tuotemerkki",                          limit: 30,                             default: "",  null: false
+    t.string   "malli",                                limit: 100,                            default: "",  null: false
+    t.string   "mallitarkenne",                        limit: 100,                            default: "",  null: false
+    t.text     "kuvaus",                               limit: 65535
+    t.text     "lyhytkuvaus",                          limit: 65535
+    t.text     "mainosteksti",                         limit: 65535
+    t.string   "aleryhma",                             limit: 15,                             default: "",  null: false
+    t.string   "muuta",                                limit: 250,                            default: "",  null: false
+    t.text     "tilausrivi_kommentti",                 limit: 65535
+    t.text     "kerayskommentti",                      limit: 65535
+    t.text     "purkukommentti",                       limit: 65535
+    t.text     "ostokommentti",                        limit: 65535
+    t.decimal  "myyntihinta",                                        precision: 16, scale: 6, default: 0.0, null: false
+    t.integer  "myyntihinta_maara",                    limit: 4,                              default: 0,   null: false
+    t.decimal  "kehahin",                                            precision: 16, scale: 6, default: 0.0, null: false
+    t.decimal  "vihahin",                                            precision: 16, scale: 6, default: 0.0, null: false
+    t.date     "vihapvm",                                                                                   null: false
+    t.integer  "myyntikate",                           limit: 4,                              default: 0,   null: false
+    t.integer  "myymalakate",                          limit: 4,                              default: 0,   null: false
+    t.integer  "nettokate",                            limit: 4,                              default: 0,   null: false
+    t.string   "yksikko",                              limit: 10,                             default: "",  null: false
+    t.string   "ei_saldoa",                            limit: 1,                              default: "",  null: false
+    t.string   "kommentoitava",                        limit: 1,                              default: "",  null: false
+    t.string   "tuotetyyppi",                          limit: 1,                              default: "",  null: false
+    t.string   "myynninseuranta",                      limit: 1,                              default: "",  null: false
+    t.string   "hinnastoon",                           limit: 1,                              default: "",  null: false
+    t.string   "sarjanumeroseuranta",                  limit: 1,                              default: "",  null: false
+    t.integer  "automaattinen_sarjanumerointi",        limit: 1,                              default: 0,   null: false
+    t.string   "pullopanttitarratulostus_kerayksessa", limit: 12,                             default: "",  null: false
+    t.string   "suoratoimitus",                        limit: 1,                              default: "",  null: false
+    t.string   "status",                               limit: 10,                             default: "",  null: false
+    t.string   "yksin_kerailyalustalle",               limit: 1,                              default: "",  null: false
+    t.integer  "keraysvyohyke",                        limit: 4,                              default: 0,   null: false
+    t.string   "panttitili",                           limit: 1,                              default: "",  null: false
+    t.string   "tilino",                               limit: 6,                              default: "",  null: false
+    t.string   "tilino_eu",                            limit: 6,                              default: "",  null: false
+    t.string   "tilino_ei_eu",                         limit: 6,                              default: "",  null: false
+    t.string   "tilino_kaanteinen",                    limit: 6,                              default: "",  null: false
+    t.string   "tilino_marginaali",                    limit: 6,                              default: "",  null: false
+    t.string   "tilino_osto_marginaali",               limit: 6,                              default: "",  null: false
+    t.string   "tilino_triang",                        limit: 6,                              default: "",  null: false
+    t.integer  "kustp",                                limit: 4,                              default: 0,   null: false
+    t.integer  "kohde",                                limit: 4,                              default: 0,   null: false
+    t.integer  "projekti",                             limit: 4,                              default: 0,   null: false
+    t.string   "laatija",                              limit: 50,                             default: "",  null: false
+    t.datetime "luontiaika",                                                                                null: false
+    t.datetime "muutospvm",                                                                                 null: false
+    t.string   "muuttaja",                             limit: 50,                             default: "",  null: false
+    t.string   "eankoodi",                             limit: 20,                             default: "",  null: false
+    t.date     "epakurantti25pvm",                                                                          null: false
+    t.date     "epakurantti50pvm",                                                                          null: false
+    t.date     "epakurantti75pvm",                                                                          null: false
+    t.date     "epakurantti100pvm",                                                                         null: false
+    t.decimal  "myymalahinta",                                       precision: 16, scale: 6, default: 0.0, null: false
+    t.decimal  "nettohinta",                                         precision: 16, scale: 6, default: 0.0, null: false
+    t.decimal  "halytysraja",                                        precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "varmuus_varasto",                                    precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "tilausmaara",                                        precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "ostoehdotus",                          limit: 1,                              default: "",  null: false
+    t.string   "tahtituote",                           limit: 15,                             default: "",  null: false
+    t.decimal  "tarrakerroin",                                       precision: 5,  scale: 2, default: 0.0, null: false
+    t.decimal  "tarrakpl",                                           precision: 4,            default: 0,   null: false
+    t.decimal  "myynti_era",                                         precision: 12, scale: 2, default: 0.0, null: false
+    t.decimal  "minimi_era",                                         precision: 12, scale: 2, default: 0.0, null: false
+    t.string   "valmistuslinja",                       limit: 150,                            default: "",  null: false
+    t.integer  "valmistusaika_sekunneissa",            limit: 4,                              default: 0,   null: false
+    t.string   "tullikohtelu",                         limit: 4,                              default: "",  null: false
+    t.string   "tullinimike1",                         limit: 8,                              default: "",  null: false
+    t.string   "tullinimike2",                         limit: 4,                              default: "",  null: false
+    t.decimal  "toinenpaljous_muunnoskerroin",                       precision: 12, scale: 2, default: 0.0, null: false
+    t.text     "vienti",                               limit: 65535,                                        null: false
+    t.decimal  "tuotekorkeus",                                       precision: 10, scale: 4, default: 0.0, null: false
+    t.decimal  "tuoteleveys",                                        precision: 10, scale: 4, default: 0.0, null: false
+    t.decimal  "tuotesyvyys",                                        precision: 10, scale: 4, default: 0.0, null: false
+    t.decimal  "tuotemassa",                                         precision: 12, scale: 4, default: 0.0, null: false
+    t.string   "tuotekuva",                            limit: 50,                             default: "",  null: false
+    t.string   "nakyvyys",                             limit: 100,                            default: "",  null: false
+    t.decimal  "kuluprosentti",                                      precision: 8,  scale: 3, default: 0.0, null: false
+    t.string   "vakkoodi",                             limit: 100,                            default: "",  null: false
+    t.string   "vakmaara",                             limit: 50,                             default: "",  null: false
+    t.string   "leimahduspiste",                       limit: 50,                             default: "",  null: false
+    t.string   "meria_saastuttava",                    limit: 50,                             default: "",  null: false
+    t.integer  "vak_imdg_koodi",                       limit: 4,                              default: 0,   null: false
+    t.text     "kuljetusohje",                         limit: 65535
+    t.string   "pakkausmateriaali",                    limit: 50,                             default: "",  null: false
+    t.decimal  "alv",                                                precision: 5,  scale: 2, default: 0.0, null: false
+    t.integer  "myyjanro",                             limit: 4,                              default: 0,   null: false
+    t.integer  "ostajanro",                            limit: 4,                              default: 0,   null: false
+    t.integer  "tuotepaallikko",                       limit: 4,                              default: 0,   null: false
   end
 
   add_index "tuote", ["nimitys"], name: "nimitys", type: :fulltext
