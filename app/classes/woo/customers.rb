@@ -132,5 +132,9 @@ class Woo::Customers < Woo::Base
 
     response.first
   end
+  
+  def customers
+    Customer.all
+  end
 
 end
