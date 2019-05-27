@@ -12,13 +12,16 @@ class Woo::Customers < Woo::Base
         #end
         wc_contacts = customer.contacts.where(rooli: "woocommerce")
         wc_contacts.each do |contact| 
-          if get_customer(contact.ulkoinen_asiakasnumero)
+          if contact.ulkoinen_asiakasnumero.present?
+            logger.info "Asiakas #{contact.ulkoinen_asiakasnumero} on jo verkkokaupassa"
             next
           end
-          response = create_customer(contact)
-          new_customer = response.try(:first)
-          return if new_customer.nil? || new_customer['id'].blank?
-          contact.ulkoinen_asiakasnumero = new_customer['id']
+          new_customer = create_customer(contact)
+          logger.info "New Customer: #{new_customer}"
+          logger.info "ID: #{new_customer["id"]}"
+          contact.ulkoinen_asiakasnumero = new_customer["id"]
+          logger.info "Contact: #{contact.ulkoinen_asiakasnumero}"
+          contact.save(validate: false)
         end
     end
 
@@ -26,9 +29,10 @@ class Woo::Customers < Woo::Base
   end
 
   def create_customer(contact)
+    logger.info "#{customer_hash(contact)}"
     response = woo_post('customers', customer_hash(contact))
-    
-    logger.info "Asiakas #{contact.customer.ytunnus} #{contact.customer.nimi} lisätty verkkokauppaan"
+    logger.info "Response #{response}"
+    #logger.info "Asiakas #{contact.customer.ytunnus} #{contact.customer.nimi} lisätty verkkokauppaan"
     return response
   end
 
@@ -135,6 +139,7 @@ class Woo::Customers < Woo::Base
 
   def get_customer(id)
     response = woo_get('customers', id: id)
+    logger.info "Response: #{response}"
     customer = response.try(:first)
 
     return if customer.nil? || customer['id'].blank?
