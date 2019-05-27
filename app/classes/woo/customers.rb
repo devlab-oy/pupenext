@@ -134,7 +134,7 @@ class Woo::Customers < Woo::Base
   end
   
   def customers
-    Customer.all
+    Customer.includes(:contacts).where("yhteyshenkilo.rooli" => "Woocommerce")
   end
 
 end
