@@ -10,8 +10,8 @@ class Woo::Customers < Woo::Base
   
         #  next
         #end
-        wc_contacts = customer.contacts.where(rooli: "woocommerce") 
-        created_count += create_customer(contact)
+        wc_contact = customer.contacts.where(rooli: "woocommerce").first 
+        created_count += create_customer(wc_contact)
     end
 
     logger.info "Lisättiin #{created_count} asiakasta verkkokauppaan"
