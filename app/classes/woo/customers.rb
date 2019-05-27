@@ -42,7 +42,7 @@ class Woo::Customers < Woo::Base
             first_name: contact.customer.nimi,
             last_name: "",
             vat_number: contact.customer.ytunnus,
-            billing_address: {
+            billing: {
                 first_name: contact.customer.laskutus_nimi,
                 last_name: "",
                 company:contact.customer.nimi,
@@ -54,7 +54,7 @@ class Woo::Customers < Woo::Base
                 email: contact.email,
                 phone: contact.puh
             },
-            shipping_address: {
+            shipping: {
                 first_name: contact.customer.toim_nimi,
                 last_name: "",
                 company: contact.customer.nimi,
