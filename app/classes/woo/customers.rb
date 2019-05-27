@@ -47,7 +47,7 @@ class Woo::Customers < Woo::Base
                 company: contact.customer.nimi,
                 address_1: contact.customer.toim_osoite,
                 address_2: "",
-                city: contact.customer.toim_postit,
+                city: contact.customer.toim_postitp,
                 postcode: contact.customer.toim_postino,
                 country: contact.customer.maa
             }
