@@ -42,13 +42,13 @@ class Woo::Customers < Woo::Base
                 phone: contact.puh
             },
             shipping_address: {
-                first_name: contact.customer.toimitus_nimi,
-                last_name: contact.customer.toiumitus_nimi,
+                first_name: contact.customer.toim_nimi,
+                last_name: contact.customer.toim_nimi,
                 company: contact.customer.nimi,
-                address_1: contact.customer.toimitus_osoite,
+                address_1: contact.customer.toim_osoite,
                 address_2: "",
-                city: contact.customer.toimitus_postit,
-                postcode: contact.customer.toimitus_postino,
+                city: contact.customer.toim_postit,
+                postcode: contact.customer.toim_postino,
                 country: contact.customer.maa
             }
     }    
