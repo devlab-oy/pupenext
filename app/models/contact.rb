@@ -1,4 +1,4 @@
-class Head < BaseModel
+class Contact < BaseModel
   include PupenextSingleTableInheritance
 
   self.table_name = :yhteyshenkilo
