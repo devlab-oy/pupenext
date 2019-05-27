@@ -38,8 +38,8 @@ class Woo::Customers < Woo::Base
                 city: contact.customer.laskutus_postitp,
                 postcode: contact.customer.laskutus_postino,
                 country: contact.customer.maa,
-                email: contact.customer.yhenk_email,
-                phone: contact.customer.yhenk_puh
+                email: contact.email,
+                phone: contact.puh
             },
             shipping_address: {
                 first_name: contact.customer.toimitus_nimi,
