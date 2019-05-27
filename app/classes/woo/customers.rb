@@ -25,7 +25,7 @@ class Woo::Customers < Woo::Base
 
   def customer_hash(contact)
     defaults = {
-            email: contact.customer.yhenk_email,
+            email: contact.email,
             first_name: contact.customer.nimi,
             last_name: contact.customer.nimi,
             vat_number: contact.customer.ytunnus,
