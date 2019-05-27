@@ -10,15 +10,24 @@ class Woo::Customers < Woo::Base
   
         #  next
         #end
-        wc_contact = customer.contacts.where(rooli: "woocommerce").first 
-        created_count += create_customer(wc_contact)
+        wc_contacts = customer.contacts.where(rooli: "woocommerce")
+        wc_contacts.each do |contact| 
+          if get_customer(contact.ulkoinen_asiakasnumero)
+            next
+          end
+          response = create_customer(contact)
+          new_customer = response.try(:first)
+          return if new_customer.nil? || new_customer['id'].blank?
+          contact.ulkoinen_asiakasnumero = new_customer['id']
+        end
     end
 
-    logger.info "Lisättiin #{created_count} asiakasta verkkokauppaan"
+    #logger.info "Lisättiin #{created_count} asiakasta verkkokauppaan"
   end
 
   def create_customer(contact)
     response = woo_post('customers', customer_hash(contact))
+    
     logger.info "Asiakas #{contact.customer.ytunnus} #{contact.customer.nimi} lisätty verkkokauppaan"
     return response
   end
@@ -27,11 +36,11 @@ class Woo::Customers < Woo::Base
     defaults = {
             email: contact.email,
             first_name: contact.customer.nimi,
-            last_name: contact.customer.nimi,
+            last_name: "",
             vat_number: contact.customer.ytunnus,
             billing_address: {
                 first_name: contact.customer.laskutus_nimi,
-                last_name: contact.customer.laskutus_nimi,
+                last_name: "",
                 company:contact.customer.nimi,
                 address_1: contact.customer.laskutus_osoite,
                 address_2: "",
@@ -43,7 +52,7 @@ class Woo::Customers < Woo::Base
             },
             shipping_address: {
                 first_name: contact.customer.toim_nimi,
-                last_name: contact.customer.toim_nimi,
+                last_name: "",
                 company: contact.customer.nimi,
                 address_1: contact.customer.toim_osoite,
                 address_2: "",
@@ -125,7 +134,7 @@ class Woo::Customers < Woo::Base
   end
 
   def get_customer(id)
-    response = woo_get('customers', sku: sku)
+    response = woo_get('customers', id: id)
     customer = response.try(:first)
 
     return if customer.nil? || customer['id'].blank?
