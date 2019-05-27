@@ -5,51 +5,51 @@ class Woo::Customers < Woo::Base
 
     created_count = 0
     customers.each do |customer|
-        if get_sku(customer.woo_website_id)
-          logger.info "Asiakas #{customer.woo_website_id} on jo verkkokaupassa"
+        #if get_sku(customer.woo_website_id)
+        #  logger.info "Asiakas #{customer.woo_website_id} on jo verkkokaupassa"
   
-          next
-        end
-  
-        created_count += create_customer(customer)
+        #  next
+        #end
+        wc_contacts = customer.contacts.where(rooli: "woocommerce") 
+        created_count += create_customer(contact)
     end
 
     logger.info "Lisättiin #{created_count} asiakasta verkkokauppaan"
   end
 
-  def create_customer(customer)
-    response = woo_post('customers', customer_hash(customer))
-    logger.info "Asiakas #{customer.ytunnus} #{customer.nimi} lisätty verkkokauppaan"
+  def create_customer(contact)
+    response = woo_post('customers', customer_hash(contact))
+    logger.info "Asiakas #{contact.customer.ytunnus} #{contact.customer.nimi} lisätty verkkokauppaan"
     return response
   end
 
-  def customer_hash(customer)
+  def customer_hash(contact)
     defaults = {
-            email: customer.yhenk_email,
-            first_name: customer.nimi,
-            last_name: customer.nimi,
-            vat_number: customer.ytunnus,
+            email: contact.customer.yhenk_email,
+            first_name: contact.customer.nimi,
+            last_name: contact.customer.nimi,
+            vat_number: contact.customer.ytunnus,
             billing_address: {
-                first_name: customer.laskutus_nimi,
-                last_name: customer.laskutus_nimi,
-                company:customer.nimi,
-                address_1: customer.laskutus_osoite,
+                first_name: contact.customer.laskutus_nimi,
+                last_name: contact.customer.laskutus_nimi,
+                company:contact.customer.nimi,
+                address_1: contact.customer.laskutus_osoite,
                 address_2: "",
-                city: customer.laskutus_postitp,
-                postcode: customer.laskutus_postino,
-                country: customer.maa,
-                email: customer.yhenk_email,
-                phone: customer.yhenk_puh
+                city: contact.customer.laskutus_postitp,
+                postcode: contact.customer.laskutus_postino,
+                country: contact.customer.maa,
+                email: contact.customer.yhenk_email,
+                phone: contact.customer.yhenk_puh
             },
             shipping_address: {
-                first_name: customer.toimitus_nimi,
-                last_name: customer.toiumitus_nimi,
-                company: customer.nimi,
-                address_1: customer.toimitus_osoite,
+                first_name: contact.customer.toimitus_nimi,
+                last_name: contact.customer.toiumitus_nimi,
+                company: contact.customer.nimi,
+                address_1: contact.customer.toimitus_osoite,
                 address_2: "",
-                city: customer.toimitus_postit,
-                postcode: customer.toimitus_postino,
-                country: customer.maa
+                city: contact.customer.toimitus_postit,
+                postcode: contact.customer.toimitus_postino,
+                country: contact.customer.maa
             }
     }    
   end
