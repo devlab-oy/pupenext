@@ -187,7 +187,7 @@ class Woo::Products < Woo::Base
       response = woo_get("products/attributes")
       logger.info "Attributes #{response}"
       response.each do |attrib|
-	      if attrib["slug"] == "color"
+	      if attrib["slug"] == "pa_color"
           return attrib["id"]
         end
       end
@@ -197,7 +197,7 @@ class Woo::Products < Woo::Base
       response = woo_get("products/attributes")
       logger.info "Attributes #{response}"
       response.each do |attrib|
-        if attrib["slug"] == "size"
+        if attrib["slug"] == "pa_size"
          return attrib["id"]
         end
       end
