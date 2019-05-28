@@ -124,6 +124,7 @@ class Woo::Products < Woo::Base
       else 
         type = "simple"
         sku = product.tuoteno
+        attribs = []
       end 
       
       defaults = {
