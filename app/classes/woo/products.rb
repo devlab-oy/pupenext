@@ -100,8 +100,8 @@ class Woo::Products < Woo::Base
         sku = product.keywords.where(laji: 'parametri_variaatio').first["selite"]
         logger.info "SKU: #{sku}"
         
-        colors = get_all_colors(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
-        logger.info "Colors! #{colors}"
+        #colors = get_all_colors(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
+        #logger.info "Colors! #{colors}"
         sizes = get_all_sizes(product.keywords.where(laji: 'parametri_variaatio').first["selite"])
         logger.info "Sizes! #{sizes}"
 
@@ -113,18 +113,19 @@ class Woo::Products < Woo::Base
         variation: true,
         options: sizes
         },
-        {
-        id: get_colour_id(),
-        position: 0,
-        visible: true,
-        variation: true,
-        options: colors
-        }]
+        #{
+        #id: get_colour_id(),
+        #position: 0,
+        #visible: true,
+        #variation: true,
+        #options: colors
+        #}]
 
       else 
         type = "simple"
         sku = product.tuoteno
         attribs = []
+        meta_data = []
       end 
       
       defaults = {
@@ -139,7 +140,13 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
-
+      meta_data = [{
+      "_delivery_window": product.osasto
+      }]
+      
+      unless meta_data.empty?
+        defaults.merge!({meta_data: meta_data})
+      end
       #unless images.empty?
       #   defaults.merge!({ images: images})
       #end
@@ -167,16 +174,16 @@ class Woo::Products < Woo::Base
 
       defaults = {
         sku: product.tuoteno,
-        regular_price: "10.00",
+        regular_price: ,
         attributes: [
         {
           id: get_size_id(),
-          option: "XL"
+          option: product.keywords.where(laji: "parametri_koko").pluck(:selite)
         },
-        {
-          id: get_colour_id(),
-          option: "Blue"
-        }
+        #{
+        #  id: get_colour_id(),
+        #  option: "Blue"
+        #}
         ]
       }
       return defaults
