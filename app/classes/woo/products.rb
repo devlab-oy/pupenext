@@ -119,7 +119,8 @@ class Woo::Products < Woo::Base
         #visible: true,
         #variation: true,
         #options: colors
-        #}]
+        #}
+        ]
 
       else 
         type = "simple"
