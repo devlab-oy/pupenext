@@ -143,7 +143,7 @@ class Woo::Products < Woo::Base
       meta_data = [{
       "_delivery_window": product.osasto
       }]
-      
+
       unless meta_data.empty?
         defaults.merge!({meta_data: meta_data})
       end
@@ -174,7 +174,7 @@ class Woo::Products < Woo::Base
 
       defaults = {
         sku: product.tuoteno,
-        regular_price: ,
+        regular_price: product.myyntihinta.to_s,
         attributes: [
         {
           id: get_size_id(),
