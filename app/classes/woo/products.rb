@@ -14,7 +14,7 @@ class Woo::Products < Woo::Base
         next
       end
 
-      created_count += create_product(product)
+      create_product(product)
     end
 
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
