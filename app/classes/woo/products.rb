@@ -34,19 +34,23 @@ class Woo::Products < Woo::Base
     grouped_variants.each do |code, variants|
      
       #create the main product
-      response = create_product(variants.first)
-      logger.info "Response #{response}"
-      variantpath = "products/#{response['id']}/variations/batch"
-      logger.info "Variantpath: #{variantpath}"
-      #create the variants
-      variants_data = {create: []}
-      variants.each do |variant|
-        logger.info "Variant: #{variant}"
-        variants_data[:create].append(create_variant_hash(variant))
+      if get_sku(code)
+        logger.info "Tuote #{code} on jo verkkokaupassa"
+        next
       end
-      logger.info"Variants batch data: #{variants_data}"
-      variant_response = woo_post(variantpath, variants_data)
-      logger.info "Response to variations creation #{variant_response.to_s}"
+        response = create_product(variants.first)
+        logger.info "Response #{response}"
+        variantpath = "products/#{response['id']}/variations/batch"
+        logger.info "Variantpath: #{variantpath}"
+        #create the variants
+        variants_data = {create: []}
+        variants.each do |variant|
+          logger.info "Variant: #{variant}"
+          variants_data[:create].append(create_variant_hash(variant))
+        end
+        logger.info"Variants batch data: #{variants_data}"
+        variant_response = woo_post(variantpath, variants_data)
+        logger.info "Response to variations creation #{variant_response.to_s}"
     end
 
   end
