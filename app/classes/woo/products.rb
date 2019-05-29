@@ -134,14 +134,17 @@ class Woo::Products < Woo::Base
         slug: sku,
         sku: sku,
         type: type,
-        description: product.kuvaus,
-        short_description: product.lyhytkuvaus,
+        description: product.mainosteksti,
+        short_description: product.kuvaus,
         regular_price: product.myyntihinta.to_s,
         manage_stock: true,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
-      meta_data = [{"key": "_delivery_window", "value": product.osasto.to_s}]
+      meta_data = [
+        {"key": "_delivery_window", "value": product.osasto.to_s},
+        {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).to_s }, 
+      ]
       logger.info "Meta: #{meta_data}"
 
       unless meta_data.empty?
