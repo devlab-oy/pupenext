@@ -143,7 +143,7 @@ class Woo::Products < Woo::Base
       }
       meta_data = [
         {"key": "_delivery_window", "value": product.osasto.to_s},
-        {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).to_s },
+        {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite)},
         {"key": "_product_material", "value": product.lyhytkuvaus},
       ]
       logger.info "Meta: #{meta_data}"
