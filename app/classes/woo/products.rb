@@ -85,7 +85,7 @@ class Woo::Products < Woo::Base
     def variant_products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
-      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio', selite: 'M72011 | Folk Shorts | Black | 2011'))
+      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
     end
 
     def product_hash(product)
@@ -147,7 +147,7 @@ class Woo::Products < Woo::Base
       }
       meta_data = [
         {"key": "_delivery_window", "value": product.osasto.to_s},
-        {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite)},
+        {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).first},
         {"key": "_product_material", "value": product.lyhytkuvaus},
       ]
       logger.info "Meta: #{meta_data}"
