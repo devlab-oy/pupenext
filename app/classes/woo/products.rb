@@ -44,9 +44,9 @@ class Woo::Products < Woo::Base
         logger.info "Variant: #{variant}"
         variants_data[:create].append(create_variant_hash(variant))
       end
-      logger.info"Variants: #{variants_data}"
+      logger.info"Variants batch data: #{variants_data}"
       variant_response = woo_post(variantpath, variants_data)
-      logger.info "Response to variations #{variant_response.to_s}"
+      logger.info "Response to variations creation #{variant_response.to_s}"
     end
 
   end
@@ -81,7 +81,7 @@ class Woo::Products < Woo::Base
     def variant_products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
-      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
+      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio', selite: 'M72011 | Folk Shorts | Black | 2011'))
     end
 
     def product_hash(product)
@@ -141,9 +141,8 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
-      meta_data = [{
-      "_delivery_window": product.osasto
-      }]
+      meta_data = [{"key": "_delivery_window", "value": product.osasto.to_s}]
+      logger.info "Meta: #{meta_data}"
 
       unless meta_data.empty?
         defaults.merge!({meta_data: meta_data})
@@ -179,13 +178,14 @@ class Woo::Products < Woo::Base
         attributes: [
         {
           id: get_size_id(),
-          option: product.keywords.where(laji: "parametri_koko").pluck(:selite)
+          option: product.keywords.where(laji: "parametri_koko").pluck(:selite).to_s
         },
         #{
         #  id: get_colour_id(),
         #  option: "Blue"
         #}
-        ]
+        ],
+        #meta_data: [{"_delivery_window": product.osasto.to_s}]
       }
       return defaults
     
