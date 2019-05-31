@@ -28,8 +28,13 @@ class Woo::Orders < Woo::Base
       end
 
       # Check if order already is in Pupesoft
-      @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
-      @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+      if customer_id = "b2b"
+        @pupe_draft = SalesOrder::Draft.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
+        @pupe_order = SalesOrder::Order.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
+      else
+        @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+        @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
+      end
 
       if @pupe_draft.nil? && @pupe_order.nil?
         logger.info "Order #{order['id']} fetched and put in Pupesoft processing queue"
@@ -67,7 +72,16 @@ class Woo::Orders < Woo::Base
   end
 
   def write_to_file(order)
-    filepath = File.join(edi_orders_path, "woo-order-#{order['id']}.txt")
+    if customer_id == "b2b"
+      filepath = File.join(edi_orders_path, "woo-harbour-order-#{order['id']}.txt")
+    else
+      filepath = File.join(edi_orders_path, "woo-order-#{order['id']}.txt")
+    end
+
+    #find the customer number from b2b customers
+    if customer_id =="b2b"
+      customer_id == Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: "42").first.customer.tunnus
+    end
 
     File.open(filepath, 'w') do |file|
       file.write(build_edi_order(order))
