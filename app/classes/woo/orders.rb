@@ -72,6 +72,7 @@ class Woo::Orders < Woo::Base
   end
 
   def write_to_file(order)
+    logger.info "Writing EDI file"
     if customer_id == "b2b"
       filepath = File.join(edi_orders_path, "harbour-order-#{order['id']}.txt")
     else
@@ -80,9 +81,9 @@ class Woo::Orders < Woo::Base
 
     #find the customer number from b2b customers
     if customer_id =="b2b"
-      customer_id == Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: "42").first.customer.tunnus
+      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
     end
-
+    logger.info "customer_id: #{customer_id}"
     File.open(filepath, 'w') do |file|
       file.write(build_edi_order(order))
     end
