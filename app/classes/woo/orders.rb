@@ -86,6 +86,7 @@ class Woo::Orders < Woo::Base
       preorder = "E"
     else
       preorder =""
+      customer_id = "WEBSTORE"
     end
 
     logger.info "customer_id: #{customer_id}"
@@ -96,7 +97,7 @@ class Woo::Orders < Woo::Base
     logger.info "Tallennettiin tilaus #{filepath}"
   end
 
-  def build_edi_order(order, customer_id,preorder)
+  def build_edi_order(order, customer_id, preorder)
     locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id, :@preorder => preorder}
     ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
   end
