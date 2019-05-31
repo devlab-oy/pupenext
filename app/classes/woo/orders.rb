@@ -80,7 +80,7 @@ class Woo::Orders < Woo::Base
     end
 
     #find the customer number from b2b customers
-    if customer_id =="b2b"
+    if customery_id =="b2b"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
     end
     logger.info "customer_id: #{customer_id}"
@@ -92,6 +92,10 @@ class Woo::Orders < Woo::Base
   end
 
   def build_edi_order(order)
+    #find the customer number from b2b customers
+    if customer_id =="b2b"
+      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
+    end
     locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id }
 
     ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
