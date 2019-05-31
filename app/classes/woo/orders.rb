@@ -28,7 +28,7 @@ class Woo::Orders < Woo::Base
       end
 
       # Check if order already is in Pupesoft
-      if customer_id = "b2b"
+      if customer_id == "b2b"
         @pupe_draft = SalesOrder::Draft.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
         @pupe_order = SalesOrder::Order.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
       else
@@ -80,20 +80,24 @@ class Woo::Orders < Woo::Base
     end
 
     #find the customer number from b2b customers
-    if customery_id =="b2b"
+    
+    if customer_id =="b2b"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
+      preorder = "E"
+    else
+      preorder =""
     end
+
     logger.info "customer_id: #{customer_id}"
     File.open(filepath, 'w') do |file|
-      file.write(build_edi_order(order, customer_id))
+      file.write(build_edi_order(order, customer_id,preorder))
     end
 
     logger.info "Tallennettiin tilaus #{filepath}"
   end
 
   def build_edi_order(order, customer_id)
-    locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id }
-
+    locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id, :@preorder => preorder}
     ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
   end
 end
