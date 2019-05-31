@@ -85,17 +85,13 @@ class Woo::Orders < Woo::Base
     end
     logger.info "customer_id: #{customer_id}"
     File.open(filepath, 'w') do |file|
-      file.write(build_edi_order(order))
+      file.write(build_edi_order(order, customer_id))
     end
 
     logger.info "Tallennettiin tilaus #{filepath}"
   end
 
-  def build_edi_order(order)
-    #find the customer number from b2b customers
-    if customer_id =="b2b"
-      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
-    end
+  def build_edi_order(order, customer_id)
     locals = { :@company => Current.company, :@order => order, :@customer_id => customer_id }
 
     ApplicationController.new.render_to_string 'data_import/edi_order', layout: false, locals: locals
