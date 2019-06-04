@@ -53,7 +53,8 @@ OSTOTIL.OT_TOIMITUS_POSTINRO:<%= @order["shipping"]["postcode"] %>
 OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["billing"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
 OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
-OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= @order["shipping_lines"][0]["postnord_service_point_id"] %>
+OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<% unless @order["shipping_lines"].nil? %><%= @order["shipping_lines"][0]["postnord_service_point_id"] %>  <% end %>
+
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
 *RS OSTOTILRIV <%= index+1 %>
@@ -73,6 +74,7 @@ OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
 OSTOTILRIV.OTR_YKSIKKO:
 *RE  OSTOTILRIV <%= index+1 %>
 <% end %>
+<% unless @order["shipping_lines"].nil? %>
 <% @order["shipping_lines"].each_with_index do |shipping_lines, index| %>
 <% next if shipping_lines["total"].to_d.zero? %>
 *RS OSTOTILRIV <%= index+1 %>
@@ -91,6 +93,7 @@ OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
 OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
 OSTOTILRIV.OTR_YKSIKKO:
 *RE  OSTOTILRIV <%= index+1 %>
+<% end %>
 <% end %>
 *ME
 *IE
