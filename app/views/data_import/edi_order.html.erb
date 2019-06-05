@@ -3,11 +3,11 @@
 *RS OSTOTIL
 OSTOTIL.OT_TOIMITTAJANRO:<%= @company.ovttunnus %>
 OSTOTIL.OT_NRO:<%= @order["id"] %>
-OSTOTIL.OT_TILAUSTYYPPI: <%= @preorder %>
+OSTOTIL.OT_TILAUSTYYPPI: 
 OSTOTIL.VERKKOKAUPPA:
 OSTOTIL.OT_VERKKOKAUPPA_ASIAKASNRO:
 OSTOTIL.OT_VERKKOKAUPPA_TILAUSVIITE:
-OSTOTIL.OT_VERKKOKAUPPA_TILAUSNUMERO:<%= @order["number"] %>
+OSTOTIL.OT_VERKKOKAUPPA_TILAUSNUMERO:<%= @order["number"] %><%= @preorder %>
 OSTOTIL.OT_VERKKOKAUPPA_KOHDE:
 OSTOTIL.OT_TILAUSAIKA:<%= @order["date_created"] %>
 OSTOTIL.OT_KASITTELIJA:
@@ -53,7 +53,11 @@ OSTOTIL.OT_TOIMITUS_POSTINRO:<%= @order["shipping"]["postcode"] %>
 OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["billing"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
 OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
-OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= try(@order["shipping_lines"].andand[0].andand["postnord_service_point_id"]) %>
+<% unless @order["shipping_lines"].nil? or @order["shipping_lines"][0].nil? or @order["shipping_lines"][0]["postnord_service_point_id"].nil? %>
+OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= @order["shipping_lines"][0]["postnord_service_point_id"] %>
+<% else %>
+OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:
+<% end %>
 
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
