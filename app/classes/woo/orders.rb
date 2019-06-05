@@ -85,7 +85,7 @@ class Woo::Orders < Woo::Base
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
       deliv_window = order['meta_data'].select {|meta| meta["key"] == '_delivery_window'}
       unless deliv_window.empty?
-        preorder = deliv_window[0]["value"]
+        preorder = "Toimitusikkuna: " + deliv_window[0]["value"]
       else
         preorder =""
       end
