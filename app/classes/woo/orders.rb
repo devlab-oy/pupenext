@@ -83,7 +83,12 @@ class Woo::Orders < Woo::Base
     
     if customer_id =="b2b"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.tunnus
-      preorder = order['meta_data'].select {|meta| meta["key"] == '_delivery_window'}
+      deliv_window = order['meta_data'].select {|meta| meta["key"] == '_delivery_window'}
+      unless deliv_window.empty?
+        preorder = deliv_window[0]["value"]
+      else
+        preorder =""
+      end
     else
       preorder =""
       customer_id = "WEBSTORE"
