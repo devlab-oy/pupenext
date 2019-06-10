@@ -183,7 +183,7 @@ class Woo::Products < Woo::Base
       defaults = {
         sku: product.tuoteno,
         regular_price: product.myyntihinta.to_s,
-        manage_stock: true,
+        manage_stock: false,
         stockstatus: "instock",
         attributes: [
         {
