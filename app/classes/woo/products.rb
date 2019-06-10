@@ -141,7 +141,7 @@ class Woo::Products < Woo::Base
         description: product.mainosteksti,
         short_description: product.kuvaus,
         regular_price: product.myyntihinta.to_s,
-        manage_stock: true,
+        manage_stock: false,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
@@ -183,6 +183,8 @@ class Woo::Products < Woo::Base
       defaults = {
         sku: product.tuoteno,
         regular_price: product.myyntihinta.to_s,
+        manage_stock: true,
+        stockstatus: "instock",
         attributes: [
         {
           id: get_size_id(),
