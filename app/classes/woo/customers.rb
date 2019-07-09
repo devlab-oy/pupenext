@@ -16,6 +16,7 @@ class Woo::Customers < Woo::Base
             logger.info "Asiakas #{contact.ulkoinen_asiakasnumero} on jo verkkokaupassa"
             next
           end
+          logger.info "Luodaan woohon asiakas #{contact}"
           new_customer = create_customer(contact)
           logger.info "New Customer: #{new_customer}"
           logger.info "ID: #{new_customer["id"]}"
