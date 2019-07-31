@@ -84,6 +84,7 @@ class Woo::Orders < Woo::Base
     if customer_id =="b2b"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
       deliv_window = order['meta_data'].select {|meta| meta["key"] == '_delivery_window'}
+      order['status'] = "preorder"
       unless deliv_window.empty?
         preorder = "Toimitusikkuna: " + deliv_window[0]["value"]
       else
