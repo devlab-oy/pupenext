@@ -31,7 +31,7 @@ class StockListingSpecialCsv < StockListingCsv
 	     row.product.tuoteno,
          row.product.stock_reserved,
          row.product.tuoteno,
-         row.product.coming_in_next_order,
+         row.coming_in_next_order,
          row.product.tuoteno,
          #var_kiertonop
          row.product.tuoteno,
