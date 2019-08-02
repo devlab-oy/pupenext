@@ -136,6 +136,31 @@ class Product < BaseModel
     shelf_locations.where.not(oletus: '').try(:first)
   end
 
+  def shortage_days
+    year_ago = Date.current - 1.year
+    sql = "Select kpl,laadittu from tapahtuma where tuoteno = '#{tuoteno}' and laadittu > '#{year_ago}' order by laadittu desc;"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    
+    zero_days = 0
+    saldo_now = stock
+    last_not_zero = Date.new(2000, 1, 1)
+    records_array.each do |move|
+        saldo_now -= move[0]
+        if saldo_now <= 0
+        if last_not_zero != Date.new(2000,1,1)
+            current_zerodays = last_not_zero.mjd - Date.parse(move[1].to_s).mjd
+            zero_days += current_zerodays
+            last_not_zero = Date.new(2000, 1, 1)
+        end
+        end
+        if saldo_now > 0
+            last_not_zero = Date.parse(move[1].to_s)
+        end
+    end
+    zero_days
+  end
+
+
   private
 
     def defaults
