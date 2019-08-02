@@ -20,8 +20,8 @@ class StockListingSpecialCsv < StockListingCsv
     def data
       @data ||= company.products.inventory_management.active.where.not(eankoodi: '').find_each.map do |product|
         row = ProductRow.new product
-        myynti6kk = ActiveRecord::Base.connection.execute("select round(sum(rivihinta)) from tilausrivi where tuoteno = #{row.product.tuoteno} and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));")
-        myynti12kk = ActiveRecord::Base.connection.execute("select round(sum(rivihinta)) from tilausrivi where tuoteno = #{row.product.tuoteno} and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));")
+        myynti6kk = ActiveRecord::Base.connection.execute("select round(sum(rivihinta)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));")
+        myynti12kk = ActiveRecord::Base.connection.execute("select round(sum(rivihinta)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));")
 
         [
 	     row.product.tuotemerkki,
