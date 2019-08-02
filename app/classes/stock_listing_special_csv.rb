@@ -33,8 +33,6 @@ class StockListingSpecialCsv < StockListingCsv
          row.product.tuoteno,
          row.coming_in_next_order,
          row.product.tuoteno,
-         #var_kiertonop
-         row.product.tuoteno,
          myynti6kk,
          row.product.tuoteno,
          myynti12kk,
