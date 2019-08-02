@@ -33,15 +33,32 @@ class StockListingCsv
       @data ||= company.products.inventory_management.active.find_each.map do |product|
         row = ProductRow.new product, warehouse_ids: warehouses
 
+
+        6kk_sql = "select round(sum(rivihinta)) from tilausrivi where tuoteno = #{row.product.tuoteno} and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));"
+        12kk_sql = "select round(sum(rivihinta)) from tilausrivi where tuoteno = #{row.product.tuoteno} and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));"
+        
+        myynti6kk = ActiveRecord::Base.connection.execute(6kk_sql)
+        myynti12kk = ActiveRecord::Base.connection.execute(12kk_sql)
+
         [
-          row.product.tuoteno,
-          row.product.eankoodi,
-          row.product.tuotemerkki,
-          row.product.nimitys,
-          row.stock,
-          row.order_date,
-          row.stock_after_order,
+	       row.product.tuotemerkki,
+         row.product.nimitys,
+	       row.product.tuoteno,
+         row.stock,
+	       row.product.tuoteno,
+         row.product.stock_reserved,
+         row.product.tuoteno,
+         row.product.coming_in_next_order
+         row.product.tuoteno,
+         #var_kiertonop
+         row.product.tuoteno,
+         myynti6kk,
+         row.product.tuoteno,
+         myynti12kk,
+         row.product.tuoteno,
+         row.product.shortage_days
         ]
+        
       end
     end
 
