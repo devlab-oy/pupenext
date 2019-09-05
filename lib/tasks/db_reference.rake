@@ -1,5 +1,5 @@
 namespace :db do
-  desc "Pull reference database from api.devlab.fi to development db"
+  desc "Pull reference database from pupeapi.sprintit.fi to development db"
   task pull_reference: :environment do
 
     unless Rails.env.development?
@@ -19,8 +19,8 @@ namespace :db do
     data     = "/tmp/pupe_data.sql"
 
     commands = [
-      "curl --progress-bar -o #{schema} http://api.devlab.fi/referenssitietokantakuvaus.sql",
-      "curl --progress-bar -o #{data} http://api.devlab.fi/referenssidata.sql",
+      "curl --progress-bar -o #{schema} http://pupeapi.sprintit.fi/referenssitietokantakuvaus.sql",
+      "curl --progress-bar -o #{data} http://pupeapi.sprintit.fi/referenssidata.sql",
       "#{mysql} -e 'drop database #{database}'",
       "#{mysql} -e 'create database #{database}'",
       "#{mysql} #{database} < #{schema}",
