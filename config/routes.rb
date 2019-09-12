@@ -93,6 +93,8 @@ Pupesoft::Application.routes.draw do
     post :stock_listing_csv,              to: 'stock_listing_csv#run',                as: :run_stock_listing_csv
     get :stock_listing_configurable_csv,  to: 'stock_listing_configurable_csv#index', as: :stock_listing_configurable_csv
     post :stock_listing_configurable_csv, to: 'stock_listing_configurable_csv#run',   as: :run_stock_listing_configurable_csv
+    get :stock_listing_special_csv,       to: 'stock_listing_special_csv#index',      as: :stock_listing_special_csv
+    post :stock_listing_special_csv,      to: 'stock_listing_special_csv#run',        as: :run_stock_listing_special_csv 
     get :stock_availability,              to: 'stock_availability#index',             as: :stock_availability
     get :run_stock_availability,          to: 'stock_availability#run',               as: :run_stock_availability
     get :view_connected_sales_orders,     to: 'stock_availability#view_connected_sales_orders'
