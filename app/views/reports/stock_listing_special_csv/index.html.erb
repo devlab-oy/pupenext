@@ -1,0 +1,13 @@
+<%= render "administration/header", text: t('.header') %>
+
+<% if notice %>
+  <font class='ok'>
+    <%= notice %>
+  </font>
+
+  <br><br>
+
+  <hr>
+<% end %>
+
+<%= button_to t('.run'), run_stock_listing_special_csv_path %>
