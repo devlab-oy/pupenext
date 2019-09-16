@@ -143,15 +143,19 @@ class Product < BaseModel
     
     zero_days = 0
     saldo_now = stock
+    if saldo_now <= 0
+      current_zerodays = Date.current.mjd - Date.parse(records_array.first[1].to_s).mjd
+      zero_days += current_zerodays
+    end
     last_not_zero = Date.new(2000, 1, 1)
     records_array.each do |move|
         saldo_now -= move[0]
         if saldo_now <= 0
-        if last_not_zero != Date.new(2000,1,1)
+          if last_not_zero != Date.new(2000,1,1)
             current_zerodays = last_not_zero.mjd - Date.parse(move[1].to_s).mjd
             zero_days += current_zerodays
             last_not_zero = Date.new(2000, 1, 1)
-        end
+          end
         end
         if saldo_now > 0
             last_not_zero = Date.parse(move[1].to_s)
