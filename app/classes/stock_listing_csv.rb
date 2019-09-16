@@ -82,6 +82,13 @@ class StockListingCsv::ProductRow
     next_order && next_order.varattu && format('%g', next_order.varattu)
   end
 
+  def coming_in_all_orders
+    coming = 0
+    product.purchase_order_rows.open.order(:toimaika).each do |tilaus|
+      coming += tilaus.varattu
+    end
+    return coming
+  end
   private
 
     def stock_raw
@@ -91,4 +98,5 @@ class StockListingCsv::ProductRow
     def next_order
       @next_order ||= product.purchase_order_rows.open.order(:toimaika).first
     end
+    
 end

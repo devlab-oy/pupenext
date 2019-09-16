@@ -20,21 +20,21 @@ class StockListingSpecialCsv < StockListingCsv
   private
 
     def data
-      #@data ||= company.products.inventory_management.active.find_all.first(250).map do |product|
-      @data ||= company.products.inventory_management.active.where(tuotemerkki: "Gymstick").map do |product|      
+      #@data ||= company.products.inventory_management.active.find_all.map do |product|
+      @data ||= company.products.inventory_management.active.where(tuoteno: ['61138','55001']).map do |product|
       row = ProductRow.new product
-        myynti6kk = ActiveRecord::Base.connection.exec_query("select round(sum(rivihinta)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));").rows.first.first
-        myynti12kk = ActiveRecord::Base.connection.exec_query("select round(sum(rivihinta)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));").rows.first.first
+        myynti6kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));").rows.first.first
+        myynti12kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));").rows.first.first
 
         [
-	     row.product.tuotemerkki,
+	       row.product.tuotemerkki,
          row.product.nimitys,
-	     row.product.tuoteno,
+	       row.product.tuoteno,
          row.stock,
-	     row.product.tuoteno,
+	       row.product.tuoteno,
          row.product.stock_reserved,
          row.product.tuoteno,
-         row.coming_in_next_order,
+         row.coming_in_all_orders,
          row.product.tuoteno,
          myynti6kk,
          row.product.tuoteno,
