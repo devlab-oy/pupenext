@@ -20,9 +20,8 @@ class StockListingSpecialCsv < StockListingCsv
   private
 
     def data
-      #@data ||= company.products.inventory_management.active.find_all.map do |product|
-      @data ||= company.products.inventory_management.active.where(tuoteno: ['61138','55001']).map do |product|
-
+      @data ||= company.products.inventory_management.active.find_all.map do |product|
+      
       row = ProductRow.new product
         myynti6kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));").rows.first.first
         myynti12kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));").rows.first.first
