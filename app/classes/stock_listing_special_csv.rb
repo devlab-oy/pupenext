@@ -20,18 +20,24 @@ class StockListingSpecialCsv < StockListingCsv
   private
 
     def data
-      @data ||= company.products.inventory_management.active.find_all.map do |product|
+      #@data ||= company.products.inventory_management.active.find_all.map do |product|
+      @data ||= company.products.inventory_management.active.where(tuoteno: ['61138','55001']).map do |product|
+
       row = ProductRow.new product
         myynti6kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 6 MONTH));").rows.first.first
         myynti12kk = ActiveRecord::Base.connection.exec_query("select round(sum(kpl)) from tilausrivi where tuoteno = '#{row.product.tuoteno}' and tyyppi ='L' and laskutettuaika >= (DATE_SUB(CURDATE(), INTERVAL 12 MONTH));").rows.first.first
+
+        reserved_query = ActiveRecord::Base.connection.exec_query("SELECT sum(if(tilausrivi.tyyppi in ('W','M'), tilausrivi.varattu, 0)) valmistuksessa, sum(if(tilausrivi.tyyppi = 'O', tilausrivi.varattu, 0)) tilattu, sum(if(tilausrivi.tyyppi = 'E' and tilausrivi.var != 'O', tilausrivi.varattu, 0)) ennakot, sum(if(tilausrivi.tyyppi in ('L','V') and tilausrivi.var not in ('P','J','O','S'), tilausrivi.varattu, 0)) ennpois, sum(if(tilausrivi.tyyppi in ('L','G') and tilausrivi.var = 'J', tilausrivi.varattu, 0)) jt FROM tilausrivi use index (yhtio_tyyppi_tuoteno_laskutettuaika) WHERE tilausrivi.yhtio        = 'gyms' and tilausrivi.tyyppi  in ('L','V','O','G','E','W','M') and tilausrivi.tuoteno        = '#{row.product.tuoteno}' and tilausrivi.laskutettuaika = '0000-00-00' and (tilausrivi.varattu + tilausrivi.jt > 0);").rows.first
+
+        reserved = reserved_query[2].to_i + reserved_query[3].to_i + reserved_query[4].to_i
 
         [
 	       row.product.tuotemerkki,
          row.product.nimitys,
 	       row.product.tuoteno,
-         row.stock,
+         row.stock_physical,
 	       row.product.tuoteno,
-         row.product.stock_reserved,
+         reserved,
          row.product.tuoteno,
          row.coming_in_all_orders,
          row.product.tuoteno,

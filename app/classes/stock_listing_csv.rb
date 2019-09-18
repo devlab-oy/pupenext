@@ -69,6 +69,13 @@ class StockListingCsv::ProductRow
     '%g' % stock
   end
 
+  def stock_physical
+    stock_physical = stock_physical_raw < 0 ? 0.0 : stock_physical_raw
+
+    # show decimals only if they matter (% short for sprintf)
+    '%g' % stock_physical
+  end
+
   def stock_after_order
     stock = next_order ? (stock_raw + next_order.varattu) : nil
     stock && stock > 0 ? ('%g' % stock) : nil
@@ -93,6 +100,10 @@ class StockListingCsv::ProductRow
 
     def stock_raw
       @stock ||= Stock.new(product, warehouse_ids: warehouse_ids).stock_available
+    end
+
+    def stock_physical_raw
+      @stock ||= Stock.new(product, warehouse_ids: warehouse_ids).stock
     end
 
     def next_order
