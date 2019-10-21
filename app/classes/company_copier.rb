@@ -187,7 +187,15 @@ class CompanyCopier
           email: new_company.email,
           kauppatapahtuman_luonne: 0,
           alv: "24.00",
+          osoite: new_company.osoite,
+          postino: new_company.postino,
+          postitp: new_company.postitp,
+          ovttunnus: new_company.ovttunnus,  
         )
+
+        #100% price reduction on everything
+        sql = "insert into asiakasalennus (yhtio, ryhma, asiakas,alennus) values (#{company.tunnus}, '**', #{customer.tunnus},100.00)"
+        ActiveRecord::Base.connection.execute(sql) 
 
         # all users created to to_company are also created as extranet users to customer_companies
         if customer.valid?
@@ -211,6 +219,10 @@ class CompanyCopier
           ultilno: bank_iban,
           swift: bank_bic,
           email: new_company.email,
+          osoite: new_company.osoite,
+          postino: new_company.postino,
+          postitp: new_company.postitp,
+          ovttunnus: new_company.ovttunnus,  
         )
 
         add_error(sup) unless sup.valid?
