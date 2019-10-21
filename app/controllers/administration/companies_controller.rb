@@ -40,6 +40,8 @@ class Administration::CompaniesController < ApplicationController
         :myyntireskontrakausi_alku,
         :myyntireskontrakausi_loppu,
         :ovttunnus,
+        :pankkinimi1,
+        :pankkitili1,
         bank_accounts_attributes: [
           :nimi,
           :tilino,
