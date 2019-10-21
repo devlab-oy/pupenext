@@ -136,12 +136,12 @@ class CompanyCopier
 
     def default_parameter_attributes
       {
-        finvoice_senderpartyid: to_company_params["ovttunnus"],
+        finvoice_senderpartyid: new_company.ovttunnus,
         finvoice_senderintermediator: 'AINOFIHH',
         verkkotunnus_vas: '',
-        verkkotunnus_lah: to_company_params["ovttunnus"]+'@AINOFIHH',
+        verkkotunnus_lah: new_company.ovttunnus + '@AINOFIHH',
         verkkosala_vas: '',
-        verkkosala_lah: 'Finvoice',
+        verkkosala_lah: '',
         lasku_tulostin: 0,
         logo: '',
         lasku_logo: '',
