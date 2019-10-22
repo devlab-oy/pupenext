@@ -194,7 +194,7 @@ class CompanyCopier
         )
 
         #100% price reduction on everything
-        sql = "insert into asiakasalennus (yhtio, ryhma, asiakas,alennus) values (#{company.yhtio}, '**', #{customer.tunnus},100.00)"
+        sql = "insert into asiakasalennus (yhtio, ryhma, asiakas,alennus) values (#{company.yhtio}, '**', #{customer.tunnus},0.00)"
         ActiveRecord::Base.connection.execute(sql) 
 
         # all users created to to_company are also created as extranet users to customer_companies
