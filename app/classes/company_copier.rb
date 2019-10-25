@@ -185,6 +185,7 @@ class CompanyCopier
           nimi: new_company.nimi,
           ytunnus: new_company.ytunnus,
           email: new_company.email,
+          lasku_email: new_company.email,
           kauppatapahtuman_luonne: 0,
           alv: "24.00",
           osoite: new_company.osoite,
@@ -193,7 +194,7 @@ class CompanyCopier
           ovttunnus: new_company.ovttunnus,  
         )
 
-        #100% price reduction on everything
+        #0% price reduction on everything
         sql = "insert into asiakasalennus (yhtio, ryhma, asiakas,alennus) values (#{company.yhtio}, '**', #{customer.tunnus},0.00)"
         ActiveRecord::Base.connection.execute(sql) 
 

@@ -41,6 +41,7 @@ class CustomersController < ApplicationController
         :alv,
         :asiakasnro,
         :email,
+        :lasku_email,
         :kauppatapahtuman_luonne,
         :kuljetusvakuutus_tyyppi,
         :lahetetyyppi,
