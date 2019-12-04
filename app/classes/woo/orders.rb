@@ -31,6 +31,9 @@ class Woo::Orders < Woo::Base
       if customer_id == "b2b"
         @pupe_draft = SalesOrder::Draft.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
         @pupe_order = SalesOrder::Order.find_by(laatija: 'Harbour', asiakkaan_tilausnumero: order['id'])
+      elsif customer_id == "stock"
+        @pupe_draft = SalesOrder::Draft.find_by(laatija: 'Stock', asiakkaan_tilausnumero: order['id'])
+        @pupe_order = SalesOrder::Order.find_by(laatija: 'Stock', asiakkaan_tilausnumero: order['id'])
       else
         @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
         @pupe_order = SalesOrder::Order.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
@@ -75,6 +78,8 @@ class Woo::Orders < Woo::Base
     logger.info "Writing EDI file"
     if customer_id == "b2b"
       filepath = File.join(edi_orders_path, "harbour-order-#{order['id']}.txt")
+    elsif customer_id == "stock"
+        filepath = File.join(edi_orders_path, "harbour-order-#{order['id']}.txt")
     else
       filepath = File.join(edi_orders_path, "woo-order-#{order['id']}.txt")
     end
@@ -90,6 +95,9 @@ class Woo::Orders < Woo::Base
       else
         preorder =""
       end
+    elsif customer_id =="stock"
+      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
+      preorder =""
     else
       preorder =""
       customer_id = "WEBSTORE"
