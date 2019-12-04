@@ -90,6 +90,7 @@ class Woo::Orders < Woo::Base
     when "stock"
       logger.info "Going to stock branch! #{customer_id}"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
+      order['status'] = "preorder"
       logger.info "stock customer: #{customer_id}"
       preorder =""
     when "b2b"
