@@ -85,8 +85,15 @@ class Woo::Orders < Woo::Base
     end
 
     #find the customer number from b2b customers
-    
-    if customer_id =="b2b"
+    logger.info "given customer_id: #{customer_id}"   
+    case customer_id
+    when "stock"
+      logger.info "Going to stock branch! #{customer_id}"
+      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
+      logger.info "stock customer: #{customer_id}"
+      preorder =""
+    when "b2b"
+      logger.info "Going to b2b branch! #{customer_id}"
       customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
       deliv_window = order['meta_data'].select {|meta| meta["key"] == '_delivery_window'}
       order['status'] = "preorder"
@@ -95,10 +102,9 @@ class Woo::Orders < Woo::Base
       else
         preorder =""
       end
-    elsif customer_id =="stock"
-      customer_id = Contact.where(rooli: "Woocommerce", ulkoinen_asiakasnumero: order['customer_id']).first.customer.asiakasnro
-      preorder =""
+      logger.info "b2b customer: #{customer_id}"
     else
+      logger.info "going to else branch! with customer id #{customer_id}"
       preorder =""
       customer_id = "WEBSTORE"
     end
