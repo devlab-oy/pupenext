@@ -79,7 +79,7 @@ class Woo::Orders < Woo::Base
     if customer_id == "b2b"
       filepath = File.join(edi_orders_path, "harbour-order-#{order['id']}.txt")
     elsif customer_id == "stock"
-        filepath = File.join(edi_orders_path, "harbour-order-#{order['id']}.txt")
+        filepath = File.join(edi_orders_path, "stock-order-#{order['id']}.txt")
     else
       filepath = File.join(edi_orders_path, "woo-order-#{order['id']}.txt")
     end
