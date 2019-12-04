@@ -1,4 +1,4 @@
-class Woo::Products < Woo::Base
+class Woo::ProductsB2C < Woo::Base
   # 1. adds products to webstore
   # 2. update stock of products in webstore
 
@@ -140,7 +140,8 @@ class Woo::Products < Woo::Base
         type: type,
         description: product.mainosteksti,
         short_description: product.kuvaus,
-        regular_price: product.myyntihinta.to_s,
+        regular_price: product.myymalahinta.to_s,
+        tax_class: "alv-24",
         manage_stock: false,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
@@ -182,8 +183,9 @@ class Woo::Products < Woo::Base
 
       defaults = {
         sku: product.tuoteno,
-        regular_price: product.myyntihinta.to_s,
-        manage_stock: false,
+        regular_price: product.myymalahinta.to_s,
+        tax_class: "alv-24",
+        manage_stock: true,
         stockstatus: "instock",
         attributes: [
         {

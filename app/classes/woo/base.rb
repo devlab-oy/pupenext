@@ -11,7 +11,7 @@ class Woo::Base
       consumer_key,
       consumer_secret,
       wp_api: true,
-      version: 'wc/v1',
+      version: 'wc/v2',
       query_string_auth: true
     )
   end
