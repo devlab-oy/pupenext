@@ -63,7 +63,7 @@ class Woo::Products < Woo::Base
       woo_product = get_sku(product.tuoteno)
 
       unless woo_product
-        logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten saldoa ei päivitetty"
+        logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten dataa ei päivitetty"
 
         next
       end
@@ -74,12 +74,32 @@ class Woo::Products < Woo::Base
     logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
+  # Update product info
+  def update_info
+    updated_count = 0
+    logger.info "Tuotteet #{products}"
+    products.each do |product|
+      woo_product = get_sku(product.tuoteno)
+
+      unless woo_product
+        logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten tietoja ei päivitetty"
+
+        next
+      end
+
+      updated_count += update_datas(woo_product['id'], product)
+    end
+
+    logger.info "Päivitettiin #{updated_count} tuotteentiedot"
+  end
+
   private
 
     def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä ei variantteja
-      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
+      #Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
+      Product.where(tuoteno: 19009)
     end
 
     def variant_products
@@ -236,6 +256,7 @@ class Woo::Products < Woo::Base
     def get_sku(sku)
       response = woo_get('products', sku: sku)
       product = response.try(:first)
+      logger.info "Response: #{response}"
 
       return if product.nil? || product['id'].blank?
 
@@ -246,6 +267,16 @@ class Woo::Products < Woo::Base
       response = woo_post('products', product_hash(product))
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
       return response
+    end
+
+    def update_datas(id, product)
+        data = { price: product.myymalahinta.to_s , regular_price: product.myyntihinta.to_s, weight: product.tuotemassa.to_s}
+        logger.info "Tuote #{id} datalla  #{data}"
+        #response = woo_put("products/#{id}", data)
+        response = woo_put("products/4646", data)
+        logger.info "Response: #{response}"
+        return 0 unless response
+        1
     end
 
     def update_stock(id, product)
