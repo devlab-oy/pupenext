@@ -1,3 +1,5 @@
+require 'csv'
+
 class Woo::Products < Woo::Base
   # 1. adds products to webstore
   # 2. update stock of products in webstore
@@ -92,20 +94,53 @@ class Woo::Products < Woo::Base
 
     logger.info "Päivitettiin #{updated_count} tuotteentiedot"
   end
+  
+    def sku_csv
+      CSV.open("/home/devlab/sku.csv", "r", { :col_sep => ";" }).each do |row|
+        logger.info "#{row}"
+        update_sku(row[0],row[1])
+      end
+    end
+
+    def update_sku(sku,nusku)
+      logger.info "#{sku} , #{nusku}"
+      woo_product = get_sku(sku)
+      unless woo_product
+       return 0 
+      end
+
+      if woo_product['type'] == 'variable' 
+        data = { sku: nusku }
+        id = woo_product['id']
+        variants_response = woo_get("products/#{id}/variations")
+        response = woo_put("products/#{id}", data)
+        logger.info("#{response}")
+        response = woo_put("products/#{id}", data)
+        variants_response.each do |variant|
+          v_id = variant['id']
+          v_sku = variant['sku']
+          vdata = { sku: v_sku}
+          response = woo_put("products/#{id}/variations/#{v_id}", vdata)
+          logger.info("#{v_id} & #{v_sku}")
+          logger.info("#{response}")
+        end
+      end
+    end
 
   private
 
     def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä ei variantteja
-      #Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
-      Product.where(tuoteno: 19009)
+      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.day.ago)
+      #Product.where(tuoteno: 19009)
     end
 
     def variant_products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
-      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
+      #variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
+      variants = []
     end
 
     def product_hash(product)
@@ -270,10 +305,21 @@ class Woo::Products < Woo::Base
     end
 
     def update_datas(id, product)
-        data = { price: product.myymalahinta.to_s , regular_price: product.myyntihinta.to_s, weight: product.tuotemassa.to_s}
+      data = { price: product.myymalahinta.to_s , regular_price: product.myyntihinta.to_s, weight: product.tuotemassa.to_s}
+        
+      meta_data = [
+        {"key": "brand", "value": product.tuotemerkki}
+      ]
+      logger.info "Meta: #{meta_data}"
+
+      unless meta_data.empty?
+        data.merge!({meta_data: meta_data})
+      end
+  
+
         logger.info "Tuote #{id} datalla  #{data}"
-        #response = woo_put("products/#{id}", data)
-        response = woo_put("products/4646", data)
+        response = woo_put("products/#{id}", data)
+        #response = woo_put("products/4646", data)
         logger.info "Response: #{response}"
         return 0 unless response
         1
