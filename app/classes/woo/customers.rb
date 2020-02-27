@@ -153,59 +153,73 @@ class Woo::Customers < Woo::Base
     
     logger.info "json: \n\n #{response.to_s}\n\n'"
     return unless response
+
     response.each do |customer|
-      opisk = customer['meta_data'].select {|meta| meta["key"] == 'form_olen_opiskelija'}
- 
-      if opisk[0]["value"].kind_of?(Array)
-        puts "Opiskelija"
-        nimi = customer['meta_data'].select {|meta| meta["key"] == 'form_sukunimi'}
-        ytunnus = '99999999'
-        email = customer['email']
-        osoite = customer['meta_data'].select {|meta| meta["key"] == 'form_osoite'}
-        postino = customer['meta_data'].select {|meta| meta["key"] == 'form_postinumero'}
-        postitp = customer['meta_data'].select {|meta| meta["key"] == 'form_postitoimipaikka'}
-        maa = 'FI'
-      else
-        puts "Firma"
-        nimi = customer['meta_data'].select {|meta| meta["key"] == 'form_yritys'}
-        form_ytunnus = customer['meta_data'].select {|meta| meta["key"] == 'form_y-tunnus'}
-        ytunnus = form_ytunnus[0]["value"]
-        email = customer['email']
-        osoite = customer['meta_data'].select {|meta| meta["key"] == 'form_osoite'}
-       	postino	= customer['meta_data'].select {|meta| meta["key"] == 'form_postinumero'}
-       	postitp	= customer['meta_data'].select {|meta| meta["key"] == 'form_postitoimipaikka'}
-       	maa = 'FI'
+    if customer['_mills_user_approved'] == 0
+        if Contact.where(rooli: "woocommerce").where(ulkoinen_asiakasnumero: customer.id).exists?
+            
+            asiakas = Contact.where(rooli: "woocommerce").where(ulkoinen_asiakasnumero: 19).first.customer
+
+            if asiakas.tila == 'R'
+                return 0
+            elif asiakas.tila == "" or asiaks.tila == "H"
+                return 1
+            end
+        else              
+                opisk = customer['meta_data'].select {|meta| meta["key"] == 'form_olen_opiskelija'}
+
+                if opisk[0]["value"].kind_of?(Array)
+                    puts "Opiskelija"
+                    nimi = customer['meta_data'].select {|meta| meta["key"] == 'form_sukunimi'}
+                    ytunnus = '99999999'
+                    email = customer['email']
+                    osoite = customer['meta_data'].select {|meta| meta["key"] == 'form_osoite'}
+                    postino = customer['meta_data'].select {|meta| meta["key"] == 'form_postinumero'}
+                    postitp = customer['meta_data'].select {|meta| meta["key"] == 'form_postitoimipaikka'}
+                    maa = 'FI'
+                else
+                puts "Firma"
+                    nimi = customer['meta_data'].select {|meta| meta["key"] == 'form_yritys'}
+                    form_ytunnus = customer['meta_data'].select {|meta| meta["key"] == 'form_y-tunnus'}
+                    ytunnus = form_ytunnus[0]["value"]
+                    email = customer['email']
+                    osoite = customer['meta_data'].select {|meta| meta["key"] == 'form_osoite'}
+                    postino = customer['meta_data'].select {|meta| meta["key"] == 'form_postinumero'}
+                    postitp = customer['meta_data'].select {|meta| meta["key"] == 'form_postitoimipaikka'}
+                    maa = 'FI'
+                end
+
+                #puts nimi + ytunnus + email + osoite + postino + postitp + maa
+
+                    pupe_customer = Customer.new(
+                    nimi: nimi[0]["value"],
+                    ytunnus: ytunnus,
+                    email: email,
+                    osoite: osoite[0]["value"],
+                    postino: postino[0]["value"],
+                    postitp: postitp[0]["value"],
+                    maa: maa,
+                    kauppatapahtuman_luonne: 0,
+                    alv: Keyword::Vat.first.selite,
+                    yhtio: 'mills',
+                    laji: 'R'
+                    )
+                pupe_customer.save(validate: false)
+
+                    pupe_contact = Contact.new(
+                    nimi: nimi[0]["value"],
+                    rooli: "Woocommerce",
+                    email: email,
+                    ulkoinen_asiakasnumero: customer['id'],
+                    liitostunnus: pupe_customer.tunnus,
+                    tyyppi: 'A'
+                    )
+
+                pupe_contact.save(validate: false)
+        end
       end
-       
-	#puts nimi + ytunnus + email + osoite + postino + postitp + maa
-
-        pupe_customer = Customer.new(
-          nimi: nimi[0]["value"],
-          ytunnus: ytunnus,
-          email: email,
-          osoite: osoite[0]["value"],
-          postino: postino[0]["value"],
-          postitp: postitp[0]["value"],
-          maa: maa,
-          kauppatapahtuman_luonne: 0,
-          alv: Keyword::Vat.first.selite,
-          yhtio: 'mills',
-          laji: 'R'
-        )
-        pupe_customer.save(validate: false)
-
-        pupe_contact = Contact.new(
-           nimi: nimi[0]["value"],
-           rooli: "Woocommerce",
-           email: email,
-           ulkoinen_asiakasnumero: customer['id'],
-           liitostunnus: pupe_customer.tunnus,
-           tyyppi: 'A'
-        )
-
-        pupe_contact.save(validate: false)
-    end
-  end
+    end    
+ end
   
   def customers
     Customer.includes(:contacts).where("yhteyshenkilo.rooli" => "Woocommerce")

@@ -92,6 +92,19 @@ class Woo::Products < Woo::Base
       updated_count += update_datas(woo_product['id'], product)
     end
 
+    variant_products.each do |product|
+      woo_product = get_sku(product.tuoteno)
+
+      unless woo_product
+        logger.info "Tuotetta #{product.tuoteno} ei ole verkkokaupassa, joten tietoja ei päivitetty"
+
+	next
+      end
+
+      updated_count += update_variant_datas(woo_product['id'], woo_product['parent_id'], product)
+    end
+
+
     logger.info "Päivitettiin #{updated_count} tuotteentiedot"
   end
   
@@ -132,15 +145,16 @@ class Woo::Products < Woo::Base
     def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä ei variantteja
-      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.day.ago)
+      # Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')) #.where('muutospvm > ?', 1.day.ago)
+      Product.where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
       #Product.where(tuoteno: 19009)
     end
 
     def variant_products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
-      #variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 1.week.ago)
-      variants = []
+      #variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')) #where('muutospvm > ?', 1.day.ago)
+      variants = Product.where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')) #where('muutospvm > ?', 1.day.ago) 
     end
 
     def product_hash(product)
@@ -315,7 +329,6 @@ class Woo::Products < Woo::Base
       unless meta_data.empty?
         data.merge!({meta_data: meta_data})
       end
-  
 
         logger.info "Tuote #{id} datalla  #{data}"
         response = woo_put("products/#{id}", data)
@@ -323,6 +336,35 @@ class Woo::Products < Woo::Base
         logger.info "Response: #{response}"
         return 0 unless response
         1
+    end
+
+     def update_variant_datas(id, parent_id, product)
+      data_parent = {}
+      data = { price: product.myymalahinta.to_s , regular_price: product.myyntihinta.to_s, weight: product.tuotemassa.to_s}
+      
+      meta_data_parent = [
+        {"key": "brand", "value": product.tuotemerkki},
+      ]
+
+      meta_data = [
+        {"key": "brand", "value": product.tuotemerkki},
+        {"key": "variation_myyntinimike", "value": product.nimitys}
+      ]
+      logger.info "Meta: #{meta_data}"
+
+      unless meta_data.empty?
+        data.merge!({meta_data: meta_data})
+        data_parent.merge!({meta_data: meta_data_parent})
+      end
+
+
+        logger.info "Tuote #{id} datalla  #{data}"
+        response = woo_put("products/#{parent_id}", data_parent)
+        logger.info "Response from parent: #{response}"
+        response = woo_put("products/#{parent_id}/variations/#{id}", data)
+        logger.info "Response: #{response}"
+        return 0 unless response
+	1
     end
 
     def update_stock(id, product)
