@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200617112231) do
+ActiveRecord::Schema.define(version: 20200630082527) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -2806,6 +2806,7 @@ ActiveRecord::Schema.define(version: 20200617112231) do
     t.string   "osoitelappu",                      limit: 50,                           default: "",  null: false
     t.string   "rahdinkuljettaja",                 limit: 40,                           default: "",  null: false
     t.string   "smarten_partycode",                limit: 100,                          default: "",  null: false
+    t.string   "smarten_serviceid",                limit: 100,                          default: "",  null: false
     t.string   "rahti_tuotenumero",                limit: 60,                           default: "",  null: false
     t.string   "sopimusnro",                       limit: 50,                           default: "",  null: false
     t.string   "rahtikirjakopio_email",            limit: 150,                          default: "",  null: false
@@ -4053,6 +4054,8 @@ ActiveRecord::Schema.define(version: 20200617112231) do
     t.string   "yhtio",                         limit: 5,   default: "", null: false
     t.string   "ovtlisa",                       limit: 16,  default: "", null: false
     t.string   "vat_numero",                    limit: 50,  default: "", null: false
+    t.string   "nimitys",                       limit: 100, default: "", null: false
+    t.string   "varastotoimipaikka",            limit: 1,   default: "", null: false
     t.string   "kotipaikka",                    limit: 25,  default: "", null: false
     t.string   "nimi",                          limit: 60,  default: "", null: false
     t.string   "osoite",                        limit: 30,  default: "", null: false
