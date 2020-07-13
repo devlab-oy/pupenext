@@ -50,7 +50,7 @@ OSTOTIL.OT_TOIMITUS_NIMI:<%= "#{@order["shipping"]["first_name"]} #{@order["ship
 OSTOTIL.OT_TOIMITUS_KATUOSOITE:<%= @order["shipping"]["address_1"] %>
 OSTOTIL.OT_TOIMITUS_POSTITOIMIPAIKKA:<%= "#{@order["shipping"]["city"]} #{@order["shipping"]["state"]}" %>
 OSTOTIL.OT_TOIMITUS_POSTINRO:<%= @order["shipping"]["postcode"] %>
-OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["billing"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
+OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["shipping"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
 OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
 OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= @order["shipping_lines"][0]["postnord_service_point_id"] %>
