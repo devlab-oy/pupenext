@@ -3,10 +3,10 @@ class Woo::Products < Woo::Base
   # 2. update stock of products in webstore
 
   # Create products to woocommerce
-  def create
+  def create(all: false)
     created_count = 0
 
-    products.each do |product|
+    products_to_create(all: all).each do |product|
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -16,14 +16,16 @@ class Woo::Products < Woo::Base
       created_count += create_product(product)
     end
 
+    Keyword::WooCheckpoint.update_timestamp(:create)
+
     logger.info "Lisättiin #{created_count} tuotetta verkkokauppaan"
   end
 
   # Update product stock quantity
-  def update
+  def update(all: false)
     updated_count = 0
 
-    products.each do |product|
+    products_to_update(all: all).each do |product|
       woo_product = get_sku(product.tuoteno)
 
       unless woo_product
@@ -35,6 +37,8 @@ class Woo::Products < Woo::Base
       updated_count += update_stock(woo_product['id'], product)
     end
 
+    Keyword::WooCheckpoint.update_timestamp(:update)
+
     logger.info "Päivitettiin #{updated_count} tuotteen saldot"
   end
 
@@ -44,6 +48,25 @@ class Woo::Products < Woo::Base
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä
       Product.where(status: %w(A P)).where(hinnastoon: 'W')
+    end
+
+    def products_to_create(all: false)
+      timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:create)
+
+      return products unless timestamp
+
+      products.where('luontiaika >= ?', timestamp)
+    end
+
+    def products_to_update(all: false)
+      timestamp = all ? nil : Keyword::WooCheckpoint.last_run_at(:update)
+
+      return products unless timestamp
+
+      products.select do |product|
+        product.rows.where('laadittu >= ?', timestamp).any? ||
+          product.transactions.where('laadittu >= ?', timestamp).any?
+      end
     end
 
     def product_hash(product)

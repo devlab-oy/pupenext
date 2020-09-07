@@ -32,9 +32,11 @@ class Product < BaseModel
     o.has_many :manufacture_rows, class_name: 'ManufactureOrder::Row'
     o.has_many :product_suppliers, class_name: 'Product::Supplier'
     o.has_many :purchase_order_rows, class_name: 'PurchaseOrder::Row'
+    o.has_many :rows, class_name: 'Row'
     o.has_many :sales_order_rows, class_name: 'SalesOrder::Row'
     o.has_many :shelf_locations
     o.has_many :stock_transfer_rows, class_name: 'StockTransfer::Row'
+    o.has_many :transactions, class_name: 'Product::Transaction'
   end
 
   has_many :warehouses, through: :shelf_locations
