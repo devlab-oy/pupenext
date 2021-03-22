@@ -47,6 +47,17 @@ class Woo::Products < Woo::Base
     end
 
     def product_hash(product)
+      #get the images of the product
+      images = []
+      product_images = product.attachments
+      #where(kayttotarkoitus: "Tuotekuva")
+      unless product_images.empty?
+      	product_images.each do |image|
+          image_hash = {src: "https://kuvamakia.devlab.fi/view.php?id="+image.tunnus.to_s}.compact.to_h
+          images.append(image_hash)
+        end
+      end
+
       defaults = {
         name: product.nimitys,
         slug: product.tuoteno,
@@ -59,6 +70,11 @@ class Woo::Products < Woo::Base
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
       }
+
+      unless images.empty?
+         logger.info "Images #{images}"
+         defaults.merge!({ images: images})
+      end
 
       from_keywords = Keyword::WooField.all.pluck(:selite, :selitetark).map do |selite, selitetark|
         selite = selite.to_sym
@@ -85,9 +101,8 @@ class Woo::Products < Woo::Base
 
     def create_product(product)
       response = woo_post('products', product_hash(product))
-
-      return 0 unless response && response['id']
-
+      logger.info "Response #{response.to_s}"
+      #return 0 unless response && response['id']
       logger.info "Tuote #{product.tuoteno} #{product.nimitys} lisätty verkkokauppaan"
 
       1

@@ -9,6 +9,9 @@ class Woo::Orders < Woo::Base
 
     # Fetch only order that are 'processing'
     response = woo_get('orders', status: order_status)
+
+    logger.info "json: \n\n #{response.to_s}\n\n'"
+
     return unless response
 
     response.each do |order|
@@ -16,6 +19,12 @@ class Woo::Orders < Woo::Base
       status = woo_put("orders/#{order['id']}", status: 'on-hold')
       logger.info "Order #{order['id']} status set to 'on-hold'"
       next unless status
+
+      #changing the postnord_service_point_id to carrier_agent_id form metadata
+      carrier_agent_id = order['meta_data'].select {|meta| meta["key"] == '_woo_carrier_agent_id'}
+      unless carrier_agent_id.empty?
+        order["shipping_lines"][0]["postnord_service_point_id"] = carrier_agent_id[0]["value"]
+      end
 
       # Check if order already is in Pupesoft
       @pupe_draft = SalesOrder::Draft.find_by(laatija: 'WooCommerce', asiakkaan_tilausnumero: order['id'])
