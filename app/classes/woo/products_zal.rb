@@ -1,4 +1,4 @@
-class Woo::Products < Woo::Base
+class Woo::ProductsZal < Woo::Base
   # 1. adds products to webstore
   # 2. update stock of products in webstore
 
@@ -7,7 +7,9 @@ class Woo::Products < Woo::Base
     
     created_count = 0
     #creating the simple products
+    logger.info "Producteja #{products.count}"
     products.each do |product|
+      sleep(10)
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -30,9 +32,11 @@ class Woo::Products < Woo::Base
       end
       grouped_variants[variant_code.selite].append product
     end
+
+    logger.info "Variantteja #{grouped_variants.count}"
   
     grouped_variants.each do |code, variants|
-     
+      sleep(10)
       #create the main product
       if get_sku(code)
         logger.info "Tuote #{code} on jo verkkokaupassa"
@@ -79,13 +83,15 @@ class Woo::Products < Woo::Base
     def products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä ei variantteja
-      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 7.days.ago)
+      Product.where(status: %w(A P)).where(hinnastoon: 'W').where.not(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where(osasto: ["212", "2112"])
+      #Product.where(tuoteno: 'FW18_BRANDBOOK')  
     end
 
     def variant_products
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
-      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 7.days.ago)
+      variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where(osasto: ["212", "2112"]).where.not(status: "deleted")
+      #variants = Product.where(keywords: Product::Keyword.where(laji: 'parametri_variaatio', selite: 'M30126 | Region Jacket | dark navy'))
     end
 
     def product_hash(product)
@@ -140,7 +146,8 @@ class Woo::Products < Woo::Base
         type: type,
         description: product.mainosteksti,
         short_description: product.kuvaus,
-        regular_price: product.myyntihinta.to_s,
+        regular_price: product.myymalahinta.to_s,
+        tax_class: "alv-24",
         manage_stock: false,
         stock_quantity: product.stock_available.to_s,
         status: 'pending',
@@ -149,12 +156,18 @@ class Woo::Products < Woo::Base
         {"key": "_delivery_window", "value": product.osasto.to_s},
         {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).first},
         {"key": "_product_material", "value": product.lyhytkuvaus},
+        {"key": "makia_washing_instructions", "value": product.pesuohje},
+	{"key":	"makia_upper_material", "value": product.paalismateriaali},
+        {"key": "makia_lining_material", "value": product.vuorimateriaali},
+        {"key": "makia_filling", "value": product.tayte},
+        {"key": "makia_ean_code", "value": product.eankoodi},
       ]
       logger.info "Meta: #{meta_data}"
 
       unless meta_data.empty?
         defaults.merge!({meta_data: meta_data})
       end
+      logger.info "Data: #{defaults}"
       #unless images.empty?
       #   defaults.merge!({ images: images})
       #end
@@ -182,8 +195,9 @@ class Woo::Products < Woo::Base
 
       defaults = {
         sku: product.tuoteno,
-        regular_price: product.myyntihinta.to_s,
-        manage_stock: false,
+        regular_price: product.myymalahinta.to_s,
+        tax_class: "alv-24",
+        manage_stock: true,
         stockstatus: "instock",
         attributes: [
         {
@@ -195,7 +209,16 @@ class Woo::Products < Woo::Base
         #  option: "Blue"
         #}
         ],
-        #meta_data: [{"_delivery_window": product.osasto.to_s}]
+        meta_data: [
+        #{"key": "_delivery_window", "value": product.osasto.to_s},
+        #{"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).first},
+        #{"key": "_product_material", "value": product.lyhytkuvaus},
+        #{"key": "makia_washing_instructions", "value": product.pesuohje},
+        #{"key": "makia_upper_material", "value": product.paalismateriaali},
+        #{"key": "makia_lining_material", "value": product.vuorimateriaali},
+        #{"key": "makia_filling", "value": product.tayte},
+        {"key": "makia_ean_code", "value": product.eankoodi}
+        ]
       }
       return defaults
     

@@ -61,6 +61,16 @@ OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:
 
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
+<% alennettu = line_item["meta_data"].select {|meta| meta["key"] == "_free_item_discount_amount"}
+   unless alennettu.empty?
+     og_price = line_item["meta_data"].select {|meta| meta["key"] == "_free_item_original_price"}
+     line_item['price'] = og_price[0]["value"]
+     line_item['total'] = og_price[0]["value"]
+     alennus = 100
+   else
+     alennus = 0
+   end
+%>
 *RS OSTOTILRIV <%= index+1 %>
 OSTOTILRIV.OTR_NRO:<%= @order["id"] %>
 OSTOTILRIV.OTR_RIVINRO:
@@ -69,9 +79,9 @@ OSTOTILRIV.OTR_TUOTEKOODI:<%= line_item["sku"] %>
 OSTOTILRIV.OTR_NIMI:<%= line_item["name"] %>
 OSTOTILRIV.OTR_TILATTUMAARA:<%= line_item["quantity"] %>
 OSTOTILRIV.OTR_RIVISUMMA:<%= line_item["total"] %>
-OSTOTILRIV.OTR_VEROKANTA:<%= (line_item["total_tax"].to_f / line_item["total"].to_f * 100).round(2) %>
+OSTOTILRIV.OTR_VEROKANTA:<%= (line_item["total_tax"].to_f / line_item["total"].to_f * 100).round().to_f %>
 OSTOTILRIV.OTR_OSTOHINTA:<%= line_item["price"] %>
-OSTOTILRIV.OTR_ALENNUS:0
+OSTOTILRIV.OTR_ALENNUS:<%= alennus %>
 OSTOTILRIV.OTR_VIITE:
 OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
 OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
@@ -89,7 +99,7 @@ OSTOTILRIV.OTR_TUOTEKOODI:<%= @company.parameter.rahti_tuotenumero %>
 OSTOTILRIV.OTR_NIMI:<%= shipping_lines["method_title"] %>
 OSTOTILRIV.OTR_TILATTUMAARA:1
 OSTOTILRIV.OTR_RIVISUMMA:<%= shipping_lines["total"] %>
-OSTOTILRIV.OTR_VEROKANTA:<%= (shipping_lines["total_tax"].to_f / shipping_lines["total"].to_f * 100).round(2) %>
+OSTOTILRIV.OTR_VEROKANTA:<%= (shipping_lines["total_tax"].to_f / shipping_lines["total"].to_f * 100).round().to_f %>
 OSTOTILRIV.OTR_OSTOHINTA:<%= shipping_lines["total"] %>
 OSTOTILRIV.OTR_ALENNUS:0
 OSTOTILRIV.OTR_VIITE:
