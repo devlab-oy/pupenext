@@ -259,7 +259,7 @@ class Woo::Customers < Woo::Base
 
   def create_pupe_customers()
 
-    offsets = (0..5000).step(100).to_a
+    offsets = (0..7500).step(100).to_a
     offsets.each do |offset|
     url = "customers?per_page=100&offset="+offset.to_s
     #logger.info "#{url}"

@@ -1,5 +1,7 @@
 require 'woocommerce_api'
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 class Woo::Base
   attr_reader :woocommerce
 
