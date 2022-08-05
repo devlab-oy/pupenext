@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20211230073733) do
+ActiveRecord::Schema.define(version: 20220805105819) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -1488,6 +1488,8 @@ ActiveRecord::Schema.define(version: 20211230073733) do
     t.string   "tullausnumero",                    limit: 25,                             default: "",         null: false
     t.string   "vientipaperit_palautettu",         limit: 1,                              default: "",         null: false
     t.string   "piiri",                            limit: 150,                            default: "",         null: false
+    t.string   "tilaus_valmis_toiminto",           limit: 100,                            default: "",         null: false
+    t.string   "tarkista_ennen_laskutusta",        limit: 1,                              default: "",         null: false
     t.datetime "lahetetty_ulkoiseen_varastoon"
     t.integer  "campaign_id",                      limit: 4
     t.integer  "siirtolistan_vastaanotto",         limit: 4,                              default: 0,          null: false
