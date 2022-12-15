@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220805105819) do
+ActiveRecord::Schema.define(version: 20221214184016) do
 
   create_table "abc_aputaulu", primary_key: "tunnus", force: :cascade do |t|
     t.string   "yhtio",              limit: 5,                            default: "",  null: false
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 20220805105819) do
     t.string   "valkoodi",                         limit: 3,                              default: "",  null: false
     t.integer  "maksuehto",                        limit: 4,                              default: 0,   null: false
     t.string   "toimitustapa",                     limit: 50,                             default: "",  null: false
+    t.integer  "toimitusaikaikkuna",               limit: 4,                              default: 0,   null: false
     t.string   "rahtivapaa",                       limit: 1,                              default: "",  null: false
     t.decimal  "rahtivapaa_alarajasumma",                        precision: 12, scale: 2, default: 0.0, null: false
     t.string   "kuljetusvakuutus_tyyppi",          limit: 1,                              default: "",  null: false
@@ -1403,6 +1404,7 @@ ActiveRecord::Schema.define(version: 20220805105819) do
     t.integer  "allekirjoittaja",                  limit: 4,                              default: 0,          null: false
     t.integer  "maksuehto",                        limit: 4,                              default: 0,          null: false
     t.string   "toimitustapa",                     limit: 50,                             default: "",         null: false
+    t.integer  "toimitusaikaikkuna",               limit: 4,                              default: 0,          null: false
     t.integer  "toimitustavan_lahto",              limit: 4,                              default: 0,          null: false
     t.integer  "toimitustavan_lahto_siirto",       limit: 4,                              default: 0,          null: false
     t.string   "rahtivapaa",                       limit: 1,                              default: "",         null: false
