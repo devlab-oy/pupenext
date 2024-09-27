@@ -1,4 +1,4 @@
-class Woo::Products < Woo::Base
+class Woo::ProductsStock < Woo::Base
   # 1. adds products to webstore
   # 2. update stock of products in webstore
 
@@ -8,6 +8,7 @@ class Woo::Products < Woo::Base
     created_count = 0
     #creating the simple products
     products.each do |product|
+      sleep 3
       if get_sku(product.tuoteno)
         logger.info "Tuote #{product.tuoteno} on jo verkkokaupassa"
 
@@ -32,7 +33,7 @@ class Woo::Products < Woo::Base
     end
   
     grouped_variants.each do |code, variants|
-     
+      sleep 3
       #create the main product
       if get_sku(code)
         logger.info "Tuote #{code} on jo verkkokaupassa"
@@ -86,6 +87,7 @@ class Woo::Products < Woo::Base
       # Näkyviin tuotteet A ja P statuksella, mutta vain ne tuotteet joissa Hinnastoon valinnoissa
       # verkkokauppa näkyvyys päällä on variantteja
       variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio')).where('muutospvm > ?', 7.days.ago)
+      #variants = Product.where(status: %w(A P)).where(hinnastoon: 'W').where(keywords: Product::Keyword.where(laji: 'parametri_variaatio'))
     end
 
     def product_hash(product)
@@ -146,7 +148,6 @@ class Woo::Products < Woo::Base
         status: 'pending',
       }
       meta_data = [
-        {"key": "_delivery_window", "value": product.osasto.to_s},
         {"key": "_product_color", "value": product.keywords.where(laji: "parametri_vari").pluck(:selite).first},
         {"key": "_product_material", "value": product.lyhytkuvaus},
       ]
@@ -183,8 +184,8 @@ class Woo::Products < Woo::Base
       defaults = {
         sku: product.tuoteno,
         regular_price: product.myyntihinta.to_s,
-        manage_stock: false,
-        stockstatus: "instock",
+        manage_stock: true,
+        stockstatus: product.stock_available.to_s,
         attributes: [
         {
           id: get_size_id(),

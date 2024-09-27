@@ -3,11 +3,11 @@
 *RS OSTOTIL
 OSTOTIL.OT_TOIMITTAJANRO:<%= @company.ovttunnus %>
 OSTOTIL.OT_NRO:<%= @order["id"] %>
-OSTOTIL.OT_TILAUSTYYPPI:
+OSTOTIL.OT_TILAUSTYYPPI: 
 OSTOTIL.VERKKOKAUPPA:
 OSTOTIL.OT_VERKKOKAUPPA_ASIAKASNRO:
-OSTOTIL.OT_VERKKOKAUPPA_TILAUSVIITE:<%= @order["order_key"] %>
-OSTOTIL.OT_VERKKOKAUPPA_TILAUSNUMERO:<%= @order["number"] %>
+OSTOTIL.OT_VERKKOKAUPPA_TILAUSVIITE:
+OSTOTIL.OT_VERKKOKAUPPA_TILAUSNUMERO:<%= @order["number"] %> <%= @preorder %>
 OSTOTIL.OT_VERKKOKAUPPA_KOHDE:
 OSTOTIL.OT_TILAUSAIKA:<%= @order["date_created"] %>
 OSTOTIL.OT_KASITTELIJA:
@@ -53,9 +53,24 @@ OSTOTIL.OT_TOIMITUS_POSTINRO:<%= @order["shipping"]["postcode"] %>
 OSTOTIL.OT_TOIMITUS_MAAKOODI:<%= @order["shipping"]["country"] %> <%# Tämä maakoodi määrää Pupessa, onko veroton/verollinen myynti %>
 OSTOTIL.OT_TOIMITUS_PUH:
 OSTOTIL.OT_TOIMITUS_EMAIL:<%= @order["billing"]["email"] %>
+<% unless @order["shipping_lines"].nil? or @order["shipping_lines"][0].nil? or @order["shipping_lines"][0]["postnord_service_point_id"].nil? %>
 OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:<%= @order["shipping_lines"][0]["postnord_service_point_id"] %>
+<% else %>
+OSTOTIL.OT_TOIMITUS_NOUTOPISTE_TUNNUS:
+<% end %>
+
 *RE OSTOTIL
 <% @order["line_items"].each_with_index do |line_item, index| %>
+<% alennettu = line_item["meta_data"].select {|meta| meta["key"] == "_free_item_discount_amount"}
+   unless alennettu.empty?
+     og_price = line_item["meta_data"].select {|meta| meta["key"] == "_free_item_original_price"}
+     line_item['price'] = og_price[0]["value"]
+     line_item['total'] = og_price[0]["value"]
+     alennus = 100
+   else
+     alennus = 0
+   end
+%>
 *RS OSTOTILRIV <%= index+1 %>
 OSTOTILRIV.OTR_NRO:<%= @order["id"] %>
 OSTOTILRIV.OTR_RIVINRO:
@@ -64,15 +79,16 @@ OSTOTILRIV.OTR_TUOTEKOODI:<%= line_item["sku"] %>
 OSTOTILRIV.OTR_NIMI:<%= line_item["name"] %>
 OSTOTILRIV.OTR_TILATTUMAARA:<%= line_item["quantity"] %>
 OSTOTILRIV.OTR_RIVISUMMA:<%= line_item["total"] %>
-OSTOTILRIV.OTR_VEROKANTA:<%= (line_item["total_tax"].to_f / line_item["total"].to_f * 100).round(2) %>
+OSTOTILRIV.OTR_VEROKANTA:<%= (line_item["total_tax"].to_f / line_item["total"].to_f * 100).round().to_f %>
 OSTOTILRIV.OTR_OSTOHINTA:<%= line_item["price"] %>
-OSTOTILRIV.OTR_ALENNUS:0
+OSTOTILRIV.OTR_ALENNUS:<%= alennus %>
 OSTOTILRIV.OTR_VIITE:
 OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
 OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
 OSTOTILRIV.OTR_YKSIKKO:
 *RE  OSTOTILRIV <%= index+1 %>
 <% end %>
+<% unless @order["shipping_lines"].nil? %>
 <% @order["shipping_lines"].each_with_index do |shipping_lines, index| %>
 <% next if shipping_lines["total"].to_d.zero? %>
 *RS OSTOTILRIV <%= index+1 %>
@@ -83,7 +99,7 @@ OSTOTILRIV.OTR_TUOTEKOODI:<%= @company.parameter.rahti_tuotenumero %>
 OSTOTILRIV.OTR_NIMI:<%= shipping_lines["method_title"] %>
 OSTOTILRIV.OTR_TILATTUMAARA:1
 OSTOTILRIV.OTR_RIVISUMMA:<%= shipping_lines["total"] %>
-OSTOTILRIV.OTR_VEROKANTA:<%= (shipping_lines["total_tax"].to_f / shipping_lines["total"].to_f * 100).round(2) %>
+OSTOTILRIV.OTR_VEROKANTA:<%= (shipping_lines["total_tax"].to_f / shipping_lines["total"].to_f * 100).round().to_f %>
 OSTOTILRIV.OTR_OSTOHINTA:<%= shipping_lines["total"] %>
 OSTOTILRIV.OTR_ALENNUS:0
 OSTOTILRIV.OTR_VIITE:
@@ -91,6 +107,7 @@ OSTOTILRIV.OTR_OSATOIMITUSKIELTO:
 OSTOTILRIV.OTR_JALKITOIMITUSKIELTO:
 OSTOTILRIV.OTR_YKSIKKO:
 *RE  OSTOTILRIV <%= index+1 %>
+<% end %>
 <% end %>
 *ME
 *IE
