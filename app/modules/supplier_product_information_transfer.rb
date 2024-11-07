@@ -35,10 +35,10 @@ module SupplierProductInformationTransfer
       end
 
       product_params = {
-        alv:      s.vat_rate,
-        eankoodi: s.manufacturer_ean,
-        nimitys:  s.product_name,
-        tuoteno:  s.manufacturer_part_number
+        alv:     s.vat_rate,
+        eankoodi:s.manufacturer_ean,
+        nimitys: s.product_name,
+        tuoteno: s.manufacturer_part_number
       }
 
       if extra_attributes[:tuotemerkki]
